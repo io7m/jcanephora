@@ -33,6 +33,7 @@ import com.io7m.jcanephora.ProgramType;
 import com.io7m.jcanephora.VertexShaderType;
 import com.io7m.jcanephora.api.JCGLMetaType;
 import com.io7m.jcanephora.api.JCGLShadersCommonType;
+import com.io7m.jcanephora.api.JCGLShadersParametersType;
 import com.io7m.jcanephora.utilities.ShaderUtilities;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jparasol.xml.PGLSLMetaXML;
@@ -118,7 +119,7 @@ import com.io7m.jvvfs.PathVirtual;
   }
 
   public static
-    <G extends JCGLShadersCommonType & JCGLMetaType>
+    <G extends JCGLShadersParametersType & JCGLMetaType>
     PGLSLMetaXML
     getMeta(
       final FilesystemType fs,

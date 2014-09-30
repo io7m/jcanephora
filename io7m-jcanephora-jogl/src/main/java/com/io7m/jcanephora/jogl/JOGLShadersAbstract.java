@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -48,6 +48,7 @@ import com.io7m.jcanephora.VertexShaderType;
 import com.io7m.jcanephora.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.api.JCGLShadersGL2Type;
 import com.io7m.jcanephora.api.JCGLShadersGLES2Type;
+import com.io7m.jcanephora.api.JCGLShadersParametersType;
 import com.io7m.jcanephora.utilities.ShaderUtilities;
 import com.io7m.jlog.LogLevel;
 import com.io7m.jlog.LogType;
@@ -67,6 +68,164 @@ abstract class JOGLShadersAbstract implements
   JCGLShadersGLES2Type,
   JCGLShadersGL2Type
 {
+  @SuppressWarnings("synthetic-access") private final class Unchecked implements
+    JCGLShadersParametersType
+  {
+    public Unchecked()
+    {
+      // Nothing
+    }
+
+    @Override public void programAttributeArrayAssociate(
+      final ProgramAttributeType program_attribute,
+      final ArrayAttributeType array_attribute)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.attributeArrayAssociate(
+        program_attribute,
+        array_attribute,
+        false);
+    }
+
+    @Override public void programAttributeArrayDisassociate(
+      final ProgramAttributeType program_attribute)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.attributeArrayDisassociate(
+        program_attribute,
+        false);
+    }
+
+    @Override public void programAttributePutFloat(
+      final ProgramAttributeType program_attribute,
+      final float x)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.attributePutFloat(program_attribute, x, false);
+    }
+
+    @Override public void programAttributePutVector2f(
+      final ProgramAttributeType program_attribute,
+      final VectorReadable2FType x)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.attributePutVector2f(
+        program_attribute,
+        x,
+        false);
+    }
+
+    @Override public void programAttributePutVector3f(
+      final ProgramAttributeType program_attribute,
+      final VectorReadable3FType x)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.attributePutVector3f(
+        program_attribute,
+        x,
+        false);
+    }
+
+    @Override public void programAttributePutVector4f(
+      final ProgramAttributeType program_attribute,
+      final VectorReadable4FType x)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.attributePutVector4f(
+        program_attribute,
+        x,
+        false);
+    }
+
+    @Override public void programUniformPutFloat(
+      final ProgramUniformType uniform,
+      final float value)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutFloat(uniform, value, false);
+    }
+
+    @Override public void programUniformPutInteger(
+      final ProgramUniformType uniform,
+      final int value)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutInteger(uniform, value, false);
+    }
+
+    @Override public void programUniformPutMatrix3x3f(
+      final ProgramUniformType uniform,
+      final MatrixReadable3x3FType matrix)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutMatrix3x3f(uniform, matrix, false);
+    }
+
+    @Override public void programUniformPutMatrix4x4f(
+      final ProgramUniformType uniform,
+      final MatrixReadable4x4FType matrix)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutMatrix4x4f(uniform, matrix, false);
+    }
+
+    @Override public void programUniformPutTextureUnit(
+      final ProgramUniformType uniform,
+      final TextureUnitType unit)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutTextureUnit(uniform, unit, false);
+    }
+
+    @Override public void programUniformPutVector2f(
+      final ProgramUniformType uniform,
+      final VectorReadable2FType vector)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutVector2f(uniform, vector, false);
+    }
+
+    @Override public void programUniformPutVector2i(
+      final ProgramUniformType uniform,
+      final VectorReadable2IType vector)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutVector2i(uniform, vector, false);
+    }
+
+    @Override public void programUniformPutVector3f(
+      final ProgramUniformType uniform,
+      final VectorReadable3FType vector)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutVector3f(uniform, vector, false);
+    }
+
+    @Override public void programUniformPutVector3i(
+      final ProgramUniformType uniform,
+      final VectorReadable3IType vector)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutVector3i(uniform, vector, false);
+    }
+
+    @Override public void programUniformPutVector4f(
+      final ProgramUniformType uniform,
+      final VectorReadable4FType vector)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutVector4f(uniform, vector, false);
+    }
+
+    @Override public void programUniformPutVector4i(
+      final ProgramUniformType uniform,
+      final VectorReadable4IType vector)
+      throws JCGLException
+    {
+      JOGLShadersAbstract.this.uniformPutVector4i(uniform, vector, false);
+    }
+  }
+
   /**
    * Check that the type of the given attribute is <code>t</code>.
    */
@@ -207,6 +366,7 @@ abstract class JOGLShadersAbstract implements
   }
 
   private final JCGLArrayBuffersType    arrays;
+
   private final GL2ES2                  gl;
   private final JOGLIntegerCacheType    icache;
   private final LogType                 log;
@@ -226,6 +386,120 @@ abstract class JOGLShadersAbstract implements
     this.tcache = NullCheck.notNull(in_tcache, "Text cache");
   }
 
+  private void attributeArrayAssociate(
+    final ProgramAttributeType pa,
+    final ArrayAttributeType aa,
+    final boolean check_active)
+  {
+    NullCheck.notNull(aa, "Array attribute");
+    this.checkAttribute(pa, check_active);
+
+    final ArrayBufferUsableType array = aa.getArray();
+    JOGLArrays.checkArray(this.gl, array);
+
+    if (this.arrays.arrayBufferIsBound(array) == false) {
+      throw JCGLExceptionBufferNotBound.notBound(array);
+    }
+
+    final ArrayAttributeDescriptor ad = aa.getDescriptor();
+    final JCGLType pt = pa.attributeGetType();
+    final JCGLType at = ad.getJCGLType();
+
+    final StringBuilder text = this.tcache.getTextCache();
+    if (pt.equals(at) == false) {
+      text.setLength(0);
+      text.append("Program and array attributes incompatible.\n");
+      text.append("  Program attribute ");
+      text.append(pa.attributeGetName());
+      text.append(" has type: ");
+      text.append(pa.attributeGetType());
+      text.append("  Array attribute ");
+      text.append(ad.getName());
+      text.append(" has type: ");
+      text.append(ad.getType());
+      final String r = text.toString();
+      assert r != null;
+      throw new JCGLExceptionTypeError(r);
+    }
+
+    final int pa_id = pa.attributeGetLocation();
+    final int type = JOGLTypeConversions.scalarTypeToGL(ad.getType());
+    final boolean normalized = false;
+    final int stride = (int) array.bufferGetElementSizeBytes();
+    final long offset =
+      array.arrayGetDescriptor().getAttributeOffset(ad.getName());
+
+    this.gl.glEnableVertexAttribArray(pa_id);
+    this.gl.glVertexAttribPointer(
+      pa_id,
+      ad.getComponents(),
+      type,
+      normalized,
+      stride,
+      offset);
+  }
+
+  private void attributeArrayDisassociate(
+    final ProgramAttributeType pa,
+    final boolean check_active)
+  {
+    this.checkAttribute(pa, check_active);
+    this.gl.glDisableVertexAttribArray(pa.attributeGetLocation());
+  }
+
+  private void attributePutFloat(
+    final ProgramAttributeType pa,
+    final float x,
+    final boolean check_active)
+  {
+    this.checkAttributeAndType(pa, JCGLType.TYPE_FLOAT, check_active);
+    final int pal = pa.attributeGetLocation();
+    this.gl.glDisableVertexAttribArray(pal);
+    this.gl.glVertexAttrib1f(pal, x);
+  }
+
+  private void attributePutVector2f(
+    final ProgramAttributeType pa,
+    final VectorReadable2FType x,
+    final boolean check_active)
+  {
+    this
+      .checkAttributeAndType(pa, JCGLType.TYPE_FLOAT_VECTOR_2, check_active);
+    NullCheck.notNull(x, "Value");
+
+    final int pal = pa.attributeGetLocation();
+    this.gl.glDisableVertexAttribArray(pal);
+    this.gl.glVertexAttrib2f(pal, x.getXF(), x.getYF());
+  }
+
+  private void attributePutVector3f(
+    final ProgramAttributeType pa,
+    final VectorReadable3FType x,
+    final boolean check_active)
+  {
+    this
+      .checkAttributeAndType(pa, JCGLType.TYPE_FLOAT_VECTOR_3, check_active);
+    NullCheck.notNull(x, "Value");
+
+    final int pal = pa.attributeGetLocation();
+    this.gl.glDisableVertexAttribArray(pal);
+    this.gl.glVertexAttrib3f(pal, x.getXF(), x.getYF(), x.getZF());
+  }
+
+  private void attributePutVector4f(
+    final ProgramAttributeType pa,
+    final VectorReadable4FType x,
+    final boolean check_active)
+  {
+    this
+      .checkAttributeAndType(pa, JCGLType.TYPE_FLOAT_VECTOR_4, check_active);
+    NullCheck.notNull(x, "Value");
+
+    final int pal = pa.attributeGetLocation();
+    this.gl.glDisableVertexAttribArray(pal);
+    this.gl.glVertexAttrib4f(pal, x.getXF(), x.getYF(), x.getZF(), x.getWF());
+  }
+
   /**
    * Check that the given program attribute:
    * <ul>
@@ -242,7 +516,8 @@ abstract class JOGLShadersAbstract implements
    */
 
   protected final void checkAttribute(
-    final ProgramAttributeType a)
+    final ProgramAttributeType a,
+    final boolean check_active)
     throws JCGLExceptionWrongContext,
       JCGLException
   {
@@ -250,7 +525,8 @@ abstract class JOGLShadersAbstract implements
     final GLContext ctx = this.gl.getContext();
     assert ctx != null;
     JOGLCompatibilityChecks.checkProgramAttribute(ctx, a);
-    this.checkProgramAndActive(this.gl, a.attributeGetProgram());
+    this
+      .checkProgramAndActive(this.gl, a.attributeGetProgram(), check_active);
   }
 
   /**
@@ -261,42 +537,50 @@ abstract class JOGLShadersAbstract implements
 
   protected final void checkAttributeAndType(
     final ProgramAttributeType a,
-    final JCGLType t)
+    final JCGLType t,
+    final boolean check_active)
     throws JCGLException
   {
-    this.checkAttribute(a);
+    this.checkAttribute(a, check_active);
     JOGLShadersAbstract.checkAttributeType(a, t);
   }
 
   /**
    * Check that the given program satisfies
-   * {@link #checkProgram(GL2ES2, ProgramUsableType)} and is active.
+   * {@link #checkProgram(GL2ES2, ProgramUsableType)} and is active (if
+   * activity checks are enabled).
    */
 
   protected final void checkProgramAndActive(
     final GL2ES2 g,
-    final ProgramUsableType program)
+    final ProgramUsableType program,
+    final boolean check_active)
     throws JCGLException
   {
     JOGLShadersAbstract.checkProgram(g, program);
 
-    if (this.programIsActive(program) == false) {
-      final String s =
-        String.format("Program '%s' is not active", program.programGetName());
-      assert s != null;
-      throw new JCGLExceptionProgramNotActive(s);
+    if (check_active) {
+      if (this.programIsActive(program) == false) {
+        final String s =
+          String.format(
+            "Program '%s' is not active",
+            program.programGetName());
+        assert s != null;
+        throw new JCGLExceptionProgramNotActive(s);
+      }
     }
   }
 
   protected final void checkUniformAndSamplerType(
-    final ProgramUniformType pu)
+    final ProgramUniformType pu,
+    final boolean check_active)
     throws JCGLException
   {
     NullCheck.notNull(pu, "Program uniform");
     final GLContext ctx = this.gl.getContext();
     assert ctx != null;
     JOGLCompatibilityChecks.checkProgramUniform(ctx, pu);
-    this.checkProgramAndActive(this.gl, pu.uniformGetProgram());
+    this.checkProgramAndActive(this.gl, pu.uniformGetProgram(), check_active);
     JOGLShadersAbstract.checkUniformSamplerType(pu);
   }
 
@@ -318,14 +602,15 @@ abstract class JOGLShadersAbstract implements
 
   protected final void checkUniformAndType(
     final ProgramUniformType u,
-    final JCGLType t)
+    final JCGLType t,
+    final boolean check_active)
     throws JCGLException
   {
     NullCheck.notNull(u, "Program uniform");
     final GLContext ctx = this.gl.getContext();
     assert ctx != null;
     JOGLCompatibilityChecks.checkProgramUniform(ctx, u);
-    this.checkProgramAndActive(this.gl, u.uniformGetProgram());
+    this.checkProgramAndActive(this.gl, u.uniformGetProgram(), check_active);
     JOGLShadersAbstract.checkUniformType(u, t);
   }
 
@@ -434,60 +719,14 @@ abstract class JOGLShadersAbstract implements
     final ArrayAttributeType aa)
     throws JCGLException
   {
-    NullCheck.notNull(aa, "Array attribute");
-    this.checkAttribute(pa);
-
-    final ArrayBufferUsableType array = aa.getArray();
-    JOGLArrays.checkArray(this.gl, array);
-
-    if (this.arrays.arrayBufferIsBound(array) == false) {
-      throw JCGLExceptionBufferNotBound.notBound(array);
-    }
-
-    final ArrayAttributeDescriptor ad = aa.getDescriptor();
-    final JCGLType pt = pa.attributeGetType();
-    final JCGLType at = ad.getJCGLType();
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (pt.equals(at) == false) {
-      text.setLength(0);
-      text.append("Program and array attributes incompatible.\n");
-      text.append("  Program attribute ");
-      text.append(pa.attributeGetName());
-      text.append(" has type: ");
-      text.append(pa.attributeGetType());
-      text.append("  Array attribute ");
-      text.append(ad.getName());
-      text.append(" has type: ");
-      text.append(ad.getType());
-      final String r = text.toString();
-      assert r != null;
-      throw new JCGLExceptionTypeError(r);
-    }
-
-    final int pa_id = pa.attributeGetLocation();
-    final int type = JOGLTypeConversions.scalarTypeToGL(ad.getType());
-    final boolean normalized = false;
-    final int stride = (int) array.bufferGetElementSizeBytes();
-    final long offset =
-      array.arrayGetDescriptor().getAttributeOffset(ad.getName());
-
-    this.gl.glEnableVertexAttribArray(pa_id);
-    this.gl.glVertexAttribPointer(
-      pa_id,
-      ad.getComponents(),
-      type,
-      normalized,
-      stride,
-      offset);
+    this.attributeArrayAssociate(pa, aa, true);
   }
 
   @Override public final void programAttributeArrayDisassociate(
     final ProgramAttributeType pa)
     throws JCGLException
   {
-    this.checkAttribute(pa);
-    this.gl.glDisableVertexAttribArray(pa.attributeGetLocation());
+    this.attributeArrayDisassociate(pa, true);
   }
 
   @Override public final void programAttributePutFloat(
@@ -495,10 +734,7 @@ abstract class JOGLShadersAbstract implements
     final float x)
     throws JCGLException
   {
-    this.checkAttributeAndType(pa, JCGLType.TYPE_FLOAT);
-    final int pal = pa.attributeGetLocation();
-    this.gl.glDisableVertexAttribArray(pal);
-    this.gl.glVertexAttrib1f(pal, x);
+    this.attributePutFloat(pa, x, true);
   }
 
   @Override public final void programAttributePutVector2f(
@@ -506,12 +742,7 @@ abstract class JOGLShadersAbstract implements
     final VectorReadable2FType x)
     throws JCGLException
   {
-    this.checkAttributeAndType(pa, JCGLType.TYPE_FLOAT_VECTOR_2);
-    NullCheck.notNull(x, "Value");
-
-    final int pal = pa.attributeGetLocation();
-    this.gl.glDisableVertexAttribArray(pal);
-    this.gl.glVertexAttrib2f(pal, x.getXF(), x.getYF());
+    this.attributePutVector2f(pa, x, true);
   }
 
   @Override public final void programAttributePutVector3f(
@@ -519,12 +750,7 @@ abstract class JOGLShadersAbstract implements
     final VectorReadable3FType x)
     throws JCGLException
   {
-    this.checkAttributeAndType(pa, JCGLType.TYPE_FLOAT_VECTOR_3);
-    NullCheck.notNull(x, "Value");
-
-    final int pal = pa.attributeGetLocation();
-    this.gl.glDisableVertexAttribArray(pal);
-    this.gl.glVertexAttrib3f(pal, x.getXF(), x.getYF(), x.getZF());
+    this.attributePutVector3f(pa, x, true);
   }
 
   @Override public final void programAttributePutVector4f(
@@ -532,12 +758,7 @@ abstract class JOGLShadersAbstract implements
     final VectorReadable4FType x)
     throws JCGLException
   {
-    this.checkAttributeAndType(pa, JCGLType.TYPE_FLOAT_VECTOR_4);
-    NullCheck.notNull(x, "Value");
-
-    final int pal = pa.attributeGetLocation();
-    this.gl.glDisableVertexAttribArray(pal);
-    this.gl.glVertexAttrib4f(pal, x.getXF(), x.getYF(), x.getZF(), x.getWF());
+    this.attributePutVector4f(pa, x, true);
   }
 
   @Override public final ProgramType programCreateCommon(
@@ -740,6 +961,11 @@ abstract class JOGLShadersAbstract implements
     return max;
   }
 
+  @Override public JCGLShadersParametersType programGetUncheckedInterface()
+  {
+    return new Unchecked();
+  }
+
   protected final void programGetUniforms(
     final ProgramUsableType program,
     final Map<String, ProgramUniformType> out)
@@ -827,9 +1053,7 @@ abstract class JOGLShadersAbstract implements
     final float x)
     throws JCGLException
   {
-    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT);
-    final int pul = pu.uniformGetLocation();
-    this.gl.glUniform1f(pul, x);
+    this.uniformPutFloat(pu, x, true);
   }
 
   @Override public final void programUniformPutInteger(
@@ -837,9 +1061,7 @@ abstract class JOGLShadersAbstract implements
     final int x)
     throws JCGLException
   {
-    this.checkUniformAndType(pu, JCGLType.TYPE_INTEGER);
-    final int pul = pu.uniformGetLocation();
-    this.gl.glUniform1i(pul, x);
+    this.uniformPutInteger(pu, x, true);
   }
 
   @Override public final void programUniformPutMatrix3x3f(
@@ -847,11 +1069,7 @@ abstract class JOGLShadersAbstract implements
     final MatrixReadable3x3FType matrix)
     throws JCGLException
   {
-    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_MATRIX_3);
-    NullCheck.notNull(matrix, "Value");
-
-    final int pul = pu.uniformGetLocation();
-    this.gl.glUniformMatrix3fv(pul, 1, false, matrix.getFloatBuffer());
+    this.uniformPutMatrix3x3f(pu, matrix, true);
   }
 
   @Override public final void programUniformPutMatrix4x4f(
@@ -859,11 +1077,7 @@ abstract class JOGLShadersAbstract implements
     final MatrixReadable4x4FType matrix)
     throws JCGLException
   {
-    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_MATRIX_4);
-    NullCheck.notNull(matrix, "Value");
-
-    final int pul = pu.uniformGetLocation();
-    this.gl.glUniformMatrix4fv(pul, 1, false, matrix.getFloatBuffer());
+    this.uniformPutMatrix4x4f(pu, matrix, true);
   }
 
   @Override public final void programUniformPutTextureUnit(
@@ -871,11 +1085,7 @@ abstract class JOGLShadersAbstract implements
     final TextureUnitType unit)
     throws JCGLException
   {
-    this.checkUniformAndSamplerType(pu);
-    NullCheck.notNull(unit, "Value");
-
-    final int pul = pu.uniformGetLocation();
-    this.gl.glUniform1i(pul, unit.unitGetIndex());
+    this.uniformPutTextureUnit(pu, unit, true);
   }
 
   @Override public final void programUniformPutVector2f(
@@ -883,11 +1093,7 @@ abstract class JOGLShadersAbstract implements
     final VectorReadable2FType v)
     throws JCGLException
   {
-    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_VECTOR_2);
-    NullCheck.notNull(v, "Value");
-
-    final int pul = pu.uniformGetLocation();
-    this.gl.glUniform2f(pul, v.getXF(), v.getYF());
+    this.uniformPutVector2f(pu, v, true);
   }
 
   @Override public final void programUniformPutVector2i(
@@ -895,11 +1101,7 @@ abstract class JOGLShadersAbstract implements
     final VectorReadable2IType v)
     throws JCGLException
   {
-    this.checkUniformAndType(pu, JCGLType.TYPE_INTEGER_VECTOR_2);
-    NullCheck.notNull(v, "Value");
-
-    final int pul = pu.uniformGetLocation();
-    this.gl.glUniform2i(pul, v.getXI(), v.getYI());
+    this.uniformPutVector2i(pu, v, true);
   }
 
   @Override public final void programUniformPutVector3f(
@@ -907,11 +1109,7 @@ abstract class JOGLShadersAbstract implements
     final VectorReadable3FType v)
     throws JCGLException
   {
-    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_VECTOR_3);
-    NullCheck.notNull(v, "Value");
-
-    final int pul = pu.uniformGetLocation();
-    this.gl.glUniform3f(pul, v.getXF(), v.getYF(), v.getZF());
+    this.uniformPutVector3f(pu, v, true);
   }
 
   @Override public final void programUniformPutVector3i(
@@ -919,11 +1117,7 @@ abstract class JOGLShadersAbstract implements
     final VectorReadable3IType v)
     throws JCGLException
   {
-    this.checkUniformAndType(pu, JCGLType.TYPE_INTEGER_VECTOR_3);
-    NullCheck.notNull(v, "Value");
-
-    final int pul = pu.uniformGetLocation();
-    this.gl.glUniform3i(pul, v.getXI(), v.getYI(), v.getZI());
+    this.uniformPutVector3i(pu, v, true);
   }
 
   @Override public final void programUniformPutVector4f(
@@ -931,11 +1125,7 @@ abstract class JOGLShadersAbstract implements
     final VectorReadable4FType v)
     throws JCGLException
   {
-    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_VECTOR_4);
-    NullCheck.notNull(v, "Value");
-
-    final int pul = pu.uniformGetLocation();
-    this.gl.glUniform4f(pul, v.getXF(), v.getYF(), v.getZF(), v.getWF());
+    this.uniformPutVector4f(pu, v, true);
   }
 
   @Override public final void programUniformPutVector4i(
@@ -943,7 +1133,134 @@ abstract class JOGLShadersAbstract implements
     final VectorReadable4IType v)
     throws JCGLException
   {
-    this.checkUniformAndType(pu, JCGLType.TYPE_INTEGER_VECTOR_4);
+    this.uniformPutVector4i(pu, v, true);
+  }
+
+  private void uniformPutFloat(
+    final ProgramUniformType pu,
+    final float x,
+    final boolean check_active)
+  {
+    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT, check_active);
+    final int pul = pu.uniformGetLocation();
+    this.gl.glUniform1f(pul, x);
+  }
+
+  private void uniformPutInteger(
+    final ProgramUniformType pu,
+    final int x,
+    final boolean check_active)
+  {
+    this.checkUniformAndType(pu, JCGLType.TYPE_INTEGER, check_active);
+    final int pul = pu.uniformGetLocation();
+    this.gl.glUniform1i(pul, x);
+  }
+
+  private void uniformPutMatrix3x3f(
+    final ProgramUniformType pu,
+    final MatrixReadable3x3FType matrix,
+    final boolean check_active)
+  {
+    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_MATRIX_3, check_active);
+    NullCheck.notNull(matrix, "Value");
+
+    final int pul = pu.uniformGetLocation();
+    this.gl.glUniformMatrix3fv(pul, 1, false, matrix.getFloatBuffer());
+  }
+
+  private void uniformPutMatrix4x4f(
+    final ProgramUniformType pu,
+    final MatrixReadable4x4FType matrix,
+    final boolean check_active)
+  {
+    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_MATRIX_4, check_active);
+    NullCheck.notNull(matrix, "Value");
+
+    final int pul = pu.uniformGetLocation();
+    this.gl.glUniformMatrix4fv(pul, 1, false, matrix.getFloatBuffer());
+  }
+
+  private void uniformPutTextureUnit(
+    final ProgramUniformType pu,
+    final TextureUnitType unit,
+    final boolean check_active)
+  {
+    this.checkUniformAndSamplerType(pu, check_active);
+    NullCheck.notNull(unit, "Value");
+
+    final int pul = pu.uniformGetLocation();
+    this.gl.glUniform1i(pul, unit.unitGetIndex());
+  }
+
+  private void uniformPutVector2f(
+    final ProgramUniformType pu,
+    final VectorReadable2FType v,
+    final boolean check_active)
+  {
+    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_VECTOR_2, check_active);
+    NullCheck.notNull(v, "Value");
+
+    final int pul = pu.uniformGetLocation();
+    this.gl.glUniform2f(pul, v.getXF(), v.getYF());
+  }
+
+  private void uniformPutVector2i(
+    final ProgramUniformType pu,
+    final VectorReadable2IType v,
+    final boolean check_active)
+  {
+    this
+      .checkUniformAndType(pu, JCGLType.TYPE_INTEGER_VECTOR_2, check_active);
+    NullCheck.notNull(v, "Value");
+
+    final int pul = pu.uniformGetLocation();
+    this.gl.glUniform2i(pul, v.getXI(), v.getYI());
+  }
+
+  private void uniformPutVector3f(
+    final ProgramUniformType pu,
+    final VectorReadable3FType v,
+    final boolean check_active)
+  {
+    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_VECTOR_3, check_active);
+    NullCheck.notNull(v, "Value");
+
+    final int pul = pu.uniformGetLocation();
+    this.gl.glUniform3f(pul, v.getXF(), v.getYF(), v.getZF());
+  }
+
+  private void uniformPutVector3i(
+    final ProgramUniformType pu,
+    final VectorReadable3IType v,
+    final boolean check_active)
+  {
+    this
+      .checkUniformAndType(pu, JCGLType.TYPE_INTEGER_VECTOR_3, check_active);
+    NullCheck.notNull(v, "Value");
+
+    final int pul = pu.uniformGetLocation();
+    this.gl.glUniform3i(pul, v.getXI(), v.getYI(), v.getZI());
+  }
+
+  private void uniformPutVector4f(
+    final ProgramUniformType pu,
+    final VectorReadable4FType v,
+    final boolean check_active)
+  {
+    this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_VECTOR_4, check_active);
+    NullCheck.notNull(v, "Value");
+
+    final int pul = pu.uniformGetLocation();
+    this.gl.glUniform4f(pul, v.getXF(), v.getYF(), v.getZF(), v.getWF());
+  }
+
+  private void uniformPutVector4i(
+    final ProgramUniformType pu,
+    final VectorReadable4IType v,
+    final boolean check_active)
+  {
+    this
+      .checkUniformAndType(pu, JCGLType.TYPE_INTEGER_VECTOR_4, check_active);
     NullCheck.notNull(v, "Value");
 
     final int pul = pu.uniformGetLocation();

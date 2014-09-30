@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -37,6 +37,7 @@ import com.io7m.jcanephora.ProgramUsableType;
 import com.io7m.jcanephora.ResourceCheck;
 import com.io7m.jcanephora.TextureUnitType;
 import com.io7m.jcanephora.api.JCGLShadersCommonType;
+import com.io7m.jcanephora.api.JCGLShadersParametersType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
@@ -134,18 +135,18 @@ public final class JCBExecutor implements JCBExecutorType
       return incoming.isSamplerType() && actual.isSamplerType();
     }
 
-    private final Map<String, Integer>  attribute_names;
-    private final List<AttributeState>  attributes;
-    private final JCGLShadersCommonType gc;
-    private final StringBuilder         message;
-    private final List<AttributeState>  missed_attributes;
-    private final List<UniformState>    missed_uniforms;
-    private final ProgramType           program;
-    private final Map<String, Integer>  uniform_names;
-    private final List<UniformState>    uniforms;
+    private final Map<String, Integer>      attribute_names;
+    private final List<AttributeState>      attributes;
+    private final JCGLShadersParametersType gc;
+    private final StringBuilder             message;
+    private final List<AttributeState>      missed_attributes;
+    private final List<UniformState>        missed_uniforms;
+    private final ProgramType               program;
+    private final Map<String, Integer>      uniform_names;
+    private final List<UniformState>        uniforms;
 
     Program(
-      final JCGLShadersCommonType in_gc,
+      final JCGLShadersParametersType in_gc,
       final ProgramType in_program,
       final @Nullable Map<String, JCGLType> in_declared_uniforms,
       final @Nullable Map<String, JCGLType> in_declared_attributes,
@@ -676,7 +677,7 @@ public final class JCBExecutor implements JCBExecutorType
     }
 
     void programUnbindArrayAttributes(
-      final JCGLShadersCommonType gl)
+      final JCGLShadersParametersType gl)
       throws JCGLException
     {
       for (int index = 0; index < this.attributes.size(); ++index) {
@@ -1099,15 +1100,12 @@ public final class JCBExecutor implements JCBExecutorType
       JCGLExceptionAttributeMissing
   {
     this.gc = NullCheck.notNull(in_gc, "JCGL interface");
-
     this.program = NullCheck.notNull(in_program, "Program");
     ResourceCheck.notDeleted(in_program);
-
     this.log = NullCheck.notNull(in_log, "Log").with("executor");
-
     this.jprogram =
       new Program(
-        in_gc,
+        in_gc.programGetUncheckedInterface(),
         in_program,
         declared_uniforms,
         declared_attributes,

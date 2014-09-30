@@ -35,7 +35,7 @@ import com.io7m.jcanephora.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.api.JCGLShadersCommonType;
+import com.io7m.jcanephora.api.JCGLShadersParametersType;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.TestUtilities;
 import com.io7m.jcanephora.tests.types.UnimplementedArray;
@@ -54,7 +54,7 @@ public abstract class ArrayBufferContract implements TestContract
   public abstract JCGLArrayBuffersType getGLArrayBuffers(
     final TestContext context);
 
-  public abstract JCGLShadersCommonType getGLPrograms(
+  public abstract JCGLShadersParametersType getGLPrograms(
     final TestContext context);
 
   @Test public final void testArrayBufferAllocate()

@@ -14,37 +14,36 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.fake.contracts.gles3;
+package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
 import com.io7m.jcanephora.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.api.JCGLShadersParametersType;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.ArrayBufferContract;
-import com.io7m.jcanephora.tests.fake.FakeShaderControl;
-import com.io7m.jcanephora.tests.fake.FakeTestContext;
-import com.io7m.jcanephora.tests.fake.FakeTestContextUtilities;
+import com.io7m.jcanephora.tests.jogl.JOGLTestContext;
+import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 
-public final class FakeES3ArrayBufferTest extends ArrayBufferContract
+public final class JOGL30ArrayBufferTest extends ArrayBufferContract
 {
   @Override public JCGLArrayBuffersType getGLArrayBuffers(
     final TestContext context)
   {
-    return FakeTestContextUtilities.getGLES3(context);
+    return JOGLTestContextUtilities.getGL3(context);
   }
 
   @Override public JCGLShadersParametersType getGLPrograms(
     final TestContext context)
   {
-    return FakeTestContextUtilities.getGLES3(context);
+    return JOGLTestContextUtilities.getGL3(context);
   }
 
   @Override public boolean isGLSupported()
   {
-    return true;
+    return JOGLTestContext.isOpenGL30Supported();
   }
 
   @Override public TestContext newTestContext()
   {
-    return FakeTestContext.makeContextWithOpenGL_ES3(new FakeShaderControl());
+    return JOGLTestContext.makeContextWithOpenGL3_0();
   }
 }
