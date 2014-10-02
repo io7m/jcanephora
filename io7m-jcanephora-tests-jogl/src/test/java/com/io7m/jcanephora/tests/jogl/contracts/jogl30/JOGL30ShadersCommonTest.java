@@ -29,6 +29,6 @@ public final class JOGL30ShadersCommonTest extends ShadersContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_0();
+    return JOGLTestContext.makeContextWithOpenGL3_0(false);
   }
 }

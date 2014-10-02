@@ -51,6 +51,6 @@ public final class JOGL30ArrayBufferMapTest extends ArrayBufferMapContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_0();
+    return JOGLTestContext.makeContextWithOpenGL3_0(false);
   }
 }

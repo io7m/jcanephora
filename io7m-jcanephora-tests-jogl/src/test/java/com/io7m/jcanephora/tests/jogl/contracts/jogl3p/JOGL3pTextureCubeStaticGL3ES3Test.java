@@ -77,6 +77,6 @@ import com.io7m.junreachable.UnreachableCodeException;
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL3_p(false);
   }
 }

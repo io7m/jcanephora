@@ -37,6 +37,6 @@ public final class JOGL30MetaTest extends MetaContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_0();
+    return JOGLTestContext.makeContextWithOpenGL3_0(false);
   }
 }

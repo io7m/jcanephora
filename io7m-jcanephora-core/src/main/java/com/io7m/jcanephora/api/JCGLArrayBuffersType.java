@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -35,7 +35,7 @@ public interface JCGLArrayBuffersType
    * {@link ArrayDescriptor#getElementSizeBytes()}, informing the
    * implementation that the buffer will be used in the manner specified by
    * <code>usage</code>.
-   * 
+   *
    * @param elements
    *          The number of elements in the array buffer.
    * @param descriptor
@@ -54,10 +54,20 @@ public interface JCGLArrayBuffersType
     throws JCGLException;
 
   /**
+   * @return <code>true</code> iff any array buffer is currently bound.
+   *
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  boolean arrayBufferAnyIsBound()
+    throws JCGLException;
+
+  /**
    * Bind the array buffer <code>buffer</code> for subsequent calls to
    * {@link JCGLShadersCommonType#programAttributeArrayAssociate(com.io7m.jcanephora.ProgramAttributeType, com.io7m.jcanephora.ArrayAttributeType)}
    * .
-   * 
+   *
    * @param buffer
    *          The array buffer.
    * @throws JCGLException
@@ -70,10 +80,10 @@ public interface JCGLArrayBuffersType
 
   /**
    * Deletes the buffer referenced by <code>id</code>.
-   * 
+   *
    * @param id
    *          The array buffer.
-   * 
+   *
    * @throws JCGLExceptionDeleted
    *           If the array is already deleted.
    * @throws JCGLException
@@ -89,7 +99,7 @@ public interface JCGLArrayBuffersType
    * @return <code>true</code> iff the array buffer specified by
    *         <code>id</code> is the currently bound buffer in the OpenGL
    *         implementation.
-   * 
+   *
    * @param id
    *          The array buffer.
    * @throws JCGLException
@@ -102,7 +112,7 @@ public interface JCGLArrayBuffersType
 
   /**
    * Unbind the current array buffer.
-   * 
+   *
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
@@ -113,10 +123,10 @@ public interface JCGLArrayBuffersType
   /**
    * Replace the contents (or part of the contents) of the array buffer
    * associated with <code>data</code>.
-   * 
+   *
    * @param data
    *          The data to upload.
-   * 
+   *
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */

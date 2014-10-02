@@ -117,6 +117,6 @@ public final class JOGL21DepthBuffersTest extends DepthBuffersContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL2_1();
+    return JOGLTestContext.makeContextWithOpenGL2_1(false);
   }
 }

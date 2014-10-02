@@ -37,6 +37,6 @@ public final class JOGL3pLogicOperationTest extends LogicOpContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL3_p(false);
   }
 }

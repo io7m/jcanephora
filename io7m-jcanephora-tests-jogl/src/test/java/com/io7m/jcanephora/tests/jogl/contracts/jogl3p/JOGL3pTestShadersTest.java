@@ -35,7 +35,7 @@ public final class JOGL3pTestShadersTest implements TestContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL3_p(false);
   }
 
   @Test public void testShaders()

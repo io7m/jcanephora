@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -182,6 +182,7 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
     final LogUsableType in_log,
     final boolean in_debugging,
     final OptionType<PrintStream> in_tracing,
+    final boolean in_caching,
     final JCGLSoftRestrictionsType in_restrictions)
     throws JCGLExceptionRuntime
   {
@@ -206,7 +207,12 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
     this.tcache = JOGLLogMessageCache.newCache();
 
     this.arrays =
-      new JOGLArrays(this.cached_gl, this.log, this.icache, this.tcache);
+      new JOGLArrays(
+        this.cached_gl,
+        this.log,
+        in_caching,
+        this.icache,
+        this.tcache);
     this.blending = new JOGLBlending(this.cached_gl, this.log, this.icache);
     this.color_buffer = new JOGLColorBuffer(this.cached_gl, this.log);
     this.color_points =
@@ -215,8 +221,8 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
         this.log,
         this.icache,
         this.tcache);
-    this.cull = new JOGLCulling(this.cached_gl, this.icache);
-    this.draw = new JOGLDraw(this.cached_gl, this.log);
+    this.cull = new JOGLCulling(this.cached_gl, this.icache, in_caching);
+    this.draw = new JOGLDraw(this.cached_gl, this.arrays, this.log);
     this.draw_buffers =
       new JOGLDrawBuffers(this.cached_gl, this.log, this.icache, this.tcache);
     this.errors = new JOGLErrors(this.cached_gl, this.log);
@@ -306,6 +312,12 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
     throws JCGLException
   {
     return this.arrays.arrayBufferAllocate(elements, descriptor, usage);
+  }
+
+  @Override public boolean arrayBufferAnyIsBound()
+    throws JCGLException
+  {
+    return this.arrays.arrayBufferAnyIsBound();
   }
 
   @Override public void arrayBufferBind(

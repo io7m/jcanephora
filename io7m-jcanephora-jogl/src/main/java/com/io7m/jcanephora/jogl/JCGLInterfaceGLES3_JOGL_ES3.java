@@ -190,6 +190,7 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
     final LogUsableType in_log,
     final boolean in_debugging,
     final OptionType<PrintStream> in_tracing,
+    final boolean in_caching,
     final JCGLSoftRestrictionsType in_restrictions)
   {
     this.log = NullCheck.notNull(in_log, "Log").with("es3-jogl_es3");
@@ -213,7 +214,12 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
     this.tcache = JOGLLogMessageCache.newCache();
 
     this.arrays =
-      new JOGLArrays(this.cached_gl, this.log, this.icache, this.tcache);
+      new JOGLArrays(
+        this.cached_gl,
+        this.log,
+        in_caching,
+        this.icache,
+        this.tcache);
     this.blending = new JOGLBlending(this.cached_gl, this.log, this.icache);
     this.color_buffer = new JOGLColorBuffer(this.cached_gl, this.log);
     this.color_points =
@@ -222,8 +228,8 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
         this.log,
         this.icache,
         this.tcache);
-    this.cull = new JOGLCulling(this.cached_gl, this.icache);
-    this.draw = new JOGLDraw(this.cached_gl, this.log);
+    this.cull = new JOGLCulling(this.cached_gl, this.icache, in_caching);
+    this.draw = new JOGLDraw(this.cached_gl, this.arrays, this.log);
     this.draw_buffers =
       new JOGLDrawBuffers(this.cached_gl, this.log, this.icache, this.tcache);
     this.errors = new JOGLErrors(this.cached_gl, this.log);
@@ -285,6 +291,12 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
     throws JCGLException
   {
     return this.arrays.arrayBufferAllocate(elements, descriptor, usage);
+  }
+
+  @Override public boolean arrayBufferAnyIsBound()
+    throws JCGLException
+  {
+    return this.arrays.arrayBufferAnyIsBound();
   }
 
   @Override public void arrayBufferBind(

@@ -66,10 +66,6 @@ public final class JOGL3pStencilBuffersTest extends StencilBuffersContract
 
       fbb.attachColorRenderbuffer(cb);
       final FramebufferType fb = g.framebufferAllocate(fbb);
-      Assert.assertTrue(g.framebufferDrawAnyIsBound());
-      Assert.assertTrue(g.framebufferDrawIsBound(fb));
-
-      g.framebufferDrawUnbind();
       Assert.assertFalse(g.framebufferDrawAnyIsBound());
       Assert.assertFalse(g.framebufferDrawIsBound(fb));
       return fb;
@@ -95,10 +91,6 @@ public final class JOGL3pStencilBuffersTest extends StencilBuffersContract
       fbb.attachColorRenderbuffer(cb);
       fbb.attachDepthStencilRenderbuffer(db);
       final FramebufferType fb = g.framebufferAllocate(fbb);
-      Assert.assertTrue(g.framebufferDrawAnyIsBound());
-      Assert.assertTrue(g.framebufferDrawIsBound(fb));
-
-      g.framebufferDrawUnbind();
       Assert.assertFalse(g.framebufferDrawAnyIsBound());
       Assert.assertFalse(g.framebufferDrawIsBound(fb));
 
@@ -110,6 +102,6 @@ public final class JOGL3pStencilBuffersTest extends StencilBuffersContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL3_p(false);
   }
 }

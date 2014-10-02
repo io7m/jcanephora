@@ -26,35 +26,54 @@ import com.io7m.jnull.NullCheck;
 
 final class JOGLCulling implements JCGLCullType
 {
-  private final GL         gl;
+  private static FaceSelection uncachedGetFaceSelection(
+    final GL in_gl,
+    final JOGLIntegerCacheType in_icache)
+  {
+    final int faces = in_icache.getInteger(in_gl, GL.GL_CULL_FACE_MODE);
+    return JOGLTypeConversions.faceSelectionFromGL(faces);
+  }
+
+  private static FaceWindingOrder uncachedGetWindingOrder(
+    final GL in_gl,
+    final JOGLIntegerCacheType in_icache)
+  {
+    final int order = in_icache.getInteger(in_gl, GL.GL_FRONT_FACE);
+    return JOGLTypeConversions.faceWindingOrderFromGL(order);
+  }
+
+  private static boolean uncachedIsEnabled(
+    final GL in_gl)
+  {
+    return in_gl.glIsEnabled(GL.GL_CULL_FACE);
+  }
+
+  private final boolean    caching;
   private FaceSelection    current_faces;
   private FaceWindingOrder current_order;
   private boolean          enabled;
+  private final GL         gl;
 
   JOGLCulling(
     final GL in_gl,
-    final JOGLIntegerCacheType in_icache)
+    final JOGLIntegerCacheType in_icache,
+    final boolean in_caching)
   {
     this.gl = NullCheck.notNull(in_gl, "GL");
     NullCheck.notNull(in_icache, "Integer cache");
 
-    {
-      final int faces = in_icache.getInteger(in_gl, GL.GL_CULL_FACE_MODE);
-      this.current_faces = JOGLTypeConversions.faceSelectionFromGL(faces);
-    }
-
-    {
-      final int order = in_icache.getInteger(in_gl, GL.GL_FRONT_FACE);
-      this.current_order = JOGLTypeConversions.faceWindingOrderFromGL(order);
-    }
-
-    this.enabled = this.gl.glIsEnabled(GL.GL_CULL_FACE);
+    this.caching = in_caching;
+    this.current_faces =
+      JOGLCulling.uncachedGetFaceSelection(in_gl, in_icache);
+    this.current_order =
+      JOGLCulling.uncachedGetWindingOrder(in_gl, in_icache);
+    this.enabled = JOGLCulling.uncachedIsEnabled(in_gl);
   }
 
   @Override public void cullingDisable()
     throws JCGLExceptionRuntime
   {
-    if (this.enabled) {
+    if (this.ignoreCache() || this.enabled) {
       this.gl.glDisable(GL.GL_CULL_FACE);
     }
     this.enabled = false;
@@ -71,13 +90,13 @@ final class JOGLCulling implements JCGLCullType
     final int fi = JOGLTypeConversions.faceSelectionToGL(faces);
     final int oi = JOGLTypeConversions.faceWindingOrderToGL(order);
 
-    if (this.enabled == false) {
+    if (this.ignoreCache() || (this.enabled == false)) {
       this.gl.glEnable(GL.GL_CULL_FACE);
     }
-    if (this.current_faces != faces) {
+    if (this.ignoreCache() || (this.current_faces != faces)) {
       this.gl.glCullFace(fi);
     }
-    if (this.current_order != order) {
+    if (this.ignoreCache() || (this.current_order != order)) {
       this.gl.glFrontFace(oi);
     }
 
@@ -89,6 +108,14 @@ final class JOGLCulling implements JCGLCullType
   @Override public boolean cullingIsEnabled()
     throws JCGLExceptionRuntime
   {
+    if (this.ignoreCache()) {
+      return JOGLCulling.uncachedIsEnabled(this.gl);
+    }
     return this.enabled;
+  }
+
+  private boolean ignoreCache()
+  {
+    return this.caching == false;
   }
 }
