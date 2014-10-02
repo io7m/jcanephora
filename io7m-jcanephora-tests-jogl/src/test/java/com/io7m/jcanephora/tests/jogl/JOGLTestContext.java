@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -246,13 +246,15 @@ public final class JOGLTestContext
     return false;
   }
 
-  public static TestContext makeContextWithOpenGL_ES2()
+  public static TestContext makeContextWithOpenGL_ES2(
+    final boolean caching)
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES2_Actual(null);
+    return JOGLTestContext.makeContextWithOpenGL_ES2_Actual(null, caching);
   }
 
   private static TestContext makeContextWithOpenGL_ES2_Actual(
-    final @Nullable JCGLSoftRestrictionsType r)
+    final @Nullable JCGLSoftRestrictionsType r,
+    final boolean caching)
   {
     try {
       final LogType log =
@@ -262,7 +264,7 @@ public final class JOGLTestContext
       final GLContext ctx =
         JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES2));
       final JCGLImplementationType gi =
-        JOGLTestContext.makeImplementation(r, log, ctx);
+        JOGLTestContext.makeImplementation(r, log, ctx, caching);
 
       return new TestContext(fs, gi, log);
     } catch (final Throwable x) {
@@ -273,16 +275,18 @@ public final class JOGLTestContext
   public static TestContext makeContextWithOpenGL_ES2_WithRestrictions(
     final JCGLSoftRestrictionsType r)
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES2_Actual(r);
+    return JOGLTestContext.makeContextWithOpenGL_ES2_Actual(r, false);
   }
 
-  public static TestContext makeContextWithOpenGL_ES3()
+  public static TestContext makeContextWithOpenGL_ES3(
+    final boolean caching)
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES3_Actual(null);
+    return JOGLTestContext.makeContextWithOpenGL_ES3_Actual(null, caching);
   }
 
   private static TestContext makeContextWithOpenGL_ES3_Actual(
-    final @Nullable JCGLSoftRestrictionsType r)
+    final @Nullable JCGLSoftRestrictionsType r,
+    final boolean caching)
   {
     try {
       final LogType log =
@@ -292,7 +296,7 @@ public final class JOGLTestContext
       final GLContext ctx =
         JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES3));
       final JCGLImplementationType gi =
-        JOGLTestContext.makeImplementation(r, log, ctx);
+        JOGLTestContext.makeImplementation(r, log, ctx, caching);
 
       final VersionNumber version = ctx.getGLVersionNumber();
       if (version.getMajor() != 3) {
@@ -310,16 +314,18 @@ public final class JOGLTestContext
   public static TestContext makeContextWithOpenGL_ES3_WithRestrictions(
     final JCGLSoftRestrictionsType r)
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES3_Actual(r);
+    return JOGLTestContext.makeContextWithOpenGL_ES3_Actual(r, false);
   }
 
-  public static TestContext makeContextWithOpenGL2_1()
+  public static TestContext makeContextWithOpenGL2_1(
+    final boolean caching)
   {
-    return JOGLTestContext.makeContextWithOpenGL2_1_Actual(null);
+    return JOGLTestContext.makeContextWithOpenGL2_1_Actual(null, caching);
   }
 
   private static TestContext makeContextWithOpenGL2_1_Actual(
-    final @Nullable JCGLSoftRestrictionsType r)
+    final @Nullable JCGLSoftRestrictionsType r,
+    final boolean caching)
   {
     try {
       final LogType log =
@@ -329,7 +335,7 @@ public final class JOGLTestContext
       final GLContext ctx =
         JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
       final JCGLImplementationType gi =
-        JOGLTestContext.makeImplementation(r, log, ctx);
+        JOGLTestContext.makeImplementation(r, log, ctx, caching);
 
       return new TestContext(fs, gi, log);
     } catch (final Throwable x) {
@@ -340,16 +346,18 @@ public final class JOGLTestContext
   public static TestContext makeContextWithOpenGL2_1_WithRestrictions(
     final JCGLSoftRestrictionsType r)
   {
-    return JOGLTestContext.makeContextWithOpenGL2_1_Actual(r);
+    return JOGLTestContext.makeContextWithOpenGL2_1_Actual(r, false);
   }
 
-  public static TestContext makeContextWithOpenGL3_0()
+  public static TestContext makeContextWithOpenGL3_0(
+    final boolean caching)
   {
-    return JOGLTestContext.makeContextWithOpenGL3_0_Actual(null);
+    return JOGLTestContext.makeContextWithOpenGL3_0_Actual(null, caching);
   }
 
   private static TestContext makeContextWithOpenGL3_0_Actual(
-    final @Nullable JCGLSoftRestrictionsType r)
+    final @Nullable JCGLSoftRestrictionsType r,
+    final boolean caching)
   {
     try {
       final LogType log =
@@ -359,7 +367,7 @@ public final class JOGLTestContext
       final GLContext ctx =
         JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
       final JCGLImplementationType gi =
-        JOGLTestContext.makeImplementation(r, log, ctx);
+        JOGLTestContext.makeImplementation(r, log, ctx, caching);
 
       final VersionNumber version = ctx.getGLVersionNumber();
       if (version.getMajor() != 3) {
@@ -375,16 +383,18 @@ public final class JOGLTestContext
   public static TestContext makeContextWithOpenGL3_0_WithRestrictions(
     final JCGLSoftRestrictionsType r)
   {
-    return JOGLTestContext.makeContextWithOpenGL3_0_Actual(r);
+    return JOGLTestContext.makeContextWithOpenGL3_0_Actual(r, false);
   }
 
-  public static TestContext makeContextWithOpenGL3_p()
+  public static TestContext makeContextWithOpenGL3_p(
+    final boolean caching)
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p_Actual(null);
+    return JOGLTestContext.makeContextWithOpenGL3_p_Actual(null, caching);
   }
 
   private static TestContext makeContextWithOpenGL3_p_Actual(
-    final @Nullable JCGLSoftRestrictionsType r)
+    final @Nullable JCGLSoftRestrictionsType r,
+    final boolean caching)
   {
     try {
       final LogType log =
@@ -395,7 +405,7 @@ public final class JOGLTestContext
         JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
 
       final JCGLImplementationType gi =
-        JOGLTestContext.makeImplementation(r, log, ctx);
+        JOGLTestContext.makeImplementation(r, log, ctx, caching);
 
       final VersionNumber version = ctx.getGLVersionNumber();
       if (version.getMajor() != 3) {
@@ -418,19 +428,21 @@ public final class JOGLTestContext
   public static TestContext makeContextWithOpenGL3_p_WithRestrictions(
     final JCGLSoftRestrictionsType r)
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p_Actual(r);
+    return JOGLTestContext.makeContextWithOpenGL3_p_Actual(r, false);
   }
 
   private static JCGLImplementationType makeImplementation(
     final JCGLSoftRestrictionsType r,
     final LogUsableType log,
-    final GLContext ctx)
+    final GLContext ctx,
+    final boolean caching)
     throws JCGLException
   {
     final JCGLImplementationJOGLBuilderType b =
       JCGLImplementationJOGL.newBuilder();
     b.setDebugging(true);
     b.setRestrictions(Option.of(r));
+    b.setStateCaching(caching);
     return b.build(ctx, log);
   }
 

@@ -118,6 +118,6 @@ public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES2();
+    return JOGLTestContext.makeContextWithOpenGL_ES2(false);
   }
 }

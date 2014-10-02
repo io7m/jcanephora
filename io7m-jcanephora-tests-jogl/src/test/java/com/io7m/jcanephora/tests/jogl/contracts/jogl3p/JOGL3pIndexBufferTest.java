@@ -44,6 +44,6 @@ public final class JOGL3pIndexBufferTest extends IndexBufferContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL3_p(false);
   }
 }

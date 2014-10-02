@@ -45,6 +45,6 @@ public final class JOGLES3StencilBuffersExtendedTest extends
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES3();
+    return JOGLTestContext.makeContextWithOpenGL_ES3(false);
   }
 }

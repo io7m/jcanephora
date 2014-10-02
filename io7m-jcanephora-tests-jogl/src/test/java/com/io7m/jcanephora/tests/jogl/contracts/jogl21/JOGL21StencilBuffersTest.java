@@ -112,6 +112,6 @@ public final class JOGL21StencilBuffersTest extends StencilBuffersContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL2_1();
+    return JOGLTestContext.makeContextWithOpenGL2_1(false);
   }
 }

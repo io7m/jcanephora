@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -48,6 +48,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
   @SuppressWarnings("synthetic-access") private static final class Builder implements
     JCGLImplementationJOGLBuilderType
   {
+    private boolean                  caching;
     private boolean                  debugging;
     private JCGLSoftRestrictionsType restrictions;
     private OptionType<PrintStream>  tracing;
@@ -56,6 +57,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
     {
       this.restrictions = JCGLImplementationJOGL.DEFAULT_RESTRICTIONS;
       this.debugging = false;
+      this.caching = false;
       this.tracing = Option.none();
     }
 
@@ -76,6 +78,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
             log,
             this.debugging,
             this.tracing,
+            this.caching,
             this.restrictions);
         final JCGLInterfaceGLES2Type in_gl_es2 = null;
         final JCGLInterfaceGL2Type in_gl_2 = null;
@@ -96,6 +99,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
             log,
             this.debugging,
             this.tracing,
+            this.caching,
             this.restrictions);
         final JCGLInterfaceGLES3Type in_gl_es3 = null;
         final JCGLInterfaceGL2Type in_gl_2 = null;
@@ -120,6 +124,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
             log,
             this.debugging,
             this.tracing,
+            this.caching,
             this.restrictions);
         final JCGLInterfaceGL2Type in_gl_2 = null;
         final JCGLInterfaceGLES2Type in_gl_es2 = null;
@@ -151,6 +156,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
               log,
               this.debugging,
               this.tracing,
+              this.caching,
               this.restrictions);
           in_gl_2 = null;
           in_gl_es2 = null;
@@ -175,6 +181,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
             log,
             this.debugging,
             this.tracing,
+            this.caching,
             this.restrictions);
         in_gl_3 = null;
         in_gl_es2 = null;
@@ -208,6 +215,12 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
           (Some<JCGLSoftRestrictionsType>) r;
         this.restrictions = s.get();
       }
+    }
+
+    @Override public void setStateCaching(
+      final boolean enabled)
+    {
+      this.caching = enabled;
     }
 
     @Override public void setTracing(

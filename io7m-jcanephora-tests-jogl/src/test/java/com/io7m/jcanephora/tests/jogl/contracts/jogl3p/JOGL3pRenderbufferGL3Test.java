@@ -37,6 +37,6 @@ public final class JOGL3pRenderbufferGL3Test extends RenderbufferGL3Contract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL3_p(false);
   }
 }

@@ -68,10 +68,6 @@ public final class FakeES3StencilBuffersTest extends StencilBuffersContract
 
       fbb.attachColorRenderbuffer(cb);
       final FramebufferType fb = g.framebufferAllocate(fbb);
-      Assert.assertTrue(g.framebufferDrawAnyIsBound());
-      Assert.assertTrue(g.framebufferDrawIsBound(fb));
-
-      g.framebufferDrawUnbind();
       Assert.assertFalse(g.framebufferDrawAnyIsBound());
       Assert.assertFalse(g.framebufferDrawIsBound(fb));
       return fb;
@@ -97,10 +93,6 @@ public final class FakeES3StencilBuffersTest extends StencilBuffersContract
       fbb.attachColorRenderbuffer(cb);
       fbb.attachDepthStencilRenderbuffer(db);
       final FramebufferType fb = g.framebufferAllocate(fbb);
-      Assert.assertTrue(g.framebufferDrawAnyIsBound());
-      Assert.assertTrue(g.framebufferDrawIsBound(fb));
-
-      g.framebufferDrawUnbind();
       Assert.assertFalse(g.framebufferDrawAnyIsBound());
       Assert.assertFalse(g.framebufferDrawIsBound(fb));
 

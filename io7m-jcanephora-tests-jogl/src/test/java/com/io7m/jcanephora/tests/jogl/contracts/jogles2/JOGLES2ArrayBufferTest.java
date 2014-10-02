@@ -44,6 +44,6 @@ public final class JOGLES2ArrayBufferTest extends ArrayBufferContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES2();
+    return JOGLTestContext.makeContextWithOpenGL_ES2(false);
   }
 }

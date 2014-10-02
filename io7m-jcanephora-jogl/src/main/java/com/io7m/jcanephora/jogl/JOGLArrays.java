@@ -44,6 +44,7 @@ import com.io7m.jlog.LogLevel;
 import com.io7m.jlog.LogType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveL;
 
@@ -73,6 +74,22 @@ final class JOGLArrays implements
     ResourceCheck.notDeleted(array);
   }
 
+  private static boolean uncachedBufferIsBound(
+    final GL gl,
+    final ArrayBufferUsableType array)
+  {
+    final int b = JOGLArrays.uncachedGetBoundBuffer(gl);
+    return b == array.getGLName();
+  }
+
+  private static int uncachedGetBoundBuffer(
+    final GL gl)
+  {
+    return gl.getBoundBuffer(GL.GL_ARRAY_BUFFER);
+  }
+
+  private @Nullable ArrayBufferUsableType  bind;
+  private final boolean                    caching;
   private final GL                         gl;
   private final JOGLIntegerCacheType       icache;
   private final LogType                    log;
@@ -82,6 +99,7 @@ final class JOGLArrays implements
   JOGLArrays(
     final GL in_gl,
     final LogUsableType in_log,
+    final boolean in_caching,
     final JOGLIntegerCacheType in_icache,
     final JOGLLogMessageCacheType in_tcache)
   {
@@ -90,6 +108,8 @@ final class JOGLArrays implements
     this.icache = NullCheck.notNull(in_icache, "Integer cache");
     this.tcache = NullCheck.notNull(in_tcache, "Log message cache");
     this.mapped = new HashSet<ArrayBufferUsableType>();
+    this.caching = in_caching;
+    this.bind = null;
   }
 
   @Override public ArrayBufferType arrayBufferAllocate(
@@ -109,7 +129,6 @@ final class JOGLArrays implements
     final long size = descriptor.getElementSizeBytes();
     final long bytes_total = elements * size;
     final RangeInclusiveL range = new RangeInclusiveL(0, elements - 1);
-
     final StringBuilder text = this.tcache.getTextCache();
 
     if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
@@ -161,6 +180,15 @@ final class JOGLArrays implements
       usage);
   }
 
+  @Override public boolean arrayBufferAnyIsBound()
+    throws JCGLException
+  {
+    if (this.ignoreCache()) {
+      return JOGLArrays.uncachedGetBoundBuffer(this.gl) != 0;
+    }
+    return this.bind != null;
+  }
+
   @Override public void arrayBufferBind(
     final ArrayBufferUsableType array)
     throws JCGLExceptionRuntime,
@@ -170,7 +198,7 @@ final class JOGLArrays implements
     JOGLArrays.checkArray(this.gl, array);
 
     this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, array.getGLName());
-
+    this.bind = array;
   }
 
   @Override public void arrayBufferDelete(
@@ -198,6 +226,11 @@ final class JOGLArrays implements
     this.gl.glDeleteBuffers(1, ix);
     ((JOGLArrayBuffer) array).resourceSetDeleted();
 
+    if (this.bind != null) {
+      if (this.bind.getGLName() == array.getGLName()) {
+        this.arrayBufferUnbind();
+      }
+    }
   }
 
   @Override public boolean arrayBufferIsBound(
@@ -208,9 +241,13 @@ final class JOGLArrays implements
   {
     JOGLArrays.checkArray(this.gl, array);
 
-    final int b = this.gl.getBoundBuffer(GL.GL_ARRAY_BUFFER);
-
-    return b == array.getGLName();
+    if (this.ignoreCache()) {
+      return JOGLArrays.uncachedBufferIsBound(this.gl, array);
+    }
+    if (this.bind != null) {
+      return this.bind.equals(array);
+    }
+    return false;
   }
 
   @Override public boolean arrayBufferIsMapped(
@@ -226,7 +263,6 @@ final class JOGLArrays implements
     throws JCGLException
   {
     JOGLArrays.checkArray(this.gl, array);
-
     return this.arrayBufferMapReadUntypedRange(array, array.bufferGetRange());
   }
 
@@ -258,8 +294,7 @@ final class JOGLArrays implements
     }
 
     this.mappingAdd(array);
-
-    this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, array.getGLName());
+    this.arrayBufferBind(array);
 
     ByteBuffer b;
     try {
@@ -276,7 +311,7 @@ final class JOGLArrays implements
           GL.GL_MAP_READ_BIT);
 
     } finally {
-      this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+      this.arrayBufferUnbind();
     }
 
     assert b != null;
@@ -306,8 +341,7 @@ final class JOGLArrays implements
     }
 
     this.mappingAdd(array);
-
-    this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, array.getGLName());
+    this.arrayBufferBind(array);
 
     final ByteBuffer b;
     try {
@@ -332,7 +366,7 @@ final class JOGLArrays implements
           GL.GL_MAP_WRITE_BIT);
 
     } finally {
-      this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+      this.arrayBufferUnbind();
     }
 
     assert b != null;
@@ -343,7 +377,7 @@ final class JOGLArrays implements
     throws JCGLExceptionRuntime
   {
     this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
-
+    this.bind = null;
   }
 
   @Override public void arrayBufferUnmap(
@@ -367,18 +401,17 @@ final class JOGLArrays implements
       this.log.debug(s);
     }
 
-    this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, array.getGLName());
+    this.arrayBufferBind(array);
     try {
-      final boolean ok = this.gl.glUnmapBuffer(GL.GL_ARRAY_BUFFER);
       this.mappingDelete(array);
+      final boolean ok = this.gl.glUnmapBuffer(GL.GL_ARRAY_BUFFER);
       if (ok == false) {
         throw new JCGLExceptionBufferMappedCorrupted(
           "Mapped buffer has been corrupted");
       }
     } finally {
-      this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+      this.arrayBufferUnbind();
     }
-
   }
 
   @Override public void arrayBufferUpdate(
@@ -398,10 +431,14 @@ final class JOGLArrays implements
         data.getTargetDataOffset(),
         data.getTargetDataSize(),
         data.getTargetData());
-
     } finally {
       this.arrayBufferUnbind();
     }
+  }
+
+  private boolean ignoreCache()
+  {
+    return this.caching == false;
   }
 
   private void mappingAdd(

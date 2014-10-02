@@ -45,6 +45,6 @@ public final class JOGL3pFramebuffersReadGL3Test extends
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL3_p(false);
   }
 }

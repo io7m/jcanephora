@@ -37,6 +37,6 @@ public final class JOGL3pBlendFullTest extends BlendingGL3Contract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL3_p(false);
   }
 }

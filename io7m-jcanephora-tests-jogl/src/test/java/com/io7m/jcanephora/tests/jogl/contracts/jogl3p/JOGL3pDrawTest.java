@@ -45,7 +45,7 @@ public final class JOGL3pDrawTest extends DrawContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL3_p(false);
   }
 
   @Override public JCGLArrayBuffersType getGLArrayBuffers(

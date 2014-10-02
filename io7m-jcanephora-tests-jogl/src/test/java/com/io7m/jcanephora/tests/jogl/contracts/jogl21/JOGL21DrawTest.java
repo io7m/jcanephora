@@ -45,7 +45,7 @@ public final class JOGL21DrawTest extends DrawContract
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL2_1();
+    return JOGLTestContext.makeContextWithOpenGL2_1(false);
   }
 
   @Override public JCGLArrayBuffersType getGLArrayBuffers(

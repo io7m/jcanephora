@@ -41,6 +41,6 @@ public final class JOGLES2ExtensionDepthCubeTextureTest extends
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES2();
+    return JOGLTestContext.makeContextWithOpenGL_ES2(false);
   }
 }

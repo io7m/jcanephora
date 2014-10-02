@@ -186,7 +186,7 @@
         <configuration>
           <forkMode>once</forkMode>
           <redirectTestOutputToFile>true</redirectTestOutputToFile>
-          <testSourceDirectory>${project.basedir}/src/main/java/</testSourceDirectory>
+          <testSourceDirectory>${project.basedir}/src/test/java/</testSourceDirectory>
           <testClassesDirectory>${project.build.directory}/classes/</testClassesDirectory>
         </configuration>
       </plugin>

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -207,6 +207,34 @@ public abstract class ArrayBufferContract implements TestContract
     }
 
     gl.arrayBufferBind(a);
+  }
+
+  @Test public final void testArrayBufferDeleteUnbind()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffersType gl = this.getGLArrayBuffers(tc);
+    final ArrayBufferType a;
+
+    try {
+      final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();
+      b.addAttribute(ArrayAttributeDescriptor.newAttribute(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayDescriptor d = b.build();
+
+      a = gl.arrayBufferAllocate(1, d, UsageHint.USAGE_STATIC_DRAW);
+      gl.arrayBufferBind(a);
+      Assert.assertTrue(gl.arrayBufferAnyIsBound());
+      Assert.assertTrue(gl.arrayBufferIsBound(a));
+
+      gl.arrayBufferDelete(a);
+      Assert.assertTrue(a.resourceIsDeleted());
+      Assert.assertFalse(gl.arrayBufferAnyIsBound());
+    } catch (final Throwable x) {
+      throw new UnreachableCodeException(x);
+    }
   }
 
   @Test(expected = NullCheckException.class) public final
