@@ -29,6 +29,7 @@ import com.io7m.jcanephora.JCGLExceptionFramebufferNotBound;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.ResourceCheck;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderType;
 import com.io7m.jcanephora.api.JCGLFramebuffersCommonType;
 import com.io7m.jcanephora.api.JCGLMetaType;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
@@ -111,26 +112,6 @@ abstract class JOGLFramebuffersAbstract implements JCGLFramebuffersCommonType
     }
   }
 
-  @Override public FramebufferType framebufferAllocate()
-    throws JCGLExceptionRuntime
-  {
-    final IntBuffer ix = this.icache.getIntegerCache();
-    this.gl.glGenFramebuffers(1, ix);
-    final int id = ix.get(0);
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("allocated ");
-      text.append(id);
-      final String r = text.toString();
-      assert r != null;
-      this.log.debug(r);
-    }
-
-    return new JOGLFramebuffer(this.context, id);
-  }
-
   @Override public void framebufferDelete(
     final FramebufferType framebuffer)
     throws JCGLExceptionRuntime,
@@ -156,6 +137,15 @@ abstract class JOGLFramebuffersAbstract implements JCGLFramebuffersCommonType
     ix.put(0, framebuffer.getGLName());
     this.gl.glDeleteFramebuffers(1, ix);
     ((JOGLObjectDeletable) framebuffer).resourceSetDeleted();
+  }
+
+  @Override public final JCGLFramebufferBuilderType framebufferNewBuilder()
+  {
+    return new JOGLFramebufferBuilder(
+      this.framebufferGetColorAttachmentPoints(),
+      this.framebufferGetDrawBuffers(),
+      this.getExtensions(),
+      this.meta.metaGetVersion());
   }
 
   protected final JOGLColorAttachmentPointsType getColorPoints()

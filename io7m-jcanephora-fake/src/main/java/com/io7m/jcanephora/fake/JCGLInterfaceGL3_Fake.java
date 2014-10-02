@@ -73,9 +73,7 @@ import com.io7m.jcanephora.ProgramUsableType;
 import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthKind;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
-import com.io7m.jcanephora.RenderableStencilKind;
 import com.io7m.jcanephora.RenderbufferType;
-import com.io7m.jcanephora.RenderbufferUsableType;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.Texture2DStaticReadableType;
@@ -95,6 +93,8 @@ import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.VertexShaderType;
 import com.io7m.jcanephora.api.JCGLExtensionDepthTextureType;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderType;
 import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.api.JCGLShadersParametersType;
@@ -228,9 +228,7 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
         this.color_points,
         this.draw_buffers,
         this.meta,
-        this.renderbuffers,
-        extensions,
-        this.textures2d);
+        extensions);
     this.depth = new FakeDepthBuffer(in_context, this.framebuffers);
     this.stencil = new FakeStencil(in_context, this.framebuffers, this.log);
   }
@@ -622,10 +620,11 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
     this.program.fragmentShaderDelete(id);
   }
 
-  @Override public FramebufferType framebufferAllocate()
+  @Override public FramebufferType framebufferAllocate(
+    final JCGLFramebufferBuilderType b)
     throws JCGLException
   {
-    return this.framebuffers.framebufferAllocate();
+    return this.framebuffers.framebufferAllocate(b);
   }
 
   @Override public void framebufferBlit(
@@ -651,126 +650,6 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
     return this.framebuffers.framebufferDrawAnyIsBound();
   }
 
-  @Override public void framebufferDrawAttachColorRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableColorKind> renderbuffer)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachColorRenderbuffer(
-      framebuffer,
-      renderbuffer);
-  }
-
-  @Override public void framebufferDrawAttachColorRenderbufferAt(
-    final FramebufferType framebuffer,
-    final FramebufferColorAttachmentPointType point,
-    final RenderbufferUsableType<RenderableColorKind> renderbuffer)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachColorRenderbufferAt(
-      framebuffer,
-      point,
-      renderbuffer);
-  }
-
-  @Override public void framebufferDrawAttachColorTexture2D(
-    final FramebufferType framebuffer,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachColorTexture2D(
-      framebuffer,
-      texture);
-  }
-
-  @Override public void framebufferDrawAttachColorTexture2DAt(
-    final FramebufferType framebuffer,
-    final FramebufferColorAttachmentPointType point,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachColorTexture2DAt(
-      framebuffer,
-      point,
-      texture);
-  }
-
-  @Override public void framebufferDrawAttachColorTextureCube(
-    final FramebufferType framebuffer,
-    final TextureCubeStaticUsableType texture,
-    final CubeMapFaceLH face)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachColorTextureCube(
-      framebuffer,
-      texture,
-      face);
-  }
-
-  @Override public void framebufferDrawAttachColorTextureCubeAt(
-    final FramebufferType framebuffer,
-    final FramebufferColorAttachmentPointType point,
-    final TextureCubeStaticUsableType texture,
-    final CubeMapFaceLH face)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachColorTextureCubeAt(
-      framebuffer,
-      point,
-      texture,
-      face);
-  }
-
-  @Override public void framebufferDrawAttachDepthRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableDepthKind> renderbuffer)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachDepthRenderbuffer(
-      framebuffer,
-      renderbuffer);
-  }
-
-  @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachDepthStencilRenderbuffer(
-      framebuffer,
-      renderbuffer);
-  }
-
-  @Override public void framebufferDrawAttachDepthStencilTexture2D(
-    final FramebufferType framebuffer,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachDepthStencilTexture2D(
-      framebuffer,
-      texture);
-  }
-
-  @Override public void framebufferDrawAttachDepthTexture2D(
-    final FramebufferType framebuffer,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachDepthTexture2D(
-      framebuffer,
-      texture);
-  }
-
-  @Override public void framebufferDrawAttachStencilRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableStencilKind> renderbuffer)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachStencilRenderbuffer(
-      framebuffer,
-      renderbuffer);
-  }
-
   @Override public void framebufferDrawBind(
     final FramebufferUsableType framebuffer)
     throws JCGLException
@@ -783,16 +662,6 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
     throws JCGLException
   {
     return this.framebuffers.framebufferDrawIsBound(framebuffer);
-  }
-
-  @Override public
-    void
-    framebufferDrawSetBuffers(
-      final FramebufferType framebuffer,
-      final Map<FramebufferDrawBufferType, FramebufferColorAttachmentPointType> mappings)
-      throws JCGLException
-  {
-    this.framebuffers.framebufferDrawSetBuffers(framebuffer, mappings);
   }
 
   @Override public void framebufferDrawUnbind()
@@ -822,6 +691,18 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
       throws JCGLException
   {
     return this.framebuffers.framebufferGetDrawBuffers();
+  }
+
+  @Override public JCGLFramebufferBuilderType framebufferNewBuilder()
+  {
+    return this.framebuffers.framebufferNewBuilder();
+  }
+
+  @Override public
+    JCGLFramebufferBuilderGL3ES3Type
+    framebufferNewBuilderGL3ES3()
+  {
+    return this.framebuffers.framebufferNewBuilderGL3ES3();
   }
 
   @Override public boolean framebufferReadAnyIsBound()
@@ -1089,6 +970,11 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
     throws JCGLException
   {
     return this.program.programGetMaximumActiveAttributes();
+  }
+
+  @Override public JCGLShadersParametersType programGetUncheckedInterface()
+  {
+    return this.program.programGetUncheckedInterface();
   }
 
   @Override public boolean programIsActive(
@@ -3282,10 +3168,5 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
     throws JCGLExceptionRuntime
   {
     this.viewport.viewportSet(area);
-  }
-
-  @Override public JCGLShadersParametersType programGetUncheckedInterface()
-  {
-    return this.program.programGetUncheckedInterface();
   }
 }

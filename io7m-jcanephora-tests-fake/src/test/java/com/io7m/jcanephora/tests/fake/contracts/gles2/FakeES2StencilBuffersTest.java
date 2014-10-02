@@ -16,9 +16,6 @@
 
 package com.io7m.jcanephora.tests.fake.contracts.gles2;
 
-import org.junit.Assert;
-
-import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.FramebufferType;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.RenderableColorKind;
@@ -26,6 +23,8 @@ import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderableStencilKind;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.api.JCGLExtensionPackedDepthStencilType;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderExtensionPackedDepthStencilType;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderType;
 import com.io7m.jcanephora.api.JCGLFramebuffersCommonType;
 import com.io7m.jcanephora.api.JCGLImplementationType;
 import com.io7m.jcanephora.api.JCGLInterfaceGLES2Type;
@@ -64,19 +63,13 @@ public final class FakeES2StencilBuffersTest extends StencilBuffersContract
   {
     try {
       final JCGLInterfaceGLES2Type g = FakeTestContextUtilities.getGLES2(tc);
-      final FramebufferType fb = g.framebufferAllocate();
+      final JCGLFramebufferBuilderType fbb = g.framebufferNewBuilder();
 
-      g.framebufferDrawBind(fb);
       final RenderbufferType<RenderableColorKind> cb =
         g.renderbufferAllocateRGBA4444(128, 128);
-      g.framebufferDrawAttachColorRenderbuffer(fb, cb);
+      fbb.attachColorRenderbuffer(cb);
 
-      final FramebufferStatus expect =
-        FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
-      final FramebufferStatus status = g.framebufferDrawValidate(fb);
-      Assert.assertEquals(expect, status);
-
-      g.framebufferDrawUnbind();
+      final FramebufferType fb = g.framebufferAllocate(fbb);
       return fb;
     } catch (final JCGLException x) {
       throw new UnreachableCodeException(x);
@@ -89,34 +82,35 @@ public final class FakeES2StencilBuffersTest extends StencilBuffersContract
   {
     try {
       final JCGLInterfaceGLES2Type g = FakeTestContextUtilities.getGLES2(tc);
-      final FramebufferType fb = g.framebufferAllocate();
-
-      g.framebufferDrawBind(fb);
-      final RenderbufferType<RenderableColorKind> cb =
-        g.renderbufferAllocateRGBA4444(128, 128);
-      g.framebufferDrawAttachColorRenderbuffer(fb, cb);
-
       final OptionType<JCGLExtensionPackedDepthStencilType> e =
         g.extensionPackedDepthStencil();
+      final RenderbufferType<RenderableColorKind> cb =
+        g.renderbufferAllocateRGBA4444(128, 128);
 
+      final FramebufferType fb;
       if (e.isSome()) {
         final JCGLExtensionPackedDepthStencilType ex =
           ((Some<JCGLExtensionPackedDepthStencilType>) e).get();
+
+        final JCGLFramebufferBuilderExtensionPackedDepthStencilType fbb =
+          ex.framebufferNewBuilderExtensionPackedDepthStencil();
+
         final RenderbufferType<RenderableDepthStencilKind> db =
           ex.renderbufferAllocateDepth24Stencil8(128, 128);
-        ex.framebufferDrawAttachDepthStencilRenderbuffer(fb, db);
+
+        fbb.attachDepthStencilRenderbuffer(db);
+        fbb.attachColorRenderbuffer(cb);
+        fb = g.framebufferAllocate(fbb);
       } else {
-        final RenderbufferType<RenderableStencilKind> db =
+        final JCGLFramebufferBuilderType fbb = g.framebufferNewBuilder();
+
+        final RenderbufferType<RenderableStencilKind> sb =
           g.renderbufferAllocateStencil8(128, 128);
-        g.framebufferDrawAttachStencilRenderbuffer(fb, db);
+        fbb.attachStencilRenderbuffer(sb);
+        fbb.attachColorRenderbuffer(cb);
+        fb = g.framebufferAllocate(fbb);
       }
 
-      final FramebufferStatus expect =
-        FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
-      final FramebufferStatus status = g.framebufferDrawValidate(fb);
-      Assert.assertEquals(expect, status);
-
-      g.framebufferDrawUnbind();
       return fb;
     } catch (final JCGLException x) {
       throw new UnreachableCodeException(x);
