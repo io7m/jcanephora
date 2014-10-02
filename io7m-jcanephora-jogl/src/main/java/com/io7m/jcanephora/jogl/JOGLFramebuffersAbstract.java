@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -37,6 +37,7 @@ import com.io7m.jlog.LogLevel;
 import com.io7m.jlog.LogType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
 
 abstract class JOGLFramebuffersAbstract implements JCGLFramebuffersCommonType
 {
@@ -60,6 +61,8 @@ abstract class JOGLFramebuffersAbstract implements JCGLFramebuffersCommonType
     ResourceCheck.notDeleted(framebuffer);
   }
 
+  private @Nullable FramebufferUsableType     bind_draw;
+  private @Nullable FramebufferUsableType     bind_read;
   private final JOGLColorAttachmentPointsType color_points;
   private final GLContext                     context;
   private final JOGLDrawBuffersType           draw_buffers;
@@ -89,6 +92,39 @@ abstract class JOGLFramebuffersAbstract implements JCGLFramebuffersCommonType
     this.draw_buffers = NullCheck.notNull(in_draw_buffers, "Draw buffers");
     this.meta = NullCheck.notNull(in_meta, "Meta");
     this.extensions = NullCheck.notNull(in_extensions, "Extensions");
+    this.bind_read = null;
+    this.bind_draw = null;
+  }
+
+  protected final void bindRead(
+    final @Nullable FramebufferUsableType f)
+  {
+    this.bind_read = f;
+  }
+
+  protected final void bindDraw(
+    final @Nullable FramebufferUsableType f)
+  {
+    this.bind_draw = f;
+  }
+
+  @Override public final boolean framebufferDrawAnyIsBound()
+    throws JCGLException
+  {
+    return this.getBindDraw() != null;
+  }
+
+  @Override public final boolean framebufferDrawIsBound(
+    final FramebufferUsableType framebuffer)
+    throws JCGLException
+  {
+    JOGLFramebuffersAbstract.checkFramebuffer(this.context, framebuffer);
+
+    final FramebufferUsableType bound = this.getBindDraw();
+    if (bound != null) {
+      return bound.equals(framebuffer);
+    }
+    return false;
   }
 
   /**
@@ -146,6 +182,16 @@ abstract class JOGLFramebuffersAbstract implements JCGLFramebuffersCommonType
       this.framebufferGetDrawBuffers(),
       this.getExtensions(),
       this.meta.metaGetVersion());
+  }
+
+  protected final @Nullable FramebufferUsableType getBindDraw()
+  {
+    return this.bind_draw;
+  }
+
+  protected final @Nullable FramebufferUsableType getBindRead()
+  {
+    return this.bind_read;
   }
 
   protected final JOGLColorAttachmentPointsType getColorPoints()

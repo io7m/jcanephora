@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES3;
 import javax.media.opengl.GLContext;
+import javax.media.opengl.GLException;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.CubeMapFaceLH;
@@ -670,6 +671,7 @@ import com.jogamp.common.nio.Buffers;
      */
 
     gg.glBindFramebuffer(GL2ES3.GL_DRAW_FRAMEBUFFER, id);
+    this.bindDraw(null);
 
     try {
 
@@ -738,6 +740,7 @@ import com.jogamp.common.nio.Buffers;
 
     } finally {
       gg.glBindFramebuffer(GL2ES3.GL_DRAW_FRAMEBUFFER, 0);
+      this.bindDraw(null);
     }
   }
 
@@ -811,36 +814,26 @@ import com.jogamp.common.nio.Buffers;
       filteri);
   }
 
-  @Override public boolean framebufferDrawAnyIsBound()
-    throws JCGLException
-  {
-    final int bound = this.g.getBoundFramebuffer(GL2ES3.GL_DRAW_FRAMEBUFFER);
-    final int default_fb = this.g.getDefaultDrawFramebuffer();
-    return bound != default_fb;
-  }
-
   @Override public void framebufferDrawBind(
     final FramebufferUsableType framebuffer)
     throws JCGLException
   {
     JOGLFramebuffersAbstract.checkFramebuffer(this.ctx, framebuffer);
-    this.g.glBindFramebuffer(
-      GL2ES3.GL_DRAW_FRAMEBUFFER,
-      framebuffer.getGLName());
-  }
-
-  @Override public boolean framebufferDrawIsBound(
-    final FramebufferUsableType framebuffer)
-    throws JCGLException
-  {
-    JOGLFramebuffersAbstract.checkFramebuffer(this.ctx, framebuffer);
-    final int bound = this.g.getBoundFramebuffer(GL2ES3.GL_DRAW_FRAMEBUFFER);
-    return bound == framebuffer.getGLName();
+    try {
+      this.bindDraw(framebuffer);
+      this.g.glBindFramebuffer(
+        GL2ES3.GL_DRAW_FRAMEBUFFER,
+        framebuffer.getGLName());
+    } catch (final GLException e) {
+      this.bindDraw(null);
+      throw e;
+    }
   }
 
   @Override public void framebufferDrawUnbind()
     throws JCGLException
   {
+    this.bindDraw(null);
     this.g.glBindFramebuffer(GL2ES3.GL_DRAW_FRAMEBUFFER, 0);
   }
 
@@ -884,9 +877,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public boolean framebufferReadAnyIsBound()
     throws JCGLExceptionRuntime
   {
-    final int bound = this.g.getBoundFramebuffer(GL2ES3.GL_READ_FRAMEBUFFER);
-    final int default_fb = this.g.getDefaultReadFramebuffer();
-    return bound != default_fb;
+    return this.getBindRead() != null;
   }
 
   @Override public void framebufferReadBind(
@@ -896,9 +887,16 @@ import com.jogamp.common.nio.Buffers;
       JCGLExceptionDeleted
   {
     JOGLFramebuffersAbstract.checkFramebuffer(this.ctx, framebuffer);
-    this.g.glBindFramebuffer(
-      GL2ES3.GL_READ_FRAMEBUFFER,
-      framebuffer.getGLName());
+
+    try {
+      this.bindRead(framebuffer);
+      this.g.glBindFramebuffer(
+        GL2ES3.GL_READ_FRAMEBUFFER,
+        framebuffer.getGLName());
+    } catch (final GLException e) {
+      this.bindRead(null);
+      throw e;
+    }
   }
 
   @Override public boolean framebufferReadIsBound(
@@ -906,13 +904,18 @@ import com.jogamp.common.nio.Buffers;
     throws JCGLException
   {
     JOGLFramebuffersAbstract.checkFramebuffer(this.ctx, framebuffer);
-    final int bound = this.g.getBoundFramebuffer(GL2ES3.GL_READ_FRAMEBUFFER);
-    return bound == framebuffer.getGLName();
+
+    final FramebufferUsableType bound = this.getBindRead();
+    if (bound != null) {
+      return bound.equals(framebuffer);
+    }
+    return false;
   }
 
   @Override public void framebufferReadUnbind()
     throws JCGLExceptionRuntime
   {
+    this.bindRead(null);
     this.g.glBindFramebuffer(GL2ES3.GL_READ_FRAMEBUFFER, 0);
   }
 }

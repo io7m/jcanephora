@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLES2;
+import javax.media.opengl.GLException;
 
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.FramebufferColorAttachmentPointType;
@@ -598,6 +599,8 @@ import com.io7m.junreachable.UnreachableCodeException;
      * Configure framebuffer.
      */
 
+    this.bindDraw(null);
+    this.bindRead(null);
     gg.glBindFramebuffer(GL.GL_FRAMEBUFFER, id);
 
     try {
@@ -659,15 +662,9 @@ import com.io7m.junreachable.UnreachableCodeException;
 
     } finally {
       gg.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
+      this.bindDraw(null);
+      this.bindRead(null);
     }
-  }
-
-  @Override public boolean framebufferDrawAnyIsBound()
-    throws JCGLException
-  {
-    final int bound = this.g.getBoundFramebuffer(GL.GL_FRAMEBUFFER);
-    final int default_fb = this.g.getDefaultDrawFramebuffer();
-    return bound != default_fb;
   }
 
   @Override public void framebufferDrawBind(
@@ -675,21 +672,21 @@ import com.io7m.junreachable.UnreachableCodeException;
     throws JCGLException
   {
     JOGLFramebuffersAbstract.checkFramebuffer(this.ctx, framebuffer);
-    this.g.glBindFramebuffer(GL.GL_FRAMEBUFFER, framebuffer.getGLName());
-  }
-
-  @Override public boolean framebufferDrawIsBound(
-    final FramebufferUsableType framebuffer)
-    throws JCGLException
-  {
-    JOGLFramebuffersAbstract.checkFramebuffer(this.ctx, framebuffer);
-    final int bound = this.g.getBoundFramebuffer(GL.GL_FRAMEBUFFER);
-    return bound == framebuffer.getGLName();
+    try {
+      this.bindDraw(framebuffer);
+      this.bindRead(framebuffer);
+      this.g.glBindFramebuffer(GL.GL_FRAMEBUFFER, framebuffer.getGLName());
+    } catch (final GLException e) {
+      this.bindDraw(null);
+      throw e;
+    }
   }
 
   @Override public void framebufferDrawUnbind()
     throws JCGLException
   {
+    this.bindDraw(null);
+    this.bindRead(null);
     this.g.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
   }
 
