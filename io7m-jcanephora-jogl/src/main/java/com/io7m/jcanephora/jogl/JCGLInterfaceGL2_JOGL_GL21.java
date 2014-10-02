@@ -225,7 +225,7 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
         this.log,
         this.icache,
         this.tcache);
-    this.cull = new JOGLCulling(this.cached_gl2, this.log);
+    this.cull = new JOGLCulling(this.cached_gl2, this.icache);
     this.draw = new JOGLDraw(this.cached_gl2, this.log);
     this.draw_buffers =
       new JOGLDrawBuffers(this.cached_gl2, this.log, this.icache, this.tcache);
