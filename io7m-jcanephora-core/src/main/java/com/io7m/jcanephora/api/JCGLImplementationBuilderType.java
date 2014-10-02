@@ -63,23 +63,6 @@ public interface JCGLImplementationBuilderType
 
   /**
    * <p>
-   * Enable or disable state caching. When caching is enabled, multiple calls
-   * to any function that sets some kind of state on the OpenGL implementation
-   * (with the same argument) will result in only a single call.
-   * </p>
-   * <p>
-   * By default, state caching is enabled.
-   * </p>
-   *
-   * @param enabled
-   *          <code>true</code> if state caching should be enabled.
-   */
-
-  void setStateCaching(
-    boolean enabled);
-
-  /**
-   * <p>
    * Enable or disable tracing. Passing {@link com.io7m.jfunctional.Some} with
    * an output stream enables tracing to that stream (replacing any previous
    * stream).
