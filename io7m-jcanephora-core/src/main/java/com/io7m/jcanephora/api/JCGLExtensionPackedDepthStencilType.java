@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,11 +16,9 @@
 
 package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.FramebufferType;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderbufferType;
-import com.io7m.jcanephora.RenderbufferUsableType;
 
 /**
  * <p>
@@ -37,40 +35,25 @@ public interface JCGLExtensionPackedDepthStencilType extends
   JCGLExtensionType
 {
   /**
-   * Attach the given depth/stencil renderbuffer <code>renderbuffer</code> to
-   * the framebuffer <code>framebuffer</code>.
-   * 
-   * The function will replace any existing depth/stencil attachment.
-   * 
-   * @param framebuffer
-   *          The framebuffer.
-   * @param renderbuffer
-   *          The renderbuffer.
-   * @see com.io7m.jcanephora.RenderbufferFormat#isDepthRenderable()
-   * @see com.io7m.jcanephora.RenderbufferFormat#isStencilRenderable()
-   * 
-   * @throws JCGLException
-   *           Iff an OpenGL exception occurs.
+   * @return A new mutable framebuffer builder for OpenGL framebuffers.
    */
 
-  void framebufferDrawAttachDepthStencilRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
-    throws JCGLException;
+    JCGLFramebufferBuilderExtensionPackedDepthStencilType
+    framebufferNewBuilderExtensionPackedDepthStencil();
 
   /**
    * Allocate a packed depth/stencil renderbuffer.
-   * 
+   *
    * See
    * {@link com.io7m.jcanephora.RenderbufferFormat#RENDERBUFFER_DEPTH_24_STENCIL_8}
    * for the precise format.
-   * 
+   *
    * @param width
    *          The width.
    * @param height
    *          The height.
    * @return A freshly allocated renderbuffer.
-   * 
+   *
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */

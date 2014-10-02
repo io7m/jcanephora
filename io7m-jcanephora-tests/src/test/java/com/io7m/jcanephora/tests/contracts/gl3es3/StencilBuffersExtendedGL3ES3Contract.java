@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -19,7 +19,6 @@ package com.io7m.jcanephora.tests.contracts.gl3es3;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.FramebufferType;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.Texture2DStaticType;
@@ -27,6 +26,7 @@ import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
 import com.io7m.jcanephora.api.JCGLFramebuffersGL3Type;
 import com.io7m.jcanephora.api.JCGLInterfaceCommonType;
 import com.io7m.jcanephora.api.JCGLTextures2DStaticGL3ES3Type;
@@ -69,12 +69,13 @@ public abstract class StencilBuffersExtendedGL3ES3Contract implements
         TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
-    final FramebufferType fb = gf.framebufferAllocate();
+    final JCGLFramebufferBuilderGL3ES3Type fbb =
+      gf.framebufferNewBuilderGL3ES3();
+    fbb.attachColorTexture2D(ct);
+    fbb.attachDepthStencilTexture2D(dt);
+
+    final FramebufferType fb = gf.framebufferAllocate(fbb);
     gf.framebufferDrawBind(fb);
-    gf.framebufferDrawAttachColorTexture2D(fb, ct);
-    gf.framebufferDrawAttachDepthStencilTexture2D(fb, dt);
-    final FramebufferStatus stat = gf.framebufferDrawValidate(fb);
-    Assert.assertEquals(FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE, stat);
 
     final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
     Assert.assertTrue(gf.framebufferDrawAnyIsBound());

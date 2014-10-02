@@ -29,6 +29,197 @@ import com.io7m.junreachable.UnreachableCodeException;
 public final class TextureFormatMeta
 {
   /**
+   * Check that the texture is of a color-renderable format.
+   *
+   * @param t
+   *          The texture
+   * @param version
+   *          The OpenGL version
+   * @param extensions
+   *          The OpenGL extensions
+   * @throws JCGLExceptionFormatError
+   *           If the texture is not of the correct format
+   */
+
+  public static void checkColorRenderableTexture2D(
+    final Texture2DStaticUsableType t,
+    final JCGLVersion version,
+    final JCGLNamedExtensionsType extensions)
+    throws JCGLExceptionFormatError
+  {
+    final TextureFormat format = t.textureGetFormat();
+    if (TextureFormatMeta.isColorRenderable2D(format, version, extensions) == false) {
+      final String m =
+        String.format("Format %s is not color-renderable", format);
+      assert m != null;
+      throw new JCGLExceptionFormatError(m);
+    }
+  }
+
+  /**
+   * Check that the texture is of a color-renderable format.
+   *
+   * @param t
+   *          The texture
+   * @param version
+   *          The OpenGL version
+   * @param extensions
+   *          The OpenGL extensions
+   * @throws JCGLExceptionFormatError
+   *           If the texture is not of the correct format
+   */
+
+  public static void checkColorRenderableTextureCube(
+    final TextureCubeStaticUsableType t,
+    final JCGLVersion version,
+    final JCGLNamedExtensionsType extensions)
+    throws JCGLExceptionFormatError
+  {
+    final TextureFormat format = t.textureGetFormat();
+    if (TextureFormatMeta.isColorRenderable2D(format, version, extensions) == false) {
+      final String m =
+        String.format("Format %s is not color-renderable", format);
+      assert m != null;
+      throw new JCGLExceptionFormatError(m);
+    }
+  }
+
+  /**
+   * Check that the texture is of a depth (not stencil) renderable format.
+   *
+   * @param t
+   *          The texture
+   * @param extensions
+   *          The OpenGL extensions
+   * @throws JCGLExceptionFormatError
+   *           If the texture is not of the correct format
+   */
+
+  public static void checkDepthOnlyRenderableTexture2D(
+    final Texture2DStaticUsableType t,
+    final JCGLNamedExtensionsType extensions)
+    throws JCGLExceptionFormatError
+  {
+    final TextureFormat format = t.textureGetFormat();
+    if (TextureFormatMeta.isDepthRenderable2D(format, extensions) == false) {
+      final String m =
+        String.format("Format %s is not depth-renderable", format);
+      assert m != null;
+      throw new JCGLExceptionFormatError(m);
+    }
+    if (TextureFormatMeta.isStencilRenderable(format)) {
+      final String m =
+        String
+          .format(
+            "Format %s is stencil-renderable: Must be used as a depth+stencil attachment",
+            format);
+      assert m != null;
+      throw new JCGLExceptionFormatError(m);
+    }
+  }
+
+  /**
+   * Check that the texture is of a depth+stencil-renderable format.
+   *
+   * @param t
+   *          The texture
+   * @param extensions
+   *          The OpenGL extensions
+   * @throws JCGLExceptionFormatError
+   *           If the texture is not of the correct format
+   */
+
+  public static void checkDepthStencilRenderableTexture2D(
+    final Texture2DStaticUsableType t,
+    final JCGLNamedExtensionsType extensions)
+    throws JCGLExceptionFormatError
+  {
+    final TextureFormat format = t.textureGetFormat();
+    if ((TextureFormatMeta.isDepthRenderable2D(format, extensions) == false)
+      || (TextureFormatMeta.isStencilRenderable(format) == false)) {
+      final String m =
+        String.format("Format %s is not depth+stencil-renderable", format);
+      assert m != null;
+      throw new JCGLExceptionFormatError(m);
+    }
+  }
+
+  /**
+   * @param format
+   *          The texture format.
+   * @return The number of depth bits in the given texture format.
+   */
+
+  public static int getDepthBits(
+    final TextureFormat format)
+  {
+    switch (format) {
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
+      {
+        return 0;
+      }
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      {
+        return 32;
+      }
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      {
+        return 16;
+      }
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      {
+        return 24;
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
    * @param format
    *          The texture format.
    * @return The number of stencil bits in the given texture format.

@@ -14,18 +14,19 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl.contracts.jogl3p;
+package com.io7m.jcanephora.tests.jogl.contracts.jogles3;
 
 import org.junit.Assert;
 
 import com.io7m.jcanephora.FramebufferType;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
 import com.io7m.jcanephora.api.JCGLFramebuffersCommonType;
 import com.io7m.jcanephora.api.JCGLImplementationType;
-import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGLES3Type;
 import com.io7m.jcanephora.api.JCGLStencilBufferType;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.StencilBuffersContract;
@@ -33,23 +34,23 @@ import com.io7m.jcanephora.tests.jogl.JOGLTestContext;
 import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 import com.io7m.junreachable.UnreachableCodeException;
 
-public final class JOGL3pStencilBuffersTest extends StencilBuffersContract
+public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
 {
   @Override public JCGLFramebuffersCommonType getGLFramebuffers(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGLES3(tc);
   }
 
   @Override public JCGLStencilBufferType getGLStencilBuffer(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGLES3(tc);
   }
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3pSupported();
+    return JOGLTestContext.isOpenGLES3Supported();
   }
 
   @Override public FramebufferType makeFramebufferWithoutStencil(
@@ -57,7 +58,7 @@ public final class JOGL3pStencilBuffersTest extends StencilBuffersContract
     final JCGLImplementationType gi)
   {
     try {
-      final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
+      final JCGLInterfaceGLES3Type g = JOGLTestContextUtilities.getGLES3(tc);
 
       final JCGLFramebufferBuilderGL3ES3Type fbb =
         g.framebufferNewBuilderGL3ES3();
@@ -73,8 +74,8 @@ public final class JOGL3pStencilBuffersTest extends StencilBuffersContract
       Assert.assertFalse(g.framebufferDrawAnyIsBound());
       Assert.assertFalse(g.framebufferDrawIsBound(fb));
       return fb;
-    } catch (final Throwable x) {
-      throw new UnreachableCodeException(x);
+    } catch (final JCGLException e) {
+      throw new UnreachableCodeException(e);
     }
   }
 
@@ -83,7 +84,7 @@ public final class JOGL3pStencilBuffersTest extends StencilBuffersContract
     final JCGLImplementationType gi)
   {
     try {
-      final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
+      final JCGLInterfaceGLES3Type g = JOGLTestContextUtilities.getGLES3(tc);
 
       final JCGLFramebufferBuilderGL3ES3Type fbb =
         g.framebufferNewBuilderGL3ES3();
@@ -103,13 +104,13 @@ public final class JOGL3pStencilBuffersTest extends StencilBuffersContract
       Assert.assertFalse(g.framebufferDrawIsBound(fb));
 
       return fb;
-    } catch (final Throwable x) {
-      throw new UnreachableCodeException(x);
+    } catch (final JCGLException e) {
+      throw new UnreachableCodeException(e);
     }
   }
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL_ES3();
   }
 }

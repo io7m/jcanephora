@@ -23,6 +23,7 @@ import com.io7m.jcanephora.FramebufferBlitBuffer;
 import com.io7m.jcanephora.FramebufferBlitFilter;
 import com.io7m.jcanephora.FramebufferUsableType;
 import com.io7m.jcanephora.JCGLException;
+import com.io7m.jfunctional.OptionType;
 
 /**
  * Simplified interface to the (read) framebuffer functionality available on
@@ -34,7 +35,7 @@ public interface JCGLFramebuffersReadGL3Type
   /**
    * Copy a region of the current read framebuffer to the current draw
    * framebuffer.
-   * 
+   *
    * @param source
    *          The area of the read framebuffer from which to copy.
    * @param target
@@ -58,7 +59,7 @@ public interface JCGLFramebuffersReadGL3Type
   /**
    * @return <code>true</code> iff any application-created read framebuffer is
    *         currently bound.
-   * 
+   *
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
@@ -70,7 +71,7 @@ public interface JCGLFramebuffersReadGL3Type
    * <p>
    * Bind the given framebuffer <code>framebuffer</code> to the read target.
    * </p>
-   * 
+   *
    * @param framebuffer
    *          The framebuffer.
    * @throws JCGLException
@@ -82,9 +83,20 @@ public interface JCGLFramebuffersReadGL3Type
     throws JCGLException;
 
   /**
+   * @return <code>Some(framebuffer)</code> iff any application-created read
+   *         framebuffer is currently bound.
+   *
+   * @throws JCGLException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  OptionType<FramebufferUsableType> framebufferReadGetBound()
+    throws JCGLException;
+
+  /**
    * @return <code>true</code> iff <code>framebuffer</code> is currently bound
    *         to the read target.
-   * 
+   *
    * @param framebuffer
    *          The framebuffer.
    * @throws JCGLException
@@ -99,7 +111,7 @@ public interface JCGLFramebuffersReadGL3Type
    * <p>
    * Unbind the current framebuffer from the read target.
    * </p>
-   * 
+   *
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
