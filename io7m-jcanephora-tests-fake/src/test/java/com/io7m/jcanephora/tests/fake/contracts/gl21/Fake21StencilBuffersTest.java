@@ -18,12 +18,12 @@ package com.io7m.jcanephora.tests.fake.contracts.gl21;
 
 import org.junit.Assert;
 
-import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.FramebufferType;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
 import com.io7m.jcanephora.api.JCGLFramebuffersCommonType;
 import com.io7m.jcanephora.api.JCGLImplementationType;
 import com.io7m.jcanephora.api.JCGLInterfaceGL2Type;
@@ -61,19 +61,20 @@ public final class Fake21StencilBuffersTest extends StencilBuffersContract
     try {
       final JCGLInterfaceGL2Type g = FakeTestContextUtilities.getGL2(tc);
 
-      final FramebufferType fb = g.framebufferAllocate();
+      final JCGLFramebufferBuilderGL3ES3Type fbb =
+        g.framebufferNewBuilderGL3ES3();
       final RenderbufferType<RenderableColorKind> cb =
         g.renderbufferAllocateRGBA8888(128, 128);
 
-      g.framebufferDrawBind(fb);
-      g.framebufferDrawAttachColorRenderbuffer(fb, cb);
-
-      final FramebufferStatus expect =
-        FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
-      final FramebufferStatus status = g.framebufferDrawValidate(fb);
-      Assert.assertEquals(expect, status);
+      fbb.attachColorRenderbuffer(cb);
+      final FramebufferType fb = g.framebufferAllocate(fbb);
+      Assert.assertTrue(g.framebufferDrawAnyIsBound());
+      Assert.assertTrue(g.framebufferDrawIsBound(fb));
 
       g.framebufferDrawUnbind();
+      Assert.assertFalse(g.framebufferDrawAnyIsBound());
+      Assert.assertFalse(g.framebufferDrawIsBound(fb));
+
       return fb;
     } catch (final JCGLException e) {
       throw new UnreachableCodeException(e);
@@ -87,22 +88,23 @@ public final class Fake21StencilBuffersTest extends StencilBuffersContract
     try {
       final JCGLInterfaceGL2Type g = FakeTestContextUtilities.getGL2(tc);
 
-      final FramebufferType fb = g.framebufferAllocate();
-      final RenderbufferType<RenderableDepthStencilKind> db =
-        g.renderbufferAllocateDepth24Stencil8(128, 128);
+      final JCGLFramebufferBuilderGL3ES3Type fbb =
+        g.framebufferNewBuilderGL3ES3();
       final RenderbufferType<RenderableColorKind> cb =
         g.renderbufferAllocateRGBA8888(128, 128);
+      final RenderbufferType<RenderableDepthStencilKind> db =
+        g.renderbufferAllocateDepth24Stencil8(128, 128);
 
-      g.framebufferDrawBind(fb);
-      g.framebufferDrawAttachColorRenderbuffer(fb, cb);
-      g.framebufferDrawAttachDepthStencilRenderbuffer(fb, db);
-
-      final FramebufferStatus expect =
-        FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
-      final FramebufferStatus status = g.framebufferDrawValidate(fb);
-      Assert.assertEquals(expect, status);
+      fbb.attachColorRenderbuffer(cb);
+      fbb.attachDepthStencilRenderbuffer(db);
+      final FramebufferType fb = g.framebufferAllocate(fbb);
+      Assert.assertTrue(g.framebufferDrawAnyIsBound());
+      Assert.assertTrue(g.framebufferDrawIsBound(fb));
 
       g.framebufferDrawUnbind();
+      Assert.assertFalse(g.framebufferDrawAnyIsBound());
+      Assert.assertFalse(g.framebufferDrawIsBound(fb));
+
       return fb;
     } catch (final JCGLException e) {
       throw new UnreachableCodeException(e);

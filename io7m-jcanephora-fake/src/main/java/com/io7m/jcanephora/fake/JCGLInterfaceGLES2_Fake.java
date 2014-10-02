@@ -61,7 +61,6 @@ import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthKind;
 import com.io7m.jcanephora.RenderableStencilKind;
 import com.io7m.jcanephora.RenderbufferType;
-import com.io7m.jcanephora.RenderbufferUsableType;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.Texture2DStaticType;
@@ -82,6 +81,7 @@ import com.io7m.jcanephora.api.JCGLExtensionDepthCubeTextureType;
 import com.io7m.jcanephora.api.JCGLExtensionDepthTextureType;
 import com.io7m.jcanephora.api.JCGLExtensionESDepthTextureType;
 import com.io7m.jcanephora.api.JCGLExtensionPackedDepthStencilType;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderType;
 import com.io7m.jcanephora.api.JCGLInterfaceGLES2Type;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.api.JCGLShadersParametersType;
@@ -208,9 +208,7 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
         this.color_points,
         this.draw_buffers,
         this.meta,
-        this.renderbuffers,
-        extensions,
-        this.textures2d);
+        extensions);
     this.depth = new FakeDepthBuffer(in_context, this.framebuffers);
     this.stencil = new FakeStencil(in_context, this.framebuffers, this.log);
   }
@@ -539,10 +537,11 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     this.program.fragmentShaderDelete(id);
   }
 
-  @Override public FramebufferType framebufferAllocate()
+  @Override public FramebufferType framebufferAllocate(
+    final JCGLFramebufferBuilderType b)
     throws JCGLException
   {
-    return this.framebuffers.framebufferAllocate();
+    return this.framebuffers.framebufferAllocate(b);
   }
 
   @Override public void framebufferDelete(
@@ -556,68 +555,6 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     throws JCGLException
   {
     return this.framebuffers.framebufferDrawAnyIsBound();
-  }
-
-  @Override public void framebufferDrawAttachColorRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableColorKind> renderbuffer)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachColorRenderbuffer(
-      framebuffer,
-      renderbuffer);
-  }
-
-  @Override public void framebufferDrawAttachColorTexture2D(
-    final FramebufferType framebuffer,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachColorTexture2D(
-      framebuffer,
-      texture);
-  }
-
-  @Override public void framebufferDrawAttachColorTextureCube(
-    final FramebufferType framebuffer,
-    final TextureCubeStaticUsableType texture,
-    final CubeMapFaceLH face)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachColorTextureCube(
-      framebuffer,
-      texture,
-      face);
-  }
-
-  @Override public void framebufferDrawAttachDepthRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableDepthKind> renderbuffer)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachDepthRenderbuffer(
-      framebuffer,
-      renderbuffer);
-  }
-
-  @Override public void framebufferDrawAttachDepthTexture2D(
-    final FramebufferType framebuffer,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachDepthTexture2D(
-      framebuffer,
-      texture);
-  }
-
-  @Override public void framebufferDrawAttachStencilRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableStencilKind> renderbuffer)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachStencilRenderbuffer(
-      framebuffer,
-      renderbuffer);
   }
 
   @Override public void framebufferDrawBind(
@@ -661,6 +598,11 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
       throws JCGLException
   {
     return this.framebuffers.framebufferGetDrawBuffers();
+  }
+
+  @Override public JCGLFramebufferBuilderType framebufferNewBuilder()
+  {
+    return this.framebuffers.framebufferNewBuilder();
   }
 
   @Override public IndexBufferType indexBufferAllocate(
@@ -808,6 +750,11 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     throws JCGLException
   {
     return this.program.programGetMaximumActiveAttributes();
+  }
+
+  @Override public JCGLShadersParametersType programGetUncheckedInterface()
+  {
+    return this.program.programGetUncheckedInterface();
   }
 
   @Override public boolean programIsActive(
@@ -1292,8 +1239,11 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     this.viewport.viewportSet(area);
   }
 
-  @Override public JCGLShadersParametersType programGetUncheckedInterface()
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferDrawGetBound()
+      throws JCGLException
   {
-    return this.program.programGetUncheckedInterface();
+    return this.framebuffers.framebufferDrawGetBound();
   }
 }

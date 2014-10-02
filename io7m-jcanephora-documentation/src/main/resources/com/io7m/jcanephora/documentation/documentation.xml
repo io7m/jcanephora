@@ -1641,14 +1641,33 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
           <s:term s:type="term">color</s:term> attachments.
         </s:paragraph>
         <s:paragraph>
-          Allocating a new framebuffer is trivial:
+          In <s:term s:type="package">jcanephora</s:term>, framebuffers
+          are created via mutable builders which are then passed to the
+          API functions, resulting in immutable framebuffers
+          <s:footnote>
+            That is, the framebuffer attachments cannot be reconfigured 
+            once the framebuffer is created. This matches the typical
+            use patterns with regards to framebuffers and is also a
+            design choice taken from practical experience: On most OpenGL
+            implementations, reconfiguring a framebuffer is a rather
+            expensive operation.
+          </s:footnote>. 
+          The functionality of framebuffers common to all implementations 
+          of OpenGL is exposed via the 
+          <s:link-external s:target="apidocs/com/io7m/jcanephora/api/JCGLFramebufferBuilderType.html">JCGLFramebufferBuilderType</s:link-external>
+          type. The extra functionality exposed by framebuffers
+          in OpenGL 3.* and ES3 is exposed via the
+          <s:link-external s:target="apidocs/com/io7m/jcanephora/api/JCGLFramebufferBuilderGL3ES3Type.html">JCGLFramebufferBuilderGL3ES3Type</s:link-external>
+          type.
         </s:paragraph>
         <s:formal-item s:kind="examples">
-          <s:formal-item-title>Framebuffer allocation</s:formal-item-title>
+          <s:formal-item-title>Framebuffer builder</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLFramebuffersCommonType g;
+JCGLFramebufferBuilderType b = g.framebufferNewBuilder();
 
-FramebufferType f = g.framebufferAllocate();
+JCGLFramebuffersGL3Type g3;
+JCGLFramebufferBuilderGL3ES3Type b3 = g3.framebufferNewBuilderGL3ES3();
 ]]></s:verbatim>
         </s:formal-item>
         <s:paragraph>
@@ -1821,13 +1840,17 @@ List<FramebufferColorAttachmentPointType> points = g.framebufferGetColorAttachme
 ]]></s:verbatim>
         </s:formal-item>
         <s:paragraph>
-          The programmer must pass values of type <s:term s:type="type">FramebufferColorAttachmentPointType</s:term>
+          The programmer must pass values of type 
+          <s:link-external s:target="apidocs/com/io7m/jcanephora/FramebufferColorAttachmentPointType.html">FramebufferColorAttachmentPointType</s:link-external>
           to various attachment functions and is therefore statically prevented from
           trying to use more color attachments than the OpenGL implementation allows.
         </s:paragraph>
         <s:paragraph>
           After allocating a color and depth/stencil renderbuffer, the buffers must
-          be attached at the relevant attachment points:
+          be attached at the relevant attachment points. The builders also contain 
+          functions that do not take an explicit attachment point: They will implicitly
+          attach any given color attachment to the first (and possibly only) color
+          attachment point.
         </s:paragraph>
         <s:formal-item s:kind="examples">
           <s:formal-item-title>Framebuffer attachments</s:formal-item-title>
@@ -1839,14 +1862,14 @@ List<FramebufferColorAttachmentPointType> points = g.framebufferGetColorAttachme
 RenderbufferType<RenderableDepthStencilKind> rd = gr.renderbufferAllocateDepth24Stencil8(640, 480);
 RenderbufferType<RenderableColorKind> rc = renderbufferAllocateRGB888(640, 480);
 
-FramebufferType f = g.framebufferAllocate();
-g.framebufferDrawAttachColorRenderbufferAt(f, points.get(0), rc);
-g.framebufferDrawAttachDepthStencilRenderbuffer(f, rd);
+JCGLFramebufferBuilderGL3SE3Type b = g.framebufferNewBuilderGL3ES3();
+b.attachColorRenderbuffer(rc);
+b.attachDepthStencilRenderbuffer(rd);
 ]]></s:verbatim>
         </s:formal-item>
         <s:paragraph>
-          It's then necessary to associate the framebuffer's draw buffers with
-          color attachments. That is, it's neccesary to state that if a fragment
+          When using multiple draw buffers, it's necessary to associate the framebuffer's 
+          draw buffers with color attachments. That is, it's neccesary to state that if a fragment
           shader writes to a given numbered buffer <s:term s:type="variable">B</s:term>
           when the framebuffer is bound, then that data will be written to color
           attachment <s:term s:type="variable">C</s:term>. As with color attachments,
@@ -1860,7 +1883,7 @@ g.framebufferDrawAttachDepthStencilRenderbuffer(f, rd);
           <s:formal-item-title>Framebuffer attachment/buffer mappings</s:formal-item-title>
           <s:verbatim><![CDATA[
 JCGLFramebuffersGL3Type g;
-FramebufferType f;
+JCGLFramebufferBuilderGL3SE3Type b;
 
 List<FramebufferDrawBuffer> buffers = g.framebufferGetDrawBuffers();
 List<FramebufferColorAttachmentPoint> points = g.framebufferGetColorAttachmentPoints();
@@ -1869,29 +1892,33 @@ Map<FramebufferDrawBufferType, FramebufferColorAttachmentPointType> mappings =
   new HashMap<FramebufferDrawBufferType, FramebufferColorAttachmentPointType>();
 mappings.put(buffers.get(0), points.get(0));
 
-g.framebufferDrawSetBuffers(f, mappings);
+b.setDrawBufferMappings(mappings);
 ]]></s:verbatim>
         </s:formal-item>
         <s:paragraph>
-          Finally, the framebuffer configuration should be validated to ensure
-          that the configuration is correct and supported. If the
-          validation function returns any status other than
-          <s:term s:type="constant">FRAMEBUFFER_STATUS_COMPLETE</s:term>, then
-          the framebuffer is incorrectly constructed or unsupported by the
-          current implementation, and cannot be used.
+          If no draw buffer mappings are specified, the default mappings associate
+          draw buffer 0 with color attachment 0, mapping all other draw buffers to
+          <s:term s:type="constant">GL_NONE</s:term> (meaning that any data written
+          to the other draw buffers will go nowhere).
+        </s:paragraph>
+        <s:paragraph>
+          To actually allocate a framebuffer, the mutable builder is passed to
+          an allocation function:
         </s:paragraph>
         <s:formal-item s:kind="examples">
-          <s:formal-item-title>Framebuffer validation</s:formal-item-title>
+          <s:formal-item-title>Framebuffer attachment/buffer mappings</s:formal-item-title>
           <s:verbatim><![CDATA[
-JCGLFramebuffersGL3Type g;
-FramebufferType f;
+JCGLFramebuffersType g;
+JCGLFramebufferBuilderType b;
 
-FramebufferStatus status = g.framebufferDrawValidate(f);
-if (status != FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE) {
-  // Handle failure...
-}
+FramebufferType f = g.framebufferAllocate(b);
 ]]></s:verbatim>
         </s:formal-item>
+        <s:paragraph>
+          The function validates the framebuffer configuration upon allocation,
+          raising an exception if the framebuffer is not usable on the current
+          OpenGL implementation.
+        </s:paragraph>
         <s:paragraph>
           To render to the framebuffer, the framebuffer must be bound:
         </s:paragraph>

@@ -27,7 +27,6 @@ import org.junit.Test;
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FramebufferBlitBuffer;
 import com.io7m.jcanephora.FramebufferBlitFilter;
-import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.FramebufferType;
 import com.io7m.jcanephora.FramebufferUsableType;
 import com.io7m.jcanephora.JCGLException;
@@ -37,6 +36,7 @@ import com.io7m.jcanephora.JCGLExceptionParameterError;
 import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthKind;
 import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
 import com.io7m.jcanephora.api.JCGLFramebuffersGL3Type;
 import com.io7m.jcanephora.api.JCGLRenderbuffersGL3ES3Type;
 import com.io7m.jcanephora.tests.TestContext;
@@ -58,14 +58,11 @@ import com.io7m.jranges.RangeInclusiveL;
     final RenderbufferType<RenderableDepthKind> rbd =
       r.renderbufferAllocateDepth24(128, 128);
 
-    final FramebufferType fb = g.framebufferAllocate();
-    g.framebufferDrawBind(fb);
-    g.framebufferDrawAttachColorRenderbuffer(fb, rbc);
-    g.framebufferDrawAttachDepthRenderbuffer(fb, rbd);
-    final FramebufferStatus s = g.framebufferDrawValidate(fb);
-    Assert.assertEquals(FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE, s);
-    g.framebufferDrawUnbind();
-    return fb;
+    final JCGLFramebufferBuilderGL3ES3Type fbb =
+      g.framebufferNewBuilderGL3ES3();
+    fbb.attachColorRenderbuffer(rbc);
+    fbb.attachDepthRenderbuffer(rbd);
+    return g.framebufferAllocate(fbb);
   }
 
   @Before public final void checkSupport()
@@ -244,7 +241,10 @@ import com.io7m.jranges.RangeInclusiveL;
   {
     final TestContext tc = this.newTestContext();
     final JCGLFramebuffersGL3Type g = this.getFramebuffersGL3(tc);
-    final FramebufferType fb = g.framebufferAllocate();
+    final FramebufferType fb =
+      FramebufferReadGL3Contract.makeFramebuffer(
+        g,
+        this.getRenderbuffersGL3(tc));
     g.framebufferDelete(fb);
     g.framebufferReadBind(fb);
   }

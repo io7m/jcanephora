@@ -14,87 +14,66 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl.contracts.jogl3p;
+package com.io7m.jcanephora.tests.jogl.contracts.jogles3;
 
 import org.junit.Assert;
 
 import com.io7m.jcanephora.FramebufferType;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.api.JCGLDepthBufferType;
 import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
 import com.io7m.jcanephora.api.JCGLFramebuffersCommonType;
 import com.io7m.jcanephora.api.JCGLImplementationType;
-import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
-import com.io7m.jcanephora.api.JCGLStencilBufferType;
+import com.io7m.jcanephora.api.JCGLInterfaceGLES3Type;
 import com.io7m.jcanephora.tests.TestContext;
-import com.io7m.jcanephora.tests.contracts.StencilBuffersContract;
+import com.io7m.jcanephora.tests.contracts.DepthBuffersContract;
 import com.io7m.jcanephora.tests.jogl.JOGLTestContext;
 import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 import com.io7m.junreachable.UnreachableCodeException;
 
-public final class JOGL3pStencilBuffersTest extends StencilBuffersContract
+public final class JOGLES3DepthBuffersTest extends DepthBuffersContract
 {
+  @Override public JCGLDepthBufferType getGLDepthBuffer(
+    final TestContext tc)
+  {
+    return JOGLTestContextUtilities.getGLES3(tc);
+  }
+
   @Override public JCGLFramebuffersCommonType getGLFramebuffers(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
-  }
-
-  @Override public JCGLStencilBufferType getGLStencilBuffer(
-    final TestContext tc)
-  {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGLES3(tc);
   }
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3pSupported();
+    return JOGLTestContext.isOpenGLES3Supported();
   }
 
-  @Override public FramebufferType makeFramebufferWithoutStencil(
+  @Override public FramebufferType makeFramebufferWithDepth(
     final TestContext tc,
     final JCGLImplementationType gi)
   {
     try {
-      final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
-
-      final JCGLFramebufferBuilderGL3ES3Type fbb =
-        g.framebufferNewBuilderGL3ES3();
-      final RenderbufferType<RenderableColorKind> cb =
-        g.renderbufferAllocateRGBA8888(128, 128);
-
-      fbb.attachColorRenderbuffer(cb);
-      final FramebufferType fb = g.framebufferAllocate(fbb);
-      Assert.assertTrue(g.framebufferDrawAnyIsBound());
-      Assert.assertTrue(g.framebufferDrawIsBound(fb));
-
-      g.framebufferDrawUnbind();
+      final JCGLInterfaceGLES3Type g = JOGLTestContextUtilities.getGLES3(tc);
       Assert.assertFalse(g.framebufferDrawAnyIsBound());
-      Assert.assertFalse(g.framebufferDrawIsBound(fb));
-      return fb;
-    } catch (final Throwable x) {
-      throw new UnreachableCodeException(x);
-    }
-  }
-
-  @Override public FramebufferType makeFramebufferWithStencil(
-    final TestContext tc,
-    final JCGLImplementationType gi)
-  {
-    try {
-      final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
 
       final JCGLFramebufferBuilderGL3ES3Type fbb =
         g.framebufferNewBuilderGL3ES3();
-      final RenderbufferType<RenderableColorKind> cb =
-        g.renderbufferAllocateRGBA8888(128, 128);
+
       final RenderbufferType<RenderableDepthStencilKind> db =
         g.renderbufferAllocateDepth24Stencil8(128, 128);
+      final RenderbufferType<RenderableColorKind> cb =
+        g.renderbufferAllocateRGBA8888(128, 128);
 
       fbb.attachColorRenderbuffer(cb);
       fbb.attachDepthStencilRenderbuffer(db);
       final FramebufferType fb = g.framebufferAllocate(fbb);
+
+      g.framebufferDrawBind(fb);
       Assert.assertTrue(g.framebufferDrawAnyIsBound());
       Assert.assertTrue(g.framebufferDrawIsBound(fb));
 
@@ -103,13 +82,41 @@ public final class JOGL3pStencilBuffersTest extends StencilBuffersContract
       Assert.assertFalse(g.framebufferDrawIsBound(fb));
 
       return fb;
-    } catch (final Throwable x) {
-      throw new UnreachableCodeException(x);
+    } catch (final JCGLException e) {
+      throw new UnreachableCodeException(e);
+    }
+  }
+
+  @Override public FramebufferType makeFramebufferWithoutDepth(
+    final TestContext tc,
+    final JCGLImplementationType gi)
+  {
+    try {
+      final JCGLInterfaceGLES3Type g = JOGLTestContextUtilities.getGLES3(tc);
+      Assert.assertFalse(g.framebufferDrawAnyIsBound());
+
+      final JCGLFramebufferBuilderGL3ES3Type fbb =
+        g.framebufferNewBuilderGL3ES3();
+      final RenderbufferType<RenderableColorKind> cb =
+        g.renderbufferAllocateRGBA8888(128, 128);
+
+      fbb.attachColorRenderbuffer(cb);
+      final FramebufferType fb = g.framebufferAllocate(fbb);
+      Assert.assertTrue(g.framebufferDrawAnyIsBound());
+      Assert.assertTrue(g.framebufferDrawIsBound(fb));
+
+      g.framebufferDrawUnbind();
+      Assert.assertFalse(g.framebufferDrawAnyIsBound());
+      Assert.assertFalse(g.framebufferDrawIsBound(fb));
+
+      return fb;
+    } catch (final JCGLException e) {
+      throw new UnreachableCodeException(e);
     }
   }
 
   @Override public TestContext newTestContext()
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL_ES3();
   }
 }

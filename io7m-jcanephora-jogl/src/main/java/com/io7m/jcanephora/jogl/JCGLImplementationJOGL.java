@@ -48,9 +48,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
   @SuppressWarnings("synthetic-access") private static final class Builder implements
     JCGLImplementationJOGLBuilderType
   {
-    private JCGLSoftRestrictionsType restrictions;
-    private boolean                  debugging;
     private boolean                  caching;
+    private boolean                  debugging;
+    private JCGLSoftRestrictionsType restrictions;
     private OptionType<PrintStream>  tracing;
 
     public Builder()

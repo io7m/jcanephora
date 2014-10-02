@@ -20,7 +20,8 @@
   font-weight: bold;
 }
 
-.emphasis
+.emphasis,
+.term
 {
   font-style: italic;
 }

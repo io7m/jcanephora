@@ -25,13 +25,20 @@ import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.FramebufferBlitBuffer;
 import com.io7m.jcanephora.FramebufferBlitFilter;
 import com.io7m.jcanephora.FramebufferColorAttachmentPointType;
+import com.io7m.jcanephora.FramebufferColorAttachmentType;
+import com.io7m.jcanephora.FramebufferColorAttachmentVisitorType;
+import com.io7m.jcanephora.FramebufferDepthAttachmentType;
+import com.io7m.jcanephora.FramebufferDepthAttachmentVisitorType;
+import com.io7m.jcanephora.FramebufferDepthStencilAttachmentType;
+import com.io7m.jcanephora.FramebufferDepthStencilAttachmentVisitorType;
 import com.io7m.jcanephora.FramebufferDrawBufferType;
 import com.io7m.jcanephora.FramebufferStatus;
+import com.io7m.jcanephora.FramebufferStencilAttachmentType;
+import com.io7m.jcanephora.FramebufferStencilAttachmentVisitorType;
 import com.io7m.jcanephora.FramebufferType;
 import com.io7m.jcanephora.FramebufferUsableType;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionDeleted;
-import com.io7m.jcanephora.JCGLExceptionFormatError;
 import com.io7m.jcanephora.JCGLExceptionFramebufferNotBound;
 import com.io7m.jcanephora.JCGLExceptionParameterError;
 import com.io7m.jcanephora.JCGLExceptionWrongContext;
@@ -39,14 +46,20 @@ import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthKind;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderableStencilKind;
+import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.RenderbufferUsableType;
 import com.io7m.jcanephora.ResourceCheck;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
-import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureFormatMeta;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderType;
 import com.io7m.jcanephora.api.JCGLFramebuffersGL3Type;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
+import com.io7m.jfunctional.FunctionType;
+import com.io7m.jfunctional.Option;
+import com.io7m.jfunctional.OptionType;
+import com.io7m.jfunctional.Unit;
 import com.io7m.jlog.LogLevel;
 import com.io7m.jlog.LogType;
 import com.io7m.jlog.LogUsableType;
@@ -58,8 +71,425 @@ import com.io7m.junreachable.UnimplementedCodeException;
  * The framebuffer API implementation.
  */
 
-public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
+@SuppressWarnings("synthetic-access") public final class FakeFramebuffers implements
+  JCGLFramebuffersGL3Type
 {
+  private static void addColorAttachments(
+    final JCGLFramebufferBuilderType b,
+    final FakeFramebuffer fb,
+    final StringBuilder text,
+    final LogType glog)
+  {
+    final Map<FramebufferColorAttachmentPointType, FramebufferColorAttachmentType> cas =
+      b.getColorAttachments();
+
+    for (final FramebufferColorAttachmentPointType point : cas.keySet()) {
+      assert point != null;
+      final FramebufferColorAttachmentType ca = cas.get(point);
+      assert ca != null;
+
+      ca
+        .colorAttachmentAccept(new FramebufferColorAttachmentVisitorType<Unit, JCGLException>() {
+          @Override public Unit renderbuffer(
+            final RenderbufferUsableType<RenderableColorKind> r)
+          {
+            FakeFramebuffers.addColorRenderbuffer(fb, text, glog, point, r);
+            return Unit.unit();
+          }
+
+          @Override public Unit texture2DStatic(
+            final Texture2DStaticUsableType t)
+          {
+            FakeFramebuffers.addColorTexture2D(fb, text, glog, point, t);
+            return Unit.unit();
+          }
+
+          @Override public Unit textureCubeStatic(
+            final TextureCubeStaticUsableType t,
+            final CubeMapFaceLH face)
+          {
+            FakeFramebuffers.addColorTextureCube(
+              fb,
+              text,
+              glog,
+              point,
+              t,
+              face);
+            return Unit.unit();
+          }
+        });
+    }
+  }
+
+  private static void addColorRenderbuffer(
+    final FakeFramebuffer fb,
+    final StringBuilder text,
+    final LogType glog,
+    final FramebufferColorAttachmentPointType point,
+    final RenderbufferUsableType<RenderableColorKind> r)
+  {
+    RenderbufferFormat.checkColorRenderableRenderbuffer(r);
+
+    if (glog.wouldLog(LogLevel.LOG_DEBUG)) {
+      text.setLength(0);
+      text.append("attach ");
+      text.append(fb);
+      text.append(" ");
+      text.append(r);
+      text.append(" at color attachment ");
+      text.append(point.colorAttachmentPointGetIndex());
+      final String rs = text.toString();
+      assert rs != null;
+      glog.debug(rs);
+    }
+
+    final FakeRenderbuffer<RenderableColorKind> fake_r =
+      (FakeRenderbuffer<RenderableColorKind>) r;
+    fb.setColorRenderbuffer(point.colorAttachmentPointGetIndex(), fake_r);
+  }
+
+  private static void addColorTexture2D(
+    final FakeFramebuffer fake,
+    final StringBuilder text,
+    final LogType glog,
+    final FramebufferColorAttachmentPointType point,
+    final Texture2DStaticUsableType t)
+  {
+    if (glog.wouldLog(LogLevel.LOG_DEBUG)) {
+      text.setLength(0);
+      text.append("attach ");
+      text.append(fake);
+      text.append(" ");
+      text.append(t);
+      text.append(" at color attachment ");
+      text.append(point.colorAttachmentPointGetIndex());
+      final String r = text.toString();
+      assert r != null;
+      glog.debug(r);
+    }
+
+    final FakeTexture2DStatic fake_t = (FakeTexture2DStatic) t;
+    fake.setColorTexture(point.colorAttachmentPointGetIndex(), fake_t);
+  }
+
+  @SuppressWarnings("unused") private static void addColorTextureCube(
+    final FakeFramebuffer fake,
+    final StringBuilder text,
+    final LogType glog,
+    final FramebufferColorAttachmentPointType point,
+    final TextureCubeStaticUsableType t,
+    final CubeMapFaceLH face)
+  {
+    throw new UnimplementedCodeException();
+  }
+
+  private static void addDepthAttachmentIfAny(
+    final JCGLFramebufferBuilderType b,
+    final FakeFramebuffer framebuffer,
+    final StringBuilder text,
+    final LogType glog,
+    final JCGLNamedExtensionsType exts)
+  {
+    b.getDepthAttachment().map(
+      new FunctionType<FramebufferDepthAttachmentType, Unit>() {
+        @Override public Unit call(
+          final FramebufferDepthAttachmentType da)
+        {
+          return da
+            .depthAttachmentAccept(new FramebufferDepthAttachmentVisitorType<Unit, JCGLException>() {
+              @Override public Unit renderbuffer(
+                final RenderbufferUsableType<RenderableDepthKind> r)
+              {
+                FakeFramebuffers.addDepthRenderbuffer(
+                  framebuffer,
+                  text,
+                  glog,
+                  r);
+                return Unit.unit();
+              }
+
+              @Override public Unit texture2DStatic(
+                final Texture2DStaticUsableType t)
+              {
+                FakeFramebuffers.addDepthTexture(
+                  framebuffer,
+                  text,
+                  glog,
+                  t,
+                  exts);
+                return Unit.unit();
+              }
+            });
+        }
+      });
+  }
+
+  private static void addDepthRenderbuffer(
+    final FakeFramebuffer fake,
+    final StringBuilder text,
+    final LogType glog,
+    final RenderbufferUsableType<RenderableDepthKind> r)
+  {
+    RenderbufferFormat.checkDepthOnlyRenderableRenderbuffer(r);
+
+    if (glog.wouldLog(LogLevel.LOG_DEBUG)) {
+      text.setLength(0);
+      text.append("attach ");
+      text.append(fake);
+      text.append(" ");
+      text.append(r);
+      text.append(" at depth attachment");
+      final String rs = text.toString();
+      assert rs != null;
+      glog.debug(rs);
+    }
+
+    final FakeRenderbuffer<RenderableDepthKind> fake_r =
+      (FakeRenderbuffer<RenderableDepthKind>) r;
+    fake.setDepthRenderbuffer(fake_r);
+  }
+
+  private static void addDepthStencilAttachmentIfAny(
+    final JCGLFramebufferBuilderType b,
+    final FakeFramebuffer framebuffer,
+    final StringBuilder text,
+    final LogType glog,
+    final JCGLNamedExtensionsType exts)
+  {
+    b.getDepthStencilAttachment().map(
+      new FunctionType<FramebufferDepthStencilAttachmentType, Unit>() {
+        @Override public Unit call(
+          final FramebufferDepthStencilAttachmentType dsa)
+        {
+          return dsa
+            .depthStencilAttachmentAccept(new FramebufferDepthStencilAttachmentVisitorType<Unit, JCGLException>() {
+              @Override public Unit renderbuffer(
+                final RenderbufferUsableType<RenderableDepthStencilKind> r)
+              {
+                FakeFramebuffers.addDepthStencilRenderbuffer(
+                  framebuffer,
+                  text,
+                  glog,
+                  r);
+                return Unit.unit();
+              }
+
+              @Override public Unit texture2DStatic(
+                final Texture2DStaticUsableType t)
+              {
+                FakeFramebuffers.addDepthStencilTexture2D(
+                  framebuffer,
+                  text,
+                  glog,
+                  t,
+                  exts);
+                return Unit.unit();
+              }
+            });
+        }
+      });
+  }
+
+  private static void addDepthStencilRenderbuffer(
+    final FakeFramebuffer fake,
+    final StringBuilder text,
+    final LogType glog,
+    final RenderbufferUsableType<RenderableDepthStencilKind> r)
+  {
+    RenderbufferFormat.checkDepthStencilRenderableRenderbuffer(r);
+
+    if (glog.wouldLog(LogLevel.LOG_DEBUG)) {
+      text.setLength(0);
+      text.append("attach ");
+      text.append(fake);
+      text.append(" ");
+      text.append(r);
+      text.append(" at depth+stencil attachment");
+      final String rs = text.toString();
+      assert rs != null;
+      glog.debug(rs);
+    }
+
+    final FakeRenderbuffer<RenderableDepthStencilKind> fake_r =
+      (FakeRenderbuffer<RenderableDepthStencilKind>) r;
+    fake.setDepthStencilRenderbuffer(fake_r);
+  }
+
+  private static void addDepthStencilTexture2D(
+    final FakeFramebuffer fake,
+    final StringBuilder text,
+    final LogType glog,
+    final Texture2DStaticUsableType t,
+    final JCGLNamedExtensionsType extensions)
+  {
+    TextureFormatMeta.checkDepthStencilRenderableTexture2D(t, extensions);
+
+    if (glog.wouldLog(LogLevel.LOG_DEBUG)) {
+      text.setLength(0);
+      text.append("attach ");
+      text.append(fake);
+      text.append(" ");
+      text.append(t);
+      text.append(" at depth+stencil attachment");
+      final String r = text.toString();
+      assert r != null;
+      glog.debug(r);
+    }
+
+    final FakeTexture2DStatic fake_t = (FakeTexture2DStatic) t;
+    fake.setDepthStencilTexture2D(fake_t);
+  }
+
+  private static void addDepthTexture(
+    final FakeFramebuffer fake,
+    final StringBuilder text,
+    final LogType glog,
+    final Texture2DStaticUsableType t,
+    final JCGLNamedExtensionsType extensions)
+  {
+    TextureFormatMeta.checkDepthOnlyRenderableTexture2D(t, extensions);
+
+    if (glog.wouldLog(LogLevel.LOG_DEBUG)) {
+      text.setLength(0);
+      text.append("attach ");
+      text.append(fake);
+      text.append(" ");
+      text.append(t);
+      text.append(" at depth attachment");
+      final String r = text.toString();
+      assert r != null;
+      glog.debug(r);
+    }
+
+    final FakeTexture2DStatic fake_t = (FakeTexture2DStatic) t;
+    fake.setDepthTexture2D(fake_t);
+  }
+
+  private static
+    void
+    addDrawBufferMappings(
+      final FakeContext context,
+      final StringBuilder text,
+      final LogType glog,
+      final List<FramebufferDrawBufferType> buffers,
+      final Map<FramebufferDrawBufferType, FramebufferColorAttachmentPointType> mappings)
+  {
+    NullCheck.notNull(mappings, "Draw buffer mappings");
+
+    for (final FramebufferDrawBufferType db : mappings.keySet()) {
+      FakeDrawBuffers.checkDrawBuffer(context, db);
+      final FramebufferColorAttachmentPointType point = mappings.get(db);
+      FakeColorAttachmentPoints.checkColorAttachmentPoint(context, point);
+    }
+
+    for (int index = 0; index < buffers.size(); ++index) {
+      final FramebufferDrawBufferType buffer = buffers.get(index);
+      assert buffer != null;
+
+      if (mappings.containsKey(buffer)) {
+        final FramebufferColorAttachmentPointType attach =
+          mappings.get(buffer);
+
+        if (glog.wouldLog(LogLevel.LOG_DEBUG)) {
+          text.setLength(0);
+          text.append("map ");
+          text.append(buffer);
+          text.append(" to ");
+          text.append(attach);
+          final String r = text.toString();
+          assert r != null;
+          glog.debug(r);
+        }
+      } else {
+        if (glog.wouldLog(LogLevel.LOG_DEBUG)) {
+          text.setLength(0);
+          text.append("map ");
+          text.append(buffer);
+          text.append(" to none");
+          final String r = text.toString();
+          assert r != null;
+          glog.debug(r);
+        }
+      }
+    }
+  }
+
+  private static void addStencilAttachmentIfAny(
+    final JCGLFramebufferBuilderType b,
+    final FakeFramebuffer framebuffer,
+    final StringBuilder text,
+    final LogType glog)
+  {
+    b.getStencilAttachment().map(
+      new FunctionType<FramebufferStencilAttachmentType, Unit>() {
+        @Override public Unit call(
+          final FramebufferStencilAttachmentType sa)
+        {
+          return sa
+            .stencilAttachmentAccept(new FramebufferStencilAttachmentVisitorType<Unit, JCGLException>() {
+              @Override public Unit renderbuffer(
+                final RenderbufferUsableType<RenderableStencilKind> r)
+              {
+                FakeFramebuffers.addStencilRenderbuffer(
+                  framebuffer,
+                  text,
+                  glog,
+                  r);
+                return Unit.unit();
+              }
+
+              @Override public Unit texture2DStatic(
+                final Texture2DStaticUsableType t)
+              {
+                throw new UnimplementedCodeException();
+              }
+            });
+        }
+      });
+  }
+
+  private static void addStencilRenderbuffer(
+    final FakeFramebuffer fake,
+    final StringBuilder text,
+    final LogUsableType glog,
+    final RenderbufferUsableType<RenderableStencilKind> r)
+  {
+    RenderbufferFormat.checkStencilRenderableRenderbuffer(r);
+
+    if (glog.wouldLog(LogLevel.LOG_DEBUG)) {
+      text.setLength(0);
+      text.append("attach ");
+      text.append(fake);
+      text.append(" ");
+      text.append(r);
+      text.append(" at stencil attachment");
+      final String rs = text.toString();
+      assert rs != null;
+      glog.debug(rs);
+    }
+
+    final FakeRenderbuffer<RenderableStencilKind> fake_r =
+      (FakeRenderbuffer<RenderableStencilKind>) r;
+    fake.setStencilRenderbuffer(fake_r);
+  }
+
+  private static void checkBuilder(
+    final JCGLFramebufferBuilderType b)
+  {
+    NullCheck.notNull(b, "Builder");
+
+    if (b.getDepthStencilAttachment().isSome()) {
+      if (b.getDepthAttachment().isSome()) {
+        throw new JCGLExceptionParameterError(
+          "Depth attachment specified but depth+stencil already specified");
+      }
+      if (b.getStencilAttachment().isSome()) {
+        throw new JCGLExceptionParameterError(
+          "Stencil attachment specified but depth+stencil already specified");
+      }
+    }
+  }
+
   /**
    * Check that the given framebuffer:
    * <ul>
@@ -89,9 +519,7 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
   private final FakeMeta                      meta;
   private int                                 pool;
   private @Nullable FakeFramebuffer           read_bind;
-  private final FakeRenderbuffers             renderbuffers;
   private final FakeLogMessageCacheType       tcache;
-  private final FakeTextures2DStatic          textures_2d;
 
   FakeFramebuffers(
     final FakeContext in_context,
@@ -100,19 +528,15 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
     final FakeColorAttachmentPointsType in_color_points,
     final FakeDrawBuffers in_draw_buffers,
     final FakeMeta in_meta,
-    final FakeRenderbuffers in_renderbuffers,
-    final JCGLNamedExtensionsType in_extensions,
-    final FakeTextures2DStatic textures2d)
+    final JCGLNamedExtensionsType in_extensions)
   {
     this.context = NullCheck.notNull(in_context, "Context");
-    this.log = NullCheck.notNull(in_log, "Log").with("index");
+    this.log = NullCheck.notNull(in_log, "Log").with("framebuffers");
     this.tcache = NullCheck.notNull(in_tcache, "Log message cache");
     this.pool = 1;
     this.draw_buffers = NullCheck.notNull(in_draw_buffers, "Draw buffers");
-    this.renderbuffers = NullCheck.notNull(in_renderbuffers, "Renderbuffers");
     this.meta = NullCheck.notNull(in_meta, "Meta");
     this.extensions = NullCheck.notNull(in_extensions, "Extensions");
-    this.textures_2d = NullCheck.notNull(textures2d, "Textures 2D");
     this.color_points =
       NullCheck.notNull(in_color_points, "Color attachment points");
   }
@@ -138,12 +562,37 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
     }
   }
 
-  @Override public FramebufferType framebufferAllocate()
+  @Override public FramebufferType framebufferAllocate(
+    final JCGLFramebufferBuilderType b)
     throws JCGLException
   {
+    FakeFramebuffers.checkBuilder(b);
+
     final int id = this.pool;
     ++this.pool;
-    return new FakeFramebuffer(this.context, this.draw_buffers, id);
+    final FakeFramebuffer fb =
+      new FakeFramebuffer(this.context, this.draw_buffers, id);
+
+    final JCGLNamedExtensionsType exts = this.extensions;
+    final StringBuilder text = this.tcache.getTextCache();
+
+    FakeFramebuffers.addDepthAttachmentIfAny(b, fb, text, this.log, exts);
+    FakeFramebuffers.addStencilAttachmentIfAny(b, fb, text, this.log);
+    FakeFramebuffers.addDepthStencilAttachmentIfAny(
+      b,
+      fb,
+      text,
+      this.log,
+      exts);
+    FakeFramebuffers.addColorAttachments(b, fb, text, this.log);
+    FakeFramebuffers.addDrawBufferMappings(
+      this.context,
+      text,
+      this.log,
+      this.draw_buffers.getDrawBuffers(),
+      b.getDrawBufferMappings());
+
+    return fb;
   }
 
   @Override public void framebufferBlit(
@@ -210,407 +659,20 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
     return this.draw_bind != null;
   }
 
-  @Override public void framebufferDrawAttachColorRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableColorKind> renderbuffer)
-    throws JCGLException
-  {
-    this.checkFramebufferAndDrawIsBound(framebuffer);
-    FakeRenderbuffers.checkRenderbuffer(this.context, renderbuffer);
-
-    if (renderbuffer.renderbufferGetFormat().isColorRenderable() == false) {
-      final String s =
-        String.format(
-          "Renderbuffer %s is not of a color-renderable format",
-          renderbuffer);
-      assert s != null;
-      throw new JCGLExceptionFormatError(s);
-    }
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("attach ");
-      text.append(framebuffer);
-      text.append(" ");
-      text.append(renderbuffer);
-      text.append(" at color attachment 0");
-      final String r = text.toString();
-      assert r != null;
-      this.log.debug(r);
-    }
-
-    final FakeRenderbuffer<RenderableColorKind> fake_r =
-      (FakeRenderbuffer<RenderableColorKind>) renderbuffer;
-    final FakeFramebuffer fake = (FakeFramebuffer) framebuffer;
-    fake.setColorRenderbuffer(0, fake_r);
-  }
-
-  @Override public void framebufferDrawAttachColorRenderbufferAt(
-    final FramebufferType framebuffer,
-    final FramebufferColorAttachmentPointType point,
-    final RenderbufferUsableType<RenderableColorKind> renderbuffer)
-    throws JCGLException
-  {
-    this.checkFramebufferAndDrawIsBound(framebuffer);
-    FakeRenderbuffers.checkRenderbuffer(this.context, renderbuffer);
-
-    if (renderbuffer.renderbufferGetFormat().isColorRenderable() == false) {
-      final String s =
-        String.format(
-          "Renderbuffer %s is not of a color-renderable format",
-          renderbuffer);
-      assert s != null;
-      throw new JCGLExceptionFormatError(s);
-    }
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("attach ");
-      text.append(framebuffer);
-      text.append(" ");
-      text.append(renderbuffer);
-      text.append(" at color attachment ");
-      text.append(point.colorAttachmentPointGetIndex());
-      final String r = text.toString();
-      assert r != null;
-      this.log.debug(r);
-    }
-
-    final FakeRenderbuffer<RenderableColorKind> fake_r =
-      (FakeRenderbuffer<RenderableColorKind>) renderbuffer;
-    final FakeFramebuffer fake = (FakeFramebuffer) framebuffer;
-    fake.setColorRenderbuffer(point.colorAttachmentPointGetIndex(), fake_r);
-  }
-
-  @Override public void framebufferDrawAttachColorTexture2D(
-    final FramebufferType framebuffer,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.checkFramebufferAndDrawIsBound(framebuffer);
-    FakeTextures2DStatic.checkTexture(this.context, texture);
-
-    if (TextureFormatMeta.isColorRenderable2D(
-      texture.textureGetFormat(),
-      this.meta.metaGetVersion(),
-      this.extensions) == false) {
-      final String s =
-        String.format(
-          "Texture %s is not of a color-renderable format",
-          texture);
-      assert s != null;
-      throw new JCGLExceptionFormatError(s);
-    }
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("attach ");
-      text.append(framebuffer);
-      text.append(" ");
-      text.append(texture);
-      text.append(" at color attachment 0");
-      final String r = text.toString();
-      assert r != null;
-      this.log.debug(r);
-    }
-
-    final FakeTexture2DStatic fake_t = (FakeTexture2DStatic) texture;
-    final FakeFramebuffer fake = (FakeFramebuffer) framebuffer;
-    fake.setColorTexture(0, fake_t);
-  }
-
-  @Override public void framebufferDrawAttachColorTexture2DAt(
-    final FramebufferType framebuffer,
-    final FramebufferColorAttachmentPointType point,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.checkFramebufferAndDrawIsBound(framebuffer);
-    FakeTextures2DStatic.checkTexture(this.context, texture);
-
-    if (TextureFormatMeta.isColorRenderable2D(
-      texture.textureGetFormat(),
-      this.meta.metaGetVersion(),
-      this.extensions) == false) {
-      final String s =
-        String.format(
-          "Texture %s is not of a color-renderable format",
-          texture);
-      assert s != null;
-      throw new JCGLExceptionFormatError(s);
-    }
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("attach ");
-      text.append(framebuffer);
-      text.append(" ");
-      text.append(texture);
-      text.append(" at color attachment 0");
-      final String r = text.toString();
-      assert r != null;
-      this.log.debug(r);
-    }
-
-    final FakeTexture2DStatic fake_t = (FakeTexture2DStatic) texture;
-    final FakeFramebuffer fake = (FakeFramebuffer) framebuffer;
-    fake.setColorTexture(point.colorAttachmentPointGetIndex(), fake_t);
-  }
-
-  @Override public void framebufferDrawAttachColorTextureCube(
-    final FramebufferType framebuffer,
-    final TextureCubeStaticUsableType texture,
-    final CubeMapFaceLH face)
-    throws JCGLException
-  {
-    // TODO Auto-generated method stub
-    throw new UnimplementedCodeException();
-  }
-
-  @Override public void framebufferDrawAttachColorTextureCubeAt(
-    final FramebufferType framebuffer,
-    final FramebufferColorAttachmentPointType point,
-    final TextureCubeStaticUsableType texture,
-    final CubeMapFaceLH face)
-    throws JCGLException
-  {
-    // TODO Auto-generated method stub
-    throw new UnimplementedCodeException();
-  }
-
-  @Override public void framebufferDrawAttachDepthRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableDepthKind> renderbuffer)
-    throws JCGLException
-  {
-    this.checkFramebufferAndDrawIsBound(framebuffer);
-    FakeRenderbuffers.checkRenderbuffer(this.context, renderbuffer);
-
-    switch (renderbuffer.renderbufferGetFormat()) {
-      case RENDERBUFFER_COLOR_RGBA_4444:
-      case RENDERBUFFER_COLOR_RGBA_5551:
-      case RENDERBUFFER_COLOR_RGBA_8888:
-      case RENDERBUFFER_COLOR_RGB_565:
-      case RENDERBUFFER_COLOR_RGB_888:
-      case RENDERBUFFER_STENCIL_8:
-      {
-        final String s =
-          String.format(
-            "Renderbuffer %s is not of a depth-renderable format",
-            renderbuffer);
-        assert s != null;
-        throw new JCGLExceptionFormatError(s);
-      }
-      case RENDERBUFFER_DEPTH_16:
-      case RENDERBUFFER_DEPTH_24:
-      case RENDERBUFFER_DEPTH_24_STENCIL_8:
-      {
-        break;
-      }
-    }
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("attach ");
-      text.append(framebuffer);
-      text.append(" ");
-      text.append(renderbuffer);
-      text.append(" at depth attachment");
-      final String r = text.toString();
-      assert r != null;
-      this.log.debug(r);
-    }
-
-    final FakeRenderbuffer<RenderableDepthKind> fake_r =
-      (FakeRenderbuffer<RenderableDepthKind>) renderbuffer;
-    final FakeFramebuffer fake = (FakeFramebuffer) framebuffer;
-    fake.setDepthRenderbuffer(fake_r);
-  }
-
-  @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
-    throws JCGLException
-  {
-    this.checkFramebufferAndDrawIsBound(framebuffer);
-    FakeRenderbuffers.checkRenderbuffer(this.context, renderbuffer);
-
-    switch (renderbuffer.renderbufferGetFormat()) {
-      case RENDERBUFFER_COLOR_RGBA_4444:
-      case RENDERBUFFER_COLOR_RGBA_5551:
-      case RENDERBUFFER_COLOR_RGBA_8888:
-      case RENDERBUFFER_COLOR_RGB_565:
-      case RENDERBUFFER_COLOR_RGB_888:
-      case RENDERBUFFER_DEPTH_16:
-      case RENDERBUFFER_DEPTH_24:
-      case RENDERBUFFER_STENCIL_8:
-      {
-        final String s =
-          String.format(
-            "Renderbuffer %s is not of a depth+stencil-renderable format",
-            renderbuffer);
-        assert s != null;
-        throw new JCGLExceptionFormatError(s);
-      }
-      case RENDERBUFFER_DEPTH_24_STENCIL_8:
-      {
-        break;
-      }
-    }
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("attach ");
-      text.append(framebuffer);
-      text.append(" ");
-      text.append(renderbuffer);
-      text.append(" at depth+stencil attachment");
-      final String r = text.toString();
-      assert r != null;
-      this.log.debug(r);
-    }
-
-    final FakeRenderbuffer<RenderableDepthStencilKind> fake_r =
-      (FakeRenderbuffer<RenderableDepthStencilKind>) renderbuffer;
-    final FakeFramebuffer fake = (FakeFramebuffer) framebuffer;
-    fake.setDepthStencilRenderbuffer(fake_r);
-  }
-
-  @Override public void framebufferDrawAttachDepthStencilTexture2D(
-    final FramebufferType framebuffer,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.checkFramebufferAndDrawIsBound(framebuffer);
-    FakeTextures2DStatic.checkTexture(this.context, texture);
-
-    final TextureFormat format = texture.textureGetFormat();
-    if ((TextureFormatMeta.isDepthRenderable2D(format, this.extensions) && TextureFormatMeta
-      .isStencilRenderable(format)) == false) {
-      final String s =
-        String.format(
-          "Texture %s is not of a depth+stencil-renderable format",
-          texture);
-      assert s != null;
-      throw new JCGLExceptionFormatError(s);
-    }
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("attach ");
-      text.append(framebuffer);
-      text.append(" ");
-      text.append(texture);
-      text.append(" at depth+stencil attachment");
-      final String r = text.toString();
-      assert r != null;
-      this.log.debug(r);
-    }
-
-    final FakeTexture2DStatic fake_t = (FakeTexture2DStatic) texture;
-    final FakeFramebuffer fake = (FakeFramebuffer) framebuffer;
-    fake.setDepthStencilTexture2D(fake_t);
-  }
-
-  @Override public void framebufferDrawAttachDepthTexture2D(
-    final FramebufferType framebuffer,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.checkFramebufferAndDrawIsBound(framebuffer);
-    FakeTextures2DStatic.checkTexture(this.context, texture);
-
-    final TextureFormat format = texture.textureGetFormat();
-    if (TextureFormatMeta.isDepthRenderable2D(format, this.extensions) == false) {
-      final String s =
-        String.format(
-          "Texture %s is not of a depth-renderable format",
-          texture);
-      assert s != null;
-      throw new JCGLExceptionFormatError(s);
-    }
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("attach ");
-      text.append(framebuffer);
-      text.append(" ");
-      text.append(texture);
-      text.append(" at depth attachment");
-      final String r = text.toString();
-      assert r != null;
-      this.log.debug(r);
-    }
-
-    final FakeTexture2DStatic fake_t = (FakeTexture2DStatic) texture;
-    final FakeFramebuffer fake = (FakeFramebuffer) framebuffer;
-    fake.setDepthTexture2D(fake_t);
-  }
-
-  @Override public void framebufferDrawAttachStencilRenderbuffer(
-    final FramebufferType framebuffer,
-    final RenderbufferUsableType<RenderableStencilKind> renderbuffer)
-    throws JCGLException
-  {
-    this.checkFramebufferAndDrawIsBound(framebuffer);
-    FakeRenderbuffers.checkRenderbuffer(this.context, renderbuffer);
-
-    switch (renderbuffer.renderbufferGetFormat()) {
-      case RENDERBUFFER_COLOR_RGBA_4444:
-      case RENDERBUFFER_COLOR_RGBA_5551:
-      case RENDERBUFFER_COLOR_RGBA_8888:
-      case RENDERBUFFER_COLOR_RGB_565:
-      case RENDERBUFFER_COLOR_RGB_888:
-      case RENDERBUFFER_DEPTH_16:
-      case RENDERBUFFER_DEPTH_24:
-      case RENDERBUFFER_DEPTH_24_STENCIL_8:
-      {
-        final String s =
-          String.format(
-            "Renderbuffer %s is not of a stencil-renderable format",
-            renderbuffer);
-        assert s != null;
-        throw new JCGLExceptionFormatError(s);
-      }
-      case RENDERBUFFER_STENCIL_8:
-      {
-        break;
-      }
-    }
-
-    final StringBuilder text = this.tcache.getTextCache();
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("attach ");
-      text.append(framebuffer);
-      text.append(" ");
-      text.append(renderbuffer);
-      text.append(" at stencil attachment");
-      final String r = text.toString();
-      assert r != null;
-      this.log.debug(r);
-    }
-
-    final FakeRenderbuffer<RenderableStencilKind> fake_r =
-      (FakeRenderbuffer<RenderableStencilKind>) renderbuffer;
-    final FakeFramebuffer fake = (FakeFramebuffer) framebuffer;
-    fake.setStencilRenderbuffer(fake_r);
-  }
-
   @Override public void framebufferDrawBind(
     final FramebufferUsableType framebuffer)
     throws JCGLException
   {
     FakeFramebuffers.checkFramebuffer(this.context, framebuffer);
     this.draw_bind = (FakeFramebuffer) framebuffer;
+  }
+
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferDrawGetBound()
+      throws JCGLException
+  {
+    return Option.of((FramebufferUsableType) this.draw_bind);
   }
 
   @Override public boolean framebufferDrawIsBound(
@@ -624,59 +686,6 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
       return false;
     }
     return b.equals(framebuffer);
-  }
-
-  @Override public
-    void
-    framebufferDrawSetBuffers(
-      final FramebufferType framebuffer,
-      final Map<FramebufferDrawBufferType, FramebufferColorAttachmentPointType> mappings)
-      throws JCGLException
-  {
-    this.checkFramebufferAndDrawIsBound(framebuffer);
-    NullCheck.notNull(mappings, "Draw buffer mappings");
-
-    for (final FramebufferDrawBufferType db : mappings.keySet()) {
-      FakeDrawBuffers.checkDrawBuffer(this.context, db);
-      final FramebufferColorAttachmentPointType point = mappings.get(db);
-      FakeColorAttachmentPoints
-        .checkColorAttachmentPoint(this.context, point);
-    }
-
-    final List<FramebufferDrawBufferType> buffers =
-      this.draw_buffers.getDrawBuffers();
-    final StringBuilder text = this.tcache.getTextCache();
-
-    for (int index = 0; index < buffers.size(); ++index) {
-      final FramebufferDrawBufferType buffer = buffers.get(index);
-      assert buffer != null;
-
-      if (mappings.containsKey(buffer)) {
-        final FramebufferColorAttachmentPointType attach =
-          mappings.get(buffer);
-
-        if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-          text.setLength(0);
-          text.append("map ");
-          text.append(buffer);
-          text.append(" to ");
-          text.append(attach);
-          final String r = text.toString();
-          assert r != null;
-          this.log.debug(r);
-        }
-      } else {
-        if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-          text.setLength(0);
-          text.append("map ");
-          text.append(buffer);
-          text.append(" to none");
-          final String r = text.toString();
-          assert r != null;
-          this.log.debug(r);
-        }
-      }
-    }
   }
 
   @Override public void framebufferDrawUnbind()
@@ -726,6 +735,26 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
     return this.draw_buffers.getDrawBuffers();
   }
 
+  @Override public JCGLFramebufferBuilderType framebufferNewBuilder()
+  {
+    return new FakeFramebufferBuilder(
+      this.color_points.getColorAttachmentPoints(),
+      this.draw_buffers.getDrawBuffers(),
+      this.extensions,
+      this.meta.metaGetVersion());
+  }
+
+  @Override public
+    JCGLFramebufferBuilderGL3ES3Type
+    framebufferNewBuilderGL3ES3()
+  {
+    return new FakeFramebufferBuilder(
+      this.color_points.getColorAttachmentPoints(),
+      this.draw_buffers.getDrawBuffers(),
+      this.extensions,
+      this.meta.metaGetVersion());
+  }
+
   @Override public boolean framebufferReadAnyIsBound()
     throws JCGLException
   {
@@ -738,6 +767,14 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
   {
     FakeFramebuffers.checkFramebuffer(this.context, framebuffer);
     this.read_bind = (FakeFramebuffer) framebuffer;
+  }
+
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferReadGetBound()
+      throws JCGLException
+  {
+    return Option.of((FramebufferUsableType) this.read_bind);
   }
 
   @Override public boolean framebufferReadIsBound(
@@ -762,7 +799,7 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
   int getBitsDepth()
   {
     if (this.draw_bind != null) {
-      return this.draw_bind.getBitsDepth();
+      return this.draw_bind.framebufferGetDepthBits();
     }
 
     return this.context.getDefaultFramebuffer().getBitsDepth();
@@ -771,7 +808,7 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
   int getBitsStencil()
   {
     if (this.draw_bind != null) {
-      return this.draw_bind.getBitsStencil();
+      return this.draw_bind.framebufferGetStencilBits();
     }
 
     return this.context.getDefaultFramebuffer().getBitsStencil();
