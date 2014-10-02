@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -18,13 +18,13 @@ package com.io7m.jcanephora.tests.jogl.contracts.jogl3p;
 
 import org.junit.Assert;
 
-import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.FramebufferType;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.api.JCGLDepthBufferType;
+import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
 import com.io7m.jcanephora.api.JCGLFramebuffersCommonType;
 import com.io7m.jcanephora.api.JCGLImplementationType;
 import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
@@ -60,31 +60,21 @@ public final class JOGL3pDepthBuffersTest extends DepthBuffersContract
     final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
-    final FramebufferType fb = g.framebufferAllocate();
-    Assert.assertFalse(g.framebufferDrawAnyIsBound());
-    Assert.assertFalse(g.framebufferDrawIsBound(fb));
+    final JCGLFramebufferBuilderGL3ES3Type fbb =
+      g.framebufferNewBuilderGL3ES3();
 
     final RenderbufferType<RenderableDepthStencilKind> db =
       g.renderbufferAllocateDepth24Stencil8(128, 128);
     final RenderbufferType<RenderableColorKind> cb =
       g.renderbufferAllocateRGBA8888(128, 128);
 
+    fbb.attachColorRenderbuffer(cb);
+    fbb.attachDepthStencilRenderbuffer(db);
+    final FramebufferType fb = g.framebufferAllocate(fbb);
+
     g.framebufferDrawBind(fb);
     Assert.assertTrue(g.framebufferDrawAnyIsBound());
     Assert.assertTrue(g.framebufferDrawIsBound(fb));
-
-    g.framebufferDrawAttachColorRenderbuffer(fb, cb);
-    Assert.assertTrue(g.framebufferDrawAnyIsBound());
-    Assert.assertTrue(g.framebufferDrawIsBound(fb));
-
-    g.framebufferDrawAttachDepthStencilRenderbuffer(fb, db);
-    Assert.assertTrue(g.framebufferDrawAnyIsBound());
-    Assert.assertTrue(g.framebufferDrawIsBound(fb));
-
-    final FramebufferStatus expect =
-      FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
-    final FramebufferStatus status = g.framebufferDrawValidate(fb);
-    Assert.assertEquals(expect, status);
 
     g.framebufferDrawUnbind();
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
@@ -101,25 +91,15 @@ public final class JOGL3pDepthBuffersTest extends DepthBuffersContract
     final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
-    final FramebufferType fb = g.framebufferAllocate();
-    Assert.assertFalse(g.framebufferDrawAnyIsBound());
-    Assert.assertFalse(g.framebufferDrawIsBound(fb));
-
+    final JCGLFramebufferBuilderGL3ES3Type fbb =
+      g.framebufferNewBuilderGL3ES3();
     final RenderbufferType<RenderableColorKind> cb =
       g.renderbufferAllocateRGBA8888(128, 128);
 
-    g.framebufferDrawBind(fb);
+    fbb.attachColorRenderbuffer(cb);
+    final FramebufferType fb = g.framebufferAllocate(fbb);
     Assert.assertTrue(g.framebufferDrawAnyIsBound());
     Assert.assertTrue(g.framebufferDrawIsBound(fb));
-
-    g.framebufferDrawAttachColorRenderbuffer(fb, cb);
-    Assert.assertTrue(g.framebufferDrawAnyIsBound());
-    Assert.assertTrue(g.framebufferDrawIsBound(fb));
-
-    final FramebufferStatus expect =
-      FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
-    final FramebufferStatus status = g.framebufferDrawValidate(fb);
-    Assert.assertEquals(expect, status);
 
     g.framebufferDrawUnbind();
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
