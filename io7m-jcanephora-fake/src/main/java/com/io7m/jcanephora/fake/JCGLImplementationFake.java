@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -48,7 +48,6 @@ public final class JCGLImplementationFake implements JCGLImplementationType
   @SuppressWarnings("synthetic-access") private static final class Builder implements
     JCGLImplementationFakeBuilderType
   {
-    private boolean                  caching;
     private boolean                  debugging;
     private JCGLSoftRestrictionsType restrictions;
     private OptionType<PrintStream>  tracing;
@@ -57,7 +56,6 @@ public final class JCGLImplementationFake implements JCGLImplementationType
     {
       this.restrictions = JCGLImplementationFake.DEFAULT_RESTRICTIONS;
       this.debugging = false;
-      this.caching = false;
       this.tracing = Option.none();
     }
 
@@ -187,12 +185,6 @@ public final class JCGLImplementationFake implements JCGLImplementationType
       }
     }
 
-    @Override public void setStateCaching(
-      final boolean enabled)
-    {
-      this.caching = enabled;
-    }
-
     @Override public void setTracing(
       final OptionType<PrintStream> stream)
     {
@@ -221,7 +213,7 @@ public final class JCGLImplementationFake implements JCGLImplementationType
     }
   }
 
-  private static final JCGLSoftRestrictionsType  DEFAULT_RESTRICTIONS;
+  private static final JCGLSoftRestrictionsType DEFAULT_RESTRICTIONS;
 
   static {
     DEFAULT_RESTRICTIONS = new DefaultRestrictions();
@@ -235,6 +227,7 @@ public final class JCGLImplementationFake implements JCGLImplementationType
   {
     return new Builder();
   }
+
   private final @Nullable JCGLInterfaceGL2Type   gl_2;
   private final @Nullable JCGLInterfaceGL3Type   gl_3;
   private final @Nullable JCGLInterfaceGLES2Type gl_es2;
