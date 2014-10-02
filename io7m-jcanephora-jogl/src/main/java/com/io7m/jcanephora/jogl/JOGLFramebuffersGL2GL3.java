@@ -67,6 +67,8 @@ import com.io7m.jcanephora.api.JCGLFramebuffersGL3Type;
 import com.io7m.jcanephora.api.JCGLMetaType;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jfunctional.FunctionType;
+import com.io7m.jfunctional.Option;
+import com.io7m.jfunctional.OptionType;
 import com.io7m.jfunctional.Unit;
 import com.io7m.jlog.LogLevel;
 import com.io7m.jlog.LogType;
@@ -830,6 +832,14 @@ import com.jogamp.common.nio.Buffers;
     }
   }
 
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferDrawGetBound()
+      throws JCGLException
+  {
+    return Option.of(this.getBindDraw());
+  }
+
   @Override public void framebufferDrawUnbind()
     throws JCGLException
   {
@@ -897,6 +907,14 @@ import com.jogamp.common.nio.Buffers;
       this.bindRead(null);
       throw e;
     }
+  }
+
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferReadGetBound()
+      throws JCGLException
+  {
+    return Option.of(this.getBindRead());
   }
 
   @Override public boolean framebufferReadIsBound(

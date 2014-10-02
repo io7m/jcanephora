@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -154,7 +154,7 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
   private final JOGLColorBuffer                                 color_buffer;
   private final JOGLColorAttachmentPoints                       color_points;
   private final JOGLCulling                                     cull;
-  private final JOGLDepthBufferGL2GL3                           depth;
+  private final JOGLDepthBuffer                                 depth;
   private final JOGLDraw                                        draw;
   private final JOGLDrawBuffers                                 draw_buffers;
   private final JOGLErrors                                      errors;
@@ -170,7 +170,7 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
   private final JOGLShadersGLES2                                program;
   private final JOGLRenderbuffersGLES2                          renderbuffers;
   private final JOGLScissor                                     scissor;
-  private final JOGLStencilGL2GL3                               stencil;
+  private final JOGLStencil                                     stencil;
   private final JOGLLogMessageCacheType                         tcache;
   private final JOGLTextureUnits                                texture_units;
   private final JOGLTexturesCubeStaticGLES2                     textures_cube;
@@ -232,12 +232,7 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
         this.color_points,
         this.meta,
         this.extensions);
-    this.depth =
-      new JOGLDepthBufferGL2GL3(
-        this.cached_gl,
-        this.framebuffers,
-        this.icache,
-        this.log);
+    this.depth = new JOGLDepthBuffer(this.cached_gl, this.framebuffers);
     this.index =
       new JOGLIndexBuffers(this.cached_gl, this.log, this.icache, this.tcache);
     this.program =
@@ -254,12 +249,7 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
         this.icache,
         this.tcache);
     this.scissor = new JOGLScissor(this.cached_gl, this.log);
-    this.stencil =
-      new JOGLStencilGL2GL3(
-        this.cached_gl,
-        this.icache,
-        this.framebuffers,
-        this.log);
+    this.stencil = new JOGLStencil(this.cached_gl, this.framebuffers);
     this.textures2d =
       new JOGLTextures2DStaticGLES2(
         this.cached_gl,
@@ -655,6 +645,14 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
     throws JCGLException
   {
     this.framebuffers.framebufferDrawBind(framebuffer);
+  }
+
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferDrawGetBound()
+      throws JCGLException
+  {
+    return this.framebuffers.framebufferDrawGetBound();
   }
 
   @Override public boolean framebufferDrawIsBound(

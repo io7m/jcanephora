@@ -24,6 +24,7 @@ import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.FramebufferType;
 import com.io7m.jcanephora.FramebufferUsableType;
 import com.io7m.jcanephora.JCGLException;
+import com.io7m.jfunctional.OptionType;
 
 /**
  * Simplified interface to the subset of framebuffer functionality available
@@ -32,12 +33,6 @@ import com.io7m.jcanephora.JCGLException;
 
 public interface JCGLFramebuffersCommonType
 {
-  /**
-   * @return A new mutable framebuffer builder for OpenGL framebuffers.
-   */
-
-  JCGLFramebufferBuilderType framebufferNewBuilder();
-
   /**
    * <p>
    * Allocate a new framebuffer based on the framebuffer parameters given in
@@ -94,6 +89,17 @@ public interface JCGLFramebuffersCommonType
 
   void framebufferDrawBind(
     final FramebufferUsableType framebuffer)
+    throws JCGLException;
+
+  /**
+   * @return <code>Some(framebuffer)</code> iff any application-created draw
+   *         framebuffer is currently bound.
+   *
+   * @throws JCGLException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  OptionType<FramebufferUsableType> framebufferDrawGetBound()
     throws JCGLException;
 
   /**
@@ -168,4 +174,10 @@ public interface JCGLFramebuffersCommonType
 
   List<FramebufferDrawBufferType> framebufferGetDrawBuffers()
     throws JCGLException;
+
+  /**
+   * @return A new mutable framebuffer builder for OpenGL framebuffers.
+   */
+
+  JCGLFramebufferBuilderType framebufferNewBuilder();
 }

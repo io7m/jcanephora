@@ -57,6 +57,8 @@ import com.io7m.jcanephora.api.JCGLFramebufferBuilderType;
 import com.io7m.jcanephora.api.JCGLFramebuffersGL3Type;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jfunctional.FunctionType;
+import com.io7m.jfunctional.Option;
+import com.io7m.jfunctional.OptionType;
 import com.io7m.jfunctional.Unit;
 import com.io7m.jlog.LogLevel;
 import com.io7m.jlog.LogType;
@@ -665,6 +667,14 @@ import com.io7m.junreachable.UnimplementedCodeException;
     this.draw_bind = (FakeFramebuffer) framebuffer;
   }
 
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferDrawGetBound()
+      throws JCGLException
+  {
+    return Option.of((FramebufferUsableType) this.draw_bind);
+  }
+
   @Override public boolean framebufferDrawIsBound(
     final FramebufferUsableType framebuffer)
     throws JCGLException
@@ -757,6 +767,14 @@ import com.io7m.junreachable.UnimplementedCodeException;
   {
     FakeFramebuffers.checkFramebuffer(this.context, framebuffer);
     this.read_bind = (FakeFramebuffer) framebuffer;
+  }
+
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferReadGetBound()
+      throws JCGLException
+  {
+    return Option.of((FramebufferUsableType) this.read_bind);
   }
 
   @Override public boolean framebufferReadIsBound(

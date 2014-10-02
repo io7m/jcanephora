@@ -165,7 +165,7 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
   private final JOGLColorBuffer             color_buffer;
   private final JOGLColorAttachmentPoints   color_points;
   private final JOGLCulling                 cull;
-  private final JOGLDepthBufferGL2GL3       depth;
+  private final JOGLDepthBuffer             depth;
   private final JOGLDraw                    draw;
   private final JOGLDrawBuffers             draw_buffers;
   private final JOGLErrors                  errors;
@@ -178,7 +178,7 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
   private final JOGLShadersGLES3            program;
   private final JOGLRenderbuffersGLES3      renderbuffers;
   private final JOGLScissor                 scissor;
-  private final JOGLStencilGL2GL3           stencil;
+  private final JOGLStencil                 stencil;
   private final JOGLLogMessageCacheType     tcache;
   private final JOGLTextureUnits            texture_units;
   private final JOGLTexturesCubeStaticGLES3 textures_cube;
@@ -239,12 +239,7 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
         this.color_points,
         this.meta,
         this.extensions);
-    this.depth =
-      new JOGLDepthBufferGL2GL3(
-        this.cached_gl,
-        this.framebuffers,
-        this.icache,
-        this.log);
+    this.depth = new JOGLDepthBuffer(this.cached_gl, this.framebuffers);
     this.index =
       new JOGLIndexBuffers(this.cached_gl, this.log, this.icache, this.tcache);
     this.program =
@@ -261,12 +256,7 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
         this.icache,
         this.tcache);
     this.scissor = new JOGLScissor(this.cached_gl, this.log);
-    this.stencil =
-      new JOGLStencilGL2GL3(
-        this.cached_gl,
-        this.icache,
-        this.framebuffers,
-        this.log);
+    this.stencil = new JOGLStencil(this.cached_gl, this.framebuffers);
     this.textures2d =
       new JOGLTextures2DStaticGLES3(
         this.cached_gl,
@@ -712,6 +702,14 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
     this.framebuffers.framebufferDrawBind(framebuffer);
   }
 
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferDrawGetBound()
+      throws JCGLException
+  {
+    return this.framebuffers.framebufferDrawGetBound();
+  }
+
   @Override public boolean framebufferDrawIsBound(
     final FramebufferUsableType framebuffer)
     throws JCGLException
@@ -773,6 +771,14 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
       JCGLExceptionDeleted
   {
     this.framebuffers.framebufferReadBind(framebuffer);
+  }
+
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferReadGetBound()
+      throws JCGLException
+  {
+    return this.framebuffers.framebufferReadGetBound();
   }
 
   @Override public boolean framebufferReadIsBound(
