@@ -162,7 +162,7 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
   private final JOGLColorBuffer                           color_buffer;
   private final JOGLColorAttachmentPoints                 color_points;
   private final JOGLCulling                               cull;
-  private final JOGLDepthBufferGL2GL3                     depth;
+  private final JOGLDepthBuffer                           depth;
   private final JOGLDraw                                  draw;
   private final JOGLDrawBuffers                           draw_buffers;
   private final JOGLErrors                                errors;
@@ -179,7 +179,7 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
   private final JOGLShadersGL2GL3                         program;
   private final JOGLRenderbuffersGL2                      renderbuffers;
   private final JOGLScissor                               scissor;
-  private final JOGLStencilGL2GL3                         stencil;
+  private final JOGLStencil                               stencil;
   private final JOGLLogMessageCacheType                   tcache;
   private final JOGLTextureUnits                          texture_units;
   private final JOGLTexturesCubeStaticGL3                 textures_cube;
@@ -241,12 +241,7 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
         this.color_points,
         this.meta,
         this.extensions);
-    this.depth =
-      new JOGLDepthBufferGL2GL3(
-        this.cached_gl2,
-        this.framebuffers,
-        this.icache,
-        this.log);
+    this.depth = new JOGLDepthBuffer(this.cached_gl2, this.framebuffers);
     this.index =
       new JOGLIndexBuffers(
         this.cached_gl2,
@@ -271,12 +266,7 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
         this.icache,
         this.tcache);
     this.scissor = new JOGLScissor(this.cached_gl2, this.log);
-    this.stencil =
-      new JOGLStencilGL2GL3(
-        this.cached_gl2,
-        this.icache,
-        this.framebuffers,
-        this.log);
+    this.stencil = new JOGLStencil(this.cached_gl2, this.framebuffers);
     this.textures2d =
       new JOGLTextures2DStaticGL2(
         this.cached_gl2,
@@ -701,6 +691,14 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
     this.framebuffers.framebufferDrawBind(framebuffer);
   }
 
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferDrawGetBound()
+      throws JCGLException
+  {
+    return this.framebuffers.framebufferDrawGetBound();
+  }
+
   @Override public boolean framebufferDrawIsBound(
     final FramebufferUsableType framebuffer)
     throws JCGLException
@@ -762,6 +760,14 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
       JCGLExceptionDeleted
   {
     this.framebuffers.framebufferReadBind(framebuffer);
+  }
+
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferReadGetBound()
+      throws JCGLException
+  {
+    return this.framebuffers.framebufferReadGetBound();
   }
 
   @Override public boolean framebufferReadIsBound(
