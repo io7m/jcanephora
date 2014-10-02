@@ -216,7 +216,7 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
         this.log,
         this.icache,
         this.tcache);
-    this.cull = new JOGLCulling(this.cached_gl, this.log);
+    this.cull = new JOGLCulling(this.cached_gl, this.icache);
     this.draw = new JOGLDraw(this.cached_gl, this.log);
     this.draw_buffers =
       new JOGLDrawBuffers(this.cached_gl, this.log, this.icache, this.tcache);

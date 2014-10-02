@@ -22,27 +22,42 @@ import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FaceWindingOrder;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.api.JCGLCullType;
-import com.io7m.jlog.LogType;
-import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
 
 final class JOGLCulling implements JCGLCullType
 {
-  private final GL      gl;
-  private final LogType log;
+  private final GL         gl;
+  private FaceSelection    current_faces;
+  private FaceWindingOrder current_order;
+  private boolean          enabled;
 
   JOGLCulling(
     final GL in_gl,
-    final LogUsableType in_log)
+    final JOGLIntegerCacheType in_icache)
   {
     this.gl = NullCheck.notNull(in_gl, "GL");
-    this.log = NullCheck.notNull(in_log, "Log").with("culling");
+    NullCheck.notNull(in_icache, "Integer cache");
+
+    {
+      final int faces = in_icache.getInteger(in_gl, GL.GL_CULL_FACE_MODE);
+      this.current_faces = JOGLTypeConversions.faceSelectionFromGL(faces);
+    }
+
+    {
+      final int order = in_icache.getInteger(in_gl, GL.GL_FRONT_FACE);
+      this.current_order = JOGLTypeConversions.faceWindingOrderFromGL(order);
+    }
+
+    this.enabled = this.gl.glIsEnabled(GL.GL_CULL_FACE);
   }
 
   @Override public void cullingDisable()
     throws JCGLExceptionRuntime
   {
-    this.gl.glDisable(GL.GL_CULL_FACE);
+    if (this.enabled) {
+      this.gl.glDisable(GL.GL_CULL_FACE);
+    }
+    this.enabled = false;
   }
 
   @Override public void cullingEnable(
@@ -56,15 +71,24 @@ final class JOGLCulling implements JCGLCullType
     final int fi = JOGLTypeConversions.faceSelectionToGL(faces);
     final int oi = JOGLTypeConversions.faceWindingOrderToGL(order);
 
-    this.gl.glEnable(GL.GL_CULL_FACE);
-    this.gl.glCullFace(fi);
-    this.gl.glFrontFace(oi);
+    if (this.enabled == false) {
+      this.gl.glEnable(GL.GL_CULL_FACE);
+    }
+    if (this.current_faces != faces) {
+      this.gl.glCullFace(fi);
+    }
+    if (this.current_order != order) {
+      this.gl.glFrontFace(oi);
+    }
+
+    this.current_faces = faces;
+    this.current_order = order;
+    this.enabled = true;
   }
 
   @Override public boolean cullingIsEnabled()
     throws JCGLExceptionRuntime
   {
-    final boolean e = this.gl.glIsEnabled(GL.GL_CULL_FACE);
-    return e;
+    return this.enabled;
   }
 }

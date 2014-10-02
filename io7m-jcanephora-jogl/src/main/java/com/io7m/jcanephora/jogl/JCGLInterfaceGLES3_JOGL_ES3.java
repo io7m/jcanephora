@@ -223,7 +223,7 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
         this.log,
         this.icache,
         this.tcache);
-    this.cull = new JOGLCulling(this.cached_gl, this.log);
+    this.cull = new JOGLCulling(this.cached_gl, this.icache);
     this.draw = new JOGLDraw(this.cached_gl, this.log);
     this.draw_buffers =
       new JOGLDrawBuffers(this.cached_gl, this.log, this.icache, this.tcache);

@@ -306,7 +306,7 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
         this.log,
         this.icache,
         this.tcache);
-    this.cull = new JOGLCulling(this.cached_gl2gl3, this.log);
+    this.cull = new JOGLCulling(this.cached_gl2gl3, this.icache);
     this.draw = new JOGLDraw(this.cached_gl2gl3, this.log);
     this.draw_buffers =
       new JOGLDrawBuffers(
