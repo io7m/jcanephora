@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -28,6 +28,7 @@ import com.io7m.jcanephora.ArrayDescriptor;
 import com.io7m.jcanephora.BlendEquationGL3;
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
+import com.io7m.jcanephora.ClearSpecification;
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.DepthFunction;
@@ -133,6 +134,7 @@ final class JCGLInterfaceGL2_Fake implements JCGLInterfaceGL2Type
   private final FakeTexturesCubeStatic                    textures_cube;
   private final FakeTextures2DStatic                      textures2d;
   private final FakeViewport                              viewport;
+  private FakeClear                                       clear;
 
   JCGLInterfaceGL2_Fake(
     final FakeContext in_context,
@@ -223,6 +225,7 @@ final class JCGLInterfaceGL2_Fake implements JCGLInterfaceGL2Type
         extensions);
     this.depth = new FakeDepthBuffer(in_context, this.framebuffers);
     this.stencil = new FakeStencil(in_context, this.framebuffers, this.log);
+    this.clear = new FakeClear(this.depth, this.stencil);
   }
 
   @Override public ArrayBufferType arrayBufferAllocate(
@@ -1423,5 +1426,12 @@ final class JCGLInterfaceGL2_Fake implements JCGLInterfaceGL2Type
     throws JCGLException
   {
     return this.arrays.arrayBufferAnyIsBound();
+  }
+
+  @Override public void clear(
+    final ClearSpecification c)
+    throws JCGLException
+  {
+    this.clear.clear(c);
   }
 }

@@ -14,39 +14,41 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.api;
+package com.io7m.jcanephora.jogl;
 
-import com.io7m.jcanephora.JCGLErrorCodesType;
+import java.nio.FloatBuffer;
 
-/**
- * <p>
- * The interface exposed by the common subset of OpenGL 3.*, OpenGL 2.1,
- * OpenGL ES2, and OpenGL ES3 implementations.
- * </p>
- */
+import javax.media.opengl.GL;
 
-public interface JCGLInterfaceCommonType extends
-  JCGLArrayBuffersType,
-  JCGLBlendingCommonType,
-  JCGLColorBufferType,
-  JCGLClearType,
-  JCGLCullType,
-  JCGLDepthBufferType,
-  JCGLDrawType,
-  JCGLErrorCodesType,
-  JCGLFramebuffersCommonType,
-  JCGLIndexBuffersType,
-  JCGLMetaType,
-  JCGLRenderbuffersCommonType,
-  JCGLScissorType,
-  JCGLShadersCommonType,
-  JCGLStencilBufferType,
-  JCGLTextureUnitsType,
-  JCGLTextures2DStaticCommonType,
-  JCGLTexturesCubeStaticCommonType,
-  JCGLViewportType
+import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jtensors.VectorM2F;
+import com.io7m.jtensors.VectorM3F;
+import com.io7m.jtensors.VectorM4F;
+
+interface JOGLFloatCacheType
 {
-  /*
-   * All functions defined in the superinterfaces.
-   */
+  float getFloat(
+    final GL gl,
+    final int name)
+    throws JCGLExceptionRuntime;
+
+  void getFloat2f(
+    final GL gl,
+    final int name,
+    final VectorM2F v)
+    throws JCGLExceptionRuntime;
+
+  void getFloat3f(
+    final GL gl,
+    final int name,
+    final VectorM3F v)
+    throws JCGLExceptionRuntime;
+
+  void getFloat4f(
+    final GL gl,
+    final int name,
+    final VectorM4F v)
+    throws JCGLExceptionRuntime;
+
+  FloatBuffer getFloatCache();
 }

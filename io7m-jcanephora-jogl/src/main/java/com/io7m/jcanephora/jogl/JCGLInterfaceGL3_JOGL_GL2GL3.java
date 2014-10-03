@@ -42,6 +42,7 @@ import com.io7m.jcanephora.ArrayDescriptor;
 import com.io7m.jcanephora.BlendEquationGL3;
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
+import com.io7m.jcanephora.ClearSpecification;
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.DepthFunction;
@@ -265,6 +266,7 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
   private final JOGLTexturesCubeStaticGL3 textures_cube;
   private final JOGLTextures2DStaticGL3   textures2d;
   private final JOGLViewport              viewport;
+  private final JOGLClear                 clear;
 
   JCGLInterfaceGL3_JOGL_GL2GL3(
     final GLContext in_context,
@@ -378,6 +380,7 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
         this.tcache,
         in_restrictions);
     this.viewport = new JOGLViewport(this.cached_gl2gl3, this.log);
+    this.clear = new JOGLClear(this.cached_gl2gl3, this.depth, this.stencil);
   }
 
   @Override public ArrayBufferType arrayBufferAllocate(
@@ -3349,5 +3352,12 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
     throws JCGLExceptionRuntime
   {
     this.viewport.viewportSet(area);
+  }
+
+  @Override public void clear(
+    final ClearSpecification c)
+    throws JCGLException
+  {
+    this.clear.clear(c);
   }
 }

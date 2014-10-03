@@ -14,39 +14,29 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.api;
+package com.io7m.jcanephora.tests.jogl.contracts.jogles2;
 
-import com.io7m.jcanephora.JCGLErrorCodesType;
+import com.io7m.jcanephora.api.JCGLCullType;
+import com.io7m.jcanephora.tests.TestContext;
+import com.io7m.jcanephora.tests.contracts.CullContract;
+import com.io7m.jcanephora.tests.jogl.JOGLTestContext;
+import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 
-/**
- * <p>
- * The interface exposed by the common subset of OpenGL 3.*, OpenGL 2.1,
- * OpenGL ES2, and OpenGL ES3 implementations.
- * </p>
- */
-
-public interface JCGLInterfaceCommonType extends
-  JCGLArrayBuffersType,
-  JCGLBlendingCommonType,
-  JCGLColorBufferType,
-  JCGLClearType,
-  JCGLCullType,
-  JCGLDepthBufferType,
-  JCGLDrawType,
-  JCGLErrorCodesType,
-  JCGLFramebuffersCommonType,
-  JCGLIndexBuffersType,
-  JCGLMetaType,
-  JCGLRenderbuffersCommonType,
-  JCGLScissorType,
-  JCGLShadersCommonType,
-  JCGLStencilBufferType,
-  JCGLTextureUnitsType,
-  JCGLTextures2DStaticCommonType,
-  JCGLTexturesCubeStaticCommonType,
-  JCGLViewportType
+public final class JOGLES2CullCachedTest extends CullContract
 {
-  /*
-   * All functions defined in the superinterfaces.
-   */
+  @Override public JCGLCullType getGLCull(
+    final TestContext context)
+  {
+    return JOGLTestContextUtilities.getGLES2(context);
+  }
+
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGLES2Supported();
+  }
+
+  @Override public TestContext newTestContext()
+  {
+    return JOGLTestContext.makeContextWithOpenGL_ES2(true);
+  }
 }

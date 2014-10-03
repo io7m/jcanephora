@@ -14,39 +14,38 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.api;
+package com.io7m.jcanephora;
 
-import com.io7m.jcanephora.JCGLErrorCodesType;
+import com.io7m.jfunctional.OptionType;
+import com.io7m.jtensors.VectorReadable4FType;
 
 /**
- * <p>
- * The interface exposed by the common subset of OpenGL 3.*, OpenGL 2.1,
- * OpenGL ES2, and OpenGL ES3 implementations.
- * </p>
+ * The type of readable {@link ClearSpecification} builders.
  */
 
-public interface JCGLInterfaceCommonType extends
-  JCGLArrayBuffersType,
-  JCGLBlendingCommonType,
-  JCGLColorBufferType,
-  JCGLClearType,
-  JCGLCullType,
-  JCGLDepthBufferType,
-  JCGLDrawType,
-  JCGLErrorCodesType,
-  JCGLFramebuffersCommonType,
-  JCGLIndexBuffersType,
-  JCGLMetaType,
-  JCGLRenderbuffersCommonType,
-  JCGLScissorType,
-  JCGLShadersCommonType,
-  JCGLStencilBufferType,
-  JCGLTextureUnitsType,
-  JCGLTextures2DStaticCommonType,
-  JCGLTexturesCubeStaticCommonType,
-  JCGLViewportType
+public interface ClearSpecificationBuilderReadableType
 {
-  /*
-   * All functions defined in the superinterfaces.
+  /**
+   * @return The value to which the depth buffer will be cleared, if any.
    */
+
+  OptionType<Float> getDepthBufferClear();
+
+  /**
+   * @return The value to which the stencil buffer will be cleared, if any.
+   */
+
+  OptionType<Integer> getStencilBufferClear();
+
+  /**
+   * @return The value to which the color buffer(s) will be cleared, if any.
+   */
+
+  OptionType<VectorReadable4FType> getColorBufferClear();
+
+  /**
+   * @return <code>true</code> if strict checking is enabled.
+   */
+
+  boolean getStrictChecking();
 }
