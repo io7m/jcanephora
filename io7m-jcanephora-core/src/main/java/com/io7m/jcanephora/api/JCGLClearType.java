@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,37 +16,25 @@
 
 package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.JCGLErrorCodesType;
+import com.io7m.jcanephora.ClearSpecification;
+import com.io7m.jcanephora.JCGLException;
 
 /**
- * <p>
- * The interface exposed by the common subset of OpenGL 3.*, OpenGL 2.1,
- * OpenGL ES2, and OpenGL ES3 implementations.
- * </p>
+ * Simplified interface to buffer clearing.
  */
 
-public interface JCGLInterfaceCommonType extends
-  JCGLArrayBuffersType,
-  JCGLBlendingCommonType,
-  JCGLColorBufferType,
-  JCGLClearType,
-  JCGLCullType,
-  JCGLDepthBufferType,
-  JCGLDrawType,
-  JCGLErrorCodesType,
-  JCGLFramebuffersCommonType,
-  JCGLIndexBuffersType,
-  JCGLMetaType,
-  JCGLRenderbuffersCommonType,
-  JCGLScissorType,
-  JCGLShadersCommonType,
-  JCGLStencilBufferType,
-  JCGLTextureUnitsType,
-  JCGLTextures2DStaticCommonType,
-  JCGLTexturesCubeStaticCommonType,
-  JCGLViewportType
+public interface JCGLClearType
 {
-  /*
-   * All functions defined in the superinterfaces.
+  /**
+   * Clear all buffers given by the specification
+   * 
+   * @param c
+   *          The specification
+   * @throws JCGLException
+   *           If an error occurs
    */
+
+  void clear(
+    final ClearSpecification c)
+    throws JCGLException;
 }
