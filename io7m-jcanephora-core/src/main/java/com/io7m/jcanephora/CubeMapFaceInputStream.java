@@ -26,7 +26,7 @@ import com.io7m.jnull.Nullable;
  * An input stream representing a specific face of a cube map. The type
  * parameter <code>F</code> prevents the accidental mixing up of cube faces at
  * the type level.
- * 
+ *
  * @param <F>
  *          A type representing a cube map face.
  */
@@ -38,7 +38,7 @@ public final class CubeMapFaceInputStream<F extends CubeMapFaceKind> extends
 
   /**
    * Construct a new stream based on the given stream.
-   * 
+   *
    * @param in_stream
    *          The stream.
    */
@@ -47,6 +47,18 @@ public final class CubeMapFaceInputStream<F extends CubeMapFaceKind> extends
     final InputStream in_stream)
   {
     this.stream = NullCheck.notNull(in_stream, "Input stream");
+  }
+
+  @Override public int available()
+    throws IOException
+  {
+    return this.stream.available();
+  }
+
+  @Override public void close()
+    throws IOException
+  {
+    this.stream.close();
   }
 
   @Override public boolean equals(
@@ -79,9 +91,49 @@ public final class CubeMapFaceInputStream<F extends CubeMapFaceKind> extends
     return this.stream.hashCode();
   }
 
+  @Override public synchronized void mark(
+    final int readlimit)
+  {
+    this.stream.mark(readlimit);
+  }
+
+  @Override public boolean markSupported()
+  {
+    return this.stream.markSupported();
+  }
+
   @Override public int read()
     throws IOException
   {
     return this.stream.read();
+  }
+
+  @Override public int read(
+    final @Nullable byte[] b)
+    throws IOException
+  {
+    return this.stream.read(b);
+  }
+
+  @Override public int read(
+    final @Nullable byte[] b,
+    final int off,
+    final int len)
+    throws IOException
+  {
+    return this.stream.read(b, off, len);
+  }
+
+  @Override public synchronized void reset()
+    throws IOException
+  {
+    this.stream.reset();
+  }
+
+  @Override public long skip(
+    final long n)
+    throws IOException
+  {
+    return this.stream.skip(n);
   }
 }
