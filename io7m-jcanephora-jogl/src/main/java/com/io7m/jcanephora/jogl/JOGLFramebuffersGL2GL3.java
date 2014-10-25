@@ -789,15 +789,20 @@ import com.jogamp.common.nio.Buffers;
     final RangeInclusiveL d_range_x = target.getRangeX();
     final RangeInclusiveL d_range_y = target.getRangeY();
 
+    /**
+     * Section 4.3.2 of the OpenGL 3.1 standard: "The lower bounds of the
+     * rectangle are inclusive, while the upper bounds are exclusive".
+     */
+
     final int src_x0 = (int) s_range_x.getLower();
     final int src_y0 = (int) s_range_y.getLower();
-    final int src_x1 = (int) s_range_x.getUpper();
-    final int src_y1 = (int) s_range_y.getUpper();
+    final int src_x1 = (int) s_range_x.getUpper() - 1;
+    final int src_y1 = (int) s_range_y.getUpper() - 1;
 
     final int dst_x0 = (int) d_range_x.getLower();
     final int dst_y0 = (int) d_range_y.getLower();
-    final int dst_x1 = (int) d_range_x.getUpper();
-    final int dst_y1 = (int) d_range_y.getUpper();
+    final int dst_x1 = (int) d_range_x.getUpper() - 1;
+    final int dst_y1 = (int) d_range_y.getUpper() - 1;
 
     final int mask =
       JOGLTypeConversions.framebufferBlitBufferSetToMask(buffers);
