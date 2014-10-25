@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -796,13 +796,13 @@ import com.jogamp.common.nio.Buffers;
 
     final int src_x0 = (int) s_range_x.getLower();
     final int src_y0 = (int) s_range_y.getLower();
-    final int src_x1 = (int) s_range_x.getUpper() - 1;
-    final int src_y1 = (int) s_range_y.getUpper() - 1;
+    final int src_x1 = (int) s_range_x.getUpper() + 1;
+    final int src_y1 = (int) s_range_y.getUpper() + 1;
 
     final int dst_x0 = (int) d_range_x.getLower();
     final int dst_y0 = (int) d_range_y.getLower();
-    final int dst_x1 = (int) d_range_x.getUpper() - 1;
-    final int dst_y1 = (int) d_range_y.getUpper() - 1;
+    final int dst_x1 = (int) d_range_x.getUpper() + 1;
+    final int dst_y1 = (int) d_range_y.getUpper() + 1;
 
     final int mask =
       JOGLTypeConversions.framebufferBlitBufferSetToMask(buffers);
