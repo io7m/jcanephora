@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -65,6 +65,7 @@ import com.io7m.jcanephora.JCGLExceptionNoStencilBuffer;
 import com.io7m.jcanephora.JCGLExceptionProgramCompileError;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLExceptionWrongContext;
+import com.io7m.jcanephora.JCGLExtensionNames;
 import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
@@ -113,7 +114,6 @@ import com.io7m.jtensors.VectorReadable3FType;
 import com.io7m.jtensors.VectorReadable3IType;
 import com.io7m.jtensors.VectorReadable4FType;
 import com.io7m.jtensors.VectorReadable4IType;
-import com.io7m.junreachable.UnimplementedCodeException;
 
 /**
  * <p>
@@ -810,14 +810,14 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
 
   @Override public boolean hasColorBufferFloat()
   {
-    // TODO Auto-generated method stub
-    throw new UnimplementedCodeException();
+    return this.extensions
+      .extensionIsVisible(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_FLOAT);
   }
 
   @Override public boolean hasColorBufferHalfFloat()
   {
-    // TODO Auto-generated method stub
-    throw new UnimplementedCodeException();
+    return this.extensions
+      .extensionIsVisible(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_HALF_FLOAT);
   }
 
   @Override public IndexBufferType indexBufferAllocate(
