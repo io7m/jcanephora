@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -419,6 +419,56 @@ import com.io7m.jtensors.VectorI4I;
       (TextureWrapT) TestUtilities.actuallyNull(),
       TextureFilterMinification.TEXTURE_FILTER_NEAREST,
       TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+  }
+
+  @Test(expected = JCGLExceptionDeleted.class) public final
+    void
+    testTextureRegenerateMipmapsDeleted()
+  {
+    final TestContext tc = this.newTestContext();
+    final T gl = this.getGLTexture2DStatic(tc);
+    final Texture2DStaticType t =
+      this.allocateTextureRGBA(
+        gl,
+        "texture",
+        64,
+        64,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+    gl.texture2DStaticDelete(t);
+    gl.texture2DStaticRegenerateMipmaps(t);
+  }
+
+  @Test(expected = NullCheckException.class) public final
+    void
+    testTextureRegenerateMipmapsNull()
+  {
+    final TestContext tc = this.newTestContext();
+    final T gl = this.getGLTexture2DStatic(tc);
+    gl
+      .texture2DStaticRegenerateMipmaps((Texture2DStaticUsableType) TestUtilities
+        .actuallyNull());
+  }
+
+  @Test public final void testTextureRegenerateOK()
+  {
+    final TestContext tc = this.newTestContext();
+    final T gl = this.getGLTexture2DStatic(tc);
+    final Texture2DStaticType t =
+      this.allocateTextureRGBA(
+        gl,
+        "texture",
+        64,
+        64,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+    gl.texture2DStaticRegenerateMipmaps(t);
   }
 
   /**

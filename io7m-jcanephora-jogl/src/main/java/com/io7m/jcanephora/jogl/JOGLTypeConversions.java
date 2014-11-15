@@ -65,7 +65,7 @@ public final class JOGLTypeConversions
 {
   /**
    * Convert blend equations from GL constants.
-   * 
+   *
    * @param e
    *          The GL constant.
    * @return The value.
@@ -88,7 +88,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert blend equations to GL constants.
-   * 
+   *
    * @param e
    *          The equation.
    * @return The resulting GL constant.
@@ -111,7 +111,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert blend equations from GL constants.
-   * 
+   *
    * @param e
    *          The GL constant.
    * @return The value.
@@ -138,7 +138,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert blend equations to GL constants.
-   * 
+   *
    * @param e
    *          The equation.
    * @return The resulting GL constant.
@@ -165,7 +165,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert blend functions from GL constants.
-   * 
+   *
    * @param type
    *          The GL constant.
    * @return The value.
@@ -212,7 +212,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert blend functions to GL constants.
-   * 
+   *
    * @param function
    *          The function.
    * @return The resulting GL constant.
@@ -259,7 +259,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert faces from GL constants.
-   * 
+   *
    * @param face
    *          The GL constant.
    * @return The value.
@@ -290,7 +290,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert cube map faces to GL constants.
-   * 
+   *
    * @param face
    *          The face.
    * @return The resulting GL constant.
@@ -321,7 +321,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert depth functions from GL constants.
-   * 
+   *
    * @param d
    *          The GL constant.
    * @return The value.
@@ -354,7 +354,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert depth functions to GL constants.
-   * 
+   *
    * @param d
    *          The function.
    * @return The resulting GL constant.
@@ -387,7 +387,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert face selections from GL constants.
-   * 
+   *
    * @param faces
    *          The GL constant.
    * @return The value.
@@ -410,7 +410,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert faces to GL constants.
-   * 
+   *
    * @param faces
    *          The faces.
    * @return The resulting GL constant.
@@ -433,7 +433,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert winding orders to GL constants.
-   * 
+   *
    * @param f
    *          The order.
    * @return The resulting GL constant.
@@ -454,7 +454,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert face winding orders to GL constants.
-   * 
+   *
    * @param f
    *          The face winding order.
    * @return The resulting GL constant.
@@ -475,7 +475,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert framebuffer blit buffers from GL constants.
-   * 
+   *
    * @param buffer
    *          The GL constant.
    * @return The value.
@@ -504,7 +504,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert framebuffer blit buffers to GL constants.
-   * 
+   *
    * @param buffers
    *          The buffers.
    * @return The resulting GL constant.
@@ -523,7 +523,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert framebuffer blit buffers to GL constants.
-   * 
+   *
    * @param buffer
    *          The buffer.
    * @return The GL constant.
@@ -552,7 +552,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert framebuffer blit filter from GL constants.
-   * 
+   *
    * @param filter
    *          The GL constant.
    * @return The value.
@@ -577,7 +577,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert framebuffer blit filters to GL constants.
-   * 
+   *
    * @param filter
    *          The filters.
    * @return The resulting GL constant.
@@ -602,7 +602,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert framebuffer status from GL constants.
-   * 
+   *
    * @param status
    *          The GL constant.
    * @return The value.
@@ -631,7 +631,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert framebuffer status to GL constants.
-   * 
+   *
    * @param status
    *          The status.
    * @return The resulting GL constant.
@@ -662,7 +662,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert logic ops from GL constants.
-   * 
+   *
    * @param op
    *          The GL constant.
    * @return The value.
@@ -711,7 +711,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert logic ops to GL constants.
-   * 
+   *
    * @param op
    *          The op.
    * @return The resulting GL constant.
@@ -760,7 +760,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert pixel types from GL constants.
-   * 
+   *
    * @param e
    *          The GL constant.
    * @return The value.
@@ -801,7 +801,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert pixel types to GL constants.
-   * 
+   *
    * @param p
    *          The pixel type.
    * @return The resulting GL constant.
@@ -844,7 +844,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert polygon modes from GL constants.
-   * 
+   *
    * @param g
    *          The GL constant.
    * @return The value.
@@ -867,7 +867,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert polygon modes to GL constants.
-   * 
+   *
    * @param g
    *          The mode.
    * @return The resulting GL constant.
@@ -890,7 +890,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert primitives from GL constants.
-   * 
+   *
    * @param code
    *          The GL constant.
    * @return The value.
@@ -917,7 +917,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert primitives to GL constants.
-   * 
+   *
    * @param p
    *          The primitives.
    * @return The resulting GL constant.
@@ -944,7 +944,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert renderbuffer formats to GL constants.
-   * 
+   *
    * @param type
    *          The format.
    * @return The resulting GL constant.
@@ -979,7 +979,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert types from GL constants.
-   * 
+   *
    * @param type
    *          The GL constant.
    * @return The value.
@@ -1010,7 +1010,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert types to GL constants.
-   * 
+   *
    * @param type
    *          The type.
    * @return The resulting GL constant.
@@ -1041,7 +1041,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert stencil functions to GL constants.
-   * 
+   *
    * @param function
    *          The function.
    * @return The resulting GL constant.
@@ -1074,7 +1074,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert stencil ops to GL constants.
-   * 
+   *
    * @param op
    *          The op.
    * @return The resulting GL constant.
@@ -1107,7 +1107,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert filters from GL constants.
-   * 
+   *
    * @param mag_filter
    *          The GL constant.
    * @return The value.
@@ -1128,7 +1128,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert filters to GL constants.
-   * 
+   *
    * @param mag_filter
    *          The filter.
    * @return The resulting GL constant.
@@ -1149,7 +1149,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert filters from GL constants.
-   * 
+   *
    * @param min_filter
    *          The GL constant.
    * @return The value.
@@ -1163,6 +1163,14 @@ public final class JOGLTypeConversions
         return TextureFilterMinification.TEXTURE_FILTER_LINEAR;
       case GL.GL_NEAREST:
         return TextureFilterMinification.TEXTURE_FILTER_NEAREST;
+      case GL.GL_LINEAR_MIPMAP_LINEAR:
+        return TextureFilterMinification.TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR;
+      case GL.GL_LINEAR_MIPMAP_NEAREST:
+        return TextureFilterMinification.TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST;
+      case GL.GL_NEAREST_MIPMAP_LINEAR:
+        return TextureFilterMinification.TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR;
+      case GL.GL_NEAREST_MIPMAP_NEAREST:
+        return TextureFilterMinification.TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST;
     }
 
     throw new UnreachableCodeException();
@@ -1170,7 +1178,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert filters to GL constants.
-   * 
+   *
    * @param min_filter
    *          The filter.
    * @return The resulting GL constant.
@@ -1184,6 +1192,14 @@ public final class JOGLTypeConversions
         return GL.GL_LINEAR;
       case TEXTURE_FILTER_NEAREST:
         return GL.GL_NEAREST;
+      case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:
+        return GL.GL_LINEAR_MIPMAP_LINEAR;
+      case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+        return GL.GL_LINEAR_MIPMAP_NEAREST;
+      case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+        return GL.GL_NEAREST_MIPMAP_LINEAR;
+      case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
+        return GL.GL_NEAREST_MIPMAP_NEAREST;
     }
 
     throw new UnreachableCodeException();
@@ -1191,7 +1207,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert wrapping modes from GL constants.
-   * 
+   *
    * @param wrap
    *          The GL constant.
    * @return The value.
@@ -1214,7 +1230,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert wrapping mode to GL constants.
-   * 
+   *
    * @param wrap
    *          The mode.
    * @return The resulting GL constant.
@@ -1237,7 +1253,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert wrapping modes from GL constants.
-   * 
+   *
    * @param wrap
    *          The GL constant.
    * @return The value.
@@ -1260,7 +1276,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert wrapping mode to GL constants.
-   * 
+   *
    * @param wrap
    *          The mode.
    * @return The resulting GL constant.
@@ -1283,7 +1299,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert wrapping modes from GL constants.
-   * 
+   *
    * @param wrap
    *          The GL constant.
    * @return The value.
@@ -1306,7 +1322,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert wrapping mode to GL constants.
-   * 
+   *
    * @param wrap
    *          The mode.
    * @return The resulting GL constant.
@@ -1329,7 +1345,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert types from GL constants.
-   * 
+   *
    * @param type
    *          The GL constant.
    * @return The value.
@@ -1384,7 +1400,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert types to GL constants.
-   * 
+   *
    * @param type
    *          The type.
    * @return The resulting GL constant.
@@ -1439,7 +1455,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert types from GL constants.
-   * 
+   *
    * @param type
    *          The GL constant.
    * @return The value.
@@ -1462,7 +1478,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert types to GL constants.
-   * 
+   *
    * @param type
    *          The type.
    * @return The resulting GL constant.
@@ -1485,7 +1501,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert hints to GL constants.
-   * 
+   *
    * @param hint
    *          The hint.
    * @return The resulting GL constant.
@@ -1514,7 +1530,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert hints from GL constants.
-   * 
+   *
    * @param hint
    *          The GL constant.
    * @return The value.
@@ -1549,7 +1565,7 @@ public final class JOGLTypeConversions
 
   /**
    * Convert hints to GL constants.
-   * 
+   *
    * @param hint
    *          The hint.
    * @return The resulting GL constant.

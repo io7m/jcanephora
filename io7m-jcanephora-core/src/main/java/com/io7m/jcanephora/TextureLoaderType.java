@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -32,6 +32,25 @@ import com.io7m.jcanephora.api.JCGLTexturesCubeStaticGL2ES3Type;
 public interface TextureLoaderType
 {
   /**
+   * @return The current mipmap generation behaviour.
+   * @see #setMipMapGeneration(MipmapGeneration)
+   */
+
+  MipmapGeneration getMipmapGeneration();
+
+  /**
+   * Indicate whether or not the texture update should update mipmaps.
+   * Defaults to
+   * <code>{@link MipmapGeneration#MIPMAP_GENERATE_BY_MINIFICATION}</code>.
+   *
+   * @param u
+   *          The mipmap generation behaviour
+   */
+
+  void setMipMapGeneration(
+    final MipmapGeneration u);
+
+  /**
    * <p>
    * Load an OpenGL texture from the stream <code>stream</code>. The texture
    * will be constructed using the given parameters, and named
@@ -41,7 +60,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_DEPTH_16_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -56,9 +75,9 @@ public interface TextureLoaderType
    *          The input stream from which to read image data.
    * @param name
    *          The name of the resulting texture.
-   * 
+   *
    * @return An allocated texture.
-   * 
+   *
    * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
@@ -87,7 +106,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_DEPTH_24_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -102,7 +121,7 @@ public interface TextureLoaderType
    *          The input stream from which to read image data.
    * @param name
    *          The name of the resulting texture.
-   * 
+   *
    * @return An allocated texture.
    * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
@@ -132,7 +151,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_DEPTH_32F_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -173,7 +192,7 @@ public interface TextureLoaderType
    * <code>name</code>. The resulting texture will be of a type appropriate to
    * the original image data.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -217,7 +236,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_R_16_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -261,7 +280,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_R_16F_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -305,7 +324,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_R_16I_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -349,7 +368,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_R_16U_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -393,7 +412,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_R_32F_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -437,7 +456,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_R_32I_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -481,7 +500,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_R_32U_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -525,7 +544,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_R_8_1BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -569,7 +588,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_R_8I_1BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -613,7 +632,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_R_8U_1BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -657,7 +676,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RG_16_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -701,7 +720,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RG_16F_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -745,7 +764,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RG_16I_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -789,7 +808,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RG_16U_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -833,7 +852,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RG_32F_8BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -877,7 +896,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RG_32I_8BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -921,7 +940,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RG_32U_8BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -965,7 +984,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RG_8_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1009,7 +1028,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RG_8I_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1053,7 +1072,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RG_8U_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1097,7 +1116,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_16_6BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1141,7 +1160,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_16F_6BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1185,7 +1204,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_16I_6BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1229,7 +1248,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_16U_6BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1273,7 +1292,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_32F_12BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1317,7 +1336,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_32I_12BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1361,7 +1380,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_32U_12BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1405,7 +1424,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_565_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1449,7 +1468,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_8_3BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1493,7 +1512,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_8I_3BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1537,7 +1556,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGB_8U_3BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1581,7 +1600,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_1010102_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1625,7 +1644,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_16_8BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1669,7 +1688,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_16F_8BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1713,7 +1732,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_16I_8BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1757,7 +1776,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_16U_8BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1801,7 +1820,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_32F_16BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1845,7 +1864,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_32I_16BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1889,7 +1908,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_32U_16BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1933,7 +1952,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_4444_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -1977,7 +1996,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_5551_2BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -2021,7 +2040,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_8_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -2065,7 +2084,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_8I_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -2109,7 +2128,7 @@ public interface TextureLoaderType
    * The resulting texture will be of type
    * {@link TextureFormat#TEXTURE_FORMAT_RGBA_8U_4BPP}.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_s
@@ -2159,7 +2178,7 @@ public interface TextureLoaderType
    * The given texture images will be mapped to the faces corresponding to
    * OpenGL's default left-handed cube map coordinate system.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_r
@@ -2180,7 +2199,7 @@ public interface TextureLoaderType
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
    *           is of an unreadable format.
-   * 
+   *
    * @param positive_z
    *          The positive Z face stream.
    * @param negative_z
@@ -2227,7 +2246,7 @@ public interface TextureLoaderType
    * The given texture images will be mapped to the faces corresponding to
    * OpenGL's default left-handed cube map coordinate system.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_r
@@ -2294,7 +2313,7 @@ public interface TextureLoaderType
    * The given texture images will be mapped to the faces corresponding to
    * OpenGL's default left-handed cube map coordinate system.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_r
@@ -2362,7 +2381,7 @@ public interface TextureLoaderType
    * The given texture images will be mapped to the faces corresponding to
    * OpenGL's right-handed world-space coordinate system.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_r
@@ -2429,7 +2448,7 @@ public interface TextureLoaderType
    * The given texture images will be mapped to the faces corresponding to
    * OpenGL's right-handed world-space coordinate system.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_r
@@ -2496,7 +2515,7 @@ public interface TextureLoaderType
    * The given texture images will be mapped to the faces corresponding to
    * OpenGL's right-handed world-space coordinate system.
    * </p>
-   * 
+   *
    * @param gl
    *          The OpenGL interface to use.
    * @param wrap_r

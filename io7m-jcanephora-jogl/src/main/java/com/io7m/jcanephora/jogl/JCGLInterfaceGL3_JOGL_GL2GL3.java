@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -241,6 +241,7 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
   private final JOGLArrays                arrays;
   private final JOGLBlending              blending;
   private final GL2GL3                    cached_gl2gl3;
+  private final JOGLClear                 clear;
   private final JOGLColorBuffer           color_buffer;
   private final JOGLColorAttachmentPoints color_points;
   private final JOGLCulling               cull;
@@ -266,7 +267,6 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
   private final JOGLTexturesCubeStaticGL3 textures_cube;
   private final JOGLTextures2DStaticGL3   textures2d;
   private final JOGLViewport              viewport;
-  private final JOGLClear                 clear;
 
   JCGLInterfaceGL3_JOGL_GL2GL3(
     final GLContext in_context,
@@ -601,6 +601,13 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
     throws JCGLExceptionRuntime
   {
     return this.blending.blendingIsEnabled();
+  }
+
+  @Override public void clear(
+    final ClearSpecification c)
+    throws JCGLException
+  {
+    this.clear.clear(c);
   }
 
   @Override public void colorBufferClear3f(
@@ -2321,6 +2328,13 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
     return this.textures2d.texture2DStaticIsBound(unit, texture);
   }
 
+  @Override public void texture2DStaticRegenerateMipmaps(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    this.textures2d.texture2DStaticRegenerateMipmaps(texture);
+  }
+
   @Override public void texture2DStaticUnbind(
     final TextureUnitType unit)
     throws JCGLException
@@ -3352,12 +3366,5 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
     throws JCGLExceptionRuntime
   {
     this.viewport.viewportSet(area);
-  }
-
-  @Override public void clear(
-    final ClearSpecification c)
-    throws JCGLException
-  {
-    this.clear.clear(c);
   }
 }
