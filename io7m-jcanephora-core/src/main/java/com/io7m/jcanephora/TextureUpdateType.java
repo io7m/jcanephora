@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -172,28 +172,28 @@ public interface TextureUpdateType
     throws JCGLExceptionTypeError;
 
   /**
+   * @return The current mipmap generation behaviour.
+   * @see #setMipMapGeneration(MipmapGeneration)
+   */
+
+  MipmapGeneration getMipmapGeneration();
+
+  /**
    * @return The type of the underlying texture.
    */
 
   TextureFormat getType();
 
   /**
-   * @return <code>true</code> if mipmaps should be updated.
-   * @see #setUpdateMipmaps(boolean)
-   */
-
-  boolean getUpdateMipmaps();
-
-  /**
    * Indicate whether or not the texture update should update mipmaps.
-   * Defaults to <code>true</code> if the texture minification filter includes
-   * mipmaps.
+   * Defaults to
+   * <code>{@link MipmapGeneration#MIPMAP_GENERATE_BY_MINIFICATION}</code>.
    *
    * @param u
-   *          <code>true</code> if mipmaps should be updated.
+   *          The mipmap generation behaviour
    */
 
-  void setUpdateMipmaps(
-    final boolean u);
+  void setMipMapGeneration(
+    final MipmapGeneration u);
 
 }

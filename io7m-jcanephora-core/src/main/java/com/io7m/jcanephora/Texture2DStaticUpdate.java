@@ -121,7 +121,7 @@ public final class Texture2DStaticUpdate implements Texture2DStaticUpdateType
   private final ByteBuffer          target_data;
   private final Texture2DStaticType texture;
   private final TextureFormat       type;
-  private boolean                   update_mipmaps;
+  private MipmapGeneration          update_mipmaps;
 
   private Texture2DStaticUpdate(
     final Texture2DStaticType in_texture,
@@ -140,6 +140,7 @@ public final class Texture2DStaticUpdate implements Texture2DStaticUpdateType
       throw new RangeCheckException(s);
     }
 
+    this.update_mipmaps = MipmapGeneration.MIPMAP_GENERATE_BY_MINIFICATION;
     this.texture = in_texture;
     this.target_area = area;
 
@@ -1243,14 +1244,14 @@ public final class Texture2DStaticUpdate implements Texture2DStaticUpdateType
     return this.type;
   }
 
-  @Override public boolean getUpdateMipmaps()
+  @Override public MipmapGeneration getMipmapGeneration()
   {
     return this.update_mipmaps;
   }
 
-  @Override public void setUpdateMipmaps(
-    final boolean u)
+  @Override public void setMipMapGeneration(
+    final MipmapGeneration u)
   {
-    this.update_mipmaps = u;
+    this.update_mipmaps = NullCheck.notNull(u, "Mipmap generation");
   }
 }

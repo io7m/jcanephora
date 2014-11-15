@@ -83,7 +83,7 @@ public interface JCGLTextures2DStaticCommonType
    * function is generally only necessary if a texture has been updated as a
    * result of rendering to it via a framebuffer object.
    *
-   * @see com.io7m.jcanephora.TextureUpdateType#setUpdateMipmaps(boolean)
+   * @see com.io7m.jcanephora.TextureUpdateType#setMipMapGeneration(boolean)
    * @param texture
    *          The texture.
    * @throws JCGLException
