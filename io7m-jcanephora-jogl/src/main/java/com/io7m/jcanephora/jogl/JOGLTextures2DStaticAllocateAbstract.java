@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -158,6 +158,21 @@ abstract class JOGLTextures2DStaticAllocateAbstract
       spec.getFormat(),
       spec.getType(),
       null);
+
+    switch (min_filter) {
+      case TEXTURE_FILTER_NEAREST:
+      case TEXTURE_FILTER_LINEAR:
+        break;
+      case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:
+      case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+      case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+      case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
+      {
+        this.gl.glGenerateMipmap(GL.GL_TEXTURE_2D);
+        break;
+      }
+    }
+
     this.gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
 
     final JOGLTexture2DStatic t =

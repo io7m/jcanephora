@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.io7m.jcanephora</groupId>
     <artifactId>io7m-jcanephora</artifactId>
-    <version>0.34.5</version>
+    <version>0.34.6</version>
   </parent>
   <artifactId>io7m-jcanephora-tests-fake</artifactId>
 
