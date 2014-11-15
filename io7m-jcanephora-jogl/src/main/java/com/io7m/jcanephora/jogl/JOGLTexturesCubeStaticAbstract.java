@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -177,8 +177,35 @@ abstract class JOGLTexturesCubeStaticAbstract extends
       spec.getType(),
       buffer);
 
-    if (data.getUpdateMipmaps()) {
-      g.glGenerateMipmap(GL.GL_TEXTURE_CUBE_MAP);
+    switch (data.getMipmapGeneration()) {
+      case MIPMAP_GENERATE_ALWAYS:
+      {
+        g.glGenerateMipmap(GL.GL_TEXTURE_CUBE_MAP);
+        break;
+      }
+      case MIPMAP_GENERATE_BY_MINIFICATION:
+      {
+        switch (texture.textureGetMinificationFilter()) {
+          case TEXTURE_FILTER_LINEAR:
+          case TEXTURE_FILTER_NEAREST:
+          {
+            break;
+          }
+          case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:
+          case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+          case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+          case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
+          {
+            g.glGenerateMipmap(GL.GL_TEXTURE_CUBE_MAP);
+            break;
+          }
+        }
+        break;
+      }
+      case MIPMAP_GENERATE_NEVER:
+      {
+        break;
+      }
     }
 
     g.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);

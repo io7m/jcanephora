@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -124,7 +124,7 @@ public final class TextureCubeStaticUpdate implements
   private final ByteBuffer            target_data;
   private final TextureCubeStaticType texture;
   private final TextureFormat         type;
-  private boolean                     update_mipmaps;
+  private MipmapGeneration            update_mipmaps;
 
   private TextureCubeStaticUpdate(
     final TextureCubeStaticType in_texture,
@@ -143,6 +143,7 @@ public final class TextureCubeStaticUpdate implements
       throw new RangeCheckException(s);
     }
 
+    this.update_mipmaps = MipmapGeneration.MIPMAP_GENERATE_BY_MINIFICATION;
     this.texture = in_texture;
     this.target_area = area;
 
@@ -1246,14 +1247,14 @@ public final class TextureCubeStaticUpdate implements
     return this.type;
   }
 
-  @Override public boolean getUpdateMipmaps()
+  @Override public MipmapGeneration getMipmapGeneration()
   {
     return this.update_mipmaps;
   }
 
-  @Override public void setUpdateMipmaps(
-    final boolean u)
+  @Override public void setMipMapGeneration(
+    final MipmapGeneration u)
   {
-    this.update_mipmaps = u;
+    this.update_mipmaps = NullCheck.notNull(u, "Mipmap generation");
   }
 }
