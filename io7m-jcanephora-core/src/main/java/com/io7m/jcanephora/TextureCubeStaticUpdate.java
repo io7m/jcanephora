@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -71,7 +71,7 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * <p>
- * An allocated region of data, to replace or update a 2D texture.
+ * An allocated region of data, to replace or update a cube texture.
  * </p>
  * <p>
  * The cursors exposed by this interface treat <tt>(0, 0)</tt> as the bottom
@@ -79,7 +79,8 @@ import com.io7m.junreachable.UnreachableCodeException;
  * </p>
  */
 
-public final class Texture2DStaticUpdate implements Texture2DStaticUpdateType
+public final class TextureCubeStaticUpdate implements
+  TextureCubeStaticUpdateType
 {
   /**
    * Construct a buffer of data that will be used to replace the entirety of
@@ -90,11 +91,13 @@ public final class Texture2DStaticUpdate implements Texture2DStaticUpdateType
    *          The texture.
    */
 
-  public static Texture2DStaticUpdateType newReplacingAll(
-    final Texture2DStaticType in_texture)
+  public static TextureCubeStaticUpdateType newReplacingAll(
+    final TextureCubeStaticType in_texture)
   {
     NullCheck.notNull(in_texture, "Texture");
-    return new Texture2DStaticUpdate(in_texture, in_texture.textureGetArea());
+    return new TextureCubeStaticUpdate(
+      in_texture,
+      in_texture.textureGetArea());
   }
 
   /**
@@ -109,22 +112,22 @@ public final class Texture2DStaticUpdate implements Texture2DStaticUpdateType
    *          modified.
    */
 
-  public static Texture2DStaticUpdateType newReplacingAll(
-    final Texture2DStaticType in_texture,
+  public static TextureCubeStaticUpdateType newReplacingAll(
+    final TextureCubeStaticType in_texture,
     final AreaInclusive area)
   {
-    return new Texture2DStaticUpdate(in_texture, area);
+    return new TextureCubeStaticUpdate(in_texture, area);
   }
 
-  private final AreaInclusive       source_area;
-  private final AreaInclusive       target_area;
-  private final ByteBuffer          target_data;
-  private final Texture2DStaticType texture;
-  private final TextureFormat       type;
-  private MipmapGeneration          update_mipmaps;
+  private final AreaInclusive         source_area;
+  private final AreaInclusive         target_area;
+  private final ByteBuffer            target_data;
+  private final TextureCubeStaticType texture;
+  private final TextureFormat         type;
+  private MipmapGeneration            update_mipmaps;
 
-  private Texture2DStaticUpdate(
-    final Texture2DStaticType in_texture,
+  private TextureCubeStaticUpdate(
+    final TextureCubeStaticType in_texture,
     final AreaInclusive area)
   {
     NullCheck.notNull(in_texture, "Texture");
@@ -1234,7 +1237,7 @@ public final class Texture2DStaticUpdate implements Texture2DStaticUpdateType
     return this.target_data;
   }
 
-  @Override public Texture2DStaticType getTexture()
+  @Override public TextureCubeStaticType getTexture()
   {
     return this.texture;
   }

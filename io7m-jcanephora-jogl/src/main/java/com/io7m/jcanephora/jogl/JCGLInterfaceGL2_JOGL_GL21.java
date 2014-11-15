@@ -160,6 +160,7 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
   private final JOGLArrays                                arrays;
   private final JOGLBlending                              blending;
   private final GL2                                       cached_gl2;
+  private final JOGLClear                                 clear;
   private final JOGLColorBuffer                           color_buffer;
   private final JOGLColorAttachmentPoints                 color_points;
   private final JOGLCulling                               cull;
@@ -186,7 +187,6 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
   private final JOGLTexturesCubeStaticGL3                 textures_cube;
   private final JOGLTextures2DStaticGL2                   textures2d;
   private final JOGLViewport                              viewport;
-  private final JOGLClear                                 clear;
 
   JCGLInterfaceGL2_JOGL_GL21(
     final GLContext in_context,
@@ -487,6 +487,13 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
     throws JCGLExceptionRuntime
   {
     return this.blending.blendingIsEnabled();
+  }
+
+  @Override public void clear(
+    final ClearSpecification c)
+    throws JCGLException
+  {
+    this.clear.clear(c);
   }
 
   @Override public void colorBufferClear3f(
@@ -1330,6 +1337,13 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
     return this.textures2d.texture2DStaticIsBound(unit, texture);
   }
 
+  @Override public void texture2DStaticRegenerateMipmaps(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    this.textures2d.texture2DStaticRegenerateMipmaps(texture);
+  }
+
   @Override public void texture2DStaticUnbind(
     final TextureUnitType unit)
     throws JCGLException
@@ -1519,12 +1533,5 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
     throws JCGLExceptionRuntime
   {
     this.viewport.viewportSet(area);
-  }
-
-  @Override public void clear(
-    final ClearSpecification c)
-    throws JCGLException
-  {
-    this.clear.clear(c);
   }
 }

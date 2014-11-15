@@ -176,6 +176,38 @@ abstract class JOGLTexturesCubeStaticAbstract extends
       spec.getFormat(),
       spec.getType(),
       buffer);
+
+    switch (data.getMipmapGeneration()) {
+      case MIPMAP_GENERATE_ALWAYS:
+      {
+        g.glGenerateMipmap(GL.GL_TEXTURE_CUBE_MAP);
+        break;
+      }
+      case MIPMAP_GENERATE_BY_MINIFICATION:
+      {
+        switch (texture.textureGetMinificationFilter()) {
+          case TEXTURE_FILTER_LINEAR:
+          case TEXTURE_FILTER_NEAREST:
+          {
+            break;
+          }
+          case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:
+          case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+          case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+          case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
+          {
+            g.glGenerateMipmap(GL.GL_TEXTURE_CUBE_MAP);
+            break;
+          }
+        }
+        break;
+      }
+      case MIPMAP_GENERATE_NEVER:
+      {
+        break;
+      }
+    }
+
     g.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
   }
 

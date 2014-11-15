@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -35,6 +35,7 @@ import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionParameterError;
 import com.io7m.jcanephora.JCGLExceptionTypeError;
+import com.io7m.jcanephora.MipmapGeneration;
 import com.io7m.jcanephora.SpatialCursorWritable1fType;
 import com.io7m.jcanephora.SpatialCursorWritable2fType;
 import com.io7m.jcanephora.SpatialCursorWritable3fType;
@@ -1651,6 +1652,7 @@ import com.io7m.junreachable.UnreachableCodeException;
   private final LogUsableType log;
   private final LogUsableType log_alpha;
   private final boolean       premultiply_alpha;
+  private MipmapGeneration    mipmap_generation;
 
   private TextureLoaderImageIO(
     final LogUsableType in_log,
@@ -1659,6 +1661,7 @@ import com.io7m.junreachable.UnreachableCodeException;
     this.log = NullCheck.notNull(in_log, "Log").with("texture-loader");
     this.log_alpha = this.log.with("alpha");
     this.premultiply_alpha = in_premultiply;
+    this.mipmap_generation = MipmapGeneration.MIPMAP_GENERATE_BY_MINIFICATION;
   }
 
   private void cubeUpdateFacesLH(
@@ -1676,6 +1679,7 @@ import com.io7m.junreachable.UnreachableCodeException;
     try {
       final TextureCubeStaticUpdateType data =
         TextureCubeStaticUpdate.newReplacingAll(texture);
+      data.setMipMapGeneration(this.mipmap_generation);
 
       {
         this.writeImageDataWithConversionToTexture(positive_z, data, type);
@@ -1740,6 +1744,7 @@ import com.io7m.junreachable.UnreachableCodeException;
     try {
       final TextureCubeStaticUpdateType data =
         TextureCubeStaticUpdate.newReplacingAll(texture);
+      data.setMipMapGeneration(this.mipmap_generation);
 
       {
         this.writeImageDataWithConversionToTexture(positive_z, data, type);
@@ -3321,6 +3326,7 @@ import com.io7m.junreachable.UnreachableCodeException;
     try {
       final Texture2DStaticUpdateType data =
         Texture2DStaticUpdate.newReplacingAll(texture);
+      data.setMipMapGeneration(this.mipmap_generation);
       this.writeImageDataWithConversionToTexture(image, data, type);
       gl.texture2DStaticUpdate(data);
       return texture;
@@ -3356,6 +3362,7 @@ import com.io7m.junreachable.UnreachableCodeException;
     try {
       final Texture2DStaticUpdateType data =
         Texture2DStaticUpdate.newReplacingAll(texture);
+      data.setMipMapGeneration(this.mipmap_generation);
       this.writeImageDataWithConversionToTexture(image, data, type);
       gl.texture2DStaticUpdate(data);
       return texture;
@@ -3391,6 +3398,7 @@ import com.io7m.junreachable.UnreachableCodeException;
     try {
       final Texture2DStaticUpdateType data =
         Texture2DStaticUpdate.newReplacingAll(texture);
+      data.setMipMapGeneration(this.mipmap_generation);
       this.writeImageDataWithConversionToTexture(image, data, type);
       gl.texture2DStaticUpdate(data);
       return texture;
@@ -4316,4 +4324,14 @@ import com.io7m.junreachable.UnreachableCodeException;
     }
   }
 
+  @Override public MipmapGeneration getMipmapGeneration()
+  {
+    return this.mipmap_generation;
+  }
+
+  @Override public void setMipMapGeneration(
+    final MipmapGeneration u)
+  {
+    this.mipmap_generation = NullCheck.notNull(u, "Behaviour");
+  }
 }
