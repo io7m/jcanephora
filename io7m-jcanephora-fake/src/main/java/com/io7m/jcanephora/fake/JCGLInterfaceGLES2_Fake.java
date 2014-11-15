@@ -104,6 +104,7 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
 {
   private final FakeArrays                                arrays;
   private final FakeBlending                              blending;
+  private FakeClear                                       clear;
   private final FakeColorBuffer                           color_buffer;
   private final FakeColorAttachmentPoints                 color_points;
   private final FakeCulling                               cull;
@@ -125,14 +126,6 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
   private final FakeTexturesCubeStatic                    textures_cube;
   private final FakeTextures2DStatic                      textures2d;
   private final FakeViewport                              viewport;
-  private FakeClear                                       clear;
-
-  @Override public void clear(
-    final ClearSpecification c)
-    throws JCGLException
-  {
-    this.clear.clear(c);
-  }
 
   JCGLInterfaceGLES2_Fake(
     final FakeContext in_context,
@@ -230,6 +223,12 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     throws JCGLException
   {
     return this.arrays.arrayBufferAllocate(elements, descriptor, usage);
+  }
+
+  @Override public boolean arrayBufferAnyIsBound()
+    throws JCGLException
+  {
+    return this.arrays.arrayBufferAnyIsBound();
   }
 
   @Override public void arrayBufferBind(
@@ -348,6 +347,13 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     throws JCGLExceptionRuntime
   {
     return this.blending.blendingIsEnabled();
+  }
+
+  @Override public void clear(
+    final ClearSpecification c)
+    throws JCGLException
+  {
+    this.clear.clear(c);
   }
 
   @Override public void colorBufferClear3f(
@@ -572,6 +578,14 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     throws JCGLException
   {
     this.framebuffers.framebufferDrawBind(framebuffer);
+  }
+
+  @Override public
+    OptionType<FramebufferUsableType>
+    framebufferDrawGetBound()
+      throws JCGLException
+  {
+    return this.framebuffers.framebufferDrawGetBound();
   }
 
   @Override public boolean framebufferDrawIsBound(
@@ -1087,6 +1101,13 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     return this.textures2d.texture2DStaticIsBound(unit, texture);
   }
 
+  @Override public void texture2DStaticRegenerateMipmaps(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    this.textures2d.texture2DStaticRegenerateMipmaps(texture);
+  }
+
   @Override public void texture2DStaticUnbind(
     final TextureUnitType unit)
     throws JCGLException
@@ -1247,19 +1268,5 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     throws JCGLExceptionRuntime
   {
     this.viewport.viewportSet(area);
-  }
-
-  @Override public
-    OptionType<FramebufferUsableType>
-    framebufferDrawGetBound()
-      throws JCGLException
-  {
-    return this.framebuffers.framebufferDrawGetBound();
-  }
-
-  @Override public boolean arrayBufferAnyIsBound()
-    throws JCGLException
-  {
-    return this.arrays.arrayBufferAnyIsBound();
   }
 }

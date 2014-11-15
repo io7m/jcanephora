@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -110,6 +110,7 @@ final class JCGLInterfaceGL2_Fake implements JCGLInterfaceGL2Type
 {
   private final FakeArrays                                arrays;
   private final FakeBlending                              blending;
+  private FakeClear                                       clear;
   private final FakeColorBuffer                           color_buffer;
   private final FakeColorAttachmentPoints                 color_points;
   private final FakeCulling                               cull;
@@ -134,7 +135,6 @@ final class JCGLInterfaceGL2_Fake implements JCGLInterfaceGL2Type
   private final FakeTexturesCubeStatic                    textures_cube;
   private final FakeTextures2DStatic                      textures2d;
   private final FakeViewport                              viewport;
-  private FakeClear                                       clear;
 
   JCGLInterfaceGL2_Fake(
     final FakeContext in_context,
@@ -235,6 +235,12 @@ final class JCGLInterfaceGL2_Fake implements JCGLInterfaceGL2Type
     throws JCGLException
   {
     return this.arrays.arrayBufferAllocate(elements, descriptor, usage);
+  }
+
+  @Override public boolean arrayBufferAnyIsBound()
+    throws JCGLException
+  {
+    return this.arrays.arrayBufferAnyIsBound();
   }
 
   @Override public void arrayBufferBind(
@@ -400,6 +406,13 @@ final class JCGLInterfaceGL2_Fake implements JCGLInterfaceGL2Type
     throws JCGLExceptionRuntime
   {
     return this.blending.blendingIsEnabled();
+  }
+
+  @Override public void clear(
+    final ClearSpecification c)
+    throws JCGLException
+  {
+    this.clear.clear(c);
   }
 
   @Override public void colorBufferClear3f(
@@ -1242,6 +1255,13 @@ final class JCGLInterfaceGL2_Fake implements JCGLInterfaceGL2Type
     return this.textures2d.texture2DStaticIsBound(unit, texture);
   }
 
+  @Override public void texture2DStaticRegenerateMipmaps(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    this.textures2d.texture2DStaticRegenerateMipmaps(texture);
+  }
+
   @Override public void texture2DStaticUnbind(
     final TextureUnitType unit)
     throws JCGLException
@@ -1420,18 +1440,5 @@ final class JCGLInterfaceGL2_Fake implements JCGLInterfaceGL2Type
     throws JCGLExceptionRuntime
   {
     this.viewport.viewportSet(area);
-  }
-
-  @Override public boolean arrayBufferAnyIsBound()
-    throws JCGLException
-  {
-    return this.arrays.arrayBufferAnyIsBound();
-  }
-
-  @Override public void clear(
-    final ClearSpecification c)
-    throws JCGLException
-  {
-    this.clear.clear(c);
   }
 }

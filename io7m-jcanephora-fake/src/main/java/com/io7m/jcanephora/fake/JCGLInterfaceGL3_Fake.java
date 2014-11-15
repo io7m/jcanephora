@@ -118,6 +118,7 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
 {
   private final FakeArrays                                arrays;
   private final FakeBlending                              blending;
+  private FakeClear                                       clear;
   private final FakeColorBuffer                           color_buffer;
   private final FakeColorAttachmentPoints                 color_points;
   private final FakeCulling                               cull;
@@ -142,14 +143,6 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
   private final FakeTexturesCubeStatic                    textures_cube;
   private final FakeTextures2DStatic                      textures2d;
   private final FakeViewport                              viewport;
-  private FakeClear                                       clear;
-
-  @Override public void clear(
-    final ClearSpecification c)
-    throws JCGLException
-  {
-    this.clear.clear(c);
-  }
 
   JCGLInterfaceGL3_Fake(
     final FakeContext in_context,
@@ -250,6 +243,12 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
     throws JCGLException
   {
     return this.arrays.arrayBufferAllocate(elements, descriptor, usage);
+  }
+
+  @Override public boolean arrayBufferAnyIsBound()
+    throws JCGLException
+  {
+    return this.arrays.arrayBufferAnyIsBound();
   }
 
   @Override public void arrayBufferBind(
@@ -455,6 +454,13 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
     throws JCGLExceptionRuntime
   {
     return this.blending.blendingIsEnabled();
+  }
+
+  @Override public void clear(
+    final ClearSpecification c)
+    throws JCGLException
+  {
+    this.clear.clear(c);
   }
 
   @Override public void colorBufferClear3f(
@@ -2174,6 +2180,13 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
     return this.textures2d.texture2DStaticIsBound(unit, texture);
   }
 
+  @Override public void texture2DStaticRegenerateMipmaps(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    this.textures2d.texture2DStaticRegenerateMipmaps(texture);
+  }
+
   @Override public void texture2DStaticUnbind(
     final TextureUnitType unit)
     throws JCGLException
@@ -3194,11 +3207,5 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
     throws JCGLExceptionRuntime
   {
     this.viewport.viewportSet(area);
-  }
-
-  @Override public boolean arrayBufferAnyIsBound()
-    throws JCGLException
-  {
-    return this.arrays.arrayBufferAnyIsBound();
   }
 }

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -34,7 +34,7 @@ public interface JCGLTextures2DStaticCommonType
   /**
    * Bind the texture <code>texture</code> to the texture unit
    * <code>unit</code>.
-   * 
+   *
    * @param unit
    *          The texture unit.
    * @param texture
@@ -50,7 +50,7 @@ public interface JCGLTextures2DStaticCommonType
 
   /**
    * Deletes the texture referenced by <code>texture</code>.
-   * 
+   *
    * @param texture
    *          The texture.
    * @throws JCGLException
@@ -78,9 +78,26 @@ public interface JCGLTextures2DStaticCommonType
     throws JCGLException;
 
   /**
+   * Regenerate mipmaps for <code>texture</code>. Note that the regeneration
+   * of mipmaps can occur as part of a texture update, so calling this
+   * function is generally only necessary if a texture has been updated as a
+   * result of rendering to it via a framebuffer object.
+   *
+   * @see com.io7m.jcanephora.TextureUpdateType#setUpdateMipmaps(boolean)
+   * @param texture
+   *          The texture.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void texture2DStaticRegenerateMipmaps(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException;
+
+  /**
    * Unbind whatever 2D texture is bound to the texture unit <code>unit</code>
    * (if any).
-   * 
+   *
    * @param unit
    *          The texture unit.
    * @throws JCGLException
@@ -94,7 +111,7 @@ public interface JCGLTextures2DStaticCommonType
   /**
    * Replace the contents (or part of the contents) of the texture
    * <code>data.getTexture()</code> with <code>data</code>.
-   * 
+   *
    * @param data
    *          The data to upload.
    * @throws JCGLException

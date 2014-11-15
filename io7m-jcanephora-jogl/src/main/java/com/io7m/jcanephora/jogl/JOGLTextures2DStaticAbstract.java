@@ -139,6 +139,21 @@ abstract class JOGLTextures2DStaticAbstract extends
     return e == texture.getGLName();
   }
 
+  @Override public final void texture2DStaticRegenerateMipmaps(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    NullCheck.notNull(texture, "Texture");
+    final GLContext context = this.getContext();
+    JOGLTextures2DStaticAbstract.checkTexture(context, texture);
+
+    final GL g = this.getGL();
+
+    g.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
+    g.glGenerateMipmap(GL.GL_TEXTURE_2D);
+    g.glBindTexture(GL.GL_TEXTURE_2D, 0);
+  }
+
   @Override public final void texture2DStaticUnbind(
     final TextureUnitType unit)
     throws JCGLExceptionRuntime,
@@ -182,6 +197,11 @@ abstract class JOGLTextures2DStaticAbstract extends
       spec.getFormat(),
       spec.getType(),
       buffer);
+
+    if (data.getUpdateMipmaps()) {
+      g.glGenerateMipmap(GL.GL_TEXTURE_2D);
+    }
+
     g.glBindTexture(GL.GL_TEXTURE_2D, 0);
   }
 }
