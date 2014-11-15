@@ -152,6 +152,7 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
   private final JOGLArrays                                      arrays;
   private final JOGLBlending                                    blending;
   private final GLES2                                           cached_gl;
+  private final JOGLClear                                       clear;
   private final JOGLColorBuffer                                 color_buffer;
   private final JOGLColorAttachmentPoints                       color_points;
   private final JOGLCulling                                     cull;
@@ -177,7 +178,6 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
   private final JOGLTexturesCubeStaticGLES2                     textures_cube;
   private final JOGLTextures2DStaticGLES2                       textures2d;
   private final JOGLViewport                                    viewport;
-  private final JOGLClear                                       clear;
 
   JCGLInterfaceGLES2_JOGL_ES2(
     final GLContext in_context,
@@ -439,6 +439,13 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
     throws JCGLExceptionRuntime
   {
     return this.blending.blendingIsEnabled();
+  }
+
+  @Override public void clear(
+    final ClearSpecification c)
+    throws JCGLException
+  {
+    this.clear.clear(c);
   }
 
   @Override public void colorBufferClear3f(
@@ -1182,6 +1189,13 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
     return this.textures2d.texture2DStaticIsBound(unit, texture);
   }
 
+  @Override public void texture2DStaticRegenerateMipmaps(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    this.textures2d.texture2DStaticRegenerateMipmaps(texture);
+  }
+
   @Override public void texture2DStaticUnbind(
     final TextureUnitType unit)
     throws JCGLException
@@ -1349,12 +1363,5 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
     throws JCGLExceptionRuntime
   {
     this.viewport.viewportSet(area);
-  }
-
-  @Override public void clear(
-    final ClearSpecification c)
-    throws JCGLException
-  {
-    this.clear.clear(c);
   }
 }
