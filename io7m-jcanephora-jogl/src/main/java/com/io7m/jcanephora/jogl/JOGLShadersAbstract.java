@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -54,8 +54,8 @@ import com.io7m.jlog.LogLevel;
 import com.io7m.jlog.LogType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jtensors.MatrixReadable3x3FType;
-import com.io7m.jtensors.MatrixReadable4x4FType;
+import com.io7m.jtensors.MatrixDirectReadable3x3FType;
+import com.io7m.jtensors.MatrixDirectReadable4x4FType;
 import com.io7m.jtensors.VectorReadable2FType;
 import com.io7m.jtensors.VectorReadable2IType;
 import com.io7m.jtensors.VectorReadable3FType;
@@ -155,7 +155,7 @@ abstract class JOGLShadersAbstract implements
 
     @Override public void programUniformPutMatrix3x3f(
       final ProgramUniformType uniform,
-      final MatrixReadable3x3FType matrix)
+      final MatrixDirectReadable3x3FType matrix)
       throws JCGLException
     {
       JOGLShadersAbstract.this.uniformPutMatrix3x3f(uniform, matrix, false);
@@ -163,7 +163,7 @@ abstract class JOGLShadersAbstract implements
 
     @Override public void programUniformPutMatrix4x4f(
       final ProgramUniformType uniform,
-      final MatrixReadable4x4FType matrix)
+      final MatrixDirectReadable4x4FType matrix)
       throws JCGLException
     {
       JOGLShadersAbstract.this.uniformPutMatrix4x4f(uniform, matrix, false);
@@ -1066,7 +1066,7 @@ abstract class JOGLShadersAbstract implements
 
   @Override public final void programUniformPutMatrix3x3f(
     final ProgramUniformType pu,
-    final MatrixReadable3x3FType matrix)
+    final MatrixDirectReadable3x3FType matrix)
     throws JCGLException
   {
     this.uniformPutMatrix3x3f(pu, matrix, true);
@@ -1074,7 +1074,7 @@ abstract class JOGLShadersAbstract implements
 
   @Override public final void programUniformPutMatrix4x4f(
     final ProgramUniformType pu,
-    final MatrixReadable4x4FType matrix)
+    final MatrixDirectReadable4x4FType matrix)
     throws JCGLException
   {
     this.uniformPutMatrix4x4f(pu, matrix, true);
@@ -1158,26 +1158,26 @@ abstract class JOGLShadersAbstract implements
 
   private void uniformPutMatrix3x3f(
     final ProgramUniformType pu,
-    final MatrixReadable3x3FType matrix,
+    final MatrixDirectReadable3x3FType matrix,
     final boolean check_active)
   {
     this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_MATRIX_3, check_active);
     NullCheck.notNull(matrix, "Value");
 
     final int pul = pu.uniformGetLocation();
-    this.gl.glUniformMatrix3fv(pul, 1, false, matrix.getFloatBuffer());
+    this.gl.glUniformMatrix3fv(pul, 1, false, matrix.getDirectFloatBuffer());
   }
 
   private void uniformPutMatrix4x4f(
     final ProgramUniformType pu,
-    final MatrixReadable4x4FType matrix,
+    final MatrixDirectReadable4x4FType matrix,
     final boolean check_active)
   {
     this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT_MATRIX_4, check_active);
     NullCheck.notNull(matrix, "Value");
 
     final int pul = pu.uniformGetLocation();
-    this.gl.glUniformMatrix4fv(pul, 1, false, matrix.getFloatBuffer());
+    this.gl.glUniformMatrix4fv(pul, 1, false, matrix.getDirectFloatBuffer());
   }
 
   private void uniformPutTextureUnit(

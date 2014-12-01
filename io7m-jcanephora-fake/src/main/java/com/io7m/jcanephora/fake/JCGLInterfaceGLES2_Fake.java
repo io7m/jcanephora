@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -91,8 +91,8 @@ import com.io7m.jfunctional.Option;
 import com.io7m.jfunctional.OptionType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jtensors.MatrixReadable3x3FType;
-import com.io7m.jtensors.MatrixReadable4x4FType;
+import com.io7m.jtensors.MatrixDirectReadable3x3FType;
+import com.io7m.jtensors.MatrixDirectReadable4x4FType;
 import com.io7m.jtensors.VectorReadable2FType;
 import com.io7m.jtensors.VectorReadable2IType;
 import com.io7m.jtensors.VectorReadable3FType;
@@ -806,7 +806,7 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
 
   @Override public void programUniformPutMatrix3x3f(
     final ProgramUniformType uniform,
-    final MatrixReadable3x3FType matrix)
+    final MatrixDirectReadable3x3FType matrix)
     throws JCGLException
   {
     this.program.programUniformPutMatrix3x3f(uniform, matrix);
@@ -814,7 +814,7 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
 
   @Override public void programUniformPutMatrix4x4f(
     final ProgramUniformType uniform,
-    final MatrixReadable4x4FType matrix)
+    final MatrixDirectReadable4x4FType matrix)
     throws JCGLException
   {
     this.program.programUniformPutMatrix4x4f(uniform, matrix);
