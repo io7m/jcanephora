@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora</artifactId>
-  <version>0.34.6</version>
+  <version>0.35.0</version>
 
   <packaging>pom</packaging>
   <name>io7m-jcanephora</name>
@@ -43,7 +43,7 @@
     <com.io7m.jlog.versionRange>[3.1.0, 4.0.0)</com.io7m.jlog.versionRange>
     <com.io7m.jnull.versionRange>[1.0.0, 2.0.0)</com.io7m.jnull.versionRange>
     <com.io7m.jranges.versionRange>[1.0.0, 2.0.0)</com.io7m.jranges.versionRange>
-    <com.io7m.jtensors.versionRange>[6.0.0, 7.0.0)</com.io7m.jtensors.versionRange>
+    <com.io7m.jtensors.versionRange>[7.0.0-b0, 7.0.0)</com.io7m.jtensors.versionRange>
     <com.io7m.junreachable.versionRange>[1.0.0, 2.0.0)</com.io7m.junreachable.versionRange>
     <com.io7m.jvvfs.versionRange>[4.0.0, 5.0.0)</com.io7m.jvvfs.versionRange>
   </properties>

@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.io7m.jcanephora</groupId>
     <artifactId>io7m-jcanephora</artifactId>
-    <version>0.34.6</version>
+    <version>0.35.0</version>
   </parent>
   <artifactId>io7m-jcanephora-blueberry</artifactId>
 
@@ -234,6 +234,7 @@
             <phase>package</phase>
             <goals>
               <goal>jar</goal>
+              <goal>test-jar</goal>
             </goals>
             <configuration>
               <archive>

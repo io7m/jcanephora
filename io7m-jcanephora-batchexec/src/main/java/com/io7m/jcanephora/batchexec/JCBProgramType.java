@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -24,8 +24,8 @@ import com.io7m.jcanephora.JCGLExceptionProgramValidationError;
 import com.io7m.jcanephora.JCGLExceptionTypeError;
 import com.io7m.jcanephora.ProgramUsableType;
 import com.io7m.jcanephora.TextureUnitType;
-import com.io7m.jtensors.MatrixReadable3x3FType;
-import com.io7m.jtensors.MatrixReadable4x4FType;
+import com.io7m.jtensors.MatrixDirectReadable3x3FType;
+import com.io7m.jtensors.MatrixDirectReadable4x4FType;
 import com.io7m.jtensors.VectorReadable2FType;
 import com.io7m.jtensors.VectorReadable2IType;
 import com.io7m.jtensors.VectorReadable3FType;
@@ -46,14 +46,14 @@ public interface JCBProgramType
    * <tt>a</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the attribute types do not match.
    * @throws JCGLExceptionAttributeMissing
    *           If the attribute does not exist.
    * @throws JCGLException
    *           If any other error occurs.
-   * 
+   *
    * @param a
    *          The name of the program attribute.
    * @param x
@@ -74,14 +74,14 @@ public interface JCBProgramType
    * attribute <tt>a</tt> will be assumed to have been assigned, for the
    * purposes of validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the attribute types do not match.
    * @throws JCGLExceptionAttributeMissing
    *           If the attribute does not exist.
    * @throws JCGLException
    *           If any other error occurs.
-   * 
+   *
    * @param a
    *          The name of the program attribute.
    * @param x
@@ -102,14 +102,14 @@ public interface JCBProgramType
    * attribute <tt>a</tt> will be assumed to have been assigned, for the
    * purposes of validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the attribute types do not match.
    * @throws JCGLExceptionAttributeMissing
    *           If the attribute does not exist.
    * @throws JCGLException
    *           If any other error occurs.
-   * 
+   *
    * @param a
    *          The name of the program attribute.
    * @param x
@@ -130,14 +130,14 @@ public interface JCBProgramType
    * attribute <tt>a</tt> will be assumed to have been assigned, for the
    * purposes of validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the attribute types do not match.
    * @throws JCGLExceptionAttributeMissing
    *           If the attribute does not exist.
    * @throws JCGLException
    *           If any other error occurs.
-   * 
+   *
    * @param a
    *          The name of the program attribute.
    * @param x
@@ -158,14 +158,14 @@ public interface JCBProgramType
    * attribute <tt>a</tt> will be assumed to have been assigned, for the
    * purposes of validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the attribute types do not match.
    * @throws JCGLExceptionAttributeMissing
    *           If the attribute does not exist.
    * @throws JCGLException
    *           If any other error occurs.
-   * 
+   *
    * @param a
    *          The name of the program attribute.
    * @param x
@@ -184,10 +184,10 @@ public interface JCBProgramType
    * Execute the given procedure, after calling {@link #programValidate()} to
    * check that the current program is correctly configured.
    * </p>
-   * 
+   *
    * @param procedure
    *          The procedure.
-   * 
+   *
    * @param <E>
    *          The type of exceptions raised by the procedure other than
    *          {@link JCGLException}.
@@ -217,7 +217,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -244,7 +244,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -271,7 +271,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -286,7 +286,7 @@ public interface JCBProgramType
 
   void programUniformPutMatrix3x3f(
     final String u,
-    final MatrixReadable3x3FType x)
+    final MatrixDirectReadable3x3FType x)
     throws JCGLException,
       JCGLExceptionProgramUniformMissing,
       JCGLExceptionTypeError;
@@ -298,7 +298,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -313,7 +313,7 @@ public interface JCBProgramType
 
   void programUniformPutMatrix4x4f(
     final String u,
-    final MatrixReadable4x4FType x)
+    final MatrixDirectReadable4x4FType x)
     throws JCGLException,
       JCGLExceptionProgramUniformMissing,
       JCGLExceptionTypeError;
@@ -325,7 +325,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -352,7 +352,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -379,7 +379,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -406,7 +406,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -433,7 +433,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -460,7 +460,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -487,7 +487,7 @@ public interface JCBProgramType
    * <tt>u</tt> will be assumed to have been assigned, for the purposes of
    * validation with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionTypeError
    *           If the uniform types do not match.
    * @throws JCGLExceptionProgramUniformMissing
@@ -528,7 +528,7 @@ public interface JCBProgramType
    * will be assumed to have been assigned, for the purposes of validation
    * with {@link #programValidate()}.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionProgramValidationError
    *           If the uniform has never been assigned.
    * @throws JCGLExceptionProgramUniformMissing
@@ -550,7 +550,7 @@ public interface JCBProgramType
    * Validate the current execution, checking that all uniforms and attributes
    * have been assigned values.
    * </p>
-   * 
+   *
    * @throws JCGLExceptionProgramValidationError
    *           If the program fails validation.
    */

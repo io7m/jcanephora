@@ -60,10 +60,10 @@ import com.io7m.jnull.NullCheckException;
 import com.io7m.jparasol.xml.FragmentParameter;
 import com.io7m.jparasol.xml.VertexInput;
 import com.io7m.jparasol.xml.VertexParameter;
+import com.io7m.jtensors.MatrixDirectReadable3x3FType;
+import com.io7m.jtensors.MatrixDirectReadable4x4FType;
 import com.io7m.jtensors.MatrixM3x3F;
 import com.io7m.jtensors.MatrixM4x4F;
-import com.io7m.jtensors.MatrixReadable3x3FType;
-import com.io7m.jtensors.MatrixReadable4x4FType;
 import com.io7m.jtensors.VectorI4F;
 import com.io7m.jtensors.VectorI4I;
 import com.io7m.jtensors.VectorReadable2FType;
@@ -1616,7 +1616,7 @@ import com.io7m.jvvfs.FilesystemType;
         {
           program.programUniformPutMatrix3x3f(
             "u_m3",
-            (MatrixReadable3x3FType) TestUtilities.actuallyNull());
+            (MatrixDirectReadable3x3FType) TestUtilities.actuallyNull());
         }
       });
     } catch (final JCGLExceptionExecution e) {
@@ -1767,7 +1767,7 @@ import com.io7m.jvvfs.FilesystemType;
         {
           program.programUniformPutMatrix4x4f(
             "u_m4",
-            (MatrixReadable4x4FType) TestUtilities.actuallyNull());
+            (MatrixDirectReadable4x4FType) TestUtilities.actuallyNull());
         }
       });
     } catch (final JCGLExceptionExecution e) {

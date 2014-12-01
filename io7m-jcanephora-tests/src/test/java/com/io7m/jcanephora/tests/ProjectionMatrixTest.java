@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -87,31 +87,73 @@ import com.io7m.jtensors.MatrixM4x4F;
 
     System.out.println(m);
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 5.0f, m.get(0, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      5.0f,
+      m.getRowColumnF(0, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 5.0f, m.get(1, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      5.0f,
+      m.getRowColumnF(1, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(2, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(2, 1)));
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       c,
       -1.105263113975525f,
-      m.get(2, 2)));
+      m.getRowColumnF(2, 2)));
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       c,
       -10.526315689086914f,
-      m.get(2, 3)));
+      m.getRowColumnF(2, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, -1.0f, m.get(3, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      -1.0f,
+      m.getRowColumnF(3, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 3)));
   }
 
   @Test public void testOrthographic()
@@ -127,32 +169,74 @@ import com.io7m.jtensors.MatrixM4x4F;
       10.0);
     final ContextRelative c = new AlmostEqualFloat.ContextRelative();
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.2f, m.get(0, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, -1.0f, m.get(0, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.2f,
+      m.getRowColumnF(0, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      -1.0f,
+      m.getRowColumnF(0, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.2f, m.get(1, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, -1.0f, m.get(1, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.2f,
+      m.getRowColumnF(1, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      -1.0f,
+      m.getRowColumnF(1, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(2, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(2, 1)));
 
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       c,
       -0.22222222f,
-      m.get(2, 2)));
+      m.getRowColumnF(2, 2)));
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       c,
       -1.2222222f,
-      m.get(2, 3)));
+      m.getRowColumnF(2, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 1.0f, m.get(3, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      1.0f,
+      m.getRowColumnF(3, 3)));
   }
 
   @Test(expected = NullCheckException.class) public
@@ -183,31 +267,73 @@ import com.io7m.jtensors.MatrixM4x4F;
 
     System.out.println(m);
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 1.0f, m.get(0, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      1.0f,
+      m.getRowColumnF(0, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 1.0f, m.get(1, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      1.0f,
+      m.getRowColumnF(1, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(2, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(2, 1)));
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       c,
       -1.002002000808716f,
-      m.get(2, 2)));
+      m.getRowColumnF(2, 2)));
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       c,
       -2.002002000808716f,
-      m.get(2, 3)));
+      m.getRowColumnF(2, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, -1.0f, m.get(3, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      -1.0f,
+      m.getRowColumnF(3, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 3)));
   }
 
   @Test public void testPerspectiveInfinite()
@@ -227,28 +353,70 @@ import com.io7m.jtensors.MatrixM4x4F;
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       c,
       2.414213657379150f,
-      m.get(0, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 3)));
+      m.getRowColumnF(0, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(0, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 0)));
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       c,
       3.138477563858032f,
-      m.get(1, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 3)));
+      m.getRowColumnF(1, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(1, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, -1.0f, m.get(2, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, -2.0f, m.get(2, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(2, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(2, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      -1.0f,
+      m.getRowColumnF(2, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      -2.0f,
+      m.getRowColumnF(2, 3)));
 
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, -1.0f, m.get(3, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      -1.0f,
+      m.getRowColumnF(3, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      0.0f,
+      m.getRowColumnF(3, 3)));
   }
 
   @Test(expected = NullCheckException.class) public
