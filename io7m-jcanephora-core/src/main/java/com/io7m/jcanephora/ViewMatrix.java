@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -33,14 +33,14 @@ public final class ViewMatrix
   /**
    * The Context type contains the minimum storage required for all of the
    * functions of the <code>ViewMatrix</code> class.
-   * 
+   *
    * <p>
    * The purpose of the class is to allow applications to allocate all storage
    * ahead of time in order to allow functions in the class to avoid
    * allocating memory (not including stack space) for intermediate
    * calculations. This can reduce garbage collection in speed critical code.
    * </p>
-   * 
+   *
    * <p>
    * The user should allocate one <code>Context</code> value per thread, and
    * then pass this value to matrix functions. Any matrix function that takes
@@ -118,15 +118,15 @@ public final class ViewMatrix
    * <code>camera</code> to the point <code>target</code>. <code>target</code>
    * must represent the "up" vector for the camera. Usually, this is simply a
    * unit vector <code>(0, 1, 0)</code> representing the Y axis.
-   * 
+   *
    * The view is expressed as a translation and a rotation matrix, which is
    * multiplied with the contents of <code>out</code>. Therefore, for most use
    * cases, <code>out</code> should be set to the 4x4 identity matrix before
    * calling the function.
-   * 
+   *
    * @see ViewMatrix#lookAtWithContext(Context, MatrixM4x4F,
    *      VectorReadable3FType, VectorReadable3FType, VectorReadable3FType)
-   * 
+   *
    * @param out
    *          The input/output matrix.
    * @param camera
@@ -152,14 +152,14 @@ public final class ViewMatrix
    * <code>camera</code> to the point <code>target</code>. <code>target</code>
    * must represent the "up" vector for the camera. Usually, this is simply a
    * unit vector <code>(0, 1, 0)</code> representing the Y axis.
-   * 
+   *
    * The function uses preallocated storage from <code>context</code>.
-   * 
+   *
    * The view is expressed as a translation and a rotation matrix, which is
    * multiplied with the contents of <code>out</code>. Therefore, for most use
    * cases, <code>out</code> should be set to the 4x4 identity matrix before
    * calling the function.
-   * 
+   *
    * @param context
    *          Preallocated storage.
    * @param out

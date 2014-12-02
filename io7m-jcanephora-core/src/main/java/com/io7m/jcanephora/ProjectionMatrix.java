@@ -18,7 +18,7 @@ package com.io7m.jcanephora;
 
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
-import com.io7m.jtensors.MatrixM4x4F;
+import com.io7m.jtensors.MatrixWritable4x4FType;
 import com.io7m.junreachable.UnreachableCodeException;
 
 /**
@@ -42,7 +42,7 @@ public final class ProjectionMatrix
    * function produces an "infinite projection matrix", suitable for use in
    * code that deals with shadow volumes.
    * <p>
-   * 
+   *
    * @link http://http.developer.nvidia.com/GPUGems/gpugems_ch09.html
    * @param x_min
    *          The minimum X clip plane.
@@ -61,7 +61,7 @@ public final class ProjectionMatrix
    */
 
   public static void makeFrustumProjection(
-    final MatrixM4x4F matrix,
+    final MatrixWritable4x4FType matrix,
     final double x_min,
     final double x_max,
     final double y_min,
@@ -93,31 +93,31 @@ public final class ProjectionMatrix
       r2c3 = -((2 * z_far * z_near) / (z_far - z_near));
     }
 
-    matrix.set(0, 0, (float) r0c0);
-    matrix.set(0, 1, 0.0f);
-    matrix.set(0, 2, (float) r0c2);
-    matrix.set(0, 3, 0.0f);
+    matrix.setRowColumnF(0, 0, (float) r0c0);
+    matrix.setRowColumnF(0, 1, 0.0f);
+    matrix.setRowColumnF(0, 2, (float) r0c2);
+    matrix.setRowColumnF(0, 3, 0.0f);
 
-    matrix.set(1, 0, 0.0f);
-    matrix.set(1, 1, (float) r1c1);
-    matrix.set(1, 2, (float) r1c2);
-    matrix.set(1, 3, 0.0f);
+    matrix.setRowColumnF(1, 0, 0.0f);
+    matrix.setRowColumnF(1, 1, (float) r1c1);
+    matrix.setRowColumnF(1, 2, (float) r1c2);
+    matrix.setRowColumnF(1, 3, 0.0f);
 
-    matrix.set(2, 0, 0.0f);
-    matrix.set(2, 1, 0.0f);
-    matrix.set(2, 2, (float) r2c2);
-    matrix.set(2, 3, (float) r2c3);
+    matrix.setRowColumnF(2, 0, 0.0f);
+    matrix.setRowColumnF(2, 1, 0.0f);
+    matrix.setRowColumnF(2, 2, (float) r2c2);
+    matrix.setRowColumnF(2, 3, (float) r2c3);
 
-    matrix.set(3, 0, 0.0f);
-    matrix.set(3, 1, 0.0f);
-    matrix.set(3, 2, -1.0f);
-    matrix.set(3, 3, 0.0f);
+    matrix.setRowColumnF(3, 0, 0.0f);
+    matrix.setRowColumnF(3, 1, 0.0f);
+    matrix.setRowColumnF(3, 2, -1.0f);
+    matrix.setRowColumnF(3, 3, 0.0f);
   }
 
   /**
    * Calculate a projection matrix that produces an orthographic projection
    * based on the given clipping plane coordinates.
-   * 
+   *
    * @param x_min
    *          The left clipping plane coordinate.
    * @param x_max
@@ -135,7 +135,7 @@ public final class ProjectionMatrix
    */
 
   public static void makeOrthographicProjection(
-    final MatrixM4x4F matrix,
+    final MatrixWritable4x4FType matrix,
     final double x_min,
     final double x_max,
     final double y_min,
@@ -159,25 +159,25 @@ public final class ProjectionMatrix
     final float r2c2 = (float) (-2 / fmn);
     final float r2c3 = (float) -(fpn / fmn);
 
-    matrix.set(0, 0, r0c0);
-    matrix.set(0, 1, 0.0f);
-    matrix.set(0, 2, 0.0f);
-    matrix.set(0, 3, r0c3);
+    matrix.setRowColumnF(0, 0, r0c0);
+    matrix.setRowColumnF(0, 1, 0.0f);
+    matrix.setRowColumnF(0, 2, 0.0f);
+    matrix.setRowColumnF(0, 3, r0c3);
 
-    matrix.set(1, 0, 0.0f);
-    matrix.set(1, 1, r1c1);
-    matrix.set(1, 2, 0.0f);
-    matrix.set(1, 3, r1c3);
+    matrix.setRowColumnF(1, 0, 0.0f);
+    matrix.setRowColumnF(1, 1, r1c1);
+    matrix.setRowColumnF(1, 2, 0.0f);
+    matrix.setRowColumnF(1, 3, r1c3);
 
-    matrix.set(2, 0, 0.0f);
-    matrix.set(2, 1, 0.0f);
-    matrix.set(2, 2, r2c2);
-    matrix.set(2, 3, r2c3);
+    matrix.setRowColumnF(2, 0, 0.0f);
+    matrix.setRowColumnF(2, 1, 0.0f);
+    matrix.setRowColumnF(2, 2, r2c2);
+    matrix.setRowColumnF(2, 3, r2c3);
 
-    matrix.set(3, 0, 0.0f);
-    matrix.set(3, 1, 0.0f);
-    matrix.set(3, 2, 0.0f);
-    matrix.set(3, 3, 1.0f);
+    matrix.setRowColumnF(3, 0, 0.0f);
+    matrix.setRowColumnF(3, 1, 0.0f);
+    matrix.setRowColumnF(3, 2, 0.0f);
+    matrix.setRowColumnF(3, 3, 1.0f);
   }
 
   /**
@@ -194,9 +194,9 @@ public final class ProjectionMatrix
    * function produces an "infinite projection matrix", suitable for use in
    * code that deals with shadow volumes.
    * <p>
-   * 
+   *
    * @link http://http.developer.nvidia.com/GPUGems/gpugems_ch09.html
-   * 
+   *
    * @param z_near
    *          The near clipping plane coordinate.
    * @param z_far
@@ -212,7 +212,7 @@ public final class ProjectionMatrix
    */
 
   public static void makePerspectiveProjection(
-    final MatrixM4x4F matrix,
+    final MatrixWritable4x4FType matrix,
     final double z_near,
     final double z_far,
     final double aspect,
