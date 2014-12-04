@@ -25,19 +25,19 @@ package com.io7m.jcanephora;
 public enum LogicOperation
 {
   /**
-   * The resulting color is <code>s & d</code>.
+   * The resulting color is <code>s &amp; d</code>.
    */
 
   LOGIC_AND,
 
   /**
-   * The resulting color is <code>(~s) & d</code>.
+   * The resulting color is <code>(~s) &amp; d</code>.
    */
 
   LOGIC_AND_INVERTED,
 
   /**
-   * The resulting color is <code>s & (~d)</code>.
+   * The resulting color is <code>s &amp; (~d)</code>.
    */
 
   LOGIC_AND_REVERSE,
@@ -73,7 +73,7 @@ public enum LogicOperation
   LOGIC_INVERT,
 
   /**
-   * The resulting color is <code>~(s & d)</code>.
+   * The resulting color is <code>~(s &amp; d)</code>.
    */
 
   LOGIC_NAND,

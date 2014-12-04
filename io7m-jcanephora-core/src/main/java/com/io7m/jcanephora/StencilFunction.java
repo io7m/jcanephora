@@ -20,8 +20,6 @@ package com.io7m.jcanephora;
  * <p>
  * Stencil function specification.
  * </p>
- * <p>
- * </p>
  */
 
 public enum StencilFunction
@@ -33,31 +31,31 @@ public enum StencilFunction
   STENCIL_ALWAYS,
 
   /**
-   * Passes if <code>(ref & mask) == (stencil & mask)</code>.
+   * Passes if <code>(ref &amp; mask) == (stencil &amp; mask)</code>.
    */
 
   STENCIL_EQUAL,
 
   /**
-   * Passes if <code>(ref & mask) > (stencil & mask)</code>.
+   * Passes if <code>(ref &amp; mask) &gt; (stencil &amp; mask)</code>.
    */
 
   STENCIL_GREATER_THAN,
 
   /**
-   * Passes if <code>(ref & mask) >= (stencil & mask)</code>.
+   * Passes if <code>(ref &amp; mask) &gt;= (stencil &amp; mask)</code>.
    */
 
   STENCIL_GREATER_THAN_OR_EQUAL,
 
   /**
-   * Passes if <code>(ref & mask) < (stencil & mask)</code>.
+   * Passes if <code>(ref &amp; mask) &lt; (stencil &amp; mask)</code>.
    */
 
   STENCIL_LESS_THAN,
 
   /**
-   * Passes if <code>(ref & mask) <= (stencil & mask)</code>.
+   * Passes if <code>(ref &amp; mask) &lt;= (stencil &amp; mask)</code>.
    */
 
   STENCIL_LESS_THAN_OR_EQUAL,
@@ -69,7 +67,7 @@ public enum StencilFunction
   STENCIL_NEVER,
 
   /**
-   * Passes if <code>(ref & mask) != (stencil & mask)</code>.
+   * Passes if <code>(ref &amp; mask) != (stencil &amp; mask)</code>.
    */
 
   STENCIL_NOT_EQUAL
