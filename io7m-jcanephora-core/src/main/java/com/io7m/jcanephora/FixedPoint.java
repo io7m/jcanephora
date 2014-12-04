@@ -38,7 +38,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 32 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 32 == false</code>.
    */
 
   public static int doubleToSignedNormalized(
@@ -63,7 +63,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 64 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 64 == false</code>.
    */
 
   public static long doubleToSignedNormalizedLong(
@@ -88,7 +88,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 32 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 32 == false</code>.
    */
 
   public static int doubleToUnsignedNormalized(
@@ -112,7 +112,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 64 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 64 == false</code>.
    */
 
   public static long doubleToUnsignedNormalizedLong(
@@ -136,7 +136,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 32 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 32 == false</code>.
    */
 
   public static int floatToSignedNormalized(
@@ -160,7 +160,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 64 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 64 == false</code>.
    */
 
   public static long floatToSignedNormalizedLong(
@@ -184,7 +184,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 32 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 32 == false</code>.
    */
 
   public static int floatToUnsignedNormalized(
@@ -208,7 +208,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 64 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 64 == false</code>.
    */
 
   public static long floatToUnsignedNormalizedLong(
@@ -233,7 +233,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 32 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 32 == false</code>.
    */
 
   public static double signedNormalizedFixedToDouble(
@@ -261,7 +261,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 64 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 64 == false</code>.
    */
 
   public static double signedNormalizedFixedToDoubleLong(
@@ -289,7 +289,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 32 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 32 == false</code>.
    */
 
   public static float signedNormalizedFixedToFloat(
@@ -317,7 +317,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 64 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 64 == false</code>.
    */
 
   public static float signedNormalizedFixedToFloatLong(
@@ -345,7 +345,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 32 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 32 == false</code>.
    */
 
   public static double unsignedNormalizedFixedToDouble(
@@ -372,7 +372,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 64 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 64 == false</code>.
    */
 
   public static double unsignedNormalizedFixedToDoubleLong(
@@ -399,7 +399,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 32 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 32 == false</code>.
    */
 
   public static float unsignedNormalizedFixedToFloat(
@@ -426,7 +426,7 @@ public final class FixedPoint
    * @param b
    *          The number of bits of precision.
    * @throws RangeCheckException
-   *           Iff <code>2 <= b < 64 == false</code>.
+   *           Iff <code>2 &lt;= b &lt; 64 == false</code>.
    */
 
   public static float unsignedNormalizedFixedToFloatLong(

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -37,11 +37,11 @@ public interface JCGLSoftRestrictionsType
    * </p>
    * <p>
    * Whether or not a given extension is visible is given by
-   * <code>r && e</code>, where <code>r</code> is the value returned by the
-   * function and <code>e</code> indicates whether or not the extension is
-   * actually available.
+   * <code>r &amp;&amp; e</code>, where <code>r</code> is the value returned
+   * by the function and <code>e</code> indicates whether or not the extension
+   * is actually available.
    * </p>
-   * 
+   *
    * @param name
    *          The name of the extension.
    * @return <code>true</code> if the extension should be visible.
@@ -60,7 +60,7 @@ public interface JCGLSoftRestrictionsType
    * as <code>max(1, min (r, count))</code>, where <code>r</code> is the value
    * returned by the function.
    * </p>
-   * 
+   *
    * @param count
    *          The actual number of texture units that are available.
    * @return The maximum number of texture units that should be exposed.
