@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -68,6 +68,7 @@ public final class ExampleTriangle implements Example
   private final IndexBufferUpdateUnmappedType indices_data;
   private final MatrixM4x4F                   matrix_modelview;
   private final MatrixM4x4F                   matrix_projection;
+  private final MatrixM4x4F                   matrix_view;
   private final ProgramType                   program;
 
   public ExampleTriangle(
@@ -77,6 +78,7 @@ public final class ExampleTriangle implements Example
       FilesystemError
   {
     this.config = config1;
+    this.matrix_view = new MatrixM4x4F();
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
     this.gl = config1.getGL().getGLCommon();
@@ -100,7 +102,7 @@ public final class ExampleTriangle implements Example
 
     /**
      * First, it's necessary to allocate an array buffer to hold vertex data.
-     * 
+     *
      * Set up a type descriptor that describes the types of elements within
      * the array. In this case, each element of the array is a series of four
      * floats representing the position of a vertex, followed by a series of
@@ -206,12 +208,18 @@ public final class ExampleTriangle implements Example
      * Initialize the modelview matrix, and translate.
      */
 
+    MatrixM4x4F.setIdentity(this.matrix_view);
     MatrixM4x4F.setIdentity(this.matrix_modelview);
-    MatrixM4x4F.translateByVector2FInPlace(
+
+    final int hx = this.config.getWindowSize().getXI() / 2;
+    final int hy = this.config.getWindowSize().getYI() / 2;
+    final VectorI2F offset = new VectorI2F(hx, hy);
+
+    MatrixM4x4F.makeTranslation2FInto(offset, this.matrix_view);
+    MatrixM4x4F.multiply(
       this.matrix_modelview,
-      new VectorI2F(this.config.getWindowSize().getXI() / 2, this.config
-        .getWindowSize()
-        .getYI() / 2));
+      this.matrix_view,
+      this.matrix_modelview);
 
     /**
      * Activate shading program.

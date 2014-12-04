@@ -67,6 +67,7 @@ public final class ExampleStencil implements Example
   private final ExampleConfig                 config;
   private final JCGLInterfaceCommonType       gl;
   private boolean                             has_shut_down;
+  private final MatrixM4x4F                   matrix_model;
   private final MatrixM4x4F                   matrix_modelview;
   private final MatrixM4x4F                   matrix_projection;
   private final ProgramType                   program;
@@ -84,6 +85,7 @@ public final class ExampleStencil implements Example
       FilesystemError
   {
     this.config = config1;
+    this.matrix_model = new MatrixM4x4F();
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
     this.gl = this.config.getGL().getGLCommon();
@@ -248,9 +250,9 @@ public final class ExampleStencil implements Example
   {
     /**
      * Write a set of triangles to the stencil buffer.
-     * 
+     *
      * Disable writing to the color buffer.
-     * 
+     *
      * Unconditionally set all bits touched by the drawn triangles to 1.
      */
 
@@ -275,10 +277,15 @@ public final class ExampleStencil implements Example
       for (int x = 0; x < width; x += 50) {
         this.translation.set2F(x, y);
 
+        MatrixM4x4F.setIdentity(this.matrix_model);
+        MatrixM4x4F
+          .makeTranslation2FInto(this.translation, this.matrix_model);
+
         MatrixM4x4F.setIdentity(this.matrix_modelview);
-        MatrixM4x4F.translateByVector2FInPlace(
+        MatrixM4x4F.multiply(
           this.matrix_modelview,
-          this.translation);
+          this.matrix_model,
+          this.matrix_modelview);
 
         this.gl.programUniformPutMatrix4x4f(u_model, this.matrix_modelview);
         this.gl.drawElements(
@@ -297,7 +304,7 @@ public final class ExampleStencil implements Example
     /**
      * Now draw a large rotating triangle, but only write to bits that were
      * set to 1 by the previous set of triangles.
-     * 
+     *
      * Disable writing to the stencil buffer.
      */
 
@@ -315,10 +322,15 @@ public final class ExampleStencil implements Example
       for (int x = -100; x < (width + 100); x += 50) {
         this.translation.set2F(x + this.time, y + this.time);
 
+        MatrixM4x4F.setIdentity(this.matrix_model);
+        MatrixM4x4F
+          .makeTranslation2FInto(this.translation, this.matrix_model);
+
         MatrixM4x4F.setIdentity(this.matrix_modelview);
-        MatrixM4x4F.translateByVector2FInPlace(
+        MatrixM4x4F.multiply(
           this.matrix_modelview,
-          this.translation);
+          this.matrix_model,
+          this.matrix_modelview);
 
         this.gl.programUniformPutMatrix4x4f(u_model, this.matrix_modelview);
         this.gl.drawElements(
