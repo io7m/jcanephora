@@ -71,7 +71,7 @@ import com.io7m.jvvfs.PathVirtual;
 /**
  * Example program that draws a textured quad to the screen, with an
  * orthographic projection.
- * 
+ *
  * The texture is replaced once-per frame with new texture data.
  */
 
@@ -89,6 +89,7 @@ import com.io7m.jvvfs.PathVirtual;
   private final IndexBufferUpdateUnmappedType indices_data;
   private final MatrixM4x4F                   matrix_modelview;
   private final MatrixM4x4F                   matrix_projection;
+  private final MatrixM4x4F                   matrix_view;
   private final ProgramType                   program;
   private final Texture2DStaticType           texture;
   private final List<TextureUnitType>         texture_units;
@@ -101,6 +102,7 @@ import com.io7m.jvvfs.PathVirtual;
       JCGLException
   {
     this.config = config1;
+    this.matrix_view = new MatrixM4x4F();
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
     this.gl = this.config.getGL();
@@ -202,12 +204,12 @@ import com.io7m.jvvfs.PathVirtual;
 
     /**
      * Allocate an array buffer.
-     * 
+     *
      * Set up a type descriptor that describes the types of elements within
      * the array. In this case, each element of the array is a series of four
      * floats representing the position of a vertex, followed by a series of
      * two floats representing the texture coordinates of a vertex.
-     * 
+     *
      * Then, use this descriptor to allocate an array.
      */
 
@@ -311,12 +313,18 @@ import com.io7m.jvvfs.PathVirtual;
      * Initialize the modelview matrix, and translate.
      */
 
+    MatrixM4x4F.setIdentity(this.matrix_view);
     MatrixM4x4F.setIdentity(this.matrix_modelview);
-    MatrixM4x4F.translateByVector2FInPlace(
+
+    final int hx = this.config.getWindowSize().getXI() / 2;
+    final int hy = this.config.getWindowSize().getYI() / 2;
+    final VectorI2F offset = new VectorI2F(hx, hy);
+
+    MatrixM4x4F.makeTranslation2FInto(offset, this.matrix_view);
+    MatrixM4x4F.multiply(
       this.matrix_modelview,
-      new VectorI2F(this.config.getWindowSize().getXI() / 2, this.config
-        .getWindowSize()
-        .getYI() / 2));
+      this.matrix_view,
+      this.matrix_modelview);
 
     /**
      * Generate new texture data and update the texture.
