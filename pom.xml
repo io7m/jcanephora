@@ -36,7 +36,7 @@
     <siteDocumentationDirectory>/com/io7m/jcanephora/io7m-jcanephora-documentation</siteDocumentationDirectory>
 
     <com.io7m.ieee754b16.versionRange>[1.0.0, 2.0.0)</com.io7m.ieee754b16.versionRange>
-    <com.io7m.jcanephora.joglVersion>2.1.5-01</com.io7m.jcanephora.joglVersion>
+    <com.io7m.jcanephora.joglVersion>2.2.4</com.io7m.jcanephora.joglVersion>
     <com.io7m.jequality.versionRange>[1.0.0, 2.0.0)</com.io7m.jequality.versionRange>
     <com.io7m.jfunctional.versionRange>[1.0.0, 2.0.0)</com.io7m.jfunctional.versionRange>
     <com.io7m.jintegers.versionRange>[1.0.0, 2.0.0)</com.io7m.jintegers.versionRange>

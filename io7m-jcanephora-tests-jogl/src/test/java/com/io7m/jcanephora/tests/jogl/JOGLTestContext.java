@@ -69,8 +69,8 @@ public final class JOGLTestContext
     cap.setFBO(true);
 
     final GLDrawableFactory f = GLDrawableFactory.getFactory(profile);
-    final GLOffscreenAutoDrawable k =
-      f.createOffscreenAutoDrawable(null, cap, null, width, height, null);
+    
+    GLOffscreenAutoDrawable k = f.createOffscreenAutoDrawable(null, cap, null, width, height);
     k.display();
 
     return k;
