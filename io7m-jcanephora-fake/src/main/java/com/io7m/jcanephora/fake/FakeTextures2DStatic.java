@@ -205,9 +205,7 @@ final class FakeTextures2DStatic implements
   private final FakeContext             context;
   private final LogUsableType           log;
   private int                           pool;
-
   private final FakeLogMessageCacheType tcache;
-
   private final FakeTextureUnits        units;
 
   public FakeTextures2DStatic(
@@ -228,6 +226,22 @@ final class FakeTextures2DStatic implements
     final int id = this.pool;
     ++this.pool;
     return id;
+  }
+
+  private FakeTexture2DReadableData getImage(
+    final Texture2DStaticUsableType texture)
+  {
+    FakeTextures2DStatic.checkTexture(this.context, texture);
+
+    final FakeTexture2DStatic fake = (FakeTexture2DStatic) texture;
+
+    final FakeTexture2DReadableData td =
+      new FakeTexture2DReadableData(
+        texture.textureGetFormat(),
+        texture.textureGetArea(),
+        fake.getData().asReadOnlyBuffer());
+
+    return td;
   }
 
   @Override public Texture2DStaticType texture2DStaticAllocateDepth16(
@@ -1368,17 +1382,15 @@ final class FakeTextures2DStatic implements
     final Texture2DStaticUsableType texture)
     throws JCGLException
   {
-    FakeTextures2DStatic.checkTexture(this.context, texture);
+    return this.getImage(texture);
+  }
 
-    final FakeTexture2DStatic fake = (FakeTexture2DStatic) texture;
-
-    final FakeTexture2DReadableData td =
-      new FakeTexture2DReadableData(
-        texture.textureGetFormat(),
-        texture.textureGetArea(),
-        fake.getData().asReadOnlyBuffer());
-
-    return td;
+  @Override public ByteBuffer texture2DStaticGetImageUntyped(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    final FakeTexture2DReadableData r = this.getImage(texture);
+    return r.getData();
   }
 
   @Override public boolean texture2DStaticIsBound(

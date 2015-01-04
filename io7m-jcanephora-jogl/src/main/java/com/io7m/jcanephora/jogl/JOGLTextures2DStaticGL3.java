@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,10 +16,13 @@
 
 package com.io7m.jcanephora.jogl;
 
+import java.nio.ByteBuffer;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2GL3;
 import javax.media.opengl.GLContext;
 
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionDeleted;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLExceptionWrongContext;
@@ -45,6 +48,32 @@ final class JOGLTextures2DStaticGL3 extends
     final JOGLLogMessageCacheType in_tcache)
   {
     super(in_gl, in_log, in_icache, in_tcache);
+  }
+
+  private JOGLTexture2DReadableData getImage(
+    final Texture2DStaticUsableType texture)
+  {
+    final GLContext context = this.getContext();
+    JOGLTextures2DStaticAbstract.checkTexture(context, texture);
+
+    final GL2GL3 g = this.getGL().getGL2GL3();
+
+    final TextureSpec spec =
+      JOGL_TextureSpecs.getGL3TextureSpec(texture.textureGetFormat());
+    final JOGLTexture2DReadableData td =
+      new JOGLTexture2DReadableData(
+        texture.textureGetFormat(),
+        texture.textureGetArea());
+
+    g.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
+    g.glGetTexImage(
+      GL.GL_TEXTURE_2D,
+      0,
+      spec.getFormat(),
+      spec.getType(),
+      td.getData());
+    g.glBindTexture(GL.GL_TEXTURE_2D, 0);
+    return td;
   }
 
   @Override protected TextureSpec getTextureSpec(
@@ -143,27 +172,15 @@ final class JOGLTextures2DStaticGL3 extends
       JCGLExceptionWrongContext,
       JCGLExceptionDeleted
   {
-    final GLContext context = this.getContext();
-    JOGLTextures2DStaticAbstract.checkTexture(context, texture);
-
-    final GL2GL3 g = this.getGL().getGL2GL3();
-
-    final TextureSpec spec =
-      JOGL_TextureSpecs.getGL3TextureSpec(texture.textureGetFormat());
-    final JOGLTexture2DReadableData td =
-      new JOGLTexture2DReadableData(
-        texture.textureGetFormat(),
-        texture.textureGetArea());
-
-    g.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
-    g.glGetTexImage(
-      GL.GL_TEXTURE_2D,
-      0,
-      spec.getFormat(),
-      spec.getType(),
-      td.getData());
-    g.glBindTexture(GL.GL_TEXTURE_2D, 0);
-
+    final JOGLTexture2DReadableData td = this.getImage(texture);
     return td;
+  }
+
+  @Override public ByteBuffer texture2DStaticGetImageUntyped(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    final JOGLTexture2DReadableData td = this.getImage(texture);
+    return td.getData();
   }
 }
