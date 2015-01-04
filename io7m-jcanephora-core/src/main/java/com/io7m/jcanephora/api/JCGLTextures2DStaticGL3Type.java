@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -15,6 +15,8 @@
  */
 
 package com.io7m.jcanephora.api;
+
+import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
@@ -63,7 +65,7 @@ public interface JCGLTextures2DStaticGL3Type extends
    * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * </p>
-   * 
+   *
    * @param name
    *          The name of the texture.
    * @param width
@@ -81,7 +83,7 @@ public interface JCGLTextures2DStaticGL3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * 
+   *
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
@@ -123,7 +125,7 @@ public interface JCGLTextures2DStaticGL3Type extends
    * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * </p>
-   * 
+   *
    * @param name
    *          The name of the texture.
    * @param width
@@ -141,7 +143,7 @@ public interface JCGLTextures2DStaticGL3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * 
+   *
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
@@ -183,7 +185,7 @@ public interface JCGLTextures2DStaticGL3Type extends
    * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * </p>
-   * 
+   *
    * @param name
    *          The name of the texture.
    * @param width
@@ -201,7 +203,7 @@ public interface JCGLTextures2DStaticGL3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * 
+   *
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
@@ -243,7 +245,7 @@ public interface JCGLTextures2DStaticGL3Type extends
    * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * </p>
-   * 
+   *
    * @param name
    *          The name of the texture.
    * @param width
@@ -261,7 +263,7 @@ public interface JCGLTextures2DStaticGL3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * 
+   *
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
@@ -278,7 +280,7 @@ public interface JCGLTextures2DStaticGL3Type extends
 
   /**
    * @return The texture image data associated with <code>texture</code>.
-   * 
+   *
    * @param texture
    *          The texture.
    * @throws JCGLException
@@ -286,6 +288,19 @@ public interface JCGLTextures2DStaticGL3Type extends
    */
 
   Texture2DStaticReadableType texture2DStaticGetImage(
+    final Texture2DStaticUsableType texture)
+    throws JCGLException;
+
+  /**
+   * @return The texture image data associated with <code>texture</code>.
+   *
+   * @param texture
+   *          The texture.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  ByteBuffer texture2DStaticGetImageUntyped(
     final Texture2DStaticUsableType texture)
     throws JCGLException;
 }
