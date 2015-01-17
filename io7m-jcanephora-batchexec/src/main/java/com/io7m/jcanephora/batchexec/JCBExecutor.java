@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -303,7 +303,9 @@ public final class JCBExecutor implements JCBExecutorType
       final String a)
     {
       this.message.setLength(0);
-      this.message.append("The program does not contain an attribute '");
+      this.message.append("The program '");
+      this.message.append(this.program.programGetName());
+      this.message.append("' does not contain an attribute '");
       this.message.append(a);
       this.message.append("'\n");
       this.message.append("Attributes include:\n");
@@ -325,6 +327,10 @@ public final class JCBExecutor implements JCBExecutorType
       final JCGLType given)
     {
       this.message.setLength(0);
+      this.message
+        .append("Wrong type of value given for attribute in program '");
+      this.message.append(this.program.programGetName());
+      this.message.append("'\n");
       this.message.append("The attribute '");
       this.message.append(state.getName());
       this.message.append("' has type ");
@@ -343,6 +349,9 @@ public final class JCBExecutor implements JCBExecutorType
       final JCGLType declared)
     {
       this.message.setLength(0);
+      this.message.append("Incompatible type for attribute in program '");
+      this.message.append(this.program.programGetName());
+      this.message.append("'\n");
       this.message.append("The program contains an attribute '");
       this.message.append(actual.attributeGetName());
       this.message.append("' of type ");
@@ -361,6 +370,9 @@ public final class JCBExecutor implements JCBExecutorType
       final JCGLType declared)
     {
       this.message.setLength(0);
+      this.message.append("Incompatible type for uniform in program '");
+      this.message.append(this.program.programGetName());
+      this.message.append("'\n");
       this.message.append("The program contains a uniform '");
       this.message.append(actual.uniformGetName());
       this.message.append("' of type ");
@@ -381,6 +393,9 @@ public final class JCBExecutor implements JCBExecutorType
         final Map<String, JCGLType> declared_attributes)
     {
       this.message.setLength(0);
+      this.message.append("Undeclared attribute in program '");
+      this.message.append(this.program.programGetName());
+      this.message.append("'\n");
       this.message.append("The program contains an attribute '");
       this.message.append(p.attributeGetName());
       this.message.append("' of type ");
@@ -409,6 +424,9 @@ public final class JCBExecutor implements JCBExecutorType
         final Map<String, JCGLType> declared_uniforms)
     {
       this.message.setLength(0);
+      this.message.append("Undeclared uniform in program '");
+      this.message.append(this.program.programGetName());
+      this.message.append("'\n");
       this.message.append("The program contains a uniform parameter '");
       this.message.append(p.uniformGetName());
       this.message.append("' of type ");
@@ -434,6 +452,9 @@ public final class JCBExecutor implements JCBExecutorType
       final String u)
     {
       this.message.setLength(0);
+      this.message.append("Noexistent uniform in program '");
+      this.message.append(this.program.programGetName());
+      this.message.append("'\n");
       this.message.append("The program does not contain a uniform '");
       this.message.append(u);
       this.message.append("'\n");
@@ -456,6 +477,10 @@ public final class JCBExecutor implements JCBExecutorType
       final JCGLType given)
     {
       this.message.setLength(0);
+      this.message
+        .append("Incorrect type of value given for uniform in program '");
+      this.message.append(this.program.programGetName());
+      this.message.append("'\n");
       this.message.append("The uniform '");
       this.message.append(state.getName());
       this.message.append("' has type ");
@@ -898,7 +923,9 @@ public final class JCBExecutor implements JCBExecutorType
 
       if (!ok) {
         this.message.setLength(0);
-        this.message.append("Program validation failed:\n");
+        this.message.append("Validation of execution of program '");
+        this.message.append(this.program.programGetName());
+        this.message.append("' failed:\n");
 
         if (this.missed_uniforms.isEmpty() == false) {
           this.message.append("Uniforms not assigned values:\n");
