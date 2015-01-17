@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -25,6 +25,7 @@ import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureFormatMeta;
+import com.io7m.jcanephora.TextureUsableVisitorType;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
@@ -246,6 +247,13 @@ import com.io7m.jranges.RangeInclusiveL;
   @Override public TextureWrapT textureGetWrapT()
   {
     return this.wrap_t;
+  }
+
+  @Override public <A, E extends Exception> A textureUsableAccept(
+    final TextureUsableVisitorType<A, E> v)
+    throws E
+  {
+    return v.textureCube(this);
   }
 
   @Override public String toString()
