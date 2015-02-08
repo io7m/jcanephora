@@ -117,14 +117,14 @@
       <s:formal-item s:kind="listings">
         <s:formal-item-title>POM files</s:formal-item-title>
         <s:list-unordered>
-<s:list-item><s:link-external s:target="./io7m-jcanephora-core-1.0.0.pom">io7m-jcanephora-core-1.0.0.pom</s:link-external></s:list-item>
-<s:list-item><s:link-external s:target="./io7m-jcanephora-batchexec-1.0.0.pom">io7m-jcanephora-batchexec-1.0.0.pom</s:link-external></s:list-item>
-<s:list-item><s:link-external s:target="./io7m-jcanephora-examples-1.0.0.pom">io7m-jcanephora-examples-1.0.0.pom</s:link-external></s:list-item>
-<s:list-item><s:link-external s:target="./io7m-jcanephora-examples-jogl-1.0.0.pom">io7m-jcanephora-examples-jogl-1.0.0.pom</s:link-external></s:list-item>
-<s:list-item><s:link-external s:target="./io7m-jcanephora-jogl-1.0.0.pom">io7m-jcanephora-jogl-1.0.0.pom</s:link-external></s:list-item>
-<s:list-item><s:link-external s:target="./io7m-jcanephora-tests-1.0.0.pom">io7m-jcanephora-tests-1.0.0.pom</s:link-external></s:list-item>
-<s:list-item><s:link-external s:target="./io7m-jcanephora-tests-jogl-1.0.0.pom">io7m-jcanephora-tests-jogl-1.0.0.pom</s:link-external></s:list-item>
-<s:list-item><s:link-external s:target="./io7m-jcanephora-texload-imageio-1.0.0.pom">io7m-jcanephora-texload-imageio-1.0.0.pom</s:link-external></s:list-item>
+<s:list-item><s:link-external s:target="./io7m-jcanephora-core-${project.version}.pom">io7m-jcanephora-core-${project.version}.pom</s:link-external></s:list-item>
+<s:list-item><s:link-external s:target="./io7m-jcanephora-batchexec-${project.version}.pom">io7m-jcanephora-batchexec-${project.version}.pom</s:link-external></s:list-item>
+<s:list-item><s:link-external s:target="./io7m-jcanephora-examples-${project.version}.pom">io7m-jcanephora-examples-${project.version}.pom</s:link-external></s:list-item>
+<s:list-item><s:link-external s:target="./io7m-jcanephora-examples-jogl-${project.version}.pom">io7m-jcanephora-examples-jogl-${project.version}.pom</s:link-external></s:list-item>
+<s:list-item><s:link-external s:target="./io7m-jcanephora-jogl-${project.version}.pom">io7m-jcanephora-jogl-${project.version}.pom</s:link-external></s:list-item>
+<s:list-item><s:link-external s:target="./io7m-jcanephora-tests-${project.version}.pom">io7m-jcanephora-tests-${project.version}.pom</s:link-external></s:list-item>
+<s:list-item><s:link-external s:target="./io7m-jcanephora-tests-jogl-${project.version}.pom">io7m-jcanephora-tests-jogl-${project.version}.pom</s:link-external></s:list-item>
+<s:list-item><s:link-external s:target="./io7m-jcanephora-texload-imageio-${project.version}.pom">io7m-jcanephora-texload-imageio-${project.version}.pom</s:link-external></s:list-item>
         </s:list-unordered>
       </s:formal-item>
       <s:paragraph>
@@ -183,7 +183,7 @@
           <s:verbatim s:type="example"><![CDATA[<dependency>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora-core</artifactId>
-  <version>1.0.0</version>
+  <version>${project.version}</version>
 </dependency>]]></s:verbatim>
         </s:paragraph>
         
@@ -196,7 +196,7 @@
           <s:verbatim s:type="example"><![CDATA[<dependency>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora-jogl</artifactId>
-  <version>1.0.0</version>
+  <version>${project.version}</version>
 </dependency>]]></s:verbatim>
         </s:paragraph>
 
@@ -212,7 +212,7 @@
           <s:verbatim s:type="example"><![CDATA[<dependency>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora-texload-imageio</artifactId>
-  <version>1.0.0</version>
+  <version>${project.version}</version>
 </dependency>]]></s:verbatim>
         </s:paragraph>
       </s:subsection>

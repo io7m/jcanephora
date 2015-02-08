@@ -27,7 +27,7 @@ public final class JOGL30BlendFullTest extends BlendingGL3Contract
   @Override public JCGLBlendingGL3Type getGLBlendingGL3(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

@@ -27,7 +27,7 @@ public final class JOGL30MetaTest extends MetaContract
   @Override public JCGLMetaType getGLMeta(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

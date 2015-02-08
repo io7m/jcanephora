@@ -27,7 +27,7 @@ public final class JOGL30CullTest extends CullContract
   @Override public JCGLCullType getGLCull(
     final TestContext context)
   {
-    return JOGLTestContextUtilities.getGL3(context);
+    return JOGLTestContextUtilities.getGL2(context);
   }
 
   @Override public boolean isGLSupported()

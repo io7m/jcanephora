@@ -29,13 +29,13 @@ public final class JOGL30DrawTest extends DrawContract
   @Override public JCGLDrawType getGLDraw(
     final TestContext context)
   {
-    return JOGLTestContextUtilities.getGL3(context);
+    return JOGLTestContextUtilities.getGL2(context);
   }
 
   @Override public JCGLIndexBuffersType getGLIndexBuffers(
     final TestContext context)
   {
-    return JOGLTestContextUtilities.getGL3(context);
+    return JOGLTestContextUtilities.getGL2(context);
   }
 
   @Override public boolean isGLSupported()
@@ -51,6 +51,6 @@ public final class JOGL30DrawTest extends DrawContract
   @Override public JCGLArrayBuffersType getGLArrayBuffers(
     final TestContext context)
   {
-    return JOGLTestContextUtilities.getGL3(context);
+    return JOGLTestContextUtilities.getGL2(context);
   }
 }

@@ -27,7 +27,7 @@ public final class JOGL30ViewportTest extends ViewportContract
   @Override public JCGLViewportType getGLViewport(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

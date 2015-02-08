@@ -27,7 +27,7 @@ public final class JOGL30ScissorTest extends ScissorContract
   @Override public JCGLScissorType getGLScissor(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

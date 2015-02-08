@@ -27,7 +27,7 @@ import com.io7m.jcanephora.api.JCGLDepthBufferType;
 import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
 import com.io7m.jcanephora.api.JCGLFramebuffersCommonType;
 import com.io7m.jcanephora.api.JCGLImplementationType;
-import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGL2Type;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.DepthBuffersContract;
 import com.io7m.jcanephora.tests.jogl.JOGLTestContext;
@@ -38,13 +38,13 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
   @Override public JCGLDepthBufferType getGLDepthBuffer(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public JCGLFramebuffersCommonType getGLFramebuffers(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()
@@ -57,7 +57,7 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
     final JCGLImplementationType gi)
     throws JCGLException
   {
-    final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
+    final JCGLInterfaceGL2Type g = JOGLTestContextUtilities.getGL2(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final JCGLFramebufferBuilderGL3ES3Type fbb =
@@ -88,7 +88,7 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
     final JCGLImplementationType gi)
     throws JCGLException
   {
-    final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
+    final JCGLInterfaceGL2Type g = JOGLTestContextUtilities.getGL2(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final JCGLFramebufferBuilderGL3ES3Type fbb =

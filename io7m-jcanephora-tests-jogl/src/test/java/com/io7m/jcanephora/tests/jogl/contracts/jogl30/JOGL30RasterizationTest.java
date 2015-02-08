@@ -28,13 +28,13 @@ public final class JOGL30RasterizationTest extends RasterizationContract
   @Override public JCGLPolygonModesType getGLPolygonModes(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public JCGLPolygonSmoothingType getGLPolygonSmoothing(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()
