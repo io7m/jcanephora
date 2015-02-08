@@ -25,6 +25,7 @@ package com.io7m.jcanephora.api;
 public interface JCGLInterfaceGL3Type extends
   JCGLArrayBuffersMappedType,
   JCGLBlendingGL3Type,
+  JCGLDepthClampingType,
   JCGLFramebuffersGL3Type,
   JCGLIndexBuffersMappedType,
   JCGLInterfaceCommonType,

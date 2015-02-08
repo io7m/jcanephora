@@ -27,13 +27,13 @@ public final class JOGL33TextureUnitsRestrictedTest extends
 {
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3pSupported();
+    return JOGLTestContext.isOpenGL33Supported();
   }
 
   @Override public TestContext newTestContext(
     final JCGLSoftRestrictionsType r)
     throws JCGLException
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p_WithRestrictions(r);
+    return JOGLTestContext.makeContextWithOpenGL33_WithRestrictions(r);
   }
 }

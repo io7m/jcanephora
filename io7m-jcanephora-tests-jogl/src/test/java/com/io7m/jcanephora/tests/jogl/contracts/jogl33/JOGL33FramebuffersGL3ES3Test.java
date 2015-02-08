@@ -47,7 +47,7 @@ public final class JOGL33FramebuffersGL3ES3Test extends
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3pSupported();
+    return JOGLTestContext.isOpenGL33Supported();
   }
 
   @Override public TestContext newTestContext()

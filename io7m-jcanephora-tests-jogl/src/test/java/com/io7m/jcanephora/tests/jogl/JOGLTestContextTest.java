@@ -28,7 +28,7 @@ import org.junit.Test;
 
     ok |= JOGLTestContext.isOpenGL21WithExtensionsSupported();
     ok |= JOGLTestContext.isOpenGL30Supported();
-    ok |= JOGLTestContext.isOpenGL3pSupported();
+    ok |= JOGLTestContext.isOpenGL33Supported();
     ok |= JOGLTestContext.isOpenGLES2Supported();
     ok |= JOGLTestContext.isOpenGLES3Supported();
 
@@ -82,12 +82,12 @@ import org.junit.Test;
 
   @Test public void testGL3_p()
   {
-    System.out.println("GL3_p: " + JOGLTestContext.isOpenGL3pSupported());
+    System.out.println("GL3_p: " + JOGLTestContext.isOpenGL33Supported());
   }
 
   @Test public void testGL3_p_Open()
   {
-    Assume.assumeTrue(JOGLTestContext.isOpenGL3pSupported());
+    Assume.assumeTrue(JOGLTestContext.isOpenGL33Supported());
     JOGLTestContext.makeContextWithOpenGL3_p(false);
   }
 }

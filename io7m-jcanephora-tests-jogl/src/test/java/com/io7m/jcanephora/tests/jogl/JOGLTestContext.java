@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -48,7 +48,7 @@ public final class JOGLTestContext
   private static GLOffscreenAutoDrawable buffer;
   static final String                    LOG_DESTINATION_OPENGL_2_1;
   static final String                    LOG_DESTINATION_OPENGL_3_0;
-  static final String                    LOG_DESTINATION_OPENGL_3_p;
+  static final String                    LOG_DESTINATION_OPENGL_33;
   static final String                    LOG_DESTINATION_OPENGL_ES_2_0;
   static final String                    LOG_DESTINATION_OPENGL_ES_3_0;
 
@@ -56,7 +56,7 @@ public final class JOGLTestContext
     LOG_DESTINATION_OPENGL_ES_3_0 = "jogl_es_3_0-test";
     LOG_DESTINATION_OPENGL_ES_2_0 = "jogl_es_2_0-test";
     LOG_DESTINATION_OPENGL_3_0 = "jogl_3_0-test";
-    LOG_DESTINATION_OPENGL_3_p = "jogl_3_p-test";
+    LOG_DESTINATION_OPENGL_33 = "jogl_3_p-test";
     LOG_DESTINATION_OPENGL_2_1 = "jogl_2_1-test";
   }
 
@@ -69,8 +69,9 @@ public final class JOGLTestContext
     cap.setFBO(true);
 
     final GLDrawableFactory f = GLDrawableFactory.getFactory(profile);
-    
-    GLOffscreenAutoDrawable k = f.createOffscreenAutoDrawable(null, cap, null, width, height);
+
+    final GLOffscreenAutoDrawable k =
+      f.createOffscreenAutoDrawable(null, cap, null, width, height);
     k.display();
 
     return k;
@@ -182,20 +183,39 @@ public final class JOGLTestContext
   }
 
   /**
-   * Return <code>true</code> if the implementation supports OpenGL 3.p, where
-   * p >= 1.
+   * Return <code>true</code> if the implementation supports >= OpenGL 3.3.
    */
 
-  public static boolean isOpenGL3pSupported()
+  public static boolean isOpenGL33Supported()
   {
-    if (GLProfile.isAvailable(GLProfile.GL3)) {
+    if (GLProfile.isAvailable(GLProfile.GL3)
+      || GLProfile.isAvailable(GLProfile.GL4)) {
+      final GLContext ctx =
+        JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
+
+      final VersionNumber v = ctx.getGLVersionNumber();
+      if (v.getMajor() < 3) {
+        System.err
+          .println("isOpenGL33Supported: unavailable: GL3 profile available, but version is "
+            + v);
+        return false;
+      }
+      if (v.getMinor() < 3) {
+        System.err
+          .println("isOpenGL33Supported: unavailable: GL3 profile available, but version is "
+            + v);
+        return false;
+      }
+
       System.err
-        .println("isOpenGL3pSupported: available: GL3 profile available");
+        .println("isOpenGL33Supported: available: GL3 profile available (version is "
+          + v
+          + ")");
       return true;
     }
 
     System.err
-      .println("isOpenGL3pSupported: unavailable: GL3 profile not available");
+      .println("isOpenGL33Supported: unavailable: GL3 profile not available");
     return false;
   }
 
@@ -389,16 +409,16 @@ public final class JOGLTestContext
   public static TestContext makeContextWithOpenGL3_p(
     final boolean caching)
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p_Actual(null, caching);
+    return JOGLTestContext.makeContextWithOpenGL33_Actual(null, caching);
   }
 
-  private static TestContext makeContextWithOpenGL3_p_Actual(
+  private static TestContext makeContextWithOpenGL33_Actual(
     final @Nullable JCGLSoftRestrictionsType r,
     final boolean caching)
   {
     try {
       final LogType log =
-        JOGLTestContext.getLog(JOGLTestContext.LOG_DESTINATION_OPENGL_3_p);
+        JOGLTestContext.getLog(JOGLTestContext.LOG_DESTINATION_OPENGL_33);
       final FilesystemType fs = JOGLTestContext.getFS(log);
 
       final GLContext ctx =
@@ -408,27 +428,26 @@ public final class JOGLTestContext
         JOGLTestContext.makeImplementation(r, log, ctx, caching);
 
       final VersionNumber version = ctx.getGLVersionNumber();
-      if (version.getMajor() != 3) {
+      if (version.getMajor() < 3) {
         throw new JCGLExceptionUnsupported("GL3 profile "
           + version
-          + " is not 3.p");
+          + " is not >= 3.3");
       }
-      if (version.getMinor() == 0) {
+      if (version.getMinor() < 3) {
         throw new JCGLExceptionUnsupported("GL3 profile "
           + version
-          + " is not 3.p");
+          + " is not >= 3.3");
       }
-
       return new TestContext(fs, gi, log);
     } catch (final Throwable x) {
       throw new UnreachableCodeException(x);
     }
   }
 
-  public static TestContext makeContextWithOpenGL3_p_WithRestrictions(
+  public static TestContext makeContextWithOpenGL33_WithRestrictions(
     final JCGLSoftRestrictionsType r)
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p_Actual(r, false);
+    return JOGLTestContext.makeContextWithOpenGL33_Actual(r, false);
   }
 
   private static JCGLImplementationType makeImplementation(

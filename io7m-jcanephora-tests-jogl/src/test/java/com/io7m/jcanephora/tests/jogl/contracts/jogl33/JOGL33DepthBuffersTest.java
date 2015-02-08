@@ -49,7 +49,7 @@ public final class JOGL33DepthBuffersTest extends DepthBuffersContract
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3pSupported();
+    return JOGLTestContext.isOpenGL33Supported();
   }
 
   @Override public FramebufferType makeFramebufferWithDepth(

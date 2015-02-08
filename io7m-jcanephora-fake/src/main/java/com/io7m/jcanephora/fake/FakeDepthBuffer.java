@@ -20,11 +20,15 @@ import com.io7m.jcanephora.DepthFunction;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionNoDepthBuffer;
 import com.io7m.jcanephora.api.JCGLDepthBufferType;
+import com.io7m.jcanephora.api.JCGLDepthClampingType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 
-final class FakeDepthBuffer implements JCGLDepthBufferType
+final class FakeDepthBuffer implements
+  JCGLDepthBufferType,
+  JCGLDepthClampingType
 {
+  private boolean                 clamp;
   private final FakeContext       context;
   private final FakeFramebuffers  framebuffers;
   private @Nullable DepthFunction function;
@@ -109,5 +113,29 @@ final class FakeDepthBuffer implements JCGLDepthBufferType
   {
     this.checkDepthBuffer();
     return this.write;
+  }
+
+  @Override public void depthClampingDisable()
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
+  {
+    this.checkDepthBuffer();
+    this.clamp = false;
+  }
+
+  @Override public void depthClampingEnable()
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
+  {
+    this.checkDepthBuffer();
+    this.clamp = true;
+  }
+
+  @Override public boolean depthClampingIsEnabled()
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
+  {
+    this.checkDepthBuffer();
+    return this.clamp;
   }
 }
