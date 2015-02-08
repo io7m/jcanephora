@@ -21,6 +21,7 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL3;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLDrawable;
 
@@ -29,6 +30,7 @@ import com.io7m.jcanephora.FramebufferUsableType;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionNoDepthBuffer;
 import com.io7m.jcanephora.api.JCGLDepthBufferType;
+import com.io7m.jcanephora.api.JCGLDepthClampingType;
 import com.io7m.jcanephora.api.JCGLFramebuffersCommonType;
 import com.io7m.jfunctional.None;
 import com.io7m.jfunctional.OptionType;
@@ -36,11 +38,14 @@ import com.io7m.jfunctional.OptionVisitorType;
 import com.io7m.jfunctional.Some;
 import com.io7m.jnull.NullCheck;
 
-final class JOGLDepthBuffer implements JCGLDepthBufferType
+final class JOGLDepthBuffer implements
+  JCGLDepthBufferType,
+  JCGLDepthClampingType
 {
+  private boolean                          clamp;
   private final ByteBuffer                 depth_buffer_mask_cache;
-  private final GL                         gl;
   private final JCGLFramebuffersCommonType framebuffers;
+  private final GL                         gl;
 
   JOGLDepthBuffer(
     final GL in_gl,
@@ -52,6 +57,7 @@ final class JOGLDepthBuffer implements JCGLDepthBufferType
     final ByteBuffer bb = ByteBuffer.allocateDirect(4 * 4);
     bb.order(ByteOrder.nativeOrder());
     this.depth_buffer_mask_cache = bb;
+    this.clamp = false;
   }
 
   private void checkDepthBuffer()
@@ -61,6 +67,15 @@ final class JOGLDepthBuffer implements JCGLDepthBufferType
     if (bits == 0) {
       throw new JCGLExceptionNoDepthBuffer("No depth buffer available");
     }
+  }
+
+  @Override public void depthBufferClear(
+    final float depth)
+    throws JCGLException
+  {
+    this.checkDepthBuffer();
+    this.gl.glClearDepth(depth);
+    this.gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
   }
 
   @Override public int depthBufferGetBits()
@@ -92,15 +107,6 @@ final class JOGLDepthBuffer implements JCGLDepthBufferType
           return Integer.valueOf(s.get().framebufferGetDepthBits());
         }
       }).intValue();
-  }
-
-  @Override public void depthBufferClear(
-    final float depth)
-    throws JCGLException
-  {
-    this.checkDepthBuffer();
-    this.gl.glClearDepth(depth);
-    this.gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
   }
 
   @Override public void depthBufferTestDisable()
@@ -153,5 +159,35 @@ final class JOGLDepthBuffer implements JCGLDepthBufferType
 
     final IntBuffer bi = this.depth_buffer_mask_cache.asIntBuffer();
     return bi.get(0) == 1;
+  }
+
+  @Override public void depthClampingDisable()
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
+  {
+    this.checkDepthBuffer();
+    if (this.clamp) {
+      this.gl.glDisable(GL3.GL_DEPTH_CLAMP);
+      this.clamp = false;
+    }
+  }
+
+  @Override public void depthClampingEnable()
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
+  {
+    this.checkDepthBuffer();
+    if (this.clamp == false) {
+      this.gl.glEnable(GL3.GL_DEPTH_CLAMP);
+      this.clamp = true;
+    }
+  }
+
+  @Override public boolean depthClampingIsEnabled()
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
+  {
+    this.checkDepthBuffer();
+    return this.clamp;
   }
 }

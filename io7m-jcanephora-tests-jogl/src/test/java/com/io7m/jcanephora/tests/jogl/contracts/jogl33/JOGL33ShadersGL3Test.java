@@ -32,7 +32,7 @@ public final class JOGL33ShadersGL3Test extends ShadersContractGL3
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3pSupported();
+    return JOGLTestContext.isOpenGL33Supported();
   }
 
   @Override public TestContext newTestContext()

@@ -39,7 +39,7 @@ public final class JOGL33ArrayBufferCachedTest extends ArrayBufferContract
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3pSupported();
+    return JOGLTestContext.isOpenGL33Supported();
   }
 
   @Override public TestContext newTestContext()

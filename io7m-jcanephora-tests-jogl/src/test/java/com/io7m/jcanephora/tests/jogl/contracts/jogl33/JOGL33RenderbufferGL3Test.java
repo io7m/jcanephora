@@ -32,7 +32,7 @@ public final class JOGL33RenderbufferGL3Test extends RenderbufferGL3Contract
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3pSupported();
+    return JOGLTestContext.isOpenGL33Supported();
   }
 
   @Override public TestContext newTestContext()

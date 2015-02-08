@@ -24,7 +24,7 @@ public final class JOGL33BlendTest extends BlendingGLES2Contract
 {
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3pSupported();
+    return JOGLTestContext.isOpenGL33Supported();
   }
 
   @Override public TestContext newTestContext()
