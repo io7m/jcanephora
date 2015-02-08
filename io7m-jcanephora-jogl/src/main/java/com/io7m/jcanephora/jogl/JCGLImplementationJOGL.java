@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -38,6 +38,7 @@ import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.junreachable.UnreachableCodeException;
+import com.jogamp.common.util.VersionNumber;
 
 /**
  * A JOGL-based implementation of the <code>jcanephora</code> API.
@@ -113,11 +114,18 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
       }
 
       /**
-       * Context is OpenGL 3.n, where n >= 1?
+       * Context is >= OpenGL 3.3?
        */
 
       if (c.isGL3()) {
-        log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
+
+        final VersionNumber vn = c.getGLVersionNumber();
+        if ((vn.getMajor() < 3) || (vn.getMinor() < 3)) {
+          throw new JCGLExceptionUnsupported(
+            "For GL3 contexts, OpenGL >= 3.3 is required");
+        }
+
+        log.debug("Context is GL3, creating OpenGL >= 3.3 interface");
         final JCGLInterfaceGL3Type in_gl_3 =
           new JCGLInterfaceGL3_JOGL_GL2GL3(
             c,
@@ -138,7 +146,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
       }
 
       /**
-       * Context is either 2.1 or 3.0.
+       * Context is 2.1 or 3.0.
        */
 
       if (c.isGL2()) {
@@ -146,28 +154,6 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
         JCGLInterfaceGLES2Type in_gl_es2;
         JCGLInterfaceGL2Type in_gl_2;
         JCGLInterfaceGLES3Type in_gl_es3;
-
-        if (c.getGLVersionNumber().getMajor() == 3) {
-          log
-            .debug("Context is GL2 but version is 3.0, creating OpenGL >= 3.1 interface");
-          in_gl_3 =
-            new JCGLInterfaceGL3_JOGL_GL2GL3(
-              c,
-              log,
-              this.debugging,
-              this.tracing,
-              this.caching,
-              this.restrictions);
-          in_gl_2 = null;
-          in_gl_es2 = null;
-          in_gl_es3 = null;
-
-          return new JCGLImplementationJOGL(
-            in_gl_2,
-            in_gl_3,
-            in_gl_es2,
-            in_gl_es3);
-        }
 
         if (c.hasFullFBOSupport() == false) {
           JCGLImplementationJOGL.announceLackingFBO(c);

@@ -28,13 +28,13 @@ public final class JOGL30IndexBufferTest extends IndexBufferContract
   @Override public JCGLArrayBuffersType getGLArrayBuffers(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public JCGLIndexBuffersType getGLIndexBuffers(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

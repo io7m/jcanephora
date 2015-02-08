@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -25,7 +25,7 @@ import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
 import com.io7m.jcanephora.api.JCGLFramebuffersCommonType;
 import com.io7m.jcanephora.api.JCGLImplementationType;
-import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGL2Type;
 import com.io7m.jcanephora.api.JCGLStencilBufferType;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.StencilBuffersContract;
@@ -38,13 +38,13 @@ public final class JOGL30StencilBuffersTest extends StencilBuffersContract
   @Override public JCGLFramebuffersCommonType getGLFramebuffers(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public JCGLStencilBufferType getGLStencilBuffer(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()
@@ -57,7 +57,7 @@ public final class JOGL30StencilBuffersTest extends StencilBuffersContract
     final JCGLImplementationType gi)
   {
     try {
-      final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
+      final JCGLInterfaceGL2Type g = JOGLTestContextUtilities.getGL2(tc);
 
       final JCGLFramebufferBuilderGL3ES3Type fbb =
         g.framebufferNewBuilderGL3ES3();
@@ -79,7 +79,7 @@ public final class JOGL30StencilBuffersTest extends StencilBuffersContract
     final JCGLImplementationType gi)
   {
     try {
-      final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
+      final JCGLInterfaceGL2Type g = JOGLTestContextUtilities.getGL2(tc);
 
       final JCGLFramebufferBuilderGL3ES3Type fbb =
         g.framebufferNewBuilderGL3ES3();

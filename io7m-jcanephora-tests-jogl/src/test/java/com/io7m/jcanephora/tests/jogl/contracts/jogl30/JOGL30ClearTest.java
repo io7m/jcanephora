@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -28,7 +28,7 @@ import com.io7m.jcanephora.api.JCGLClearType;
 import com.io7m.jcanephora.api.JCGLFramebufferBuilderGL3ES3Type;
 import com.io7m.jcanephora.api.JCGLFramebuffersCommonType;
 import com.io7m.jcanephora.api.JCGLImplementationType;
-import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGL2Type;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.ClearContract;
 import com.io7m.jcanephora.tests.jogl.JOGLTestContext;
@@ -49,13 +49,13 @@ public final class JOGL30ClearTest extends ClearContract
   @Override public JCGLFramebuffersCommonType getFramebuffers(
     final TestContext context)
   {
-    return JOGLTestContextUtilities.getGL3(context);
+    return JOGLTestContextUtilities.getGL2(context);
   }
 
   @Override public JCGLClearType getClear(
     final TestContext context)
   {
-    return JOGLTestContextUtilities.getGL3(context);
+    return JOGLTestContextUtilities.getGL2(context);
   }
 
   @Override public FramebufferType makeFramebufferWithDepth(
@@ -63,7 +63,7 @@ public final class JOGL30ClearTest extends ClearContract
     final JCGLImplementationType gi)
     throws JCGLException
   {
-    final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
+    final JCGLInterfaceGL2Type g = JOGLTestContextUtilities.getGL2(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final JCGLFramebufferBuilderGL3ES3Type fbb =
@@ -83,7 +83,7 @@ public final class JOGL30ClearTest extends ClearContract
     final JCGLImplementationType gi)
     throws JCGLException
   {
-    final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
+    final JCGLInterfaceGL2Type g = JOGLTestContextUtilities.getGL2(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final JCGLFramebufferBuilderGL3ES3Type fbb =
@@ -103,7 +103,7 @@ public final class JOGL30ClearTest extends ClearContract
     final JCGLImplementationType gi)
     throws JCGLException
   {
-    final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
+    final JCGLInterfaceGL2Type g = JOGLTestContextUtilities.getGL2(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final JCGLFramebufferBuilderGL3ES3Type fbb =

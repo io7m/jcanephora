@@ -28,13 +28,13 @@ public final class JOGL30ArrayBufferCachedTest extends ArrayBufferContract
   @Override public JCGLArrayBuffersType getGLArrayBuffers(
     final TestContext context)
   {
-    return JOGLTestContextUtilities.getGL3(context);
+    return JOGLTestContextUtilities.getGL2(context);
   }
 
   @Override public JCGLShadersParametersType getGLPrograms(
     final TestContext context)
   {
-    return JOGLTestContextUtilities.getGL3(context);
+    return JOGLTestContextUtilities.getGL2(context);
   }
 
   @Override public boolean isGLSupported()

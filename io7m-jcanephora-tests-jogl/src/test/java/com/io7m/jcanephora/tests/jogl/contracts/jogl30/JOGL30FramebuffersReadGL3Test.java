@@ -29,13 +29,13 @@ public final class JOGL30FramebuffersReadGL3Test extends
   @Override public JCGLFramebuffersGL3Type getFramebuffersGL3(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public JCGLRenderbuffersGL3ES3Type getRenderbuffersGL3(
     final TestContext tc)
   {
-    return JOGLTestContextUtilities.getGL3(tc);
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

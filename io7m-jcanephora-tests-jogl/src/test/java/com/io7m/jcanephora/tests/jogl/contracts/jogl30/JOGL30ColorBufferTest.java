@@ -27,7 +27,7 @@ public final class JOGL30ColorBufferTest extends ColorBufferContract
   @Override public JCGLColorBufferType getGLColorBuffer(
     final TestContext context)
   {
-    return JOGLTestContextUtilities.getGL3(context);
+    return JOGLTestContextUtilities.getGL2(context);
   }
 
   @Override public boolean isGLSupported()
