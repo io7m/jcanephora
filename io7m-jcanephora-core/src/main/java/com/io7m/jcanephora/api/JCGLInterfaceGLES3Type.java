@@ -23,16 +23,11 @@ package com.io7m.jcanephora.api;
  */
 
 public interface JCGLInterfaceGLES3Type extends
-  JCGLArrayBuffersMappedType,
-  JCGLBlendingGL3Type,
   JCGLExtensionsGLES3Type,
-  JCGLFramebuffersGL3Type,
-  JCGLIndexBuffersMappedType,
-  JCGLInterfaceCommonType,
   JCGLRenderbuffersGLES3Type,
-  JCGLShadersGLES3Type,
   JCGLTextures2DStaticGLES3Type,
-  JCGLTexturesCubeStaticGLES3Type
+  JCGLTexturesCubeStaticGLES3Type,
+  JCGLInterfaceGL3ES3Type
 {
   /*
    * All functions defined in the superinterfaces.

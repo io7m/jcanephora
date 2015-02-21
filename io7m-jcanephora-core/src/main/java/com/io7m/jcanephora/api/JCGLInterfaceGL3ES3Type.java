@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -18,19 +18,21 @@ package com.io7m.jcanephora.api;
 
 /**
  * <p>
- * The interface exposed by OpenGL 3.* implementations.
+ * The common interface shared between GL3 and GLES3 implementations.
  * </p>
  */
 
-public interface JCGLInterfaceGL3Type extends
-  JCGLDepthClampingType,
-  JCGLLogicType,
-  JCGLPolygonModesType,
-  JCGLPolygonSmoothingType,
-  JCGLRenderbuffersGL3Type,
-  JCGLTextures2DStaticGL3Type,
-  JCGLTexturesCubeStaticGL3Type,
-  JCGLInterfaceGL3ES3Type
+public interface JCGLInterfaceGL3ES3Type extends
+  JCGLArrayBuffersMappedType,
+  JCGLBlendingGL3Type,
+  JCGLFramebuffersGL3Type,
+  JCGLIndexBuffersMappedType,
+  JCGLInterfaceCommonType,
+  JCGLRenderbuffersGL3ES3Type,
+  JCGLShadersGLES3Type,
+  JCGLShadersGL3Type,
+  JCGLTextures2DStaticGL3ES3Type,
+  JCGLTexturesCubeStaticGL3ES3Type
 {
   /*
    * All functions defined in the superinterfaces.

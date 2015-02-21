@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -19,6 +19,7 @@ package com.io7m.jcanephora.jogl;
 import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.media.opengl.DebugGLES3;
@@ -986,6 +987,17 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
       JCGLExceptionProgramCompileError
   {
     return this.program.programCreateCommon(name, v, f);
+  }
+
+  @Override public ProgramType programCreateWithOutputs(
+    final String name,
+    final VertexShaderType v,
+    final FragmentShaderType f,
+    final Map<String, FramebufferDrawBufferType> outputs)
+    throws JCGLException,
+      JCGLExceptionProgramCompileError
+  {
+    return this.program.programCreateWithOutputs(name, v, f, outputs);
   }
 
   @Override public void programDeactivate()
