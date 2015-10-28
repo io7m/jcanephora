@@ -21,21 +21,25 @@ import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeInclusiveL;
 
+import java.nio.ByteBuffer;
+
 abstract class FakeBuffer extends FakeObjectShared
   implements JCGLBufferUsableType
 {
   private final JCGLUsageHint   usage;
   private final RangeInclusiveL range;
+  private final ByteBuffer      data;
 
   FakeBuffer(
     final FakeContext in_context,
     final int in_id,
-    final long in_size,
+    final ByteBuffer in_data,
     final JCGLUsageHint in_usage)
   {
     super(in_context, in_id);
     this.usage = NullCheck.notNull(in_usage);
-    this.range = new RangeInclusiveL(0L, in_size - 1L);
+    this.data = NullCheck.notNull(in_data);
+    this.range = new RangeInclusiveL(0L, (long) in_data.capacity() - 1L);
   }
 
   @Override public final JCGLUsageHint getUsageHint()
@@ -46,5 +50,10 @@ abstract class FakeBuffer extends FakeObjectShared
   @Override public final RangeInclusiveL getRange()
   {
     return this.range;
+  }
+
+  public final ByteBuffer getData()
+  {
+    return this.data;
   }
 }

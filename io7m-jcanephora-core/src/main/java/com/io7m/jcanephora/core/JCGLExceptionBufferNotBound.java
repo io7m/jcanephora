@@ -14,21 +14,26 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.fake;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLArrayBufferType;
-import com.io7m.jcanephora.core.JCGLUsageHint;
+/**
+ * Exception class representing an error caused by the programmer failing to
+ * bind a buffer prior to attempting to perform an operation on it that requires
+ * binding.
+ */
 
-import java.nio.ByteBuffer;
-
-final class FakeArrayBuffer extends FakeBuffer implements JCGLArrayBufferType
+public final class JCGLExceptionBufferNotBound extends JCGLException
 {
-  FakeArrayBuffer(
-    final FakeContext in_context,
-    final int in_id,
-    final ByteBuffer in_data,
-    final JCGLUsageHint in_usage)
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * Construct an exception.
+   *
+   * @param message The message
+   */
+
+  public JCGLExceptionBufferNotBound(final String message)
   {
-    super(in_context, in_id, in_data, in_usage);
+    super(message);
   }
 }

@@ -14,21 +14,17 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.fake;
+package com.io7m.jcanephora.tests.jogl;
 
-import com.io7m.jcanephora.core.JCGLArrayBufferType;
-import com.io7m.jcanephora.core.JCGLUsageHint;
+import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
+import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
 
-import java.nio.ByteBuffer;
-
-final class FakeArrayBuffer extends FakeBuffer implements JCGLArrayBufferType
+public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
 {
-  FakeArrayBuffer(
-    final FakeContext in_context,
-    final int in_id,
-    final ByteBuffer in_data,
-    final JCGLUsageHint in_usage)
+  @Override protected JCGLArrayBuffersType getArrayBuffers()
   {
-    super(in_context, in_id, in_data, in_usage);
+    final JCGLContextType c = JOGLTestContexts.newGL33Context();
+    return c.contextGetGL33().getArrayBuffers();
   }
 }

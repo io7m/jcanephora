@@ -18,7 +18,9 @@ package com.io7m.jcanephora.fake;
 
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
+import com.io7m.jcanephora.core.JCGLBufferUpdateType;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLUsageHint;
@@ -26,10 +28,12 @@ import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jranges.Ranges;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.ByteBuffer;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -51,6 +55,15 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     this.next_id = new AtomicInteger(1);
   }
 
+  private static void bind(final int id)
+  {
+    if (id == 0) {
+      FakeArrayBuffers.LOG.trace("unbind");
+    } else {
+      FakeArrayBuffers.LOG.trace("bind {}", Integer.valueOf(id));
+    }
+  }
+
   @Override public JCGLArrayBufferType arrayBufferAllocate(
     final long size,
     final JCGLUsageHint usage)
@@ -62,20 +75,12 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     FakeArrayBuffers.LOG.debug(
       "allocate ({} bytes, {})", Long.valueOf(size), usage);
 
-    this.bind(0);
+    FakeArrayBuffers.bind(0);
     this.bind = null;
 
+    final ByteBuffer data = ByteBuffer.allocate((int) size);
     return new FakeArrayBuffer(
-      this.context, this.next_id.getAndIncrement(), size, usage);
-  }
-
-  private void bind(final int id)
-  {
-    if (id == 0) {
-      FakeArrayBuffers.LOG.trace("unbind");
-    } else {
-      FakeArrayBuffers.LOG.trace("bind {}", Integer.valueOf(id));
-    }
+      this.context, this.next_id.getAndIncrement(), data, usage);
   }
 
   @Override
@@ -89,7 +94,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     throws JCGLException, JCGLExceptionDeleted
   {
     this.checkArray(a);
-    this.bind(a.getGLName());
+    FakeArrayBuffers.bind(a.getGLName());
     this.bind = (FakeArrayBuffer) a;
   }
 
@@ -102,7 +107,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
   @Override public void arrayBufferUnbind()
     throws JCGLException
   {
-    this.bind(0);
+    FakeArrayBuffers.bind(0);
     this.bind = null;
   }
 
@@ -119,6 +124,37 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
       if (this.bind.getGLName() == a.getGLName()) {
         this.arrayBufferUnbind();
       }
+    }
+  }
+
+  @Override public void arrayBufferUpdate(
+    final JCGLBufferUpdateType<JCGLArrayBufferType> u)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(u);
+    final JCGLArrayBufferType a = u.getBuffer();
+    this.checkArray(a);
+
+    if (this.bind != null && this.bind.getGLName() == a.getGLName()) {
+      final RangeInclusiveL r = u.getBufferUpdateRange();
+      final ByteBuffer data = u.getData();
+      data.rewind();
+      final FakeArrayBuffer fa = (FakeArrayBuffer) a;
+      final ByteBuffer fa_data = fa.getData();
+      for (long index = r.getLower(); index < r.getUpper(); ++index) {
+        final int ii = (int) index;
+        fa_data.put(ii, data.get(ii));
+      }
+    } else {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Buffer is not bound.");
+      sb.append(System.lineSeparator());
+      sb.append("  Required: ");
+      sb.append(a);
+      sb.append(System.lineSeparator());
+      sb.append("  Actual: ");
+      sb.append(this.bind == null ? "none" : this.bind);
+      throw new JCGLExceptionBufferNotBound(sb.toString());
     }
   }
 }

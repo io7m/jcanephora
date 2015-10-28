@@ -14,9 +14,13 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+package com.io7m.jcanephora.core;
+
 /**
- * Unit tests for the core.
+ * The type of buffers allocated on the GPU that have mutable contents.
  */
 
-package com.io7m.jcanephora.tests.core;
-
+public interface JCGLBufferWritableType extends JCGLBufferUsableType
+{
+  // No extra methods
+}

@@ -47,4 +47,12 @@ public final class UnreachableTest
     UnreachableTest.execNoArgPrivateConstructor(
       "com.io7m.jcanephora.core.JCGLResources");
   }
+
+  @Test(expected = UnreachableCodeException.class)
+  public void testJCGLBufferUpdates()
+    throws Exception
+  {
+    UnreachableTest.execNoArgPrivateConstructor(
+      "com.io7m.jcanephora.core.JCGLBufferUpdates");
+  }
 }

@@ -18,7 +18,9 @@ package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
+import com.io7m.jcanephora.core.JCGLBufferUpdateType;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLUsageHint;
@@ -26,6 +28,7 @@ import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jranges.Ranges;
 import com.jogamp.opengl.GL;
 import org.slf4j.Logger;
@@ -145,6 +148,33 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
       if (this.bind.getGLName() == a.getGLName()) {
         this.arrayBufferUnbind();
       }
+    }
+  }
+
+  @Override public void arrayBufferUpdate(
+    final JCGLBufferUpdateType<JCGLArrayBufferType> u)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(u);
+    final JCGLArrayBufferType a = u.getBuffer();
+    this.checkArray(a);
+
+    if (this.bind != null && this.bind.getGLName() == a.getGLName()) {
+      final RangeInclusiveL r = u.getBufferUpdateRange();
+      final ByteBuffer data = u.getData();
+      data.rewind();
+      this.gl.glBufferSubData(
+        GL.GL_ARRAY_BUFFER, r.getLower(), r.getInterval(), data);
+    } else {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Buffer is not bound.");
+      sb.append(System.lineSeparator());
+      sb.append("  Required: ");
+      sb.append(a);
+      sb.append(System.lineSeparator());
+      sb.append("  Actual: ");
+      sb.append(this.bind == null ? "none" : this.bind);
+      throw new JCGLExceptionBufferNotBound(sb.toString());
     }
   }
 }

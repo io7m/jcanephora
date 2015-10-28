@@ -20,7 +20,8 @@ package com.io7m.jcanephora.core;
  * The type of array buffers.
  */
 
-public interface JCGLArrayBufferType extends JCGLArrayBufferUsableType
+public interface JCGLArrayBufferType
+  extends JCGLArrayBufferUsableType, JCGLBufferWritableType
 {
   // No extra functions
 }

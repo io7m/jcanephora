@@ -17,6 +17,9 @@
 package com.io7m.jcanephora.tests.contracts;
 
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
+import com.io7m.jcanephora.core.JCGLBufferUpdateType;
+import com.io7m.jcanephora.core.JCGLBufferUpdates;
+import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
@@ -128,5 +131,34 @@ public abstract class JCGLArrayBuffersContract
     Assert.assertTrue(b.isDeleted());
     Assert.assertFalse(a.isDeleted());
     Assert.assertEquals(Optional.of(a), ga.arrayBufferGetCurrentlyBound());
+  }
+
+  @Test public final void testArrayUpdateDeleted()
+  {
+    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLBufferUpdateType<JCGLArrayBufferType> u =
+      JCGLBufferUpdates.newUpdateReplacingAll(a);
+
+    ga.arrayBufferDelete(a);
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    ga.arrayBufferUpdate(u);
+  }
+
+  @Test public final void testArrayUpdateNotBound()
+  {
+    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLBufferUpdateType<JCGLArrayBufferType> u =
+      JCGLBufferUpdates.newUpdateReplacingAll(a);
+
+    ga.arrayBufferUnbind();
+    this.expected.expect(JCGLExceptionBufferNotBound.class);
+    ga.arrayBufferUpdate(u);
   }
 }

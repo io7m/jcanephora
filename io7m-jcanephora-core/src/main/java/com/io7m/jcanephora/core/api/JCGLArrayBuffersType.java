@@ -18,7 +18,9 @@ package com.io7m.jcanephora.core.api;
 
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
+import com.io7m.jcanephora.core.JCGLBufferUpdateType;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 
@@ -69,7 +71,8 @@ public interface JCGLArrayBuffersType
    *                              deleted
    */
 
-  void arrayBufferBind(JCGLArrayBufferUsableType a)
+  void arrayBufferBind(
+    JCGLArrayBufferUsableType a)
     throws JCGLException, JCGLExceptionDeleted;
 
   /**
@@ -94,6 +97,22 @@ public interface JCGLArrayBuffersType
    */
 
   void arrayBufferDelete(
-    final JCGLArrayBufferType a)
+    JCGLArrayBufferType a)
     throws JCGLException, JCGLExceptionDeleted;
+
+  /**
+   * <p>Perform the array buffer update {@code u}.</p>
+   *
+   * @param u The update
+   *
+   * @throws JCGLException               Iff an OpenGL error occurs
+   * @throws JCGLExceptionDeleted        If the array buffer has already been
+   *                                     deleted
+   * @throws JCGLExceptionBufferNotBound If the array buffer in {@code u} is not
+   *                                     bound
+   */
+
+  void arrayBufferUpdate(
+    JCGLBufferUpdateType<JCGLArrayBufferType> u)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound;
 }
