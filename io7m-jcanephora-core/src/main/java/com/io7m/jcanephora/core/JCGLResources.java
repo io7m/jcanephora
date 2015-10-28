@@ -16,47 +16,45 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.jnull.NullCheck;
+import com.io7m.junreachable.UnreachableCodeException;
+
 /**
- * The type of exceptions raised by the API.
+ * Resource checking.
  */
 
-public class JCGLException extends RuntimeException
+public final class JCGLResources
 {
-  private static final long serialVersionUID = 1L;
-
-  /**
-   * Construct an exception.
-   *
-   * @param cause The cause
-   */
-
-  public JCGLException(final Throwable cause)
+  private JCGLResources()
   {
-    super(cause);
+    throw new UnreachableCodeException();
   }
 
   /**
-   * Construct an exception.
+   * Check that the current object has not been deleted.
    *
-   * @param message The message
+   * @param r   The object.
+   * @param <R> A deletable object.
+   *
+   * @return The object.
+   *
+   * @throws JCGLExceptionDeleted If the object has been deleted.
+   * @see JCGLResourceUsableType#isDeleted()
    */
 
-  public JCGLException(final String message)
+  public static <R extends JCGLResourceUsableType> R checkNotDeleted(
+    final R r)
+    throws JCGLExceptionDeleted
   {
-    super(message);
+    NullCheck.notNull(r, "Resource");
+
+    if (r.isDeleted()) {
+      throw new JCGLExceptionDeleted(
+        String.format(
+          "Cannot perform operation: OpenGL object %s has been deleted.", r));
+    }
+
+    return r;
   }
 
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
 }

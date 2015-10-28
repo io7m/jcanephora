@@ -17,46 +17,22 @@
 package com.io7m.jcanephora.core;
 
 /**
- * The type of exceptions raised by the API.
+ * An exception indicating an attempt to delete a resource that has already been
+ * deleted.
  */
 
-public class JCGLException extends RuntimeException
+public final class JCGLExceptionDeleted extends JCGLException
 {
   private static final long serialVersionUID = 1L;
 
   /**
    * Construct an exception.
    *
-   * @param cause The cause
-   */
-
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
    * @param message The message
    */
 
-  public JCGLException(final String message)
+  public JCGLExceptionDeleted(final String message)
   {
     super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
   }
 }

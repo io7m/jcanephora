@@ -14,49 +14,24 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.jogl;
 
-/**
- * The type of exceptions raised by the API.
- */
+import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
+import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
+import com.io7m.jnull.NullCheck;
 
-public class JCGLException extends RuntimeException
+final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
 {
-  private static final long serialVersionUID = 1L;
+  private final JOGLArrayBuffers array_buffers;
 
-  /**
-   * Construct an exception.
-   *
-   * @param cause The cause
-   */
-
-  public JCGLException(final Throwable cause)
+  JOGLInterfaceGL33(final JOGLContext c)
   {
-    super(cause);
+    NullCheck.notNull(c);
+    this.array_buffers = new JOGLArrayBuffers(c);
   }
 
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
+  @Override public JCGLArrayBuffersType getArrayBuffers()
   {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
+    return this.array_buffers;
   }
 }

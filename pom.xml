@@ -18,6 +18,11 @@
     <module>io7m-jcanephora-checkstyle</module>
     <module>io7m-jcanephora-core</module>
     <module>io7m-jcanephora-documentation</module>
+    <module>io7m-jcanephora-fake</module>
+    <module>io7m-jcanephora-jogl</module>
+    <module>io7m-jcanephora-tests-fake</module>
+    <module>io7m-jcanephora-tests-jogl</module>
+    <module>io7m-jcanephora-tests</module>
   </modules>
 
   <properties>
@@ -81,6 +86,27 @@
         <groupId>com.io7m.jnull</groupId>
         <artifactId>io7m-jnull-core</artifactId>
         <version>[1.0.0, 2.0.0)</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jranges</groupId>
+        <artifactId>io7m-jranges-core</artifactId>
+        <version>[2.0.0, 3.0.0)</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jogamp.jogl</groupId>
+        <artifactId>jogl-all-main</artifactId>
+        <version>2.3.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jogamp.gluegen</groupId>
+        <artifactId>gluegen-rt-main</artifactId>
+        <version>2.3.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.12</version>
       </dependency>
 
       <dependency>
@@ -211,14 +237,14 @@
           <version>1.2</version>
         </plugin>
 
-        <!-- Require JDK >= 1.6 -->
+        <!-- Require JDK >= 1.8 -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.3</version>
           <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
+            <source>1.8</source>
+            <target>1.8</target>
           </configuration>
         </plugin>
 

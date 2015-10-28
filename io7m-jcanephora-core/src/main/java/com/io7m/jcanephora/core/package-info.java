@@ -15,7 +15,7 @@
  */
 
 /**
- * Core types and functions.
+ * Core types and interfaces.
  */
 
 @com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.core;

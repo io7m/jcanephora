@@ -17,46 +17,18 @@
 package com.io7m.jcanephora.core;
 
 /**
- * The type of exceptions raised by the API.
+ * <p>The type of "usable" objects that can be deleted.</p>
+ *
+ * <p>This type represents a read-only interface to objects that can be deleted.
+ * It essentially only allows the checking of whether or not a particular object
+ * is deleted.</p>
  */
 
-public class JCGLException extends RuntimeException
+public interface JCGLResourceUsableType
 {
-  private static final long serialVersionUID = 1L;
-
   /**
-   * Construct an exception.
-   *
-   * @param cause The cause
+   * @return {@code true} iff the given resource has been deleted.
    */
 
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
-  {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
+  boolean isDeleted();
 }

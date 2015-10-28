@@ -14,49 +14,25 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.fake;
+
+import com.io7m.jcanephora.core.JCGLResourceUsableType;
 
 /**
- * The type of exceptions raised by the API.
+ * An object containing OpenGL resources that can be deleted.
  */
 
-public class JCGLException extends RuntimeException
+abstract class FakeObjectDeleteable implements JCGLResourceUsableType
 {
-  private static final long serialVersionUID = 1L;
+  private volatile boolean deleted;
 
-  /**
-   * Construct an exception.
-   *
-   * @param cause The cause
-   */
-
-  public JCGLException(final Throwable cause)
+  @Override public final boolean isDeleted()
   {
-    super(cause);
+    return this.deleted;
   }
 
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
+  protected final void setDeleted()
   {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
+    this.deleted = true;
   }
 }

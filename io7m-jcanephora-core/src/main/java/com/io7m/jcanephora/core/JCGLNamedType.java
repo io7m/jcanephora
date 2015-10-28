@@ -17,46 +17,18 @@
 package com.io7m.jcanephora.core;
 
 /**
- * The type of exceptions raised by the API.
+ * <p> An object that has a name according to OpenGL. </p>
+ *
+ * <p> This could be, for example, the identifier of a texture created with
+ * {@code glGenTextures}, or a buffer created with {@code glGenBuffers}, etc.
+ * </p>
  */
 
-public class JCGLException extends RuntimeException
+public interface JCGLNamedType
 {
-  private static final long serialVersionUID = 1L;
-
   /**
-   * Construct an exception.
-   *
-   * @param cause The cause
+   * @return The raw OpenGL 'name' of the object.
    */
 
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
-  {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
+  int getGLName();
 }

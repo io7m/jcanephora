@@ -14,49 +14,43 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.core.api;
 
 /**
- * The type of exceptions raised by the API.
+ * The usable interface to OpenGL contexts.
  */
 
-public class JCGLException extends RuntimeException
+public interface JCGLContextUsableType
 {
-  private static final long serialVersionUID = 1L;
-
   /**
-   * Construct an exception.
+   * @return {@code true} iff the current context is current
    *
-   * @param cause The cause
+   * @see #contextMakeCurrent()
    */
 
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
+  boolean contextIsCurrent();
 
   /**
-   * Construct an exception.
-   *
-   * @param message The message
+   * Make this context current on the current thread.
    */
 
-  public JCGLException(final String message)
-  {
-    super(message);
-  }
+  void contextMakeCurrent();
 
   /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
+   * Release this context on the current thread.
    */
 
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
+  void contextReleaseCurrent();
+
+  /**
+   * @return The OpenGL 3.3 interface for the context
+   */
+
+  JCGLInterfaceGL33Type contextGetGL33();
+
+  /**
+   * @return The implementation that owns the context
+   */
+
+  JCGLImplementationType contextGetImplementation();
 }

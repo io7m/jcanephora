@@ -16,47 +16,50 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.jnull.NullCheck;
+
 /**
- * The type of exceptions raised by the API.
+ * An exception indicating that the package cannot execute on the current
+ * context version.
  */
 
-public class JCGLException extends RuntimeException
+public final class JCGLExceptionUnsupported extends Exception
 {
   private static final long serialVersionUID = 1L;
+  private final JCGLVersionNumber expected;
+  private final JCGLVersionNumber received;
 
   /**
    * Construct an exception.
    *
-   * @param cause The cause
+   * @param v_exp The expected (required) version
+   * @param v_got The actual version received
    */
 
-  public JCGLException(final Throwable cause)
+  public JCGLExceptionUnsupported(
+    final JCGLVersionNumber v_exp,
+    final JCGLVersionNumber v_got)
   {
-    super(cause);
+    super("Unsupported OpenGL version");
+    this.expected = NullCheck.notNull(v_exp);
+    this.received = NullCheck.notNull(v_got);
   }
 
   /**
-   * Construct an exception.
-   *
-   * @param message The message
+   * @return The expected (required) OpenGL version
    */
 
-  public JCGLException(final String message)
+  public JCGLVersionNumber getExpected()
   {
-    super(message);
+    return this.expected;
   }
 
   /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
+   * @return The received OpenGL version
    */
 
-  public JCGLException(
-    final String message,
-    final Throwable cause)
+  public JCGLVersionNumber getReceived()
   {
-    super(message, cause);
+    return this.received;
   }
 }

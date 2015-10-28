@@ -14,49 +14,17 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.core.api;
 
 /**
- * The type of exceptions raised by the API.
+ * The interface exposed by OpenGL 3.3
  */
 
-public class JCGLException extends RuntimeException
+public interface JCGLInterfaceGL33Type
 {
-  private static final long serialVersionUID = 1L;
-
   /**
-   * Construct an exception.
-   *
-   * @param cause The cause
+   * @return The array buffers interface
    */
 
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
-  {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
+  JCGLArrayBuffersType getArrayBuffers();
 }

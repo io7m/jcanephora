@@ -17,46 +17,15 @@
 package com.io7m.jcanephora.core;
 
 /**
- * The type of exceptions raised by the API.
+ * The type of usable buffers.
  */
 
-public class JCGLException extends RuntimeException
+public interface JCGLBufferUsableType
+  extends JCGLResourceSizedType, JCGLNamedType, JCGLResourceUsableType
 {
-  private static final long serialVersionUID = 1L;
-
   /**
-   * Construct an exception.
-   *
-   * @param cause The cause
+   * @return The usage hint specified for the buffer.
    */
 
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
-  {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
+  JCGLUsageHint getUsageHint();
 }

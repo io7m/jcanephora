@@ -14,49 +14,37 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.fake;
 
-/**
- * The type of exceptions raised by the API.
- */
+import com.io7m.jcanephora.core.JCGLBufferUsableType;
+import com.io7m.jcanephora.core.JCGLUsageHint;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeInclusiveL;
 
-public class JCGLException extends RuntimeException
+abstract class FakeBuffer extends FakeObjectShared
+  implements JCGLBufferUsableType
 {
-  private static final long serialVersionUID = 1L;
+  private final JCGLUsageHint   usage;
+  private final RangeInclusiveL range;
 
-  /**
-   * Construct an exception.
-   *
-   * @param cause The cause
-   */
-
-  public JCGLException(final Throwable cause)
+  FakeBuffer(
+    final FakeContext in_context,
+    final int in_id,
+    final long in_size,
+    final JCGLUsageHint in_usage)
   {
-    super(cause);
+    super(in_context, in_id);
+    this.usage = NullCheck.notNull(in_usage);
+    this.range = new RangeInclusiveL(0L, in_size - 1L);
   }
 
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
+  @Override public final JCGLUsageHint getUsageHint()
   {
-    super(message);
+    return this.usage;
   }
 
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
+  @Override public final RangeInclusiveL getRange()
   {
-    super(message, cause);
+    return this.range;
   }
 }

@@ -1,0 +1,124 @@
+/*
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+ * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+package com.io7m.jcanephora.fake;
+
+import com.io7m.jcanephora.core.JCGLArrayBufferType;
+import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLResources;
+import com.io7m.jcanephora.core.JCGLUsageHint;
+import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
+import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.Ranges;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+
+final class FakeArrayBuffers implements JCGLArrayBuffersType
+{
+  private static final Logger LOG;
+
+  static {
+    LOG = LoggerFactory.getLogger(FakeArrayBuffers.class);
+  }
+
+  private final     FakeContext     context;
+  private final     AtomicInteger   next_id;
+  private @Nullable FakeArrayBuffer bind;
+
+  FakeArrayBuffers(final FakeContext c)
+  {
+    this.context = NullCheck.notNull(c);
+    this.next_id = new AtomicInteger(1);
+  }
+
+  @Override public JCGLArrayBufferType arrayBufferAllocate(
+    final long size,
+    final JCGLUsageHint usage)
+    throws JCGLException
+  {
+    RangeCheck.checkIncludedInLong(
+      size, "Size", Ranges.NATURAL_LONG, "Valid size range");
+
+    FakeArrayBuffers.LOG.debug(
+      "allocate ({} bytes, {})", Long.valueOf(size), usage);
+
+    this.bind(0);
+    this.bind = null;
+
+    return new FakeArrayBuffer(
+      this.context, this.next_id.getAndIncrement(), size, usage);
+  }
+
+  private void bind(final int id)
+  {
+    if (id == 0) {
+      FakeArrayBuffers.LOG.trace("unbind");
+    } else {
+      FakeArrayBuffers.LOG.trace("bind {}", Integer.valueOf(id));
+    }
+  }
+
+  @Override
+  public Optional<JCGLArrayBufferUsableType> arrayBufferGetCurrentlyBound()
+    throws JCGLException
+  {
+    return Optional.ofNullable(this.bind);
+  }
+
+  @Override public void arrayBufferBind(final JCGLArrayBufferUsableType a)
+    throws JCGLException, JCGLExceptionDeleted
+  {
+    this.checkArray(a);
+    this.bind(a.getGLName());
+    this.bind = (FakeArrayBuffer) a;
+  }
+
+  private void checkArray(final JCGLArrayBufferUsableType a)
+  {
+    FakeCompatibilityChecks.checkArray(this.context, a);
+    JCGLResources.checkNotDeleted(a);
+  }
+
+  @Override public void arrayBufferUnbind()
+    throws JCGLException
+  {
+    this.bind(0);
+    this.bind = null;
+  }
+
+  @Override public void arrayBufferDelete(final JCGLArrayBufferType a)
+    throws JCGLException, JCGLExceptionDeleted
+  {
+    this.checkArray(a);
+
+    FakeArrayBuffers.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+
+    ((FakeArrayBuffer) a).setDeleted();
+
+    if (this.bind != null) {
+      if (this.bind.getGLName() == a.getGLName()) {
+        this.arrayBufferUnbind();
+      }
+    }
+  }
+}

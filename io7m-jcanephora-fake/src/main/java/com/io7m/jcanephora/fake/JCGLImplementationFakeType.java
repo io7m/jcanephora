@@ -14,49 +14,29 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.fake;
+
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionUnsupported;
+import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jcanephora.core.api.JCGLImplementationType;
 
 /**
- * The type of exceptions raised by the API.
+ * Fake-specific interface to JCGL implementations.
  */
 
-public class JCGLException extends RuntimeException
+public interface JCGLImplementationFakeType extends JCGLImplementationType
 {
-  private static final long serialVersionUID = 1L;
-
   /**
-   * Construct an exception.
+   * Construct a new context.
    *
-   * @param cause The cause
+   * @return A new context
+   *
+   * @throws JCGLException            On errors
+   * @throws JCGLExceptionUnsupported If the context is of a version that is not
+   *                                  supported
    */
 
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
-  {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
+  JCGLContextType newContext()
+    throws JCGLException, JCGLExceptionUnsupported;
 }

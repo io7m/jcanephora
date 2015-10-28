@@ -14,49 +14,10 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
-
 /**
- * The type of exceptions raised by the API.
+ * A fake implementation of the {@code jcanephora} APIs intended for unit
+ * testing code without access to a GPU.
  */
 
-public class JCGLException extends RuntimeException
-{
-  private static final long serialVersionUID = 1L;
+@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.fake;
 
-  /**
-   * Construct an exception.
-   *
-   * @param cause The cause
-   */
-
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
-  {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
-}

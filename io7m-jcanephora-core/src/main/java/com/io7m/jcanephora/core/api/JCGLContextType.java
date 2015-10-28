@@ -14,49 +14,24 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.core.api;
+
+import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLResourceUsableType;
 
 /**
- * The type of exceptions raised by the API.
+ * An OpenGL context.
  */
 
-public class JCGLException extends RuntimeException
+public interface JCGLContextType
+  extends JCGLContextUsableType, JCGLResourceUsableType
 {
-  private static final long serialVersionUID = 1L;
-
   /**
-   * Construct an exception.
+   * Destroy this context.
    *
-   * @param cause The cause
+   * @throws JCGLExceptionDeleted If the context is already destroyed
    */
 
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
-  {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
+  void contextDestroy()
+    throws JCGLExceptionDeleted;
 }

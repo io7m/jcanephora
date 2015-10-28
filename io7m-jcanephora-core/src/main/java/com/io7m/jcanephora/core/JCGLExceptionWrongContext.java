@@ -17,46 +17,25 @@
 package com.io7m.jcanephora.core;
 
 /**
- * The type of exceptions raised by the API.
+ * Exception class representing an error caused by the programmer attempting to
+ * use an object on the wrong context. For example, if {@code o} is an object
+ * allocated on context {@code C}, and {@code C} is not shared with or equal to
+ * context {@code D}, then attempting to pass {@code o} to functions on {@code
+ * D} is an error.
  */
 
-public class JCGLException extends RuntimeException
+public final class JCGLExceptionWrongContext extends JCGLException
 {
   private static final long serialVersionUID = 1L;
 
   /**
    * Construct an exception.
    *
-   * @param cause The cause
-   */
-
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
    * @param message The message
    */
 
-  public JCGLException(final String message)
+  public JCGLExceptionWrongContext(final String message)
   {
     super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
   }
 }

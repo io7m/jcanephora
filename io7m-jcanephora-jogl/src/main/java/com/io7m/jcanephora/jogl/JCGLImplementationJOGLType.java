@@ -14,49 +14,32 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.jogl;
+
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionUnsupported;
+import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jcanephora.core.api.JCGLImplementationType;
+import com.jogamp.opengl.GLContext;
 
 /**
- * The type of exceptions raised by the API.
+ * JOGL-specific interface to JCGL implementations.
  */
 
-public class JCGLException extends RuntimeException
+public interface JCGLImplementationJOGLType extends JCGLImplementationType
 {
-  private static final long serialVersionUID = 1L;
-
   /**
-   * Construct an exception.
+   * Construct a new context from the given {@link GLContext}.
    *
-   * @param cause The cause
+   * @param c An existing context
+   *
+   * @return A new context
+   *
+   * @throws JCGLException            On errors
+   * @throws JCGLExceptionUnsupported If the context is of a version that is not
+   *                                  supported
    */
 
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
-  {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
+  JCGLContextType newContextFrom(GLContext c)
+    throws JCGLException, JCGLExceptionUnsupported;
 }

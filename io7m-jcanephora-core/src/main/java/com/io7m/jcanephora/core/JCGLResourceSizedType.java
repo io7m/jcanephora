@@ -16,47 +16,17 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.jranges.RangeInclusiveL;
+
 /**
- * The type of exceptions raised by the API.
+ * The type of OpenGL resources that have a known size in bytes.
  */
 
-public class JCGLException extends RuntimeException
+public interface JCGLResourceSizedType
 {
-  private static final long serialVersionUID = 1L;
-
   /**
-   * Construct an exception.
-   *
-   * @param cause The cause
+   * @return The range of valid byte indices in the resource
    */
 
-  public JCGLException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
-  {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
+  RangeInclusiveL getRange();
 }

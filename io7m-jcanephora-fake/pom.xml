@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-  xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -10,11 +10,11 @@
     <artifactId>io7m-jcanephora</artifactId>
     <version>0.40.0</version>
   </parent>
-  <artifactId>io7m-jcanephora-core</artifactId>
+  <artifactId>io7m-jcanephora-fake</artifactId>
 
   <packaging>jar</packaging>
-  <name>io7m-jcanephora-core</name>
-  <description>OpenGL plus static safety (Core)</description>
+  <name>io7m-jcanephora-fake</name>
+  <description>OpenGL plus static safety (Fake implementation for unit testing)</description>
   <url>http://io7m.github.io/jcanephora/</url>
 
   <scm>
@@ -25,18 +25,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.io7m.jnull</groupId>
-      <artifactId>io7m-jnull-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jranges</groupId>
-      <artifactId>io7m-jranges-core</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-core</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
   </dependencies>
 

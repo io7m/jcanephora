@@ -14,49 +14,22 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.fake;
 
-/**
- * The type of exceptions raised by the API.
- */
+import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
+import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 
-public class JCGLException extends RuntimeException
+final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
 {
-  private static final long serialVersionUID = 1L;
+  private final FakeArrayBuffers array_buffers;
 
-  /**
-   * Construct an exception.
-   *
-   * @param cause The cause
-   */
-
-  public JCGLException(final Throwable cause)
+  FakeInterfaceGL33(final FakeContext c)
   {
-    super(cause);
+    this.array_buffers = new FakeArrayBuffers(c);
   }
 
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLException(final String message)
+  @Override public JCGLArrayBuffersType getArrayBuffers()
   {
-    super(message);
-  }
-
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   * @param cause   The cause
-   */
-
-  public JCGLException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
+    return this.array_buffers;
   }
 }
