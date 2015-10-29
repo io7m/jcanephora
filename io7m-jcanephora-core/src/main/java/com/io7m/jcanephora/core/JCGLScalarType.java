@@ -138,34 +138,6 @@ public enum JCGLScalarType
   }
 
   /**
-   * @return The size in bytes of values of this type.
-   */
-
-  public int getSizeBytes()
-  {
-    switch (this) {
-      case TYPE_BYTE:
-        return 1;
-      case TYPE_HALF_FLOAT:
-        return 2;
-      case TYPE_FLOAT:
-        return 4;
-      case TYPE_INT:
-        return 4;
-      case TYPE_SHORT:
-        return 2;
-      case TYPE_UNSIGNED_BYTE:
-        return 1;
-      case TYPE_UNSIGNED_INT:
-        return 4;
-      case TYPE_UNSIGNED_SHORT:
-        return 2;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  /**
    * @param elements The number of elements.
    * @param type     The GLSL type.
    *
