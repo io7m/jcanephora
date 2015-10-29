@@ -13,7 +13,7 @@
   <artifactId>io7m-jcanephora-tests</artifactId>
 
   <packaging>jar</packaging>
-  <name>io7m-jcanephora-core</name>
+  <name>io7m-jcanephora-tests</name>
   <description>OpenGL plus static safety (Unit tests and contracts)</description>
   <url>http://io7m.github.io/jcanephora/</url>
 

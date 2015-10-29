@@ -18,6 +18,7 @@ package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
+import com.io7m.jcanephora.core.JCGLType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.junreachable.UnreachableCodeException;
 import com.jogamp.opengl.GL;
@@ -201,4 +202,140 @@ public final class JOGLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert types from GL constants.
+   *
+   * @param type The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLScalarIntegralType scalarIntegralTypeFromGL(
+    final int type)
+  {
+    switch (type) {
+      case GL.GL_BYTE:
+        return JCGLScalarIntegralType.TYPE_BYTE;
+      case GL.GL_UNSIGNED_BYTE:
+        return JCGLScalarIntegralType.TYPE_UNSIGNED_BYTE;
+      case GL.GL_SHORT:
+        return JCGLScalarIntegralType.TYPE_SHORT;
+      case GL.GL_UNSIGNED_SHORT:
+        return JCGLScalarIntegralType.TYPE_UNSIGNED_SHORT;
+      case GL2ES2.GL_INT:
+        return JCGLScalarIntegralType.TYPE_INT;
+      case GL.GL_UNSIGNED_INT:
+        return JCGLScalarIntegralType.TYPE_UNSIGNED_INT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert types to GL constants.
+   *
+   * @param type The type.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int typeToGL(
+    final JCGLType type)
+  {
+    switch (type) {
+      case TYPE_BOOLEAN:
+        return GL2ES2.GL_BOOL;
+      case TYPE_BOOLEAN_VECTOR_2:
+        return GL2ES2.GL_BOOL_VEC2;
+      case TYPE_BOOLEAN_VECTOR_3:
+        return GL2ES2.GL_BOOL_VEC3;
+      case TYPE_BOOLEAN_VECTOR_4:
+        return GL2ES2.GL_BOOL_VEC4;
+      case TYPE_FLOAT:
+        return GL.GL_FLOAT;
+      case TYPE_FLOAT_MATRIX_2:
+        return GL2ES2.GL_FLOAT_MAT2;
+      case TYPE_FLOAT_MATRIX_3:
+        return GL2ES2.GL_FLOAT_MAT3;
+      case TYPE_FLOAT_MATRIX_4:
+        return GL2ES2.GL_FLOAT_MAT4;
+      case TYPE_FLOAT_VECTOR_2:
+        return GL2ES2.GL_FLOAT_VEC2;
+      case TYPE_FLOAT_VECTOR_3:
+        return GL2ES2.GL_FLOAT_VEC3;
+      case TYPE_FLOAT_VECTOR_4:
+        return GL2ES2.GL_FLOAT_VEC4;
+      case TYPE_INTEGER:
+        return GL2ES2.GL_INT;
+      case TYPE_INTEGER_VECTOR_2:
+        return GL2ES2.GL_INT_VEC2;
+      case TYPE_INTEGER_VECTOR_3:
+        return GL2ES2.GL_INT_VEC3;
+      case TYPE_INTEGER_VECTOR_4:
+        return GL2ES2.GL_INT_VEC4;
+      case TYPE_SAMPLER_2D:
+        return GL2ES2.GL_SAMPLER_2D;
+      case TYPE_SAMPLER_3D:
+        return GL2ES2.GL_SAMPLER_3D;
+      case TYPE_SAMPLER_CUBE:
+        return GL2ES2.GL_SAMPLER_CUBE;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert types from GL constants.
+   *
+   * @param type The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLType typeFromGL(
+    final int type)
+  {
+    switch (type) {
+      case GL2ES2.GL_BOOL:
+        return JCGLType.TYPE_BOOLEAN;
+      case GL2ES2.GL_BOOL_VEC2:
+        return JCGLType.TYPE_BOOLEAN_VECTOR_2;
+      case GL2ES2.GL_BOOL_VEC3:
+        return JCGLType.TYPE_BOOLEAN_VECTOR_3;
+      case GL2ES2.GL_BOOL_VEC4:
+        return JCGLType.TYPE_BOOLEAN_VECTOR_4;
+      case GL.GL_FLOAT:
+        return JCGLType.TYPE_FLOAT;
+      case GL2ES2.GL_FLOAT_MAT2:
+        return JCGLType.TYPE_FLOAT_MATRIX_2;
+      case GL2ES2.GL_FLOAT_MAT3:
+        return JCGLType.TYPE_FLOAT_MATRIX_3;
+      case GL2ES2.GL_FLOAT_MAT4:
+        return JCGLType.TYPE_FLOAT_MATRIX_4;
+      case GL2ES2.GL_FLOAT_VEC2:
+        return JCGLType.TYPE_FLOAT_VECTOR_2;
+      case GL2ES2.GL_FLOAT_VEC3:
+        return JCGLType.TYPE_FLOAT_VECTOR_3;
+      case GL2ES2.GL_FLOAT_VEC4:
+        return JCGLType.TYPE_FLOAT_VECTOR_4;
+      case GL2ES2.GL_INT:
+        return JCGLType.TYPE_INTEGER;
+      case GL2ES2.GL_INT_VEC2:
+        return JCGLType.TYPE_INTEGER_VECTOR_2;
+      case GL2ES2.GL_INT_VEC3:
+        return JCGLType.TYPE_INTEGER_VECTOR_3;
+      case GL2ES2.GL_INT_VEC4:
+        return JCGLType.TYPE_INTEGER_VECTOR_4;
+      case GL2ES2.GL_SAMPLER_2D:
+        return JCGLType.TYPE_SAMPLER_2D;
+      case GL2ES2.GL_SAMPLER_3D:
+        return JCGLType.TYPE_SAMPLER_3D;
+      case GL2ES2.GL_SAMPLER_CUBE:
+        return JCGLType.TYPE_SAMPLER_CUBE;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
 }

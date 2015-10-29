@@ -13,7 +13,7 @@
   <artifactId>io7m-jcanephora-tests-jogl</artifactId>
 
   <packaging>jar</packaging>
-  <name>io7m-jcanephora-core</name>
+  <name>io7m-jcanephora-tests-jogl</name>
   <description>OpenGL plus static safety (JOGL frontend for test suite)
   </description>
   <url>http://io7m.github.io/jcanephora/</url>
