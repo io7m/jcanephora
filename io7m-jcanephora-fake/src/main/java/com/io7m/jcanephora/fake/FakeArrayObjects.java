@@ -24,7 +24,6 @@ import com.io7m.jcanephora.core.JCGLArrayVertexAttributeIntegralType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeMatcherType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLException;
-import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
@@ -62,29 +61,11 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
   FakeArrayObjects(
     final FakeContext c,
     final FakeArrayBuffers ga)
-    throws JCGLExceptionNonCompliant
   {
     this.context = NullCheck.notNull(c);
     this.arrays = NullCheck.notNull(ga);
     this.next_array = new AtomicInteger(1);
-
-    final int max = 16;
-
-    FakeArrayObjects.LOG.debug(
-      "reported maximum supported vertex attributes: {}", Integer.valueOf(max));
-
-    if (max < 16) {
-      final StringBuilder sb = new StringBuilder(128);
-      sb.append("Non-compliant OpenGL implementation.");
-      sb.append("  Required minimum supported vertex attributes: 16");
-      sb.append(System.lineSeparator());
-      sb.append("  Implementation supports (GL_MAX_VERTEX_ATTRIBS): ");
-      sb.append(max);
-      throw new JCGLExceptionNonCompliant(sb.toString());
-    }
-
-    // Paranoia: Clamp unreasonably large values
-    this.max_attribs = Math.min(max, 1024);
+    this.max_attribs = 16;
     this.valid_attribs = new RangeInclusiveI(0, this.max_attribs - 1);
   }
 
