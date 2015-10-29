@@ -17,12 +17,17 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionContextNotCurrent;
+import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionUnsupported;
 import com.io7m.jcanephora.core.JCGLVersionNumber;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.common.util.VersionNumber;
+import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLContext;
+
+import java.util.function.Function;
 
 /**
  * A JOGL implementation of the {@link JCGLImplementationJOGLType} interface.
@@ -60,13 +65,31 @@ public final class JCGLImplementationJOGL implements JCGLImplementationJOGLType
     }
   }
 
-  @Override public JCGLContextType newContextFrom(final GLContext c)
-    throws JCGLException, JCGLExceptionUnsupported
+  @Override public JCGLContextType newContextFrom(
+    final GLContext c,
+    final String name)
+    throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant
+  {
+    return this.newContextFromWithSupplier(c, g -> g.getGL().getGL3(), name);
+  }
+
+  @Override public JCGLContextType newContextFromWithSupplier(
+    final GLContext c,
+    final Function<GLContext, GL3> gl_supplier,
+    final String name)
+    throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant
   {
     NullCheck.notNull(c);
+    NullCheck.notNull(gl_supplier);
+    NullCheck.notNull(name);
+
+    if (!c.isCurrent()) {
+      throw new JCGLExceptionContextNotCurrent(
+        String.format("Context '%s' is not current", c));
+    }
 
     final VersionNumber v = c.getGLVersionNumber();
     JCGLImplementationJOGL.checkVersion(v);
-    return new JOGLContext(this, c);
+    return new JOGLContext(this, c, gl_supplier, name);
   }
 }

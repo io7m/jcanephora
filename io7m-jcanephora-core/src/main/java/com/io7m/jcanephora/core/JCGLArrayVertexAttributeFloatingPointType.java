@@ -14,17 +14,50 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+/**
+ * The type of array vertex attributes that will be converted to floating-point
+ * during shading.
+ */
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+public interface JCGLArrayVertexAttributeFloatingPointType
+  extends JCGLArrayVertexAttributeType
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
-  {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
-    return c.contextGetGL33().getArrayBuffers();
-  }
+  /**
+   * @return The number of elements in the attribute
+   */
+
+  int getElements();
+
+  /**
+   * @return {@code true} iff integral type values should be treated as
+   * <i>normalized fixed-point</i>
+   */
+
+  boolean isNormalized();
+
+  /**
+   * @return The attribute offset in bytes
+   */
+
+  long getOffset();
+
+  /**
+   * @return The stride in bytes
+   */
+
+  int getStride();
+
+  /**
+   * @return The element type
+   */
+
+  JCGLScalarType getType();
+
+  /**
+   * @return The attribute index
+   */
+
+  int getIndex();
 }

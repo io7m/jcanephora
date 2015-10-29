@@ -14,36 +14,36 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.fake;
 
-import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
-import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
+import com.io7m.jcanephora.core.JCGLArrayObjectType;
+import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jnull.NullCheck;
 
-final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
+import java.util.Optional;
+
+final class FakeArrayObject extends FakeObjectUnshared
+  implements JCGLArrayObjectType
 {
-  private final JOGLArrayBuffers     array_buffers;
-  private final JCGLArrayObjectsType array_objects;
+  private final JCGLArrayVertexAttributeType[] attribs;
 
-  JOGLInterfaceGL33(
-    final JOGLContext c)
-    throws JCGLExceptionNonCompliant
+  FakeArrayObject(
+    final FakeContext in_context,
+    final int in_id,
+    final JCGLArrayVertexAttributeType[] in_attribs)
   {
-    NullCheck.notNull(c);
-
-    this.array_buffers = new JOGLArrayBuffers(c);
-    this.array_objects = new JOGLArrayObjects(c, this.array_buffers);
+    super(in_context, in_id);
+    this.attribs = NullCheck.notNull(in_attribs);
   }
 
-  @Override public JCGLArrayBuffersType getArrayBuffers()
+  @Override
+  public Optional<JCGLArrayVertexAttributeType> getAttributeAt(final int index)
   {
-    return this.array_buffers;
+    return Optional.ofNullable(this.attribs[index]);
   }
 
-  @Override public JCGLArrayObjectsType getArrayObjects()
+  @Override public int getMaximumVertexAttributes()
   {
-    return this.array_objects;
+    return this.attribs.length;
   }
 }

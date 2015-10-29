@@ -16,12 +16,34 @@
 
 package com.io7m.jcanephora.core.api;
 
+import java.util.List;
+
 /**
  * The usable interface to OpenGL contexts.
  */
 
 public interface JCGLContextUsableType
 {
+  /**
+   * @return The context name, for debugging purposes
+   */
+
+  String contextGetName();
+
+  /**
+   * @return The list of contexts with which this context is shared
+   */
+
+  List<JCGLContextUsableType> contextGetShares();
+
+  /**
+   * @param c The context
+   *
+   * @return {@code true} iff {@code c} is shared with this context
+   */
+
+  boolean contextIsSharedWith(JCGLContextUsableType c);
+
   /**
    * @return {@code true} iff the current context is current
    *

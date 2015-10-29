@@ -16,23 +16,35 @@
 
 package com.io7m.jcanephora.jogl;
 
-import com.io7m.jcanephora.core.JCGLResourceUsableType;
+import com.io7m.jcanephora.core.JCGLArrayObjectType;
+import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
+import com.io7m.jnull.NullCheck;
+import com.jogamp.opengl.GLContext;
 
-/**
- * An object containing OpenGL resources that can be deleted.
- */
+import java.util.Optional;
 
-abstract class JOGLObjectDeleteable implements JCGLResourceUsableType
+final class JOGLArrayObject extends JOGLObjectUnshared
+  implements JCGLArrayObjectType
 {
-  private volatile boolean deleted;
+  private final JCGLArrayVertexAttributeType[] attribs;
 
-  @Override public final boolean isDeleted()
+  JOGLArrayObject(
+    final GLContext in_context,
+    final int in_id,
+    final JCGLArrayVertexAttributeType[] in_attribs)
   {
-    return this.deleted;
+    super(in_context, in_id);
+    this.attribs = NullCheck.notNull(in_attribs);
   }
 
-  protected final void setDeleted()
+  @Override
+  public Optional<JCGLArrayVertexAttributeType> getAttributeAt(final int index)
   {
-    this.deleted = true;
+    return Optional.ofNullable(this.attribs[index]);
+  }
+
+  @Override public int getMaximumVertexAttributes()
+  {
+    return this.attribs.length;
   }
 }

@@ -17,6 +17,8 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
+import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
+import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
@@ -76,11 +78,33 @@ final class JOGLCompatibilityChecks
         current, (JOGLObjectUnshared) x);
     }
 
+    if (x instanceof JOGLObjectPseudoUnshared) {
+      return (A) JOGLCompatibilityChecks.checkObjectPseudoUnshared(
+        current, (JOGLObjectPseudoUnshared) x);
+    }
+
     final String r = String.format(
       "Object cannot be used: The object %s was not created on this context",
       x);
     assert r != null;
     throw new JCGLExceptionWrongContext(r);
+  }
+
+  private static <A extends JOGLObjectPseudoUnshared> A
+  checkObjectPseudoUnshared(
+    final GLContext current,
+    final A x)
+    throws JCGLExceptionWrongContext
+  {
+    final GLContext target = x.getContext();
+    if (current.equals(target)) {
+      return x;
+    }
+
+    throw new JCGLExceptionWrongContext(
+      String.format(
+        "Object cannot be used: Current context %s is not equal to object's "
+        + "context %s", current, target));
   }
 
   public static void checkArray(
@@ -138,5 +162,22 @@ final class JOGLCompatibilityChecks
       String.format(
         "Object cannot be used: Current context %s is not equal to object's "
         + "context %s", current, target));
+  }
+
+  public static void checkArrayObjectBuilder(
+    final GLContext context,
+    final JCGLArrayObjectBuilderType b)
+    throws JCGLExceptionWrongContext
+  {
+    NullCheck.notNull(context);
+    NullCheck.notNull(b);
+    JOGLCompatibilityChecks.checkAny(context, b);
+  }
+
+  public static void checkArrayAttribute(
+    final GLContext c,
+    final JCGLArrayVertexAttributeType a)
+  {
+    JOGLCompatibilityChecks.checkAny(c, a);
   }
 }

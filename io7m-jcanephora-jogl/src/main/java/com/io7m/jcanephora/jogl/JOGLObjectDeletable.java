@@ -14,17 +14,25 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl;
+package com.io7m.jcanephora.jogl;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+import com.io7m.jcanephora.core.JCGLResourceUsableType;
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+/**
+ * An object containing OpenGL resources that can be deleted.
+ */
+
+abstract class JOGLObjectDeletable implements JCGLResourceUsableType
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
+  private volatile boolean deleted;
+
+  @Override public final boolean isDeleted()
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
-    return c.contextGetGL33().getArrayBuffers();
+    return this.deleted;
+  }
+
+  protected final void setDeleted()
+  {
+    this.deleted = true;
   }
 }

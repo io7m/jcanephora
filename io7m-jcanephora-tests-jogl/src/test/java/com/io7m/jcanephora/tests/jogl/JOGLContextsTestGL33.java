@@ -16,15 +16,27 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+import com.io7m.jcanephora.tests.contracts.JCGLContextContract;
+import com.io7m.jcanephora.tests.contracts.JCGLSharedContextPair;
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+public final class JOGLContextsTestGL33 extends JCGLContextContract
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
+  @Override protected JCGLContextType newContext(final String name)
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
-    return c.contextGetGL33().getArrayBuffers();
+    return JOGLTestContexts.newGL33Context(name);
+  }
+
+  @Override protected JCGLSharedContextPair<JCGLContextType> newSharedContext(
+    final String name,
+    final String shared)
+  {
+    final JCGLSharedContextPair<JCGLContextType> p =
+      JOGLTestContexts.newGL33ContextSharedWith(
+        name, shared);
+
+    final JCGLContextType mc = p.getMasterContext();
+    final JCGLContextType sc = p.getSlaveContext();
+    return new JCGLSharedContextPair<>(mc, mc, sc, sc);
   }
 }

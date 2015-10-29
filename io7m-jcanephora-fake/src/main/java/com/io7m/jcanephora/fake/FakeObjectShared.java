@@ -41,7 +41,7 @@ import com.io7m.jranges.Ranges;
 
 // @formatter:on
 
-abstract class FakeObjectShared extends FakeObjectDeleteable
+abstract class FakeObjectShared extends FakeObjectDeletable
   implements JCGLNamedType
 {
   private final FakeContext context;

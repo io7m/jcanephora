@@ -22,7 +22,7 @@ import com.io7m.jcanephora.core.JCGLResourceUsableType;
  * An object containing OpenGL resources that can be deleted.
  */
 
-abstract class FakeObjectDeleteable implements JCGLResourceUsableType
+abstract class FakeObjectDeletable implements JCGLResourceUsableType
 {
   private volatile boolean deleted;
 

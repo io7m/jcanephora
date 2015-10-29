@@ -14,17 +14,29 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+import java.util.Optional;
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+/**
+ * An array object.
+ */
+
+public interface JCGLArrayObjectType extends JCGLResourceUsableType
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
-  {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
-    return c.contextGetGL33().getArrayBuffers();
-  }
+  /**
+   * @param index The attribute index in the range {@code [0,
+   *              getMaximumVertexAttributes() - 1]}
+   *
+   * @return The attribute at the given index, if any
+   */
+
+  Optional<JCGLArrayVertexAttributeType> getAttributeAt(int index);
+
+  /**
+   * @return The supported maximum number of vertex attributes. Must be {@code
+   * >= 16}.
+   */
+
+  int getMaximumVertexAttributes();
 }

@@ -17,6 +17,8 @@
 package com.io7m.jcanephora.fake;
 
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
+import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
+import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
@@ -75,6 +77,11 @@ final class FakeCompatibilityChecks
         current, (FakeObjectUnshared) x);
     }
 
+    if (x instanceof FakeObjectPseudoUnshared) {
+      return (A) FakeCompatibilityChecks.checkObjectPseudoUnshared(
+        current, (FakeObjectPseudoUnshared) x);
+    }
+
     final String r = String.format(
       "Object cannot be used: The object %s was not created on this context",
       x);
@@ -82,9 +89,35 @@ final class FakeCompatibilityChecks
     throw new JCGLExceptionWrongContext(r);
   }
 
+  private static <A extends FakeObjectPseudoUnshared> A
+  checkObjectPseudoUnshared(
+    final FakeContext current,
+    final A x)
+    throws JCGLExceptionWrongContext
+  {
+    final FakeContext target = x.getContext();
+    if (current.equals(target)) {
+      return x;
+    }
+
+    throw new JCGLExceptionWrongContext(
+      String.format(
+        "Object cannot be used: Current context %s is not equal to object's "
+        + "context %s", current, target));
+  }
+
   public static void checkArray(
     final FakeContext current,
     final JCGLArrayBufferUsableType x)
+    throws JCGLExceptionWrongContext
+  {
+    NullCheck.notNull(x);
+    FakeCompatibilityChecks.checkAny(current, x);
+  }
+
+  public static void checkArrayObjectBuilder(
+    final FakeContext current,
+    final JCGLArrayObjectBuilderType x)
     throws JCGLExceptionWrongContext
   {
     NullCheck.notNull(x);
@@ -105,16 +138,14 @@ final class FakeCompatibilityChecks
      * Sharing is symmetric.
      */
 
-    if (current.isSharedWith(target)) {
+    if (current.contextIsSharedWith(target)) {
       return x;
     }
 
     throw new JCGLExceptionWrongContext(
       String.format(
         "Object cannot be used: Current context %s is not shared with "
-        + "object's context %s",
-        current,
-        target));
+        + "object's context %s", current, target));
   }
 
   private static <A extends FakeObjectUnshared> A checkObjectUnshared(
@@ -131,5 +162,12 @@ final class FakeCompatibilityChecks
       String.format(
         "Object cannot be used: Current context %s is not equal to object's "
         + "context %s", current, target));
+  }
+
+  public static void checkArrayAttribute(
+    final FakeContext c,
+    final JCGLArrayVertexAttributeType attrib)
+  {
+    FakeCompatibilityChecks.checkAny(c, attrib);
   }
 }

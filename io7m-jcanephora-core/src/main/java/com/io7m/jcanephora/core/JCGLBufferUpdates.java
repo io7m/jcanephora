@@ -18,6 +18,7 @@ package com.io7m.jcanephora.core;
 
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.RangeCheckException;
 import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.junreachable.UnreachableCodeException;
 
@@ -60,12 +61,16 @@ public final class JCGLBufferUpdates
    * @param <T>    The precise type of buffer
    *
    * @return An update
+   *
+   * @throws RangeCheckException Iff {@code range} is not included in the
+   *                             buffer's range
    */
 
   public static <T extends JCGLBufferWritableType> JCGLBufferUpdateType<T>
   newUpdateReplacingRange(
     final T buffer,
     final RangeInclusiveL range)
+    throws RangeCheckException
   {
     NullCheck.notNull(buffer);
     NullCheck.notNull(range);

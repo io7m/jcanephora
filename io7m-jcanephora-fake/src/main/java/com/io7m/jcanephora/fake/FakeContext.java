@@ -17,13 +17,18 @@
 package com.io7m.jcanephora.fake;
 
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jcanephora.core.api.JCGLContextUsableType;
 import com.io7m.jcanephora.core.api.JCGLImplementationType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
+import com.io7m.jnull.NullCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 final class FakeContext implements JCGLContextType
@@ -34,64 +39,114 @@ final class FakeContext implements JCGLContextType
     LOG = LoggerFactory.getLogger(FakeContext.class);
   }
 
-  private final    FakeInterfaceGL33  gl33;
-  private final    Set<FakeContext>   shared_with;
+  private final    FakeInterfaceGL33      gl33;
+  private final    Set<FakeContext>       shared_with;
   private final    JCGLImplementationFake implementation;
+  private final    String                 name;
   private volatile boolean                destroyed;
   private volatile boolean                current;
 
-  FakeContext(final JCGLImplementationFake i)
+  FakeContext(
+    final JCGLImplementationFake i,
+    final String in_name)
+    throws JCGLExceptionNonCompliant
   {
     this.gl33 = new FakeInterfaceGL33(this);
     this.destroyed = false;
     this.shared_with = new HashSet<>(8);
     this.implementation = i;
+    this.name = NullCheck.notNull(in_name);
+  }
+
+  void setSharedWith(final FakeContext other)
+  {
+    FakeContext.LOG.debug("sharing context {} with {}", this, other);
+    this.shared_with.add(other);
+    other.shared_with.add(this);
+  }
+
+  @Override public String toString()
+  {
+    return String.format("[FakeContext %s]", this.name);
+  }
+
+  @Override public String contextGetName()
+  {
+    return this.name;
+  }
+
+  @Override public List<JCGLContextUsableType> contextGetShares()
+  {
+    this.checkNotDestroyed();
+
+    final List<JCGLContextUsableType> xs =
+      new ArrayList<>(this.shared_with.size());
+    xs.addAll(this.shared_with);
+    return xs;
+  }
+
+  void checkNotDestroyed()
+  {
+    if (this.destroyed) {
+      throw new JCGLExceptionDeleted(
+        String.format("Context %s is destroyed", this));
+    }
+  }
+
+  @Override public boolean contextIsSharedWith(final JCGLContextUsableType c)
+  {
+    this.checkNotDestroyed();
+
+    if (c instanceof FakeContext) {
+      final FakeContext jc = (FakeContext) c;
+      jc.checkNotDestroyed();
+      return this.shared_with.contains(c);
+    }
+
+    return false;
   }
 
   @Override public boolean contextIsCurrent()
   {
+    this.checkNotDestroyed();
     return this.current;
   }
 
   @Override public void contextMakeCurrent()
   {
+    this.checkNotDestroyed();
     FakeContext.LOG.trace("make current");
     this.current = true;
   }
 
   @Override public void contextReleaseCurrent()
   {
+    this.checkNotDestroyed();
     FakeContext.LOG.trace("release current");
     this.current = false;
   }
 
   @Override public JCGLInterfaceGL33Type contextGetGL33()
   {
+    this.checkNotDestroyed();
     return this.gl33;
   }
 
   @Override public JCGLImplementationType contextGetImplementation()
   {
+    this.checkNotDestroyed();
     return this.implementation;
   }
 
   @Override public void contextDestroy()
     throws JCGLExceptionDeleted
   {
-    if (this.destroyed) {
-      throw new JCGLExceptionDeleted("Context is already destroyed");
-    }
-
+    this.checkNotDestroyed();
     this.destroyed = true;
   }
 
   @Override public boolean isDeleted()
   {
     return this.destroyed;
-  }
-
-  boolean isSharedWith(final FakeContext target)
-  {
-    return this.shared_with.contains(target);
   }
 }

@@ -14,17 +14,26 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+/**
+ * An exception indicating that the package cannot execute on the current
+ * context because it does not comply to the OpenGL specification in some
+ * manner.
+ */
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+public final class JCGLExceptionNonCompliant extends Exception
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * Construct an exception.
+   *
+   * @param message The message
+   */
+
+  public JCGLExceptionNonCompliant(final String message)
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
-    return c.contextGetGL33().getArrayBuffers();
+    super(message);
   }
 }

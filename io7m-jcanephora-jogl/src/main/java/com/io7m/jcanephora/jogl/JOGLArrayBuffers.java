@@ -31,6 +31,7 @@ import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jranges.Ranges;
 import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,15 +48,15 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     LOG = LoggerFactory.getLogger(JOGLArrayBuffers.class);
   }
 
-  private final     GL              gl;
+  private final     GL3             gl;
   private final     IntBuffer       int_cache;
-  private final     JOGLContext     context;
   private @Nullable JOGLArrayBuffer bind;
 
-  JOGLArrayBuffers(final JOGLContext c)
+  JOGLArrayBuffers(
+    final JOGLContext c)
   {
-    this.context = NullCheck.notNull(c);
-    this.gl = c.getContext().getGL();
+    NullCheck.notNull(c);
+    this.gl = c.getGL3();
     this.int_cache =
       ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder()).asIntBuffer();
   }

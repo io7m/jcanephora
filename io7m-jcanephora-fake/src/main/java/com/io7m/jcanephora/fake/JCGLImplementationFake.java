@@ -17,7 +17,9 @@
 package com.io7m.jcanephora.fake;
 
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionUnsupported;
+import com.io7m.jcanephora.core.JCGLExceptionWrongImplementation;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 
 /**
@@ -43,9 +45,27 @@ public final class JCGLImplementationFake implements JCGLImplementationFakeType
     return JCGLImplementationFake.INSTANCE;
   }
 
-  @Override public JCGLContextType newContext()
-    throws JCGLException, JCGLExceptionUnsupported
+  @Override public JCGLContextType newContext(final String name)
+    throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant
   {
-    return new FakeContext(this);
+    return new FakeContext(this, name);
+  }
+
+  @Override public JCGLContextType newContextSharedWith(
+    final JCGLContextType c,
+    final String name)
+    throws JCGLExceptionNonCompliant
+  {
+    if (c instanceof FakeContext) {
+      final FakeContext c_orig = (FakeContext) c;
+      c_orig.checkNotDestroyed();
+      final FakeContext cn = new FakeContext(this, name);
+      cn.setSharedWith(c_orig);
+      return cn;
+    }
+
+    throw new JCGLExceptionWrongImplementation(
+      String.format(
+        "Context %s does not belong to this implmentation", c));
   }
 }

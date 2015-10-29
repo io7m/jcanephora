@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.fake;
 
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionUnsupported;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLImplementationType;
@@ -30,13 +31,39 @@ public interface JCGLImplementationFakeType extends JCGLImplementationType
   /**
    * Construct a new context.
    *
+   * @param name The name of the new context
+   *
    * @return A new context
    *
-   * @throws JCGLException            On errors
-   * @throws JCGLExceptionUnsupported If the context is of a version that is not
-   *                                  supported
+   * @throws JCGLException             On errors
+   * @throws JCGLExceptionUnsupported  If the context is of a version that is
+   *                                   not supported
+   * @throws JCGLExceptionNonCompliant If the implementation constraints yield
+   *                                   an implementation that is not OpenGL
+   *                                   compliant
    */
 
-  JCGLContextType newContext()
-    throws JCGLException, JCGLExceptionUnsupported;
+  JCGLContextType newContext(final String name)
+    throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant;
+
+  /**
+   * Construct a new context, shared with an existing context.
+   *
+   * @param c    The existing context
+   * @param name The name of the new context
+   *
+   * @return A new context
+   *
+   * @throws JCGLException             On errors
+   * @throws JCGLExceptionUnsupported  If the context is of a version that is
+   *                                   not supported
+   * @throws JCGLExceptionNonCompliant If the implementation constraints yield
+   *                                   an implementation that is not OpenGL
+   *                                   compliant
+   */
+
+  JCGLContextType newContextSharedWith(
+    JCGLContextType c,
+    String name)
+    throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant;
 }

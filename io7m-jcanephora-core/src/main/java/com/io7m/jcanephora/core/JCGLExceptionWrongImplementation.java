@@ -14,17 +14,25 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+/**
+ * Exception class representing an error caused by the programmer attempting to
+ * use an object from the wrong JCGL implementation.
+ */
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+public final class JCGLExceptionWrongImplementation extends JCGLException
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * Construct an exception.
+   *
+   * @param message The message
+   */
+
+  public JCGLExceptionWrongImplementation(final String message)
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
-    return c.contextGetGL33().getArrayBuffers();
+    super(message);
   }
 }

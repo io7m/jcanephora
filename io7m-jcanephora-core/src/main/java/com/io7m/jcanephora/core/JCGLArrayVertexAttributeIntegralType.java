@@ -14,17 +14,43 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+/**
+ * The type of array vertex attributes that are of an integer type and will not
+ * be converted during shading.
+ */
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+public interface JCGLArrayVertexAttributeIntegralType
+  extends JCGLArrayVertexAttributeType
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
-  {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
-    return c.contextGetGL33().getArrayBuffers();
-  }
+  /**
+   * @return The number of elements in the attribute
+   */
+
+  int getElements();
+
+  /**
+   * @return The attribute offset in bytes
+   */
+
+  long getOffset();
+
+  /**
+   * @return The stride in bytes
+   */
+
+  int getStride();
+
+  /**
+   * @return The element type
+   */
+
+  JCGLScalarIntegralType getType();
+
+  /**
+   * @return The attribute index
+   */
+
+  int getIndex();
 }

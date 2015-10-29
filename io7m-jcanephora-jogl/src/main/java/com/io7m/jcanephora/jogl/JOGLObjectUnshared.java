@@ -45,7 +45,7 @@ import com.jogamp.opengl.GLContext;
 
 // @formatter:on
 
-abstract class JOGLObjectUnshared extends JOGLObjectDeleteable
+abstract class JOGLObjectUnshared extends JOGLObjectDeletable
   implements JCGLNamedType
 {
   private final GLContext context;

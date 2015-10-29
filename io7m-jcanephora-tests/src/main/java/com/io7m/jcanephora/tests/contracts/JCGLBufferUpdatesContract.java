@@ -40,11 +40,11 @@ public abstract class JCGLBufferUpdatesContract
 {
   @Rule public final ExpectedException expected = ExpectedException.none();
 
-  protected abstract JCGLArrayBuffersType getArrayBuffers();
+  protected abstract JCGLArrayBuffersType getArrayBuffers(String name);
 
   @Test public final void testBufferUpdateAllIdentities()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
@@ -61,14 +61,13 @@ public abstract class JCGLBufferUpdatesContract
 
   @Test public final void testBufferUpdateOutOfRange()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
     this.expected.expect(RangeCheckException.class);
-    final JCGLBufferUpdateType<JCGLArrayBufferType> u =
-      JCGLBufferUpdates.newUpdateReplacingRange(
-        a, new RangeInclusiveL(0L, 200L));
+    JCGLBufferUpdates.newUpdateReplacingRange(
+      a, new RangeInclusiveL(0L, 200L));
   }
 }

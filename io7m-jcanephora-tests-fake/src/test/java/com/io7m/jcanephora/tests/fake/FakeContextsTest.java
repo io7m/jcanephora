@@ -18,23 +18,34 @@ package com.io7m.jcanephora.tests.fake;
 
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionUnsupported;
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.fake.JCGLImplementationFake;
 import com.io7m.jcanephora.fake.JCGLImplementationFakeType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+import com.io7m.jcanephora.tests.contracts.JCGLContextContract;
+import com.io7m.jcanephora.tests.contracts.JCGLSharedContextPair;
 import com.io7m.junreachable.UnreachableCodeException;
 
-public final class FakeBufferUpdatesTest extends JCGLBufferUpdatesContract
+public final class FakeContextsTest extends JCGLContextContract
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
+  @Override protected JCGLContextType newContext(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
-      final JCGLContextType c = i.newContext(name);
-      final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
-      return g33.getArrayBuffers();
+      return i.newContext(name);
+    } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
+      throw new UnreachableCodeException(x);
+    }
+  }
+
+  @Override protected JCGLSharedContextPair<JCGLContextType> newSharedContext(
+    final String name,
+    final String shared)
+  {
+    try {
+      final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
+      final JCGLContextType c0 = i.newContext(name);
+      final JCGLContextType c1 = i.newContextSharedWith(c0, name);
+      return new JCGLSharedContextPair<>(c0, c0, c1, c1);
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

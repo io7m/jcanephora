@@ -14,17 +14,33 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+/**
+ * The type of array vertex attributes.
+ */
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+public interface JCGLArrayVertexAttributeType
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
-  {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
-    return c.contextGetGL33().getArrayBuffers();
-  }
+  /**
+   * @return The array buffer for the attribute
+   */
+
+  JCGLArrayBufferUsableType getArrayBuffer();
+
+  /**
+   * Accept a matcher.
+   *
+   * @param m   The matcher
+   * @param <A> The type of returned values
+   * @param <E> The type of raised exceptions
+   *
+   * @return The value returned by {@code m}
+   *
+   * @throws E Iff {@code m} throws {@code E}
+   */
+
+  <A, E extends Exception> A matchVertexAttribute(
+    final JCGLArrayVertexAttributeMatcherType<A, E> m)
+    throws E;
 }

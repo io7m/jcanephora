@@ -14,17 +14,40 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+/**
+ * The type of attribute matchers.
+ *
+ * @param <A> The type of returned values
+ * @param <E> The type of raised exceptions
+ */
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+public interface JCGLArrayVertexAttributeMatcherType<A, E extends Exception>
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
-  {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
-    return c.contextGetGL33().getArrayBuffers();
-  }
+  /**
+   * Match a floating-point attribute.
+   *
+   * @param a The attribute
+   *
+   * @return A value of {@code A}
+   *
+   * @throws E If required
+   */
+
+  A matchFloatingPoint(JCGLArrayVertexAttributeFloatingPointType a)
+    throws E;
+
+  /**
+   * Match an integral attribute.
+   *
+   * @param a The attribute
+   *
+   * @return A value of {@code A}
+   *
+   * @throws E If required
+   */
+
+  A matchIntegral(JCGLArrayVertexAttributeIntegralType a)
+    throws E;
 }

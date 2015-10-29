@@ -21,8 +21,10 @@ import com.io7m.jcanephora.core.JCGLBufferUpdateType;
 import com.io7m.jcanephora.core.JCGLBufferUpdates;
 import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
+import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jranges.RangeCheckException;
 import com.io7m.jranges.RangeInclusiveL;
 import org.junit.Assert;
@@ -42,11 +44,21 @@ public abstract class JCGLArrayBuffersContract
 {
   @Rule public final ExpectedException expected = ExpectedException.none();
 
-  protected abstract JCGLArrayBuffersType getArrayBuffers();
+  protected abstract JCGLArrayBuffersType getArrayBuffers(String name);
+
+  protected abstract JCGLUnsharedContextPair<JCGLArrayBuffersType>
+  getArrayBuffersUnshared(
+    String main,
+    String alt);
+
+  protected abstract JCGLSharedContextPair<JCGLArrayBuffersType>
+  getArrayBuffersSharedWith(
+    String name,
+    String shared);
 
   @Test public final void testArrayAllocateNegative()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 
     this.expected.expect(RangeCheckException.class);
     ga.arrayBufferAllocate(-1L, JCGLUsageHint.USAGE_STATIC_DRAW);
@@ -54,7 +66,7 @@ public abstract class JCGLArrayBuffersContract
 
   @Test public final void testArrayAllocateIdentities()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
@@ -67,7 +79,7 @@ public abstract class JCGLArrayBuffersContract
 
   @Test public final void testArrayBindIdentities()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 
     Assert.assertFalse(ga.arrayBufferGetCurrentlyBound().isPresent());
     final JCGLArrayBufferType a =
@@ -81,7 +93,7 @@ public abstract class JCGLArrayBuffersContract
 
   @Test public final void testArrayBindDeleted()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
     ga.arrayBufferDelete(a);
@@ -91,9 +103,46 @@ public abstract class JCGLArrayBuffersContract
     ga.arrayBufferBind(a);
   }
 
+  @Test public final void testArrayBindWrongContext()
+  {
+    final JCGLUnsharedContextPair<JCGLArrayBuffersType> p =
+      this.getArrayBuffersUnshared("main", "alt");
+    final JCGLContextType ca = p.getContextA();
+    final JCGLContextType cb = p.getContextB();
+    final JCGLArrayBuffersType ga = p.getValueA();
+    final JCGLArrayBuffersType gb = p.getValueB();
+
+    ca.contextMakeCurrent();
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    ga.arrayBufferDelete(a);
+    Assert.assertTrue(a.isDeleted());
+
+    cb.contextMakeCurrent();
+    this.expected.expect(JCGLExceptionWrongContext.class);
+    gb.arrayBufferBind(a);
+  }
+
+  @Test public final void testArrayBindShared()
+  {
+    final JCGLSharedContextPair<JCGLArrayBuffersType> p =
+      this.getArrayBuffersSharedWith("main", "alt");
+    final JCGLContextType ca = p.getMasterContext();
+    final JCGLContextType cb = p.getSlaveContext();
+    final JCGLArrayBuffersType ga = p.getMasterValue();
+    final JCGLArrayBuffersType gb = p.getSlaveValue();
+
+    ca.contextMakeCurrent();
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    cb.contextMakeCurrent();
+    gb.arrayBufferBind(a);
+  }
+
   @Test public final void testArrayDeleteDeleted()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
     ga.arrayBufferDelete(a);
@@ -103,9 +152,44 @@ public abstract class JCGLArrayBuffersContract
     ga.arrayBufferDelete(a);
   }
 
+  @Test public final void testArrayDeleteWrongContext()
+  {
+    final JCGLUnsharedContextPair<JCGLArrayBuffersType> p =
+      this.getArrayBuffersUnshared("main", "alt");
+    final JCGLContextType ca = p.getContextA();
+    final JCGLContextType cb = p.getContextB();
+    final JCGLArrayBuffersType ga = p.getValueA();
+    final JCGLArrayBuffersType gb = p.getValueB();
+
+    ca.contextMakeCurrent();
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    cb.contextMakeCurrent();
+    this.expected.expect(JCGLExceptionWrongContext.class);
+    gb.arrayBufferDelete(a);
+  }
+
+  @Test public final void testArrayDeleteShared()
+  {
+    final JCGLSharedContextPair<JCGLArrayBuffersType> p =
+      this.getArrayBuffersSharedWith("main", "alt");
+    final JCGLContextType ca = p.getMasterContext();
+    final JCGLContextType cb = p.getSlaveContext();
+    final JCGLArrayBuffersType ga = p.getMasterValue();
+    final JCGLArrayBuffersType gb = p.getSlaveValue();
+
+    ca.contextMakeCurrent();
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    cb.contextMakeCurrent();
+    gb.arrayBufferDelete(a);
+  }
+
   @Test public final void testArrayDeleteUnbinds()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
@@ -119,7 +203,7 @@ public abstract class JCGLArrayBuffersContract
 
   @Test public final void testArrayDeleteNoUnbindOther()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
     final JCGLArrayBufferType b =
@@ -135,7 +219,7 @@ public abstract class JCGLArrayBuffersContract
 
   @Test public final void testArrayUpdateDeleted()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
@@ -148,9 +232,30 @@ public abstract class JCGLArrayBuffersContract
     ga.arrayBufferUpdate(u);
   }
 
+  @Test public final void testArrayUpdateWrongContext()
+  {
+    final JCGLUnsharedContextPair<JCGLArrayBuffersType> p =
+      this.getArrayBuffersUnshared("main", "alt");
+    final JCGLContextType ca = p.getContextA();
+    final JCGLContextType cb = p.getContextB();
+    final JCGLArrayBuffersType ga = p.getValueA();
+    final JCGLArrayBuffersType gb = p.getValueB();
+
+    ca.contextMakeCurrent();
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLBufferUpdateType<JCGLArrayBufferType> u =
+      JCGLBufferUpdates.newUpdateReplacingAll(a);
+
+    cb.contextMakeCurrent();
+    this.expected.expect(JCGLExceptionWrongContext.class);
+    gb.arrayBufferUpdate(u);
+  }
+
   @Test public final void testArrayUpdateNotBound()
   {
-    final JCGLArrayBuffersType ga = this.getArrayBuffers();
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
@@ -160,5 +265,26 @@ public abstract class JCGLArrayBuffersContract
     ga.arrayBufferUnbind();
     this.expected.expect(JCGLExceptionBufferNotBound.class);
     ga.arrayBufferUpdate(u);
+  }
+
+  @Test public final void testArrayUpdateShared()
+  {
+    final JCGLSharedContextPair<JCGLArrayBuffersType> p =
+      this.getArrayBuffersSharedWith("main", "alt");
+    final JCGLContextType ca = p.getMasterContext();
+    final JCGLContextType cb = p.getSlaveContext();
+    final JCGLArrayBuffersType ga = p.getMasterValue();
+    final JCGLArrayBuffersType gb = p.getSlaveValue();
+
+    ca.contextMakeCurrent();
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLBufferUpdateType<JCGLArrayBufferType> u =
+      JCGLBufferUpdates.newUpdateReplacingAll(a);
+
+    cb.contextMakeCurrent();
+    gb.arrayBufferBind(a);
+    gb.arrayBufferUpdate(u);
   }
 }

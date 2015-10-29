@@ -16,25 +16,45 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
+import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionUnsupported;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.jogl.JCGLImplementationJOGL;
 import com.io7m.jcanephora.jogl.JCGLImplementationJOGLType;
-import com.io7m.jnull.Nullable;
+import com.io7m.jcanephora.tests.contracts.JCGLSharedContextPair;
 import com.io7m.junreachable.UnreachableCodeException;
+import com.jogamp.opengl.DebugGL3;
+import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLDrawableFactory;
 import com.jogamp.opengl.GLOffscreenAutoDrawable;
 import com.jogamp.opengl.GLProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.valid4j.Assertive;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 public final class JOGLTestContexts
 {
-  private static final     JCGLImplementationJOGLType IMPLEMENTATION;
-  private static @Nullable GLOffscreenAutoDrawable    DRAWABLE;
+  private static final JCGLImplementationJOGLType           IMPLEMENTATION;
+  private static final Map<String, GLOffscreenAutoDrawable> CACHED_CONTEXTS;
+  private static final Logger                               LOG;
+  private static final Function<GLContext, GL3>
+                                                            GL_CONTEXT_GL3_SUPPLIER;
 
   static {
     IMPLEMENTATION = JCGLImplementationJOGL.getInstance();
+    CACHED_CONTEXTS = new HashMap<>(32);
+    LOG = LoggerFactory.getLogger(JOGLTestContexts.class);
+    GL_CONTEXT_GL3_SUPPLIER = c -> {
+      final DebugGL3 g = new DebugGL3(c.getGL().getGL3());
+      JOGLTestContexts.LOG.trace("supplying GL3: {}", g);
+      return g;
+    };
   }
 
   private JOGLTestContexts()
@@ -42,44 +62,110 @@ public final class JOGLTestContexts
 
   }
 
-  private static GLOffscreenAutoDrawable createOffscreenDrawable(
-    final GLProfile profile,
-    final int width,
-    final int height)
+  public static JCGLContextType newGL33Context(final String name)
   {
-    final GLCapabilities cap = new GLCapabilities(profile);
-    cap.setFBO(true);
-    final GLDrawableFactory f = GLDrawableFactory.getFactory(profile);
-    final GLOffscreenAutoDrawable k =
-      f.createOffscreenAutoDrawable(null, cap, null, width, height);
-    k.display();
-    return k;
+    final Function<GLContext, GL3> supplier =
+      JOGLTestContexts.GL_CONTEXT_GL3_SUPPLIER;
+    return JOGLTestContexts.newGL33ContextWithSupplier(name, supplier);
   }
 
-  public static JCGLContextType newGL33Context()
+  public static JCGLContextType newGL33ContextWithSupplier(
+    final String name,
+    final Function<GLContext, GL3> supplier)
   {
-    JOGLTestContexts.destroyCachedContext();
-
-    JOGLTestContexts.DRAWABLE = JOGLTestContexts.createOffscreenDrawable(
-      GLProfile.get(GLProfile.GL3), 640, 480);
-
-    final GLContext c = JOGLTestContexts.DRAWABLE.getContext();
-    final int r = c.makeCurrent();
-    if (r == GLContext.CONTEXT_NOT_CURRENT) {
-      throw new AssertionError("Could not make context current");
-    }
-
     try {
-      return JOGLTestContexts.IMPLEMENTATION.newContextFrom(c);
-    } catch (final JCGLExceptionUnsupported x) {
+      return JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
+        name, supplier);
+    } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
   }
 
-  public static void destroyCachedContext()
+  public static JCGLContextType newGL33ContextWithSupplierAndErrors(
+    final String name,
+    final Function<GLContext, GL3> supplier)
+    throws JCGLExceptionUnsupported, JCGLExceptionNonCompliant
   {
-    if (JOGLTestContexts.DRAWABLE != null) {
-      JOGLTestContexts.DRAWABLE.destroy();
+    final GLContext c = JOGLTestContexts.newGL33Drawable(name);
+    return JOGLTestContexts.IMPLEMENTATION.newContextFromWithSupplier(
+      c, supplier, name);
+  }
+
+  public static GLContext newGL33Drawable(final String name)
+  {
+    JOGLTestContexts.LOG.debug("creating drawable {}", name);
+    JOGLTestContexts.destroyCachedDrawable(name);
+
+    final GLProfile profile = GLProfile.get(GLProfile.GL3);
+    final GLCapabilities cap = new GLCapabilities(profile);
+    cap.setFBO(true);
+    final GLDrawableFactory f = GLDrawableFactory.getFactory(profile);
+    final GLOffscreenAutoDrawable drawable =
+      f.createOffscreenAutoDrawable(null, cap, null, 640, 480);
+    drawable.display();
+
+    JOGLTestContexts.CACHED_CONTEXTS.put(name, drawable);
+
+    final GLContext c = drawable.getContext();
+    final int r = c.makeCurrent();
+    if (r == GLContext.CONTEXT_NOT_CURRENT) {
+      throw new AssertionError("Could not make context current");
+    }
+    return c;
+  }
+
+  public static JCGLSharedContextPair<JCGLContextType> newGL33ContextSharedWith(
+    final String name,
+    final String shared)
+  {
+    JOGLTestContexts.LOG.debug(
+      "creating context {} shared with {}", name, shared);
+
+    JOGLTestContexts.destroyCachedDrawable(name);
+    JOGLTestContexts.destroyCachedDrawable(shared);
+
+    final GLProfile profile = GLProfile.get(GLProfile.GL3);
+    final GLCapabilities cap = new GLCapabilities(profile);
+    cap.setFBO(true);
+
+    final GLDrawableFactory f = GLDrawableFactory.getFactory(profile);
+    final GLOffscreenAutoDrawable master =
+      f.createOffscreenAutoDrawable(null, cap, null, 640, 480);
+    master.display();
+
+    final GLOffscreenAutoDrawable slave =
+      f.createOffscreenAutoDrawable(null, cap, null, 640, 480);
+    slave.setSharedAutoDrawable(master);
+    slave.display();
+
+    final GLContext master_ctx = master.getContext();
+    final GLContext slave_ctx = slave.getContext();
+    Assertive.ensure(master_ctx.getCreatedShares().contains(slave_ctx));
+    Assertive.ensure(slave_ctx.getCreatedShares().contains(master_ctx));
+
+    try {
+      master_ctx.makeCurrent();
+      final JCGLContextType jmaster =
+        JOGLTestContexts.IMPLEMENTATION.newContextFromWithSupplier(
+          master_ctx, JOGLTestContexts.GL_CONTEXT_GL3_SUPPLIER, name);
+      slave_ctx.makeCurrent();
+      final JCGLContextType jslave =
+        JOGLTestContexts.IMPLEMENTATION.newContextFromWithSupplier(
+          slave_ctx, JOGLTestContexts.GL_CONTEXT_GL3_SUPPLIER, name);
+      master_ctx.makeCurrent();
+      return new JCGLSharedContextPair<>(jmaster, jmaster, jslave, jslave);
+    } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
+      throw new UnreachableCodeException(x);
+    }
+  }
+
+  private static void destroyCachedDrawable(final String name)
+  {
+    if (JOGLTestContexts.CACHED_CONTEXTS.containsKey(name)) {
+      JOGLTestContexts.LOG.debug("destroying existing drawable {}", name);
+      final GLOffscreenAutoDrawable cached =
+        JOGLTestContexts.CACHED_CONTEXTS.get(name);
+      cached.destroy();
     }
   }
 }
