@@ -19,17 +19,20 @@ package com.io7m.jcanephora.jogl;
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
+import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeFloatingPointType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeIntegralType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeMatcherType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveI;
 import com.io7m.jranges.Ranges;
@@ -57,12 +60,13 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     LOG = LoggerFactory.getLogger(JOGLArrayObjects.class);
   }
 
-  private final JOGLContext      context;
-  private final IntBuffer        int_cache;
-  private final GL3              gl;
-  private final int              max_attribs;
-  private final RangeInclusiveI  valid_attribs;
-  private final JOGLArrayBuffers arrays;
+  private final     JOGLContext               context;
+  private final     IntBuffer                 int_cache;
+  private final     GL3                       gl;
+  private final     int                       max_attribs;
+  private final     RangeInclusiveI           valid_attribs;
+  private final     JOGLArrayBuffers          arrays;
+  private @Nullable JCGLArrayObjectUsableType bind;
 
   JOGLArrayObjects(
     final JOGLContext c,
@@ -124,6 +128,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     final Integer aid = Integer.valueOf(this.int_cache.get(0));
     JOGLArrayObjects.LOG.debug("allocated {}", aid);
 
+    this.bind = null;
     this.bind(aid);
 
     for (int index = 0; index < max; ++index) {
@@ -200,6 +205,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     }
 
     this.arrays.arrayBufferUnbind();
+    this.bind = null;
     this.bind(Integer.valueOf(0));
 
     return new JOGLArrayObject(
@@ -208,14 +214,62 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       Arrays.copyOf(bb.attribs, bb.attribs.length));
   }
 
-  private void bind(final Integer aid)
+  @Override
+  public Optional<JCGLArrayObjectUsableType> arrayObjectGetCurrentlyBound()
+    throws JCGLException
   {
-    if (aid.intValue() == 0) {
+    return Optional.ofNullable(this.bind);
+  }
+
+  @Override public void arrayObjectBind(
+    final JCGLArrayObjectUsableType a)
+    throws JCGLException, JCGLExceptionDeleted
+  {
+    NullCheck.notNull(a);
+    JOGLCompatibilityChecks.checkArrayObject(this.context.getContext(), a);
+    JCGLResources.checkNotDeleted(a);
+
+    this.bind(a.getGLName());
+    this.bind = a;
+  }
+
+  @Override public void arrayObjectUnbind()
+    throws JCGLException
+  {
+    this.bind(0);
+    this.bind = null;
+  }
+
+  @Override public void arrayObjectDelete(
+    final JCGLArrayObjectType a)
+    throws JCGLException, JCGLExceptionDeleted
+  {
+    NullCheck.notNull(a);
+    JOGLCompatibilityChecks.checkArrayObject(this.context.getContext(), a);
+    JCGLResources.checkNotDeleted(a);
+
+    JOGLArrayObjects.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+
+    this.int_cache.rewind();
+    this.int_cache.put(0, a.getGLName());
+    this.gl.glDeleteBuffers(1, this.int_cache);
+    ((JOGLArrayObject) a).setDeleted();
+
+    if (this.bind != null) {
+      if (this.bind.getGLName() == a.getGLName()) {
+        this.arrayObjectUnbind();
+      }
+    }
+  }
+
+  private void bind(final int aid)
+  {
+    if (aid == 0) {
       JOGLArrayObjects.LOG.trace("unbind");
     } else {
-      JOGLArrayObjects.LOG.trace("bind {}", aid);
+      JOGLArrayObjects.LOG.trace("bind {}", Integer.valueOf(aid));
     }
-    this.gl.glBindVertexArray(aid.intValue());
+    this.gl.glBindVertexArray(aid);
   }
 
   private void checkArray(final JCGLArrayBufferUsableType a)

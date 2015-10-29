@@ -16,12 +16,28 @@
 
 package com.io7m.jcanephora.core;
 
+import java.util.Optional;
+
 /**
- * An array object.
+ * A usable array object.
  */
 
-public interface JCGLArrayObjectType
-  extends JCGLResourceUsableType, JCGLArrayObjectUsableType
+public interface JCGLArrayObjectUsableType
+  extends JCGLResourceUsableType, JCGLNamedType
 {
-  // No extra methods
+  /**
+   * @param index The attribute index in the range {@code [0,
+   *              getMaximumVertexAttributes() - 1]}
+   *
+   * @return The attribute at the given index, if any
+   */
+
+  Optional<JCGLArrayVertexAttributeType> getAttributeAt(int index);
+
+  /**
+   * @return The supported maximum number of vertex attributes. Must be {@code
+   * >= 16}.
+   */
+
+  int getMaximumVertexAttributes();
 }

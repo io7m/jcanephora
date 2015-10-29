@@ -517,6 +517,138 @@ public abstract class JCGLArrayObjectsContract
     }
   }
 
+  @Test public final void testArrayBindIdentity()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setAttributeFloatingPoint(
+      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+
+    final JCGLArrayObjectType ai = go.arrayObjectAllocate(b);
+    Assert.assertFalse(go.arrayObjectGetCurrentlyBound().isPresent());
+
+    go.arrayObjectBind(ai);
+    Assert.assertEquals(go.arrayObjectGetCurrentlyBound(), Optional.of(ai));
+
+    go.arrayObjectUnbind();
+    Assert.assertFalse(go.arrayObjectGetCurrentlyBound().isPresent());
+  }
+
+  @Test public final void testArrayBindDeleted()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setAttributeFloatingPoint(
+      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+
+    final JCGLArrayObjectType ai = go.arrayObjectAllocate(b);
+    Assert.assertFalse(go.arrayObjectGetCurrentlyBound().isPresent());
+
+    go.arrayObjectDelete(ai);
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    go.arrayObjectBind(ai);
+  }
+
+  @Test public final void testArrayBindDeleteBind()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setAttributeFloatingPoint(
+      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+
+    final JCGLArrayObjectType ai = go.arrayObjectAllocate(b);
+    go.arrayObjectBind(ai);
+    Assert.assertEquals(Optional.of(ai), go.arrayObjectGetCurrentlyBound());
+
+    go.arrayObjectDelete(ai);
+    Assert.assertFalse(go.arrayObjectGetCurrentlyBound().isPresent());
+  }
+
+  @Test public final void testArrayBindDeleteBindPreserves()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setAttributeFloatingPoint(
+      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+
+    final JCGLArrayObjectType a0 = go.arrayObjectAllocate(b);
+    final JCGLArrayObjectType a1 = go.arrayObjectAllocate(b);
+    go.arrayObjectBind(a0);
+    Assert.assertEquals(Optional.of(a0), go.arrayObjectGetCurrentlyBound());
+
+    go.arrayObjectDelete(a1);
+    Assert.assertEquals(Optional.of(a0), go.arrayObjectGetCurrentlyBound());
+  }
+
+  @Test public final void testArrayDeleteIdentity()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setAttributeFloatingPoint(
+      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+
+    final JCGLArrayObjectType ai = go.arrayObjectAllocate(b);
+    go.arrayObjectDelete(ai);
+    Assert.assertTrue(ai.isDeleted());
+  }
+
+  @Test public final void testArrayDeleteDeleted()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setAttributeFloatingPoint(
+      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+
+    final JCGLArrayObjectType ai = go.arrayObjectAllocate(b);
+    go.arrayObjectDelete(ai);
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    go.arrayObjectDelete(ai);
+  }
+
   protected static final class Interfaces
   {
     private final JCGLContextType      context;

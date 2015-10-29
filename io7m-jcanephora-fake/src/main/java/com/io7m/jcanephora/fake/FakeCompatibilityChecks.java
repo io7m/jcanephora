@@ -18,6 +18,7 @@ package com.io7m.jcanephora.fake;
 
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
+import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jnull.NullCheck;
@@ -169,5 +170,12 @@ final class FakeCompatibilityChecks
     final JCGLArrayVertexAttributeType attrib)
   {
     FakeCompatibilityChecks.checkAny(c, attrib);
+  }
+
+  public static void checkArrayObject(
+    final FakeContext context,
+    final JCGLArrayObjectUsableType a)
+  {
+    FakeCompatibilityChecks.checkAny(context, a);
   }
 }

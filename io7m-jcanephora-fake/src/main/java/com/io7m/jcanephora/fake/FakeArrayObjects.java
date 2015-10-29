@@ -19,16 +19,19 @@ package com.io7m.jcanephora.fake;
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
+import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeFloatingPointType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeIntegralType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeMatcherType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveI;
 import com.io7m.jranges.Ranges;
@@ -52,11 +55,12 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     LOG = LoggerFactory.getLogger(FakeArrayObjects.class);
   }
 
-  private final FakeContext      context;
-  private final int              max_attribs;
-  private final RangeInclusiveI  valid_attribs;
-  private final FakeArrayBuffers arrays;
-  private final AtomicInteger    next_array;
+  private final     FakeContext               context;
+  private final     int                       max_attribs;
+  private final     RangeInclusiveI           valid_attribs;
+  private final     FakeArrayBuffers          arrays;
+  private final     AtomicInteger             next_array;
+  private @Nullable JCGLArrayObjectUsableType bind;
 
   FakeArrayObjects(
     final FakeContext c,
@@ -157,6 +161,47 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       this.context,
       aid.intValue(),
       Arrays.copyOf(bb.attribs, bb.attribs.length));
+  }
+
+  @Override
+  public Optional<JCGLArrayObjectUsableType> arrayObjectGetCurrentlyBound()
+    throws JCGLException
+  {
+    return Optional.ofNullable(this.bind);
+  }
+
+  @Override public void arrayObjectBind(
+    final JCGLArrayObjectUsableType a)
+    throws JCGLException, JCGLExceptionDeleted
+  {
+    NullCheck.notNull(a);
+    FakeCompatibilityChecks.checkArrayObject(this.context, a);
+    JCGLResources.checkNotDeleted(a);
+
+    this.bind = a;
+  }
+
+  @Override public void arrayObjectUnbind()
+    throws JCGLException
+  {
+    this.bind = null;
+  }
+
+  @Override public void arrayObjectDelete(
+    final JCGLArrayObjectType a)
+    throws JCGLException, JCGLExceptionDeleted
+  {
+    NullCheck.notNull(a);
+    FakeCompatibilityChecks.checkArrayObject(this.context, a);
+    JCGLResources.checkNotDeleted(a);
+
+    ((FakeArrayObject) a).setDeleted();
+
+    if (this.bind != null) {
+      if (this.bind.getGLName() == a.getGLName()) {
+        this.arrayObjectUnbind();
+      }
+    }
   }
 
   private void checkArray(final JCGLArrayBufferUsableType a)

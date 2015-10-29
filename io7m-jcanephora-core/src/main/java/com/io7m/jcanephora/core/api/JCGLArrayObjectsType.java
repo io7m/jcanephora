@@ -18,7 +18,11 @@ package com.io7m.jcanephora.core.api;
 
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
+import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+
+import java.util.Optional;
 
 /**
  * The interface to OpenGL vertex array objects.
@@ -55,4 +59,52 @@ public interface JCGLArrayObjectsType
   JCGLArrayObjectType arrayObjectAllocate(
     JCGLArrayObjectBuilderType b)
     throws JCGLException;
+
+  /**
+   * @return The currently bound array object, if one exists
+   *
+   * @throws JCGLException Iff an OpenGL error occurs
+   */
+
+  Optional<JCGLArrayObjectUsableType> arrayObjectGetCurrentlyBound()
+    throws JCGLException;
+
+  /**
+   * Bind the given array object.
+   *
+   * @param a The array object
+   *
+   * @throws JCGLException        Iff an OpenGL error occurs
+   * @throws JCGLExceptionDeleted Iff the given array object has already been
+   *                              deleted
+   */
+
+  void arrayObjectBind(
+    JCGLArrayObjectUsableType a)
+    throws JCGLException, JCGLExceptionDeleted;
+
+  /**
+   * Unbind the current array object. If no object is bound, this call has no
+   * effect.
+   *
+   * @throws JCGLException Iff an OpenGL error occurs
+   */
+
+  void arrayObjectUnbind()
+    throws JCGLException;
+
+  /**
+   * <p>Deletes the object referenced by {@code a}.</p>
+   *
+   * <p>Calling this method will unbind {@code a} iff it is bound.</p>
+   *
+   * @param a The array buffer
+   *
+   * @throws JCGLExceptionDeleted If the object is already deleted
+   * @throws JCGLException        Iff an OpenGL error occurs
+   */
+
+  void arrayObjectDelete(
+    JCGLArrayObjectType a)
+    throws JCGLException, JCGLExceptionDeleted;
 }
