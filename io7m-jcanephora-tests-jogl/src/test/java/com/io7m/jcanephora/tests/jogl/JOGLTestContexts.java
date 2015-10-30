@@ -198,7 +198,7 @@ public final class JOGLTestContexts
 
     while (iter.hasNext()) {
       final String name = iter.next();
-      JOGLTestContexts.LOG.debug("releasing drawable {}", name);
+      JOGLTestContexts.LOG.debug("destroying drawable {}", name);
       Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
       final GLOffscreenAutoDrawable drawable =
         JOGLTestContexts.CACHED_CONTEXTS.get(name);
