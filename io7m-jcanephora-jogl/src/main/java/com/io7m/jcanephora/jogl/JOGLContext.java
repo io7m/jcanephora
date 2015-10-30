@@ -62,6 +62,7 @@ final class JOGLContext implements JCGLContextType
     this.implementation = i;
     this.context.attachObject("JCGLContextType", this);
     JOGLContext.LOG.debug("created context {}", this.name);
+    JOGLContext.LOG.trace("context: {}", c);
   }
 
   GLContext getContext()
