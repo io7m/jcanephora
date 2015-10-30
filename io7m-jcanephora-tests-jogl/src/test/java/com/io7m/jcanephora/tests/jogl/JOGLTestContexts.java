@@ -189,6 +189,11 @@ public final class JOGLTestContexts
       Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
       final GLOffscreenAutoDrawable drawable =
         JOGLTestContexts.CACHED_CONTEXTS.get(name);
+
+      final GLContext context = drawable.getContext();
+      if (context != null && context.isCurrent()) {
+        context.release();
+      }
       drawable.destroy();
       iter.remove();
     }
