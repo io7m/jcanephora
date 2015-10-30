@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import org.valid4j.Assertive;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -94,7 +95,7 @@ public final class JOGLTestContexts
   public static GLContext newGL33Drawable(final String name)
   {
     JOGLTestContexts.LOG.debug("creating drawable {}", name);
-    JOGLTestContexts.destroyCachedDrawable(name);
+    JOGLTestContexts.destroyCachedDrawableAndRemove(name);
 
     final GLProfile profile = GLProfile.get(GLProfile.GL3);
     final GLCapabilities cap = new GLCapabilities(profile);
@@ -121,8 +122,8 @@ public final class JOGLTestContexts
     JOGLTestContexts.LOG.debug(
       "creating context {} shared with {}", name, shared);
 
-    JOGLTestContexts.destroyCachedDrawable(name);
-    JOGLTestContexts.destroyCachedDrawable(shared);
+    JOGLTestContexts.destroyCachedDrawableAndRemove(name);
+    JOGLTestContexts.destroyCachedDrawableAndRemove(shared);
 
     final GLProfile profile = GLProfile.get(GLProfile.GL3);
     final GLCapabilities cap = new GLCapabilities(profile);
@@ -151,21 +152,47 @@ public final class JOGLTestContexts
       slave_ctx.makeCurrent();
       final JCGLContextType jslave =
         JOGLTestContexts.IMPLEMENTATION.newContextFromWithSupplier(
-          slave_ctx, JOGLTestContexts.GL_CONTEXT_GL3_SUPPLIER, name);
+          slave_ctx, JOGLTestContexts.GL_CONTEXT_GL3_SUPPLIER, shared);
       master_ctx.makeCurrent();
+
+      Assertive.require(!JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
+      Assertive.require(!JOGLTestContexts.CACHED_CONTEXTS.containsKey(shared));
+      JOGLTestContexts.CACHED_CONTEXTS.put(name, master);
+      JOGLTestContexts.CACHED_CONTEXTS.put(shared, slave);
+
       return new JCGLSharedContextPair<>(jmaster, jmaster, jslave, jslave);
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
   }
 
-  private static void destroyCachedDrawable(final String name)
+  private static void destroyCachedDrawableAndRemove(final String name)
   {
     if (JOGLTestContexts.CACHED_CONTEXTS.containsKey(name)) {
       JOGLTestContexts.LOG.debug("destroying existing drawable {}", name);
       final GLOffscreenAutoDrawable cached =
         JOGLTestContexts.CACHED_CONTEXTS.get(name);
       cached.destroy();
+      JOGLTestContexts.CACHED_CONTEXTS.remove(name);
     }
+  }
+
+  public static void closeAllContexts()
+  {
+    JOGLTestContexts.LOG.debug("cleaning up contexts");
+
+    final Iterator<String> iter =
+      JOGLTestContexts.CACHED_CONTEXTS.keySet().iterator();
+    while (iter.hasNext()) {
+      final String name = iter.next();
+      JOGLTestContexts.LOG.debug("destroying drawable {}", name);
+      Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
+      final GLOffscreenAutoDrawable drawable =
+        JOGLTestContexts.CACHED_CONTEXTS.get(name);
+      drawable.destroy();
+      iter.remove();
+    }
+
+    JOGLTestContexts.LOG.debug("cleaned up contexts");
   }
 }

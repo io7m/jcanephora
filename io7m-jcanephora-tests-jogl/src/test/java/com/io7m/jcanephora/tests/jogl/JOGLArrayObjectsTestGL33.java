@@ -72,4 +72,9 @@ public final class JOGLArrayObjectsTestGL33 extends JCGLArrayObjectsContract
         };
       });
   }
+
+  @Override public void onTestCompleted()
+  {
+    JOGLTestContexts.closeAllContexts();
+  }
 }

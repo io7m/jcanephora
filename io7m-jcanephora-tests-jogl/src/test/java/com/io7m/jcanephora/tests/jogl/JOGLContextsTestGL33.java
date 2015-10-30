@@ -39,4 +39,9 @@ public final class JOGLContextsTestGL33 extends JCGLContextContract
     final JCGLContextType sc = p.getSlaveContext();
     return new JCGLSharedContextPair<>(mc, mc, sc, sc);
   }
+
+  @Override public void onTestCompleted()
+  {
+    JOGLTestContexts.closeAllContexts();
+  }
 }

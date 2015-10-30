@@ -39,4 +39,9 @@ public final class FakeBufferUpdatesTest extends JCGLBufferUpdatesContract
       throw new UnreachableCodeException(x);
     }
   }
+
+  @Override public void onTestCompleted()
+  {
+
+  }
 }

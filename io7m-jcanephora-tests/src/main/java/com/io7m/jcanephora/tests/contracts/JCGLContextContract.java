@@ -29,7 +29,7 @@ import org.junit.rules.ExpectedException;
 
 // CHECKSTYLE_JAVADOC:OFF
 
-public abstract class JCGLContextContract
+public abstract class JCGLContextContract extends JCGLContract
 {
   @Rule public final ExpectedException expected = ExpectedException.none();
 

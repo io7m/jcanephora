@@ -63,4 +63,9 @@ public final class JOGLArrayBuffersTestGL33 extends JCGLArrayBuffersContract
       sc.contextGetGL33().getArrayBuffers(),
       sc);
   }
+
+  @Override public void onTestCompleted()
+  {
+    JOGLTestContexts.closeAllContexts();
+  }
 }

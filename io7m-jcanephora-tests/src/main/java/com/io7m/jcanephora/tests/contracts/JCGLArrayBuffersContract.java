@@ -40,7 +40,7 @@ import java.util.Optional;
 
 // CHECKSTYLE_JAVADOC:OFF
 
-public abstract class JCGLArrayBuffersContract
+public abstract class JCGLArrayBuffersContract extends JCGLContract
 {
   @Rule public final ExpectedException expected = ExpectedException.none();
 

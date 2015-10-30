@@ -19,6 +19,7 @@ package com.io7m.jcanephora.tests.jogl;
 import com.io7m.jcanephora.core.JCGLExceptionUnsupported;
 import com.io7m.jcanephora.jogl.JCGLImplementationJOGL;
 import com.io7m.jcanephora.jogl.JCGLImplementationJOGLType;
+import com.io7m.jcanephora.tests.contracts.JCGLContract;
 import com.jogamp.common.util.VersionNumber;
 import com.jogamp.opengl.GLContext;
 import org.junit.Rule;
@@ -27,7 +28,7 @@ import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Field;
 
-public final class JOGLImplementationTest
+public final class JOGLImplementationTest extends JCGLContract
 {
   @Rule public final ExpectedException expected = ExpectedException.none();
 
@@ -48,5 +49,10 @@ public final class JOGLImplementationTest
     final JCGLImplementationJOGLType i = JCGLImplementationJOGL.getInstance();
     this.expected.expect(JCGLExceptionUnsupported.class);
     i.newContextFrom(c, "main");
+  }
+
+  @Override public void onTestCompleted()
+  {
+    JOGLTestContexts.closeAllContexts();
   }
 }

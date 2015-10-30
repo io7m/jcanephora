@@ -14,22 +14,19 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl;
+package com.io7m.jcanephora.tests.contracts;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+import org.junit.After;
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+/**
+ * The base contract type.
+ */
+
+public abstract class JCGLContract
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
-  {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
-    return c.contextGetGL33().getArrayBuffers();
-  }
+  /**
+   * Executed after each test.
+   */
 
-  @Override public void onTestCompleted()
-  {
-    JOGLTestContexts.closeAllContexts();
-  }
+  @After public abstract void onTestCompleted();
 }

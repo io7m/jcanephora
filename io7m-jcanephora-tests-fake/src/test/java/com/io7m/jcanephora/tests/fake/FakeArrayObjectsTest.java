@@ -42,4 +42,9 @@ public final class FakeArrayObjectsTest extends JCGLArrayObjectsContract
       throw new UnreachableCodeException(x);
     }
   }
+
+  @Override public void onTestCompleted()
+  {
+
+  }
 }

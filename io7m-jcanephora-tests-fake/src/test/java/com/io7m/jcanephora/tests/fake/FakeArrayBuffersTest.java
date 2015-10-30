@@ -80,4 +80,9 @@ public final class FakeArrayBuffersTest extends JCGLArrayBuffersContract
       throw new UnreachableCodeException(x);
     }
   }
+
+  @Override public void onTestCompleted()
+  {
+
+  }
 }

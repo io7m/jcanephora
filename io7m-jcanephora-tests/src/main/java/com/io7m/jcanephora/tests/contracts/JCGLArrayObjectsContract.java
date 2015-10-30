@@ -45,7 +45,7 @@ import java.util.Optional;
 
 // CHECKSTYLE_JAVADOC:OFF
 
-public abstract class JCGLArrayObjectsContract
+public abstract class JCGLArrayObjectsContract extends JCGLContract
 {
   @Rule public final ExpectedException expected = ExpectedException.none();
 

@@ -50,4 +50,9 @@ public final class FakeContextsTest extends JCGLContextContract
       throw new UnreachableCodeException(x);
     }
   }
+
+  @Override public void onTestCompleted()
+  {
+
+  }
 }

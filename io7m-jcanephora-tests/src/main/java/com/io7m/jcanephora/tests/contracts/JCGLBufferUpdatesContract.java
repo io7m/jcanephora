@@ -36,7 +36,7 @@ import java.nio.ByteBuffer;
 
 // CHECKSTYLE_JAVADOC:OFF
 
-public abstract class JCGLBufferUpdatesContract
+public abstract class JCGLBufferUpdatesContract extends JCGLContract
 {
   @Rule public final ExpectedException expected = ExpectedException.none();
 
