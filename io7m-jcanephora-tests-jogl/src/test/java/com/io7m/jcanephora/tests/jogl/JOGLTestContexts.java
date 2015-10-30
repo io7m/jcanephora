@@ -184,9 +184,21 @@ public final class JOGLTestContexts
 
     final Iterator<String> iter =
       JOGLTestContexts.CACHED_CONTEXTS.keySet().iterator();
+
     while (iter.hasNext()) {
       final String name = iter.next();
-      JOGLTestContexts.LOG.debug("destroying drawable {}", name);
+      JOGLTestContexts.LOG.debug("releasing drawable {}", name);
+      Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
+      final GLOffscreenAutoDrawable drawable =
+        JOGLTestContexts.CACHED_CONTEXTS.get(name);
+
+      JOGLTestContexts.releaseDrawable(drawable);
+      iter.remove();
+    }
+
+    while (iter.hasNext()) {
+      final String name = iter.next();
+      JOGLTestContexts.LOG.debug("releasing drawable {}", name);
       Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
       final GLOffscreenAutoDrawable drawable =
         JOGLTestContexts.CACHED_CONTEXTS.get(name);
@@ -200,10 +212,15 @@ public final class JOGLTestContexts
 
   private static void destroyDrawable(final GLOffscreenAutoDrawable drawable)
   {
+    JOGLTestContexts.releaseDrawable(drawable);
+    drawable.destroy();
+  }
+
+  private static void releaseDrawable(final GLOffscreenAutoDrawable drawable)
+  {
     final GLContext context = drawable.getContext();
     if (context != null && context.isCurrent()) {
       context.release();
     }
-    drawable.destroy();
   }
 }
