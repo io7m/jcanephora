@@ -172,7 +172,8 @@ public final class JOGLTestContexts
       JOGLTestContexts.LOG.debug("destroying existing drawable {}", name);
       final GLOffscreenAutoDrawable cached =
         JOGLTestContexts.CACHED_CONTEXTS.get(name);
-      cached.destroy();
+
+      JOGLTestContexts.destroyDrawable(cached);
       JOGLTestContexts.CACHED_CONTEXTS.remove(name);
     }
   }
@@ -190,14 +191,19 @@ public final class JOGLTestContexts
       final GLOffscreenAutoDrawable drawable =
         JOGLTestContexts.CACHED_CONTEXTS.get(name);
 
-      final GLContext context = drawable.getContext();
-      if (context != null && context.isCurrent()) {
-        context.release();
-      }
-      drawable.destroy();
+      JOGLTestContexts.destroyDrawable(drawable);
       iter.remove();
     }
 
     JOGLTestContexts.LOG.debug("cleaned up contexts");
+  }
+
+  private static void destroyDrawable(final GLOffscreenAutoDrawable drawable)
+  {
+    final GLContext context = drawable.getContext();
+    if (context != null && context.isCurrent()) {
+      context.release();
+    }
+    drawable.destroy();
   }
 }
