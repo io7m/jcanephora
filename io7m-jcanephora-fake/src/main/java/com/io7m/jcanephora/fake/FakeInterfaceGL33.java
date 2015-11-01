@@ -20,17 +20,20 @@ import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
+import com.io7m.jcanephora.core.api.JCGLShadersType;
 
 final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
 {
   private final FakeArrayBuffers array_buffers;
   private final FakeArrayObjects array_objects;
+  private final FakeShaders      shaders;
 
   FakeInterfaceGL33(final FakeContext c)
     throws JCGLExceptionNonCompliant
   {
     this.array_buffers = new FakeArrayBuffers(c);
     this.array_objects = new FakeArrayObjects(c, this.array_buffers);
+    this.shaders = new FakeShaders(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -41,5 +44,10 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLArrayObjectsType getArrayObjects()
   {
     return this.array_objects;
+  }
+
+  @Override public JCGLShadersType getShaders()
+  {
+    return this.shaders;
   }
 }

@@ -14,29 +14,28 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.jogl;
 
-/**
- * The interface exposed by OpenGL 3.3
- */
+import com.io7m.jcanephora.core.JCGLFragmentShaderType;
+import com.io7m.jnull.NullCheck;
+import com.jogamp.opengl.GLContext;
 
-public interface JCGLInterfaceGL33Type
+final class JOGLFragmentShader extends JOGLObjectShared
+  implements JCGLFragmentShaderType
 {
-  /**
-   * @return The array buffers interface
-   */
+  private final String name;
 
-  JCGLArrayBuffersType getArrayBuffers();
+  JOGLFragmentShader(
+    final GLContext ctx,
+    final int id,
+    final String in_name)
+  {
+    super(ctx, id);
+    this.name = NullCheck.notNull(in_name);
+  }
 
-  /**
-   * @return The array objects interface
-   */
-
-  JCGLArrayObjectsType getArrayObjects();
-
-  /**
-   * @return The shaders interface
-   */
-
-  JCGLShadersType getShaders();
+  @Override public String getName()
+  {
+    return this.name;
+  }
 }

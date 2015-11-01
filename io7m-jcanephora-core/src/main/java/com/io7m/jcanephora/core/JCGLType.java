@@ -135,7 +135,67 @@ public enum JCGLType
    * GLSL cube sampler type.
    */
 
-  TYPE_SAMPLER_CUBE("samplerCube");
+  TYPE_SAMPLER_CUBE("samplerCube"),
+
+  /**
+   * GLSL unsigned integer type.
+   */
+
+  TYPE_UNSIGNED_INTEGER("uint"),
+
+  /**
+   * GLSL unsigned integer vector type.
+   */
+
+  TYPE_UNSIGNED_INTEGER_VECTOR_2("uvec2"),
+
+  /**
+   * GLSL unsigned integer vector type.
+   */
+
+  TYPE_UNSIGNED_INTEGER_VECTOR_3("uvec3"),
+
+  /**
+   * GLSL unsigned integer vector type.
+   */
+
+  TYPE_UNSIGNED_INTEGER_VECTOR_4("uvec4"),
+
+  /**
+   * GLSL 4x3 float matrix type.
+   */
+
+  TYPE_FLOAT_MATRIX_4x3("mat4x3"),
+
+  /**
+   * GLSL 4x2 float matrix type.
+   */
+
+  TYPE_FLOAT_MATRIX_4x2("mat4x2"),
+
+  /**
+   * GLSL 3x4 float matrix type.
+   */
+
+  TYPE_FLOAT_MATRIX_3x4("mat3x4"),
+
+  /**
+   * GLSL 3x2 float matrix type.
+   */
+
+  TYPE_FLOAT_MATRIX_3x2("mat3x2"),
+
+  /**
+   * GLSL 2x4 float matrix type.
+   */
+
+  TYPE_FLOAT_MATRIX_2x4("mat2x4"),
+
+  /**
+   * GLSL 2x3 float matrix type.
+   */
+
+  TYPE_FLOAT_MATRIX_2x3("mat2x3");
 
   private final String name;
   private static final Map<String, JCGLType> NAMES = JCGLType.getNames();

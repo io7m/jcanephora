@@ -21,6 +21,10 @@ import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
+import com.io7m.jcanephora.core.JCGLFragmentShaderUsableType;
+import com.io7m.jcanephora.core.JCGLGeometryShaderUsableType;
+import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
+import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
 import com.jogamp.opengl.GLContext;
@@ -187,5 +191,33 @@ final class JOGLCompatibilityChecks
     final JCGLArrayObjectUsableType a)
   {
     JOGLCompatibilityChecks.checkAny(c, a);
+  }
+
+  public static void checkVertexShader(
+    final GLContext c,
+    final JCGLVertexShaderUsableType v)
+  {
+    JOGLCompatibilityChecks.checkAny(c, v);
+  }
+
+  public static void checkFragmentShader(
+    final GLContext c,
+    final JCGLFragmentShaderUsableType f)
+  {
+    JOGLCompatibilityChecks.checkAny(c, f);
+  }
+
+  public static void checkGeometryShader(
+    final GLContext c,
+    final JCGLGeometryShaderUsableType gg)
+  {
+    JOGLCompatibilityChecks.checkAny(c, gg);
+  }
+
+  public static void checkProgramShader(
+    final GLContext c,
+    final JCGLProgramShaderUsableType p)
+  {
+    JOGLCompatibilityChecks.checkAny(c, p);
   }
 }

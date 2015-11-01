@@ -14,29 +14,31 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.core;
 
 /**
- * The interface exposed by OpenGL 3.3
+ * The type of uniforms in compiled programs.
  */
 
-public interface JCGLInterfaceGL33Type
+public interface JCGLProgramUniformType extends JCGLNamedType
 {
   /**
-   * @return The array buffers interface
+   * @return The name of the uniform. This is the name of the uniform as
+   * declared in the respective shading program.
    */
 
-  JCGLArrayBuffersType getArrayBuffers();
+  String getName();
 
   /**
-   * @return The array objects interface
+   * @return A reference to the program that owns the uniform.
    */
 
-  JCGLArrayObjectsType getArrayObjects();
+  JCGLProgramShaderUsableType getProgram();
 
   /**
-   * @return The shaders interface
+   * @return The OpenGL type of the uniform.
    */
 
-  JCGLShadersType getShaders();
+  JCGLType getType();
+
 }

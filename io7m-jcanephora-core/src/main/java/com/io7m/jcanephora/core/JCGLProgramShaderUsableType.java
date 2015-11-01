@@ -14,29 +14,32 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.core;
+
+import java.util.Map;
 
 /**
- * The interface exposed by OpenGL 3.3
+ * The type of usable program shaders.
  */
 
-public interface JCGLInterfaceGL33Type
+public interface JCGLProgramShaderUsableType
+  extends JCGLResourceUsableType, JCGLNamedType
 {
   /**
-   * @return The array buffers interface
+   * @return The name of the program
    */
 
-  JCGLArrayBuffersType getArrayBuffers();
+  String getName();
 
   /**
-   * @return The array objects interface
+   * @return A read-only view of the program attributes
    */
 
-  JCGLArrayObjectsType getArrayObjects();
+  Map<String, JCGLProgramAttributeType> getAttributes();
 
   /**
-   * @return The shaders interface
+   * @return A read-only view of the program uniforms
    */
 
-  JCGLShadersType getShaders();
+  Map<String, JCGLProgramUniformType> getUniforms();
 }

@@ -14,29 +14,13 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.core;
 
 /**
- * The interface exposed by OpenGL 3.3
+ * The type of vertex shaders.
  */
 
-public interface JCGLInterfaceGL33Type
+public interface JCGLVertexShaderType extends JCGLVertexShaderUsableType
 {
-  /**
-   * @return The array buffers interface
-   */
 
-  JCGLArrayBuffersType getArrayBuffers();
-
-  /**
-   * @return The array objects interface
-   */
-
-  JCGLArrayObjectsType getArrayObjects();
-
-  /**
-   * @return The shaders interface
-   */
-
-  JCGLShadersType getShaders();
 }

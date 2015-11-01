@@ -14,29 +14,31 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.jogl;
+
+import com.io7m.jnull.NullCheck;
+import com.jogamp.opengl.GLContext;
 
 /**
- * The interface exposed by OpenGL 3.3
+ * <p>An object that can be shared across contexts, and is not actually
+ * considered an object in the OpenGL sense, but that the <tt>jcanephora</tt>
+ * API considers to be a distinct object.</p>
+ *
+ * <p>Examples of pseudo-objects include {@link JOGLProgramAttribute}...</p>
  */
 
-public interface JCGLInterfaceGL33Type
+abstract class JOGLObjectPseudoShared extends JOGLObjectDeletable
 {
-  /**
-   * @return The array buffers interface
-   */
+  private final GLContext context;
 
-  JCGLArrayBuffersType getArrayBuffers();
+  protected JOGLObjectPseudoShared(
+    final GLContext in_context)
+  {
+    this.context = NullCheck.notNull(in_context, "Context");
+  }
 
-  /**
-   * @return The array objects interface
-   */
-
-  JCGLArrayObjectsType getArrayObjects();
-
-  /**
-   * @return The shaders interface
-   */
-
-  JCGLShadersType getShaders();
+  protected final GLContext getContext()
+  {
+    return this.context;
+  }
 }

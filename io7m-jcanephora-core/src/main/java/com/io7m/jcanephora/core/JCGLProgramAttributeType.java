@@ -14,29 +14,31 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.core;
 
 /**
- * The interface exposed by OpenGL 3.3
+ * The type of attributes in compiled programs.
  */
 
-public interface JCGLInterfaceGL33Type
+public interface JCGLProgramAttributeType extends JCGLNamedType
 {
   /**
-   * @return The array buffers interface
+   * @return The name of the attribute. This is the name of the attribute as
+   * declared in the respective shading program.
    */
 
-  JCGLArrayBuffersType getArrayBuffers();
+  String getName();
 
   /**
-   * @return The array objects interface
+   * @return A reference to the program that owns the attribute.
    */
 
-  JCGLArrayObjectsType getArrayObjects();
+  JCGLProgramShaderUsableType getProgram();
 
   /**
-   * @return The shaders interface
+   * @return The OpenGL type of the attribute.
    */
 
-  JCGLShadersType getShaders();
+  JCGLType getType();
+
 }

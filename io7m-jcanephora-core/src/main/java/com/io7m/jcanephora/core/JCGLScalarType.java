@@ -99,6 +99,16 @@ public enum JCGLScalarType
       case TYPE_SAMPLER_2D:
       case TYPE_SAMPLER_3D:
       case TYPE_SAMPLER_CUBE:
+      case TYPE_UNSIGNED_INTEGER:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_2:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_3:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_4:
+      case TYPE_FLOAT_MATRIX_4x3:
+      case TYPE_FLOAT_MATRIX_4x2:
+      case TYPE_FLOAT_MATRIX_3x4:
+      case TYPE_FLOAT_MATRIX_3x2:
+      case TYPE_FLOAT_MATRIX_2x4:
+      case TYPE_FLOAT_MATRIX_2x3:
         return false;
     }
     throw new UnreachableCodeException();
@@ -121,16 +131,26 @@ public enum JCGLScalarType
       case TYPE_BOOLEAN_VECTOR_2:
       case TYPE_BOOLEAN_VECTOR_3:
       case TYPE_BOOLEAN_VECTOR_4:
+      case TYPE_FLOAT:
       case TYPE_FLOAT_MATRIX_2:
       case TYPE_FLOAT_MATRIX_3:
       case TYPE_FLOAT_MATRIX_4:
-      case TYPE_FLOAT:
-      case TYPE_FLOAT_VECTOR_2:
-      case TYPE_FLOAT_VECTOR_3:
-      case TYPE_FLOAT_VECTOR_4:
       case TYPE_SAMPLER_2D:
       case TYPE_SAMPLER_3D:
       case TYPE_SAMPLER_CUBE:
+      case TYPE_UNSIGNED_INTEGER:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_2:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_3:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_4:
+      case TYPE_FLOAT_MATRIX_4x3:
+      case TYPE_FLOAT_MATRIX_4x2:
+      case TYPE_FLOAT_MATRIX_3x4:
+      case TYPE_FLOAT_MATRIX_3x2:
+      case TYPE_FLOAT_MATRIX_2x4:
+      case TYPE_FLOAT_MATRIX_2x3:
+      case TYPE_FLOAT_VECTOR_2:
+      case TYPE_FLOAT_VECTOR_3:
+      case TYPE_FLOAT_VECTOR_4:
         return false;
     }
 

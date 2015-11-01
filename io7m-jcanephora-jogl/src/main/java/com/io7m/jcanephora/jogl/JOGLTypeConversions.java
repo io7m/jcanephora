@@ -24,6 +24,7 @@ import com.io7m.junreachable.UnreachableCodeException;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GL2ES3;
+import com.jogamp.opengl.GL3;
 
 /**
  * <p>Conversions between enumerations and OpenGL contstants.</p>
@@ -252,6 +253,7 @@ public final class JOGLTypeConversions
         return GL2ES2.GL_BOOL_VEC3;
       case TYPE_BOOLEAN_VECTOR_4:
         return GL2ES2.GL_BOOL_VEC4;
+
       case TYPE_FLOAT:
         return GL.GL_FLOAT;
       case TYPE_FLOAT_MATRIX_2:
@@ -266,6 +268,7 @@ public final class JOGLTypeConversions
         return GL2ES2.GL_FLOAT_VEC3;
       case TYPE_FLOAT_VECTOR_4:
         return GL2ES2.GL_FLOAT_VEC4;
+
       case TYPE_INTEGER:
         return GL2ES2.GL_INT;
       case TYPE_INTEGER_VECTOR_2:
@@ -274,12 +277,37 @@ public final class JOGLTypeConversions
         return GL2ES2.GL_INT_VEC3;
       case TYPE_INTEGER_VECTOR_4:
         return GL2ES2.GL_INT_VEC4;
+
       case TYPE_SAMPLER_2D:
         return GL2ES2.GL_SAMPLER_2D;
       case TYPE_SAMPLER_3D:
         return GL2ES2.GL_SAMPLER_3D;
       case TYPE_SAMPLER_CUBE:
         return GL2ES2.GL_SAMPLER_CUBE;
+
+      case TYPE_UNSIGNED_INTEGER:
+        return GL3.GL_UNSIGNED_INT;
+      case TYPE_UNSIGNED_INTEGER_VECTOR_2:
+        return GL3.GL_UNSIGNED_INT_VEC2;
+      case TYPE_UNSIGNED_INTEGER_VECTOR_3:
+        return GL3.GL_UNSIGNED_INT_VEC3;
+      case TYPE_UNSIGNED_INTEGER_VECTOR_4:
+        return GL3.GL_UNSIGNED_INT_VEC4;
+
+      case TYPE_FLOAT_MATRIX_4x3:
+        return GL3.GL_FLOAT_MAT4x3;
+      case TYPE_FLOAT_MATRIX_4x2:
+        return GL3.GL_FLOAT_MAT4x2;
+
+      case TYPE_FLOAT_MATRIX_3x4:
+        return GL3.GL_FLOAT_MAT3x4;
+      case TYPE_FLOAT_MATRIX_3x2:
+        return GL3.GL_FLOAT_MAT3x2;
+
+      case TYPE_FLOAT_MATRIX_2x4:
+        return GL3.GL_FLOAT_MAT2x4;
+      case TYPE_FLOAT_MATRIX_2x3:
+        return GL3.GL_FLOAT_MAT2x3;
     }
 
     throw new UnreachableCodeException();
@@ -305,6 +333,7 @@ public final class JOGLTypeConversions
         return JCGLType.TYPE_BOOLEAN_VECTOR_3;
       case GL2ES2.GL_BOOL_VEC4:
         return JCGLType.TYPE_BOOLEAN_VECTOR_4;
+
       case GL.GL_FLOAT:
         return JCGLType.TYPE_FLOAT;
       case GL2ES2.GL_FLOAT_MAT2:
@@ -313,12 +342,29 @@ public final class JOGLTypeConversions
         return JCGLType.TYPE_FLOAT_MATRIX_3;
       case GL2ES2.GL_FLOAT_MAT4:
         return JCGLType.TYPE_FLOAT_MATRIX_4;
+
+      case GL3.GL_FLOAT_MAT4x3:
+        return JCGLType.TYPE_FLOAT_MATRIX_4x3;
+      case GL3.GL_FLOAT_MAT4x2:
+        return JCGLType.TYPE_FLOAT_MATRIX_4x2;
+
+      case GL3.GL_FLOAT_MAT3x4:
+        return JCGLType.TYPE_FLOAT_MATRIX_3x4;
+      case GL3.GL_FLOAT_MAT3x2:
+        return JCGLType.TYPE_FLOAT_MATRIX_3x2;
+
+      case GL3.GL_FLOAT_MAT2x4:
+        return JCGLType.TYPE_FLOAT_MATRIX_2x4;
+      case GL3.GL_FLOAT_MAT2x3:
+        return JCGLType.TYPE_FLOAT_MATRIX_2x3;
+
       case GL2ES2.GL_FLOAT_VEC2:
         return JCGLType.TYPE_FLOAT_VECTOR_2;
       case GL2ES2.GL_FLOAT_VEC3:
         return JCGLType.TYPE_FLOAT_VECTOR_3;
       case GL2ES2.GL_FLOAT_VEC4:
         return JCGLType.TYPE_FLOAT_VECTOR_4;
+
       case GL2ES2.GL_INT:
         return JCGLType.TYPE_INTEGER;
       case GL2ES2.GL_INT_VEC2:
@@ -327,6 +373,16 @@ public final class JOGLTypeConversions
         return JCGLType.TYPE_INTEGER_VECTOR_3;
       case GL2ES2.GL_INT_VEC4:
         return JCGLType.TYPE_INTEGER_VECTOR_4;
+
+      case GL2ES2.GL_UNSIGNED_INT:
+        return JCGLType.TYPE_UNSIGNED_INTEGER;
+      case GL3.GL_UNSIGNED_INT_VEC2:
+        return JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2;
+      case GL3.GL_UNSIGNED_INT_VEC3:
+        return JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3;
+      case GL3.GL_UNSIGNED_INT_VEC4:
+        return JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4;
+
       case GL2ES2.GL_SAMPLER_2D:
         return JCGLType.TYPE_SAMPLER_2D;
       case GL2ES2.GL_SAMPLER_3D:

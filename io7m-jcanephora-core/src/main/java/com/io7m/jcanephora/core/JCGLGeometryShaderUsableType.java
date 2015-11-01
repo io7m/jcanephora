@@ -14,29 +14,18 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.core;
 
 /**
- * The interface exposed by OpenGL 3.3
+ * The type of usable geometry shaders.
  */
 
-public interface JCGLInterfaceGL33Type
+public interface JCGLGeometryShaderUsableType
+  extends JCGLResourceUsableType, JCGLNamedType
 {
   /**
-   * @return The array buffers interface
+   * @return The name of the shader
    */
 
-  JCGLArrayBuffersType getArrayBuffers();
-
-  /**
-   * @return The array objects interface
-   */
-
-  JCGLArrayObjectsType getArrayObjects();
-
-  /**
-   * @return The shaders interface
-   */
-
-  JCGLShadersType getShaders();
+  String getName();
 }
