@@ -33,7 +33,7 @@ import java.util.Optional;
 public interface JCGLArrayBuffersType
 {
   /**
-   * <p>Allocate an array buffer of {@code size} byte, informing the
+   * <p>Allocate and bind an array buffer of {@code size} byte, informing the
    * implementation that the buffer will be used in the manner specified by
    * {@code usage}.</p>
    *

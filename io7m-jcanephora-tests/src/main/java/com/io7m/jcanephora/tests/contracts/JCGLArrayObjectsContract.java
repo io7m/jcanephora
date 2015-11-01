@@ -19,10 +19,12 @@ package com.io7m.jcanephora.tests.contracts;
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
+import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeFloatingPointType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeIntegralType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLExceptionObjectNotDeletable;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
@@ -531,14 +533,19 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     b.setAttributeFloatingPoint(
       0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
 
-    final JCGLArrayObjectType ai = go.arrayObjectAllocate(b);
-    Assert.assertFalse(go.arrayObjectGetCurrentlyBound().isPresent());
+    final JCGLArrayObjectType ao0 = go.arrayObjectAllocate(b);
+    Assert.assertEquals(ao0, go.arrayObjectGetCurrentlyBound());
+    final JCGLArrayObjectType ao1 = go.arrayObjectAllocate(b);
+    Assert.assertEquals(ao1, go.arrayObjectGetCurrentlyBound());
 
-    go.arrayObjectBind(ai);
-    Assert.assertEquals(go.arrayObjectGetCurrentlyBound(), Optional.of(ai));
+    go.arrayObjectBind(ao0);
+    Assert.assertEquals(ao0, go.arrayObjectGetCurrentlyBound());
+    go.arrayObjectBind(ao1);
+    Assert.assertEquals(ao1, go.arrayObjectGetCurrentlyBound());
 
     go.arrayObjectUnbind();
-    Assert.assertFalse(go.arrayObjectGetCurrentlyBound().isPresent());
+    Assert.assertEquals(
+      go.arrayObjectGetDefault(), go.arrayObjectGetCurrentlyBound());
   }
 
   @Test public final void testArrayBindDeleted()
@@ -556,7 +563,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
 
     final JCGLArrayObjectType ai = go.arrayObjectAllocate(b);
-    Assert.assertFalse(go.arrayObjectGetCurrentlyBound().isPresent());
+    Assert.assertEquals(ai, go.arrayObjectGetCurrentlyBound());
 
     go.arrayObjectDelete(ai);
 
@@ -580,10 +587,11 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
     final JCGLArrayObjectType ai = go.arrayObjectAllocate(b);
     go.arrayObjectBind(ai);
-    Assert.assertEquals(Optional.of(ai), go.arrayObjectGetCurrentlyBound());
+    Assert.assertEquals(ai, go.arrayObjectGetCurrentlyBound());
 
     go.arrayObjectDelete(ai);
-    Assert.assertFalse(go.arrayObjectGetCurrentlyBound().isPresent());
+    Assert.assertEquals(
+      go.arrayObjectGetDefault(), go.arrayObjectGetCurrentlyBound());
   }
 
   @Test public final void testArrayBindDeleteBindPreserves()
@@ -603,10 +611,10 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     final JCGLArrayObjectType a0 = go.arrayObjectAllocate(b);
     final JCGLArrayObjectType a1 = go.arrayObjectAllocate(b);
     go.arrayObjectBind(a0);
-    Assert.assertEquals(Optional.of(a0), go.arrayObjectGetCurrentlyBound());
+    Assert.assertEquals(a0, go.arrayObjectGetCurrentlyBound());
 
     go.arrayObjectDelete(a1);
-    Assert.assertEquals(Optional.of(a0), go.arrayObjectGetCurrentlyBound());
+    Assert.assertEquals(a0, go.arrayObjectGetCurrentlyBound());
   }
 
   @Test public final void testArrayDeleteIdentity()
@@ -647,6 +655,19 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionDeleted.class);
     go.arrayObjectDelete(ai);
+  }
+
+  @Test public final void testArrayDeleteDefault()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+
+    final JCGLArrayObjectUsableType unsafe = go.arrayObjectGetDefault();
+    if (unsafe instanceof JCGLArrayObjectType) {
+      this.expected.expect(JCGLExceptionObjectNotDeletable.class);
+      go.arrayObjectDelete((JCGLArrayObjectType) unsafe);
+    }
   }
 
   protected static final class Interfaces

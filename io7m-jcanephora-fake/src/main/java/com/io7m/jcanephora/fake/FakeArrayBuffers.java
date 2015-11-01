@@ -55,12 +55,20 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     this.next_id = new AtomicInteger(1);
   }
 
-  private static void bind(final int id)
+  private void actualBind(final FakeArrayBuffer a)
   {
-    if (id == 0) {
-      FakeArrayBuffers.LOG.trace("unbind");
-    } else {
-      FakeArrayBuffers.LOG.trace("bind {}", Integer.valueOf(id));
+    FakeArrayBuffers.LOG.trace("bind {} → {}", this.bind, a);
+    if (!a.equals(this.bind)) {
+      this.bind = a;
+    }
+  }
+
+  private void actualUnbind()
+  {
+    FakeArrayBuffers.LOG.trace(
+      "unbind {} → {}", this.bind, null);
+    if (this.bind != null) {
+      this.bind = null;
     }
   }
 
@@ -75,12 +83,12 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     FakeArrayBuffers.LOG.debug(
       "allocate ({} bytes, {})", Long.valueOf(size), usage);
 
-    FakeArrayBuffers.bind(0);
-    this.bind = null;
-
     final ByteBuffer data = ByteBuffer.allocate((int) size);
-    return new FakeArrayBuffer(
+    final FakeArrayBuffer ao = new FakeArrayBuffer(
       this.context, this.next_id.getAndIncrement(), data, usage);
+
+    this.actualBind(ao);
+    return ao;
   }
 
   @Override
@@ -94,8 +102,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     throws JCGLException, JCGLExceptionDeleted
   {
     this.checkArray(a);
-    FakeArrayBuffers.bind(a.getGLName());
-    this.bind = (FakeArrayBuffer) a;
+    this.actualBind((FakeArrayBuffer) a);
   }
 
   private void checkArray(final JCGLArrayBufferUsableType a)
@@ -107,8 +114,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
   @Override public void arrayBufferUnbind()
     throws JCGLException
   {
-    FakeArrayBuffers.bind(0);
-    this.bind = null;
+    this.actualUnbind();
   }
 
   @Override public void arrayBufferDelete(final JCGLArrayBufferType a)
@@ -120,10 +126,8 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
 
     ((FakeArrayBuffer) a).setDeleted();
 
-    if (this.bind != null) {
-      if (this.bind.getGLName() == a.getGLName()) {
-        this.arrayBufferUnbind();
-      }
+    if (a.equals(this.bind)) {
+      this.actualUnbind();
     }
   }
 
@@ -135,7 +139,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     final JCGLArrayBufferType a = u.getBuffer();
     this.checkArray(a);
 
-    if (this.bind != null && this.bind.getGLName() == a.getGLName()) {
+    if (a.equals(this.bind)) {
       final RangeInclusiveL r = u.getBufferUpdateRange();
       final ByteBuffer data = u.getData();
       data.rewind();

@@ -82,13 +82,20 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 
     Assert.assertFalse(ga.arrayBufferGetCurrentlyBound().isPresent());
-    final JCGLArrayBufferType a =
+
+    final JCGLArrayBufferType a0 =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
-    Assert.assertFalse(ga.arrayBufferGetCurrentlyBound().isPresent());
-    ga.arrayBufferBind(a);
-    Assert.assertEquals(Optional.of(a), ga.arrayBufferGetCurrentlyBound());
+    final JCGLArrayBufferType a1 =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    Assert.assertEquals(Optional.of(a1), ga.arrayBufferGetCurrentlyBound());
+    ga.arrayBufferBind(a0);
+    Assert.assertEquals(Optional.of(a0), ga.arrayBufferGetCurrentlyBound());
+    ga.arrayBufferBind(a1);
+    Assert.assertEquals(Optional.of(a1), ga.arrayBufferGetCurrentlyBound());
+
     ga.arrayBufferUnbind();
-    Assert.assertFalse(ga.arrayBufferGetCurrentlyBound().isPresent());
+    Assert.assertEquals(Optional.empty(), ga.arrayBufferGetCurrentlyBound());
   }
 
   @Test public final void testArrayBindDeleted()

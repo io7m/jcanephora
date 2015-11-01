@@ -21,8 +21,7 @@ import com.io7m.jcanephora.core.JCGLArrayObjectType;
 import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
-
-import java.util.Optional;
+import com.io7m.jcanephora.core.JCGLExceptionObjectNotDeletable;
 
 /**
  * The interface to OpenGL vertex array objects.
@@ -44,9 +43,11 @@ public interface JCGLArrayObjectsType
     throws JCGLException;
 
   /**
-   * <p>Allocate an array object based on the values given in {@code b}.</p>
+   * <p>Allocate and bind an array object based on the values given in {@code
+   * b}.</p>
    *
    * <p>Calling this method will unbind any currently bound array buffer.</p>
+   * <p>Calling this method will unbind any currently bound array object.</p>
    *
    * @param b The array object builder
    *
@@ -61,12 +62,14 @@ public interface JCGLArrayObjectsType
     throws JCGLException;
 
   /**
-   * @return The currently bound array object, if one exists
+   * @return The currently bound array object, or {@link
+   * #arrayObjectGetDefault()}
+   * if the user has not bound an array object.
    *
    * @throws JCGLException Iff an OpenGL error occurs
    */
 
-  Optional<JCGLArrayObjectUsableType> arrayObjectGetCurrentlyBound()
+  JCGLArrayObjectUsableType arrayObjectGetCurrentlyBound()
     throws JCGLException;
 
   /**
@@ -100,11 +103,25 @@ public interface JCGLArrayObjectsType
    *
    * @param a The array buffer
    *
-   * @throws JCGLExceptionDeleted If the object is already deleted
-   * @throws JCGLException        Iff an OpenGL error occurs
+   * @throws JCGLExceptionDeleted            If the object is already deleted
+   * @throws JCGLException                   Iff an OpenGL error occurs
+   * @throws JCGLExceptionObjectNotDeletable Iff the object is the default array
+   *                                         object
+   * @see #arrayObjectGetDefault()
    */
 
   void arrayObjectDelete(
     JCGLArrayObjectType a)
-    throws JCGLException, JCGLExceptionDeleted;
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionObjectNotDeletable;
+
+  /**
+   * A default array object is provided in order to allow for code to create and
+   * manipulate {@link com.io7m.jcanephora.core.JCGLIndexBufferType} values
+   * without needing to explicitly create an array object just for this
+   * purpose.
+   *
+   * @return A reference to the default array object
+   */
+
+  JCGLArrayObjectUsableType arrayObjectGetDefault();
 }

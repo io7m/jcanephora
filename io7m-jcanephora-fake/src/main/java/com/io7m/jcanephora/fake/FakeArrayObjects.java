@@ -26,12 +26,12 @@ import com.io7m.jcanephora.core.JCGLArrayVertexAttributeMatcherType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLExceptionObjectNotDeletable;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveI;
 import com.io7m.jranges.Ranges;
@@ -55,12 +55,13 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     LOG = LoggerFactory.getLogger(FakeArrayObjects.class);
   }
 
-  private final     FakeContext               context;
-  private final     int                       max_attribs;
-  private final     RangeInclusiveI           valid_attribs;
-  private final     FakeArrayBuffers          arrays;
-  private final     AtomicInteger             next_array;
-  private @Nullable JCGLArrayObjectUsableType bind;
+  private final FakeContext               context;
+  private final int                       max_attribs;
+  private final RangeInclusiveI           valid_attribs;
+  private final FakeArrayBuffers          arrays;
+  private final AtomicInteger             next_array;
+  private final JCGLArrayObjectUsableType default_buffer;
+  private       JCGLArrayObjectUsableType bind;
 
   FakeArrayObjects(
     final FakeContext c,
@@ -71,12 +72,35 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     this.next_array = new AtomicInteger(1);
     this.max_attribs = 16;
     this.valid_attribs = new RangeInclusiveI(0, this.max_attribs - 1);
+
+    this.default_buffer = new FakeArrayObject(
+      this.context,
+      this.next_array.getAndIncrement(),
+      new JCGLArrayVertexAttributeType[0]);
+    this.bind = this.default_buffer;
   }
 
   @Override public JCGLArrayObjectBuilderType arrayObjectNewBuilder()
     throws JCGLException
   {
     return new Builder();
+  }
+
+  private void actualBind(final FakeArrayObject a)
+  {
+    FakeArrayObjects.LOG.trace("bind {} → {}", this.bind, a);
+    if (this.bind.getGLName() != a.getGLName()) {
+      this.bind = a;
+    }
+  }
+
+  private void actualUnbind()
+  {
+    FakeArrayObjects.LOG.trace(
+      "unbind {} → {}", this.bind, this.default_buffer);
+    if (this.bind.getGLName() != this.default_buffer.getGLName()) {
+      this.bind = this.default_buffer;
+    }
   }
 
   @Override public JCGLArrayObjectType arrayObjectAllocate(
@@ -98,6 +122,13 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
 
     final Integer aid = Integer.valueOf(this.next_array.getAndIncrement());
     FakeArrayObjects.LOG.debug("allocated {}", aid);
+
+    final FakeArrayObject ao = new FakeArrayObject(
+      this.context,
+      aid.intValue(),
+      Arrays.copyOf(bb.attribs, bb.attribs.length));
+
+    this.actualBind(ao);
 
     for (int index = 0; index < max; ++index) {
       final Integer box_index = Integer.valueOf(index);
@@ -156,18 +187,13 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     }
 
     this.arrays.arrayBufferUnbind();
-
-    return new FakeArrayObject(
-      this.context,
-      aid.intValue(),
-      Arrays.copyOf(bb.attribs, bb.attribs.length));
+    return ao;
   }
 
-  @Override
-  public Optional<JCGLArrayObjectUsableType> arrayObjectGetCurrentlyBound()
+  @Override public JCGLArrayObjectUsableType arrayObjectGetCurrentlyBound()
     throws JCGLException
   {
-    return Optional.ofNullable(this.bind);
+    return this.bind;
   }
 
   @Override public void arrayObjectBind(
@@ -178,13 +204,13 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     FakeCompatibilityChecks.checkArrayObject(this.context, a);
     JCGLResources.checkNotDeleted(a);
 
-    this.bind = a;
+    this.actualBind((FakeArrayObject) a);
   }
 
   @Override public void arrayObjectUnbind()
     throws JCGLException
   {
-    this.bind = null;
+    this.actualUnbind();
   }
 
   @Override public void arrayObjectDelete(
@@ -195,13 +221,20 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     FakeCompatibilityChecks.checkArrayObject(this.context, a);
     JCGLResources.checkNotDeleted(a);
 
-    ((FakeArrayObject) a).setDeleted();
-
-    if (this.bind != null) {
-      if (this.bind.getGLName() == a.getGLName()) {
-        this.arrayObjectUnbind();
-      }
+    if (this.default_buffer.getGLName() == a.getGLName()) {
+      throw new JCGLExceptionObjectNotDeletable(
+        "Cannot delete the default array object");
     }
+
+    ((FakeArrayObject) a).setDeleted();
+    if (this.bind.getGLName() == a.getGLName()) {
+      this.actualUnbind();
+    }
+  }
+
+  @Override public JCGLArrayObjectUsableType arrayObjectGetDefault()
+  {
+    return this.default_buffer;
   }
 
   private void checkArray(final JCGLArrayBufferUsableType a)

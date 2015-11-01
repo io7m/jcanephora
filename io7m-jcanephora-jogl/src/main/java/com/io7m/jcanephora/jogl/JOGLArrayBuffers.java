@@ -76,33 +76,35 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     this.gl.glGenBuffers(1, this.int_cache);
     final int id = this.int_cache.get(0);
 
-    this.bind = null;
-    this.bind(id);
+    JOGLArrayBuffers.LOG.debug("allocated {}", Integer.valueOf(id));
 
-    try {
-      this.gl.glBufferData(
-        GL.GL_ARRAY_BUFFER,
-        size,
-        null,
-        JOGLTypeConversions.usageHintToGL(usage));
-      JOGLArrayBuffers.LOG.debug("allocated {}", Integer.valueOf(id));
-    } finally {
-      this.bind(0);
-      this.bind = null;
-    }
+    final JOGLArrayBuffer a =
+      new JOGLArrayBuffer(this.gl.getContext(), id, size, usage);
+    this.actualBind(a);
 
-    return new JOGLArrayBuffer(this.gl.getContext(), id, size, usage);
+    this.gl.glBufferData(
+      GL.GL_ARRAY_BUFFER, size, null, JOGLTypeConversions.usageHintToGL(usage));
+
+    return a;
   }
 
-  private void bind(final int id)
+  private void actualBind(final JOGLArrayBuffer a)
   {
-    if (id == 0) {
-      JOGLArrayBuffers.LOG.trace("unbind");
-    } else {
-      JOGLArrayBuffers.LOG.trace("bind {}", Integer.valueOf(id));
+    JOGLArrayBuffers.LOG.trace("bind {} → {}", this.bind, a);
+    if (!a.equals(this.bind)) {
+      this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, a.getGLName());
+      this.bind = a;
     }
+  }
 
-    this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id);
+  private void actualUnbind()
+  {
+    JOGLArrayBuffers.LOG.trace(
+      "unbind {} → {}", this.bind, null);
+    if (this.bind != null) {
+      this.gl.glBindVertexArray(0);
+      this.bind = null;
+    }
   }
 
   @Override
@@ -116,8 +118,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     throws JCGLException, JCGLExceptionDeleted
   {
     this.checkArray(a);
-    this.bind(a.getGLName());
-    this.bind = (JOGLArrayBuffer) a;
+    this.actualBind((JOGLArrayBuffer) a);
   }
 
   private void checkArray(final JCGLArrayBufferUsableType a)
@@ -129,8 +130,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
   @Override public void arrayBufferUnbind()
     throws JCGLException
   {
-    this.bind(0);
-    this.bind = null;
+    this.actualUnbind();
   }
 
   @Override public void arrayBufferDelete(final JCGLArrayBufferType a)
@@ -145,10 +145,8 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     this.gl.glDeleteBuffers(1, this.int_cache);
     ((JOGLArrayBuffer) a).setDeleted();
 
-    if (this.bind != null) {
-      if (this.bind.getGLName() == a.getGLName()) {
-        this.arrayBufferUnbind();
-      }
+    if (a.equals(this.bind)) {
+      this.actualUnbind();
     }
   }
 
@@ -160,7 +158,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     final JCGLArrayBufferType a = u.getBuffer();
     this.checkArray(a);
 
-    if (this.bind != null && this.bind.getGLName() == a.getGLName()) {
+    if (a.equals(this.bind)) {
       final RangeInclusiveL r = u.getBufferUpdateRange();
       final ByteBuffer data = u.getData();
       data.rewind();
