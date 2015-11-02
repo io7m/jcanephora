@@ -319,31 +319,34 @@ final class JOGLShaders implements JCGLShadersType
 
   @Override public JCGLProgramShaderType shaderLinkProgram(
     final String name,
-    final JCGLVertexShaderUsableType v,
-    final Optional<JCGLGeometryShaderUsableType> g,
-    final JCGLFragmentShaderUsableType f)
+    final JCGLVertexShaderUsableType jv,
+    final Optional<JCGLGeometryShaderUsableType> jg,
+    final JCGLFragmentShaderUsableType jf)
     throws JCGLExceptionProgramCompileError, JCGLException
   {
     NullCheck.notNull(name, "Name");
-    NullCheck.notNull(v, "Vertex shader");
-    NullCheck.notNull(g, "Geometry shader");
-    NullCheck.notNull(f, "Fragment shader");
+    NullCheck.notNull(jv, "Vertex shader");
+    NullCheck.notNull(jg, "Geometry shader");
+    NullCheck.notNull(jf, "Fragment shader");
 
     final GLContext c = this.context.getContext();
-    JOGLCompatibilityChecks.checkVertexShader(c, v);
+    final JOGLVertexShader v = JOGLCompatibilityChecks.checkVertexShader(c, jv);
     JCGLResources.checkNotDeleted(v);
-    JOGLCompatibilityChecks.checkFragmentShader(c, f);
+    final JOGLFragmentShader f =
+      JOGLCompatibilityChecks.checkFragmentShader(c, jf);
     JCGLResources.checkNotDeleted(f);
 
-    g.ifPresent(
+    final Optional<JOGLGeometryShader> g = jg.map(
       gg -> {
-        JOGLCompatibilityChecks.checkGeometryShader(c, gg);
-        JCGLResources.checkNotDeleted(gg);
+        final JOGLGeometryShader rg =
+          JOGLCompatibilityChecks.checkGeometryShader(c, gg);
+        JCGLResources.checkNotDeleted(rg);
+        return rg;
       });
 
     JOGLShaders.LOG.debug("link program {}", name);
     JOGLShaders.LOG.debug("[{}] vertex {}", name, v.getName());
-    g.ifPresent(
+    jg.ifPresent(
       gg -> JOGLShaders.LOG.debug("[{}] geometry {}", name, gg.getName()));
     JOGLShaders.LOG.debug("[{}] fragment {}", name, f.getName());
 
@@ -351,7 +354,7 @@ final class JOGLShaders implements JCGLShadersType
     Assertive.ensure(pid > 0);
     this.g3.glAttachShader(pid, v.getGLName());
     this.g3.glAttachShader(pid, f.getGLName());
-    g.ifPresent(gg -> this.g3.glAttachShader(pid, gg.getGLName()));
+    jg.ifPresent(gg -> this.g3.glAttachShader(pid, gg.getGLName()));
     this.g3.glLinkProgram(pid);
 
     this.icache.rewind();
@@ -364,7 +367,8 @@ final class JOGLShaders implements JCGLShadersType
     final Map<String, JCGLProgramAttributeType> attributes = new HashMap<>(16);
     final Map<String, JCGLProgramUniformType> uniforms = new HashMap<>(32);
 
-    final JOGLProgramShader program = new JOGLProgramShader(c, pid, name);
+    final JOGLProgramShader program = new JOGLProgramShader(
+      c, pid, name, v, g, f);
 
     this.getAttributes(program, attributes);
     this.getUniforms(program, uniforms);

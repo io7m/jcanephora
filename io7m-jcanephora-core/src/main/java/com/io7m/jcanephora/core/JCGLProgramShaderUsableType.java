@@ -23,7 +23,7 @@ import java.util.Map;
  */
 
 public interface JCGLProgramShaderUsableType
-  extends JCGLResourceUsableType, JCGLNamedType
+  extends JCGLResourceUsableType, JCGLNamedType, JCGLReferenceContainerType
 {
   /**
    * @return The name of the program

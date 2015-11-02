@@ -186,25 +186,29 @@ final class FakeShaders implements JCGLShadersType
 
   @Override public JCGLProgramShaderType shaderLinkProgram(
     final String name,
-    final JCGLVertexShaderUsableType v,
-    final Optional<JCGLGeometryShaderUsableType> g,
-    final JCGLFragmentShaderUsableType f)
+    final JCGLVertexShaderUsableType iv,
+    final Optional<JCGLGeometryShaderUsableType> ig,
+    final JCGLFragmentShaderUsableType ifs)
     throws JCGLExceptionProgramCompileError, JCGLException
   {
     NullCheck.notNull(name, "Name");
-    NullCheck.notNull(v, "Vertex shader");
-    NullCheck.notNull(g, "Geometry shader");
-    NullCheck.notNull(f, "Fragment shader");
+    NullCheck.notNull(iv, "Vertex shader");
+    NullCheck.notNull(ig, "Geometry shader");
+    NullCheck.notNull(ifs, "Fragment shader");
 
-    FakeCompatibilityChecks.checkVertexShader(this.context, v);
+    final FakeVertexShader v =
+      FakeCompatibilityChecks.checkVertexShader(this.context, iv);
     JCGLResources.checkNotDeleted(v);
-    FakeCompatibilityChecks.checkFragmentShader(this.context, f);
+    final FakeFragmentShader f =
+      FakeCompatibilityChecks.checkFragmentShader(this.context, ifs);
     JCGLResources.checkNotDeleted(f);
 
-    g.ifPresent(
+    final Optional<FakeGeometryShader> g = ig.map(
       gg -> {
-        FakeCompatibilityChecks.checkGeometryShader(this.context, gg);
-        JCGLResources.checkNotDeleted(gg);
+        final FakeGeometryShader k =
+          FakeCompatibilityChecks.checkGeometryShader(this.context, gg);
+        JCGLResources.checkNotDeleted(k);
+        return k;
       });
 
     FakeShaders.LOG.debug("link program {}", name);
@@ -217,7 +221,14 @@ final class FakeShaders implements JCGLShadersType
     final Map<String, JCGLProgramUniformType> uniforms = new HashMap<>();
 
     final FakeProgramShader p = new FakeProgramShader(
-      this.context, this.context.getFreshID(), name, attributes, uniforms);
+      this.context,
+      this.context.getFreshID(),
+      name,
+      v,
+      g,
+      f,
+      attributes,
+      uniforms);
 
     this.listener.onLinkProgram(
       this.context, p, name, v, g.map(gg -> gg), f, attributes, uniforms);

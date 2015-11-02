@@ -194,32 +194,32 @@ final class JOGLCompatibilityChecks
     JOGLCompatibilityChecks.checkAny(c, a);
   }
 
-  public static void checkVertexShader(
+  public static JOGLVertexShader checkVertexShader(
     final GLContext c,
     final JCGLVertexShaderUsableType v)
   {
-    JOGLCompatibilityChecks.checkAny(c, v);
+    return (JOGLVertexShader) JOGLCompatibilityChecks.checkAny(c, v);
   }
 
-  public static void checkFragmentShader(
+  public static JOGLFragmentShader checkFragmentShader(
     final GLContext c,
     final JCGLFragmentShaderUsableType f)
   {
-    JOGLCompatibilityChecks.checkAny(c, f);
+    return (JOGLFragmentShader) JOGLCompatibilityChecks.checkAny(c, f);
   }
 
-  public static void checkGeometryShader(
+  public static JOGLGeometryShader checkGeometryShader(
     final GLContext c,
     final JCGLGeometryShaderUsableType gg)
   {
-    JOGLCompatibilityChecks.checkAny(c, gg);
+    return (JOGLGeometryShader) JOGLCompatibilityChecks.checkAny(c, gg);
   }
 
-  public static void checkProgramShader(
+  public static JOGLProgramShader checkProgramShader(
     final GLContext c,
     final JCGLProgramShaderUsableType p)
   {
-    JOGLCompatibilityChecks.checkAny(c, p);
+    return (JOGLProgramShader) JOGLCompatibilityChecks.checkAny(c, p);
   }
 
   public static void checkIndexBuffer(

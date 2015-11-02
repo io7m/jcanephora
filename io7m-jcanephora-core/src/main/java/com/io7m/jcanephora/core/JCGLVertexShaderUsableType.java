@@ -21,7 +21,7 @@ package com.io7m.jcanephora.core;
  */
 
 public interface JCGLVertexShaderUsableType
-  extends JCGLResourceUsableType, JCGLNamedType
+  extends JCGLResourceUsableType, JCGLNamedType, JCGLReferableType
 {
   /**
    * @return The name of the shader

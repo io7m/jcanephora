@@ -25,6 +25,8 @@ import com.io7m.jcanephora.core.JCGLProgramAttributeType;
 import com.io7m.jcanephora.core.JCGLProgramShaderType;
 import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
+import com.io7m.jcanephora.core.JCGLReferableType;
+import com.io7m.jcanephora.core.JCGLReferenceContainerType;
 import com.io7m.jcanephora.core.JCGLType;
 import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
@@ -409,6 +411,20 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
+    final Set<JCGLReferableType> p_refs = p.getReferences();
+    Assert.assertEquals(3L, (long) p_refs.size());
+    Assert.assertTrue(p_refs.contains(f));
+    Assert.assertTrue(p_refs.contains(v));
+    Assert.assertTrue(p_refs.contains(g));
+
+    final Set<JCGLReferenceContainerType> v_refs = v.getReferringContainers();
+    Assert.assertEquals(1L, (long) v_refs.size());
+    Assert.assertTrue(v_refs.contains(p));
+
+    final Set<JCGLReferenceContainerType> f_refs = f.getReferringContainers();
+    Assert.assertEquals(1L, (long) f_refs.size());
+    Assert.assertTrue(f_refs.contains(p));
+
     final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
     Assert.assertEquals(1L, (long) a.size());
 
@@ -421,8 +437,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v = s.shaderCompileVertex(
-      "attributes0",
-      this.getShaderLines("attributes0.vert"));
+      "attributes0", this.getShaderLines("attributes0.vert"));
     final JCGLFragmentShaderType f =
       s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
@@ -474,8 +489,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v = s.shaderCompileVertex(
-      "attributes1",
-      this.getShaderLines("attributes1.vert"));
+      "attributes1", this.getShaderLines("attributes1.vert"));
     final JCGLFragmentShaderType f =
       s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
@@ -509,8 +523,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v = s.shaderCompileVertex(
-      "attributes2",
-      this.getShaderLines("attributes2.vert"));
+      "attributes2", this.getShaderLines("attributes2.vert"));
     final JCGLFragmentShaderType f =
       s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
@@ -544,8 +557,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v = s.shaderCompileVertex(
-      "attributes2",
-      this.getShaderLines("attributes2.vert"));
+      "attributes2", this.getShaderLines("attributes2.vert"));
     final JCGLFragmentShaderType f =
       s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
@@ -579,8 +591,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v = s.shaderCompileVertex(
-      "attributes3",
-      this.getShaderLines("attributes3.vert"));
+      "attributes3", this.getShaderLines("attributes3.vert"));
     final JCGLFragmentShaderType f =
       s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
@@ -614,8 +625,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v = s.shaderCompileVertex(
-      "attributes4",
-      this.getShaderLines("attributes4.vert"));
+      "attributes4", this.getShaderLines("attributes4.vert"));
     final JCGLFragmentShaderType f =
       s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =

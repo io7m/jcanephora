@@ -19,26 +19,37 @@ package com.io7m.jcanephora.jogl;
 import com.io7m.jcanephora.core.JCGLProgramAttributeType;
 import com.io7m.jcanephora.core.JCGLProgramShaderType;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
+import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 final class JOGLProgramShader extends JOGLObjectShared
   implements JCGLProgramShaderType
 {
   private final String                                name;
+  private final JOGLReferenceContainer                references;
   private       Map<String, JCGLProgramAttributeType> attributes;
   private       Map<String, JCGLProgramUniformType>   uniforms;
 
   JOGLProgramShader(
     final GLContext ctx,
     final int id,
-    final String in_name)
+    final String in_name,
+    final JOGLVertexShader vs,
+    final Optional<JOGLGeometryShader> gs,
+    final JOGLFragmentShader fs)
   {
     super(ctx, id);
     this.name = NullCheck.notNull(in_name);
+    this.references = new JOGLReferenceContainer(this, 3);
+    this.references.referenceAdd(vs);
+    gs.ifPresent(this.references::referenceAdd);
+    this.references.referenceAdd(fs);
   }
 
   @Override public String getName()
@@ -67,5 +78,10 @@ final class JOGLProgramShader extends JOGLObjectShared
     final Map<String, JCGLProgramUniformType> in_uniforms)
   {
     this.uniforms = Collections.unmodifiableMap(NullCheck.notNull(in_uniforms));
+  }
+
+  @Override public Set<JCGLReferableType> getReferences()
+  {
+    return this.references.getReferences();
   }
 }

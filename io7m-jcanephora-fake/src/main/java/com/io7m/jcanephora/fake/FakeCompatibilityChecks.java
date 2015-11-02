@@ -193,31 +193,31 @@ final class FakeCompatibilityChecks
     FakeCompatibilityChecks.checkAny(context, a);
   }
 
-  public static void checkVertexShader(
+  public static FakeVertexShader checkVertexShader(
     final FakeContext c,
     final JCGLVertexShaderUsableType v)
   {
-    FakeCompatibilityChecks.checkAny(c, v);
+    return (FakeVertexShader) FakeCompatibilityChecks.checkAny(c, v);
   }
 
-  public static void checkFragmentShader(
+  public static FakeFragmentShader checkFragmentShader(
     final FakeContext c,
     final JCGLFragmentShaderUsableType f)
   {
-    FakeCompatibilityChecks.checkAny(c, f);
+    return (FakeFragmentShader) FakeCompatibilityChecks.checkAny(c, f);
   }
 
-  public static void checkGeometryShader(
+  public static FakeGeometryShader checkGeometryShader(
     final FakeContext c,
     final JCGLGeometryShaderUsableType g)
   {
-    FakeCompatibilityChecks.checkAny(c, g);
+    return (FakeGeometryShader) FakeCompatibilityChecks.checkAny(c, g);
   }
 
-  public static void checkProgramShader(
+  public static FakeProgramShader checkProgramShader(
     final FakeContext c,
     final JCGLProgramShaderUsableType p)
   {
-    FakeCompatibilityChecks.checkAny(c, p);
+    return (FakeProgramShader) FakeCompatibilityChecks.checkAny(c, p);
   }
 }

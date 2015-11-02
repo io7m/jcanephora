@@ -19,21 +19,28 @@ package com.io7m.jcanephora.fake;
 import com.io7m.jcanephora.core.JCGLProgramAttributeType;
 import com.io7m.jcanephora.core.JCGLProgramShaderType;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
+import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jnull.NullCheck;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
-final class FakeProgramShader extends FakeReferable
+final class FakeProgramShader extends FakeObjectShared
   implements JCGLProgramShaderType
 {
   private final String                                name;
   private final Map<String, JCGLProgramAttributeType> attributes;
   private final Map<String, JCGLProgramUniformType>   uniforms;
+  private final FakeReferenceContainer                references;
 
   FakeProgramShader(
     final FakeContext ctx,
     final int id,
     final String in_name,
+    final FakeVertexShader vs,
+    final Optional<FakeGeometryShader> gs,
+    final FakeFragmentShader fs,
     final Map<String, JCGLProgramAttributeType> in_attributes,
     final Map<String, JCGLProgramUniformType> in_uniforms)
   {
@@ -41,6 +48,10 @@ final class FakeProgramShader extends FakeReferable
     this.name = NullCheck.notNull(in_name);
     this.attributes = NullCheck.notNull(in_attributes);
     this.uniforms = NullCheck.notNull(in_uniforms);
+    this.references = new FakeReferenceContainer(this, 3);
+    this.references.referenceAdd(vs);
+    this.references.referenceAdd(fs);
+    gs.ifPresent(this.references::referenceAdd);
   }
 
   @Override public String getName()
@@ -56,5 +67,10 @@ final class FakeProgramShader extends FakeReferable
   @Override public Map<String, JCGLProgramUniformType> getUniforms()
   {
     return this.uniforms;
+  }
+
+  @Override public Set<JCGLReferableType> getReferences()
+  {
+    return this.references.getReferences();
   }
 }
