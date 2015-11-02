@@ -19,6 +19,7 @@ package com.io7m.jcanephora.jogl;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
+import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jnull.NullCheck;
@@ -28,6 +29,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   private final JOGLArrayBuffers     array_buffers;
   private final JCGLArrayObjectsType array_objects;
   private final JOGLShaders          shaders;
+  private final JOGLIndexBuffers     index_buffers;
 
   JOGLInterfaceGL33(
     final JOGLContext c)
@@ -36,8 +38,12 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
     NullCheck.notNull(c);
 
     this.array_buffers = new JOGLArrayBuffers(c);
-    this.array_objects = new JOGLArrayObjects(c, this.array_buffers);
+    this.index_buffers = new JOGLIndexBuffers(c);
+    this.array_objects =
+      new JOGLArrayObjects(c, this.array_buffers, this.index_buffers);
+
     this.shaders = new JOGLShaders(c);
+
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -53,5 +59,10 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLShadersType getShaders()
   {
     return this.shaders;
+  }
+
+  @Override public JCGLIndexBuffersType getIndexBuffers()
+  {
+    return this.index_buffers;
   }
 }

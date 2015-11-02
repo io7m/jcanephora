@@ -20,7 +20,7 @@ import com.io7m.jcanephora.core.JCGLFragmentShaderType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
-final class JOGLFragmentShader extends JOGLObjectShared
+final class JOGLFragmentShader extends JOGLReferable
   implements JCGLFragmentShaderType
 {
   private final String name;

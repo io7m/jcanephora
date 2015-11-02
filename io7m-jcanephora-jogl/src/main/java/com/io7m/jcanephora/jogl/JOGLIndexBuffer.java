@@ -16,27 +16,46 @@
 
 package com.io7m.jcanephora.jogl;
 
-import com.io7m.jcanephora.core.JCGLArrayBufferType;
+import com.io7m.jcanephora.core.JCGLIndexBufferType;
+import com.io7m.jcanephora.core.JCGLUnsignedType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
+import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
-final class JOGLArrayBuffer extends JOGLBuffer implements JCGLArrayBufferType
+final class JOGLIndexBuffer extends JOGLBuffer implements JCGLIndexBufferType
 {
-  private final String image;
+  private final long             indices;
+  private final JCGLUnsignedType type;
+  private final String           image;
 
-  JOGLArrayBuffer(
+  JOGLIndexBuffer(
     final GLContext in_context,
     final int in_id,
+    final long in_indices,
+    final JCGLUnsignedType in_type,
     final long in_size,
     final JCGLUsageHint in_usage)
   {
     super(in_context, in_id, in_size, in_usage);
+    this.indices = in_indices;
+    this.type = NullCheck.notNull(in_type);
+
     this.image = String.format(
-      "[JOGLArrayBuffer %d]", Integer.valueOf(this.getGLName()));
+      "[JOGLIndexBuffer %d]", Integer.valueOf(this.getGLName()));
+  }
+
+  @Override public long getIndices()
+  {
+    return this.indices;
   }
 
   @Override public String toString()
   {
     return this.image;
+  }
+
+  @Override public JCGLUnsignedType getType()
+  {
+    return this.type;
   }
 }

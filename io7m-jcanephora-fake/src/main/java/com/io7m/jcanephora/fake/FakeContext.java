@@ -30,8 +30,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
-final class FakeContext implements JCGLContextType
+/**
+ * The type of fake contexts.
+ */
+
+public final class FakeContext implements JCGLContextType
 {
   private static final Logger LOG;
 
@@ -43,19 +48,39 @@ final class FakeContext implements JCGLContextType
   private final    Set<FakeContext>       shared_with;
   private final    JCGLImplementationFake implementation;
   private final    String                 name;
+  private final    AtomicInteger          next_id;
+  private final    FakeShaderListenerType shader_listener;
   private volatile boolean                destroyed;
   private volatile boolean                current;
 
-  FakeContext(
+  /**
+   * Construct a context.
+   *
+   * @param i           The implementation
+   * @param in_name     The name
+   * @param in_listener The shader listener
+   *
+   * @throws JCGLExceptionNonCompliant On non-compliant OpenGL implementations
+   */
+
+  public FakeContext(
     final JCGLImplementationFake i,
-    final String in_name)
+    final String in_name,
+    final FakeShaderListenerType in_listener)
     throws JCGLExceptionNonCompliant
   {
+    this.next_id = new AtomicInteger(1);
+    this.shader_listener = NullCheck.notNull(in_listener);
     this.gl33 = new FakeInterfaceGL33(this);
     this.destroyed = false;
     this.shared_with = new HashSet<>(8);
     this.implementation = i;
     this.name = NullCheck.notNull(in_name);
+  }
+
+  int getFreshID()
+  {
+    return this.next_id.getAndIncrement();
   }
 
   void setSharedWith(final FakeContext other)
@@ -148,5 +173,10 @@ final class FakeContext implements JCGLContextType
   @Override public boolean isDeleted()
   {
     return this.destroyed;
+  }
+
+  FakeShaderListenerType getShaderListener()
+  {
+    return this.shader_listener;
   }
 }

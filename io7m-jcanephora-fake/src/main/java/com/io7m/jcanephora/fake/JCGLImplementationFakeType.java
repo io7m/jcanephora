@@ -31,7 +31,9 @@ public interface JCGLImplementationFakeType extends JCGLImplementationType
   /**
    * Construct a new context.
    *
-   * @param name The name of the new context
+   * @param name        The name of the new context
+   * @param in_listener A shader listener that will be notified of shader
+   *                    compilations
    *
    * @return A new context
    *
@@ -43,14 +45,18 @@ public interface JCGLImplementationFakeType extends JCGLImplementationType
    *                                   compliant
    */
 
-  JCGLContextType newContext(final String name)
+  JCGLContextType newContext(
+    String name,
+    FakeShaderListenerType in_listener)
     throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant;
 
   /**
    * Construct a new context, shared with an existing context.
    *
-   * @param c    The existing context
-   * @param name The name of the new context
+   * @param c           The existing context
+   * @param name        The name of the new context
+   * @param in_listener A shader listener that will be notified of shader
+   *                    compilations
    *
    * @return A new context
    *
@@ -64,6 +70,7 @@ public interface JCGLImplementationFakeType extends JCGLImplementationType
 
   JCGLContextType newContextSharedWith(
     JCGLContextType c,
-    String name)
+    String name,
+    FakeShaderListenerType in_listener)
     throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant;
 }

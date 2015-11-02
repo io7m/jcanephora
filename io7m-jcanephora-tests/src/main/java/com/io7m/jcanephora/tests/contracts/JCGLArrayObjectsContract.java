@@ -26,12 +26,17 @@ import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionObjectNotDeletable;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
+import com.io7m.jcanephora.core.JCGLIndexBufferType;
+import com.io7m.jcanephora.core.JCGLReferableType;
+import com.io7m.jcanephora.core.JCGLReferenceContainerType;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
+import com.io7m.jcanephora.core.JCGLUnsignedType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheckException;
 import org.junit.Assert;
@@ -40,6 +45,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Array objects contracts.
@@ -490,14 +496,42 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 100L);
   }
 
-  @Test public final void testArrayAllocate()
+  @Test public final void testArrayAllocateIndexDeleted()
   {
-    final Interfaces i = this.getInterfaces("main");
-    final JCGLArrayBuffersType ga = i.getArrayBuffers();
-    final JCGLArrayObjectsType go = i.getArrayObjects();
+    final Interfaces is = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = is.getArrayBuffers();
+    final JCGLIndexBuffersType gi = is.getIndexBuffers();
+    final JCGLArrayObjectsType go = is.getArrayObjects();
 
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLIndexBufferType i = gi.indexBufferAllocate(
+      100L,
+      JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+      JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    b.setIndexBuffer(i);
+    gi.indexBufferDelete(i);
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    go.arrayObjectAllocate(b);
+  }
+
+  @Test public final void testArrayAllocate()
+  {
+    final Interfaces is = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = is.getArrayBuffers();
+    final JCGLIndexBuffersType gi = is.getIndexBuffers();
+    final JCGLArrayObjectsType go = is.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLIndexBufferType i = gi.indexBufferAllocate(
+      100L,
+      JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+      JCGLUsageHint.USAGE_STATIC_DRAW);
+
     final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
     Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
 
@@ -507,6 +541,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       1, a, 3, JCGLScalarType.TYPE_INT, 20, 4L, true);
     b.setAttributeIntegral(
       4, a, 2, JCGLScalarIntegralType.TYPE_INT, 24, 8L);
+    b.setIndexBuffer(i);
 
     final JCGLArrayObjectType ai = go.arrayObjectAllocate(b);
     Assert.assertFalse(ai.isDeleted());
@@ -517,6 +552,23 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     for (int index = 0; index < ai.getMaximumVertexAttributes(); ++index) {
       Assert.assertEquals(b.getAttributeAt(index), ai.getAttributeAt(index));
     }
+
+    Assert.assertEquals(Optional.of(i), gi.indexBufferGetCurrentlyBound());
+    Assert.assertEquals(Optional.of(i), ai.getIndexBufferBound());
+
+    final Set<JCGLReferableType> ai_refs = ai.getReferences();
+    Assert.assertEquals(2L, (long) ai_refs.size());
+    Assert.assertTrue(ai_refs.contains(a));
+    Assert.assertTrue(ai_refs.contains(i));
+
+    final Set<JCGLReferenceContainerType> a_refs = a.getReferringContainers();
+    Assert.assertEquals(1L, (long) a_refs.size());
+    Assert.assertTrue(a_refs.contains(ai));
+
+    final Set<JCGLReferenceContainerType> i_refs = i.getReferringContainers();
+    Assert.assertEquals(2L, (long) i_refs.size());
+    Assert.assertTrue(i_refs.contains(ai));
+    Assert.assertTrue(i_refs.contains(go.arrayObjectGetDefault()));
   }
 
   @Test public final void testArrayBindIdentity()
@@ -634,6 +686,12 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     final JCGLArrayObjectType ai = go.arrayObjectAllocate(b);
     go.arrayObjectDelete(ai);
     Assert.assertTrue(ai.isDeleted());
+
+    final Set<JCGLReferableType> ai_refs = ai.getReferences();
+    Assert.assertEquals(0L, (long) ai_refs.size());
+
+    final Set<JCGLReferenceContainerType> a_refs = a.getReferringContainers();
+    Assert.assertEquals(0L, (long) a_refs.size());
   }
 
   @Test public final void testArrayDeleteDeleted()
@@ -670,25 +728,110 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     }
   }
 
+  @Test public final void testArrayBufferDeletion()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    ga.arrayBufferUnbind();
+
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    b.setAttributeIntegral(
+      0, a, 1, JCGLScalarIntegralType.TYPE_UNSIGNED_BYTE, 0, 0L);
+
+    final JCGLArrayObjectType ao = go.arrayObjectAllocate(b);
+    Assert.assertEquals(ao, go.arrayObjectGetCurrentlyBound());
+
+    ga.arrayBufferDelete(a);
+    go.arrayObjectBind(ao);
+
+    final Set<JCGLReferableType> refs = ao.getReferences();
+    Assert.assertEquals(1L, (long) refs.size());
+    Assert.assertTrue(refs.contains(a));
+  }
+
+  @Test public final void testArrayDeleteIndex()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+    final JCGLIndexBuffersType gi = i.getIndexBuffers();
+
+    final JCGLIndexBufferType ib = gi.indexBufferAllocate(
+      100L,
+      JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+      JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+    b.setIndexBuffer(ib);
+
+    final JCGLArrayObjectType ai_0 = go.arrayObjectAllocate(b);
+    final JCGLArrayObjectType ai_1 = go.arrayObjectAllocate(b);
+    final JCGLArrayObjectType ai_2 = go.arrayObjectAllocate(b);
+
+    Assert.assertEquals(go.arrayObjectGetCurrentlyBound(), ai_2);
+    Assert.assertEquals(Optional.of(ib), ai_0.getIndexBufferBound());
+    Assert.assertEquals(Optional.of(ib), ai_1.getIndexBufferBound());
+    Assert.assertEquals(Optional.of(ib), ai_2.getIndexBufferBound());
+    Assert.assertEquals(Optional.of(ib), gi.indexBufferGetCurrentlyBound());
+
+    final Set<JCGLReferenceContainerType> ib_refs = ib.getReferringContainers();
+    final Set<JCGLReferableType> ai0_refs = ai_0.getReferences();
+    final Set<JCGLReferableType> ai1_refs = ai_1.getReferences();
+    final Set<JCGLReferableType> ai2_refs = ai_2.getReferences();
+
+    Assert.assertEquals(4L, (long) ib_refs.size());
+    Assert.assertTrue(ib_refs.contains(go.arrayObjectGetDefault()));
+    Assert.assertTrue(ib_refs.contains(ai_0));
+    Assert.assertTrue(ib_refs.contains(ai_1));
+    Assert.assertTrue(ib_refs.contains(ai_2));
+
+    Assert.assertEquals(1L, (long) ai0_refs.size());
+    Assert.assertTrue(ai0_refs.contains(ib));
+    Assert.assertEquals(1L, (long) ai1_refs.size());
+    Assert.assertTrue(ai1_refs.contains(ib));
+    Assert.assertEquals(1L, (long) ai2_refs.size());
+    Assert.assertTrue(ai2_refs.contains(ib));
+
+    gi.indexBufferDelete(ib);
+
+    Assert.assertEquals(0L, (long) ib_refs.size());
+    Assert.assertEquals(0L, (long) ai0_refs.size());
+    Assert.assertEquals(0L, (long) ai1_refs.size());
+    Assert.assertEquals(0L, (long) ai2_refs.size());
+  }
+
   protected static final class Interfaces
   {
     private final JCGLContextType      context;
+    private final JCGLIndexBuffersType index_buffers;
     private final JCGLArrayBuffersType array_buffers;
     private final JCGLArrayObjectsType array_objects;
 
     public Interfaces(
       final JCGLContextType in_context,
       final JCGLArrayBuffersType in_array_buffers,
+      final JCGLIndexBuffersType in_index_buffers,
       final JCGLArrayObjectsType in_array_objects)
     {
       this.context = NullCheck.notNull(in_context);
       this.array_buffers = NullCheck.notNull(in_array_buffers);
       this.array_objects = NullCheck.notNull(in_array_objects);
+      this.index_buffers = NullCheck.notNull(in_index_buffers);
     }
 
     public JCGLContextType getContext()
     {
       return this.context;
+    }
+
+    public JCGLIndexBuffersType getIndexBuffers()
+    {
+      return this.index_buffers;
     }
 
     public JCGLArrayBuffersType getArrayBuffers()

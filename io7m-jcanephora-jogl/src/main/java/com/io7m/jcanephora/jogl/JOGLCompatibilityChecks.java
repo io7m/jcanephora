@@ -23,6 +23,7 @@ import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.core.JCGLFragmentShaderUsableType;
 import com.io7m.jcanephora.core.JCGLGeometryShaderUsableType;
+import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jnull.NullCheck;
@@ -219,5 +220,12 @@ final class JOGLCompatibilityChecks
     final JCGLProgramShaderUsableType p)
   {
     JOGLCompatibilityChecks.checkAny(c, p);
+  }
+
+  public static void checkIndexBuffer(
+    final GLContext c,
+    final JCGLIndexBufferUsableType i)
+  {
+    JOGLCompatibilityChecks.checkAny(c, i);
   }
 }

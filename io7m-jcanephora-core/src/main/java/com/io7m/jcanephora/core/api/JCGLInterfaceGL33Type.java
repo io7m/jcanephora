@@ -39,4 +39,10 @@ public interface JCGLInterfaceGL33Type
    */
 
   JCGLShadersType getShaders();
+
+  /**
+   * @return The index buffers interface
+   */
+
+  JCGLIndexBuffersType getIndexBuffers();
 }

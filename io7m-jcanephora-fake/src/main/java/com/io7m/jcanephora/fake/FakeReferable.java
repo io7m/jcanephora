@@ -16,44 +16,41 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jcanephora.core.JCGLBufferUsableType;
-import com.io7m.jcanephora.core.JCGLUsageHint;
-import com.io7m.jnull.NullCheck;
-import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.jcanephora.core.JCGLReferableType;
+import com.io7m.jcanephora.core.JCGLReferenceContainerType;
 
-import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
-abstract class FakeBuffer extends FakeReferable
-  implements JCGLBufferUsableType
+abstract class FakeReferable extends FakeObjectShared
+  implements JCGLReferableType
 {
-  private final JCGLUsageHint   usage;
-  private final RangeInclusiveL range;
-  private final ByteBuffer      data;
+  private final Set<JCGLReferenceContainerType> references;
+  private final Set<JCGLReferenceContainerType> references_view;
 
-  FakeBuffer(
+  FakeReferable(
     final FakeContext in_context,
-    final int in_id,
-    final ByteBuffer in_data,
-    final JCGLUsageHint in_usage)
+    final int in_id)
   {
     super(in_context, in_id);
-    this.usage = NullCheck.notNull(in_usage);
-    this.data = NullCheck.notNull(in_data);
-    this.range = new RangeInclusiveL(0L, (long) in_data.capacity() - 1L);
+    this.references = Collections.newSetFromMap(new ConcurrentHashMap<>(8));
+    this.references_view = Collections.unmodifiableSet(this.references);
   }
 
-  @Override public final JCGLUsageHint getUsageHint()
+  @Override
+  public final Set<JCGLReferenceContainerType> getReferringContainers()
   {
-    return this.usage;
+    return this.references_view;
   }
 
-  @Override public final RangeInclusiveL getRange()
+  final void containerReferenceAccept(final JCGLReferenceContainerType c)
   {
-    return this.range;
+    this.references.add(c);
   }
 
-  public final ByteBuffer getData()
+  final void containerReferenceRemove(final JCGLReferenceContainerType c)
   {
-    return this.data;
+    this.references.remove(c);
   }
 }

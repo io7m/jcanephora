@@ -16,30 +16,23 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
-import com.io7m.jcanephora.tests.contracts.JCGLArrayObjectsContract;
-import com.jogamp.opengl.DebugGL3;
-import com.jogamp.opengl.GL3;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.io7m.jcanephora.tests.contracts.JCGLIndexBuffersContract;
+import com.io7m.jcanephora.tests.contracts.JCGLSharedContextPair;
+import com.io7m.jcanephora.tests.contracts.JCGLUnsharedContextPair;
 
-import java.nio.IntBuffer;
-
-public final class JOGLArrayObjectsTestGL33 extends JCGLArrayObjectsContract
+public final class JOGLIndexBuffersTestGL33 extends JCGLIndexBuffersContract
 {
-  private static final Logger LOG;
-
-  static {
-    LOG = LoggerFactory.getLogger(JOGLArrayObjectsTestGL33.class);
+  @Override public void onTestCompleted()
+  {
+    JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override protected Interfaces getIndexBuffers(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
@@ -49,34 +42,37 @@ public final class JOGLArrayObjectsTestGL33 extends JCGLArrayObjectsContract
     return new Interfaces(c, ga, gi, go);
   }
 
-  @Test public void testNonCompliantArrayBuffers()
-    throws Exception
+  @Override
+  protected JCGLUnsharedContextPair<JCGLIndexBuffersType>
+  getIndexBuffersUnshared(
+    final String main,
+    final String alt)
   {
-    this.expected.expect(JCGLExceptionNonCompliant.class);
-    JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
-      "main", c -> {
-        final GL3 base = c.getGL().getGL3();
-        return new DebugGL3(base)
-        {
-          @Override public void glGetIntegerv(
-            final int name,
-            final IntBuffer buffer)
-          {
-            if (name == GL3.GL_MAX_VERTEX_ATTRIBS) {
-              JOGLArrayObjectsTestGL33.LOG.debug(
-                "overriding request for {}",
-                Integer.valueOf(GL3.GL_MAX_VERTEX_ATTRIBS));
-              buffer.put(0, 1);
-            } else {
-              super.glGetIntegerv(name, buffer);
-            }
-          }
-        };
-      });
+    final JCGLContextType c0 = JOGLTestContexts.newGL33Context(main);
+    final JCGLContextType c1 = JOGLTestContexts.newGL33Context(alt);
+    return new JCGLUnsharedContextPair<>(
+      c0.contextGetGL33().getIndexBuffers(),
+      c0,
+      c1.contextGetGL33().getIndexBuffers(),
+      c1);
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  protected JCGLSharedContextPair<JCGLIndexBuffersType>
+  getIndexBuffersSharedWith(
+    final String name,
+    final String shared)
   {
-    JOGLTestContexts.closeAllContexts();
+    final JCGLSharedContextPair<JCGLContextType> p =
+      JOGLTestContexts.newGL33ContextSharedWith(
+        name, shared);
+
+    final JCGLContextType mc = p.getMasterContext();
+    final JCGLContextType sc = p.getSlaveContext();
+    return new JCGLSharedContextPair<>(
+      mc.contextGetGL33().getIndexBuffers(),
+      mc,
+      sc.contextGetGL33().getIndexBuffers(),
+      sc);
   }
 }

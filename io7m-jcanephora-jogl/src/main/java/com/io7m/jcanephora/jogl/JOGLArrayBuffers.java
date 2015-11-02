@@ -30,13 +30,13 @@ import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jranges.Ranges;
+import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.Optional;
 
@@ -57,8 +57,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
   {
     NullCheck.notNull(c);
     this.gl = c.getGL3();
-    this.int_cache =
-      ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder()).asIntBuffer();
+    this.int_cache = Buffers.newDirectIntBuffer(1);
   }
 
   @Override public JCGLArrayBufferType arrayBufferAllocate(
@@ -66,6 +65,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     final JCGLUsageHint usage)
     throws JCGLException
   {
+    NullCheck.notNull(usage);
     RangeCheck.checkIncludedInLong(
       size, "Size", Ranges.NATURAL_LONG, "Valid size range");
 

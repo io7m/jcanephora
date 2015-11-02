@@ -14,37 +14,30 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.fake;
 
-import java.util.Optional;
+import com.io7m.jnull.NullCheck;
 
 /**
- * A usable array object.
+ * <p>An object that can be shared across contexts, and is not actually
+ * considered an object in the OpenGL sense, but that the <tt>jcanephora</tt>
+ * API considers to be a distinct object.</p>
+ *
+ * <p>Examples of pseudo-objects include {@link FakeProgramAttribute}...</p>
  */
 
-public interface JCGLArrayObjectUsableType
-  extends JCGLResourceUsableType, JCGLNamedType, JCGLReferenceContainerType
+abstract class FakeObjectPseudoShared extends FakeObjectDeletable
 {
-  /**
-   * @param index The attribute index in the range {@code [0,
-   *              getMaximumVertexAttributes() - 1]}
-   *
-   * @return The attribute at the given index, if any
-   */
+  private final FakeContext context;
 
-  Optional<JCGLArrayVertexAttributeType> getAttributeAt(int index);
+  protected FakeObjectPseudoShared(
+    final FakeContext in_context)
+  {
+    this.context = NullCheck.notNull(in_context, "Context");
+  }
 
-  /**
-   * @return The supported maximum number of vertex attributes. Must be {@code
-   * >= 16}.
-   */
-
-  int getMaximumVertexAttributes();
-
-  /**
-   * @return The index buffer that is currently bound to this array object, if
-   * any
-   */
-
-  Optional<JCGLIndexBufferUsableType> getIndexBufferBound();
+  protected final FakeContext getContext()
+  {
+    return this.context;
+  }
 }

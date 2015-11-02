@@ -31,7 +31,7 @@ public final class FakeContextsTest extends JCGLContextContract
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
-      return i.newContext(name);
+      return i.newContext(name, new FakeDefaultShaderListener());
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
@@ -43,8 +43,10 @@ public final class FakeContextsTest extends JCGLContextContract
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
-      final JCGLContextType c0 = i.newContext(name);
-      final JCGLContextType c1 = i.newContextSharedWith(c0, name);
+      final JCGLContextType c0 =
+        i.newContext(name, new FakeDefaultShaderListener());
+      final JCGLContextType c1 =
+        i.newContextSharedWith(c0, name, new FakeDefaultShaderListener());
       return new JCGLSharedContextPair<>(c0, c0, c1, c1);
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);

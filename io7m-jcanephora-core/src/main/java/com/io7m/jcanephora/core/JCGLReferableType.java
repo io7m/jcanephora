@@ -16,35 +16,18 @@
 
 package com.io7m.jcanephora.core;
 
-import java.util.Optional;
+import java.util.Set;
 
 /**
- * A usable array object.
+ * The type of objects that can be referenced by a {@link
+ * JCGLReferenceContainerType}.
  */
 
-public interface JCGLArrayObjectUsableType
-  extends JCGLResourceUsableType, JCGLNamedType, JCGLReferenceContainerType
+public interface JCGLReferableType
 {
   /**
-   * @param index The attribute index in the range {@code [0,
-   *              getMaximumVertexAttributes() - 1]}
-   *
-   * @return The attribute at the given index, if any
+   * @return A read-only view of the set of objects that refer to this object
    */
 
-  Optional<JCGLArrayVertexAttributeType> getAttributeAt(int index);
-
-  /**
-   * @return The supported maximum number of vertex attributes. Must be {@code
-   * >= 16}.
-   */
-
-  int getMaximumVertexAttributes();
-
-  /**
-   * @return The index buffer that is currently bound to this array object, if
-   * any
-   */
-
-  Optional<JCGLIndexBufferUsableType> getIndexBufferBound();
+  Set<JCGLReferenceContainerType> getReferringContainers();
 }

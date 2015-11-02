@@ -16,35 +16,42 @@
 
 package com.io7m.jcanephora.jogl;
 
-import com.io7m.jcanephora.core.JCGLBufferUsableType;
-import com.io7m.jcanephora.core.JCGLUsageHint;
-import com.io7m.jnull.NullCheck;
-import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.jcanephora.core.JCGLReferableType;
+import com.io7m.jcanephora.core.JCGLReferenceContainerType;
 import com.jogamp.opengl.GLContext;
 
-abstract class JOGLBuffer extends JOGLReferable implements JCGLBufferUsableType
-{
-  private final JCGLUsageHint   usage;
-  private final RangeInclusiveL range;
+import java.util.Collections;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
-  JOGLBuffer(
+abstract class JOGLReferable extends JOGLObjectShared
+  implements JCGLReferableType
+{
+  private final Set<JCGLReferenceContainerType> references;
+  private final Set<JCGLReferenceContainerType> references_view;
+
+  JOGLReferable(
     final GLContext in_context,
-    final int in_id,
-    final long in_size,
-    final JCGLUsageHint in_usage)
+    final int in_id)
   {
     super(in_context, in_id);
-    this.usage = NullCheck.notNull(in_usage);
-    this.range = new RangeInclusiveL(0L, in_size - 1L);
+    this.references = Collections.newSetFromMap(new ConcurrentHashMap<>(8));
+    this.references_view = Collections.unmodifiableSet(this.references);
   }
 
-  @Override public final JCGLUsageHint getUsageHint()
+  @Override
+  public final Set<JCGLReferenceContainerType> getReferringContainers()
   {
-    return this.usage;
+    return this.references_view;
   }
 
-  @Override public final RangeInclusiveL getRange()
+  final void containerReferenceAccept(final JCGLReferenceContainerType c)
   {
-    return this.range;
+    this.references.add(c);
+  }
+
+  final void containerReferenceRemove(final JCGLReferenceContainerType c)
+  {
+    this.references.remove(c);
   }
 }

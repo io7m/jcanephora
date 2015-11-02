@@ -17,9 +17,9 @@
 package com.io7m.jcanephora.core;
 
 /**
- * <p> An object that has a name according to OpenGL. </p>
+ * <p>An object that has a name according to OpenGL.</p>
  *
- * <p> This could be, for example, the identifier of a texture created with
+ * <p>This could be, for example, the identifier of a texture created with
  * {@code glGenTextures}, or a buffer created with {@code glGenBuffers}, etc.
  * </p>
  */

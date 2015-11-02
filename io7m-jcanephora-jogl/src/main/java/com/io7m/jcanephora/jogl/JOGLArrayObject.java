@@ -18,15 +18,22 @@ package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
+import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
+import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 
 final class JOGLArrayObject extends JOGLObjectUnshared
   implements JCGLArrayObjectType
 {
-  private final JCGLArrayVertexAttributeType[] attribs;
+  private final JCGLArrayVertexAttributeType[]      attribs;
+  private final String                              image;
+  private final JOGLReferenceContainer              reference_container;
+  private       Optional<JCGLIndexBufferUsableType> index_buffer;
 
   JOGLArrayObject(
     final GLContext in_context,
@@ -35,6 +42,28 @@ final class JOGLArrayObject extends JOGLObjectUnshared
   {
     super(in_context, in_id);
     this.attribs = NullCheck.notNull(in_attribs);
+    this.index_buffer = Optional.empty();
+    this.image = String.format(
+      "[JOGLArrayObject %d]", Integer.valueOf(this.getGLName()));
+
+    this.reference_container = new JOGLReferenceContainer(this, 8);
+    for (int index = 0; index < in_attribs.length; ++index) {
+      final JCGLArrayVertexAttributeType a = in_attribs[index];
+      if (a != null) {
+        this.reference_container.referenceAdd(
+          (JOGLReferable) a.getArrayBuffer());
+      }
+    }
+  }
+
+  @Override public String toString()
+  {
+    return this.image;
+  }
+
+  JOGLReferenceContainer getReferenceContainer()
+  {
+    return this.reference_container;
   }
 
   @Override
@@ -46,5 +75,31 @@ final class JOGLArrayObject extends JOGLObjectUnshared
   @Override public int getMaximumVertexAttributes()
   {
     return this.attribs.length;
+  }
+
+  @Override public Optional<JCGLIndexBufferUsableType> getIndexBufferBound()
+  {
+    synchronized (this.index_buffer) {
+      return this.index_buffer;
+    }
+  }
+
+  void setIndexBuffer(
+    final Function<Optional<JCGLIndexBufferUsableType>,
+      Optional<JCGLIndexBufferUsableType>> f)
+  {
+    synchronized (this.index_buffer) {
+      final Optional<JCGLIndexBufferUsableType> r = f.apply(this.index_buffer);
+      this.index_buffer.ifPresent(
+        i -> this.reference_container.referenceRemove((JOGLReferable) i));
+      r.ifPresent(
+        i -> this.reference_container.referenceAdd((JOGLReferable) i));
+      this.index_buffer = r;
+    }
+  }
+
+  @Override public Set<JCGLReferableType> getReferences()
+  {
+    return this.reference_container.getReferences();
   }
 }

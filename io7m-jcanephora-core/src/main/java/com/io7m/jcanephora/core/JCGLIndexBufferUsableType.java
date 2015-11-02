@@ -22,5 +22,15 @@ package com.io7m.jcanephora.core;
 
 public interface JCGLIndexBufferUsableType extends JCGLBufferUsableType
 {
-  // No extra functions
+  /**
+   * @return The number of indices in the buffer
+   */
+
+  long getIndices();
+
+  /**
+   * @return The type of indices in the buffer
+   */
+
+  JCGLUnsignedType getType();
 }

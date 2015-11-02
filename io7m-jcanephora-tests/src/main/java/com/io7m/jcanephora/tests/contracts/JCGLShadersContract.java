@@ -35,9 +35,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Shaders contract.
@@ -96,7 +98,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     this.expected.expect(JCGLExceptionProgramCompileError.class);
-    s.shaderCompileVertex("v", new ArrayList<>(0));
+    s.shaderCompileVertex("empty0", new ArrayList<>(0));
   }
 
   @Test public final void testVertexShaderCompileEmpty1()
@@ -109,7 +111,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     lines.add("\n");
 
     this.expected.expect(JCGLExceptionProgramCompileError.class);
-    s.shaderCompileVertex("v", lines);
+    s.shaderCompileVertex("empty1", lines);
   }
 
   @Test public final void testVertexShaderCompileInvalid0()
@@ -117,7 +119,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     this.expected.expect(JCGLExceptionProgramCompileError.class);
-    s.shaderCompileVertex("v", this.getShaderLines("invalid0.vert"));
+    s.shaderCompileVertex("invalid0", this.getShaderLines("invalid0.vert"));
   }
 
   @Test public final void testVertexShaderCompileValidIdentities()
@@ -125,8 +127,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
-    Assert.assertEquals("v", v.getName());
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
+    Assert.assertEquals("valid0", v.getName());
     Assert.assertFalse(v.isDeleted());
     Assert.assertTrue(v.getGLName() > 0);
   }
@@ -136,7 +138,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     s.shaderDeleteVertex(v);
     Assert.assertTrue(v.isDeleted());
   }
@@ -146,7 +148,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     s.shaderDeleteVertex(v);
 
     this.expected.expect(JCGLExceptionDeleted.class);
@@ -164,7 +166,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLVertexShaderType v =
-      s0.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
 
     c1.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
@@ -182,7 +184,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLVertexShaderType v =
-      s0.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
 
     c1.contextMakeCurrent();
     s1.shaderDeleteVertex(v);
@@ -195,7 +197,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     this.expected.expect(JCGLExceptionProgramCompileError.class);
-    s.shaderCompileFragment("f", new ArrayList<>(0));
+    s.shaderCompileFragment("empty0", new ArrayList<>(0));
   }
 
   @Test public final void testFragmentShaderCompileEmpty1()
@@ -208,7 +210,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     lines.add("\n");
 
     this.expected.expect(JCGLExceptionProgramCompileError.class);
-    s.shaderCompileFragment("f", lines);
+    s.shaderCompileFragment("empty1", lines);
   }
 
   @Test public final void testFragmentShaderCompileInvalid0()
@@ -216,7 +218,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     this.expected.expect(JCGLExceptionProgramCompileError.class);
-    s.shaderCompileFragment("f", this.getShaderLines("invalid0.frag"));
+    s.shaderCompileFragment("invalid0", this.getShaderLines("invalid0.frag"));
   }
 
   @Test public final void testFragmentShaderCompileValidIdentities()
@@ -224,8 +226,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
-    Assert.assertEquals("f", f.getName());
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    Assert.assertEquals("valid0", f.getName());
     Assert.assertFalse(f.isDeleted());
     Assert.assertTrue(f.getGLName() > 0);
   }
@@ -241,7 +243,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLFragmentShaderType f =
-      s0.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
     c1.contextMakeCurrent();
     s1.shaderDeleteFragment(f);
@@ -260,7 +262,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLFragmentShaderType f =
-      s0.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
     c1.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
@@ -272,7 +274,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     s.shaderDeleteFragment(f);
 
     Assert.assertTrue(f.isDeleted());
@@ -283,7 +285,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     s.shaderDeleteFragment(f);
 
     this.expected.expect(JCGLExceptionDeleted.class);
@@ -295,7 +297,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     this.expected.expect(JCGLExceptionProgramCompileError.class);
-    s.shaderCompileGeometry("g", new ArrayList<>(0));
+    s.shaderCompileGeometry("empty0", new ArrayList<>(0));
   }
 
   @Test public final void testGeometryShaderCompileEmpty1()
@@ -308,7 +310,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     lines.add("\n");
 
     this.expected.expect(JCGLExceptionProgramCompileError.class);
-    s.shaderCompileGeometry("g", lines);
+    s.shaderCompileGeometry("empty1", lines);
   }
 
   @Test public final void testGeometryShaderCompileInvalid0()
@@ -316,7 +318,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     this.expected.expect(JCGLExceptionProgramCompileError.class);
-    s.shaderCompileGeometry("g", this.getShaderLines("invalid0.geom"));
+    s.shaderCompileGeometry("invalid0", this.getShaderLines("invalid0.geom"));
   }
 
   @Test public final void testGeometryShaderDeleteDeleted()
@@ -324,7 +326,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLGeometryShaderType g =
-      s.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     s.shaderDeleteGeometry(g);
 
     this.expected.expect(JCGLExceptionDeleted.class);
@@ -336,7 +338,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLGeometryShaderType g =
-      s.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     s.shaderDeleteGeometry(g);
 
     Assert.assertTrue(g.isDeleted());
@@ -353,7 +355,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
-      s0.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
 
     c1.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
@@ -371,7 +373,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
-      s0.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
 
     c1.contextMakeCurrent();
     s1.shaderDeleteGeometry(g);
@@ -384,8 +386,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLGeometryShaderType g =
-      s.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
-    Assert.assertEquals("g", g.getName());
+      s.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
+    Assert.assertEquals("valid0", g.getName());
     Assert.assertFalse(g.isDeleted());
     Assert.assertTrue(g.getGLName() > 0);
   }
@@ -395,15 +397,15 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLGeometryShaderType g =
-      s.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.of(g), f);
+      s.shaderLinkProgram("valid0", v, Optional.of(g), f);
 
-    Assert.assertEquals("p", p.getName());
+    Assert.assertEquals("valid0", p.getName());
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
@@ -418,19 +420,28 @@ public abstract class JCGLShadersContract extends JCGLContract
   {
     final JCGLShadersType s = this.getShaders("main");
 
-    final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("attributes0.vert"));
+    final JCGLVertexShaderType v = s.shaderCompileVertex(
+      "attributes0",
+      this.getShaderLines("attributes0.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("attributes0", v, Optional.empty(), f);
 
-    Assert.assertEquals("p", p.getName());
+    Assert.assertEquals("attributes0", p.getName());
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
     final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
     Assert.assertEquals(12L, (long) a.size());
+
+    final Set<Integer> locations = new HashSet<>(a.values().size());
+    for (final JCGLProgramAttributeType attr : a.values()) {
+      final Integer id = Integer.valueOf(attr.getGLName());
+      Assert.assertTrue(id.intValue() >= 0);
+      Assert.assertFalse(locations.contains(id));
+      locations.add(id);
+    }
 
     JCGLShadersContract.checkAttribute(p, a, "f", JCGLType.TYPE_FLOAT);
     JCGLShadersContract.checkAttribute(
@@ -462,19 +473,28 @@ public abstract class JCGLShadersContract extends JCGLContract
   {
     final JCGLShadersType s = this.getShaders("main");
 
-    final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("attributes1.vert"));
+    final JCGLVertexShaderType v = s.shaderCompileVertex(
+      "attributes1",
+      this.getShaderLines("attributes1.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("attributes1", v, Optional.empty(), f);
 
-    Assert.assertEquals("p", p.getName());
+    Assert.assertEquals("attributes1", p.getName());
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
     final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
     Assert.assertEquals(3L, (long) a.size());
+
+    final Set<Integer> locations = new HashSet<>(a.values().size());
+    for (final JCGLProgramAttributeType attr : a.values()) {
+      final Integer id = Integer.valueOf(attr.getGLName());
+      Assert.assertTrue(id.intValue() >= 0);
+      Assert.assertFalse(locations.contains(id));
+      locations.add(id);
+    }
 
     JCGLShadersContract.checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_4);
@@ -488,19 +508,28 @@ public abstract class JCGLShadersContract extends JCGLContract
   {
     final JCGLShadersType s = this.getShaders("main");
 
-    final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("attributes2.vert"));
+    final JCGLVertexShaderType v = s.shaderCompileVertex(
+      "attributes2",
+      this.getShaderLines("attributes2.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("attributes2", v, Optional.empty(), f);
 
-    Assert.assertEquals("p", p.getName());
+    Assert.assertEquals("attributes2", p.getName());
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
     final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
     Assert.assertEquals(3L, (long) a.size());
+
+    final Set<Integer> locations = new HashSet<>(a.values().size());
+    for (final JCGLProgramAttributeType attr : a.values()) {
+      final Integer id = Integer.valueOf(attr.getGLName());
+      Assert.assertTrue(id.intValue() >= 0);
+      Assert.assertFalse(locations.contains(id));
+      locations.add(id);
+    }
 
     JCGLShadersContract.checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_4);
@@ -514,19 +543,28 @@ public abstract class JCGLShadersContract extends JCGLContract
   {
     final JCGLShadersType s = this.getShaders("main");
 
-    final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("attributes2.vert"));
+    final JCGLVertexShaderType v = s.shaderCompileVertex(
+      "attributes2",
+      this.getShaderLines("attributes2.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("attributes2", v, Optional.empty(), f);
 
-    Assert.assertEquals("p", p.getName());
+    Assert.assertEquals("attributes2", p.getName());
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
     final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
     Assert.assertEquals(3L, (long) a.size());
+
+    final Set<Integer> locations = new HashSet<>(a.values().size());
+    for (final JCGLProgramAttributeType attr : a.values()) {
+      final Integer id = Integer.valueOf(attr.getGLName());
+      Assert.assertTrue(id.intValue() >= 0);
+      Assert.assertFalse(locations.contains(id));
+      locations.add(id);
+    }
 
     JCGLShadersContract.checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_4);
@@ -540,19 +578,28 @@ public abstract class JCGLShadersContract extends JCGLContract
   {
     final JCGLShadersType s = this.getShaders("main");
 
-    final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("attributes3.vert"));
+    final JCGLVertexShaderType v = s.shaderCompileVertex(
+      "attributes3",
+      this.getShaderLines("attributes3.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("attributes3", v, Optional.empty(), f);
 
-    Assert.assertEquals("p", p.getName());
+    Assert.assertEquals("attributes3", p.getName());
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
     final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
     Assert.assertEquals(3L, (long) a.size());
+
+    final Set<Integer> locations = new HashSet<>(a.values().size());
+    for (final JCGLProgramAttributeType attr : a.values()) {
+      final Integer id = Integer.valueOf(attr.getGLName());
+      Assert.assertTrue(id.intValue() >= 0);
+      Assert.assertFalse(locations.contains(id));
+      locations.add(id);
+    }
 
     JCGLShadersContract.checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_3x4);
@@ -566,19 +613,28 @@ public abstract class JCGLShadersContract extends JCGLContract
   {
     final JCGLShadersType s = this.getShaders("main");
 
-    final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("attributes4.vert"));
+    final JCGLVertexShaderType v = s.shaderCompileVertex(
+      "attributes4",
+      this.getShaderLines("attributes4.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("attributes4", v, Optional.empty(), f);
 
-    Assert.assertEquals("p", p.getName());
+    Assert.assertEquals("attributes4", p.getName());
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
     final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
     Assert.assertEquals(3L, (long) a.size());
+
+    final Set<Integer> locations = new HashSet<>(a.values().size());
+    for (final JCGLProgramAttributeType attr : a.values()) {
+      final Integer id = Integer.valueOf(attr.getGLName());
+      Assert.assertTrue(id.intValue() >= 0);
+      Assert.assertFalse(locations.contains(id));
+      locations.add(id);
+    }
 
     JCGLShadersContract.checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_2x4);
@@ -593,18 +649,26 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("uniforms0.vert"));
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    Assert.assertEquals("p", p.getName());
+    Assert.assertEquals("uniforms0", p.getName());
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
     final Map<String, JCGLProgramUniformType> u = p.getUniforms();
     Assert.assertEquals(16L, (long) u.size());
+
+    final Set<Integer> locations = new HashSet<>(u.values().size());
+    for (final JCGLProgramUniformType uni : u.values()) {
+      final Integer id = Integer.valueOf(uni.getGLName());
+      Assert.assertTrue(id.intValue() >= 0);
+      Assert.assertFalse(locations.contains(id));
+      locations.add(id);
+    }
 
     JCGLShadersContract.checkUniform(
       p, u, "f", JCGLType.TYPE_FLOAT);
@@ -647,18 +711,26 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("uniforms1.vert"));
+      s.shaderCompileVertex("uniforms1", this.getShaderLines("uniforms1.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("uniforms1", v, Optional.empty(), f);
 
-    Assert.assertEquals("p", p.getName());
+    Assert.assertEquals("uniforms1", p.getName());
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
     final Map<String, JCGLProgramUniformType> u = p.getUniforms();
     Assert.assertEquals(12L, (long) u.size());
+
+    final Set<Integer> locations = new HashSet<>(u.values().size());
+    for (final JCGLProgramUniformType uni : u.values()) {
+      final Integer id = Integer.valueOf(uni.getGLName());
+      Assert.assertTrue(id.intValue() >= 0);
+      Assert.assertFalse(locations.contains(id));
+      locations.add(id);
+    }
 
     JCGLShadersContract.checkUniform(
       p, u, "fm4", JCGLType.TYPE_FLOAT_MATRIX_4);
@@ -693,18 +765,26 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("uniforms2.vert"));
+      s.shaderCompileVertex("uniforms2", this.getShaderLines("uniforms2.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("uniforms2", v, Optional.empty(), f);
 
-    Assert.assertEquals("p", p.getName());
+    Assert.assertEquals("uniforms2", p.getName());
     Assert.assertFalse(p.isDeleted());
     Assert.assertTrue(p.getGLName() > 0);
 
     final Map<String, JCGLProgramUniformType> u = p.getUniforms();
     Assert.assertEquals(3L, (long) u.size());
+
+    final Set<Integer> locations = new HashSet<>(u.values().size());
+    for (final JCGLProgramUniformType uni : u.values()) {
+      final Integer id = Integer.valueOf(uni.getGLName());
+      Assert.assertTrue(id.intValue() >= 0);
+      Assert.assertFalse(locations.contains(id));
+      locations.add(id);
+    }
 
     JCGLShadersContract.checkUniform(
       p, u, "s2", JCGLType.TYPE_SAMPLER_2D);
@@ -719,16 +799,16 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLGeometryShaderType g =
-      s.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
     s.shaderDeleteVertex(v);
 
     this.expected.expect(JCGLExceptionDeleted.class);
-    s.shaderLinkProgram("p", v, Optional.of(g), f);
+    s.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
   @Test public final void testProgramLinkDeletedFragment()
@@ -736,16 +816,16 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLGeometryShaderType g =
-      s.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
     s.shaderDeleteFragment(f);
 
     this.expected.expect(JCGLExceptionDeleted.class);
-    s.shaderLinkProgram("p", v, Optional.of(g), f);
+    s.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
   @Test public final void testProgramLinkDeletedGeometry()
@@ -753,16 +833,16 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLGeometryShaderType g =
-      s.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
     s.shaderDeleteGeometry(g);
 
     this.expected.expect(JCGLExceptionDeleted.class);
-    s.shaderLinkProgram("p", v, Optional.of(g), f);
+    s.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
   @Test public final void testProgramLinkWrongContextVertex()
@@ -776,16 +856,16 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLVertexShaderType v =
-      s0.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
 
     c1.contextMakeCurrent();
     final JCGLGeometryShaderType g =
-      s1.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s1.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLFragmentShaderType f =
-      s1.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s1.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
     this.expected.expect(JCGLExceptionWrongContext.class);
-    s1.shaderLinkProgram("p", v, Optional.of(g), f);
+    s1.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
   @Test public final void testProgramLinkWrongContextFragment()
@@ -799,16 +879,16 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLFragmentShaderType f =
-      s0.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
     c1.contextMakeCurrent();
     final JCGLVertexShaderType v =
-      s1.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s1.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLGeometryShaderType g =
-      s1.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s1.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
 
     this.expected.expect(JCGLExceptionWrongContext.class);
-    s1.shaderLinkProgram("p", v, Optional.of(g), f);
+    s1.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
   @Test public final void testProgramLinkWrongContextGeometry()
@@ -822,16 +902,16 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
-      s0.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
 
     c1.contextMakeCurrent();
     final JCGLVertexShaderType v =
-      s1.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s1.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s1.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s1.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
     this.expected.expect(JCGLExceptionWrongContext.class);
-    s1.shaderLinkProgram("p", v, Optional.of(g), f);
+    s1.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
   @Test public final void testProgramLinkSharedContext()
@@ -845,15 +925,15 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
-      s0.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLVertexShaderType v =
-      s0.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s0.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
     c1.contextMakeCurrent();
     final JCGLProgramShaderType p =
-      s1.shaderLinkProgram("p", v, Optional.of(g), f);
+      s1.shaderLinkProgram("valid0", v, Optional.of(g), f);
     Assert.assertTrue(p.getGLName() > 0);
   }
 
@@ -861,13 +941,13 @@ public abstract class JCGLShadersContract extends JCGLContract
   {
     final JCGLShadersType s = this.getShaders("main");
 
-    final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("incompatible0.vert"));
-    final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("incompatible0.frag"));
+    final JCGLVertexShaderType v = s.shaderCompileVertex(
+      "incompatible0", this.getShaderLines("incompatible0.vert"));
+    final JCGLFragmentShaderType f = s.shaderCompileFragment(
+      "incompatible0", this.getShaderLines("incompatible0.frag"));
 
     this.expected.expect(JCGLExceptionProgramCompileError.class);
-    s.shaderLinkProgram("p", v, Optional.empty(), f);
+    s.shaderLinkProgram("incompatible0", v, Optional.empty(), f);
   }
 
   @Test public final void testProgramActivateSharedContext()
@@ -881,13 +961,13 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
-      s0.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLVertexShaderType v =
-      s0.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s0.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s0.shaderLinkProgram("p", v, Optional.of(g), f);
+      s0.shaderLinkProgram("valid0", v, Optional.of(g), f);
 
     c1.contextMakeCurrent();
     s1.shaderActivateProgram(p);
@@ -906,13 +986,13 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
-      s0.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLVertexShaderType v =
-      s0.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s0.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s0.shaderLinkProgram("p", v, Optional.of(g), f);
+      s0.shaderLinkProgram("valid0", v, Optional.of(g), f);
 
     c1.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
@@ -924,11 +1004,11 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("valid0", v, Optional.empty(), f);
 
     s.shaderDeleteProgram(p);
     this.expected.expect(JCGLExceptionDeleted.class);
@@ -940,11 +1020,11 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("valid0", v, Optional.empty(), f);
 
     s.shaderDeleteProgram(p);
     this.expected.expect(JCGLExceptionDeleted.class);
@@ -956,11 +1036,11 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("valid0", v, Optional.empty(), f);
 
     s.shaderActivateProgram(p);
     Assert.assertEquals(Optional.of(p), s.shaderActivatedProgram());
@@ -977,11 +1057,11 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
-      s.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s.shaderLinkProgram("p", v, Optional.empty(), f);
+      s.shaderLinkProgram("valid0", v, Optional.empty(), f);
 
     s.shaderActivateProgram(p);
     Assert.assertEquals(Optional.of(p), s.shaderActivatedProgram());
@@ -1000,13 +1080,13 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
-      s0.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLVertexShaderType v =
-      s0.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s0.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s0.shaderLinkProgram("p", v, Optional.of(g), f);
+      s0.shaderLinkProgram("valid0", v, Optional.of(g), f);
 
     c1.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
@@ -1024,13 +1104,13 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
-      s0.shaderCompileGeometry("g", this.getShaderLines("valid0.geom"));
+      s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLVertexShaderType v =
-      s0.shaderCompileVertex("v", this.getShaderLines("valid0.vert"));
+      s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s0.shaderCompileFragment("f", this.getShaderLines("valid0.frag"));
+      s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
     final JCGLProgramShaderType p =
-      s0.shaderLinkProgram("p", v, Optional.of(g), f);
+      s0.shaderLinkProgram("valid0", v, Optional.of(g), f);
 
     c1.contextMakeCurrent();
     s1.shaderDeleteProgram(p);

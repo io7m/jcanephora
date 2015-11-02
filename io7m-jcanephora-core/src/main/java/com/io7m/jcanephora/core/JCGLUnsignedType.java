@@ -16,35 +16,47 @@
 
 package com.io7m.jcanephora.core;
 
-import java.util.Optional;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
- * A usable array object.
+ * OpenGL unsigned types.
  */
 
-public interface JCGLArrayObjectUsableType
-  extends JCGLResourceUsableType, JCGLNamedType, JCGLReferenceContainerType
+public enum JCGLUnsignedType
 {
   /**
-   * @param index The attribute index in the range {@code [0,
-   *              getMaximumVertexAttributes() - 1]}
-   *
-   * @return The attribute at the given index, if any
+   * An unsigned 8-bit integer.
    */
 
-  Optional<JCGLArrayVertexAttributeType> getAttributeAt(int index);
+  TYPE_UNSIGNED_BYTE,
 
   /**
-   * @return The supported maximum number of vertex attributes. Must be {@code
-   * >= 16}.
+   * An unsigned 32-bit integer.
    */
 
-  int getMaximumVertexAttributes();
+  TYPE_UNSIGNED_INT,
 
   /**
-   * @return The index buffer that is currently bound to this array object, if
-   * any
+   * An unsigned 16-bit integer.
    */
 
-  Optional<JCGLIndexBufferUsableType> getIndexBufferBound();
+  TYPE_UNSIGNED_SHORT;
+
+  /**
+   * @return The size in bytes of values of the current type.
+   */
+
+  public int getSizeBytes()
+  {
+    switch (this) {
+      case TYPE_UNSIGNED_BYTE:
+        return 1;
+      case TYPE_UNSIGNED_INT:
+        return 4;
+      case TYPE_UNSIGNED_SHORT:
+        return 2;
+    }
+
+    throw new UnreachableCodeException();
+  }
 }

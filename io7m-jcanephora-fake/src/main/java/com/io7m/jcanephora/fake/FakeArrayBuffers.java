@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 final class FakeArrayBuffers implements JCGLArrayBuffersType
 {
@@ -46,13 +45,11 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
   }
 
   private final     FakeContext     context;
-  private final     AtomicInteger   next_id;
   private @Nullable FakeArrayBuffer bind;
 
   FakeArrayBuffers(final FakeContext c)
   {
     this.context = NullCheck.notNull(c);
-    this.next_id = new AtomicInteger(1);
   }
 
   private void actualBind(final FakeArrayBuffer a)
@@ -85,7 +82,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
 
     final ByteBuffer data = ByteBuffer.allocate((int) size);
     final FakeArrayBuffer ao = new FakeArrayBuffer(
-      this.context, this.next_id.getAndIncrement(), data, usage);
+      this.context, this.context.getFreshID(), data, usage);
 
     this.actualBind(ao);
     return ao;
@@ -107,7 +104,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
 
   private void checkArray(final JCGLArrayBufferUsableType a)
   {
-    FakeCompatibilityChecks.checkArray(this.context, a);
+    FakeCompatibilityChecks.checkArrayBuffer(this.context, a);
     JCGLResources.checkNotDeleted(a);
   }
 

@@ -32,7 +32,8 @@ public final class FakeBufferUpdatesTest extends JCGLBufferUpdatesContract
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
-      final JCGLContextType c = i.newContext(name);
+      final JCGLContextType c =
+        i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
       return g33.getArrayBuffers();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {

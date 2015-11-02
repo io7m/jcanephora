@@ -20,7 +20,7 @@ import com.io7m.jcanephora.core.JCGLGeometryShaderType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
-final class JOGLGeometryShader extends JOGLObjectShared
+final class JOGLGeometryShader extends JOGLReferable
   implements JCGLGeometryShaderType
 {
   private final String name;

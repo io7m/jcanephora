@@ -20,8 +20,10 @@ package com.io7m.jcanephora.core;
  * The type of usable buffers.
  */
 
-public interface JCGLBufferUsableType
-  extends JCGLResourceSizedType, JCGLNamedType, JCGLResourceUsableType
+public interface JCGLBufferUsableType extends JCGLResourceSizedType,
+  JCGLNamedType,
+  JCGLResourceUsableType,
+  JCGLReferableType
 {
   /**
    * @return The usage hint specified for the buffer.

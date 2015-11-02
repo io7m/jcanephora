@@ -21,6 +21,7 @@ import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionUnsupported;
 import com.io7m.jcanephora.core.JCGLExceptionWrongImplementation;
 import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jnull.NullCheck;
 
 /**
  * A fake implementation of the {@link JCGLImplementationFakeType} interface.
@@ -45,21 +46,31 @@ public final class JCGLImplementationFake implements JCGLImplementationFakeType
     return JCGLImplementationFake.INSTANCE;
   }
 
-  @Override public JCGLContextType newContext(final String name)
+  @Override public JCGLContextType newContext(
+    final String name,
+    final FakeShaderListenerType in_listener)
     throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant
   {
-    return new FakeContext(this, name);
+    NullCheck.notNull(name);
+    NullCheck.notNull(in_listener);
+
+    return new FakeContext(this, name, in_listener);
   }
 
   @Override public JCGLContextType newContextSharedWith(
     final JCGLContextType c,
-    final String name)
-    throws JCGLExceptionNonCompliant
+    final String name,
+    final FakeShaderListenerType in_listener)
+    throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant
   {
+    NullCheck.notNull(c);
+    NullCheck.notNull(name);
+    NullCheck.notNull(in_listener);
+
     if (c instanceof FakeContext) {
       final FakeContext c_orig = (FakeContext) c;
       c_orig.checkNotDestroyed();
-      final FakeContext cn = new FakeContext(this, name);
+      final FakeContext cn = new FakeContext(this, name, in_listener);
       cn.setSharedWith(c_orig);
       return cn;
     }

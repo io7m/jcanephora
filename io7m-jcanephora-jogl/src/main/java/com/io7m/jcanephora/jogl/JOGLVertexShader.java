@@ -20,7 +20,7 @@ import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
-final class JOGLVertexShader extends JOGLObjectShared
+final class JOGLVertexShader extends JOGLReferable
   implements JCGLVertexShaderType
 {
   private final String name;

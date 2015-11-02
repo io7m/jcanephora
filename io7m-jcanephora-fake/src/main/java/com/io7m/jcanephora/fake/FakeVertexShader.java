@@ -14,37 +14,32 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.fake;
 
-import java.util.Optional;
+import com.io7m.jcanephora.core.JCGLVertexShaderType;
+import com.io7m.jnull.NullCheck;
 
-/**
- * A usable array object.
- */
+import java.util.List;
 
-public interface JCGLArrayObjectUsableType
-  extends JCGLResourceUsableType, JCGLNamedType, JCGLReferenceContainerType
+final class FakeVertexShader extends FakeReferable
+  implements JCGLVertexShaderType
 {
-  /**
-   * @param index The attribute index in the range {@code [0,
-   *              getMaximumVertexAttributes() - 1]}
-   *
-   * @return The attribute at the given index, if any
-   */
+  private final String       name;
+  private final List<String> lines;
 
-  Optional<JCGLArrayVertexAttributeType> getAttributeAt(int index);
+  FakeVertexShader(
+    final FakeContext in_context,
+    final int in_id,
+    final String in_name,
+    final List<String> in_lines)
+  {
+    super(in_context, in_id);
+    this.name = NullCheck.notNull(in_name);
+    this.lines = NullCheck.notNull(in_lines);
+  }
 
-  /**
-   * @return The supported maximum number of vertex attributes. Must be {@code
-   * >= 16}.
-   */
-
-  int getMaximumVertexAttributes();
-
-  /**
-   * @return The index buffer that is currently bound to this array object, if
-   * any
-   */
-
-  Optional<JCGLIndexBufferUsableType> getIndexBufferBound();
+  @Override public String getName()
+  {
+    return this.name;
+  }
 }

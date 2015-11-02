@@ -23,19 +23,22 @@ import com.io7m.jcanephora.core.JCGLFragmentShaderType;
 import com.io7m.jcanephora.core.JCGLFragmentShaderUsableType;
 import com.io7m.jcanephora.core.JCGLGeometryShaderType;
 import com.io7m.jcanephora.core.JCGLGeometryShaderUsableType;
+import com.io7m.jcanephora.core.JCGLProgramAttributeType;
 import com.io7m.jcanephora.core.JCGLProgramShaderType;
 import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
+import com.io7m.jcanephora.core.JCGLProgramUniformType;
+import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.junreachable.UnimplementedCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 final class FakeShaders implements JCGLShadersType
@@ -48,13 +51,14 @@ final class FakeShaders implements JCGLShadersType
     NON_EMPTY = Pattern.compile("^\\s*$");
   }
 
-  private final FakeContext   context;
-  private final AtomicInteger next_id;
+  private final FakeContext                 context;
+  private final FakeShaderListenerType      listener;
+  private       JCGLProgramShaderUsableType current;
 
   FakeShaders(final FakeContext c)
   {
     this.context = NullCheck.notNull(c);
-    this.next_id = new AtomicInteger(1);
+    this.listener = NullCheck.notNull(c.getShaderListener());
   }
 
   private static boolean isEmpty(final List<String> lines)
@@ -74,29 +78,47 @@ final class FakeShaders implements JCGLShadersType
   @Override public void shaderDeleteProgram(final JCGLProgramShaderType p)
     throws JCGLException, JCGLExceptionDeleted
   {
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    NullCheck.notNull(p);
+
+    FakeCompatibilityChecks.checkProgramShader(this.context, p);
+    JCGLResources.checkNotDeleted(p);
+
+    FakeShaders.LOG.debug("delete program shader {}", p.getName());
+    ((FakeObjectDeletable) p).setDeleted();
+
+    if (p.equals(this.current)) {
+      this.current = null;
+    }
   }
 
   @Override public void shaderDeleteVertex(final JCGLVertexShaderType v)
     throws JCGLException, JCGLExceptionDeleted
   {
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    NullCheck.notNull(v);
+    FakeCompatibilityChecks.checkVertexShader(this.context, v);
+    JCGLResources.checkNotDeleted(v);
+
+    ((FakeObjectDeletable) v).setDeleted();
   }
 
   @Override public void shaderDeleteFragment(final JCGLFragmentShaderType f)
     throws JCGLException, JCGLExceptionDeleted
   {
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    NullCheck.notNull(f);
+    FakeCompatibilityChecks.checkFragmentShader(this.context, f);
+    JCGLResources.checkNotDeleted(f);
+
+    ((FakeObjectDeletable) f).setDeleted();
   }
 
   @Override public void shaderDeleteGeometry(final JCGLGeometryShaderType g)
     throws JCGLException, JCGLExceptionDeleted
   {
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    NullCheck.notNull(g);
+    FakeCompatibilityChecks.checkGeometryShader(this.context, g);
+    JCGLResources.checkNotDeleted(g);
+
+    ((FakeObjectDeletable) g).setDeleted();
   }
 
   @Override public JCGLVertexShaderType shaderCompileVertex(
@@ -115,8 +137,9 @@ final class FakeShaders implements JCGLShadersType
       throw new JCGLExceptionProgramCompileError(name, "Empty program");
     }
 
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    this.listener.onCompileVertexShaderStart(this.context, name, lines);
+    return new FakeVertexShader(
+      this.context, this.context.getFreshID(), name, lines);
   }
 
   @Override public JCGLFragmentShaderType shaderCompileFragment(
@@ -124,8 +147,20 @@ final class FakeShaders implements JCGLShadersType
     final List<String> lines)
     throws JCGLExceptionProgramCompileError, JCGLException
   {
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    NullCheck.notNull(name, "Name");
+    NullCheck.notNullAll(lines, "Lines");
+
+    final int size = lines.size();
+    FakeShaders.LOG.debug(
+      "compile fragment shader {} ({} lines)", name, Integer.valueOf(size));
+
+    if (FakeShaders.isEmpty(lines)) {
+      throw new JCGLExceptionProgramCompileError(name, "Empty program");
+    }
+
+    this.listener.onCompileFragmentShaderStart(this.context, name, lines);
+    return new FakeFragmentShader(
+      this.context, this.context.getFreshID(), name, lines);
   }
 
   @Override public JCGLGeometryShaderType shaderCompileGeometry(
@@ -133,8 +168,20 @@ final class FakeShaders implements JCGLShadersType
     final List<String> lines)
     throws JCGLExceptionProgramCompileError, JCGLException
   {
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    NullCheck.notNull(name, "Name");
+    NullCheck.notNullAll(lines, "Lines");
+
+    final int size = lines.size();
+    FakeShaders.LOG.debug(
+      "compile geometry shader {} ({} lines)", name, Integer.valueOf(size));
+
+    if (FakeShaders.isEmpty(lines)) {
+      throw new JCGLExceptionProgramCompileError(name, "Empty program");
+    }
+
+    this.listener.onCompileGeometryShaderStart(this.context, name, lines);
+    return new FakeGeometryShader(
+      this.context, this.context.getFreshID(), name, lines);
   }
 
   @Override public JCGLProgramShaderType shaderLinkProgram(
@@ -144,30 +191,83 @@ final class FakeShaders implements JCGLShadersType
     final JCGLFragmentShaderUsableType f)
     throws JCGLExceptionProgramCompileError, JCGLException
   {
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    NullCheck.notNull(name, "Name");
+    NullCheck.notNull(v, "Vertex shader");
+    NullCheck.notNull(g, "Geometry shader");
+    NullCheck.notNull(f, "Fragment shader");
+
+    FakeCompatibilityChecks.checkVertexShader(this.context, v);
+    JCGLResources.checkNotDeleted(v);
+    FakeCompatibilityChecks.checkFragmentShader(this.context, f);
+    JCGLResources.checkNotDeleted(f);
+
+    g.ifPresent(
+      gg -> {
+        FakeCompatibilityChecks.checkGeometryShader(this.context, gg);
+        JCGLResources.checkNotDeleted(gg);
+      });
+
+    FakeShaders.LOG.debug("link program {}", name);
+    FakeShaders.LOG.debug("[{}] vertex {}", name, v.getName());
+    g.ifPresent(
+      gg -> FakeShaders.LOG.debug("[{}] geometry {}", name, gg.getName()));
+    FakeShaders.LOG.debug("[{}] fragment {}", name, f.getName());
+
+    final Map<String, JCGLProgramAttributeType> attributes = new HashMap<>();
+    final Map<String, JCGLProgramUniformType> uniforms = new HashMap<>();
+
+    final FakeProgramShader p = new FakeProgramShader(
+      this.context, this.context.getFreshID(), name, attributes, uniforms);
+
+    this.listener.onLinkProgram(
+      this.context, p, name, v, g.map(gg -> gg), f, attributes, uniforms);
+
+    for (final String k : attributes.keySet()) {
+      final JCGLProgramAttributeType a = attributes.get(k);
+      FakeShaders.LOG.trace(
+        "[{}] attribute {} {} {}",
+        name,
+        a.getName(),
+        Integer.valueOf(a.getGLName()),
+        a.getType());
+    }
+
+    for (final String k : uniforms.keySet()) {
+      final JCGLProgramUniformType a = uniforms.get(k);
+      FakeShaders.LOG.trace(
+        "[{}] uniform {} {} {}",
+        name,
+        a.getName(),
+        Integer.valueOf(a.getGLName()),
+        a.getType());
+    }
+
+    return p;
   }
 
   @Override
   public void shaderActivateProgram(final JCGLProgramShaderUsableType p)
     throws JCGLException, JCGLExceptionDeleted
   {
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    NullCheck.notNull(p);
+
+    FakeShaders.LOG.trace("activate {}", p.getName());
+    FakeCompatibilityChecks.checkProgramShader(this.context, p);
+    JCGLResources.checkNotDeleted(p);
+    this.current = p;
   }
 
   @Override public void shaderDeactivateProgram()
     throws JCGLException
   {
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    FakeShaders.LOG.trace("deactivate");
+    this.current = null;
   }
 
   @Override
   public Optional<JCGLProgramShaderUsableType> shaderActivatedProgram()
     throws JCGLException
   {
-    // TODO: Generated method stub!
-    throw new UnimplementedCodeException();
+    return Optional.ofNullable(this.current);
   }
 }

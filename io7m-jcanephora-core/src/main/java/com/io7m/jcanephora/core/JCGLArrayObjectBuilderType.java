@@ -90,6 +90,8 @@ public interface JCGLArrayObjectBuilderType
    * @param normalized {@code true} iff the data should be treated as
    *                   <i>normalized fixed-point</i> values when converting to
    *                   floating point
+   *
+   * @throws JCGLExceptionDeleted Iff the array buffer has already been deleted
    */
 
   void setAttributeFloatingPoint(
@@ -99,7 +101,8 @@ public interface JCGLArrayObjectBuilderType
     JCGLScalarType type,
     int stride,
     long offset,
-    boolean normalized);
+    boolean normalized)
+    throws JCGLExceptionDeleted;
 
   /**
    * <p>Configure the attribute {@code index} to retrieve data from {@code
@@ -120,6 +123,7 @@ public interface JCGLArrayObjectBuilderType
    * @param offset   The offset from the start of the buffer
    * @param stride   The number of bytes to step forward at each vertex
    *
+   * @throws JCGLExceptionDeleted Iff the array buffer has already been deleted
    * @see #setAttributeFloatingPoint(int, JCGLArrayBufferUsableType, int,
    * JCGLScalarType, int, long, boolean)
    */
@@ -130,7 +134,25 @@ public interface JCGLArrayObjectBuilderType
     int elements,
     JCGLScalarIntegralType type,
     int stride,
-    long offset);
+    long offset)
+    throws JCGLExceptionDeleted;
+
+  /**
+   * <p>Set the index buffer that will be bound by default.</p>
+   *
+   * @param i The index buffer
+   *
+   * @throws JCGLExceptionDeleted Iff the index buffer has already been deleted
+   */
+
+  void setIndexBuffer(JCGLIndexBufferUsableType i)
+    throws JCGLExceptionDeleted;
+
+  /**
+   * <p>Indicate that no index buffer will be bound by default.</p>
+   */
+
+  void setNoIndexBuffer();
 
   /**
    * Clear all and any configured parameters specified so far.

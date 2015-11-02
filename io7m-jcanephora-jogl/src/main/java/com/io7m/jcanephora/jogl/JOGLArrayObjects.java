@@ -28,14 +28,18 @@ import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionObjectNotDeletable;
+import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
+import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveI;
 import com.io7m.jranges.Ranges;
+import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLException;
@@ -43,8 +47,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.valid4j.Assertive;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.Arrays;
 import java.util.Optional;
@@ -66,20 +68,24 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
   private final GL3                       gl;
   private final int                       max_attribs;
   private final RangeInclusiveI           valid_attribs;
-  private final JOGLArrayBuffers          arrays;
+  private final JOGLArrayBuffers          array_buffers;
   private final JOGLArrayObject           default_buffer;
+  private final JOGLIndexBuffers          index_buffers;
   private       JCGLArrayObjectUsableType bind;
 
   JOGLArrayObjects(
     final JOGLContext c,
-    final JOGLArrayBuffers ga)
+    final JOGLArrayBuffers ga,
+    final JOGLIndexBuffers gi)
     throws JCGLExceptionNonCompliant
   {
     this.context = NullCheck.notNull(c);
-    this.arrays = NullCheck.notNull(ga);
+    this.array_buffers = NullCheck.notNull(ga);
+    this.index_buffers = NullCheck.notNull(gi);
+    this.index_buffers.setArrayObjects(this);
+
     this.gl = c.getGL3();
-    this.int_cache =
-      ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder()).asIntBuffer();
+    this.int_cache = Buffers.newDirectIntBuffer(1);
 
     this.gl.glGetIntegerv(GL3.GL_MAX_VERTEX_ATTRIBS, this.int_cache);
     final int max = this.int_cache.get(0);
@@ -131,6 +137,13 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       }
     }
 
+    final JOGLIndexBuffer ib;
+    if (bb.index_buffer != null) {
+      ib = this.checkIndexBuffer(bb.index_buffer);
+    } else {
+      ib = null;
+    }
+
     g3.glGenVertexArrays(1, this.int_cache);
     final Integer aid = Integer.valueOf(this.int_cache.get(0));
     JOGLArrayObjects.LOG.debug("allocated {}", aid);
@@ -143,6 +156,10 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     this.actualBind(new_ao);
 
     try {
+      if (ib != null) {
+        this.index_buffers.indexBufferBind(ib);
+      }
+
       for (int index = 0; index < max; ++index) {
         final Integer box_index = Integer.valueOf(index);
         final JCGLArrayVertexAttributeType a = bb.attribs[index];
@@ -153,7 +170,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         }
 
         g3.glEnableVertexAttribArray(index);
-        this.arrays.arrayBufferBind(a.getArrayBuffer());
+        this.array_buffers.arrayBufferBind(a.getArrayBuffer());
         a.matchVertexAttribute(
           new JCGLArrayVertexAttributeMatcherType<Void, JCGLException>()
           {
@@ -216,7 +233,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
           });
       }
 
-      this.arrays.arrayBufferUnbind();
+      this.array_buffers.arrayBufferUnbind();
     } catch (final GLException | JCGLException e) {
       this.actualUnbind();
       throw e;
@@ -254,11 +271,15 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     final JCGLArrayObjectUsableType a)
     throws JCGLException, JCGLExceptionDeleted
   {
+    this.actualBind(this.checkArrayObject(a));
+  }
+
+  private JOGLArrayObject checkArrayObject(final JCGLArrayObjectUsableType a)
+  {
     NullCheck.notNull(a);
     JOGLCompatibilityChecks.checkArrayObject(this.context.getContext(), a);
     JCGLResources.checkNotDeleted(a);
-
-    this.actualBind((JOGLArrayObject) a);
+    return (JOGLArrayObject) a;
   }
 
   @Override public void arrayObjectUnbind()
@@ -268,12 +289,10 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
   }
 
   @Override public void arrayObjectDelete(
-    final JCGLArrayObjectType a)
+    final JCGLArrayObjectType ai)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(a);
-    JOGLCompatibilityChecks.checkArrayObject(this.context.getContext(), a);
-    JCGLResources.checkNotDeleted(a);
+    final JOGLArrayObject a = this.checkArrayObject(ai);
 
     if (this.default_buffer.equals(a)) {
       throw new JCGLExceptionObjectNotDeletable(
@@ -284,8 +303,13 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 
     this.int_cache.rewind();
     this.int_cache.put(0, a.getGLName());
-    this.gl.glDeleteBuffers(1, this.int_cache);
-    ((JOGLArrayObject) a).setDeleted();
+    this.gl.glDeleteVertexArrays(1, this.int_cache);
+    a.setDeleted();
+
+    final JOGLReferenceContainer rc = a.getReferenceContainer();
+    for (final JCGLReferableType r : a.getReferences()) {
+      rc.referenceRemove((JOGLReferable) r);
+    }
 
     if (this.bind.getGLName() == a.getGLName()) {
       this.actualUnbind();
@@ -297,16 +321,25 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     return this.default_buffer;
   }
 
-  private void checkArray(final JCGLArrayBufferUsableType a)
+  private void checkArrayBuffer(final JCGLArrayBufferUsableType a)
   {
     JOGLCompatibilityChecks.checkArray(this.gl.getContext(), a);
     JCGLResources.checkNotDeleted(a);
   }
 
+  private JOGLIndexBuffer checkIndexBuffer(final JCGLIndexBufferUsableType i)
+  {
+    NullCheck.notNull(i);
+    JOGLCompatibilityChecks.checkIndexBuffer(this.gl.getContext(), i);
+    JCGLResources.checkNotDeleted(i);
+    return (JOGLIndexBuffer) i;
+  }
+
   private final class Builder extends JOGLObjectPseudoUnshared
     implements JCGLArrayObjectBuilderType
   {
-    private final JCGLArrayVertexAttributeType[] attribs;
+    private final     JCGLArrayVertexAttributeType[] attribs;
+    private @Nullable JCGLIndexBufferUsableType      index_buffer;
 
     Builder()
     {
@@ -320,7 +353,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     {
       RangeCheck.checkIncludedInInteger(
         index,
-        "Attribute index",
+        "Attribute index_buffer",
         JOGLArrayObjects.this.valid_attribs,
         "Valid attribute indices");
 
@@ -341,11 +374,11 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       final long offset,
       final boolean normalized)
     {
-      JOGLArrayObjects.this.checkArray(a);
+      JOGLArrayObjects.this.checkArrayBuffer(a);
       NullCheck.notNull(type);
       RangeCheck.checkIncludedInInteger(
         index,
-        "Attribute index",
+        "Attribute index_buffer",
         JOGLArrayObjects.this.valid_attribs,
         "Valid attribute indices");
       RangeCheck.checkIncludedInInteger(
@@ -381,11 +414,11 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       final int stride,
       final long offset)
     {
-      JOGLArrayObjects.this.checkArray(a);
+      JOGLArrayObjects.this.checkArrayBuffer(a);
       NullCheck.notNull(type);
       RangeCheck.checkIncludedInInteger(
         index,
-        "Attribute index",
+        "Attribute index_buffer",
         JOGLArrayObjects.this.valid_attribs,
         "Valid attribute indices");
       RangeCheck.checkIncludedInInteger(
@@ -410,6 +443,18 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
           offset);
 
       this.attribs[index] = attr;
+    }
+
+    @Override public void setIndexBuffer(final JCGLIndexBufferUsableType i)
+      throws JCGLExceptionDeleted
+    {
+      JOGLArrayObjects.this.checkIndexBuffer(i);
+      this.index_buffer = i;
+    }
+
+    @Override public void setNoIndexBuffer()
+    {
+      this.index_buffer = null;
     }
 
     private void clearRanges(
@@ -446,6 +491,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       for (int index = 0; index < this.attribs.length; ++index) {
         this.attribs[index] = null;
       }
+      this.setNoIndexBuffer();
     }
   }
 }

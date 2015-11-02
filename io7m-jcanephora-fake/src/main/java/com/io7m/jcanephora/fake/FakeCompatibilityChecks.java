@@ -21,6 +21,11 @@ import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
+import com.io7m.jcanephora.core.JCGLFragmentShaderUsableType;
+import com.io7m.jcanephora.core.JCGLGeometryShaderUsableType;
+import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
+import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
+import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
 
@@ -107,9 +112,18 @@ final class FakeCompatibilityChecks
         + "context %s", current, target));
   }
 
-  public static void checkArray(
+  public static void checkArrayBuffer(
     final FakeContext current,
     final JCGLArrayBufferUsableType x)
+    throws JCGLExceptionWrongContext
+  {
+    NullCheck.notNull(x);
+    FakeCompatibilityChecks.checkAny(current, x);
+  }
+
+  public static void checkIndexBuffer(
+    final FakeContext current,
+    final JCGLIndexBufferUsableType x)
     throws JCGLExceptionWrongContext
   {
     NullCheck.notNull(x);
@@ -177,5 +191,33 @@ final class FakeCompatibilityChecks
     final JCGLArrayObjectUsableType a)
   {
     FakeCompatibilityChecks.checkAny(context, a);
+  }
+
+  public static void checkVertexShader(
+    final FakeContext c,
+    final JCGLVertexShaderUsableType v)
+  {
+    FakeCompatibilityChecks.checkAny(c, v);
+  }
+
+  public static void checkFragmentShader(
+    final FakeContext c,
+    final JCGLFragmentShaderUsableType f)
+  {
+    FakeCompatibilityChecks.checkAny(c, f);
+  }
+
+  public static void checkGeometryShader(
+    final FakeContext c,
+    final JCGLGeometryShaderUsableType g)
+  {
+    FakeCompatibilityChecks.checkAny(c, g);
+  }
+
+  public static void checkProgramShader(
+    final FakeContext c,
+    final JCGLProgramShaderUsableType p)
+  {
+    FakeCompatibilityChecks.checkAny(c, p);
   }
 }
