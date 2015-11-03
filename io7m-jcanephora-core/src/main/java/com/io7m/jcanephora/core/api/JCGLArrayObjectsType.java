@@ -124,4 +124,6 @@ public interface JCGLArrayObjectsType
    */
 
   JCGLArrayObjectUsableType arrayObjectGetDefault();
+
+
 }

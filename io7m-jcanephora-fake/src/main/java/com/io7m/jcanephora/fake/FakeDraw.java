@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.fake;
 
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLPrimitives;
 import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jnull.NullCheck;
@@ -56,11 +57,25 @@ final class FakeDraw implements JCGLDrawType
     NullCheck.notNull(p);
     RangeCheck.checkIncludedInInteger(
       first, "First", Ranges.NATURAL_INTEGER, "Valid index");
+    RangeCheck.checkIncludedInInteger(
+      count, "Count", Ranges.NATURAL_INTEGER, "Valid count");
 
     FakeDraw.LOG.trace(
       "draw: count {} of {} from {}",
       Integer.valueOf(count),
       p,
       Integer.valueOf(first));
+  }
+
+  @Override public void drawElements(final JCGLPrimitives p)
+    throws JCGLException, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(p);
+
+    if (this.index_buffers.indexBufferIsBound()) {
+      FakeDraw.LOG.trace("drawElements: {}", p);
+    } else {
+      throw new JCGLExceptionBufferNotBound("No index buffer is bound");
+    }
   }
 }

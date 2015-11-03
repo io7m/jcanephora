@@ -20,6 +20,7 @@ import com.io7m.jcanephora.core.JCGLPrimitives;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.JCGLType;
+import com.io7m.jcanephora.core.JCGLUnsignedType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.junreachable.UnreachableCodeException;
 import com.jogamp.opengl.GL;
@@ -38,6 +39,52 @@ public final class JOGLTypeConversions
 {
   private JOGLTypeConversions()
   {
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert types from GL constants.
+   *
+   * @param type The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLUnsignedType unsignedTypeFromGL(
+    final int type)
+  {
+    switch (type) {
+      case GL.GL_UNSIGNED_BYTE:
+        return JCGLUnsignedType.TYPE_UNSIGNED_BYTE;
+      case GL.GL_UNSIGNED_SHORT:
+        return JCGLUnsignedType.TYPE_UNSIGNED_SHORT;
+      case GL.GL_UNSIGNED_INT:
+        return JCGLUnsignedType.TYPE_UNSIGNED_INT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert types to GL constants.
+   *
+   * @param type The type.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int unsignedTypeToGL(
+    final JCGLUnsignedType type)
+  {
+    switch (type) {
+      case TYPE_UNSIGNED_BYTE:
+        return GL.GL_UNSIGNED_BYTE;
+      case TYPE_UNSIGNED_SHORT:
+        return GL.GL_UNSIGNED_SHORT;
+      case TYPE_UNSIGNED_INT:
+        return GL.GL_UNSIGNED_INT;
+    }
+
     throw new UnreachableCodeException();
   }
 

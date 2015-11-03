@@ -16,7 +16,13 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
+import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
+import com.io7m.jcanephora.core.JCGLArrayObjectType;
+import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
+import com.io7m.jcanephora.core.JCGLIndexBufferType;
 import com.io7m.jcanephora.core.JCGLPrimitives;
+import com.io7m.jcanephora.core.JCGLUnsignedType;
+import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
@@ -41,12 +47,50 @@ public abstract class JCGLDrawContract extends JCGLContract
 
   protected abstract Interfaces getInterfaces(String name);
 
-  @Test public final void testDrawBadRange()
+  @Test public final void testDrawBadFirst()
   {
     final Interfaces i = this.getInterfaces("main");
+    final JCGLDrawType gd = i.getDraw();
 
     this.expected.expect(RangeCheckException.class);
-    i.getDraw().draw(JCGLPrimitives.PRIMITIVE_TRIANGLES, -1, -1);
+    gd.draw(JCGLPrimitives.PRIMITIVE_TRIANGLES, -1, 1);
+  }
+
+  @Test public final void testDrawBadCount()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLDrawType gd = i.getDraw();
+
+    this.expected.expect(RangeCheckException.class);
+    gd.draw(JCGLPrimitives.PRIMITIVE_TRIANGLES, 0, -1);
+  }
+
+  @Test public final void testDrawElementsNoIndex()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLDrawType gd = i.getDraw();
+
+    this.expected.expect(JCGLExceptionBufferNotBound.class);
+    gd.drawElements(JCGLPrimitives.PRIMITIVE_TRIANGLES);
+  }
+
+  @Test public final void testDrawElementsOK()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+    final JCGLIndexBuffersType gi = i.getIndexBuffers();
+    final JCGLDrawType gd = i.getDraw();
+
+    final JCGLIndexBufferType ib = gi.indexBufferAllocate(
+      100L,
+      JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+      JCGLUsageHint.USAGE_STATIC_DRAW);
+    gi.indexBufferUnbind();
+
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    b.setIndexBuffer(ib);
+    final JCGLArrayObjectType ao = go.arrayObjectAllocate(b);
+    gd.drawElements(JCGLPrimitives.PRIMITIVE_POINTS);
   }
 
   protected static final class Interfaces

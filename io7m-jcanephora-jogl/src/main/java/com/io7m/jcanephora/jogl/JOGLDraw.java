@@ -17,8 +17,8 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLPrimitives;
-import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
@@ -27,14 +27,14 @@ import com.jogamp.opengl.GL3;
 
 final class JOGLDraw implements JCGLDrawType
 {
-  private final JCGLArrayObjectsType array_objects;
-  private final JOGLIndexBuffers     index_buffers;
-  private final JOGLContext          context;
-  private final GL3                  g3;
+  private final JOGLArrayObjects array_objects;
+  private final JOGLIndexBuffers index_buffers;
+  private final JOGLContext      context;
+  private final GL3              g3;
 
   JOGLDraw(
     final JOGLContext in_context,
-    final JCGLArrayObjectsType in_array_objects,
+    final JOGLArrayObjects in_array_objects,
     final JOGLIndexBuffers in_index_buffers)
   {
     this.context = NullCheck.notNull(in_context);
@@ -56,5 +56,21 @@ final class JOGLDraw implements JCGLDrawType
       count, "Count", Ranges.NATURAL_INTEGER, "Valid counts");
 
     this.g3.glDrawArrays(JOGLTypeConversions.primitiveToGL(p), first, count);
+  }
+
+  @Override public void drawElements(final JCGLPrimitives p)
+    throws JCGLException, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(p);
+
+    if (this.index_buffers.indexBufferIsBound()) {
+      final JOGLIndexBuffer ib = this.array_objects.getCurrentIndexBuffer();
+      final int pgl = JOGLTypeConversions.primitiveToGL(p);
+      final int type = JOGLTypeConversions.unsignedTypeToGL(ib.getType());
+      this.g3.glDrawElements(pgl, (int) ib.getIndices(), type, 0L);
+    } else {
+      throw new JCGLExceptionBufferNotBound(
+        "No index buffer is currently bound");
+    }
   }
 }

@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.core.api;
 
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLPrimitives;
 
 /**
@@ -43,4 +44,20 @@ public interface JCGLDrawType
     int first,
     int count)
     throws JCGLException;
+
+  /**
+   * Draw primitives of type {@code p}, taking the data from each currently
+   * active vertex attribute using elements taken from the currently bound index
+   * buffer.
+   *
+   * @param p The type of primitives
+   *
+   * @throws JCGLException               On OpenGL errors
+   * @throws JCGLExceptionBufferNotBound If no index buffer is currently bound
+   * @see JCGLArrayObjectsType
+   */
+
+  void drawElements(
+    JCGLPrimitives p)
+    throws JCGLException, JCGLExceptionBufferNotBound;
 }

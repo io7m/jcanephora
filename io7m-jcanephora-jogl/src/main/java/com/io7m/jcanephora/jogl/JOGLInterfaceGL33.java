@@ -27,11 +27,11 @@ import com.io7m.jnull.NullCheck;
 
 final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
 {
-  private final JOGLArrayBuffers     array_buffers;
-  private final JCGLArrayObjectsType array_objects;
-  private final JOGLShaders          shaders;
-  private final JOGLIndexBuffers     index_buffers;
-  private final JOGLDraw             draw;
+  private final JOGLArrayBuffers array_buffers;
+  private final JOGLArrayObjects array_objects;
+  private final JOGLShaders      shaders;
+  private final JOGLIndexBuffers index_buffers;
+  private final JOGLDraw         draw;
 
   JOGLInterfaceGL33(
     final JOGLContext c)

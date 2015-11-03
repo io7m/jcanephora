@@ -64,15 +64,15 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     LOG = LoggerFactory.getLogger(JOGLArrayObjects.class);
   }
 
-  private final JOGLContext               context;
-  private final IntBuffer                 int_cache;
-  private final GL3                       gl;
-  private final int                       max_attribs;
-  private final RangeInclusiveI           valid_attribs;
-  private final JOGLArrayBuffers          array_buffers;
-  private final JOGLArrayObject           default_buffer;
-  private final JOGLIndexBuffers          index_buffers;
-  private       JCGLArrayObjectUsableType bind;
+  private final JOGLContext      context;
+  private final IntBuffer        int_cache;
+  private final GL3              gl;
+  private final int              max_attribs;
+  private final RangeInclusiveI  valid_attribs;
+  private final JOGLArrayBuffers array_buffers;
+  private final JOGLArrayObject  default_buffer;
+  private final JOGLIndexBuffers index_buffers;
+  private       JOGLArrayObject  bind;
 
   JOGLArrayObjects(
     final JOGLContext c,
@@ -334,6 +334,11 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     JOGLCompatibilityChecks.checkIndexBuffer(this.gl.getContext(), i);
     JCGLResources.checkNotDeleted(i);
     return (JOGLIndexBuffer) i;
+  }
+
+  JOGLIndexBuffer getCurrentIndexBuffer()
+  {
+    return this.bind.getIndexBufferUnsafe();
   }
 
   private final class Builder extends JOGLObjectPseudoUnshared

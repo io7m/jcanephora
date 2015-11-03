@@ -117,4 +117,10 @@ public interface JCGLIndexBuffersType
   void indexBufferUpdate(
     JCGLBufferUpdateType<JCGLIndexBufferType> u)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound;
+
+  /**
+   * @return {@code true} iff an index buffer is currently bound
+   */
+
+  boolean indexBufferIsBound();
 }

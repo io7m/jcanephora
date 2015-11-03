@@ -102,4 +102,11 @@ final class JOGLArrayObject extends JOGLObjectUnshared
   {
     return this.reference_container.getReferences();
   }
+
+  JOGLIndexBuffer getIndexBufferUnsafe()
+  {
+    synchronized (this.index_buffer) {
+      return (JOGLIndexBuffer) this.index_buffer.get();
+    }
+  }
 }

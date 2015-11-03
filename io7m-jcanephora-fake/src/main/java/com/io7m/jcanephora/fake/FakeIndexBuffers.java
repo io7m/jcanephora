@@ -213,4 +213,11 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     sb.append(i_opt);
     throw new JCGLExceptionBufferNotBound(sb.toString());
   }
+
+  @Override public boolean indexBufferIsBound()
+  {
+    final JCGLArrayObjectUsableType ao =
+      this.array_objects.arrayObjectGetCurrentlyBound();
+    return ao.getIndexBufferBound().isPresent();
+  }
 }
