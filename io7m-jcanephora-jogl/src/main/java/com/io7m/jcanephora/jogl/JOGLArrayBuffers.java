@@ -28,8 +28,8 @@ import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
-import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jranges.Ranges;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
@@ -159,7 +159,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     this.checkArray(a);
 
     if (a.equals(this.bind)) {
-      final RangeInclusiveL r = u.getBufferUpdateRange();
+      final UnsignedRangeInclusiveL r = u.getBufferUpdateRange();
       final ByteBuffer data = u.getData();
       data.rewind();
       this.gl.glBufferSubData(

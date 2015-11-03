@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jcanephora.core.JCGLPrimitives;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.JCGLType;
@@ -389,6 +390,60 @@ public final class JOGLTypeConversions
         return JCGLType.TYPE_SAMPLER_3D;
       case GL2ES2.GL_SAMPLER_CUBE:
         return JCGLType.TYPE_SAMPLER_CUBE;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert primitives from GL constants.
+   *
+   * @param code The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLPrimitives primitiveFromGL(
+    final int code)
+  {
+    switch (code) {
+      case GL.GL_LINES:
+        return JCGLPrimitives.PRIMITIVE_LINES;
+      case GL.GL_LINE_LOOP:
+        return JCGLPrimitives.PRIMITIVE_LINE_LOOP;
+      case GL.GL_POINTS:
+        return JCGLPrimitives.PRIMITIVE_POINTS;
+      case GL.GL_TRIANGLES:
+        return JCGLPrimitives.PRIMITIVE_TRIANGLES;
+      case GL.GL_TRIANGLE_STRIP:
+        return JCGLPrimitives.PRIMITIVE_TRIANGLE_STRIP;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert primitives to GL constants.
+   *
+   * @param p The primitives.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int primitiveToGL(
+    final JCGLPrimitives p)
+  {
+    switch (p) {
+      case PRIMITIVE_LINES:
+        return GL.GL_LINES;
+      case PRIMITIVE_LINE_LOOP:
+        return GL.GL_LINE_LOOP;
+      case PRIMITIVE_TRIANGLES:
+        return GL.GL_TRIANGLES;
+      case PRIMITIVE_TRIANGLE_STRIP:
+        return GL.GL_TRIANGLE_STRIP;
+      case PRIMITIVE_POINTS:
+        return GL.GL_POINTS;
     }
 
     throw new UnreachableCodeException();

@@ -14,19 +14,27 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.tests.jogl;
 
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.io7m.jcanephora.core.JCGLPrimitives;
+import com.io7m.jcanephora.jogl.JOGLTypeConversions;
+import com.io7m.junreachable.UnreachableCodeException;
+import org.junit.Assert;
+import org.junit.Test;
 
-/**
- * The type of OpenGL resources that have a known size in bytes.
- */
-
-public interface JCGLResourceSizedType
+public final class JOGLPrimitivesTest
 {
-  /**
-   * @return The range of valid byte indices in the resource
-   */
+  @Test public void testModeBijection()
+  {
+    for (final JCGLPrimitives p : JCGLPrimitives.values()) {
+      Assert.assertEquals(
+        JOGLTypeConversions.primitiveFromGL(
+          JOGLTypeConversions.primitiveToGL(p)), p);
+    }
+  }
 
-  UnsignedRangeInclusiveL getRange();
+  @Test(expected = UnreachableCodeException.class) public void testNonsense()
+  {
+    JOGLTypeConversions.primitiveFromGL(-1);
+  }
 }

@@ -14,19 +14,33 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.core.api;
 
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLPrimitives;
 
 /**
- * The type of OpenGL resources that have a known size in bytes.
+ * Drawing commands.
  */
 
-public interface JCGLResourceSizedType
+public interface JCGLDrawType
 {
   /**
-   * @return The range of valid byte indices in the resource
+   * Draw {@code count - 1} primitives of type {@code p}, starting at element
+   * {@code first}, taking the data from each currently active vertex
+   * attribute.
+   *
+   * @param p     The type of primitives
+   * @param first The first element
+   * @param count The number of primitives
+   *
+   * @throws JCGLException On OpenGL errors
+   * @see JCGLArrayObjectsType
    */
 
-  UnsignedRangeInclusiveL getRange();
+  void draw(
+    JCGLPrimitives p,
+    int first,
+    int count)
+    throws JCGLException;
 }

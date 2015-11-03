@@ -45,4 +45,10 @@ public interface JCGLInterfaceGL33Type
    */
 
   JCGLIndexBuffersType getIndexBuffers();
+
+  /**
+   * @return The drawing interface
+   */
+
+  JCGLDrawType getDraw();
 }

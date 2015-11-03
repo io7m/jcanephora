@@ -93,6 +93,16 @@
         <version>[2.0.0, 3.0.0)</version>
       </dependency>
       <dependency>
+        <groupId>com.io7m.junsigned</groupId>
+        <artifactId>io7m-junsigned-core</artifactId>
+        <version>0.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.junsigned</groupId>
+        <artifactId>io7m-junsigned-ranges</artifactId>
+        <version>0.2.0</version>
+      </dependency>
+      <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>io7m-jtensors-core</artifactId>
         <version>7.0.0-beta0004</version>

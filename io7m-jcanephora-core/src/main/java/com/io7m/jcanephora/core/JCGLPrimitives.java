@@ -16,17 +16,40 @@
 
 package com.io7m.jcanephora.core;
 
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
-
 /**
- * The type of OpenGL resources that have a known size in bytes.
+ * Primitive type selection.
  */
 
-public interface JCGLResourceSizedType
+public enum JCGLPrimitives
 {
   /**
-   * @return The range of valid byte indices in the resource
+   * Render line-loops.
    */
 
-  UnsignedRangeInclusiveL getRange();
+  PRIMITIVE_LINE_LOOP,
+
+  /**
+   * Render lines.
+   */
+
+  PRIMITIVE_LINES,
+
+  /**
+   * Render points.
+   */
+
+  PRIMITIVE_POINTS,
+
+  /**
+   * Render triangle strips.
+   */
+
+  PRIMITIVE_TRIANGLE_STRIP,
+
+  /**
+   * Render triangles.
+   */
+
+  PRIMITIVE_TRIANGLES,
+
 }

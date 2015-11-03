@@ -14,19 +14,29 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.tests.jogl;
 
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
+import com.io7m.jcanephora.tests.contracts.JCGLDrawContract;
 
-/**
- * The type of OpenGL resources that have a known size in bytes.
- */
-
-public interface JCGLResourceSizedType
+public final class JOGLDrawTestGL33 extends JCGLDrawContract
 {
-  /**
-   * @return The range of valid byte indices in the resource
-   */
+  @Override public void onTestCompleted()
+  {
+    JOGLTestContexts.closeAllContexts();
+  }
 
-  UnsignedRangeInclusiveL getRange();
+  @Override protected Interfaces getInterfaces(final String name)
+  {
+    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
+    final JCGLInterfaceGL33Type cg = c.contextGetGL33();
+    return new Interfaces(
+      c,
+      cg.getArrayBuffers(),
+      cg.getIndexBuffers(),
+      cg.getArrayObjects(),
+      cg.getShaders(),
+      cg.getDraw());
+  }
 }

@@ -19,16 +19,15 @@ package com.io7m.jcanephora.fake;
 import com.io7m.jcanephora.core.JCGLBufferUsableType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 
 import java.nio.ByteBuffer;
 
-abstract class FakeBuffer extends FakeReferable
-  implements JCGLBufferUsableType
+abstract class FakeBuffer extends FakeReferable implements JCGLBufferUsableType
 {
-  private final JCGLUsageHint   usage;
-  private final RangeInclusiveL range;
-  private final ByteBuffer      data;
+  private final JCGLUsageHint           usage;
+  private final UnsignedRangeInclusiveL range;
+  private final ByteBuffer              data;
 
   FakeBuffer(
     final FakeContext in_context,
@@ -39,7 +38,8 @@ abstract class FakeBuffer extends FakeReferable
     super(in_context, in_id);
     this.usage = NullCheck.notNull(in_usage);
     this.data = NullCheck.notNull(in_data);
-    this.range = new RangeInclusiveL(0L, (long) in_data.capacity() - 1L);
+    this.range =
+      new UnsignedRangeInclusiveL(0L, (long) in_data.capacity() - 1L);
   }
 
   @Override public final JCGLUsageHint getUsageHint()
@@ -47,7 +47,7 @@ abstract class FakeBuffer extends FakeReferable
     return this.usage;
   }
 
-  @Override public final RangeInclusiveL getRange()
+  @Override public final UnsignedRangeInclusiveL getRange()
   {
     return this.range;
   }

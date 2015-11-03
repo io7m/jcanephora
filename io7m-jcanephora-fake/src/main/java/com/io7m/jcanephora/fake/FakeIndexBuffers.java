@@ -30,8 +30,8 @@ import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
-import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jranges.Ranges;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -183,13 +183,19 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (ii.equals(current_ib)) {
-        final RangeInclusiveL r = u.getBufferUpdateRange();
+        final UnsignedRangeInclusiveL r = u.getBufferUpdateRange();
         final ByteBuffer data = u.getData();
         data.rewind();
-
         final FakeIndexBuffer fa = (FakeIndexBuffer) ii;
         final ByteBuffer fa_data = fa.getData();
-        for (long index = r.getLower(); index < r.getUpper(); ++index) {
+
+        /**
+         * XXX: Clearly overflowing integers.
+         */
+
+        final long lo = r.getLower();
+        final long hi = r.getUpper();
+        for (long index = lo; Long.compareUnsigned(index, hi) < 0; ++index) {
           final int i_index = (int) index;
           fa_data.put(i_index, data.get(i_index));
         }

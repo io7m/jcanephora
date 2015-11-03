@@ -22,7 +22,7 @@ import com.io7m.jcanephora.core.JCGLBufferUpdates;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jranges.RangeCheckException;
-import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -53,7 +53,7 @@ public abstract class JCGLBufferUpdatesContract extends JCGLContract
       JCGLBufferUpdates.newUpdateReplacingAll(a);
     Assert.assertSame(a, u.getBuffer());
 
-    final RangeInclusiveL u_range = u.getBufferUpdateRange();
+    final UnsignedRangeInclusiveL u_range = u.getBufferUpdateRange();
     final ByteBuffer u_data = u.getData();
     Assert.assertEquals(a.getRange(), u_range);
     Assert.assertEquals(u_range.getInterval(), (long) u_data.capacity());
@@ -68,6 +68,6 @@ public abstract class JCGLBufferUpdatesContract extends JCGLContract
 
     this.expected.expect(RangeCheckException.class);
     JCGLBufferUpdates.newUpdateReplacingRange(
-      a, new RangeInclusiveL(0L, 200L));
+      a, new UnsignedRangeInclusiveL(0L, 200L));
   }
 }

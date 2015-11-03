@@ -26,7 +26,7 @@ import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jranges.RangeCheckException;
-import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -70,7 +70,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
-    final RangeInclusiveL r = a.getRange();
+    final UnsignedRangeInclusiveL r = a.getRange();
     Assert.assertEquals(0L, r.getLower());
     Assert.assertEquals(99L, r.getUpper());
     Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.getUsageHint());

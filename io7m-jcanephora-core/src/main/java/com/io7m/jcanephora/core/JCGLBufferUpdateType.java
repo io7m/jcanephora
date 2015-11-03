@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.core;
 
-import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 
 import java.nio.ByteBuffer;
 
@@ -44,5 +44,5 @@ public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
    * @return The range of data that will be updated in the buffer
    */
 
-  RangeInclusiveL getBufferUpdateRange();
+  UnsignedRangeInclusiveL getBufferUpdateRange();
 }

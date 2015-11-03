@@ -39,6 +39,7 @@ import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveI;
 import com.io7m.jranges.Ranges;
+import com.io7m.junsigned.ranges.UnsignedRangeCheck;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLContext;
@@ -388,7 +389,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         "Valid element counts");
       RangeCheck.checkIncludedInInteger(
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
-      RangeCheck.checkIncludedInLong(
+      UnsignedRangeCheck.checkIncludedInLong(
         offset, "Offset", a.getRange(), "Buffer range");
 
       this.clearRanges(index, index);
@@ -428,7 +429,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         "Valid element counts");
       RangeCheck.checkIncludedInInteger(
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
-      RangeCheck.checkIncludedInLong(
+      UnsignedRangeCheck.checkIncludedInLong(
         offset, "Offset", a.getRange(), "Buffer range");
 
       this.clearRanges(index, index);

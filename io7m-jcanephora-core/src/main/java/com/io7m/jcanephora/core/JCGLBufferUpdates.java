@@ -17,10 +17,10 @@
 package com.io7m.jcanephora.core;
 
 import com.io7m.jnull.NullCheck;
-import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeCheckException;
-import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.junreachable.UnreachableCodeException;
+import com.io7m.junsigned.ranges.UnsignedRangeCheck;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -69,14 +69,14 @@ public final class JCGLBufferUpdates
   public static <T extends JCGLBufferWritableType> JCGLBufferUpdateType<T>
   newUpdateReplacingRange(
     final T buffer,
-    final RangeInclusiveL range)
+    final UnsignedRangeInclusiveL range)
     throws RangeCheckException
   {
     NullCheck.notNull(buffer);
     NullCheck.notNull(range);
 
-    final RangeInclusiveL buffer_range = buffer.getRange();
-    RangeCheck.checkRangeIncludedInLong(
+    final UnsignedRangeInclusiveL buffer_range = buffer.getRange();
+    UnsignedRangeCheck.checkRangeIncludedInLong(
       range, "Update range", buffer_range, "Buffer range");
 
     final ByteBuffer data =
@@ -88,14 +88,14 @@ public final class JCGLBufferUpdates
   private static final class Update<T extends JCGLBufferWritableType>
     implements JCGLBufferUpdateType<T>
   {
-    private final T               buffer;
-    private final ByteBuffer      data;
-    private final RangeInclusiveL range;
+    private final T                       buffer;
+    private final ByteBuffer              data;
+    private final UnsignedRangeInclusiveL range;
 
     Update(
       final T in_buffer,
       final ByteBuffer in_data,
-      final RangeInclusiveL in_range)
+      final UnsignedRangeInclusiveL in_range)
     {
       this.buffer = NullCheck.notNull(in_buffer);
       this.data = NullCheck.notNull(in_data);
@@ -112,7 +112,7 @@ public final class JCGLBufferUpdates
       return this.data;
     }
 
-    @Override public RangeInclusiveL getBufferUpdateRange()
+    @Override public UnsignedRangeInclusiveL getBufferUpdateRange()
     {
       return this.range;
     }

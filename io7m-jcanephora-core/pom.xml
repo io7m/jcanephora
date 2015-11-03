@@ -29,8 +29,8 @@
       <artifactId>io7m-jnull-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jranges</groupId>
-      <artifactId>io7m-jranges-core</artifactId>
+      <groupId>com.io7m.junsigned</groupId>
+      <artifactId>io7m-junsigned-ranges</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jtensors</groupId>
