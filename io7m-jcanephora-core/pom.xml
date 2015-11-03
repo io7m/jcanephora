@@ -32,6 +32,10 @@
       <groupId>com.io7m.jranges</groupId>
       <artifactId>io7m-jranges-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.io7m.jtensors</groupId>
+      <artifactId>io7m-jtensors-core</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>junit</groupId>

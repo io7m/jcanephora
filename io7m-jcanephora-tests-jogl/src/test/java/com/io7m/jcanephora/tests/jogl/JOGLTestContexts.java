@@ -180,34 +180,41 @@ public final class JOGLTestContexts
 
   public static void closeAllContexts()
   {
-    JOGLTestContexts.LOG.debug("cleaning up contexts");
+    final int size = JOGLTestContexts.CACHED_CONTEXTS.size();
+    JOGLTestContexts.LOG.debug(
+      "cleaning up {} contexts", Integer.valueOf(size));
 
-    final Iterator<String> iter =
-      JOGLTestContexts.CACHED_CONTEXTS.keySet().iterator();
+    {
+      final Iterator<String> iter =
+        JOGLTestContexts.CACHED_CONTEXTS.keySet().iterator();
 
-    while (iter.hasNext()) {
-      final String name = iter.next();
-      JOGLTestContexts.LOG.debug("releasing drawable {}", name);
-      Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
-      final GLOffscreenAutoDrawable drawable =
-        JOGLTestContexts.CACHED_CONTEXTS.get(name);
-
-      JOGLTestContexts.releaseDrawable(drawable);
-      iter.remove();
+      while (iter.hasNext()) {
+        final String name = iter.next();
+        JOGLTestContexts.LOG.debug("releasing drawable {}", name);
+        Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
+        final GLOffscreenAutoDrawable drawable =
+          JOGLTestContexts.CACHED_CONTEXTS.get(name);
+        JOGLTestContexts.releaseDrawable(drawable);
+      }
     }
 
-    while (iter.hasNext()) {
-      final String name = iter.next();
-      JOGLTestContexts.LOG.debug("destroying drawable {}", name);
-      Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
-      final GLOffscreenAutoDrawable drawable =
-        JOGLTestContexts.CACHED_CONTEXTS.get(name);
+    {
+      final Iterator<String> iter =
+        JOGLTestContexts.CACHED_CONTEXTS.keySet().iterator();
 
-      JOGLTestContexts.destroyDrawable(drawable);
-      iter.remove();
+      while (iter.hasNext()) {
+        final String name = iter.next();
+        JOGLTestContexts.LOG.debug("destroying drawable {}", name);
+        Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
+        final GLOffscreenAutoDrawable drawable =
+          JOGLTestContexts.CACHED_CONTEXTS.get(name);
+
+        JOGLTestContexts.destroyDrawable(drawable);
+        iter.remove();
+      }
     }
 
-    JOGLTestContexts.LOG.debug("cleaned up contexts");
+    JOGLTestContexts.LOG.debug("cleaned up {} contexts", Integer.valueOf(size));
   }
 
   private static void destroyDrawable(final GLOffscreenAutoDrawable drawable)

@@ -35,7 +35,7 @@ import java.util.Optional;
  * The interface to shader compilation and use.
  */
 
-public interface JCGLShadersType
+public interface JCGLShadersType extends JCGLShaderUniformsType
 {
   /**
    * Delete the given shader.

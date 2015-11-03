@@ -18,6 +18,8 @@ package com.io7m.jcanephora.tests.contracts;
 
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionProgramCompileError;
+import com.io7m.jcanephora.core.JCGLExceptionProgramNotActive;
+import com.io7m.jcanephora.core.JCGLExceptionProgramTypeError;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.core.JCGLFragmentShaderType;
 import com.io7m.jcanephora.core.JCGLGeometryShaderType;
@@ -31,6 +33,14 @@ import com.io7m.jcanephora.core.JCGLType;
 import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
+import com.io7m.jtensors.MatrixDirectM3x3F;
+import com.io7m.jtensors.MatrixDirectM4x4F;
+import com.io7m.jtensors.VectorI2F;
+import com.io7m.jtensors.VectorI2I;
+import com.io7m.jtensors.VectorI3F;
+import com.io7m.jtensors.VectorI3I;
+import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.VectorI4I;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -1125,5 +1135,936 @@ public abstract class JCGLShadersContract extends JCGLContract
     c1.contextMakeCurrent();
     s1.shaderDeleteProgram(p);
     Assert.assertTrue(p.isDeleted());
+  }
+
+  @Test public final void testProgramUniformFloatCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("f"));
+    final JCGLProgramUniformType u = us.get("f");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutFloat(u, 1.0f);
+  }
+
+  @Test public final void testProgramUniformFloatWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutFloat(u, 1.0f);
+  }
+
+  @Test public final void testProgramUniformFloatNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("f"));
+    final JCGLProgramUniformType u = us.get("f");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutFloat(u, 1.0f);
+  }
+
+  @Test public final void testProgramUniformFloatWrongTypeNoChecking()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderUniformSetTypeCheckingEnabled(false);
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutFloat(u, 1.0f);
+  }
+
+  @Test public final void testProgramUniformIntegerCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("i"));
+    final JCGLProgramUniformType u = us.get("i");
+    Assert.assertEquals(JCGLType.TYPE_INTEGER, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutInteger(u, 1);
+  }
+
+  @Test public final void testProgramUniformIntegerWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutInteger(u, 1);
+  }
+
+  @Test public final void testProgramUniformIntegerNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("i"));
+    final JCGLProgramUniformType u = us.get("i");
+    Assert.assertEquals(JCGLType.TYPE_INTEGER, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutInteger(u, 1);
+  }
+
+  @Test public final void testProgramUniformIntegerWrongTypeNoChecking()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderUniformSetTypeCheckingEnabled(false);
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutInteger(u, 1);
+  }
+
+  @Test public final void testProgramUniformUnsignedIntegerCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("u"));
+    final JCGLProgramUniformType u = us.get("u");
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutUnsignedInteger(u, 1);
+  }
+
+  @Test public final void testProgramUniformUnsignedIntegerWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutUnsignedInteger(u, 1);
+  }
+
+  @Test public final void testProgramUniformUnsignedIntegerNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("u"));
+    final JCGLProgramUniformType u = us.get("u");
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutUnsignedInteger(u, 1);
+  }
+
+  @Test public final void testProgramUniformUnsignedIntegerWrongTypeNoChecking()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderUniformSetTypeCheckingEnabled(false);
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutUnsignedInteger(u, 1);
+  }
+
+  @Test public final void testProgramUniformVector2fCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("fv2"));
+    final JCGLProgramUniformType u = us.get("fv2");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_2, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector2fWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector2fNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("fv2"));
+    final JCGLProgramUniformType u = us.get("fv2");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_2, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector3fCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("fv3"));
+    final JCGLProgramUniformType u = us.get("fv3");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_3, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector3fWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector3fNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("fv3"));
+    final JCGLProgramUniformType u = us.get("fv3");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_3, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector4fCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("fv4"));
+    final JCGLProgramUniformType u = us.get("fv4");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector4fWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector4fNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("fv4"));
+    final JCGLProgramUniformType u = us.get("fv4");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector2iCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("iv2"));
+    final JCGLProgramUniformType u = us.get("iv2");
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_2, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector2iWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector2iNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("iv2"));
+    final JCGLProgramUniformType u = us.get("iv2");
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_2, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector3iCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("iv3"));
+    final JCGLProgramUniformType u = us.get("iv3");
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_3, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector3iWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector3iNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("iv3"));
+    final JCGLProgramUniformType u = us.get("iv3");
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_3, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector4iCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("iv4"));
+    final JCGLProgramUniformType u = us.get("iv4");
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_4, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector4iWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector4iNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("iv4"));
+    final JCGLProgramUniformType u = us.get("iv4");
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_4, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector2uCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("uv2"));
+    final JCGLProgramUniformType u = us.get("uv2");
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector2uWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector2uNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("uv2"));
+    final JCGLProgramUniformType u = us.get("uv2");
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector3uCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("uv3"));
+    final JCGLProgramUniformType u = us.get("uv3");
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector3uWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector3uNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("uv3"));
+    final JCGLProgramUniformType u = us.get("uv3");
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector4uCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("uv4"));
+    final JCGLProgramUniformType u = us.get("uv4");
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector4uWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
+  }
+
+  @Test public final void testProgramUniformVector4uNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("uv4"));
+    final JCGLProgramUniformType u = us.get("uv4");
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
+  }
+
+  @Test public final void testProgramUniformMatrix4fCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms1", this.getShaderLines("uniforms1.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms1", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("fm4"));
+    final JCGLProgramUniformType u = us.get("fm4");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_4, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
+  }
+
+  @Test public final void testProgramUniformMatrix4fWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
+  }
+
+  @Test public final void testProgramUniformMatrix4fNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms1", this.getShaderLines("uniforms1.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms1", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("fm4"));
+    final JCGLProgramUniformType u = us.get("fm4");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_4, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
+  }
+
+  @Test public final void testProgramUniformMatrix3fCorrect()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms1", this.getShaderLines("uniforms1.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms1", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("fm3"));
+    final JCGLProgramUniformType u = us.get("fm3");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_3, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
+  }
+
+  @Test public final void testProgramUniformMatrix3fWrong()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("b"));
+    final JCGLProgramUniformType u = us.get("b");
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
+  }
+
+  @Test public final void testProgramUniformMatrix3fNotActive()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms1", this.getShaderLines("uniforms1.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms1", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("fm3"));
+    final JCGLProgramUniformType u = us.get("fm3");
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_3, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
   }
 }
