@@ -14,47 +14,30 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.core;
+
+import org.immutables.value.Value;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * The interface exposed by OpenGL 3.3
+ * Style settings for generated immutable types.
  */
 
-public interface JCGLInterfaceGL33Type
+@Target({ ElementType.PACKAGE, ElementType.TYPE })
+@Retention(RetentionPolicy.CLASS)
+@Value.Style(
+  get = { "is*", "get*" },
+  init = "set*",
+  typeAbstract = { "Abstract*" },
+  typeImmutable = "*",
+  builder = "builder",
+  build = "build",
+  visibility = Value.Style.ImplementationVisibility.PUBLIC,
+  defaults = @Value.Immutable(copy = false)) @interface JCGLImmutableStyleType
 {
-  /**
-   * @return The array buffers interface
-   */
 
-  JCGLArrayBuffersType getArrayBuffers();
-
-  /**
-   * @return The array objects interface
-   */
-
-  JCGLArrayObjectsType getArrayObjects();
-
-  /**
-   * @return The shaders interface
-   */
-
-  JCGLShadersType getShaders();
-
-  /**
-   * @return The index buffers interface
-   */
-
-  JCGLIndexBuffersType getIndexBuffers();
-
-  /**
-   * @return The drawing interface
-   */
-
-  JCGLDrawType getDraw();
-
-  /**
-   * @return The framebuffer clearing interface
-   */
-
-  JCGLClearType getClear();
 }

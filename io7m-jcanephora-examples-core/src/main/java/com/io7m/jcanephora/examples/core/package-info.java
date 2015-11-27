@@ -14,47 +14,9 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
-
 /**
- * The interface exposed by OpenGL 3.3
+ * Example code.
  */
 
-public interface JCGLInterfaceGL33Type
-{
-  /**
-   * @return The array buffers interface
-   */
-
-  JCGLArrayBuffersType getArrayBuffers();
-
-  /**
-   * @return The array objects interface
-   */
-
-  JCGLArrayObjectsType getArrayObjects();
-
-  /**
-   * @return The shaders interface
-   */
-
-  JCGLShadersType getShaders();
-
-  /**
-   * @return The index buffers interface
-   */
-
-  JCGLIndexBuffersType getIndexBuffers();
-
-  /**
-   * @return The drawing interface
-   */
-
-  JCGLDrawType getDraw();
-
-  /**
-   * @return The framebuffer clearing interface
-   */
-
-  JCGLClearType getClear();
-}
+@com.io7m.jnull.NonNullByDefault
+package com.io7m.jcanephora.examples.core;

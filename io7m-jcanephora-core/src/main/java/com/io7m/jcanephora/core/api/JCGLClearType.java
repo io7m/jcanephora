@@ -16,45 +16,26 @@
 
 package com.io7m.jcanephora.core.api;
 
+import com.io7m.jcanephora.core.JCGLClearSpecification;
+import com.io7m.jcanephora.core.JCGLException;
+
 /**
- * The interface exposed by OpenGL 3.3
+ * Functions to clear framebuffers.
  */
 
-public interface JCGLInterfaceGL33Type
+public interface JCGLClearType
 {
   /**
-   * @return The array buffers interface
+   * Clear all buffers given by the specification.
+   *
+   * @param c
+   *          The specification
+   * @throws JCGLException
+   *           If an error occurs
    */
 
-  JCGLArrayBuffersType getArrayBuffers();
+  void clear(
+    final JCGLClearSpecification c)
+    throws JCGLException;
 
-  /**
-   * @return The array objects interface
-   */
-
-  JCGLArrayObjectsType getArrayObjects();
-
-  /**
-   * @return The shaders interface
-   */
-
-  JCGLShadersType getShaders();
-
-  /**
-   * @return The index buffers interface
-   */
-
-  JCGLIndexBuffersType getIndexBuffers();
-
-  /**
-   * @return The drawing interface
-   */
-
-  JCGLDrawType getDraw();
-
-  /**
-   * @return The framebuffer clearing interface
-   */
-
-  JCGLClearType getClear();
 }

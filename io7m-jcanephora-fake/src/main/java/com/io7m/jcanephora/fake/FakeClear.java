@@ -14,47 +14,29 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.fake;
 
-/**
- * The interface exposed by OpenGL 3.3
- */
+import com.io7m.jcanephora.core.JCGLClearSpecification;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.api.JCGLClearType;
+import com.io7m.jnull.NullCheck;
+import com.io7m.junreachable.UnimplementedCodeException;
 
-public interface JCGLInterfaceGL33Type
+final class FakeClear implements JCGLClearType
 {
-  /**
-   * @return The array buffers interface
-   */
+  private final FakeContext context;
 
-  JCGLArrayBuffersType getArrayBuffers();
+  FakeClear(final FakeContext c)
+  {
+    this.context = NullCheck.notNull(c);
+  }
 
-  /**
-   * @return The array objects interface
-   */
+  @Override public void clear(final JCGLClearSpecification c)
+    throws JCGLException
+  {
+    NullCheck.notNull(c);
 
-  JCGLArrayObjectsType getArrayObjects();
-
-  /**
-   * @return The shaders interface
-   */
-
-  JCGLShadersType getShaders();
-
-  /**
-   * @return The index buffers interface
-   */
-
-  JCGLIndexBuffersType getIndexBuffers();
-
-  /**
-   * @return The drawing interface
-   */
-
-  JCGLDrawType getDraw();
-
-  /**
-   * @return The framebuffer clearing interface
-   */
-
-  JCGLClearType getClear();
+    // TODO: Generated method stub!
+    throw new UnimplementedCodeException();
+  }
 }

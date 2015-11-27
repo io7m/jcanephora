@@ -19,6 +19,7 @@ package com.io7m.jcanephora.jogl;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
+import com.io7m.jcanephora.core.api.JCGLClearType;
 import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
@@ -32,6 +33,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   private final JOGLShaders      shaders;
   private final JOGLIndexBuffers index_buffers;
   private final JOGLDraw         draw;
+  private final JOGLClear        clear;
 
   JOGLInterfaceGL33(
     final JOGLContext c)
@@ -45,6 +47,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
       new JOGLArrayObjects(c, this.array_buffers, this.index_buffers);
     this.shaders = new JOGLShaders(c);
     this.draw = new JOGLDraw(c, this.array_objects, this.index_buffers);
+    this.clear = new JOGLClear(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -70,5 +73,10 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLDrawType getDraw()
   {
     return this.draw;
+  }
+
+  @Override public JCGLClearType getClear()
+  {
+    return this.clear;
   }
 }
