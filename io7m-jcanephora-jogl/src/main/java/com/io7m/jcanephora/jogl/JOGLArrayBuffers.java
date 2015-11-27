@@ -99,10 +99,9 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
 
   private void actualUnbind()
   {
-    JOGLArrayBuffers.LOG.trace(
-      "unbind {} → {}", this.bind, null);
+    JOGLArrayBuffers.LOG.trace("unbind {} → {}", this.bind, null);
     if (this.bind != null) {
-      this.gl.glBindVertexArray(0);
+      this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
       this.bind = null;
     }
   }
