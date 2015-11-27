@@ -56,6 +56,6 @@ public enum JCGLScalarIntegralType
    * An unsigned 16-bit integer.
    */
 
-  TYPE_UNSIGNED_SHORT;
+  TYPE_UNSIGNED_SHORT
 
 }
