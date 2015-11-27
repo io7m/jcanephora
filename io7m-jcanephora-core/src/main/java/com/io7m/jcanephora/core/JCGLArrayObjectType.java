@@ -20,8 +20,7 @@ package com.io7m.jcanephora.core;
  * An array object.
  */
 
-public interface JCGLArrayObjectType
-  extends JCGLResourceUsableType, JCGLArrayObjectUsableType
+public interface JCGLArrayObjectType extends JCGLArrayObjectUsableType
 {
   // No extra methods
 }
