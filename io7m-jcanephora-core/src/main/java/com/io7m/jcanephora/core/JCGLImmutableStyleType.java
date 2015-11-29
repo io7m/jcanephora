@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 @Value.Style(
   get = { "is*", "get*" },
   init = "set*",
-  typeAbstract = { "Abstract*" },
+  typeAbstract = { "Abstract*", "*Type" },
   typeImmutable = "*",
   builder = "builder",
   build = "build",

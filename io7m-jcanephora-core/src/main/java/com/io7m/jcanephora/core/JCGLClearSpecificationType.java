@@ -23,35 +23,39 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
+/**
+ * The type of buffer clearing specifications.
+ */
+
 @Value.Immutable @JCGLImmutableStyleType
-abstract class AbstractJCGLClearSpecification
+public interface JCGLClearSpecificationType
 {
   /**
    * @return The color to which the color buffer will be cleared, if color
    * buffer clearing is enabled
    */
 
-  abstract Optional<VectorReadable4FType> getColorBufferClear();
+  @Value.Parameter Optional<VectorReadable4FType> getColorBufferClear();
 
   /**
    * @return The depth value to which the depth buffer will be cleared, if depth
    * buffer clearing is enabled
    */
 
-  abstract OptionalDouble getDepthBufferClear();
+  @Value.Parameter OptionalDouble getDepthBufferClear();
 
   /**
    * @return The stencil value to which the stencil buffer will be cleared, if
    * stencil buffer clearing is enabled
    */
 
-  abstract OptionalInt getStencilBufferClear();
+  @Value.Parameter OptionalInt getStencilBufferClear();
 
   /**
    * @return {@code true} if strict buffer checking is enabled
    */
 
-  @Value.Default boolean getStrictChecking()
+  @Value.Parameter @Value.Default default boolean getStrictChecking()
   {
     return false;
   }
