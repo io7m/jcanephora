@@ -20,6 +20,7 @@ import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionProgramNotActive;
 import com.io7m.jcanephora.core.JCGLExceptionProgramTypeError;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
+import com.io7m.jcanephora.core.JCGLTextureUnitType;
 import com.io7m.jtensors.MatrixDirect3x3FType;
 import com.io7m.jtensors.MatrixDirect4x4FType;
 import com.io7m.jtensors.VectorReadable2FType;
@@ -355,7 +356,6 @@ public interface JCGLShaderUniformsType
     JCGLExceptionProgramNotActive,
     JCGLExceptionProgramTypeError;
 
-
   /**
    * Upload the value {@code value} to the uniform {@code u}.
    *
@@ -401,6 +401,56 @@ public interface JCGLShaderUniformsType
   void shaderUniformPutMatrix4x4f(
     JCGLProgramUniformType u,
     MatrixDirect4x4FType value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  void shaderUniformPutTexture2DUnit(
+    JCGLProgramUniformType u,
+    JCGLTextureUnitType value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  void shaderUniformPutTextureCubeUnit(
+    JCGLProgramUniformType u,
+    JCGLTextureUnitType value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,

@@ -78,7 +78,6 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     this.index_buffers = NullCheck.notNull(gi);
     this.index_buffers.setArrayObjects(this);
 
-    // Paranoia: Clamp unreasonably large values
     this.max_attribs = 16;
     this.valid_attribs = new RangeInclusiveI(0, this.max_attribs - 1);
 

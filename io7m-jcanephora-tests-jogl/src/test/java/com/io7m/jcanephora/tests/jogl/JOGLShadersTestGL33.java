@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.tests.jogl;
 
 import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.tests.contracts.JCGLShadersContract;
 import com.io7m.jcanephora.tests.contracts.JCGLSharedContextPair;
@@ -32,6 +33,13 @@ import java.util.List;
 
 public final class JOGLShadersTestGL33 extends JCGLShadersContract
 {
+  @Override protected Interfaces getInterfaces(final String name)
+  {
+    final JCGLContextType c = JOGLTestContexts.newGL33Context("main");
+    final JCGLInterfaceGL33Type i = c.contextGetGL33();
+    return new Interfaces(c, i.getShaders(), i.getTextures());
+  }
+
   @Override protected JCGLShadersType getShaders(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context("main");

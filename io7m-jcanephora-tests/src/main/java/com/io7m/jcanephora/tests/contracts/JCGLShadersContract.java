@@ -33,6 +33,8 @@ import com.io7m.jcanephora.core.JCGLType;
 import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
+import com.io7m.jcanephora.core.api.JCGLTexturesType;
+import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.MatrixDirectM3x3F;
 import com.io7m.jtensors.MatrixDirectM4x4F;
 import com.io7m.jtensors.VectorI2F;
@@ -90,6 +92,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(t, v.getType());
     Assert.assertEquals(p, v.getProgram());
   }
+
+  protected abstract Interfaces getInterfaces(String name);
 
   protected abstract JCGLShadersType getShaders(String name);
 
@@ -2066,5 +2070,105 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
     s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
+  }
+
+  @Test public final void testProgramUniformSampler2DCorrect()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLShadersType s = i.getShaders();
+    final JCGLTexturesType t = i.getTextures();
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms2", this.getShaderLines("uniforms2.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms2", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("s2"));
+    final JCGLProgramUniformType u = us.get("s2");
+    Assert.assertEquals(JCGLType.TYPE_SAMPLER_2D, u.getType());
+
+    s.shaderActivateProgram(p);
+    s.shaderUniformPutTexture2DUnit(u, t.textureGetUnits().get(0));
+  }
+
+  @Test public final void testProgramUniformSampler2DWrong()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLShadersType s = i.getShaders();
+    final JCGLTexturesType t = i.getTextures();
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms2", this.getShaderLines("uniforms2.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms2", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("s3"));
+    final JCGLProgramUniformType u = us.get("s3");
+    Assert.assertEquals(JCGLType.TYPE_SAMPLER_3D, u.getType());
+
+    s.shaderActivateProgram(p);
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutTexture2DUnit(u, t.textureGetUnits().get(0));
+  }
+
+  @Test public final void testProgramUniformSampler2DNotActive()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLShadersType s = i.getShaders();
+    final JCGLTexturesType t = i.getTextures();
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms2", this.getShaderLines("uniforms2.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms2", v, Optional.empty(), f);
+
+    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    Assert.assertTrue(us.containsKey("s2"));
+    final JCGLProgramUniformType u = us.get("s2");
+    Assert.assertEquals(JCGLType.TYPE_SAMPLER_2D, u.getType());
+
+    s.shaderDeactivateProgram();
+    this.expected.expect(JCGLExceptionProgramNotActive.class);
+    s.shaderUniformPutTexture2DUnit(u, t.textureGetUnits().get(0));
+  }
+
+  protected static final class Interfaces
+  {
+    private final JCGLContextType  context;
+    private final JCGLShadersType  shaders;
+    private final JCGLTexturesType textures;
+
+    public Interfaces(
+      final JCGLContextType in_context,
+      final JCGLShadersType in_shaders,
+      final JCGLTexturesType in_textures)
+    {
+      this.context = NullCheck.notNull(in_context);
+      this.shaders = NullCheck.notNull(in_shaders);
+      this.textures = NullCheck.notNull(in_textures);
+    }
+
+    public JCGLContextType getContext()
+    {
+      return this.context;
+    }
+
+    public JCGLShadersType getShaders()
+    {
+      return this.shaders;
+    }
+
+    public JCGLTexturesType getTextures()
+    {
+      return this.textures;
+    }
   }
 }

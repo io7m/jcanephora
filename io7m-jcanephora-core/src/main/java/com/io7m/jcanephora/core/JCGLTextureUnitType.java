@@ -17,17 +17,16 @@
 package com.io7m.jcanephora.core;
 
 /**
- * An update that will replace data in a buffer.
- *
- * @param <T> The type of buffer
+ * The type of texture units.
  */
 
-public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
-  extends JCGLDataUpdateType<T>
+public interface JCGLTextureUnitType extends Comparable<JCGLTextureUnitType>
 {
   /**
-   * @return The buffer that will be updated
+   * @return The index of the texture unit. This value will be between 0 and
+   * some implementation-defined exclusive upper limit (usually 16 or 32 in
+   * current implementations).
    */
 
-  T getBuffer();
+  int unitGetIndex();
 }

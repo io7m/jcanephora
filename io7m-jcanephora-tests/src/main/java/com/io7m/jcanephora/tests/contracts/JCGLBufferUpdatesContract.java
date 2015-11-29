@@ -53,7 +53,7 @@ public abstract class JCGLBufferUpdatesContract extends JCGLContract
       JCGLBufferUpdates.newUpdateReplacingAll(a);
     Assert.assertSame(a, u.getBuffer());
 
-    final UnsignedRangeInclusiveL u_range = u.getBufferUpdateRange();
+    final UnsignedRangeInclusiveL u_range = u.getDataUpdateRange();
     final ByteBuffer u_data = u.getData();
     Assert.assertEquals(a.getRange(), u_range);
     Assert.assertEquals(u_range.getInterval(), (long) u_data.capacity());

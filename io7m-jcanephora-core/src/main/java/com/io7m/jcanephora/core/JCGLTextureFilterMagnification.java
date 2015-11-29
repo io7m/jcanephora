@@ -17,17 +17,21 @@
 package com.io7m.jcanephora.core;
 
 /**
- * An update that will replace data in a buffer.
- *
- * @param <T> The type of buffer
+ * OpenGL texture magnification filter specification.
  */
 
-public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
-  extends JCGLDataUpdateType<T>
+public enum JCGLTextureFilterMagnification
 {
   /**
-   * @return The buffer that will be updated
+   * Bilinear interpolation.
    */
 
-  T getBuffer();
+  TEXTURE_FILTER_LINEAR,
+
+  /**
+   * Nearest-neighbour interpolation.
+   */
+
+  TEXTURE_FILTER_NEAREST
+
 }

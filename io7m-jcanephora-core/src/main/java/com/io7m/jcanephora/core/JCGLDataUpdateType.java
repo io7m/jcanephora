@@ -16,18 +16,27 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+
+import java.nio.ByteBuffer;
+
 /**
- * An update that will replace data in a buffer.
+ * An update to data on the GPU (possibly a buffer or texture).
  *
- * @param <T> The type of buffer
+ * @param <T> The precise type of object to be updated
  */
 
-public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
-  extends JCGLDataUpdateType<T>
+public interface JCGLDataUpdateType<T>
 {
   /**
-   * @return The buffer that will be updated
+   * @return The {@link ByteBuffer} that will be used to update the buffer
    */
 
-  T getBuffer();
+  ByteBuffer getData();
+
+  /**
+   * @return The byte range of data that will be updated in the buffer
+   */
+
+  UnsignedRangeInclusiveL getDataUpdateRange();
 }

@@ -95,6 +95,11 @@
         <version>[2.0.0, 3.0.0)</version>
       </dependency>
       <dependency>
+        <groupId>com.io7m.jareas</groupId>
+        <artifactId>io7m-jareas-core</artifactId>
+        <version>0.2.0</version>
+      </dependency>
+      <dependency>
         <groupId>com.io7m.junsigned</groupId>
         <artifactId>io7m-junsigned-core</artifactId>
         <version>0.2.0</version>
@@ -227,6 +232,11 @@
           <configuration>
             <redirectTestOutputToFile>true</redirectTestOutputToFile>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.io7m.jpra</groupId>
+          <artifactId>io7m-jpra-maven-plugin</artifactId>
+          <version>0.3.0</version>
         </plugin>
 
         <!-- Submodule checkstyle configuration. -->

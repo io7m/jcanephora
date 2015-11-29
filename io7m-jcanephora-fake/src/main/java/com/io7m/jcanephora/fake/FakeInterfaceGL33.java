@@ -24,6 +24,7 @@ import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
+import com.io7m.jcanephora.core.api.JCGLTexturesType;
 
 final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
 {
@@ -33,6 +34,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   private final FakeIndexBuffers index_buffers;
   private final FakeDraw         draw;
   private final FakeClear        clear;
+  private final FakeTextures     textures;
 
   FakeInterfaceGL33(final FakeContext c)
     throws JCGLExceptionNonCompliant
@@ -44,6 +46,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
     this.shaders = new FakeShaders(c);
     this.draw = new FakeDraw(c, this.shaders, this.index_buffers);
     this.clear = new FakeClear(c);
+    this.textures = new FakeTextures(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -74,5 +77,10 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLClearType getClear()
   {
     return this.clear;
+  }
+
+  @Override public JCGLTexturesType getTextures()
+  {
+    return this.textures;
   }
 }

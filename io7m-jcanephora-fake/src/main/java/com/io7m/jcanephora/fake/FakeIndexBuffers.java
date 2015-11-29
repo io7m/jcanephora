@@ -183,7 +183,7 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (ii.equals(current_ib)) {
-        final UnsignedRangeInclusiveL r = u.getBufferUpdateRange();
+        final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
         final ByteBuffer data = u.getData();
         data.rewind();
         final FakeIndexBuffer fa = (FakeIndexBuffer) ii;

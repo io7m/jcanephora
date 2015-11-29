@@ -158,7 +158,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     this.checkArray(a);
 
     if (a.equals(this.bind)) {
-      final UnsignedRangeInclusiveL r = u.getBufferUpdateRange();
+      final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
       final ByteBuffer data = u.getData();
       data.rewind();
       this.gl.glBufferSubData(

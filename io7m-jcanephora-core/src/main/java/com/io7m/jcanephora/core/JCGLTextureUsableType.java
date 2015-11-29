@@ -14,53 +14,58 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.core;
+
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 
 /**
- * The interface exposed by OpenGL 3.3
+ * The type of usable textures.
  */
 
-public interface JCGLInterfaceGL33Type
+public interface JCGLTextureUsableType extends JCGLNamedType,
+  JCGLResourceUsableType,
+  JCGLReferableType,
+  JCGLResourceSizedType
 {
   /**
-   * @return The array buffers interface
+   * @return The texture magnification filter
    */
 
-  JCGLArrayBuffersType getArrayBuffers();
+  JCGLTextureFilterMagnification textureGetMagnificationFilter();
 
   /**
-   * @return The array objects interface
+   * @return The texture minification filter
    */
 
-  JCGLArrayObjectsType getArrayObjects();
+  JCGLTextureFilterMinification textureGetMinificationFilter();
 
   /**
-   * @return The shaders interface
+   * @return The texture {@code x} axis range
    */
 
-  JCGLShadersType getShaders();
+  UnsignedRangeInclusiveL textureGetRangeX();
 
   /**
-   * @return The index buffers interface
+   * @return The texture {@code y} axis range
    */
 
-  JCGLIndexBuffersType getIndexBuffers();
+  UnsignedRangeInclusiveL textureGetRangeY();
 
   /**
-   * @return The drawing interface
+   * @return The width of the texture
    */
 
-  JCGLDrawType getDraw();
+  long textureGetWidth();
 
   /**
-   * @return The framebuffer clearing interface
+   * @return The height of the texture
    */
 
-  JCGLClearType getClear();
+  long textureGetHeight();
 
   /**
-   * @return The texture interface
+   * @return The texture format
    */
 
-  JCGLTexturesType getTextures();
+  JCGLTextureFormat textureGetFormat();
 }

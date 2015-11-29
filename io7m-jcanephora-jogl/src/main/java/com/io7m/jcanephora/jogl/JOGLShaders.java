@@ -30,6 +30,7 @@ import com.io7m.jcanephora.core.JCGLProgramShaderType;
 import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
 import com.io7m.jcanephora.core.JCGLResources;
+import com.io7m.jcanephora.core.JCGLTextureUnitType;
 import com.io7m.jcanephora.core.JCGLType;
 import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
@@ -772,9 +773,33 @@ final class JOGLShaders implements JCGLShadersType
       u.getGLName(), 1, false, value.getDirectFloatBuffer());
   }
 
+  @Override public void shaderUniformPutTexture2DUnit(
+    final JCGLProgramUniformType u,
+    final JCGLTextureUnitType value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_SAMPLER_2D);
+    this.g3.glUniform1i(u.getGLName(), value.unitGetIndex());
+  }
+
+  @Override public void shaderUniformPutTextureCubeUnit(
+    final JCGLProgramUniformType u,
+    final JCGLTextureUnitType value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_SAMPLER_CUBE);
+    this.g3.glUniform1i(u.getGLName(), value.unitGetIndex());
+  }
+
   private void checkActiveAndType(
     final JCGLProgramUniformType u,
-    final JCGLType t)
+    final JCGLType type_given)
   {
     final JCGLProgramShaderUsableType u_program = u.getProgram();
     if (this.check_active) {
@@ -784,8 +809,9 @@ final class JOGLShaders implements JCGLShadersType
     }
 
     if (this.check_type) {
-      if (!u.getType().equals(t)) {
-        throw JOGLShaders.errorWrongType(u, t);
+      final JCGLType type_uniform = u.getType();
+      if (!type_uniform.equals(type_given)) {
+        throw JOGLShaders.errorWrongType(u, type_given);
       }
     }
   }

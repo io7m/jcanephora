@@ -29,6 +29,10 @@
       <artifactId>io7m-jnull-core</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.io7m.jareas</groupId>
+      <artifactId>io7m-jareas-core</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.io7m.junsigned</groupId>
       <artifactId>io7m-junsigned-ranges</artifactId>
     </dependency>

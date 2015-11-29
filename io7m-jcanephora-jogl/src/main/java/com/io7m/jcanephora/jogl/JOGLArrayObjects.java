@@ -97,11 +97,14 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     if (max < 16) {
       final StringBuilder sb = new StringBuilder(128);
       sb.append("Non-compliant OpenGL implementation.");
+      sb.append(System.lineSeparator());
       sb.append("  Required minimum supported vertex attributes: 16");
       sb.append(System.lineSeparator());
       sb.append("  Implementation supports (GL_MAX_VERTEX_ATTRIBS): ");
       sb.append(max);
-      throw new JCGLExceptionNonCompliant(sb.toString());
+      final String message = sb.toString();
+      JOGLArrayObjects.LOG.error(message);
+      throw new JCGLExceptionNonCompliant(message);
     }
 
     // Paranoia: Clamp unreasonably large values

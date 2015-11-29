@@ -360,6 +360,19 @@ public final class FakeShadersTest extends JCGLShadersContract
         context, p, location++, "sc", JCGLType.TYPE_SAMPLER_CUBE));
   }
 
+  @Override protected Interfaces getInterfaces(final String name)
+  {
+    try {
+      final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
+      final JCGLContextType c =
+        i.newContext(name, new FakeShadersTestListener());
+      final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
+      return new Interfaces(c, g33.getShaders(), g33.getTextures());
+    } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
+      throw new UnreachableCodeException(x);
+    }
+  }
+
   @Override protected JCGLShadersType getShaders(final String name)
   {
     try {

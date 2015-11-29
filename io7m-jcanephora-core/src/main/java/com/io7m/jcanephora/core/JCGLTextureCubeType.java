@@ -17,17 +17,11 @@
 package com.io7m.jcanephora.core;
 
 /**
- * An update that will replace data in a buffer.
- *
- * @param <T> The type of buffer
+ * The type of cube textures.
  */
 
-public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
-  extends JCGLDataUpdateType<T>
+public interface JCGLTextureCubeType
+  extends JCGLTextureType, JCGLTextureCubeUsableType
 {
-  /**
-   * @return The buffer that will be updated
-   */
-
-  T getBuffer();
+  // No extra methods.
 }

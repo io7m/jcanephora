@@ -25,6 +25,8 @@ import com.io7m.jcanephora.core.JCGLFragmentShaderUsableType;
 import com.io7m.jcanephora.core.JCGLGeometryShaderUsableType;
 import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
+import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
+import com.io7m.jcanephora.core.JCGLTextureUnitType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
@@ -219,5 +221,19 @@ final class FakeCompatibilityChecks
     final JCGLProgramShaderUsableType p)
   {
     return (FakeProgramShader) FakeCompatibilityChecks.checkAny(c, p);
+  }
+
+  public static FakeTextureUnit checkTextureUnit(
+    final FakeContext c,
+    final JCGLTextureUnitType u)
+  {
+    return (FakeTextureUnit) FakeCompatibilityChecks.checkAny(c, u);
+  }
+
+  public static FakeTexture2D checkTexture2D(
+    final FakeContext c,
+    final JCGLTexture2DUsableType t)
+  {
+    return (FakeTexture2D) FakeCompatibilityChecks.checkAny(c, t);
   }
 }

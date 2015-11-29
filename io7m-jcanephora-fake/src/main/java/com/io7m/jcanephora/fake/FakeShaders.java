@@ -30,6 +30,7 @@ import com.io7m.jcanephora.core.JCGLProgramShaderType;
 import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
 import com.io7m.jcanephora.core.JCGLResources;
+import com.io7m.jcanephora.core.JCGLTextureUnitType;
 import com.io7m.jcanephora.core.JCGLType;
 import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
@@ -473,6 +474,28 @@ final class FakeShaders implements JCGLShadersType
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_4);
+  }
+
+  @Override public void shaderUniformPutTexture2DUnit(
+    final JCGLProgramUniformType u,
+    final JCGLTextureUnitType value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_SAMPLER_2D);
+  }
+
+  @Override public void shaderUniformPutTextureCubeUnit(
+    final JCGLProgramUniformType u,
+    final JCGLTextureUnitType value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_SAMPLER_CUBE);
   }
 
   private void checkActiveAndType(

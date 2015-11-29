@@ -16,9 +16,15 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jcanephora.core.JCGLPixelFormat;
 import com.io7m.jcanephora.core.JCGLPrimitives;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
+import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
+import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
+import com.io7m.jcanephora.core.JCGLTextureWrapR;
+import com.io7m.jcanephora.core.JCGLTextureWrapS;
+import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.JCGLType;
 import com.io7m.jcanephora.core.JCGLUnsignedType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
@@ -496,4 +502,329 @@ public final class JOGLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert filters from GL constants.
+   *
+   * @param mag_filter The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLTextureFilterMagnification textureFilterMagFromGL(
+    final int mag_filter)
+  {
+    switch (mag_filter) {
+      case GL.GL_LINEAR:
+        return JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR;
+      case GL.GL_NEAREST:
+        return JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert filters to GL constants.
+   *
+   * @param mag_filter The filter.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int textureFilterMagToGL(
+    final JCGLTextureFilterMagnification mag_filter)
+  {
+    switch (mag_filter) {
+      case TEXTURE_FILTER_LINEAR:
+        return GL.GL_LINEAR;
+      case TEXTURE_FILTER_NEAREST:
+        return GL.GL_NEAREST;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert filters from GL constants.
+   *
+   * @param min_filter The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLTextureFilterMinification textureFilterMinFromGL(
+    final int min_filter)
+  {
+    switch (min_filter) {
+      case GL.GL_LINEAR:
+        return JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR;
+      case GL.GL_NEAREST:
+        return JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST;
+      case GL.GL_LINEAR_MIPMAP_LINEAR:
+        return JCGLTextureFilterMinification
+          .TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR;
+      case GL.GL_LINEAR_MIPMAP_NEAREST:
+        return JCGLTextureFilterMinification
+          .TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST;
+      case GL.GL_NEAREST_MIPMAP_LINEAR:
+        return JCGLTextureFilterMinification
+          .TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR;
+      case GL.GL_NEAREST_MIPMAP_NEAREST:
+        return JCGLTextureFilterMinification
+          .TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert filters to GL constants.
+   *
+   * @param min_filter The filter.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int textureFilterMinToGL(
+    final JCGLTextureFilterMinification min_filter)
+  {
+    switch (min_filter) {
+      case TEXTURE_FILTER_LINEAR:
+        return GL.GL_LINEAR;
+      case TEXTURE_FILTER_NEAREST:
+        return GL.GL_NEAREST;
+      case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:
+        return GL.GL_LINEAR_MIPMAP_LINEAR;
+      case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+        return GL.GL_LINEAR_MIPMAP_NEAREST;
+      case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+        return GL.GL_NEAREST_MIPMAP_LINEAR;
+      case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
+        return GL.GL_NEAREST_MIPMAP_NEAREST;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert wrapping modes from GL constants.
+   *
+   * @param wrap The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLTextureWrapR textureWrapRFromGL(
+    final int wrap)
+  {
+    switch (wrap) {
+      case GL.GL_CLAMP_TO_EDGE:
+        return JCGLTextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE;
+      case GL.GL_REPEAT:
+        return JCGLTextureWrapR.TEXTURE_WRAP_REPEAT;
+      case GL.GL_MIRRORED_REPEAT:
+        return JCGLTextureWrapR.TEXTURE_WRAP_REPEAT_MIRRORED;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert wrapping mode to GL constants.
+   *
+   * @param wrap The mode.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int textureWrapRToGL(
+    final JCGLTextureWrapR wrap)
+  {
+    switch (wrap) {
+      case TEXTURE_WRAP_CLAMP_TO_EDGE:
+        return GL.GL_CLAMP_TO_EDGE;
+      case TEXTURE_WRAP_REPEAT:
+        return GL.GL_REPEAT;
+      case TEXTURE_WRAP_REPEAT_MIRRORED:
+        return GL.GL_MIRRORED_REPEAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert wrapping modes from GL constants.
+   *
+   * @param wrap The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLTextureWrapS textureWrapSFromGL(
+    final int wrap)
+  {
+    switch (wrap) {
+      case GL.GL_CLAMP_TO_EDGE:
+        return JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE;
+      case GL.GL_REPEAT:
+        return JCGLTextureWrapS.TEXTURE_WRAP_REPEAT;
+      case GL.GL_MIRRORED_REPEAT:
+        return JCGLTextureWrapS.TEXTURE_WRAP_REPEAT_MIRRORED;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert wrapping mode to GL constants.
+   *
+   * @param wrap The mode.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int textureWrapSToGL(
+    final JCGLTextureWrapS wrap)
+  {
+    switch (wrap) {
+      case TEXTURE_WRAP_CLAMP_TO_EDGE:
+        return GL.GL_CLAMP_TO_EDGE;
+      case TEXTURE_WRAP_REPEAT:
+        return GL.GL_REPEAT;
+      case TEXTURE_WRAP_REPEAT_MIRRORED:
+        return GL.GL_MIRRORED_REPEAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert wrapping modes from GL constants.
+   *
+   * @param wrap The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLTextureWrapT textureWrapTFromGL(
+    final int wrap)
+  {
+    switch (wrap) {
+      case GL.GL_CLAMP_TO_EDGE:
+        return JCGLTextureWrapT.TEXTURE_WRAP_CLAMP_TO_EDGE;
+      case GL.GL_REPEAT:
+        return JCGLTextureWrapT.TEXTURE_WRAP_REPEAT;
+      case GL.GL_MIRRORED_REPEAT:
+        return JCGLTextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert wrapping mode to GL constants.
+   *
+   * @param wrap The mode.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int textureWrapTToGL(
+    final JCGLTextureWrapT wrap)
+  {
+    switch (wrap) {
+      case TEXTURE_WRAP_CLAMP_TO_EDGE:
+        return GL.GL_CLAMP_TO_EDGE;
+      case TEXTURE_WRAP_REPEAT:
+        return GL.GL_REPEAT;
+      case TEXTURE_WRAP_REPEAT_MIRRORED:
+        return GL.GL_MIRRORED_REPEAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert pixel types from GL constants.
+   *
+   * @param e The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLPixelFormat pixelTypeFromGL(
+    final int e)
+  {
+    switch (e) {
+      case GL.GL_UNSIGNED_SHORT_5_6_5:
+        return JCGLPixelFormat.PIXEL_PACKED_UNSIGNED_SHORT_565;
+      case GL.GL_UNSIGNED_SHORT_5_5_5_1:
+        return JCGLPixelFormat.PIXEL_PACKED_UNSIGNED_SHORT_5551;
+      case GL.GL_UNSIGNED_SHORT_4_4_4_4:
+        return JCGLPixelFormat.PIXEL_PACKED_UNSIGNED_SHORT_4444;
+      case GL2ES2.GL_UNSIGNED_INT_10_10_10_2:
+        return JCGLPixelFormat.PIXEL_PACKED_UNSIGNED_INT_1010102;
+      case GL.GL_UNSIGNED_SHORT:
+        return JCGLPixelFormat.PIXEL_COMPONENT_UNSIGNED_SHORT;
+      case GL.GL_UNSIGNED_INT:
+        return JCGLPixelFormat.PIXEL_COMPONENT_UNSIGNED_INT;
+      case GL.GL_UNSIGNED_BYTE:
+        return JCGLPixelFormat.PIXEL_COMPONENT_UNSIGNED_BYTE;
+      case GL.GL_SHORT:
+        return JCGLPixelFormat.PIXEL_COMPONENT_SHORT;
+      case GL2ES2.GL_INT:
+        return JCGLPixelFormat.PIXEL_COMPONENT_INT;
+      case GL.GL_FLOAT:
+        return JCGLPixelFormat.PIXEL_COMPONENT_FLOAT;
+      case GL.GL_BYTE:
+        return JCGLPixelFormat.PIXEL_COMPONENT_BYTE;
+      case GL.GL_HALF_FLOAT:
+        return JCGLPixelFormat.PIXEL_COMPONENT_HALF_FLOAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert pixel types to GL constants.
+   *
+   * @param p The pixel type.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int pixelTypeToGL(
+    final JCGLPixelFormat p)
+  {
+    switch (p) {
+      case PIXEL_COMPONENT_BYTE:
+        return GL.GL_BYTE;
+      case PIXEL_COMPONENT_FLOAT:
+        return GL.GL_FLOAT;
+      case PIXEL_COMPONENT_INT:
+        return GL2ES2.GL_INT;
+      case PIXEL_COMPONENT_SHORT:
+        return GL.GL_SHORT;
+      case PIXEL_COMPONENT_UNSIGNED_BYTE:
+        return GL.GL_UNSIGNED_BYTE;
+      case PIXEL_COMPONENT_UNSIGNED_INT:
+        return GL.GL_UNSIGNED_INT;
+      case PIXEL_COMPONENT_UNSIGNED_SHORT:
+        return GL.GL_UNSIGNED_SHORT;
+      case PIXEL_PACKED_UNSIGNED_INT_1010102:
+        return GL2ES2.GL_UNSIGNED_INT_10_10_10_2;
+      case PIXEL_PACKED_UNSIGNED_SHORT_4444:
+        return GL.GL_UNSIGNED_SHORT_4_4_4_4;
+      case PIXEL_PACKED_UNSIGNED_SHORT_5551:
+        return GL.GL_UNSIGNED_SHORT_5_5_5_1;
+      case PIXEL_PACKED_UNSIGNED_SHORT_565:
+        return GL.GL_UNSIGNED_SHORT_5_6_5;
+      case PIXEL_COMPONENT_HALF_FLOAT:
+        return GL.GL_HALF_FLOAT;
+      case PIXEL_PACKED_UNSIGNED_INT_24_8:
+        return GL.GL_UNSIGNED_INT_24_8;
+    }
+
+    throw new UnreachableCodeException();
+  }
 }

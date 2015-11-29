@@ -112,7 +112,7 @@ public final class JCGLBufferUpdates
       return this.data;
     }
 
-    @Override public UnsignedRangeInclusiveL getBufferUpdateRange()
+    @Override public UnsignedRangeInclusiveL getDataUpdateRange()
     {
       return this.range;
     }

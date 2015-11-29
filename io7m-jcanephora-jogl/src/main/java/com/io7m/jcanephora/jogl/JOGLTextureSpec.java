@@ -14,20 +14,36 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.jogl;
 
-/**
- * An update that will replace data in a buffer.
- *
- * @param <T> The type of buffer
- */
-
-public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
-  extends JCGLDataUpdateType<T>
+final class JOGLTextureSpec
 {
-  /**
-   * @return The buffer that will be updated
-   */
+  private final int format;
+  private final int internal_format;
+  private final int type;
 
-  T getBuffer();
+  JOGLTextureSpec(
+    final int in_format,
+    final int in_type,
+    final int in_internal_format)
+  {
+    this.format = in_format;
+    this.type = in_type;
+    this.internal_format = in_internal_format;
+  }
+
+  public int getFormat()
+  {
+    return this.format;
+  }
+
+  public int getInternalFormat()
+  {
+    return this.internal_format;
+  }
+
+  public int getType()
+  {
+    return this.type;
+  }
 }

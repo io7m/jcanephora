@@ -16,18 +16,29 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
+
 /**
- * An update that will replace data in a buffer.
- *
- * @param <T> The type of buffer
+ * The type of usable 2D textures.
  */
 
-public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
-  extends JCGLDataUpdateType<T>
+public interface JCGLTexture2DUsableType extends JCGLTextureUsableType
 {
   /**
-   * @return The buffer that will be updated
+   * @return The texture area
    */
 
-  T getBuffer();
+  AreaInclusiveUnsignedLType textureGetArea();
+
+  /**
+   * @return The wrapping mode on the {@code S} axis
+   */
+
+  JCGLTextureWrapS textureGetWrapS();
+
+  /**
+   * @return The wrapping mode on the {@code T} axis
+   */
+
+  JCGLTextureWrapT textureGetWrapT();
 }

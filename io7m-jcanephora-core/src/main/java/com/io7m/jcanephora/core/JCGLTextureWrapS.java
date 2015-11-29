@@ -17,17 +17,26 @@
 package com.io7m.jcanephora.core;
 
 /**
- * An update that will replace data in a buffer.
- *
- * @param <T> The type of buffer
+ * Texture wrapping mode on the S axis.
  */
 
-public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
-  extends JCGLDataUpdateType<T>
+public enum JCGLTextureWrapS
 {
   /**
-   * @return The buffer that will be updated
+   * Clamp texture coordinates to the edge of the image.
    */
 
-  T getBuffer();
+  TEXTURE_WRAP_CLAMP_TO_EDGE,
+
+  /**
+   * Wrap texture coordinates around.
+   */
+
+  TEXTURE_WRAP_REPEAT,
+
+  /**
+   * Mirror texture coordinates.
+   */
+
+  TEXTURE_WRAP_REPEAT_MIRRORED
 }
