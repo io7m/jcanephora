@@ -28,6 +28,22 @@
       <groupId>com.io7m.jnull</groupId>
       <artifactId>io7m-jnull-core</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-jogl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-fake</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <build>

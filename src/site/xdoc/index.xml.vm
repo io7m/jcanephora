@@ -13,7 +13,7 @@
       <p>
         The <b>${project.name}</b> package implements a set of abstractions over
         <a href="http://opengl.org">OpenGL</a> with the intention of providing an
-        API that enforces program correctness statically.</p>
+        API that enforces program correctness statically.
       </p>
     </subsection>
     <subsection name="Features">

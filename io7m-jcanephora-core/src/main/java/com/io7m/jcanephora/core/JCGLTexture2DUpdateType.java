@@ -20,6 +20,8 @@ import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 
 /**
  * The type of updates for 2D textures.
+ *
+ * @see JCGLTextureUpdates
  */
 
 public interface JCGLTexture2DUpdateType

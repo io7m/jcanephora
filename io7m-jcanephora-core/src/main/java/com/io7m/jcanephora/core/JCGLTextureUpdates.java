@@ -37,7 +37,7 @@ public final class JCGLTextureUpdates
   }
 
   /**
-   * Create a new update that will replace the entirety to {@code t}.
+   * Create a new update that will replace the entirety of {@code t}.
    *
    * @param t The texture
    *
@@ -52,7 +52,7 @@ public final class JCGLTextureUpdates
   }
 
   /**
-   * Create a new update that will the replace the given {@code area} of {@code
+   * Create a new update that will replace the given {@code area} of {@code
    * t}. {@code area} must be included within the area of {@code t}.
    *
    * @param t    The texture

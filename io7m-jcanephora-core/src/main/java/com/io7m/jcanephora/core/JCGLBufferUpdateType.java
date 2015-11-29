@@ -20,6 +20,8 @@ package com.io7m.jcanephora.core;
  * An update that will replace data in a buffer.
  *
  * @param <T> The type of buffer
+ *
+ * @see JCGLBufferUpdates
  */
 
 public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
