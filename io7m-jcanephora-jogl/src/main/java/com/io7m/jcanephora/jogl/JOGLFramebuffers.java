@@ -200,8 +200,6 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
   {
     return new Builder(
       this.color_points,
-      this.gl,
-      this.int_cache,
       this.context);
   }
 
@@ -475,8 +473,6 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
   private static final class Builder extends JOGLObjectPseudoUnshared
     implements JCGLFramebufferBuilderType
   {
-    private final GL3                                           gl;
-    private final IntBuffer                                     int_cache;
     private final List<JCGLFramebufferColorAttachmentPointType> color_points;
     private final JOGLContext                                   context;
     private final List<JCGLFramebufferColorAttachmentType>      color_attaches;
@@ -487,15 +483,11 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
     Builder(
       final List<JCGLFramebufferColorAttachmentPointType> in_color_points,
-      final GL3 in_gl,
-      final IntBuffer in_int_cache,
       final JOGLContext in_context)
     {
       super(in_context.getContext());
 
       this.color_points = NullCheck.notNull(in_color_points);
-      this.gl = NullCheck.notNull(in_gl);
-      this.int_cache = NullCheck.notNull(in_int_cache);
       this.context = NullCheck.notNull(in_context);
       this.color_attaches = new ArrayList<>(this.color_points.size());
       for (int index = 0; index < this.color_points.size(); ++index) {
