@@ -14,38 +14,23 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLVertexShaderType;
-import com.io7m.jnull.NullCheck;
-import com.jogamp.opengl.GLContext;
+/**
+ * <p>An identifier for a draw buffer.</p>
+ *
+ * <p>Any given framebuffer has at most {@code GL_MAX_DRAW_BUFFERS}. A fragment
+ * shader writing to output {@code n} is conceptually writing to draw buffer
+ * {@code n}.</p>
+ */
 
-final class JOGLVertexShader extends JOGLReferable
-  implements JCGLVertexShaderType
+public interface JCGLFramebufferDrawBufferType
+  extends Comparable<JCGLFramebufferDrawBufferType>
 {
-  private final String name;
+  /**
+   * @return The index of the draw buffer. This value will be between 0 and some
+   * implementation-defined exclusive upper limit (at least 8).
+   */
 
-  JOGLVertexShader(
-    final GLContext ctx,
-    final int id,
-    final String in_name)
-  {
-    super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
-  }
-
-  @Override public String toString()
-  {
-    final StringBuilder sb = new StringBuilder("[VertexShader ");
-    sb.append(super.getGLName());
-    sb.append(" ");
-    sb.append(this.name);
-    sb.append(']');
-    return sb.toString();
-  }
-
-  @Override public String getName()
-  {
-    return this.name;
-  }
+  int drawBufferGetIndex();
 }

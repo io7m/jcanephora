@@ -16,6 +16,9 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jcanephora.core.JCGLFramebufferBlitBuffer;
+import com.io7m.jcanephora.core.JCGLFramebufferBlitFilter;
+import com.io7m.jcanephora.core.JCGLFramebufferStatus;
 import com.io7m.jcanephora.core.JCGLPixelFormat;
 import com.io7m.jcanephora.core.JCGLPrimitives;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
@@ -33,6 +36,8 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GL2ES3;
 import com.jogamp.opengl.GL3;
+
+import java.util.Set;
 
 /**
  * <p>Conversions between enumerations and OpenGL contstants.</p>
@@ -823,6 +828,187 @@ public final class JOGLTypeConversions
         return GL.GL_HALF_FLOAT;
       case PIXEL_PACKED_UNSIGNED_INT_24_8:
         return GL.GL_UNSIGNED_INT_24_8;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert framebuffer blit buffers from GL constants.
+   *
+   * @param buffer The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLFramebufferBlitBuffer framebufferBlitBufferFromGL(
+    final int buffer)
+  {
+    switch (buffer) {
+      case GL.GL_COLOR_BUFFER_BIT: {
+        return JCGLFramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_COLOR;
+      }
+      case GL.GL_DEPTH_BUFFER_BIT: {
+        return JCGLFramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_DEPTH;
+      }
+      case GL.GL_STENCIL_BUFFER_BIT: {
+        return JCGLFramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_STENCIL;
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert framebuffer blit buffers to GL constants.
+   *
+   * @param buffers The buffers.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int framebufferBlitBufferSetToMask(
+    final Set<JCGLFramebufferBlitBuffer> buffers)
+  {
+    int mask = 0;
+    for (final JCGLFramebufferBlitBuffer b : buffers) {
+      assert b != null;
+      mask |= JOGLTypeConversions.framebufferBlitBufferToGL(b);
+    }
+    return mask;
+  }
+
+  /**
+   * Convert framebuffer blit buffers to GL constants.
+   *
+   * @param buffer The buffer.
+   *
+   * @return The GL constant.
+   */
+
+  public static int framebufferBlitBufferToGL(
+    final JCGLFramebufferBlitBuffer buffer)
+  {
+    switch (buffer) {
+      case FRAMEBUFFER_BLIT_BUFFER_COLOR: {
+        return GL.GL_COLOR_BUFFER_BIT;
+      }
+      case FRAMEBUFFER_BLIT_BUFFER_DEPTH: {
+        return GL.GL_DEPTH_BUFFER_BIT;
+      }
+      case FRAMEBUFFER_BLIT_BUFFER_STENCIL: {
+        return GL.GL_STENCIL_BUFFER_BIT;
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert framebuffer blit filter from GL constants.
+   *
+   * @param filter The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLFramebufferBlitFilter framebufferBlitFilterFromGL(
+    final int filter)
+  {
+    switch (filter) {
+      case GL.GL_LINEAR: {
+        return JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_LINEAR;
+      }
+      case GL.GL_NEAREST: {
+        return JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST;
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert framebuffer blit filters to GL constants.
+   *
+   * @param filter The filters.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int framebufferBlitFilterToGL(
+    final JCGLFramebufferBlitFilter filter)
+  {
+    switch (filter) {
+      case FRAMEBUFFER_BLIT_FILTER_LINEAR: {
+        return GL.GL_LINEAR;
+      }
+      case FRAMEBUFFER_BLIT_FILTER_NEAREST: {
+        return GL.GL_NEAREST;
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert framebuffer status from GL constants.
+   *
+   * @param status The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLFramebufferStatus framebufferStatusFromGL(
+    final int status)
+  {
+    switch (status) {
+      case GL.GL_FRAMEBUFFER_COMPLETE:
+        return JCGLFramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
+      case GL.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+        return JCGLFramebufferStatus
+          .FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT;
+      case GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+        return JCGLFramebufferStatus
+          .FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT;
+      case GL3.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+        return JCGLFramebufferStatus
+          .FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_DRAW_BUFFER;
+      case GL3.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+        return JCGLFramebufferStatus
+          .FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER;
+      case GL.GL_FRAMEBUFFER_UNSUPPORTED:
+        return JCGLFramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED;
+    }
+
+    return JCGLFramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
+  }
+
+  /**
+   * Convert framebuffer status to GL constants.
+   *
+   * @param status The status.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int framebufferStatusToGL(
+    final JCGLFramebufferStatus status)
+  {
+    switch (status) {
+      case FRAMEBUFFER_STATUS_COMPLETE:
+        return GL.GL_FRAMEBUFFER_COMPLETE;
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT:
+        return GL.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT;
+      case FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT:
+        return GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT;
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_DRAW_BUFFER:
+        return GL3.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER;
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER:
+        return GL3.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER;
+      case FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED:
+        return GL.GL_FRAMEBUFFER_UNSUPPORTED;
+      case FRAMEBUFFER_STATUS_ERROR_UNKNOWN:
+        return -1;
     }
 
     throw new UnreachableCodeException();

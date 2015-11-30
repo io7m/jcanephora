@@ -63,4 +63,10 @@ public interface JCGLInterfaceGL33Type
    */
 
   JCGLTexturesType getTextures();
+
+  /**
+   * @return The framebuffers interface
+   */
+
+  JCGLFramebuffersType getFramebuffers();
 }

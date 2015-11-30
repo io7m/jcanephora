@@ -22,6 +22,10 @@ import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.core.JCGLFragmentShaderUsableType;
+import com.io7m.jcanephora.core.JCGLFramebufferBuilderType;
+import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
+import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
+import com.io7m.jcanephora.core.JCGLFramebufferUsableType;
 import com.io7m.jcanephora.core.JCGLGeometryShaderUsableType;
 import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
@@ -243,5 +247,39 @@ final class JOGLCompatibilityChecks
     final JCGLTexture2DUsableType t)
   {
     JOGLCompatibilityChecks.checkAny(c, t);
+  }
+
+  public static void checkFramebufferColorAttachmentPoint(
+    final GLContext c,
+    final JCGLFramebufferColorAttachmentPointType t)
+  {
+    JOGLCompatibilityChecks.checkAny(c, t);
+  }
+
+  public static void checkFramebufferBuilder(
+    final GLContext context,
+    final JCGLFramebufferBuilderType b)
+  {
+    NullCheck.notNull(context);
+    NullCheck.notNull(b);
+    JOGLCompatibilityChecks.checkAny(context, b);
+  }
+
+  public static void checkDrawBuffer(
+    final GLContext c,
+    final JCGLFramebufferDrawBufferType buffer)
+  {
+    NullCheck.notNull(c);
+    NullCheck.notNull(buffer);
+    JOGLCompatibilityChecks.checkAny(c, buffer);
+  }
+
+  public static void checkFramebuffer(
+    final GLContext c,
+    final JCGLFramebufferUsableType buffer)
+  {
+    NullCheck.notNull(c);
+    NullCheck.notNull(buffer);
+    JOGLCompatibilityChecks.checkAny(c, buffer);
   }
 }

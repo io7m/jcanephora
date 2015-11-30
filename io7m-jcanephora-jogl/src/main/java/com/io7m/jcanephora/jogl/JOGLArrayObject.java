@@ -44,7 +44,7 @@ final class JOGLArrayObject extends JOGLObjectUnshared
     this.attribs = NullCheck.notNull(in_attribs);
     this.index_buffer = Optional.empty();
     this.image = String.format(
-      "[JOGLArrayObject %d]", Integer.valueOf(this.getGLName()));
+      "[ArrayObject %d]", Integer.valueOf(this.getGLName()));
 
     this.reference_container = new JOGLReferenceContainer(this, 8);
     for (int index = 0; index < in_attribs.length; ++index) {

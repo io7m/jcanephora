@@ -55,6 +55,20 @@ final class JOGLArrayVertexAttributeFloating extends JOGLObjectPseudoUnshared
     this.normalized = in_normalized;
   }
 
+  @Override public String toString()
+  {
+    final StringBuilder sb =
+      new StringBuilder("[ArrayVertexAttributeFloating ");
+    sb.append(" ").append(this.index);
+    sb.append(" ").append(this.elements);
+    sb.append("x").append(this.type);
+    sb.append(" ").append(this.stride);
+    sb.append(" ").append(this.offset);
+    sb.append(" ").append(this.normalized);
+    sb.append(']');
+    return sb.toString();
+  }
+
   @Override public int getElements()
   {
     return this.elements;

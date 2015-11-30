@@ -114,6 +114,23 @@ final class JOGLTexture2D extends JOGLReferable
     return this.byte_range;
   }
 
+  @Override public String toString()
+  {
+    final StringBuilder sb = new StringBuilder("[Texture2D ");
+    sb.append(super.getGLName());
+    sb.append(" ");
+    sb.append(this.width);
+    sb.append("x");
+    sb.append(this.height);
+    sb.append(" ").append(this.filter_mag);
+    sb.append(" ").append(this.filter_min);
+    sb.append(" ").append(this.format);
+    sb.append(" ").append(this.wrap_s);
+    sb.append(" ").append(this.wrap_t);
+    sb.append(']');
+    return sb.toString();
+  }
+
   @Override public AreaInclusiveUnsignedLType textureGetArea()
   {
     return this.area;

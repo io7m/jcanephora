@@ -14,38 +14,24 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLVertexShaderType;
-import com.io7m.jnull.NullCheck;
-import com.jogamp.opengl.GLContext;
+/**
+ * An exception indicating that a texture is of an incorrect format.
+ */
 
-final class JOGLVertexShader extends JOGLReferable
-  implements JCGLVertexShaderType
+public final class JCGLExceptionFormatError extends JCGLException
 {
-  private final String name;
+  private static final long serialVersionUID = 1L;
 
-  JOGLVertexShader(
-    final GLContext ctx,
-    final int id,
-    final String in_name)
-  {
-    super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
-  }
+  /**
+   * Construct an exception.
+   *
+   * @param message The message
+   */
 
-  @Override public String toString()
+  public JCGLExceptionFormatError(final String message)
   {
-    final StringBuilder sb = new StringBuilder("[VertexShader ");
-    sb.append(super.getGLName());
-    sb.append(" ");
-    sb.append(this.name);
-    sb.append(']');
-    return sb.toString();
-  }
-
-  @Override public String getName()
-  {
-    return this.name;
+    super(message);
   }
 }

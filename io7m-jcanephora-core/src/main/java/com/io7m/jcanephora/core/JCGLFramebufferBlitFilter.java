@@ -1,10 +1,10 @@
 /*
- * Copyright © 2015 <code@io7m.com> http://io7m.com
- *
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -14,28 +14,25 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLArrayBufferType;
-import com.io7m.jcanephora.core.JCGLUsageHint;
-import com.jogamp.opengl.GLContext;
+/**
+ * The filtering that will be used during framebuffer blit operations.
+ */
 
-final class JOGLArrayBuffer extends JOGLBuffer implements JCGLArrayBufferType
+public enum JCGLFramebufferBlitFilter
 {
-  private final String image;
+  /**
+   * Use bilinear interpolation when stretching the contents of a framebuffer
+   * during blitting. Cannot be used when copying depth or stencil buffers.
+   */
 
-  JOGLArrayBuffer(
-    final GLContext in_context,
-    final int in_id,
-    final long in_size,
-    final JCGLUsageHint in_usage)
-  {
-    super(in_context, in_id, in_size, in_usage);
-    this.image = String.format("[JOGLArrayBuffer %s]", super.toString());
-  }
+  FRAMEBUFFER_BLIT_FILTER_LINEAR,
 
-  @Override public String toString()
-  {
-    return this.image;
-  }
+  /**
+   * Use nearest-neighbour interpolation when stretching the contents of a
+   * framebuffer during blitting.
+   */
+
+  FRAMEBUFFER_BLIT_FILTER_NEAREST;
 }

@@ -51,6 +51,18 @@ final class JOGLProgramUniform extends JOGLObjectPseudoShared
     this.name = NullCheck.notNull(in_name, "Uniform name");
   }
 
+  @Override public String toString()
+  {
+    final StringBuilder sb = new StringBuilder("[ProgramUniform ");
+    sb.append(this.location);
+    sb.append(" ");
+    sb.append(this.name);
+    sb.append(" ");
+    sb.append(this.type);
+    sb.append(']');
+    return sb.toString();
+  }
+
   @Override public String getName()
   {
     return this.name;

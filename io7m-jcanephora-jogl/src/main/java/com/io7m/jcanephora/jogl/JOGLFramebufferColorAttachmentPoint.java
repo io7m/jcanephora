@@ -16,17 +16,17 @@
 
 package com.io7m.jcanephora.jogl;
 
-import com.io7m.jcanephora.core.JCGLTextureUnitType;
+import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.Ranges;
 import com.jogamp.opengl.GLContext;
 
-final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
-  JCGLTextureUnitType
+final class JOGLFramebufferColorAttachmentPoint extends
+  JOGLObjectPseudoUnshared implements JCGLFramebufferColorAttachmentPointType
 {
   private final int index;
 
-  JOGLTextureUnit(
+  JOGLFramebufferColorAttachmentPoint(
     final GLContext in_context,
     final int in_index)
   {
@@ -34,14 +34,15 @@ final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
     this.index =
       RangeCheck.checkIncludedInInteger(
         in_index,
-        "Index",
+        "Attachment point",
         Ranges.NATURAL_INTEGER,
-        "Valid indices");
+        "Valid attachment points");
   }
 
   @Override public String toString()
   {
-    final StringBuilder sb = new StringBuilder("[TextureUnit ");
+    final StringBuilder sb =
+      new StringBuilder("[FramebufferColorAttachmentPoint ");
     sb.append(this.index);
     sb.append(']');
     return sb.toString();
@@ -56,7 +57,8 @@ final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
       return false;
     }
 
-    final JOGLTextureUnit that = (JOGLTextureUnit) o;
+    final JOGLFramebufferColorAttachmentPoint that =
+      (JOGLFramebufferColorAttachmentPoint) o;
     return this.index == that.index;
   }
 
@@ -65,13 +67,14 @@ final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
     return this.index;
   }
 
-  @Override public int unitGetIndex()
+  @Override public int colorAttachmentPointGetIndex()
   {
     return this.index;
   }
 
-  @Override public int compareTo(final JCGLTextureUnitType o)
+  @Override
+  public int compareTo(final JCGLFramebufferColorAttachmentPointType o)
   {
-    return Integer.compareUnsigned(this.index, o.unitGetIndex());
+    return Integer.compare(this.index, o.colorAttachmentPointGetIndex());
   }
 }

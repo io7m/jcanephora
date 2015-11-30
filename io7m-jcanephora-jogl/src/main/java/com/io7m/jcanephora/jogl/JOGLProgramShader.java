@@ -52,6 +52,16 @@ final class JOGLProgramShader extends JOGLObjectShared
     this.references.referenceAdd(fs);
   }
 
+  @Override public String toString()
+  {
+    final StringBuilder sb = new StringBuilder("[ProgramShader ");
+    sb.append(super.getGLName());
+    sb.append(" ");
+    sb.append(this.name);
+    sb.append(']');
+    return sb.toString();
+  }
+
   @Override public String getName()
   {
     return this.name;

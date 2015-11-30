@@ -21,10 +21,12 @@ import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLClearType;
 import com.io7m.jcanephora.core.api.JCGLDrawType;
+import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
+import com.io7m.junreachable.UnimplementedCodeException;
 
 final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
 {
@@ -82,5 +84,10 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLTexturesType getTextures()
   {
     return this.textures;
+  }
+
+  @Override public JCGLFramebuffersType getFramebuffers()
+  {
+    throw new UnimplementedCodeException();
   }
 }

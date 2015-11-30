@@ -34,6 +34,16 @@ final class JOGLGeometryShader extends JOGLReferable
     this.name = NullCheck.notNull(in_name);
   }
 
+  @Override public String toString()
+  {
+    final StringBuilder sb = new StringBuilder("[GeometryShader ");
+    sb.append(super.getGLName());
+    sb.append(" ");
+    sb.append(this.name);
+    sb.append(']');
+    return sb.toString();
+  }
+
   @Override public String getName()
   {
     return this.name;

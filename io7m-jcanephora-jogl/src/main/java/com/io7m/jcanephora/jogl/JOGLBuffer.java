@@ -26,6 +26,7 @@ abstract class JOGLBuffer extends JOGLReferable implements JCGLBufferUsableType
 {
   private final JCGLUsageHint           usage;
   private final UnsignedRangeInclusiveL range;
+  private final String                  image;
 
   JOGLBuffer(
     final GLContext in_context,
@@ -36,6 +37,21 @@ abstract class JOGLBuffer extends JOGLReferable implements JCGLBufferUsableType
     super(in_context, in_id);
     this.usage = NullCheck.notNull(in_usage);
     this.range = new UnsignedRangeInclusiveL(0L, in_size - 1L);
+
+    {
+      final StringBuilder sb = new StringBuilder("[Buffer ");
+      sb.append(super.getGLName());
+      sb.append(this.range);
+      sb.append(" ");
+      sb.append(this.usage);
+      sb.append(']');
+      this.image = sb.toString();
+    }
+  }
+
+  @Override public String toString()
+  {
+    return this.image;
   }
 
   @Override public final JCGLUsageHint getUsageHint()

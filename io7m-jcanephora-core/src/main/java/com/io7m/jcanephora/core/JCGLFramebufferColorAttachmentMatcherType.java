@@ -14,38 +14,30 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLVertexShaderType;
-import com.io7m.jnull.NullCheck;
-import com.jogamp.opengl.GLContext;
+/**
+ * The type of color attachment matchers.
+ *
+ * @param <A> The type of returned values.
+ * @param <E> The type of exceptions raised.
+ */
 
-final class JOGLVertexShader extends JOGLReferable
-  implements JCGLVertexShaderType
+public interface JCGLFramebufferColorAttachmentMatcherType<A, E extends
+  Throwable>
 {
-  private final String name;
+  /**
+   * Match an attachment.
+   *
+   * @param t The attachment.
+   *
+   * @return A value of {@code A}
+   *
+   * @throws JCGLException On errors
+   * @throws E             On errors
+   */
 
-  JOGLVertexShader(
-    final GLContext ctx,
-    final int id,
-    final String in_name)
-  {
-    super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
-  }
-
-  @Override public String toString()
-  {
-    final StringBuilder sb = new StringBuilder("[VertexShader ");
-    sb.append(super.getGLName());
-    sb.append(" ");
-    sb.append(this.name);
-    sb.append(']');
-    return sb.toString();
-  }
-
-  @Override public String getName()
-  {
-    return this.name;
-  }
+  A onTexture2D(
+    JCGLTexture2DUsableType t)
+    throws JCGLException, E;
 }

@@ -22,7 +22,11 @@ import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
  * The type of usable 2D textures.
  */
 
-public interface JCGLTexture2DUsableType extends JCGLTextureUsableType
+public interface JCGLTexture2DUsableType
+  extends JCGLTextureUsableType,
+  JCGLFramebufferColorAttachmentType,
+  JCGLFramebufferDepthAttachmentType,
+  JCGLFramebufferDepthStencilAttachmentType
 {
   /**
    * @return The texture area
@@ -41,4 +45,28 @@ public interface JCGLTexture2DUsableType extends JCGLTextureUsableType
    */
 
   JCGLTextureWrapT textureGetWrapT();
+
+  @Override
+  default <A, E extends Throwable> A matchColorAttachment(
+    final JCGLFramebufferColorAttachmentMatcherType<A, E> m)
+    throws JCGLException, E
+  {
+    return m.onTexture2D(this);
+  }
+
+  @Override
+  default <A, E extends Throwable> A matchDepthAttachment(
+    final JCGLFramebufferDepthAttachmentMatcherType<A, E> m)
+    throws JCGLException, E
+  {
+    return m.onTexture2D(this);
+  }
+
+  @Override
+  default <A, E extends Throwable> A matchDepthStencilAttachment(
+    final JCGLFramebufferDepthStencilAttachmentMatcherType<A, E> m)
+    throws JCGLException, E
+  {
+    return m.onTexture2D(this);
+  }
 }

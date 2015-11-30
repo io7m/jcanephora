@@ -14,38 +14,37 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLVertexShaderType;
-import com.io7m.jnull.NullCheck;
-import com.jogamp.opengl.GLContext;
+import java.util.Optional;
 
-final class JOGLVertexShader extends JOGLReferable
-  implements JCGLVertexShaderType
+/**
+ * A read-only interface to the {@link JCGLFramebufferType} type that allows use
+ * of the type but not mutation and/or deletion of the contents.
+ */
+
+public interface JCGLFramebufferUsableType extends
+  JCGLResourceUsableType,
+  JCGLNamedType
 {
-  private final String name;
+  /**
+   * @param c The color attachment point
+   *
+   * @return The color attachment at point {@code c}, if any
+   */
 
-  JOGLVertexShader(
-    final GLContext ctx,
-    final int id,
-    final String in_name)
-  {
-    super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
-  }
+  Optional<JCGLFramebufferColorAttachmentType> framebufferGetColorAttachment(
+    JCGLFramebufferColorAttachmentPointType c);
 
-  @Override public String toString()
-  {
-    final StringBuilder sb = new StringBuilder("[VertexShader ");
-    sb.append(super.getGLName());
-    sb.append(" ");
-    sb.append(this.name);
-    sb.append(']');
-    return sb.toString();
-  }
+  /**
+   * @return The number of depth bits in the framebuffer
+   */
 
-  @Override public String getName()
-  {
-    return this.name;
-  }
+  int framebufferGetDepthBits();
+
+  /**
+   * @return The number of stencil bits in the framebuffer
+   */
+
+  int framebufferGetStencilBits();
 }

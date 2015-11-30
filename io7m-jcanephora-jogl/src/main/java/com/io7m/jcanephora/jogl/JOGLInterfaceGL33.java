@@ -21,6 +21,7 @@ import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLClearType;
 import com.io7m.jcanephora.core.api.JCGLDrawType;
+import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
@@ -36,6 +37,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   private final JOGLDraw         draw;
   private final JOGLClear        clear;
   private final JOGLTextures     textures;
+  private final JOGLFramebuffers framebuffers;
 
   JOGLInterfaceGL33(
     final JOGLContext c)
@@ -51,6 +53,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
     this.draw = new JOGLDraw(c, this.array_objects, this.index_buffers);
     this.clear = new JOGLClear(c);
     this.textures = new JOGLTextures(c);
+    this.framebuffers = new JOGLFramebuffers(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -86,5 +89,10 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLTexturesType getTextures()
   {
     return this.textures;
+  }
+
+  @Override public JCGLFramebuffersType getFramebuffers()
+  {
+    return this.framebuffers;
   }
 }

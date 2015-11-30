@@ -1,10 +1,10 @@
 /*
- * Copyright © 2015 <code@io7m.com> http://io7m.com
- *
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -14,28 +14,29 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLArrayBufferType;
-import com.io7m.jcanephora.core.JCGLUsageHint;
-import com.jogamp.opengl.GLContext;
+/**
+ * The buffers that will be included in framebuffer blit operations.
+ */
 
-final class JOGLArrayBuffer extends JOGLBuffer implements JCGLArrayBufferType
+public enum JCGLFramebufferBlitBuffer
 {
-  private final String image;
+  /**
+   * Include the color buffer in framebuffer blit operations.
+   */
 
-  JOGLArrayBuffer(
-    final GLContext in_context,
-    final int in_id,
-    final long in_size,
-    final JCGLUsageHint in_usage)
-  {
-    super(in_context, in_id, in_size, in_usage);
-    this.image = String.format("[JOGLArrayBuffer %s]", super.toString());
-  }
+  FRAMEBUFFER_BLIT_BUFFER_COLOR,
 
-  @Override public String toString()
-  {
-    return this.image;
-  }
+  /**
+   * Include the depth buffer in framebuffer blit operations.
+   */
+
+  FRAMEBUFFER_BLIT_BUFFER_DEPTH,
+
+  /**
+   * Include the stencil buffer in framebuffer blit operations.
+   */
+
+  FRAMEBUFFER_BLIT_BUFFER_STENCIL;
 }

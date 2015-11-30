@@ -14,38 +14,31 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLVertexShaderType;
-import com.io7m.jnull.NullCheck;
-import com.jogamp.opengl.GLContext;
+/**
+ * The type of framebuffer depth+stencil attachments.
+ */
 
-final class JOGLVertexShader extends JOGLReferable
-  implements JCGLVertexShaderType
+public interface JCGLFramebufferDepthStencilAttachmentType
 {
-  private final String name;
+  /**
+   * A function that accepts matchers.
+   *
+   * @param v   A matcher.
+   * @param <A> The type of returned values.
+   * @param <E> The type of exceptions thrown by the matcher.
+   *
+   * @return The value returned by {@code v}.
+   *
+   * @throws JCGLException Iff a {@link JCGLException} is propagated from {@code
+   *                       v}.
+   * @throws E             Iff {@code v} throws an {@code E}.
+   */
 
-  JOGLVertexShader(
-    final GLContext ctx,
-    final int id,
-    final String in_name)
-  {
-    super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
-  }
+  <A, E extends Throwable> A matchDepthStencilAttachment(
+    final JCGLFramebufferDepthStencilAttachmentMatcherType<A, E> v)
+    throws JCGLException,
+    E;
 
-  @Override public String toString()
-  {
-    final StringBuilder sb = new StringBuilder("[VertexShader ");
-    sb.append(super.getGLName());
-    sb.append(" ");
-    sb.append(this.name);
-    sb.append(']');
-    return sb.toString();
-  }
-
-  @Override public String getName()
-  {
-    return this.name;
-  }
 }

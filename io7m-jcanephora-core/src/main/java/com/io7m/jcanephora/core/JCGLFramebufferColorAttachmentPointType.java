@@ -14,38 +14,19 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLVertexShaderType;
-import com.io7m.jnull.NullCheck;
-import com.jogamp.opengl.GLContext;
+/**
+ * A color attachment point on a framebuffer.
+ */
 
-final class JOGLVertexShader extends JOGLReferable
-  implements JCGLVertexShaderType
+public interface JCGLFramebufferColorAttachmentPointType
+  extends Comparable<JCGLFramebufferColorAttachmentPointType>
 {
-  private final String name;
+  /**
+   * @return The index of the attachment point. This value will be between 0 and
+   * some implementation-defined exclusive upper limit (at least 8).
+   */
 
-  JOGLVertexShader(
-    final GLContext ctx,
-    final int id,
-    final String in_name)
-  {
-    super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
-  }
-
-  @Override public String toString()
-  {
-    final StringBuilder sb = new StringBuilder("[VertexShader ");
-    sb.append(super.getGLName());
-    sb.append(" ");
-    sb.append(this.name);
-    sb.append(']');
-    return sb.toString();
-  }
-
-  @Override public String getName()
-  {
-    return this.name;
-  }
+  int colorAttachmentPointGetIndex();
 }
