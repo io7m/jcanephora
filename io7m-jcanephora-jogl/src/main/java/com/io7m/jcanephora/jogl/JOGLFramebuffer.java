@@ -18,12 +18,17 @@ package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentType;
+import com.io7m.jcanephora.core.JCGLFramebufferDepthAttachmentType;
+import com.io7m.jcanephora.core.JCGLFramebufferDepthStencilAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferType;
+import com.io7m.jcanephora.core.JCGLReferableType;
 import com.jogamp.opengl.GLContext;
+import org.valid4j.Assertive;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 final class JOGLFramebuffer extends JOGLObjectUnshared implements
   JCGLFramebufferType
@@ -32,8 +37,9 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
   private final
   Map<JCGLFramebufferColorAttachmentPointType,
     JCGLFramebufferColorAttachmentType> colors;
-  private int depth_bits;
-  private int stencil_bits;
+  private final JOGLReferenceContainer refs;
+  private       int                    depth_bits;
+  private       int                    stencil_bits;
 
   JOGLFramebuffer(
     final GLContext in_context,
@@ -43,6 +49,7 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
     this.depth_bits = 0;
     this.stencil_bits = 0;
     this.colors = new HashMap<>(16);
+    this.refs = new JOGLReferenceContainer(this, 16);
 
     {
       final StringBuilder sb = new StringBuilder("[Framebuffer ");
@@ -75,20 +82,38 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
     return this.stencil_bits;
   }
 
-  void setStencilBits(final int sb)
-  {
-    this.stencil_bits = sb;
-  }
-
-  void setDepthBits(final int db)
-  {
-    this.depth_bits = db;
-  }
-
-  void setColor(
+  void setColorAttachment(
     final JCGLFramebufferColorAttachmentPointType p,
     final JCGLFramebufferColorAttachmentType a)
   {
     this.colors.put(p, a);
+    this.refs.referenceAdd((JOGLReferable) a);
+  }
+
+  @Override public Set<JCGLReferableType> getReferences()
+  {
+    return this.refs.getReferences();
+  }
+
+  void setDepthAttachment(
+    final JCGLFramebufferDepthAttachmentType a,
+    final int bits)
+  {
+    Assertive.ensure(this.depth_bits == 0);
+    Assertive.ensure(this.stencil_bits == 0);
+    this.refs.referenceAdd((JOGLReferable) a);
+    this.depth_bits = bits;
+  }
+
+  void setDepthStencilAttachment(
+    final JCGLFramebufferDepthStencilAttachmentType a,
+    final int d_bits,
+    final int s_bits)
+  {
+    Assertive.ensure(this.depth_bits == 0);
+    Assertive.ensure(this.stencil_bits == 0);
+    this.refs.referenceAdd((JOGLReferable) a);
+    this.depth_bits = d_bits;
+    this.stencil_bits = s_bits;
   }
 }

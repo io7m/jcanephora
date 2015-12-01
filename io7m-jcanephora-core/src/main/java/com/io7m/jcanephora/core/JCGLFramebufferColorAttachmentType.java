@@ -20,7 +20,7 @@ package com.io7m.jcanephora.core;
  * The type of framebuffer color attachments.
  */
 
-public interface JCGLFramebufferColorAttachmentType
+public interface JCGLFramebufferColorAttachmentType extends JCGLReferableType
 {
   /**
    * A function that accepts visitors.

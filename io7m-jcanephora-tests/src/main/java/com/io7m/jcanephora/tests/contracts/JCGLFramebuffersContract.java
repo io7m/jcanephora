@@ -29,6 +29,7 @@ import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
 import com.io7m.jcanephora.core.JCGLFramebufferType;
+import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
 import com.io7m.jcanephora.core.JCGLTexture2DUpdateType;
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
@@ -52,6 +53,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Framebuffer contracts.
@@ -396,6 +398,10 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
     Assert.assertEquals(8L, (long) fb.framebufferGetStencilBits());
     Assert.assertEquals(24L, (long) fb.framebufferGetDepthBits());
+
+    final Set<JCGLReferableType> refs = fb.getReferences();
+    Assert.assertEquals(1L, (long) refs.size());
+    Assert.assertTrue(refs.contains(t));
   }
 
   @Test public final void testFramebufferBuildDetachDepth()
@@ -443,6 +449,11 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
     Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
     Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
+
+    final Set<JCGLReferableType> refs = fb.getReferences();
+    Assert.assertEquals(1L, (long) refs.size());
+    Assert.assertTrue(refs.contains(tc));
+    Assert.assertFalse(refs.contains(td));
   }
 
   @Test public final void testFramebufferBuildDetachDepthStencil()
@@ -490,6 +501,11 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
     Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
     Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
+
+    final Set<JCGLReferableType> refs = fb.getReferences();
+    Assert.assertEquals(1L, (long) refs.size());
+    Assert.assertTrue(refs.contains(tc));
+    Assert.assertFalse(refs.contains(td));
   }
 
   @Test public final void testFramebufferBuildColorAll()
@@ -528,6 +544,9 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
     Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
 
+    final Set<JCGLReferableType> refs = fb.getReferences();
+    Assert.assertEquals(min, (long) refs.size());
+
     for (int index = 0; index < min; ++index) {
       final JCGLFramebufferColorAttachmentPointType point = ps.get(index);
       final Optional<JCGLFramebufferColorAttachmentType> opt =
@@ -535,6 +554,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       Assert.assertTrue(opt.isPresent());
       final JCGLFramebufferColorAttachmentType attach = opt.get();
       Assert.assertEquals(attaches.get(index), attach);
+      Assert.assertTrue(refs.contains(attach));
     }
   }
 
@@ -566,6 +586,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachDepthStencilTexture2D(td);
 
     final int min = Math.min(db.size(), ps.size());
+    final List<JCGLFramebufferColorAttachmentType> colors = new ArrayList<>(min);
     for (int index = 0; index < min; ++index) {
       final JCGLTexture2DType tc = g_tx.texture2DAllocate(
         u0,
@@ -579,17 +600,24 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       final JCGLFramebufferColorAttachmentPointType point = ps.get(index);
       fbb.attachColorTexture2DAt(point, db.get(index), tc);
       fbb.detachColorAttachment(point);
+      colors.add(tc);
     }
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
     Assert.assertEquals(8L, (long) fb.framebufferGetStencilBits());
     Assert.assertEquals(24L, (long) fb.framebufferGetDepthBits());
 
+    final Set<JCGLReferableType> refs = fb.getReferences();
+    Assert.assertTrue(refs.contains(td));
+    Assert.assertEquals(1L, (long) refs.size());
+
     for (int index = 0; index < min; ++index) {
       final JCGLFramebufferColorAttachmentPointType point = ps.get(index);
       final Optional<JCGLFramebufferColorAttachmentType> opt =
         fb.framebufferGetColorAttachment(point);
       Assert.assertFalse(opt.isPresent());
+      final JCGLFramebufferColorAttachmentType tc = colors.get(index);
+      Assert.assertFalse(refs.contains(tc));
     }
   }
 

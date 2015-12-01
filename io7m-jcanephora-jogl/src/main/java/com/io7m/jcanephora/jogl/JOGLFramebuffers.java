@@ -62,7 +62,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 final class JOGLFramebuffers implements JCGLFramebuffersType
 {
@@ -232,9 +231,6 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       new JOGLFramebuffer(this.context.getContext(), f_id);
     this.actualBindDraw(fb);
 
-    final AtomicInteger bits_depth = new AtomicInteger(0);
-    final AtomicInteger bits_stencil = new AtomicInteger(0);
-
     /**
      * Configure depth/stencil attachments.
      */
@@ -257,14 +253,14 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
             final JCGLTextureFormat f = t.textureGetFormat();
             JOGLTextures.checkTexture2D(c, t);
             JCGLTextureFormats.checkDepthOnlyRenderableTexture2D(f);
-            bits_depth.set(JCGLTextureFormats.getDepthBits(f));
-
             g3.glFramebufferTexture2D(
               GL3.GL_DRAW_FRAMEBUFFER,
               GL.GL_DEPTH_ATTACHMENT,
               GL.GL_TEXTURE_2D,
               t.getGLName(),
               0);
+
+            fb.setDepthAttachment(t, JCGLTextureFormats.getDepthBits(f));
             return Unit.unit();
           }
         });
@@ -287,15 +283,17 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
             JOGLTextures.checkTexture2D(c, t);
             final JCGLTextureFormat f = t.textureGetFormat();
             JCGLTextureFormats.checkDepthStencilRenderableTexture2D(f);
-            bits_depth.set(JCGLTextureFormats.getDepthBits(f));
-            bits_stencil.set(JCGLTextureFormats.getStencilBits(f));
-
             g3.glFramebufferTexture2D(
               GL3.GL_DRAW_FRAMEBUFFER,
               GL3.GL_DEPTH_STENCIL_ATTACHMENT,
               GL.GL_TEXTURE_2D,
               t.getGLName(),
               0);
+
+            fb.setDepthStencilAttachment(
+              t,
+              JCGLTextureFormats.getDepthBits(f),
+              JCGLTextureFormats.getStencilBits(f));
             return Unit.unit();
           }
         });
@@ -324,8 +322,8 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
                 Integer.valueOf(f_index));
 
               JOGLTextures.checkTexture2D(c, t);
-              JCGLTextureFormats.checkColorRenderableTexture2D(
-                t.textureGetFormat());
+              final JCGLTextureFormat f = t.textureGetFormat();
+              JCGLTextureFormats.checkColorRenderableTexture2D(f);
 
               g3.glFramebufferTexture2D(
                 GL3.GL_DRAW_FRAMEBUFFER,
@@ -336,7 +334,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
               return Unit.unit();
             }
           });
-        fb.setColor(bb.color_points.get(f_index), a);
+        fb.setColorAttachment(bb.color_points.get(f_index), a);
       }
     }
 
@@ -379,8 +377,6 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     final JCGLFramebufferStatus status = this.framebufferDrawValidate();
     switch (status) {
       case FRAMEBUFFER_STATUS_COMPLETE: {
-        fb.setStencilBits(bits_stencil.get());
-        fb.setDepthBits(bits_depth.get());
         return fb;
       }
       case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT:

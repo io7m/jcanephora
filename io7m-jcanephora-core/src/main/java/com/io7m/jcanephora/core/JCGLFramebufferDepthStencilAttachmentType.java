@@ -21,6 +21,7 @@ package com.io7m.jcanephora.core;
  */
 
 public interface JCGLFramebufferDepthStencilAttachmentType
+  extends JCGLReferableType
 {
   /**
    * A function that accepts matchers.

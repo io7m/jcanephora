@@ -25,7 +25,8 @@ import java.util.Optional;
 
 public interface JCGLFramebufferUsableType extends
   JCGLResourceUsableType,
-  JCGLNamedType
+  JCGLNamedType,
+  JCGLReferenceContainerType
 {
   /**
    * @param c The color attachment point

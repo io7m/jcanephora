@@ -20,7 +20,7 @@ package com.io7m.jcanephora.core;
  * The type of framebuffer depth attachments.
  */
 
-public interface JCGLFramebufferDepthAttachmentType
+public interface JCGLFramebufferDepthAttachmentType extends JCGLReferableType
 {
   /**
    * A function that accepts matchers.
