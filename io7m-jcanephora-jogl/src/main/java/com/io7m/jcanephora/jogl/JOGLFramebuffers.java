@@ -16,10 +16,14 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferInvalid;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferNotBound;
+import com.io7m.jcanephora.core.JCGLExceptionFramebufferWrongBlitFilter;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
+import com.io7m.jcanephora.core.JCGLFramebufferBlitBuffer;
+import com.io7m.jcanephora.core.JCGLFramebufferBlitFilter;
 import com.io7m.jcanephora.core.JCGLFramebufferBuilderType;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentMatcherType;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
@@ -41,6 +45,7 @@ import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jfunctional.Unit;
 import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
@@ -54,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -72,6 +78,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
   private final JOGLContext                                   context;
   private final List<JCGLFramebufferDrawBufferType>           draw_buffers;
   private       JOGLFramebuffer                               bind_draw;
+  private       JOGLFramebuffer                               bind_read;
 
   JOGLFramebuffers(
     final JOGLContext c)
@@ -397,6 +404,14 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     this.bind_draw = f;
   }
 
+  private void actualBindRead(final JOGLFramebuffer f)
+  {
+    JOGLFramebuffers.LOG.trace("bind read {} → {}", this.bind_read, f);
+
+    this.gl.glBindFramebuffer(GL.GL_READ_FRAMEBUFFER, f.getGLName());
+    this.bind_read = f;
+  }
+
   private void actualUnbindDraw()
   {
     JOGLFramebuffers.LOG.trace("unbind {} → {}", this.bind_draw, null);
@@ -404,6 +419,15 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       GL.GL_DRAW_FRAMEBUFFER,
       this.gl.getDefaultDrawFramebuffer());
     this.bind_draw = null;
+  }
+
+  private void actualUnbindRead()
+  {
+    JOGLFramebuffers.LOG.trace("unbind {} → {}", this.bind_read, null);
+    this.gl.glBindFramebuffer(
+      GL.GL_READ_FRAMEBUFFER,
+      this.gl.getDefaultReadFramebuffer());
+    this.bind_read = null;
   }
 
   @Override public boolean framebufferDrawAnyIsBound()
@@ -468,6 +492,119 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     throws JCGLException
   {
     return this.color_points;
+  }
+
+  @Override public boolean framebufferReadAnyIsBound()
+    throws JCGLException
+  {
+    return this.bind_read != null;
+  }
+
+  @Override
+  public void framebufferReadBind(final JCGLFramebufferUsableType framebuffer)
+    throws JCGLException
+  {
+    JOGLFramebuffers.checkFramebuffer(this.context, framebuffer);
+    this.actualBindRead((JOGLFramebuffer) framebuffer);
+  }
+
+  @Override public Optional<JCGLFramebufferUsableType> framebufferReadGetBound()
+    throws JCGLException
+  {
+    return Optional.ofNullable(this.bind_read);
+  }
+
+  @Override
+  public boolean framebufferReadIsBound(
+    final JCGLFramebufferUsableType framebuffer)
+    throws JCGLException
+  {
+    return framebuffer.equals(this.bind_read);
+  }
+
+  @Override public void framebufferReadUnbind()
+    throws JCGLException
+  {
+    this.actualUnbindRead();
+  }
+
+  @Override public void framebufferBlit(
+    final AreaInclusiveUnsignedLType source,
+    final AreaInclusiveUnsignedLType target,
+    final Set<JCGLFramebufferBlitBuffer> buffers,
+    final JCGLFramebufferBlitFilter filter)
+    throws JCGLException
+  {
+    NullCheck.notNull(source);
+    NullCheck.notNull(target);
+    NullCheck.notNull(buffers);
+    NullCheck.notNull(filter);
+
+    if (!this.framebufferReadAnyIsBound()) {
+      throw new JCGLExceptionFramebufferNotBound(
+        "No read framebuffer is bound");
+    }
+    if (!this.framebufferDrawAnyIsBound()) {
+      throw new JCGLExceptionFramebufferNotBound(
+        "No draw framebuffer is bound");
+    }
+
+    final boolean want_depth =
+      buffers.contains(
+        JCGLFramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_DEPTH);
+    final boolean want_stenc =
+      buffers.contains(
+        JCGLFramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_STENCIL);
+    if (want_depth || want_stenc) {
+      if (filter != JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST) {
+        final StringBuilder sb = new StringBuilder(128);
+        sb.append("Blit specifies incorrect filter for depth/stencil buffers.");
+        sb.append(System.lineSeparator());
+        sb.append("Required: ");
+        sb.append(JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST);
+        sb.append(System.lineSeparator());
+        sb.append("Actual: ");
+        sb.append(filter);
+        sb.append(System.lineSeparator());
+        throw new JCGLExceptionFramebufferWrongBlitFilter(sb.toString());
+      }
+    }
+
+    final UnsignedRangeInclusiveL s_range_x = source.getRangeX();
+    final UnsignedRangeInclusiveL s_range_y = source.getRangeY();
+    final UnsignedRangeInclusiveL d_range_x = target.getRangeX();
+    final UnsignedRangeInclusiveL d_range_y = target.getRangeY();
+
+    /**
+     * Section 4.3.2 of the OpenGL 3.1 standard: "The lower bounds of the
+     * rectangle are inclusive, while the upper bounds are exclusive".
+     */
+
+    final int src_x0 = (int) s_range_x.getLower();
+    final int src_y0 = (int) s_range_y.getLower();
+    final int src_x1 = (int) s_range_x.getUpper() + 1;
+    final int src_y1 = (int) s_range_y.getUpper() + 1;
+
+    final int dst_x0 = (int) d_range_x.getLower();
+    final int dst_y0 = (int) d_range_y.getLower();
+    final int dst_x1 = (int) d_range_x.getUpper() + 1;
+    final int dst_y1 = (int) d_range_y.getUpper() + 1;
+
+    final int mask =
+      JOGLTypeConversions.framebufferBlitBufferSetToMask(buffers);
+    final int filteri = JOGLTypeConversions.framebufferBlitFilterToGL(filter);
+
+    this.gl.glBlitFramebuffer(
+      src_x0,
+      src_y0,
+      src_x1,
+      src_y1,
+      dst_x0,
+      dst_y0,
+      dst_x1,
+      dst_y1,
+      mask,
+      filteri);
   }
 
   private static final class Builder extends JOGLObjectPseudoUnshared

@@ -16,7 +16,10 @@
 
 package com.io7m.jcanephora.core.api;
 
+import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLFramebufferBlitBuffer;
+import com.io7m.jcanephora.core.JCGLFramebufferBlitFilter;
 import com.io7m.jcanephora.core.JCGLFramebufferBuilderType;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
 import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
@@ -26,6 +29,7 @@ import com.io7m.jcanephora.core.JCGLFramebufferUsableType;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * The interface to OpenGL framebuffer objects.
@@ -50,7 +54,9 @@ public interface JCGLFramebuffersType
    * <p>Allocate and bind a framebuffer object based on the values given in
    * {@code b}.</p>
    *
-   * <p>Calling this method will unbind any currently bound framebuffer.</p>
+   * <p>Calling this method will unbind any currently bound <i>draw</i>
+   * framebuffer. The resulting framebuffer, if any, will remain bound when the
+   * method returns.</p>
    *
    * @param b The framebuffer object builder
    *
@@ -64,7 +70,7 @@ public interface JCGLFramebuffersType
     throws JCGLException;
 
   /**
-   * @return {@code true} iff any application-created draw framebuffer is
+   * @return {@code true} iff any application-created <i>draw</i> framebuffer is
    * currently bound.
    *
    * @throws JCGLException Iff an OpenGL exception occurs.
@@ -74,8 +80,7 @@ public interface JCGLFramebuffersType
     throws JCGLException;
 
   /**
-   * <p> Bind the given framebuffer {@code framebuffer} to the draw target.
-   * </p>
+   * Bind the given framebuffer {@code framebuffer} to the <i>draw</i> target.
    *
    * @param framebuffer The framebuffer.
    *
@@ -87,7 +92,7 @@ public interface JCGLFramebuffersType
     throws JCGLException;
 
   /**
-   * @return {@code Some(framebuffer)} iff any application-created draw
+   * @return {@code Some(framebuffer)} iff any application-created <i>draw</i>
    * framebuffer is currently bound.
    *
    * @throws JCGLException Iff an OpenGL exception occurs.
@@ -99,8 +104,8 @@ public interface JCGLFramebuffersType
   /**
    * @param framebuffer The framebuffer.
    *
-   * @return {@code true} iff {@code framebuffer} is currently bound to the draw
-   * target.
+   * @return {@code true} iff {@code framebuffer} is currently bound to the
+   * <i>draw</i> target.
    *
    * @throws JCGLException Iff an OpenGL exception occurs.
    */
@@ -110,7 +115,7 @@ public interface JCGLFramebuffersType
     throws JCGLException;
 
   /**
-   * <p> Unbind the current framebuffer from the draw target. </p>
+   * <p>Unbind the current framebuffer from the <i>draw</i> target.</p>
    *
    * @throws JCGLException Iff an OpenGL exception occurs.
    */
@@ -119,7 +124,8 @@ public interface JCGLFramebuffersType
     throws JCGLException;
 
   /**
-   * <p>Determine the validity of the currently bound draw framebuffer</p>
+   * <p>Determine the validity of the currently bound <i>draw</i>
+   * framebuffer.</p>
    *
    * @return The status of the framebuffer.
    *
@@ -145,5 +151,79 @@ public interface JCGLFramebuffersType
    */
 
   List<JCGLFramebufferColorAttachmentPointType> framebufferGetColorAttachments()
+    throws JCGLException;
+
+  /**
+   * @return {@code true} iff any application-created <i>read</i> framebuffer is
+   * currently bound.
+   *
+   * @throws JCGLException Iff an OpenGL exception occurs.
+   */
+
+  boolean framebufferReadAnyIsBound()
+    throws JCGLException;
+
+  /**
+   * Bind the given framebuffer {@code framebuffer} to the <i>read</i> target.
+   *
+   * @param framebuffer The framebuffer.
+   *
+   * @throws JCGLException Iff an OpenGL exception occurs.
+   */
+
+  void framebufferReadBind(
+    JCGLFramebufferUsableType framebuffer)
+    throws JCGLException;
+
+  /**
+   * @return {@code Some(framebuffer)} iff any application-created <i>read</i>
+   * framebuffer is currently bound.
+   *
+   * @throws JCGLException Iff an OpenGL exception occurs.
+   */
+
+  Optional<JCGLFramebufferUsableType> framebufferReadGetBound()
+    throws JCGLException;
+
+  /**
+   * @param framebuffer The framebuffer.
+   *
+   * @return {@code true} iff {@code framebuffer} is currently bound to the
+   * <i>read</i> target.
+   *
+   * @throws JCGLException Iff an OpenGL exception occurs.
+   */
+
+  boolean framebufferReadIsBound(
+    JCGLFramebufferUsableType framebuffer)
+    throws JCGLException;
+
+  /**
+   * <p>Unbind the current framebuffer from the <i>read</i> target.</p>
+   *
+   * @throws JCGLException Iff an OpenGL exception occurs.
+   */
+
+  void framebufferReadUnbind()
+    throws JCGLException;
+
+  /**
+   * Copy a region of the current <i>read</i> framebuffer to the current
+   * <i>draw</i> framebuffer.
+   *
+   * @param source  The area of the <i>read</i> framebuffer from which to copy.
+   * @param target  The area of the <i>draw</i> framebuffer to which to copy.
+   * @param buffers The set of buffers that should be copied.
+   * @param filter  The filter used when stretching (if {@code source !=
+   *                target}).
+   *
+   * @throws JCGLException Iff an OpenGL exception occurs.
+   */
+
+  void framebufferBlit(
+    final AreaInclusiveUnsignedLType source,
+    final AreaInclusiveUnsignedLType target,
+    final Set<JCGLFramebufferBlitBuffer> buffers,
+    final JCGLFramebufferBlitFilter filter)
     throws JCGLException;
 }
