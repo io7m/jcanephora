@@ -57,7 +57,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
 
   protected abstract Interfaces getInterfaces(String name);
 
-  @Test public final void testFramebufferBuildWrongContext_0()
+  @Test public final void testFramebufferBuildWrongContextAllocate()
   {
     final Interfaces im = this.getInterfaces("main");
     final Interfaces ia = this.getInterfaces("alt");
@@ -74,7 +74,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     g_fb_main.framebufferAllocate(fbb);
   }
 
-  @Test public final void testFramebufferBuildWrongContext_1()
+  @Test public final void testFramebufferBuildWrongContextDepth()
   {
     final Interfaces im = this.getInterfaces("main");
     final Interfaces ia = this.getInterfaces("alt");
@@ -101,6 +101,147 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     im.context.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     fbb.attachDepthTexture2D(tc);
+  }
+
+  @Test public final void testFramebufferBuildWrongContextDepthStencil()
+  {
+    final Interfaces im = this.getInterfaces("main");
+    final Interfaces ia = this.getInterfaces("alt");
+
+    final JCGLFramebuffersType g_fb_main = im.getFramebuffers();
+    final JCGLFramebufferBuilderType fbb = g_fb_main.framebufferNewBuilder();
+    im.context.contextReleaseCurrent();
+
+    ia.context.contextMakeCurrent();
+    final JCGLTexturesType g_tex = ia.getTextures();
+    final List<JCGLTextureUnitType> us = g_tex.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType tc = g_tex.texture2DAllocate(
+      u0,
+      64L,
+      64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    ia.context.contextReleaseCurrent();
+
+    im.context.contextMakeCurrent();
+    this.expected.expect(JCGLExceptionWrongContext.class);
+    fbb.attachDepthStencilTexture2D(tc);
+  }
+
+  @Test public final void testFramebufferBuildWrongContextColorAttachmentPoint()
+  {
+    final Interfaces im = this.getInterfaces("main");
+    final Interfaces ia = this.getInterfaces("alt");
+
+    final JCGLFramebuffersType g_fb_main = im.getFramebuffers();
+    im.context.contextReleaseCurrent();
+
+    ia.context.contextMakeCurrent();
+    final JCGLFramebuffersType g_fb_alt = ia.getFramebuffers();
+
+    final List<JCGLFramebufferColorAttachmentPointType> points =
+      g_fb_alt.framebufferGetColorAttachments();
+    ia.context.contextReleaseCurrent();
+
+    im.context.contextMakeCurrent();
+    final List<JCGLFramebufferDrawBufferType> draw_buffers =
+      g_fb_main.framebufferGetDrawBuffers();
+    final JCGLFramebufferBuilderType fbb =
+      g_fb_main.framebufferNewBuilder();
+
+    final JCGLTexturesType g_tex = im.getTextures();
+    final List<JCGLTextureUnitType> us = g_tex.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType tc = g_tex.texture2DAllocate(
+      u0,
+      64L,
+      64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+    this.expected.expect(JCGLExceptionWrongContext.class);
+    fbb.attachColorTexture2DAt(points.get(0), draw_buffers.get(0), tc);
+  }
+
+  @Test public final void testFramebufferBuildWrongContextColorDrawBuffer()
+  {
+    final Interfaces im = this.getInterfaces("main");
+    final Interfaces ia = this.getInterfaces("alt");
+
+    final JCGLFramebuffersType g_fb_main = im.getFramebuffers();
+    final JCGLFramebuffersType g_fb_alt = ia.getFramebuffers();
+
+    im.context.contextMakeCurrent();
+    final List<JCGLFramebufferColorAttachmentPointType> points =
+      g_fb_main.framebufferGetColorAttachments();
+    im.context.contextReleaseCurrent();
+
+    im.context.contextReleaseCurrent();
+    final List<JCGLFramebufferDrawBufferType> draw_buffers =
+      g_fb_alt.framebufferGetDrawBuffers();
+    ia.context.contextReleaseCurrent();
+
+    im.context.contextMakeCurrent();
+    final JCGLFramebufferBuilderType fbb = g_fb_main.framebufferNewBuilder();
+    final JCGLTexturesType g_tex = im.getTextures();
+    final List<JCGLTextureUnitType> us = g_tex.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType tc = g_tex.texture2DAllocate(
+      u0,
+      64L,
+      64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+    this.expected.expect(JCGLExceptionWrongContext.class);
+    fbb.attachColorTexture2DAt(points.get(0), draw_buffers.get(0), tc);
+  }
+
+  @Test public final void testFramebufferBuildWrongContextColorTexture()
+  {
+    final Interfaces im = this.getInterfaces("main");
+    final Interfaces ia = this.getInterfaces("alt");
+
+    final JCGLFramebuffersType g_fb_main = im.getFramebuffers();
+    final JCGLFramebuffersType g_fb_alt = ia.getFramebuffers();
+
+    im.context.contextMakeCurrent();
+    final List<JCGLFramebufferColorAttachmentPointType> points =
+      g_fb_main.framebufferGetColorAttachments();
+    final List<JCGLFramebufferDrawBufferType> draw_buffers =
+      g_fb_main.framebufferGetDrawBuffers();
+
+    final JCGLFramebufferBuilderType fbb = g_fb_main.framebufferNewBuilder();
+    im.context.contextReleaseCurrent();
+
+    ia.context.contextMakeCurrent();
+    final JCGLTexturesType g_tex = ia.getTextures();
+    final List<JCGLTextureUnitType> us = g_tex.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType tc = g_tex.texture2DAllocate(
+      u0,
+      64L,
+      64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    ia.context.contextReleaseCurrent();
+
+    im.context.contextMakeCurrent();
+    this.expected.expect(JCGLExceptionWrongContext.class);
+    fbb.attachColorTexture2DAt(points.get(0), draw_buffers.get(0), tc);
   }
 
   @Test public final void testFramebufferValidateUnbound()
