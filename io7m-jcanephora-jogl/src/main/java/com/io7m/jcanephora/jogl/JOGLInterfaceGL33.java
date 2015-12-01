@@ -53,7 +53,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
     this.draw = new JOGLDraw(c, this.array_objects, this.index_buffers);
     this.clear = new JOGLClear(c);
     this.textures = new JOGLTextures(c);
-    this.framebuffers = new JOGLFramebuffers(c);
+    this.framebuffers = new JOGLFramebuffers(c, this.textures);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
