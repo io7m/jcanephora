@@ -32,6 +32,10 @@ import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.valid4j.Assertive;
@@ -53,6 +57,7 @@ final class FakeTextures implements JCGLTexturesType
   private final List<JCGLTextureUnitType> units;
   private final int                       size;
   private final int[]                     bindings;
+  private final Int2ObjectMap<IntSet>     texture_to_units;
 
   FakeTextures(
     final FakeContext c)
@@ -61,6 +66,7 @@ final class FakeTextures implements JCGLTexturesType
     this.units = FakeTextures.makeUnits(c);
     this.size = FakeTextures.makeSize();
     this.bindings = new int[this.units.size()];
+    this.texture_to_units = new Int2ObjectOpenHashMap<>(this.units.size());
   }
 
   private static List<JCGLTextureUnitType> makeUnits(
@@ -118,6 +124,33 @@ final class FakeTextures implements JCGLTexturesType
     return (y * row_bytes) + (x * bpp);
   }
 
+  private void bindingAddTextureReference(
+    final int texture_id,
+    final int index)
+  {
+    final IntSet tc;
+    if (this.texture_to_units.containsKey(texture_id)) {
+      tc = this.texture_to_units.get(texture_id);
+    } else {
+      tc = new IntOpenHashSet();
+    }
+    tc.add(index);
+    this.texture_to_units.put(texture_id, tc);
+  }
+
+  private void bindingRemoveTextureReference(
+    final int texture_id,
+    final int index)
+  {
+    if (this.texture_to_units.containsKey(texture_id)) {
+      final IntSet tc = this.texture_to_units.get(texture_id);
+      tc.remove(index);
+      if (tc.isEmpty()) {
+        this.texture_to_units.remove(texture_id);
+      }
+    }
+  }
+
   @Override public int textureGetMaximumSize()
     throws JCGLException
   {
@@ -161,6 +194,8 @@ final class FakeTextures implements JCGLTexturesType
       Integer.valueOf(binding),
       Integer.valueOf(texture_id));
     this.bindings[index] = texture_id;
+    this.bindingRemoveTextureReference(binding, index);
+    this.bindingAddTextureReference(texture_id, index);
   }
 
   private void bind2DRemove(
@@ -173,6 +208,7 @@ final class FakeTextures implements JCGLTexturesType
       Integer.valueOf(binding),
       Integer.valueOf(0));
     this.bindings[index] = 0;
+    this.bindingRemoveTextureReference(binding, index);
   }
 
   @Override public void texture2DDelete(
@@ -201,6 +237,15 @@ final class FakeTextures implements JCGLTexturesType
     FakeTextures.checkTexture2D(this.context, texture);
     FakeTextures.checkTextureUnit(this.context, unit);
     return this.bindings[unit.unitGetIndex()] == texture.getGLName();
+  }
+
+  @Override
+  public boolean texture2DIsBoundAnywhere(final JCGLTexture2DUsableType texture)
+    throws JCGLException
+  {
+    FakeTextures.checkTexture2D(this.context, texture);
+    final int texture_id = texture.getGLName();
+    return this.texture_to_units.containsKey(texture_id);
   }
 
   @Override public void texture2DUnbind(final JCGLTextureUnitType unit)

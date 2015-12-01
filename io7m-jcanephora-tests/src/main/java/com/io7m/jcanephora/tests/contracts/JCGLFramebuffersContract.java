@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.tests.contracts;
 
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
+import com.io7m.jcanephora.core.JCGLExceptionFeedback;
 import com.io7m.jcanephora.core.JCGLExceptionFormatError;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferInvalid;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferNotBound;
@@ -313,6 +314,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.texture2DUnbind(u0);
+
     fbb.attachDepthTexture2D(t);
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
@@ -329,6 +332,62 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     Assert.assertEquals(Optional.of(fb), g_fb.framebufferDrawGetBound());
     Assert.assertTrue(g_fb.framebufferDrawAnyIsBound());
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
+  }
+
+  @Test public final void testFramebufferBindFeedback()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+    final JCGLTexturesType g_tx = i.getTextures();
+
+    final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType t = g_tx.texture2DAllocate(
+      u0, 64L, 64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.texture2DUnbind(u0);
+    fbb.attachDepthTexture2D(t);
+
+    final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
+    g_fb.framebufferDrawUnbind();
+
+    g_tx.texture2DBind(u0, t);
+    this.expected.expect(JCGLExceptionFeedback.class);
+    g_fb.framebufferDrawBind(fb);
+  }
+
+  @Test public final void testFramebufferBindFeedbackTexture()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+    final JCGLTexturesType g_tx = i.getTextures();
+
+    final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType t = g_tx.texture2DAllocate(
+      u0, 64L, 64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.texture2DUnbind(u0);
+    fbb.attachDepthTexture2D(t);
+
+    final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
+    g_fb.framebufferDrawUnbind();
+
+    g_fb.framebufferDrawBind(fb);
+    this.expected.expect(JCGLExceptionFeedback.class);
+    g_tx.texture2DBind(u0, t);
   }
 
   @Test public final void testFramebufferBuildDepthNotStencil()
@@ -586,7 +645,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachDepthStencilTexture2D(td);
 
     final int min = Math.min(db.size(), ps.size());
-    final List<JCGLFramebufferColorAttachmentType> colors = new ArrayList<>(min);
+    final List<JCGLFramebufferColorAttachmentType> colors =
+      new ArrayList<>(min);
     for (int index = 0; index < min; ++index) {
       final JCGLTexture2DType tc = g_tx.texture2DAllocate(
         u0,
@@ -918,6 +978,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       area = t.textureGetArea();
+      g_tx.texture2DUnbind(u0);
       fbb.attachDepthTexture2D(t);
       fb_draw = g_fb.framebufferAllocate(fbb);
     }

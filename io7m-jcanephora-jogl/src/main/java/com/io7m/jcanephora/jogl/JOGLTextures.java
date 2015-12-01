@@ -19,6 +19,8 @@ package com.io7m.jcanephora.jogl;
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
+import com.io7m.jcanephora.core.JCGLFramebufferUsableType;
+import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
 import com.io7m.jcanephora.core.JCGLTexture2DUpdateType;
@@ -36,6 +38,10 @@ import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLContext;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.valid4j.Assertive;
@@ -45,6 +51,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 final class JOGLTextures implements JCGLTexturesType
 {
@@ -60,6 +67,8 @@ final class JOGLTextures implements JCGLTexturesType
   private final List<JCGLTextureUnitType> units;
   private final int size;
   private final int[] bindings;
+  private final Int2ObjectMap<IntSet> texture_to_units;
+  private       JOGLFramebuffers framebuffers;
 
   JOGLTextures(final JOGLContext c)
     throws JCGLExceptionNonCompliant
@@ -70,6 +79,7 @@ final class JOGLTextures implements JCGLTexturesType
     this.units = JOGLTextures.makeUnits(c, this.g3, this.icache);
     this.size = JOGLTextures.makeSize(this.g3, this.icache);
     this.bindings = new int[this.units.size()];
+    this.texture_to_units = new Int2ObjectOpenHashMap<>(this.units.size());
   }
 
   private static List<JCGLTextureUnitType> makeUnits(
@@ -181,6 +191,17 @@ final class JOGLTextures implements JCGLTexturesType
     JOGLTextures.checkTexture2D(c, texture);
     JOGLTextures.checkTextureUnit(c, unit);
 
+    final Optional<JCGLFramebufferUsableType> fb_opt =
+      this.framebuffers.framebufferDrawGetBound();
+    if (fb_opt.isPresent()) {
+      final JCGLFramebufferUsableType fb = fb_opt.get();
+      for (final JCGLReferableType r : fb.getReferences()) {
+        if (texture.equals(r)) {
+          JOGLFramebuffers.onFeedbackLoop(fb, texture);
+        }
+      }
+    }
+
     final int index = unit.unitGetIndex();
     final int texture_id = texture.getGLName();
     this.bind2DAdd(index, texture_id);
@@ -199,6 +220,35 @@ final class JOGLTextures implements JCGLTexturesType
     this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
     this.g3.glBindTexture(GL.GL_TEXTURE_2D, texture_id);
     this.bindings[index] = texture_id;
+    this.bindingRemoveTextureReference(binding, index);
+    this.bindingAddTextureReference(texture_id, index);
+  }
+
+  private void bindingAddTextureReference(
+    final int texture_id,
+    final int index)
+  {
+    final IntSet tc;
+    if (this.texture_to_units.containsKey(texture_id)) {
+      tc = this.texture_to_units.get(texture_id);
+    } else {
+      tc = new IntOpenHashSet();
+    }
+    tc.add(index);
+    this.texture_to_units.put(texture_id, tc);
+  }
+
+  private void bindingRemoveTextureReference(
+    final int texture_id,
+    final int index)
+  {
+    if (this.texture_to_units.containsKey(texture_id)) {
+      final IntSet tc = this.texture_to_units.get(texture_id);
+      tc.remove(index);
+      if (tc.isEmpty()) {
+        this.texture_to_units.remove(texture_id);
+      }
+    }
   }
 
   private void bind2DRemove(
@@ -213,6 +263,7 @@ final class JOGLTextures implements JCGLTexturesType
     this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
     this.g3.glBindTexture(GL.GL_TEXTURE_2D, 0);
     this.bindings[index] = 0;
+    this.bindingRemoveTextureReference(binding, index);
   }
 
   @Override public void texture2DDelete(
@@ -246,6 +297,16 @@ final class JOGLTextures implements JCGLTexturesType
     JOGLTextures.checkTexture2D(c, texture);
     JOGLTextures.checkTextureUnit(c, unit);
     return this.bindings[unit.unitGetIndex()] == texture.getGLName();
+  }
+
+  @Override
+  public boolean texture2DIsBoundAnywhere(final JCGLTexture2DUsableType texture)
+    throws JCGLException
+  {
+    final GLContext c = this.context.getContext();
+    JOGLTextures.checkTexture2D(c, texture);
+    final int texture_id = texture.getGLName();
+    return this.texture_to_units.containsKey(texture_id);
   }
 
   @Override public void texture2DUnbind(final JCGLTextureUnitType unit)
@@ -428,4 +489,8 @@ final class JOGLTextures implements JCGLTexturesType
     return data;
   }
 
+  void setFramebuffers(final JOGLFramebuffers in_fb)
+  {
+    this.framebuffers = NullCheck.notNull(in_fb);
+  }
 }

@@ -18,6 +18,7 @@ package com.io7m.jcanephora.jogl;
 
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionFeedback;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferInvalid;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferNotBound;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferWrongBlitFilter;
@@ -37,6 +38,7 @@ import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
 import com.io7m.jcanephora.core.JCGLFramebufferStatus;
 import com.io7m.jcanephora.core.JCGLFramebufferType;
 import com.io7m.jcanephora.core.JCGLFramebufferUsableType;
+import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
 import com.io7m.jcanephora.core.JCGLTextureFormat;
@@ -76,20 +78,24 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
   private final List<JCGLFramebufferColorAttachmentPointType> color_points;
   private final JOGLContext                                   context;
   private final List<JCGLFramebufferDrawBufferType>           draw_buffers;
+  private final JOGLTextures                                  textures;
   private       JOGLFramebuffer                               bind_draw;
   private       JOGLFramebuffer                               bind_read;
 
   JOGLFramebuffers(
-    final JOGLContext c)
+    final JOGLContext c,
+    final JOGLTextures t)
     throws JCGLExceptionNonCompliant
   {
     this.context = NullCheck.notNull(c);
+    this.textures = NullCheck.notNull(t);
     this.gl = c.getGL3();
     this.int_cache = Buffers.newDirectIntBuffer(1);
     this.color_points =
       JOGLFramebuffers.makeColorPoints(c, this.gl, this.int_cache);
     this.draw_buffers =
       JOGLFramebuffers.makeDrawBuffers(c, this.gl, this.int_cache);
+    this.textures.setFramebuffers(this);
   }
 
   private static List<JCGLFramebufferDrawBufferType> makeDrawBuffers(
@@ -201,12 +207,27 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     JCGLResources.checkNotDeleted(framebuffer);
   }
 
+  static void onFeedbackLoop(
+    final JCGLFramebufferUsableType f,
+    final JCGLTexture2DUsableType t)
+  {
+    final StringBuilder sb = new StringBuilder(128);
+    sb.append("Feedback loop detected: ");
+    sb.append("Framebuffer refers to a currently bound texture.");
+    sb.append(System.lineSeparator());
+    sb.append("Framebuffer: ");
+    sb.append(f);
+    sb.append(System.lineSeparator());
+    sb.append("Texture: ");
+    sb.append(t);
+    sb.append(System.lineSeparator());
+    throw new JCGLExceptionFeedback(sb.toString());
+  }
+
   @Override public JCGLFramebufferBuilderType framebufferNewBuilder()
     throws JCGLException
   {
-    return new Builder(
-      this.color_points,
-      this.context);
+    return new Builder(this.color_points, this.context);
   }
 
   @Override
@@ -395,6 +416,15 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
   private void actualBindDraw(final JOGLFramebuffer f)
   {
     JOGLFramebuffers.LOG.trace("bind draw {} → {}", this.bind_draw, f);
+
+    for (final JCGLReferableType r : f.getReferences()) {
+      if (r instanceof JCGLTexture2DUsableType) {
+        final JCGLTexture2DUsableType t = (JCGLTexture2DUsableType) r;
+        if (this.textures.texture2DIsBoundAnywhere(t)) {
+          JOGLFramebuffers.onFeedbackLoop(f, t);
+        }
+      }
+    }
 
     this.gl.glBindFramebuffer(GL.GL_DRAW_FRAMEBUFFER, f.getGLName());
     this.bind_draw = f;

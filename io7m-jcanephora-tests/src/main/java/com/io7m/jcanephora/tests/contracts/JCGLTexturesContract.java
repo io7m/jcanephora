@@ -78,6 +78,61 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
+  @Test public final void testTextureBoundAnywhere()
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final List<JCGLTextureUnitType> us = t.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTextureUnitType u1 = us.get(1);
+
+    final JCGLTexture2DType ta =
+      t.texture2DAllocate(
+        u0,
+        128L,
+        256L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
+    Assert.assertTrue(t.texture2DIsBoundAnywhere(ta));
+
+    t.texture2DUnbind(u0);
+    Assert.assertFalse(t.texture2DIsBoundAnywhere(ta));
+    Assert.assertFalse(t.texture2DIsBound(u0, ta));
+    Assert.assertFalse(t.textureUnitIsBound(u0));
+    Assert.assertFalse(t.texture2DIsBound(u1, ta));
+    Assert.assertFalse(t.textureUnitIsBound(u1));
+
+    t.texture2DBind(u1, ta);
+    Assert.assertTrue(t.texture2DIsBoundAnywhere(ta));
+    Assert.assertFalse(t.texture2DIsBound(u0, ta));
+    Assert.assertFalse(t.textureUnitIsBound(u0));
+    Assert.assertTrue(t.texture2DIsBound(u1, ta));
+    Assert.assertTrue(t.textureUnitIsBound(u1));
+
+    t.texture2DBind(u0, ta);
+    Assert.assertTrue(t.texture2DIsBoundAnywhere(ta));
+    Assert.assertTrue(t.texture2DIsBound(u0, ta));
+    Assert.assertTrue(t.textureUnitIsBound(u0));
+    Assert.assertTrue(t.texture2DIsBound(u1, ta));
+    Assert.assertTrue(t.textureUnitIsBound(u1));
+
+    t.texture2DUnbind(u0);
+    Assert.assertTrue(t.texture2DIsBoundAnywhere(ta));
+    Assert.assertFalse(t.texture2DIsBound(u0, ta));
+    Assert.assertFalse(t.textureUnitIsBound(u0));
+    Assert.assertTrue(t.texture2DIsBound(u1, ta));
+    Assert.assertTrue(t.textureUnitIsBound(u1));
+
+    t.texture2DUnbind(u1);
+    Assert.assertFalse(t.texture2DIsBoundAnywhere(ta));
+    Assert.assertFalse(t.texture2DIsBound(u0, ta));
+    Assert.assertFalse(t.textureUnitIsBound(u0));
+    Assert.assertFalse(t.texture2DIsBound(u1, ta));
+    Assert.assertFalse(t.textureUnitIsBound(u1));
+  }
+
   @Test public final void testTextureBinding()
   {
     final JCGLTexturesType t = this.getTextures("main");

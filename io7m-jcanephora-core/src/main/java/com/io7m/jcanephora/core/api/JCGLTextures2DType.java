@@ -38,8 +38,8 @@ public interface JCGLTextures2DType
   /**
    * Bind the texture {@code texture} to the texture unit {@code unit}.
    *
-   * @param unit    The texture unit.
-   * @param texture The texture.
+   * @param unit    The texture unit
+   * @param texture The texture
    *
    * @throws JCGLException Iff an OpenGL error occurs.
    */
@@ -52,7 +52,7 @@ public interface JCGLTextures2DType
   /**
    * Deletes the texture referenced by {@code texture}.
    *
-   * @param texture The texture.
+   * @param texture The texture
    *
    * @throws JCGLException Iff an OpenGL error occurs.
    */
@@ -62,8 +62,8 @@ public interface JCGLTextures2DType
     throws JCGLException;
 
   /**
-   * @param unit    The texture unit.
-   * @param texture The texture.
+   * @param unit    The texture unit
+   * @param texture The texture
    *
    * @return {@code true} iff the texture {@code texture} is bound to the
    * texture unit {@code unit}.
@@ -77,10 +77,23 @@ public interface JCGLTextures2DType
     throws JCGLException;
 
   /**
+   * @param texture The texture
+   *
+   * @return {@code true} iff the texture {@code texture} is bound to any
+   * texture unit.
+   *
+   * @throws JCGLException Iff an OpenGL error occurs.
+   */
+
+  boolean texture2DIsBoundAnywhere(
+    JCGLTexture2DUsableType texture)
+    throws JCGLException;
+
+  /**
    * Unbind whatever 2D texture is bound to the texture unit {@code unit} (if
    * any).
    *
-   * @param unit The texture unit.
+   * @param unit The texture unit
    *
    * @throws JCGLException Iff an OpenGL error occurs.
    */
@@ -111,15 +124,15 @@ public interface JCGLTextures2DType
    *
    * @param unit       The texture unit to which the texture will be initially
    *                   bound
-   * @param width      The width in pixels.
-   * @param height     The height in pixels.
+   * @param width      The width in pixels
+   * @param height     The height in pixels
    * @param format     The texture format
    * @param wrap_s     The method with which to wrap textures around the {@code
-   *                   s} axis.
+   *                   s} axis
    * @param wrap_t     The method with which to wrap textures around the {@code
-   *                   t} axis.
-   * @param min_filter The minification filter.
-   * @param mag_filter The magnification filter.
+   *                   t} axis
+   * @param min_filter The minification filter
+   * @param mag_filter The magnification filter
    *
    * @return An allocated texture.
    *
@@ -147,7 +160,7 @@ public interface JCGLTextures2DType
    * {@code unit} when the function returns.</p>
    *
    * @param unit The texture unit that will be used to perform the update
-   * @param data The data to upload.
+   * @param data The data to upload
    *
    * @throws JCGLException Iff an OpenGL error occurs.
    */
@@ -166,7 +179,7 @@ public interface JCGLTextures2DType
    * unit} when the function returns.</p>
    *
    * @param unit    The texture unit that will be used to fetch the data
-   * @param texture The texture.
+   * @param texture The texture
    *
    * @return The texture image data associated with {@code texture}.
    *
