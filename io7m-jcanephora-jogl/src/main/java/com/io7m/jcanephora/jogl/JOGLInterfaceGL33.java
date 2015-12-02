@@ -26,6 +26,7 @@ import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
+import com.io7m.jcanephora.core.api.JCGLPolygonModesType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jnull.NullCheck;
@@ -42,6 +43,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   private final JOGLFramebuffers framebuffers;
   private final JOGLDepthBuffers depth_buffers;
   private final JOGLBlending     blending;
+  private final JOGLPolygonMode  poly;
 
   JOGLInterfaceGL33(
     final JOGLContext c)
@@ -60,6 +62,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
     this.framebuffers = new JOGLFramebuffers(c, this.textures);
     this.depth_buffers = new JOGLDepthBuffers(c, this.framebuffers);
     this.blending = new JOGLBlending(c);
+    this.poly = new JOGLPolygonMode(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -110,5 +113,10 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLFramebuffersType getFramebuffers()
   {
     return this.framebuffers;
+  }
+
+  @Override public JCGLPolygonModesType getPolygonModes()
+  {
+    return this.poly;
   }
 }

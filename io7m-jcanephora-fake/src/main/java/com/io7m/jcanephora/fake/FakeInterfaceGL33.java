@@ -26,6 +26,7 @@ import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
+import com.io7m.jcanephora.core.api.JCGLPolygonModesType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.junreachable.UnimplementedCodeException;
@@ -40,6 +41,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   private final FakeClear        clear;
   private final FakeTextures     textures;
   private final FakeBlending     blending;
+  private final FakePolygonMode  poly;
 
   FakeInterfaceGL33(final FakeContext c)
     throws JCGLExceptionNonCompliant
@@ -53,6 +55,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
     this.clear = new FakeClear(c);
     this.textures = new FakeTextures(c);
     this.blending = new FakeBlending(c);
+    this.poly = new FakePolygonMode(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -103,5 +106,10 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLFramebuffersType getFramebuffers()
   {
     throw new UnimplementedCodeException();
+  }
+
+  @Override public JCGLPolygonModesType getPolygonModes()
+  {
+    return this.poly;
   }
 }

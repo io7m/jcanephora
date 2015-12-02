@@ -81,4 +81,10 @@ public interface JCGLInterfaceGL33Type
    */
 
   JCGLFramebuffersType getFramebuffers();
+
+  /**
+   * @return The polygon modes interface
+   */
+
+  JCGLPolygonModesType getPolygonModes();
 }

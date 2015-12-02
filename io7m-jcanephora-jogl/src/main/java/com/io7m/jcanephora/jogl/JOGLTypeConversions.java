@@ -23,6 +23,7 @@ import com.io7m.jcanephora.core.JCGLFramebufferBlitBuffer;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitFilter;
 import com.io7m.jcanephora.core.JCGLFramebufferStatus;
 import com.io7m.jcanephora.core.JCGLPixelFormat;
+import com.io7m.jcanephora.core.JCGLPolygonMode;
 import com.io7m.jcanephora.core.JCGLPrimitives;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
@@ -38,6 +39,7 @@ import com.io7m.junreachable.UnreachableCodeException;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GL2ES3;
+import com.jogamp.opengl.GL2GL3;
 import com.jogamp.opengl.GL3;
 
 import java.util.Set;
@@ -145,6 +147,52 @@ public final class JOGLTypeConversions
         return GL.GL_SRC_COLOR;
       case BLEND_ZERO:
         return GL.GL_ZERO;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert polygon modes from GL constants.
+   *
+   * @param g
+   *          The GL constant.
+   * @return The value.
+   */
+
+  public static JCGLPolygonMode polygonModeFromGL(
+    final int g)
+  {
+    switch (g) {
+      case GL2GL3.GL_FILL:
+        return JCGLPolygonMode.POLYGON_FILL;
+      case GL2GL3.GL_LINE:
+        return JCGLPolygonMode.POLYGON_LINES;
+      case GL2GL3.GL_POINT:
+        return JCGLPolygonMode.POLYGON_POINTS;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert polygon modes to GL constants.
+   *
+   * @param g
+   *          The mode.
+   * @return The resulting GL constant.
+   */
+
+  public static int polygonModeToGL(
+    final JCGLPolygonMode g)
+  {
+    switch (g) {
+      case POLYGON_FILL:
+        return GL2GL3.GL_FILL;
+      case POLYGON_LINES:
+        return GL2GL3.GL_LINE;
+      case POLYGON_POINTS:
+        return GL2GL3.GL_POINT;
     }
 
     throw new UnreachableCodeException();
