@@ -29,6 +29,8 @@ import com.io7m.jcanephora.core.JCGLPolygonMode;
 import com.io7m.jcanephora.core.JCGLPrimitives;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
+import com.io7m.jcanephora.core.JCGLStencilFunction;
+import com.io7m.jcanephora.core.JCGLStencilOperation;
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
 import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
 import com.io7m.jcanephora.core.JCGLTextureWrapR;
@@ -157,8 +159,8 @@ public final class JOGLTypeConversions
   /**
    * Convert polygon modes from GL constants.
    *
-   * @param g
-   *          The GL constant.
+   * @param g The GL constant.
+   *
    * @return The value.
    */
 
@@ -180,8 +182,8 @@ public final class JOGLTypeConversions
   /**
    * Convert polygon modes to GL constants.
    *
-   * @param g
-   *          The mode.
+   * @param g The mode.
+   *
    * @return The resulting GL constant.
    */
 
@@ -1286,8 +1288,8 @@ public final class JOGLTypeConversions
   /**
    * Convert face selections from GL constants.
    *
-   * @param faces
-   *          The GL constant.
+   * @param faces The GL constant.
+   *
    * @return The value.
    */
 
@@ -1309,8 +1311,8 @@ public final class JOGLTypeConversions
   /**
    * Convert faces to GL constants.
    *
-   * @param faces
-   *          The faces.
+   * @param faces The faces.
+   *
    * @return The resulting GL constant.
    */
 
@@ -1332,8 +1334,8 @@ public final class JOGLTypeConversions
   /**
    * Convert winding orders to GL constants.
    *
-   * @param f
-   *          The order.
+   * @param f The order.
+   *
    * @return The resulting GL constant.
    */
 
@@ -1353,8 +1355,8 @@ public final class JOGLTypeConversions
   /**
    * Convert face winding orders to GL constants.
    *
-   * @param f
-   *          The face winding order.
+   * @param f The face winding order.
+   *
    * @return The resulting GL constant.
    */
 
@@ -1366,6 +1368,138 @@ public final class JOGLTypeConversions
         return GL.GL_CW;
       case FRONT_FACE_COUNTER_CLOCKWISE:
         return GL.GL_CCW;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert stencil functions to GL constants.
+   *
+   * @param function The function.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int stencilFunctionToGL(
+    final JCGLStencilFunction function)
+  {
+    switch (function) {
+      case STENCIL_ALWAYS:
+        return GL.GL_ALWAYS;
+      case STENCIL_EQUAL:
+        return GL.GL_EQUAL;
+      case STENCIL_GREATER_THAN:
+        return GL.GL_GREATER;
+      case STENCIL_GREATER_THAN_OR_EQUAL:
+        return GL.GL_GEQUAL;
+      case STENCIL_LESS_THAN:
+        return GL.GL_LESS;
+      case STENCIL_LESS_THAN_OR_EQUAL:
+        return GL.GL_LEQUAL;
+      case STENCIL_NEVER:
+        return GL.GL_NEVER;
+      case STENCIL_NOT_EQUAL:
+        return GL.GL_NOTEQUAL;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert stencil functions from GL constants.
+   *
+   * @param function The GL constant
+   *
+   * @return The resulting function
+   */
+
+  public static JCGLStencilFunction stencilFunctionFromGL(
+    final int function)
+  {
+    switch (function) {
+      case GL.GL_ALWAYS:
+        return JCGLStencilFunction.STENCIL_ALWAYS;
+      case GL.GL_EQUAL:
+        return JCGLStencilFunction.STENCIL_EQUAL;
+      case GL.GL_GREATER:
+        return JCGLStencilFunction.STENCIL_GREATER_THAN;
+      case GL.GL_GEQUAL:
+        return JCGLStencilFunction.STENCIL_GREATER_THAN_OR_EQUAL;
+      case GL.GL_LESS:
+        return JCGLStencilFunction.STENCIL_LESS_THAN;
+      case GL.GL_LEQUAL:
+        return JCGLStencilFunction.STENCIL_LESS_THAN_OR_EQUAL;
+      case GL.GL_NEVER:
+        return JCGLStencilFunction.STENCIL_NEVER;
+      case GL.GL_NOTEQUAL:
+        return JCGLStencilFunction.STENCIL_NOT_EQUAL;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert stencil ops to GL constants.
+   *
+   * @param op The op.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int stencilOperationToGL(
+    final JCGLStencilOperation op)
+  {
+    switch (op) {
+      case STENCIL_OP_DECREMENT:
+        return GL.GL_DECR;
+      case STENCIL_OP_DECREMENT_WRAP:
+        return GL.GL_DECR_WRAP;
+      case STENCIL_OP_INCREMENT:
+        return GL.GL_INCR;
+      case STENCIL_OP_INCREMENT_WRAP:
+        return GL.GL_INCR_WRAP;
+      case STENCIL_OP_INVERT:
+        return GL.GL_INVERT;
+      case STENCIL_OP_KEEP:
+        return GL.GL_KEEP;
+      case STENCIL_OP_REPLACE:
+        return GL.GL_REPLACE;
+      case STENCIL_OP_ZERO:
+        return GL.GL_ZERO;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert stencil ops from GL constants.
+   *
+   * @param op The GL constant
+   *
+   * @return The resulting operation
+   */
+
+  public static JCGLStencilOperation stencilOperationFromGL(
+    final int op)
+  {
+    switch (op) {
+      case GL.GL_DECR:
+        return JCGLStencilOperation.STENCIL_OP_DECREMENT;
+      case GL.GL_DECR_WRAP:
+        return JCGLStencilOperation.STENCIL_OP_DECREMENT_WRAP;
+      case GL.GL_INCR:
+        return JCGLStencilOperation.STENCIL_OP_INCREMENT;
+      case GL.GL_INCR_WRAP:
+        return JCGLStencilOperation.STENCIL_OP_INCREMENT_WRAP;
+      case GL.GL_INVERT:
+        return JCGLStencilOperation.STENCIL_OP_INVERT;
+      case GL.GL_KEEP:
+        return JCGLStencilOperation.STENCIL_OP_KEEP;
+      case GL.GL_REPLACE:
+        return JCGLStencilOperation.STENCIL_OP_REPLACE;
+      case GL.GL_ZERO:
+        return JCGLStencilOperation.STENCIL_OP_ZERO;
     }
 
     throw new UnreachableCodeException();

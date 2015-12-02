@@ -31,6 +31,7 @@ import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLPolygonModesType;
 import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
+import com.io7m.jcanephora.core.api.JCGLStencilBuffersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jcanephora.core.api.JCGLViewportsType;
 import com.io7m.junreachable.UnimplementedCodeException;
@@ -143,5 +144,10 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLScissorType getScissor()
   {
     return this.scissor;
+  }
+
+  @Override public JCGLStencilBuffersType getStencilBuffers()
+  {
+    throw new UnimplementedCodeException();
   }
 }

@@ -111,4 +111,10 @@ public interface JCGLInterfaceGL33Type
    */
 
   JCGLScissorType getScissor();
+
+  /**
+   * @return The stencil buffers interface
+   */
+
+  JCGLStencilBuffersType getStencilBuffers();
 }
