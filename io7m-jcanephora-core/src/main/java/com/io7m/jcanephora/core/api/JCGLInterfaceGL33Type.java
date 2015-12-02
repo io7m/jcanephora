@@ -87,4 +87,10 @@ public interface JCGLInterfaceGL33Type
    */
 
   JCGLPolygonModesType getPolygonModes();
+
+  /**
+   * @return The polygon culling interface
+   */
+
+  JCGLCullingType getCulling();
 }

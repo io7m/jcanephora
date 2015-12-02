@@ -21,6 +21,7 @@ import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLBlendingType;
 import com.io7m.jcanephora.core.api.JCGLClearType;
+import com.io7m.jcanephora.core.api.JCGLCullingType;
 import com.io7m.jcanephora.core.api.JCGLDepthBuffersType;
 import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
@@ -42,6 +43,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   private final FakeTextures     textures;
   private final FakeBlending     blending;
   private final FakePolygonMode  poly;
+  private final FakeCulling      culling;
 
   FakeInterfaceGL33(final FakeContext c)
     throws JCGLExceptionNonCompliant
@@ -56,6 +58,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
     this.textures = new FakeTextures(c);
     this.blending = new FakeBlending(c);
     this.poly = new FakePolygonMode(c);
+    this.culling = new FakeCulling(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -111,5 +114,10 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLPolygonModesType getPolygonModes()
   {
     return this.poly;
+  }
+
+  @Override public JCGLCullingType getCulling()
+  {
+    return this.culling;
   }
 }

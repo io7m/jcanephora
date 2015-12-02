@@ -19,6 +19,8 @@ package com.io7m.jcanephora.jogl;
 import com.io7m.jcanephora.core.JCGLBlendEquation;
 import com.io7m.jcanephora.core.JCGLBlendFunction;
 import com.io7m.jcanephora.core.JCGLDepthFunction;
+import com.io7m.jcanephora.core.JCGLFaceSelection;
+import com.io7m.jcanephora.core.JCGLFaceWindingOrder;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitBuffer;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitFilter;
 import com.io7m.jcanephora.core.JCGLFramebufferStatus;
@@ -1276,6 +1278,94 @@ public final class JOGLTypeConversions
         return GL.GL_FRAMEBUFFER_UNSUPPORTED;
       case FRAMEBUFFER_STATUS_ERROR_UNKNOWN:
         return -1;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert face selections from GL constants.
+   *
+   * @param faces
+   *          The GL constant.
+   * @return The value.
+   */
+
+  public static JCGLFaceSelection faceSelectionFromGL(
+    final int faces)
+  {
+    switch (faces) {
+      case GL.GL_BACK:
+        return JCGLFaceSelection.FACE_BACK;
+      case GL.GL_FRONT:
+        return JCGLFaceSelection.FACE_FRONT;
+      case GL.GL_FRONT_AND_BACK:
+        return JCGLFaceSelection.FACE_FRONT_AND_BACK;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert faces to GL constants.
+   *
+   * @param faces
+   *          The faces.
+   * @return The resulting GL constant.
+   */
+
+  public static int faceSelectionToGL(
+    final JCGLFaceSelection faces)
+  {
+    switch (faces) {
+      case FACE_BACK:
+        return GL.GL_BACK;
+      case FACE_FRONT:
+        return GL.GL_FRONT;
+      case FACE_FRONT_AND_BACK:
+        return GL.GL_FRONT_AND_BACK;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert winding orders to GL constants.
+   *
+   * @param f
+   *          The order.
+   * @return The resulting GL constant.
+   */
+
+  public static JCGLFaceWindingOrder faceWindingOrderFromGL(
+    final int f)
+  {
+    switch (f) {
+      case GL.GL_CW:
+        return JCGLFaceWindingOrder.FRONT_FACE_CLOCKWISE;
+      case GL.GL_CCW:
+        return JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert face winding orders to GL constants.
+   *
+   * @param f
+   *          The face winding order.
+   * @return The resulting GL constant.
+   */
+
+  public static int faceWindingOrderToGL(
+    final JCGLFaceWindingOrder f)
+  {
+    switch (f) {
+      case FRONT_FACE_CLOCKWISE:
+        return GL.GL_CW;
+      case FRONT_FACE_COUNTER_CLOCKWISE:
+        return GL.GL_CCW;
     }
 
     throw new UnreachableCodeException();
