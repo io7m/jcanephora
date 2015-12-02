@@ -36,7 +36,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
- * Array buffer contracts.
+ * Drawing contracts.
  */
 
 // CHECKSTYLE_JAVADOC:OFF

@@ -105,4 +105,10 @@ public interface JCGLInterfaceGL33Type
    */
 
   JCGLViewportsType getViewports();
+
+  /**
+   * @return The scissor interface
+   */
+
+  JCGLScissorType getScissor();
 }

@@ -29,6 +29,7 @@ import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLPolygonModesType;
+import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jcanephora.core.api.JCGLViewportsType;
@@ -48,6 +49,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   private final FakeCulling            culling;
   private final FakeColorBufferMasking color_masking;
   private final FakeViewports          viewports;
+  private final FakeScissor            scissor;
 
   FakeInterfaceGL33(final FakeContext c)
     throws JCGLExceptionNonCompliant
@@ -65,6 +67,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
     this.culling = new FakeCulling(c);
     this.color_masking = new FakeColorBufferMasking(c);
     this.viewports = new FakeViewports(c);
+    this.scissor = new FakeScissor(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -135,5 +138,10 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLViewportsType getViewports()
   {
     return this.viewports;
+  }
+
+  @Override public JCGLScissorType getScissor()
+  {
+    return this.scissor;
   }
 }

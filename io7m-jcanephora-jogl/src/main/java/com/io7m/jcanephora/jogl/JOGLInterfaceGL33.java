@@ -29,6 +29,7 @@ import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLPolygonModesType;
+import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jcanephora.core.api.JCGLViewportsType;
@@ -49,7 +50,8 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   private final JOGLPolygonMode        poly;
   private final JOGLCulling            culling;
   private final JOGLColorBufferMasking color_masking;
-  private final JOGLViewports viewports;
+  private final JOGLViewports          viewports;
+  private final JOGLScissor            scissor;
 
   JOGLInterfaceGL33(
     final JOGLContext c)
@@ -72,6 +74,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
     this.culling = new JOGLCulling(c);
     this.color_masking = new JOGLColorBufferMasking(c);
     this.viewports = new JOGLViewports(c);
+    this.scissor = new JOGLScissor(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -142,5 +145,10 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLViewportsType getViewports()
   {
     return this.viewports;
+  }
+
+  @Override public JCGLScissorType getScissor()
+  {
+    return this.scissor;
   }
 }
