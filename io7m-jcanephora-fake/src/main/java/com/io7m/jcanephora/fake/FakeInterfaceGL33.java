@@ -31,6 +31,7 @@ import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLPolygonModesType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
+import com.io7m.jcanephora.core.api.JCGLViewportsType;
 import com.io7m.junreachable.UnimplementedCodeException;
 
 final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
@@ -46,6 +47,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   private final FakePolygonMode        poly;
   private final FakeCulling            culling;
   private final FakeColorBufferMasking color_masking;
+  private final FakeViewports          viewports;
 
   FakeInterfaceGL33(final FakeContext c)
     throws JCGLExceptionNonCompliant
@@ -62,6 +64,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
     this.poly = new FakePolygonMode(c);
     this.culling = new FakeCulling(c);
     this.color_masking = new FakeColorBufferMasking(c);
+    this.viewports = new FakeViewports(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -127,5 +130,10 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLColorBufferMaskingType getColorBufferMasking()
   {
     return this.color_masking;
+  }
+
+  @Override public JCGLViewportsType getViewports()
+  {
+    return this.viewports;
   }
 }

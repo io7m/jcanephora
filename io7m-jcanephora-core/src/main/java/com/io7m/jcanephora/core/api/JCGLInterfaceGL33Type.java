@@ -99,4 +99,10 @@ public interface JCGLInterfaceGL33Type
    */
 
   JCGLColorBufferMaskingType getColorBufferMasking();
+
+  /**
+   * @return The viewports interface
+   */
+
+  JCGLViewportsType getViewports();
 }

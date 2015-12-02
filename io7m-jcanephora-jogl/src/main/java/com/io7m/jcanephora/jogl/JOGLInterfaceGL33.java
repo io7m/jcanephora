@@ -31,6 +31,7 @@ import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLPolygonModesType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
+import com.io7m.jcanephora.core.api.JCGLViewportsType;
 import com.io7m.jnull.NullCheck;
 
 final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
@@ -48,6 +49,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   private final JOGLPolygonMode        poly;
   private final JOGLCulling            culling;
   private final JOGLColorBufferMasking color_masking;
+  private final JOGLViewports viewports;
 
   JOGLInterfaceGL33(
     final JOGLContext c)
@@ -69,6 +71,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
     this.poly = new JOGLPolygonMode(c);
     this.culling = new JOGLCulling(c);
     this.color_masking = new JOGLColorBufferMasking(c);
+    this.viewports = new JOGLViewports(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -134,5 +137,10 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLColorBufferMaskingType getColorBufferMasking()
   {
     return this.color_masking;
+  }
+
+  @Override public JCGLViewportsType getViewports()
+  {
+    return this.viewports;
   }
 }
