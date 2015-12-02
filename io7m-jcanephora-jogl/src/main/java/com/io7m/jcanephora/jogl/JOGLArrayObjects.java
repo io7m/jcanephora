@@ -248,7 +248,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 
   private void actualBind(final JOGLArrayObject a)
   {
-    JOGLArrayObjects.LOG.trace("bind {} → {}", this.bind, a);
+    JOGLArrayObjects.LOG.trace("bind {} -> {}", this.bind, a);
     if (this.bind.getGLName() != a.getGLName()) {
       this.gl.glBindVertexArray(a.getGLName());
       this.bind = a;
@@ -258,7 +258,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
   private void actualUnbind()
   {
     JOGLArrayObjects.LOG.trace(
-      "unbind {} → {}", this.bind, this.default_buffer);
+      "unbind {} -> {}", this.bind, this.default_buffer);
     if (this.bind.getGLName() != this.default_buffer.getGLName()) {
       this.gl.glBindVertexArray(0);
       this.bind = this.default_buffer;

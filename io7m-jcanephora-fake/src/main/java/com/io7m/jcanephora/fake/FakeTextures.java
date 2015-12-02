@@ -189,7 +189,7 @@ final class FakeTextures implements JCGLTexturesType
   {
     final int binding = this.bindings[index];
     FakeTextures.LOG.trace(
-      "bind 2D [{}]: {} → {}",
+      "bind 2D [{}]: {} -> {}",
       Integer.valueOf(index),
       Integer.valueOf(binding),
       Integer.valueOf(texture_id));
@@ -203,7 +203,7 @@ final class FakeTextures implements JCGLTexturesType
   {
     final int binding = this.bindings[index];
     FakeTextures.LOG.trace(
-      "unbind 2D [{}]: {} → {}",
+      "unbind 2D [{}]: {} -> {}",
       Integer.valueOf(index),
       Integer.valueOf(binding),
       Integer.valueOf(0));

@@ -99,7 +99,7 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
 
     ao.setIndexBuffer(
       ib_opt -> {
-        FakeIndexBuffers.LOG.trace("bind {}/{} → {}", ao, ib_opt, ib);
+        FakeIndexBuffers.LOG.trace("bind {}/{} -> {}", ao, ib_opt, ib);
 
         if (ib_opt.isPresent()) {
           final JCGLIndexBufferUsableType current = ib_opt.get();

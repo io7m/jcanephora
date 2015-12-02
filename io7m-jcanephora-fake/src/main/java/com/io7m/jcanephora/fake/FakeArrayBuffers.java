@@ -54,7 +54,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
 
   private void actualBind(final FakeArrayBuffer a)
   {
-    FakeArrayBuffers.LOG.trace("bind {} → {}", this.bind, a);
+    FakeArrayBuffers.LOG.trace("bind {} -> {}", this.bind, a);
     if (!a.equals(this.bind)) {
       this.bind = a;
     }
@@ -63,7 +63,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
   private void actualUnbind()
   {
     FakeArrayBuffers.LOG.trace(
-      "unbind {} → {}", this.bind, null);
+      "unbind {} -> {}", this.bind, null);
     if (this.bind != null) {
       this.bind = null;
     }

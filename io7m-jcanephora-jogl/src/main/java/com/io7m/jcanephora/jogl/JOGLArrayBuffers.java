@@ -90,7 +90,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
 
   private void actualBind(final JOGLArrayBuffer a)
   {
-    JOGLArrayBuffers.LOG.trace("bind {} → {}", this.bind, a);
+    JOGLArrayBuffers.LOG.trace("bind {} -> {}", this.bind, a);
     if (!a.equals(this.bind)) {
       this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, a.getGLName());
       this.bind = a;
@@ -99,7 +99,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
 
   private void actualUnbind()
   {
-    JOGLArrayBuffers.LOG.trace("unbind {} → {}", this.bind, null);
+    JOGLArrayBuffers.LOG.trace("unbind {} -> {}", this.bind, null);
     if (this.bind != null) {
       this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
       this.bind = null;

@@ -377,7 +377,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
         final JCGLFramebufferColorAttachmentPointType attach =
           bb.draw_buffers.get(buffer);
         JOGLFramebuffers.LOG.debug(
-          "[{}] draw buffer {} → color {}",
+          "[{}] draw buffer {} -> color {}",
           Integer.valueOf(f_id),
           Integer.valueOf(index),
           Integer.valueOf(attach.colorAttachmentPointGetIndex()));
@@ -386,7 +386,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
           GL.GL_COLOR_ATTACHMENT0 + attach.colorAttachmentPointGetIndex());
       } else {
         JOGLFramebuffers.LOG.debug(
-          "[{}] draw buffer {} → none",
+          "[{}] draw buffer {} -> none",
           Integer.valueOf(f_id),
           Integer.valueOf(index));
         draw_buffer_mappings.put(index, GL.GL_NONE);
@@ -420,7 +420,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
   private void actualBindDraw(final JOGLFramebuffer f)
   {
-    JOGLFramebuffers.LOG.trace("bind draw {} → {}", this.bind_draw, f);
+    JOGLFramebuffers.LOG.trace("bind draw {} -> {}", this.bind_draw, f);
 
     for (final JCGLReferableType r : f.getReferences()) {
       if (r instanceof JCGLTexture2DUsableType) {
@@ -437,7 +437,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
   private void actualBindRead(final JOGLFramebuffer f)
   {
-    JOGLFramebuffers.LOG.trace("bind read {} → {}", this.bind_read, f);
+    JOGLFramebuffers.LOG.trace("bind read {} -> {}", this.bind_read, f);
 
     this.gl.glBindFramebuffer(GL.GL_READ_FRAMEBUFFER, f.getGLName());
     this.bind_read = f;
@@ -445,7 +445,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
   private void actualUnbindDraw()
   {
-    JOGLFramebuffers.LOG.trace("unbind {} → {}", this.bind_draw, null);
+    JOGLFramebuffers.LOG.trace("unbind {} -> {}", this.bind_draw, null);
     this.gl.glBindFramebuffer(
       GL.GL_DRAW_FRAMEBUFFER,
       this.gl.getDefaultDrawFramebuffer());
@@ -454,7 +454,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
   private void actualUnbindRead()
   {
-    JOGLFramebuffers.LOG.trace("unbind {} → {}", this.bind_read, null);
+    JOGLFramebuffers.LOG.trace("unbind {} -> {}", this.bind_read, null);
     this.gl.glBindFramebuffer(
       GL.GL_READ_FRAMEBUFFER,
       this.gl.getDefaultReadFramebuffer());

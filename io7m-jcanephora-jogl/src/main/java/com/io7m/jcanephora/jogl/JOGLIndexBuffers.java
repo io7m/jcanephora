@@ -114,7 +114,7 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
 
     ao.setIndexBuffer(
       ib_opt -> {
-        JOGLIndexBuffers.LOG.trace("bind {}/{} → {}", ao, ib_opt, ib);
+        JOGLIndexBuffers.LOG.trace("bind {}/{} -> {}", ao, ib_opt, ib);
 
         if (ib_opt.isPresent()) {
           final JCGLIndexBufferUsableType current = ib_opt.get();

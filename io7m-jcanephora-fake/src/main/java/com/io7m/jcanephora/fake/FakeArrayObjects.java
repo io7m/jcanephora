@@ -198,7 +198,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
 
   private void actualBind(final FakeArrayObject a)
   {
-    FakeArrayObjects.LOG.trace("bind {} → {}", this.bind, a);
+    FakeArrayObjects.LOG.trace("bind {} -> {}", this.bind, a);
     if (this.bind.getGLName() != a.getGLName()) {
       this.bind = a;
     }
@@ -207,7 +207,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
   private void actualUnbind()
   {
     FakeArrayObjects.LOG.trace(
-      "unbind {} → {}", this.bind, this.default_buffer);
+      "unbind {} -> {}", this.bind, this.default_buffer);
     if (this.bind.getGLName() != this.default_buffer.getGLName()) {
       this.bind = this.default_buffer;
     }
