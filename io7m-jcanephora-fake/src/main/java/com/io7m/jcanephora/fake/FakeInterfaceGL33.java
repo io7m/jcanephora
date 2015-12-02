@@ -39,6 +39,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   private final FakeDraw         draw;
   private final FakeClear        clear;
   private final FakeTextures     textures;
+  private final FakeBlending     blending;
 
   FakeInterfaceGL33(final FakeContext c)
     throws JCGLExceptionNonCompliant
@@ -51,6 +52,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
     this.draw = new FakeDraw(c, this.shaders, this.index_buffers);
     this.clear = new FakeClear(c);
     this.textures = new FakeTextures(c);
+    this.blending = new FakeBlending(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -65,7 +67,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
 
   @Override public JCGLBlendingType getBlending()
   {
-    throw new UnimplementedCodeException();
+    return this.blending;
   }
 
   @Override public JCGLDepthBuffersType getDepthBuffers()
