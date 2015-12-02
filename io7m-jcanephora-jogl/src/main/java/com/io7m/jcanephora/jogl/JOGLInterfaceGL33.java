@@ -20,6 +20,7 @@ import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLClearType;
+import com.io7m.jcanephora.core.api.JCGLDepthBuffersType;
 import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
@@ -38,6 +39,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   private final JOGLClear        clear;
   private final JOGLTextures     textures;
   private final JOGLFramebuffers framebuffers;
+  private final JOGLDepthBuffers depth_buffers;
 
   JOGLInterfaceGL33(
     final JOGLContext c)
@@ -54,6 +56,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
     this.clear = new JOGLClear(c);
     this.textures = new JOGLTextures(c);
     this.framebuffers = new JOGLFramebuffers(c, this.textures);
+    this.depth_buffers = new JOGLDepthBuffers(c, this.framebuffers);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -64,6 +67,11 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLArrayObjectsType getArrayObjects()
   {
     return this.array_objects;
+  }
+
+  @Override public JCGLDepthBuffersType getDepthBuffers()
+  {
+    return this.depth_buffers;
   }
 
   @Override public JCGLShadersType getShaders()

@@ -29,7 +29,7 @@ public final class JOGLDrawTestGL33 extends JCGLDrawContract
 
   @Override protected Interfaces getInterfaces(final String name)
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
+    final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     return new Interfaces(
       c,

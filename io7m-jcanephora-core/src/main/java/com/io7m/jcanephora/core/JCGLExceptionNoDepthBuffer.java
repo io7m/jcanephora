@@ -14,22 +14,25 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
+/**
+ * An exception indicating an attempt to use a depth buffer on a framebuffer
+ * that does not have any kind of depth attachment.
+ */
 
-public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
+public final class JCGLExceptionNoDepthBuffer extends JCGLException
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
-  {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getArrayBuffers();
-  }
+  private static final long serialVersionUID = 1L;
 
-  @Override public void onTestCompleted()
+  /**
+   * Construct an exception.
+   *
+   * @param message The message
+   */
+
+  public JCGLExceptionNoDepthBuffer(final String message)
   {
-    JOGLTestContexts.closeAllContexts();
+    super(message);
   }
 }

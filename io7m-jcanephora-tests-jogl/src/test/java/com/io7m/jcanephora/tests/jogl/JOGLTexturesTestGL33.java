@@ -45,7 +45,7 @@ public final class JOGLTexturesTestGL33 extends JCGLTexturesContract
 
   @Override protected JCGLTexturesType getTextures(final String name)
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
+    final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     return c.contextGetGL33().getTextures();
   }
 
@@ -72,7 +72,7 @@ public final class JOGLTexturesTestGL33 extends JCGLTexturesContract
             }
           }
         };
-      });
+      }, 24, 8);
   }
 
   @Test public void testNonCompliantTextureUnits()
@@ -98,7 +98,7 @@ public final class JOGLTexturesTestGL33 extends JCGLTexturesContract
             }
           }
         };
-      });
+      }, 24, 8);
   }
 
   @Test public void testClampedTextures()
@@ -124,7 +124,7 @@ public final class JOGLTexturesTestGL33 extends JCGLTexturesContract
               }
             }
           };
-        });
+        }, 24, 8);
 
     final JCGLInterfaceGL33Type g = x.contextGetGL33();
     final JCGLTexturesType t = g.getTextures();

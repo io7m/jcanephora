@@ -63,20 +63,29 @@ public final class JOGLTestContexts
 
   }
 
-  public static JCGLContextType newGL33Context(final String name)
+  public static JCGLContextType newGL33Context(
+    final String name,
+    final int depth,
+    final int stencil)
   {
     final Function<GLContext, GL3> supplier =
       JOGLTestContexts.GL_CONTEXT_GL3_SUPPLIER;
-    return JOGLTestContexts.newGL33ContextWithSupplier(name, supplier);
+    return JOGLTestContexts.newGL33ContextWithSupplier(
+      name,
+      supplier,
+      depth,
+      stencil);
   }
 
   public static JCGLContextType newGL33ContextWithSupplier(
     final String name,
-    final Function<GLContext, GL3> supplier)
+    final Function<GLContext, GL3> supplier,
+    final int depth,
+    final int stencil)
   {
     try {
       return JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
-        name, supplier);
+        name, supplier, depth, stencil);
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
@@ -84,22 +93,34 @@ public final class JOGLTestContexts
 
   public static JCGLContextType newGL33ContextWithSupplierAndErrors(
     final String name,
-    final Function<GLContext, GL3> supplier)
+    final Function<GLContext, GL3> supplier,
+    final int depth,
+    final int stencil)
     throws JCGLExceptionUnsupported, JCGLExceptionNonCompliant
   {
-    final GLContext c = JOGLTestContexts.newGL33Drawable(name);
+    final GLContext c = JOGLTestContexts.newGL33Drawable(name, depth, stencil);
     return JOGLTestContexts.IMPLEMENTATION.newContextFromWithSupplier(
       c, supplier, name);
   }
 
-  public static GLContext newGL33Drawable(final String name)
+  public static GLContext newGL33Drawable(
+    final String name,
+    final int depth,
+    final int stencil)
   {
-    JOGLTestContexts.LOG.debug("creating drawable {}", name);
+    JOGLTestContexts.LOG.debug(
+      "creating drawable {} (depth {}) (stencil {})",
+      name,
+      Integer.valueOf(depth),
+      Integer.valueOf(stencil));
     JOGLTestContexts.destroyCachedDrawableAndRemove(name);
 
     final GLProfile profile = GLProfile.get(GLProfile.GL3);
     final GLCapabilities cap = new GLCapabilities(profile);
     cap.setFBO(true);
+    cap.setDepthBits(depth);
+    cap.setStencilBits(stencil);
+
     final GLDrawableFactory f = GLDrawableFactory.getFactory(profile);
     final GLOffscreenAutoDrawable drawable =
       f.createOffscreenAutoDrawable(null, cap, null, 640, 480);

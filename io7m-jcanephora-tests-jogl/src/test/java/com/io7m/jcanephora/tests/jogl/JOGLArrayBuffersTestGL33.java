@@ -26,7 +26,7 @@ public final class JOGLArrayBuffersTestGL33 extends JCGLArrayBuffersContract
 {
   @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
+    final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     return c.contextGetGL33().getArrayBuffers();
   }
 
@@ -36,8 +36,8 @@ public final class JOGLArrayBuffersTestGL33 extends JCGLArrayBuffersContract
     final String main,
     final String alt)
   {
-    final JCGLContextType c0 = JOGLTestContexts.newGL33Context(main);
-    final JCGLContextType c1 = JOGLTestContexts.newGL33Context(alt);
+    final JCGLContextType c0 = JOGLTestContexts.newGL33Context(main, 24, 8);
+    final JCGLContextType c1 = JOGLTestContexts.newGL33Context(alt, 24, 8);
     return new JCGLUnsharedContextPair<>(
       c0.contextGetGL33().getArrayBuffers(),
       c0,

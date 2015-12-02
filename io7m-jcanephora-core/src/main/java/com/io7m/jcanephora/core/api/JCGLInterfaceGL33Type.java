@@ -35,6 +35,12 @@ public interface JCGLInterfaceGL33Type
   JCGLArrayObjectsType getArrayObjects();
 
   /**
+   * @return The depth buffers interface
+   */
+
+  JCGLDepthBuffersType getDepthBuffers();
+
+  /**
    * @return The shaders interface
    */
 

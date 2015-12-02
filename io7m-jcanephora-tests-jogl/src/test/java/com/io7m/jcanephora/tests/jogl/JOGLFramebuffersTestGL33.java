@@ -61,13 +61,13 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
             }
           }
         };
-      });
+      }, 24, 8);
   }
 
   @Test public void testClampedDrawBuffers()
     throws Exception
   {
-    JCGLContextType gg = JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
+    final JCGLContextType gg = JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
       "main", c -> {
         final GL3 base = c.getGL().getGL3();
         return new DebugGL3(base)
@@ -86,17 +86,18 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
             }
           }
         };
-      });
+      }, 24, 8);
 
-    JCGLInterfaceGL33Type i = gg.contextGetGL33();
-    JCGLFramebuffersType gf = i.getFramebuffers();
-    Assert.assertEquals(1024, gf.framebufferGetDrawBuffers().size());
+    final JCGLInterfaceGL33Type i = gg.contextGetGL33();
+    final JCGLFramebuffersType gf = i.getFramebuffers();
+    Assert.assertEquals(1024L, (long) gf.framebufferGetDrawBuffers().size());
   }
 
   @Test public void testClampedColorAttachments()
     throws Exception
   {
-    JCGLContextType gg = JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
+    final JCGLContextType gg =
+      JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
       "main", c -> {
         final GL3 base = c.getGL().getGL3();
         return new DebugGL3(base)
@@ -115,11 +116,12 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
             }
           }
         };
-      });
+      }, 24, 8);
 
-    JCGLInterfaceGL33Type i = gg.contextGetGL33();
-    JCGLFramebuffersType gf = i.getFramebuffers();
-    Assert.assertEquals(1024, gf.framebufferGetColorAttachments().size());
+    final JCGLInterfaceGL33Type i = gg.contextGetGL33();
+    final JCGLFramebuffersType gf = i.getFramebuffers();
+    Assert.assertEquals(
+      1024L, (long) gf.framebufferGetColorAttachments().size());
   }
 
   @Test public void testNonCompliantDrawBuffers()
@@ -145,7 +147,7 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
             }
           }
         };
-      });
+      }, 24, 8);
   }
 
   @Override public void onTestCompleted()
@@ -155,7 +157,7 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
 
   @Override protected Interfaces getInterfaces(final String name)
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
+    final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     return new Interfaces(c, cg.getFramebuffers(), cg.getTextures());
   }

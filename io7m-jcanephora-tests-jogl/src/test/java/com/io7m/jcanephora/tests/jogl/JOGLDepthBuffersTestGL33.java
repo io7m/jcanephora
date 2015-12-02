@@ -17,31 +17,28 @@
 package com.io7m.jcanephora.tests.jogl;
 
 import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.tests.contracts.JCGLContextContract;
-import com.io7m.jcanephora.tests.contracts.JCGLSharedContextPair;
+import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
+import com.io7m.jcanephora.tests.contracts.JCGLDepthBuffersContract;
 
-public final class JOGLContextsTestGL33 extends JCGLContextContract
+public final class JOGLDepthBuffersTestGL33 extends JCGLDepthBuffersContract
 {
-  @Override protected JCGLContextType newContext(final String name)
-  {
-    return JOGLTestContexts.newGL33Context(name, 24, 8);
-  }
-
-  @Override protected JCGLSharedContextPair<JCGLContextType> newSharedContext(
-    final String name,
-    final String shared)
-  {
-    final JCGLSharedContextPair<JCGLContextType> p =
-      JOGLTestContexts.newGL33ContextSharedWith(
-        name, shared);
-
-    final JCGLContextType mc = p.getMasterContext();
-    final JCGLContextType sc = p.getSlaveContext();
-    return new JCGLSharedContextPair<>(mc, mc, sc, sc);
-  }
-
   @Override public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
+  }
+
+  @Override protected Interfaces getInterfaces(
+    final String name,
+    final int depth,
+    final int stencil)
+  {
+    final JCGLContextType c =
+      JOGLTestContexts.newGL33Context(name, depth, stencil);
+    final JCGLInterfaceGL33Type cg = c.contextGetGL33();
+    return new Interfaces(
+      c,
+      cg.getFramebuffers(),
+      cg.getTextures(),
+      cg.getDepthBuffers());
   }
 }

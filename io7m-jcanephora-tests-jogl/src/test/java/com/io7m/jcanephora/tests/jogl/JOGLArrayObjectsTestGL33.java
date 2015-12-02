@@ -41,7 +41,7 @@ public final class JOGLArrayObjectsTestGL33 extends JCGLArrayObjectsContract
 
   @Override protected Interfaces getInterfaces(final String name)
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name);
+    final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     final JCGLArrayBuffersType ga = cg.getArrayBuffers();
     final JCGLIndexBuffersType gi = cg.getIndexBuffers();
@@ -72,7 +72,7 @@ public final class JOGLArrayObjectsTestGL33 extends JCGLArrayObjectsContract
             }
           }
         };
-      });
+      }, 24, 8);
   }
 
   @Override public void onTestCompleted()

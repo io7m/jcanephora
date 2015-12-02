@@ -41,7 +41,7 @@ public final class JOGLImplementationTest extends JCGLContract
      * the types to make it impossible to do this.
      */
 
-    final GLContext c = JOGLTestContexts.newGL33Drawable("main");
+    final GLContext c = JOGLTestContexts.newGL33Drawable("main", 24, 8);
     final Field f = GLContext.class.getDeclaredField("ctxVersion");
     f.setAccessible(true);
     f.set(c, new VersionNumber(1, 0, 0));

@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jcanephora.core.JCGLDepthFunction;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitBuffer;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitFilter;
 import com.io7m.jcanephora.core.JCGLFramebufferStatus;
@@ -50,6 +51,72 @@ public final class JOGLTypeConversions
 {
   private JOGLTypeConversions()
   {
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert depth functions from GL constants.
+   *
+   * @param d
+   *          The GL constant.
+   * @return The value.
+   */
+
+  public static JCGLDepthFunction depthFunctionFromGL(
+    final int d)
+  {
+    switch (d) {
+      case GL.GL_ALWAYS:
+        return JCGLDepthFunction.DEPTH_ALWAYS;
+      case GL.GL_EQUAL:
+        return JCGLDepthFunction.DEPTH_EQUAL;
+      case GL.GL_GREATER:
+        return JCGLDepthFunction.DEPTH_GREATER_THAN;
+      case GL.GL_GEQUAL:
+        return JCGLDepthFunction.DEPTH_GREATER_THAN_OR_EQUAL;
+      case GL.GL_LESS:
+        return JCGLDepthFunction.DEPTH_LESS_THAN;
+      case GL.GL_LEQUAL:
+        return JCGLDepthFunction.DEPTH_LESS_THAN_OR_EQUAL;
+      case GL.GL_NEVER:
+        return JCGLDepthFunction.DEPTH_NEVER;
+      case GL.GL_NOTEQUAL:
+        return JCGLDepthFunction.DEPTH_NOT_EQUAL;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert depth functions to GL constants.
+   *
+   * @param d
+   *          The function.
+   * @return The resulting GL constant.
+   */
+
+  public static int depthFunctionToGL(
+    final JCGLDepthFunction d)
+  {
+    switch (d) {
+      case DEPTH_ALWAYS:
+        return GL.GL_ALWAYS;
+      case DEPTH_EQUAL:
+        return GL.GL_EQUAL;
+      case DEPTH_GREATER_THAN:
+        return GL.GL_GREATER;
+      case DEPTH_GREATER_THAN_OR_EQUAL:
+        return GL.GL_GEQUAL;
+      case DEPTH_LESS_THAN:
+        return GL.GL_LESS;
+      case DEPTH_LESS_THAN_OR_EQUAL:
+        return GL.GL_LEQUAL;
+      case DEPTH_NEVER:
+        return GL.GL_NEVER;
+      case DEPTH_NOT_EQUAL:
+        return GL.GL_NOTEQUAL;
+    }
+
     throw new UnreachableCodeException();
   }
 

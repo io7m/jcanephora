@@ -35,14 +35,14 @@ public final class JOGLShadersTestGL33 extends JCGLShadersContract
 {
   @Override protected Interfaces getInterfaces(final String name)
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context("main");
+    final JCGLContextType c = JOGLTestContexts.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type i = c.contextGetGL33();
     return new Interfaces(c, i.getShaders(), i.getTextures());
   }
 
   @Override protected JCGLShadersType getShaders(final String name)
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context("main");
+    final JCGLContextType c = JOGLTestContexts.newGL33Context("main", 24, 8);
     return c.contextGetGL33().getShaders();
   }
 
@@ -51,8 +51,8 @@ public final class JOGLShadersTestGL33 extends JCGLShadersContract
     final String main,
     final String alt)
   {
-    final JCGLContextType c0 = JOGLTestContexts.newGL33Context(main);
-    final JCGLContextType c1 = JOGLTestContexts.newGL33Context(alt);
+    final JCGLContextType c0 = JOGLTestContexts.newGL33Context(main, 24, 8);
+    final JCGLContextType c1 = JOGLTestContexts.newGL33Context(alt, 24, 8);
     return new JCGLUnsharedContextPair<>(
       c0.contextGetGL33().getShaders(),
       c0,
