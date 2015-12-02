@@ -27,7 +27,7 @@ import java.util.OptionalInt;
  * The type of buffer clearing specifications.
  */
 
-@Value.Immutable @JCGLImmutableStyleType
+@Value.Immutable @Value.Modifiable @JCGLImmutableStyleType
 public interface JCGLClearSpecificationType
 {
   /**

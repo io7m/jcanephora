@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
-import com.io7m.jcanephora.core.JCGLClearSpecification;
+import com.io7m.jcanephora.core.JCGLClearSpecificationType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.api.JCGLClearType;
 import com.io7m.jnull.NullCheck;
@@ -40,7 +40,7 @@ final class JOGLClear implements JCGLClearType
     this.g3 = this.context.getGL3();
   }
 
-  @Override public void clear(final JCGLClearSpecification c)
+  @Override public void clear(final JCGLClearSpecificationType c)
     throws JCGLException
   {
     NullCheck.notNull(c);

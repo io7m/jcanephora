@@ -34,6 +34,7 @@ import java.lang.annotation.Target;
   init = "set*",
   typeAbstract = { "Abstract*", "*Type" },
   typeImmutable = "*",
+  typeModifiable = "*Mutable",
   builder = "builder",
   build = "build",
   visibility = Value.Style.ImplementationVisibility.PUBLIC,

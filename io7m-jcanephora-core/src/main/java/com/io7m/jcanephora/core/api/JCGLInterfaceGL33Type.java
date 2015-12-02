@@ -93,4 +93,10 @@ public interface JCGLInterfaceGL33Type
    */
 
   JCGLCullingType getCulling();
+
+  /**
+   * @return The color buffer masking interface
+   */
+
+  JCGLColorBufferMaskingType getColorBufferMasking();
 }

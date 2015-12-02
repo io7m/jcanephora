@@ -14,28 +14,24 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core.api;
+package com.io7m.jcanephora.tests.jogl;
 
-import com.io7m.jcanephora.core.JCGLClearSpecificationType;
-import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.api.JCGLColorBufferMaskingType;
+import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jcanephora.tests.contracts.JCGLColorBufferMaskingContract;
 
-/**
- * Functions to clear framebuffers.
- */
-
-public interface JCGLClearType
+public final class JOGLColorBufferMaskingTestGL33 extends
+  JCGLColorBufferMaskingContract
 {
-  /**
-   * Clear all buffers given by the specification.
-   *
-   * @param c
-   *          The specification
-   * @throws JCGLException
-   *           If an error occurs
-   */
+  @Override
+  protected JCGLColorBufferMaskingType getColorMasking(final String name)
+  {
+    final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
+    return c.contextGetGL33().getColorBufferMasking();
+  }
 
-  void clear(
-    final JCGLClearSpecificationType c)
-    throws JCGLException;
-
+  @Override public void onTestCompleted()
+  {
+    JOGLTestContexts.closeAllContexts();
+  }
 }

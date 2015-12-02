@@ -21,6 +21,7 @@ import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLBlendingType;
 import com.io7m.jcanephora.core.api.JCGLClearType;
+import com.io7m.jcanephora.core.api.JCGLColorBufferMaskingType;
 import com.io7m.jcanephora.core.api.JCGLCullingType;
 import com.io7m.jcanephora.core.api.JCGLDepthBuffersType;
 import com.io7m.jcanephora.core.api.JCGLDrawType;
@@ -34,16 +35,17 @@ import com.io7m.junreachable.UnimplementedCodeException;
 
 final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
 {
-  private final FakeArrayBuffers array_buffers;
-  private final FakeArrayObjects array_objects;
-  private final FakeShaders      shaders;
-  private final FakeIndexBuffers index_buffers;
-  private final FakeDraw         draw;
-  private final FakeClear        clear;
-  private final FakeTextures     textures;
-  private final FakeBlending     blending;
-  private final FakePolygonMode  poly;
-  private final FakeCulling      culling;
+  private final FakeArrayBuffers       array_buffers;
+  private final FakeArrayObjects       array_objects;
+  private final FakeShaders            shaders;
+  private final FakeIndexBuffers       index_buffers;
+  private final FakeDraw               draw;
+  private final FakeClear              clear;
+  private final FakeTextures           textures;
+  private final FakeBlending           blending;
+  private final FakePolygonMode        poly;
+  private final FakeCulling            culling;
+  private final FakeColorBufferMasking color_masking;
 
   FakeInterfaceGL33(final FakeContext c)
     throws JCGLExceptionNonCompliant
@@ -59,6 +61,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
     this.blending = new FakeBlending(c);
     this.poly = new FakePolygonMode(c);
     this.culling = new FakeCulling(c);
+    this.color_masking = new FakeColorBufferMasking(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -119,5 +122,10 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLCullingType getCulling()
   {
     return this.culling;
+  }
+
+  @Override public JCGLColorBufferMaskingType getColorBufferMasking()
+  {
+    return this.color_masking;
   }
 }

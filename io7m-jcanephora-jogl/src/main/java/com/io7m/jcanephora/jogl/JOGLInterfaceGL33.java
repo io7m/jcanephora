@@ -21,6 +21,7 @@ import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLBlendingType;
 import com.io7m.jcanephora.core.api.JCGLClearType;
+import com.io7m.jcanephora.core.api.JCGLColorBufferMaskingType;
 import com.io7m.jcanephora.core.api.JCGLCullingType;
 import com.io7m.jcanephora.core.api.JCGLDepthBuffersType;
 import com.io7m.jcanephora.core.api.JCGLDrawType;
@@ -34,18 +35,19 @@ import com.io7m.jnull.NullCheck;
 
 final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
 {
-  private final JOGLArrayBuffers array_buffers;
-  private final JOGLArrayObjects array_objects;
-  private final JOGLShaders      shaders;
-  private final JOGLIndexBuffers index_buffers;
-  private final JOGLDraw         draw;
-  private final JOGLClear        clear;
-  private final JOGLTextures     textures;
-  private final JOGLFramebuffers framebuffers;
-  private final JOGLDepthBuffers depth_buffers;
-  private final JOGLBlending     blending;
-  private final JOGLPolygonMode  poly;
-  private final JOGLCulling      culling;
+  private final JOGLArrayBuffers       array_buffers;
+  private final JOGLArrayObjects       array_objects;
+  private final JOGLShaders            shaders;
+  private final JOGLIndexBuffers       index_buffers;
+  private final JOGLDraw               draw;
+  private final JOGLClear              clear;
+  private final JOGLTextures           textures;
+  private final JOGLFramebuffers       framebuffers;
+  private final JOGLDepthBuffers       depth_buffers;
+  private final JOGLBlending           blending;
+  private final JOGLPolygonMode        poly;
+  private final JOGLCulling            culling;
+  private final JOGLColorBufferMasking color_masking;
 
   JOGLInterfaceGL33(
     final JOGLContext c)
@@ -66,6 +68,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
     this.blending = new JOGLBlending(c);
     this.poly = new JOGLPolygonMode(c);
     this.culling = new JOGLCulling(c);
+    this.color_masking = new JOGLColorBufferMasking(c);
   }
 
   @Override public JCGLArrayBuffersType getArrayBuffers()
@@ -126,5 +129,10 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLCullingType getCulling()
   {
     return this.culling;
+  }
+
+  @Override public JCGLColorBufferMaskingType getColorBufferMasking()
+  {
+    return this.color_masking;
   }
 }
