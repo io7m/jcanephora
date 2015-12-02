@@ -19,7 +19,6 @@ package com.io7m.jcanephora.jogl;
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
-import com.io7m.jcanephora.core.JCGLFramebufferUsableType;
 import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
@@ -51,7 +50,6 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 final class JOGLTextures implements JCGLTexturesType
 {
@@ -191,10 +189,8 @@ final class JOGLTextures implements JCGLTexturesType
     JOGLTextures.checkTexture2D(c, texture);
     JOGLTextures.checkTextureUnit(c, unit);
 
-    final Optional<JCGLFramebufferUsableType> fb_opt =
-      this.framebuffers.framebufferDrawGetBound();
-    if (fb_opt.isPresent()) {
-      final JCGLFramebufferUsableType fb = fb_opt.get();
+    final JOGLFramebuffer fb = this.framebuffers.getBindDraw();
+    if (fb != null) {
       for (final JCGLReferableType r : fb.getReferences()) {
         if (texture.equals(r)) {
           JOGLFramebuffers.onFeedbackLoop(fb, texture);

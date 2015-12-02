@@ -82,6 +82,11 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
   private       JOGLFramebuffer                               bind_draw;
   private       JOGLFramebuffer                               bind_read;
 
+  JOGLFramebuffer getBindDraw()
+  {
+    return this.bind_draw;
+  }
+
   JOGLFramebuffers(
     final JOGLContext c,
     final JOGLTextures t)
