@@ -56,6 +56,7 @@ import org.valid4j.Assertive;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +114,7 @@ final class JOGLShaders implements JCGLShadersType
 
     final byte[] raw = new byte[buffer_length.get(0)];
     log_buffer.get(raw);
-    final String tt = new String(raw);
+    final String tt = new String(raw, StandardCharsets.UTF_8);
     return new JCGLExceptionProgramCompileError(name, tt);
   }
 
