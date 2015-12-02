@@ -35,6 +35,12 @@ public interface JCGLInterfaceGL33Type
   JCGLArrayObjectsType getArrayObjects();
 
   /**
+   * @return The blending interface
+   */
+
+  JCGLBlendingType getBlending();
+
+  /**
    * @return The depth buffers interface
    */
 

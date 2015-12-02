@@ -19,6 +19,7 @@ package com.io7m.jcanephora.fake;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
+import com.io7m.jcanephora.core.api.JCGLBlendingType;
 import com.io7m.jcanephora.core.api.JCGLClearType;
 import com.io7m.jcanephora.core.api.JCGLDepthBuffersType;
 import com.io7m.jcanephora.core.api.JCGLDrawType;
@@ -60,6 +61,11 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   @Override public JCGLArrayObjectsType getArrayObjects()
   {
     return this.array_objects;
+  }
+
+  @Override public JCGLBlendingType getBlending()
+  {
+    throw new UnimplementedCodeException();
   }
 
   @Override public JCGLDepthBuffersType getDepthBuffers()

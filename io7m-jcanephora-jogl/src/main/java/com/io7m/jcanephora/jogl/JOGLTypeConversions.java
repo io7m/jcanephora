@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jcanephora.core.JCGLBlendEquation;
+import com.io7m.jcanephora.core.JCGLBlendFunction;
 import com.io7m.jcanephora.core.JCGLDepthFunction;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitBuffer;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitFilter;
@@ -55,10 +57,158 @@ public final class JOGLTypeConversions
   }
 
   /**
+   * Convert blend functions from GL constants.
+   *
+   * @param type The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLBlendFunction blendFunctionFromGL(
+    final int type)
+  {
+    switch (type) {
+      case GL2ES2.GL_CONSTANT_ALPHA:
+        return JCGLBlendFunction.BLEND_CONSTANT_ALPHA;
+      case GL2ES2.GL_CONSTANT_COLOR:
+        return JCGLBlendFunction.BLEND_CONSTANT_COLOR;
+      case GL.GL_DST_ALPHA:
+        return JCGLBlendFunction.BLEND_DESTINATION_ALPHA;
+      case GL.GL_DST_COLOR:
+        return JCGLBlendFunction.BLEND_DESTINATION_COLOR;
+      case GL.GL_ONE:
+        return JCGLBlendFunction.BLEND_ONE;
+      case GL2ES2.GL_ONE_MINUS_CONSTANT_ALPHA:
+        return JCGLBlendFunction.BLEND_ONE_MINUS_CONSTANT_ALPHA;
+      case GL2ES2.GL_ONE_MINUS_CONSTANT_COLOR:
+        return JCGLBlendFunction.BLEND_ONE_MINUS_CONSTANT_COLOR;
+      case GL.GL_ONE_MINUS_DST_ALPHA:
+        return JCGLBlendFunction.BLEND_ONE_MINUS_DESTINATION_ALPHA;
+      case GL.GL_ONE_MINUS_DST_COLOR:
+        return JCGLBlendFunction.BLEND_ONE_MINUS_DESTINATION_COLOR;
+      case GL.GL_ONE_MINUS_SRC_ALPHA:
+        return JCGLBlendFunction.BLEND_ONE_MINUS_SOURCE_ALPHA;
+      case GL.GL_ONE_MINUS_SRC_COLOR:
+        return JCGLBlendFunction.BLEND_ONE_MINUS_SOURCE_COLOR;
+      case GL.GL_SRC_ALPHA:
+        return JCGLBlendFunction.BLEND_SOURCE_ALPHA;
+      case GL.GL_SRC_COLOR:
+        return JCGLBlendFunction.BLEND_SOURCE_COLOR;
+      case GL.GL_SRC_ALPHA_SATURATE:
+        return JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE;
+      case GL.GL_ZERO:
+        return JCGLBlendFunction.BLEND_ZERO;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert blend functions to GL constants.
+   *
+   * @param function The function
+   *
+   * @return The resulting GL constant
+   */
+
+  public static int blendFunctionToGL(
+    final JCGLBlendFunction function)
+  {
+    switch (function) {
+      case BLEND_CONSTANT_ALPHA:
+        return GL2ES2.GL_CONSTANT_ALPHA;
+      case BLEND_CONSTANT_COLOR:
+        return GL2ES2.GL_CONSTANT_COLOR;
+      case BLEND_DESTINATION_ALPHA:
+        return GL.GL_DST_ALPHA;
+      case BLEND_DESTINATION_COLOR:
+        return GL.GL_DST_COLOR;
+      case BLEND_ONE:
+        return GL.GL_ONE;
+      case BLEND_ONE_MINUS_CONSTANT_ALPHA:
+        return GL2ES2.GL_ONE_MINUS_CONSTANT_ALPHA;
+      case BLEND_ONE_MINUS_CONSTANT_COLOR:
+        return GL2ES2.GL_ONE_MINUS_CONSTANT_COLOR;
+      case BLEND_ONE_MINUS_DESTINATION_ALPHA:
+        return GL.GL_ONE_MINUS_DST_ALPHA;
+      case BLEND_ONE_MINUS_DESTINATION_COLOR:
+        return GL.GL_ONE_MINUS_DST_COLOR;
+      case BLEND_ONE_MINUS_SOURCE_ALPHA:
+        return GL.GL_ONE_MINUS_SRC_ALPHA;
+      case BLEND_ONE_MINUS_SOURCE_COLOR:
+        return GL.GL_ONE_MINUS_SRC_COLOR;
+      case BLEND_SOURCE_ALPHA:
+        return GL.GL_SRC_ALPHA;
+      case BLEND_SOURCE_ALPHA_SATURATE:
+        return GL.GL_SRC_ALPHA_SATURATE;
+      case BLEND_SOURCE_COLOR:
+        return GL.GL_SRC_COLOR;
+      case BLEND_ZERO:
+        return GL.GL_ZERO;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert blend equations from GL constants.
+   *
+   * @param e The GL constant
+   *
+   * @return The value
+   */
+
+  public static JCGLBlendEquation blendEquationFromGL(
+    final int e)
+  {
+    switch (e) {
+      case GL.GL_FUNC_ADD:
+        return JCGLBlendEquation.BLEND_EQUATION_ADD;
+      case GL2ES3.GL_MAX:
+        return JCGLBlendEquation.BLEND_EQUATION_MAXIMUM;
+      case GL2ES3.GL_MIN:
+        return JCGLBlendEquation.BLEND_EQUATION_MINIMUM;
+      case GL.GL_FUNC_REVERSE_SUBTRACT:
+        return JCGLBlendEquation.BLEND_EQUATION_REVERSE_SUBTRACT;
+      case GL.GL_FUNC_SUBTRACT:
+        return JCGLBlendEquation.BLEND_EQUATION_SUBTRACT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert blend equations to GL constants.
+   *
+   * @param e The equation.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int blendEquationToGL(
+    final JCGLBlendEquation e)
+  {
+    switch (e) {
+      case BLEND_EQUATION_ADD:
+        return GL.GL_FUNC_ADD;
+      case BLEND_EQUATION_MAXIMUM:
+        return GL2ES3.GL_MAX;
+      case BLEND_EQUATION_MINIMUM:
+        return GL2ES3.GL_MIN;
+      case BLEND_EQUATION_REVERSE_SUBTRACT:
+        return GL.GL_FUNC_REVERSE_SUBTRACT;
+      case BLEND_EQUATION_SUBTRACT:
+        return GL.GL_FUNC_SUBTRACT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
    * Convert depth functions from GL constants.
    *
-   * @param d
-   *          The GL constant.
+   * @param d The GL constant.
+   *
    * @return The value.
    */
 
@@ -90,8 +240,8 @@ public final class JOGLTypeConversions
   /**
    * Convert depth functions to GL constants.
    *
-   * @param d
-   *          The function.
+   * @param d The function.
+   *
    * @return The resulting GL constant.
    */
 
@@ -828,6 +978,8 @@ public final class JOGLTypeConversions
     final int e)
   {
     switch (e) {
+      case GL.GL_UNSIGNED_INT_24_8:
+        return JCGLPixelFormat.PIXEL_PACKED_UNSIGNED_INT_24_8;
       case GL.GL_UNSIGNED_SHORT_5_6_5:
         return JCGLPixelFormat.PIXEL_PACKED_UNSIGNED_SHORT_565;
       case GL.GL_UNSIGNED_SHORT_5_5_5_1:
