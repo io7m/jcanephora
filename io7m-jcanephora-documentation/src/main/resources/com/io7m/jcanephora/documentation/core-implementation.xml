@@ -1,0 +1,45 @@
+<s:section
+  xml:id="core_interfaces.implementation"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLContextType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLImplementationType.html">JCGLImplementationType</s:link-external>
+      interface represents an OpenGL implementation. Specific implementations,
+      such as the
+      <s:link-external s:target="http://jogamp.org/jogl">JOGL</s:link-external>
+      implementation, provide subtypes of this interface that allow for
+      the creation of
+      <s:link s:target="core_interfaces.context">Contexts</s:link>. It is
+      not a goal of the package to wrap all of the complicated context
+      creation functionality exposed by packages such as JOGL - users
+      are expected to initialize and configure OpenGL contexts and then
+      pass those contexts to <s:term s:type="package">jcanephora</s:term>
+      for use.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage Example</s:subsection-title>
+    <s:paragraph>
+      An example that creates a pair of contexts using the JOGL
+      implementation:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>JOGL Implementation Example</s:formal-item-title>
+      <s:verbatim><![CDATA[
+GLContext gc_main;
+GLContext gc_background;
+
+JCGLImplementationJOGLType i = JCGLImplementationJOGL.getInstance();
+JCGLContextType c_main = i.newContextFrom(gc_main, "main");
+JCGLContextType c_back = i.newContextFrom(gc_background, "background-resources");
+]]>
+      </s:verbatim>
+    </s:formal-item>
+  </s:subsection>
+
+</s:section>

@@ -1,0 +1,16 @@
+<s:section
+  xml:id="core_interfaces.polygon_modes"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLPolygonModesType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLPolygonModesType.html">JCGLPolygonModesType</s:link-external>
+      interface provides functions for controlling the
+      rendering style of individual polygons.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>
