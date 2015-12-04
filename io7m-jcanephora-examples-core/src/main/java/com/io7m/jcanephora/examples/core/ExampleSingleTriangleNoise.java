@@ -282,9 +282,9 @@ public final class ExampleSingleTriangleNoise implements ExampleType
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-    g_tex.texture2DUnbind(u0);
+    g_tex.textureUnitUnbind(u0);
     this.texture_update =
-      JCGLTextureUpdates.newUpdateReplacingAll(this.texture);
+      JCGLTextureUpdates.newUpdateReplacingAll2D(this.texture);
 
     /**
      * Configure a clearing specification that will clear the color

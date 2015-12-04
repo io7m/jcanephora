@@ -16,18 +16,26 @@
 
 package com.io7m.jcanephora.core;
 
-import java.util.Set;
+import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 
 /**
- * The type of objects that can be referenced by a {@link
- * JCGLReferenceContainerType}.
+ * The type of updates for cube textures.
+ *
+ * @see JCGLTextureUpdates
  */
 
-public interface JCGLReferableType extends JCGLNamedType
+public interface JCGLTextureCubeUpdateType
+  extends JCGLDataUpdateType<JCGLTextureCubeType>
 {
   /**
-   * @return A read-only view of the set of objects that refer to this object
+   * @return The area that will be updated
    */
 
-  Set<JCGLReferenceContainerType> getReferringContainers();
+  AreaInclusiveUnsignedLType getArea();
+
+  /**
+   * @return The texture that will be updated
+   */
+
+  JCGLTextureCubeUsableType getTexture();
 }

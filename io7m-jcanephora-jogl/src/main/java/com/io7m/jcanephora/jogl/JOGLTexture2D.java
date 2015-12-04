@@ -145,4 +145,22 @@ final class JOGLTexture2D extends JOGLReferable
   {
     return this.wrap_t;
   }
+
+  @Override public boolean equals(final Object o)
+  {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || this.getClass() != o.getClass()) {
+      return false;
+    }
+
+    final JOGLTexture2D that = (JOGLTexture2D) o;
+    return this.getGLName() == that.getGLName();
+  }
+
+  @Override public int hashCode()
+  {
+    return this.getGLName();
+  }
 }

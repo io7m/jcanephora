@@ -17,13 +17,16 @@
 package com.io7m.jcanephora.fake;
 
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
+import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.Ranges;
 
 final class FakeTextureUnit extends FakeObjectPseudoUnshared implements
   JCGLTextureUnitType
 {
-  private final int index;
+  private final     int             index;
+  private @Nullable FakeTexture2D   bind_2d;
+  private @Nullable FakeTextureCube bind_cube;
 
   FakeTextureUnit(
     final FakeContext in_context,
@@ -36,6 +39,26 @@ final class FakeTextureUnit extends FakeObjectPseudoUnshared implements
         "Index",
         Ranges.NATURAL_INTEGER,
         "Valid indices");
+  }
+
+  FakeTexture2D getBind2D()
+  {
+    return this.bind_2d;
+  }
+
+  void setBind2D(final FakeTexture2D t)
+  {
+    this.bind_2d = t;
+  }
+
+  FakeTextureCube getBindCube()
+  {
+    return this.bind_cube;
+  }
+
+  void setBindCube(final FakeTextureCube t)
+  {
+    this.bind_cube = t;
   }
 
   @Override public boolean equals(final Object o)

@@ -16,11 +16,35 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
+
 /**
  * The type of usable cube textures.
  */
 
 public interface JCGLTextureCubeUsableType extends JCGLTextureUsableType
 {
-  // No extra methods
+  /**
+   * @return The texture area
+   */
+
+  AreaInclusiveUnsignedLType textureGetArea();
+
+  /**
+   * @return The wrapping mode on the {@code R} axis
+   */
+
+  JCGLTextureWrapR textureGetWrapR();
+
+  /**
+   * @return The wrapping mode on the {@code S} axis
+   */
+
+  JCGLTextureWrapS textureGetWrapS();
+
+  /**
+   * @return The wrapping mode on the {@code T} axis
+   */
+
+  JCGLTextureWrapT textureGetWrapT();
 }

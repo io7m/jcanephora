@@ -51,6 +51,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
   private final FakeColorBufferMasking color_masking;
   private final FakeViewports          viewports;
   private final FakeScissor            scissor;
+  private final FakeFramebuffers       framebuffers;
 
   FakeInterfaceGL33(final FakeContext c)
     throws JCGLExceptionNonCompliant
@@ -63,6 +64,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
     this.draw = new FakeDraw(c, this.shaders, this.index_buffers);
     this.clear = new FakeClear(c);
     this.textures = new FakeTextures(c);
+    this.framebuffers = new FakeFramebuffers(c, this.textures);
     this.blending = new FakeBlending(c);
     this.poly = new FakePolygonMode(c);
     this.culling = new FakeCulling(c);
@@ -118,7 +120,7 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
 
   @Override public JCGLFramebuffersType getFramebuffers()
   {
-    throw new UnimplementedCodeException();
+    return this.framebuffers;
   }
 
   @Override public JCGLPolygonModesType getPolygonModes()

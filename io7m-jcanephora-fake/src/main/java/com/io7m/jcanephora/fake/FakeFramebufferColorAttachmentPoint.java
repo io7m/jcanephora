@@ -14,57 +14,34 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.fake;
 
-import com.io7m.jcanephora.core.JCGLTextureUnitType;
-import com.io7m.jnull.Nullable;
+import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.Ranges;
-import com.jogamp.opengl.GLContext;
 
-final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
-  JCGLTextureUnitType
+final class FakeFramebufferColorAttachmentPoint extends
+  FakeObjectPseudoUnshared implements JCGLFramebufferColorAttachmentPointType
 {
-  private final     int             index;
-  private @Nullable JOGLTexture2D   bind_2d;
-  private @Nullable JOGLTextureCube bind_cube;
+  private final int index;
 
-  JOGLTextureUnit(
-    final GLContext in_context,
+  FakeFramebufferColorAttachmentPoint(
+    final FakeContext in_context,
     final int in_index)
   {
     super(in_context);
     this.index =
       RangeCheck.checkIncludedInInteger(
         in_index,
-        "Index",
+        "Attachment point",
         Ranges.NATURAL_INTEGER,
-        "Valid indices");
-  }
-
-  JOGLTexture2D getBind2D()
-  {
-    return this.bind_2d;
-  }
-
-  void setBind2D(final JOGLTexture2D t)
-  {
-    this.bind_2d = t;
-  }
-
-  JOGLTextureCube getBindCube()
-  {
-    return this.bind_cube;
-  }
-
-  void setBindCube(final JOGLTextureCube t)
-  {
-    this.bind_cube = t;
+        "Valid attachment points");
   }
 
   @Override public String toString()
   {
-    final StringBuilder sb = new StringBuilder("[TextureUnit ");
+    final StringBuilder sb =
+      new StringBuilder("[FramebufferColorAttachmentPoint ");
     sb.append(this.index);
     sb.append(']');
     return sb.toString();
@@ -79,7 +56,8 @@ final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
       return false;
     }
 
-    final JOGLTextureUnit that = (JOGLTextureUnit) o;
+    final FakeFramebufferColorAttachmentPoint that =
+      (FakeFramebufferColorAttachmentPoint) o;
     return this.index == that.index;
   }
 
@@ -88,13 +66,14 @@ final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
     return this.index;
   }
 
-  @Override public int unitGetIndex()
+  @Override public int colorAttachmentPointGetIndex()
   {
     return this.index;
   }
 
-  @Override public int compareTo(final JCGLTextureUnitType o)
+  @Override
+  public int compareTo(final JCGLFramebufferColorAttachmentPointType o)
   {
-    return Integer.compareUnsigned(this.index, o.unitGetIndex());
+    return Integer.compare(this.index, o.colorAttachmentPointGetIndex());
   }
 }

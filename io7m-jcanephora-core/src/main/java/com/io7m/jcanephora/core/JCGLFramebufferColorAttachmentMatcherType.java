@@ -29,7 +29,7 @@ public interface JCGLFramebufferColorAttachmentMatcherType<A, E extends
   /**
    * Match an attachment.
    *
-   * @param t The attachment.
+   * @param t The attachment
    *
    * @return A value of {@code A}
    *
@@ -39,5 +39,22 @@ public interface JCGLFramebufferColorAttachmentMatcherType<A, E extends
 
   A onTexture2D(
     JCGLTexture2DUsableType t)
+    throws JCGLException, E;
+
+  /**
+   * Match an attachment.
+   *
+   * @param t    The attachment
+   * @param face The cube map face
+   *
+   * @return A value of {@code A}
+   *
+   * @throws JCGLException On errors
+   * @throws E             On errors
+   */
+
+  A onTextureCube(
+    JCGLTextureCubeUsableType t,
+    JCGLCubeMapFaceLH face)
     throws JCGLException, E;
 }

@@ -18,6 +18,7 @@ package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLBlendEquation;
 import com.io7m.jcanephora.core.JCGLBlendFunction;
+import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLDepthFunction;
 import com.io7m.jcanephora.core.JCGLFaceSelection;
 import com.io7m.jcanephora.core.JCGLFaceWindingOrder;
@@ -1500,6 +1501,68 @@ public final class JOGLTypeConversions
         return JCGLStencilOperation.STENCIL_OP_REPLACE;
       case GL.GL_ZERO:
         return JCGLStencilOperation.STENCIL_OP_ZERO;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert faces from GL constants.
+   *
+   * @param face The GL constant.
+   *
+   * @return The value.
+   */
+
+  public static JCGLCubeMapFaceLH cubeFaceFromGL(
+    final int face)
+  {
+    switch (face) {
+      case GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
+        return JCGLCubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_X;
+      case GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X:
+        return JCGLCubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X;
+
+      case GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
+        return JCGLCubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Y;
+      case GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
+        return JCGLCubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Y;
+
+      case GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+        return JCGLCubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Z;
+      case GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
+        return JCGLCubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Z;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert cube map faces to GL constants.
+   *
+   * @param face The face.
+   *
+   * @return The resulting GL constant.
+   */
+
+  public static int cubeFaceToGL(
+    final JCGLCubeMapFaceLH face)
+  {
+    switch (face) {
+      case CUBE_MAP_LH_POSITIVE_X:
+        return GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+      case CUBE_MAP_LH_NEGATIVE_X:
+        return GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+
+      case CUBE_MAP_LH_NEGATIVE_Y:
+        return GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+      case CUBE_MAP_LH_POSITIVE_Y:
+        return GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+
+      case CUBE_MAP_LH_POSITIVE_Z:
+        return GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+      case CUBE_MAP_LH_NEGATIVE_Z:
+        return GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
     }
 
     throw new UnreachableCodeException();

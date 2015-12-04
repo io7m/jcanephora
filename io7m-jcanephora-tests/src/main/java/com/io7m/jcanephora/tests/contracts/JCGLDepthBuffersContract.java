@@ -60,7 +60,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-    g_tex.texture2DUnbind(u0);
+    g_tex.textureUnitUnbind(u0);
 
     final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
     fbb.attachColorTexture2DAt(

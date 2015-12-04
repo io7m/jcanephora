@@ -45,6 +45,7 @@ import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jnull.NullCheck;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -67,6 +68,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
   @Rule public final ExpectedException expected = ExpectedException.none();
 
   protected abstract Interfaces getInterfaces(String name);
+
+  protected abstract boolean hasRealBlitting();
 
   @Test public final void testFramebufferBuildWrongContextAllocate()
   {
@@ -314,7 +317,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-    g_tx.texture2DUnbind(u0);
+    g_tx.textureUnitUnbind(u0);
 
     fbb.attachDepthTexture2D(t);
 
@@ -351,7 +354,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-    g_tx.texture2DUnbind(u0);
+    g_tx.textureUnitUnbind(u0);
     fbb.attachDepthTexture2D(t);
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
@@ -379,7 +382,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-    g_tx.texture2DUnbind(u0);
+    g_tx.textureUnitUnbind(u0);
     fbb.attachDepthTexture2D(t);
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
@@ -742,6 +745,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
 
   @Test public final void testFramebufferBlitOK()
   {
+    Assume.assumeTrue("Real blitting is supported", this.hasRealBlitting());
+
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tx = i.getTextures();
@@ -788,7 +793,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
       final JCGLTexture2DUpdateType up =
-        JCGLTextureUpdates.newUpdateReplacingAll(t_read);
+        JCGLTextureUpdates.newUpdateReplacingAll2D(t_read);
       expected_contents = up.getData();
       for (int index = 0; index < expected_contents.capacity(); ++index) {
         expected_contents.put(index, (byte) (Math.random() * 0xff));
@@ -978,7 +983,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       area = t.textureGetArea();
-      g_tx.texture2DUnbind(u0);
+      g_tx.textureUnitUnbind(u0);
       fbb.attachDepthTexture2D(t);
       fb_draw = g_fb.framebufferAllocate(fbb);
     }

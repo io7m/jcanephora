@@ -30,6 +30,7 @@ import com.io7m.jcanephora.core.JCGLGeometryShaderUsableType;
 import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
 import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
+import com.io7m.jcanephora.core.JCGLTextureCubeUsableType;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jnull.NullCheck;
@@ -235,18 +236,18 @@ final class JOGLCompatibilityChecks
     JOGLCompatibilityChecks.checkAny(c, i);
   }
 
-  public static void checkTextureUnit(
+  public static JOGLTextureUnit checkTextureUnit(
     final GLContext c,
     final JCGLTextureUnitType u)
   {
-    JOGLCompatibilityChecks.checkAny(c, u);
+    return (JOGLTextureUnit) JOGLCompatibilityChecks.checkAny(c, u);
   }
 
-  public static void checkTexture2D(
+  public static JOGLTexture2D checkTexture2D(
     final GLContext c,
     final JCGLTexture2DUsableType t)
   {
-    JOGLCompatibilityChecks.checkAny(c, t);
+    return (JOGLTexture2D) JOGLCompatibilityChecks.checkAny(c, t);
   }
 
   public static void checkFramebufferColorAttachmentPoint(
@@ -281,5 +282,12 @@ final class JOGLCompatibilityChecks
     NullCheck.notNull(c);
     NullCheck.notNull(buffer);
     JOGLCompatibilityChecks.checkAny(c, buffer);
+  }
+
+  public static JOGLTextureCube checkTextureCube(
+    final GLContext c,
+    final JCGLTextureCubeUsableType t)
+  {
+    return (JOGLTextureCube) JOGLCompatibilityChecks.checkAny(c, t);
   }
 }

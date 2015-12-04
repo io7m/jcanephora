@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
+import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLReferableType;
@@ -24,10 +25,15 @@ import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
 import com.io7m.jcanephora.core.JCGLTexture2DUpdateType;
 import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
+import com.io7m.jcanephora.core.JCGLTextureCubeType;
+import com.io7m.jcanephora.core.JCGLTextureCubeUpdateType;
+import com.io7m.jcanephora.core.JCGLTextureCubeUsableType;
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
 import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
 import com.io7m.jcanephora.core.JCGLTextureFormat;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
+import com.io7m.jcanephora.core.JCGLTextureUsableType;
+import com.io7m.jcanephora.core.JCGLTextureWrapR;
 import com.io7m.jcanephora.core.JCGLTextureWrapS;
 import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
@@ -39,6 +45,7 @@ import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLContext;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntIterator;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import org.slf4j.Logger;
@@ -64,7 +71,6 @@ final class JOGLTextures implements JCGLTexturesType
   private final IntBuffer icache;
   private final List<JCGLTextureUnitType> units;
   private final int size;
-  private final int[] bindings;
   private final Int2ObjectMap<IntSet> texture_to_units;
   private       JOGLFramebuffers framebuffers;
 
@@ -76,7 +82,6 @@ final class JOGLTextures implements JCGLTexturesType
     this.icache = Buffers.newDirectIntBuffer(1);
     this.units = JOGLTextures.makeUnits(c, this.g3, this.icache);
     this.size = JOGLTextures.makeSize(this.g3, this.icache);
-    this.bindings = new int[this.units.size()];
     this.texture_to_units = new Int2ObjectOpenHashMap<>(this.units.size());
   }
 
@@ -144,21 +149,32 @@ final class JOGLTextures implements JCGLTexturesType
     return size;
   }
 
-  static void checkTextureUnit(
+  static JOGLTextureUnit checkTextureUnit(
     final GLContext ctx,
     final JCGLTextureUnitType unit)
   {
     NullCheck.notNull(unit, "Texture unit");
-    JOGLCompatibilityChecks.checkTextureUnit(ctx, unit);
+    return JOGLCompatibilityChecks.checkTextureUnit(ctx, unit);
   }
 
-  static void checkTexture2D(
+  static JOGLTexture2D checkTexture2D(
     final GLContext ctx,
     final JCGLTexture2DUsableType t)
   {
     NullCheck.notNull(t, "Texture");
-    JOGLCompatibilityChecks.checkTexture2D(ctx, t);
+    final JOGLTexture2D r = JOGLCompatibilityChecks.checkTexture2D(ctx, t);
     JCGLResources.checkNotDeleted(t);
+    return r;
+  }
+
+  static JOGLTextureCube checkTextureCube(
+    final GLContext c,
+    final JCGLTextureCubeUsableType t)
+  {
+    NullCheck.notNull(t, "Texture");
+    final JOGLTextureCube r = JOGLCompatibilityChecks.checkTextureCube(c, t);
+    JCGLResources.checkNotDeleted(t);
+    return r;
   }
 
   @Override public int textureGetMaximumSize()
@@ -176,8 +192,45 @@ final class JOGLTextures implements JCGLTexturesType
   @Override public boolean textureUnitIsBound(final JCGLTextureUnitType unit)
     throws JCGLException
   {
-    JOGLTextures.checkTextureUnit(this.context.getContext(), unit);
-    return this.bindings[unit.unitGetIndex()] != 0;
+    final JOGLTextureUnit u =
+      JOGLTextures.checkTextureUnit(this.context.getContext(), unit);
+    return u.getBind2D() != null || u.getBindCube() != null;
+  }
+
+  @Override public void textureUnitUnbind(final JCGLTextureUnitType unit)
+    throws JCGLException
+  {
+    final GLContext c = this.context.getContext();
+    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    final int index = u.unitGetIndex();
+
+    {
+      final JOGLTexture2D t2d = u.getBind2D();
+      if (t2d != null) {
+        JOGLTextures.LOG.trace(
+          "unbind 2D [{}]: {} -> none",
+          Integer.valueOf(index),
+          t2d);
+        this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
+        this.g3.glBindTexture(GL.GL_TEXTURE_2D, 0);
+        this.bindingRemoveTextureReference(t2d.getGLName(), index);
+        u.setBind2D(null);
+      }
+    }
+
+    {
+      final JOGLTextureCube tc = u.getBindCube();
+      if (tc != null) {
+        JOGLTextures.LOG.trace(
+          "unbind cube [{}]: {} -> none",
+          Integer.valueOf(index),
+          tc);
+        this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
+        this.g3.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
+        this.bindingRemoveTextureReference(tc.getGLName(), index);
+        u.setBindCube(null);
+      }
+    }
   }
 
   @Override public void texture2DBind(
@@ -186,38 +239,23 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTexture2D(c, texture);
-    JOGLTextures.checkTextureUnit(c, unit);
+    final JOGLTexture2D t = JOGLTextures.checkTexture2D(c, texture);
+    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
 
-    final JOGLFramebuffer fb = this.framebuffers.getBindDraw();
-    if (fb != null) {
-      for (final JCGLReferableType r : fb.getReferences()) {
-        if (texture.equals(r)) {
-          JOGLFramebuffers.onFeedbackLoop(fb, texture);
-        }
-      }
-    }
+    this.checkFeedback(texture);
 
     final int index = unit.unitGetIndex();
     final int texture_id = texture.getGLName();
-    this.bind2DAdd(index, texture_id);
-  }
+    this.textureUnitUnbind(u);
 
-  private void bind2DAdd(
-    final int index,
-    final int texture_id)
-  {
-    final int binding = this.bindings[index];
     JOGLTextures.LOG.trace(
-      "bind 2D [{}]: {} -> {}",
+      "bind 2D [{}]: none -> {}",
       Integer.valueOf(index),
-      Integer.valueOf(binding),
-      Integer.valueOf(texture_id));
+      texture);
     this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
     this.g3.glBindTexture(GL.GL_TEXTURE_2D, texture_id);
-    this.bindings[index] = texture_id;
-    this.bindingRemoveTextureReference(binding, index);
     this.bindingAddTextureReference(texture_id, index);
+    u.setBind2D(t);
   }
 
   private void bindingAddTextureReference(
@@ -247,21 +285,6 @@ final class JOGLTextures implements JCGLTexturesType
     }
   }
 
-  private void bind2DRemove(
-    final int index)
-  {
-    final int binding = this.bindings[index];
-    JOGLTextures.LOG.trace(
-      "unbind 2D [{}]: {} -> {}",
-      Integer.valueOf(index),
-      Integer.valueOf(binding),
-      Integer.valueOf(0));
-    this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
-    this.g3.glBindTexture(GL.GL_TEXTURE_2D, 0);
-    this.bindings[index] = 0;
-    this.bindingRemoveTextureReference(binding, index);
-  }
-
   @Override public void texture2DDelete(
     final JCGLTexture2DType texture)
     throws JCGLException
@@ -277,9 +300,17 @@ final class JOGLTextures implements JCGLTexturesType
     this.g3.glDeleteTextures(1, this.icache);
     ((JOGLTexture2D) texture).setDeleted();
 
-    for (int index = 0; index < this.bindings.length; ++index) {
-      if (this.bindings[index] == texture_id) {
-        this.bind2DRemove(index);
+    this.unbindDeleted(texture_id);
+  }
+
+  private void unbindDeleted(final int texture_id)
+  {
+    final IntSet bound_units = this.texture_to_units.get(texture_id);
+    if (bound_units != null) {
+      final IntIterator iter = bound_units.iterator();
+      while (iter.hasNext()) {
+        final int index = iter.nextInt();
+        this.textureUnitUnbind(this.units.get(index));
       }
     }
   }
@@ -291,8 +322,8 @@ final class JOGLTextures implements JCGLTexturesType
   {
     final GLContext c = this.context.getContext();
     JOGLTextures.checkTexture2D(c, texture);
-    JOGLTextures.checkTextureUnit(c, unit);
-    return this.bindings[unit.unitGetIndex()] == texture.getGLName();
+    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    return texture.equals(u.getBind2D());
   }
 
   @Override
@@ -303,14 +334,6 @@ final class JOGLTextures implements JCGLTexturesType
     JOGLTextures.checkTexture2D(c, texture);
     final int texture_id = texture.getGLName();
     return this.texture_to_units.containsKey(texture_id);
-  }
-
-  @Override public void texture2DUnbind(final JCGLTextureUnitType unit)
-    throws JCGLException
-  {
-    final GLContext c = this.context.getContext();
-    JOGLTextures.checkTextureUnit(c, unit);
-    this.bind2DRemove(unit.unitGetIndex());
   }
 
   @Override public JCGLTexture2DType texture2DAllocate(
@@ -345,7 +368,17 @@ final class JOGLTextures implements JCGLTexturesType
     this.g3.glGenTextures(1, this.icache);
     final int texture_id = this.icache.get(0);
 
-    this.bind2DAdd(unit.unitGetIndex(), texture_id);
+    final JOGLTexture2D t = new JOGLTexture2D(
+      this.context.getContext(),
+      texture_id,
+      mag_filter,
+      min_filter,
+      format,
+      wrap_s,
+      wrap_t,
+      width,
+      height);
+    this.texture2DBind(unit, t);
 
     this.g3.glTexParameteri(
       GL.GL_TEXTURE_2D,
@@ -392,16 +425,7 @@ final class JOGLTextures implements JCGLTexturesType
     }
 
     JOGLTextures.LOG.debug("allocated {}", Integer.valueOf(texture_id));
-    return new JOGLTexture2D(
-      this.context.getContext(),
-      texture_id,
-      mag_filter,
-      min_filter,
-      format,
-      wrap_s,
-      wrap_t,
-      width,
-      height);
+    return t;
   }
 
   @Override public void texture2DUpdate(
@@ -428,7 +452,7 @@ final class JOGLTextures implements JCGLTexturesType
     final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
     final ByteBuffer buffer = data.getData();
 
-    this.bind2DAdd(unit.unitGetIndex(), texture.getGLName());
+    this.texture2DBind(unit, texture);
     this.g3.glTexSubImage2D(
       GL.GL_TEXTURE_2D,
       0,
@@ -475,7 +499,7 @@ final class JOGLTextures implements JCGLTexturesType
     final ByteBuffer data = ByteBuffer.allocateDirect(
       (int) (width * height * (long) format.getBytesPerPixel()));
 
-    this.bind2DAdd(unit.unitGetIndex(), texture.getGLName());
+    this.texture2DBind(unit, texture);
     this.g3.glGetTexImage(
       GL.GL_TEXTURE_2D,
       0,
@@ -488,5 +512,267 @@ final class JOGLTextures implements JCGLTexturesType
   void setFramebuffers(final JOGLFramebuffers in_fb)
   {
     this.framebuffers = NullCheck.notNull(in_fb);
+  }
+
+  @Override public void textureCubeBind(
+    final JCGLTextureUnitType unit,
+    final JCGLTextureCubeUsableType texture)
+    throws JCGLException
+  {
+    final GLContext c = this.context.getContext();
+    final JOGLTextureCube t = JOGLTextures.checkTextureCube(c, texture);
+    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+
+    this.checkFeedback(texture);
+
+    final int index = unit.unitGetIndex();
+    final int texture_id = texture.getGLName();
+    this.textureUnitUnbind(unit);
+
+    JOGLTextures.LOG.trace(
+      "bind cube [{}]: none -> {}",
+      Integer.valueOf(index),
+      texture);
+    this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
+    this.g3.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture_id);
+    this.bindingAddTextureReference(texture_id, index);
+    u.setBindCube(t);
+  }
+
+  private void checkFeedback(final JCGLTextureUsableType texture)
+  {
+    final JOGLFramebuffer fb = this.framebuffers.getBindDraw();
+    if (fb != null) {
+      for (final JCGLReferableType r : fb.getReferences()) {
+        if (texture.equals(r)) {
+          JOGLFramebuffers.onFeedbackLoop(fb, texture);
+        }
+      }
+    }
+  }
+
+  @Override public void textureCubeDelete(final JCGLTextureCubeType texture)
+    throws JCGLException
+  {
+    final GLContext c = this.context.getContext();
+    JOGLTextures.checkTextureCube(c, texture);
+
+    JOGLTextures.LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+
+    final int texture_id = texture.getGLName();
+    this.icache.rewind();
+    this.icache.put(0, texture_id);
+    this.g3.glDeleteTextures(1, this.icache);
+    ((JOGLTextureCube) texture).setDeleted();
+    this.unbindDeleted(texture_id);
+  }
+
+  @Override public boolean textureCubeIsBound(
+    final JCGLTextureUnitType unit,
+    final JCGLTextureCubeUsableType texture)
+    throws JCGLException
+  {
+    final GLContext c = this.context.getContext();
+    JOGLTextures.checkTextureCube(c, texture);
+    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    return texture.equals(u.getBindCube());
+  }
+
+  @Override
+  public boolean textureCubeIsBoundAnywhere(
+    final JCGLTextureCubeUsableType texture)
+    throws JCGLException
+  {
+    final GLContext c = this.context.getContext();
+    JOGLTextures.checkTextureCube(c, texture);
+    final int texture_id = texture.getGLName();
+    return this.texture_to_units.containsKey(texture_id);
+  }
+
+  @Override public void textureCubeUpdateLH(
+    final JCGLTextureUnitType unit,
+    final JCGLCubeMapFaceLH face,
+    final JCGLTextureCubeUpdateType data)
+    throws JCGLException
+  {
+    NullCheck.notNull(data);
+    NullCheck.notNull(unit);
+
+    final JCGLTextureCubeUsableType texture = data.getTexture();
+    final GLContext c = this.context.getContext();
+    JOGLTextures.checkTextureUnit(c, unit);
+    JOGLTextures.checkTextureCube(c, texture);
+
+    final AreaInclusiveUnsignedLType update_area = data.getArea();
+    Assertive.require(update_area.isIncludedIn(texture.textureGetArea()));
+
+    final int x_offset = (int) update_area.getRangeX().getLower();
+    final int y_offset = (int) update_area.getRangeY().getLower();
+    final int width = (int) update_area.getRangeX().getInterval();
+    final int height = (int) update_area.getRangeY().getInterval();
+    final JCGLTextureFormat format = texture.textureGetFormat();
+    final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
+    final ByteBuffer buffer = data.getData();
+    final int gface = JOGLTypeConversions.cubeFaceToGL(face);
+
+    this.textureCubeBind(unit, texture);
+    this.g3.glTexSubImage2D(
+      gface,
+      0,
+      x_offset,
+      y_offset,
+      width,
+      height,
+      spec.getFormat(),
+      spec.getType(),
+      buffer);
+
+    switch (texture.textureGetMinificationFilter()) {
+      case TEXTURE_FILTER_LINEAR:
+      case TEXTURE_FILTER_NEAREST:
+        break;
+      case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:
+      case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+      case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+      case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST: {
+        this.g3.glGenerateMipmap(GL.GL_TEXTURE_CUBE_MAP);
+        break;
+      }
+    }
+  }
+
+  @Override public JCGLTextureCubeType textureCubeAllocate(
+    final JCGLTextureUnitType unit,
+    final long in_size,
+    final JCGLTextureFormat format,
+    final JCGLTextureWrapR wrap_r,
+    final JCGLTextureWrapS wrap_s,
+    final JCGLTextureWrapT wrap_t,
+    final JCGLTextureFilterMinification min_filter,
+    final JCGLTextureFilterMagnification mag_filter)
+    throws JCGLException
+  {
+    final GLContext c = this.context.getContext();
+    JOGLTextures.checkTextureUnit(c, unit);
+    NullCheck.notNull(format, "Texture format");
+    NullCheck.notNull(wrap_r, "Wrap R mode");
+    NullCheck.notNull(wrap_s, "Wrap S mode");
+    NullCheck.notNull(wrap_t, "Wrap T mode");
+    NullCheck.notNull(min_filter, "Minification filter");
+    NullCheck.notNull(mag_filter, "Magnification filter");
+    RangeCheck.checkGreaterEqualLong(in_size, "Size", 2L, "Valid sizes");
+
+    final long bytes = (in_size * in_size) * 6L * format.getBytesPerPixel();
+    JOGLTextures.LOG.debug(
+      "allocate {} {}x{}x6 {} bytes",
+      format,
+      Long.valueOf(in_size),
+      Long.valueOf(in_size),
+      Long.valueOf(bytes));
+
+    this.icache.rewind();
+    this.g3.glGenTextures(1, this.icache);
+    final int texture_id = this.icache.get(0);
+
+    final JOGLTextureCube t = new JOGLTextureCube(
+      this.context.getContext(),
+      texture_id,
+      mag_filter,
+      min_filter,
+      format,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      in_size);
+    this.textureCubeBind(unit, t);
+
+    this.g3.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL3.GL_TEXTURE_WRAP_R,
+      JOGLTypeConversions.textureWrapRToGL(wrap_r));
+    this.g3.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_WRAP_S,
+      JOGLTypeConversions.textureWrapSToGL(wrap_s));
+    this.g3.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_WRAP_T,
+      JOGLTypeConversions.textureWrapTToGL(wrap_t));
+    this.g3.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_MIN_FILTER,
+      JOGLTypeConversions.textureFilterMinToGL(min_filter));
+    this.g3.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_MAG_FILTER,
+      JOGLTypeConversions.textureFilterMagToGL(mag_filter));
+
+    final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
+    this.g3.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1);
+    this.g3.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1);
+
+    for (final JCGLCubeMapFaceLH f : JCGLCubeMapFaceLH.values()) {
+      final int gface = JOGLTypeConversions.cubeFaceToGL(f);
+      this.g3.glTexImage2D(
+        gface,
+        0,
+        spec.getInternalFormat(),
+        (int) in_size,
+        (int) in_size,
+        0,
+        spec.getFormat(),
+        spec.getType(),
+        null);
+    }
+
+    switch (min_filter) {
+      case TEXTURE_FILTER_NEAREST:
+      case TEXTURE_FILTER_LINEAR:
+        break;
+      case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:
+      case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+      case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+      case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST: {
+        this.g3.glGenerateMipmap(GL.GL_TEXTURE_CUBE_MAP);
+        break;
+      }
+    }
+
+    JOGLTextures.LOG.debug("allocated {}", Integer.valueOf(texture_id));
+    return t;
+  }
+
+  @Override public ByteBuffer textureCubeGetImageLH(
+    final JCGLTextureUnitType unit,
+    final JCGLCubeMapFaceLH face,
+    final JCGLTextureCubeUsableType texture)
+    throws JCGLException
+  {
+    NullCheck.notNull(texture);
+    NullCheck.notNull(face);
+    NullCheck.notNull(unit);
+
+    final GLContext c = this.context.getContext();
+    JOGLTextures.checkTextureUnit(c, unit);
+    JOGLTextures.checkTextureCube(c, texture);
+
+    final JCGLTextureFormat format = texture.textureGetFormat();
+    final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
+
+    final AreaInclusiveUnsignedLType area = texture.textureGetArea();
+    final long width = area.getRangeX().getInterval();
+    final long height = area.getRangeY().getInterval();
+    final ByteBuffer data = ByteBuffer.allocateDirect(
+      (int) (width * height * (long) format.getBytesPerPixel()));
+    final int gface = JOGLTypeConversions.cubeFaceToGL(face);
+
+    this.textureCubeBind(unit, texture);
+    this.g3.glGetTexImage(
+      gface,
+      0,
+      spec.getFormat(),
+      spec.getType(),
+      data);
+    return data;
   }
 }

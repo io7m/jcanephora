@@ -18,68 +18,73 @@ package com.io7m.jcanephora.fake;
 
 import com.io7m.jareas.core.AreaInclusiveUnsignedL;
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
-import com.io7m.jcanephora.core.JCGLTexture2DType;
+import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
+import com.io7m.jcanephora.core.JCGLTextureCubeType;
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
 import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
 import com.io7m.jcanephora.core.JCGLTextureFormat;
+import com.io7m.jcanephora.core.JCGLTextureWrapR;
 import com.io7m.jcanephora.core.JCGLTextureWrapS;
 import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jnull.NullCheck;
 import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 
 import java.nio.ByteBuffer;
+import java.util.EnumMap;
 
-final class FakeTexture2D extends FakeReferable
-  implements JCGLTexture2DType
+final class FakeTextureCube extends FakeReferable
+  implements JCGLTextureCubeType
 {
-  private final JCGLTextureFilterMagnification filter_mag;
-  private final JCGLTextureFilterMinification  filter_min;
-  private final UnsignedRangeInclusiveL        range_x;
-  private final UnsignedRangeInclusiveL        range_y;
-  private final long                           width;
-  private final long                           height;
-  private final JCGLTextureFormat              format;
-  private final UnsignedRangeInclusiveL        byte_range;
-  private final JCGLTextureWrapS               wrap_s;
-  private final JCGLTextureWrapT               wrap_t;
-  private final AreaInclusiveUnsignedL         area;
-  private final ByteBuffer                     data;
+  private final JCGLTextureFilterMagnification         filter_mag;
+  private final JCGLTextureFilterMinification          filter_min;
+  private final UnsignedRangeInclusiveL                range_x;
+  private final UnsignedRangeInclusiveL                range_y;
+  private final long                                   width;
+  private final long                                   height;
+  private final JCGLTextureFormat                      format;
+  private final UnsignedRangeInclusiveL                byte_range;
+  private final JCGLTextureWrapR                       wrap_r;
+  private final JCGLTextureWrapS                       wrap_s;
+  private final JCGLTextureWrapT                       wrap_t;
+  private final AreaInclusiveUnsignedL                 area;
+  private final EnumMap<JCGLCubeMapFaceLH, ByteBuffer> faces;
 
-  FakeTexture2D(
+  FakeTextureCube(
     final FakeContext in_context,
     final int in_id,
     final JCGLTextureFilterMagnification in_filter_mag,
     final JCGLTextureFilterMinification in_filter_min,
     final JCGLTextureFormat in_format,
+    final JCGLTextureWrapR in_wrap_r,
     final JCGLTextureWrapS in_wrap_s,
     final JCGLTextureWrapT in_wrap_t,
-    final long in_width,
-    final long in_height)
+    final long in_size)
   {
     super(in_context, in_id);
 
     this.filter_mag = NullCheck.notNull(in_filter_mag);
     this.filter_min = NullCheck.notNull(in_filter_min);
     this.format = NullCheck.notNull(in_format);
+    this.wrap_r = NullCheck.notNull(in_wrap_r);
     this.wrap_s = NullCheck.notNull(in_wrap_s);
     this.wrap_t = NullCheck.notNull(in_wrap_t);
 
-    this.width = in_width;
-    this.height = in_height;
-    this.range_x = new UnsignedRangeInclusiveL(0L, in_width - 1L);
-    this.range_y = new UnsignedRangeInclusiveL(0L, in_height - 1L);
+    this.width = in_size;
+    this.height = in_size;
+    this.range_x = new UnsignedRangeInclusiveL(0L, in_size - 1L);
+    this.range_y = new UnsignedRangeInclusiveL(0L, in_size - 1L);
     this.area = AreaInclusiveUnsignedL.of(this.range_x, this.range_y);
 
-    final long size =
+    final long face_size =
       this.width * this.height * (long) this.format.getBytesPerPixel();
-    this.byte_range = new UnsignedRangeInclusiveL(0L, size - 1L);
+    final long full_size = 6L * face_size;
 
-    this.data = ByteBuffer.allocate((int) size);
-  }
+    this.byte_range = new UnsignedRangeInclusiveL(0L, full_size - 1L);
 
-  ByteBuffer getData()
-  {
-    return this.data;
+    this.faces = new EnumMap<>(JCGLCubeMapFaceLH.class);
+    for (final JCGLCubeMapFaceLH v : JCGLCubeMapFaceLH.values()) {
+      this.faces.put(v, ByteBuffer.allocate((int) face_size));
+    }
   }
 
   @Override
@@ -123,9 +128,32 @@ final class FakeTexture2D extends FakeReferable
     return this.byte_range;
   }
 
+  @Override public String toString()
+  {
+    final StringBuilder sb = new StringBuilder("[TextureCube ");
+    sb.append(super.getGLName());
+    sb.append(" ");
+    sb.append(this.width);
+    sb.append("x");
+    sb.append(this.height);
+    sb.append(" ").append(this.filter_mag);
+    sb.append(" ").append(this.filter_min);
+    sb.append(" ").append(this.format);
+    sb.append(" ").append(this.wrap_r);
+    sb.append(" ").append(this.wrap_s);
+    sb.append(" ").append(this.wrap_t);
+    sb.append(']');
+    return sb.toString();
+  }
+
   @Override public AreaInclusiveUnsignedLType textureGetArea()
   {
     return this.area;
+  }
+
+  @Override public JCGLTextureWrapR textureGetWrapR()
+  {
+    return this.wrap_r;
   }
 
   @Override public JCGLTextureWrapS textureGetWrapS()
@@ -138,20 +166,8 @@ final class FakeTexture2D extends FakeReferable
     return this.wrap_t;
   }
 
-  @Override public String toString()
+  ByteBuffer getData(final JCGLCubeMapFaceLH face)
   {
-    final StringBuilder sb = new StringBuilder("[Texture2D ");
-    sb.append(super.getGLName());
-    sb.append(" ");
-    sb.append(this.width);
-    sb.append("x");
-    sb.append(this.height);
-    sb.append(" ").append(this.filter_mag);
-    sb.append(" ").append(this.filter_min);
-    sb.append(" ").append(this.format);
-    sb.append(" ").append(this.wrap_s);
-    sb.append(" ").append(this.wrap_t);
-    sb.append(']');
-    return sb.toString();
+    return this.faces.get(face);
   }
 }

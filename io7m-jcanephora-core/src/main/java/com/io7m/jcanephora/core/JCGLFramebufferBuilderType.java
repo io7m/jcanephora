@@ -44,6 +44,29 @@ public interface JCGLFramebufferBuilderType
     JCGLTexture2DUsableType texture);
 
   /**
+   * <p>Attach the face {@code face} of the given color cube-map texture {@code
+   * texture} to the framebuffer that will be created, at attachment point
+   * {@code point}.</p>
+   *
+   * <p>The function will replace any existing color attachment at attachment
+   * point {@code point}.</p>
+   *
+   * @param point   The attachment point
+   * @param buffer  The draw buffer that will be associated with the color
+   *                attachment
+   * @param texture The texture
+   * @param face    The cube face, assuming a left-hannded coordinate system
+   *
+   * @see JCGLTextureFormats#isColorRenderable2D(JCGLTextureFormat)
+   */
+
+  void attachColorTextureCubeAt(
+    JCGLFramebufferColorAttachmentPointType point,
+    JCGLFramebufferDrawBufferType buffer,
+    JCGLTextureCubeUsableType texture,
+    JCGLCubeMapFaceLH face);
+
+  /**
    * <p>Attach the given depth texture {@code texture} to the framebuffer that
    * will be created.</p>
    *

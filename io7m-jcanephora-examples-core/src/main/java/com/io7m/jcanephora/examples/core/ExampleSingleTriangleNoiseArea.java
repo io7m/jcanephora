@@ -286,11 +286,11 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-    g_tex.texture2DUnbind(u0);
+    g_tex.textureUnitUnbind(u0);
 
     {
       final JCGLTexture2DUpdateType all =
-        JCGLTextureUpdates.newUpdateReplacingAll(this.texture);
+        JCGLTextureUpdates.newUpdateReplacingAll2D(this.texture);
       final ByteBuffer data = all.getData();
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0xff);
@@ -304,7 +304,7 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
      */
 
     this.texture_update =
-      JCGLTextureUpdates.newUpdateReplacingArea(
+      JCGLTextureUpdates.newUpdateReplacingArea2D(
         this.texture,
         AreaInclusiveUnsignedL.of(
           new UnsignedRangeInclusiveL(16L, 31L),

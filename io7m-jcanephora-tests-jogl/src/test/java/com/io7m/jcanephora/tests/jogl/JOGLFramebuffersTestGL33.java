@@ -67,26 +67,27 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
   @Test public void testClampedDrawBuffers()
     throws Exception
   {
-    final JCGLContextType gg = JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
-      "main", c -> {
-        final GL3 base = c.getGL().getGL3();
-        return new DebugGL3(base)
-        {
-          @Override public void glGetIntegerv(
-            final int name,
-            final IntBuffer buffer)
+    final JCGLContextType gg =
+      JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
+        "main", c -> {
+          final GL3 base = c.getGL().getGL3();
+          return new DebugGL3(base)
           {
-            if (name == GL3.GL_MAX_DRAW_BUFFERS) {
-              JOGLFramebuffersTestGL33.LOG.debug(
-                "overriding request for {}",
-                Integer.valueOf(GL3.GL_MAX_DRAW_BUFFERS));
-              buffer.put(0, 4096);
-            } else {
-              super.glGetIntegerv(name, buffer);
+            @Override public void glGetIntegerv(
+              final int name,
+              final IntBuffer buffer)
+            {
+              if (name == GL3.GL_MAX_DRAW_BUFFERS) {
+                JOGLFramebuffersTestGL33.LOG.debug(
+                  "overriding request for {}",
+                  Integer.valueOf(GL3.GL_MAX_DRAW_BUFFERS));
+                buffer.put(0, 4096);
+              } else {
+                super.glGetIntegerv(name, buffer);
+              }
             }
-          }
-        };
-      }, 24, 8);
+          };
+        }, 24, 8);
 
     final JCGLInterfaceGL33Type i = gg.contextGetGL33();
     final JCGLFramebuffersType gf = i.getFramebuffers();
@@ -98,25 +99,25 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
   {
     final JCGLContextType gg =
       JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
-      "main", c -> {
-        final GL3 base = c.getGL().getGL3();
-        return new DebugGL3(base)
-        {
-          @Override public void glGetIntegerv(
-            final int name,
-            final IntBuffer buffer)
+        "main", c -> {
+          final GL3 base = c.getGL().getGL3();
+          return new DebugGL3(base)
           {
-            if (name == GL3.GL_MAX_COLOR_ATTACHMENTS) {
-              JOGLFramebuffersTestGL33.LOG.debug(
-                "overriding request for {}",
-                Integer.valueOf(GL3.GL_MAX_COLOR_ATTACHMENTS));
-              buffer.put(0, 4096);
-            } else {
-              super.glGetIntegerv(name, buffer);
+            @Override public void glGetIntegerv(
+              final int name,
+              final IntBuffer buffer)
+            {
+              if (name == GL3.GL_MAX_COLOR_ATTACHMENTS) {
+                JOGLFramebuffersTestGL33.LOG.debug(
+                  "overriding request for {}",
+                  Integer.valueOf(GL3.GL_MAX_COLOR_ATTACHMENTS));
+                buffer.put(0, 4096);
+              } else {
+                super.glGetIntegerv(name, buffer);
+              }
             }
-          }
-        };
-      }, 24, 8);
+          };
+        }, 24, 8);
 
     final JCGLInterfaceGL33Type i = gg.contextGetGL33();
     final JCGLFramebuffersType gf = i.getFramebuffers();
@@ -160,5 +161,10 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     return new Interfaces(c, cg.getFramebuffers(), cg.getTextures());
+  }
+
+  @Override protected boolean hasRealBlitting()
+  {
+    return true;
   }
 }

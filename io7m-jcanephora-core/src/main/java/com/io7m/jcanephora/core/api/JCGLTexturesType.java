@@ -25,7 +25,8 @@ import java.util.List;
  * The interface to OpenGL textures.
  */
 
-public interface JCGLTexturesType extends JCGLTextures2DType
+public interface JCGLTexturesType
+  extends JCGLTextures2DType, JCGLTexturesCubeType
 {
   /**
    * @return The maximum texture size supported by the current implementation.
@@ -59,5 +60,18 @@ public interface JCGLTexturesType extends JCGLTextures2DType
 
   boolean textureUnitIsBound(
     final JCGLTextureUnitType unit)
+    throws JCGLException;
+
+  /**
+   * Unbind whatever texture is bound to the texture unit {@code unit} (if
+   * any).
+   *
+   * @param unit The texture unit
+   *
+   * @throws JCGLException Iff an OpenGL error occurs.
+   */
+
+  void textureUnitUnbind(
+    JCGLTextureUnitType unit)
     throws JCGLException;
 }
