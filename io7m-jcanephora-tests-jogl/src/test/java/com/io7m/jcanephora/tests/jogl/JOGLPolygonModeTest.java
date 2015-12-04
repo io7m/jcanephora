@@ -1,10 +1,10 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,29 +16,19 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.io7m.jcanephora.PolygonMode;
+import com.io7m.jcanephora.core.JCGLPolygonMode;
 import com.io7m.jcanephora.jogl.JOGLTypeConversions;
-import com.io7m.junreachable.UnreachableCodeException;
+import com.io7m.jcanephora.tests.contracts.JCGLPolygonModeContract;
 
-@SuppressWarnings({ "null", "static-method" }) public final class JOGLPolygonModeTest
+public final class JOGLPolygonModeTest extends JCGLPolygonModeContract
 {
-  /**
-   * ∀m. polygonModeFromGL(polygonModeToGL(m)) == m.
-   */
-
-  @Test public void testModeBijection()
+  @Override protected int toInt(final JCGLPolygonMode d)
   {
-    for (final PolygonMode p : PolygonMode.values()) {
-      Assert.assertEquals(JOGLTypeConversions
-        .polygonModeFromGL(JOGLTypeConversions.polygonModeToGL(p)), p);
-    }
+    return JOGLTypeConversions.polygonModeToGL(d);
   }
 
-  @Test(expected = UnreachableCodeException.class) public void testNonsense()
+  @Override protected JCGLPolygonMode fromInt(final int c)
   {
-    JOGLTypeConversions.polygonModeFromGL(-1);
+    return JOGLTypeConversions.polygonModeFromGL(c);
   }
 }

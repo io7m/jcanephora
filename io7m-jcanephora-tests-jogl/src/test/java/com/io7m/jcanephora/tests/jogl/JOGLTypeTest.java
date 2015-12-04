@@ -16,14 +16,13 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
+import com.io7m.jcanephora.core.JCGLType;
+import com.io7m.jcanephora.jogl.JOGLTypeConversions;
+import com.io7m.junreachable.UnreachableCodeException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jcanephora.JCGLType;
-import com.io7m.jcanephora.jogl.JOGLTypeConversions;
-import com.io7m.junreachable.UnreachableCodeException;
-
-@SuppressWarnings({ "null", "static-method" }) public final class JOGLTypeTest
+public final class JOGLTypeTest
 {
   /**
    * ∀t. typeFromGL(typeToGL(t)) = t.
@@ -33,14 +32,11 @@ import com.io7m.junreachable.UnreachableCodeException;
   {
     for (final JCGLType u : JCGLType.values()) {
       Assert.assertEquals(
-        JOGLTypeConversions.typeFromGL(JOGLTypeConversions.typeToGL(u)),
-        u);
+        JOGLTypeConversions.typeFromGL(JOGLTypeConversions.typeToGL(u)), u);
     }
   }
 
-  @Test(expected = UnreachableCodeException.class) public
-    void
-    testTypeFailure()
+  @Test(expected = UnreachableCodeException.class) public void testTypeFailure()
   {
     JOGLTypeConversions.typeFromGL(-1);
   }

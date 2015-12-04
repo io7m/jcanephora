@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,45 +16,46 @@
 
 package com.io7m.jcanephora.jogl;
 
-import javax.media.opengl.GL;
-
-import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.api.JCGLScissorType;
-import com.io7m.jlog.LogType;
-import com.io7m.jlog.LogUsableType;
+import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL3;
 
 final class JOGLScissor implements JCGLScissorType
 {
-  private final GL      gl;
-  private final LogType log;
+  private final GL3     gl;
+  private       boolean enabled;
 
-  JOGLScissor(
-    final GL in_gl,
-    final LogUsableType in_log)
+  JOGLScissor(final JOGLContext c)
   {
-    this.gl = NullCheck.notNull(in_gl, "GL");
-    this.log = NullCheck.notNull(in_log, "Log").with("scissor");
+    final JOGLContext context = NullCheck.notNull(c);
+    this.gl = context.getGL3();
+    this.enabled = false;
   }
 
   @Override public void scissorDisable()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    this.gl.glDisable(GL.GL_SCISSOR_TEST);
+    if (this.enabled) {
+      this.gl.glDisable(GL.GL_SCISSOR_TEST);
+      this.enabled = false;
+    }
   }
 
   @Override public void scissorEnable(
-    final AreaInclusive area)
-    throws JCGLExceptionRuntime
+    final AreaInclusiveUnsignedLType area)
+    throws JCGLException
   {
-    NullCheck.notNull(area, "Scissor area");
+    NullCheck.notNull(area);
 
-    final RangeInclusiveL range_x = area.getRangeX();
-    final RangeInclusiveL range_y = area.getRangeY();
+    final UnsignedRangeInclusiveL range_x = area.getRangeX();
+    final UnsignedRangeInclusiveL range_y = area.getRangeY();
 
     this.gl.glEnable(GL.GL_SCISSOR_TEST);
+    this.enabled = true;
     this.gl.glScissor(
       (int) range_x.getLower(),
       (int) range_y.getLower(),
@@ -63,8 +64,8 @@ final class JOGLScissor implements JCGLScissorType
   }
 
   @Override public boolean scissorIsEnabled()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return this.gl.glIsEnabled(GL.GL_SCISSOR_TEST);
+    return this.enabled;
   }
 }

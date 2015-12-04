@@ -1,10 +1,10 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,20 +16,20 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.io7m.jcanephora.FramebufferStatus;
+import com.io7m.jcanephora.core.JCGLFramebufferStatus;
 import com.io7m.jcanephora.jogl.JOGLTypeConversions;
+import com.io7m.jcanephora.tests.contracts.JCGLFramebufferStatusContract;
 
-@SuppressWarnings({ "null", "static-method" }) public final class JOGLFramebufferStatusTest
+public final class JOGLFramebufferStatusTest extends
+  JCGLFramebufferStatusContract
 {
-  @Test public void testFramebufferStatusIdentity()
+  @Override protected int toInt(final JCGLFramebufferStatus c)
   {
-    for (final FramebufferStatus status : FramebufferStatus.values()) {
-      Assert.assertEquals(status, JOGLTypeConversions
-        .framebufferStatusFromGL(JOGLTypeConversions
-          .framebufferStatusToGL(status)));
-    }
+    return JOGLTypeConversions.framebufferStatusToGL(c);
+  }
+
+  @Override protected JCGLFramebufferStatus fromInt(final int c)
+  {
+    return JOGLTypeConversions.framebufferStatusFromGL(c);
   }
 }

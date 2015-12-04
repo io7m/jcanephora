@@ -1,10 +1,10 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -13,31 +13,22 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora.tests.jogl;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.io7m.jcanephora.DepthFunction;
+import com.io7m.jcanephora.core.JCGLDepthFunction;
 import com.io7m.jcanephora.jogl.JOGLTypeConversions;
-import com.io7m.junreachable.UnreachableCodeException;
+import com.io7m.jcanephora.tests.contracts.JCGLDepthFunctionContract;
 
-@SuppressWarnings({ "null", "static-method" }) public final class JOGLDepthFunctionTest
+public final class JOGLDepthFunctionTest extends JCGLDepthFunctionContract
 {
-  /**
-   * ∀f. depthFunctionFromGL(depthFunctionToGL(f)) = f.
-   */
-
-  @Test public void testDepthBijection()
+  @Override protected int toInt(final JCGLDepthFunction d)
   {
-    for (final DepthFunction f : DepthFunction.values()) {
-      Assert.assertEquals(JOGLTypeConversions
-        .depthFunctionFromGL(JOGLTypeConversions.depthFunctionToGL(f)), f);
-    }
+    return JOGLTypeConversions.depthFunctionToGL(d);
   }
 
-  @Test(expected = UnreachableCodeException.class) public void testNonsense()
+  @Override protected JCGLDepthFunction fromInt(final int c)
   {
-    JOGLTypeConversions.depthFunctionFromGL(-1);
+    return JOGLTypeConversions.depthFunctionFromGL(c);
   }
 }

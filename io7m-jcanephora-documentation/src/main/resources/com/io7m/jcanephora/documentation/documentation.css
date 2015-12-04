@@ -26,8 +26,6 @@
   font-style: italic;
 }
 
-.actor,
-.actor_system,
 .attribute,
 .class,
 .command,
@@ -36,11 +34,10 @@
 .expression,
 .file,
 .function,
-.index_term,
-.role,
-.schema,
-.type,
-.variable
+.keyword,
+.parameter,
+.variable,
+.type
 {
   font-family: monospace;
 }
@@ -66,28 +63,11 @@
 .platforms table td
 {
   padding-right: 2.0em;
-  white-space: nowrap;
 }
 .platforms table tbody,
 .platforms table thead
 {
   font-size:     8pt;
   font-family:   monospace;
-}
-
-.feature_mapping td
-{
-  padding-right: 2em;
-}
-
-.implications table thead
-{
-  padding-right: 2.0em;
-  vertical-align: top;
-}
-
-.implications table
-{
-  text-align: left;
 }
 

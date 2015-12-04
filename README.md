@@ -1,2 +1,6 @@
-This package is currently being rewritten. The majority of the work is occuring
-in the `feature/rewrite-33-1` branch (and branches derived from there).
+io7m-jcanephora
+===============
+
+[![Build Status](https://travis-ci.org/io7m/jcanephora.svg)](https://travis-ci.org/io7m/jcanephora)
+
+See https://io7m.github.io/jcanephora/ for more information.

@@ -1,10 +1,10 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,29 +16,25 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
+import com.io7m.jcanephora.core.JCGLPrimitives;
+import com.io7m.jcanephora.jogl.JOGLTypeConversions;
+import com.io7m.junreachable.UnreachableCodeException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.jogl.JOGLTypeConversions;
-import com.io7m.junreachable.UnreachableCodeException;
-
-@SuppressWarnings({ "null", "static-method" }) public final class JOGLPrimitivesTest
+public final class JOGLPrimitivesTest
 {
-  /**
-   * ∀m. primitiveFromGL(primitiveToGL(p)) == p.
-   */
-
   @Test public void testModeBijection()
   {
-    for (final Primitives p : Primitives.values()) {
-      Assert.assertEquals(JOGLTypeConversions
-        .primitiveFromGL(JOGLTypeConversions.primitiveToGL(p)), p);
+    for (final JCGLPrimitives p : JCGLPrimitives.values()) {
+      Assert.assertEquals(
+        JOGLTypeConversions.primitiveFromGL(
+          JOGLTypeConversions.primitiveToGL(p)), p);
     }
   }
 
   @Test(expected = UnreachableCodeException.class) public void testNonsense()
   {
-    JOGLTypeConversions.polygonModeFromGL(-1);
+    JOGLTypeConversions.primitiveFromGL(-1);
   }
 }

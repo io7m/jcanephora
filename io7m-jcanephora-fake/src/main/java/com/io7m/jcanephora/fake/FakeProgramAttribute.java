@@ -1,10 +1,10 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,68 +16,38 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jcanephora.JCGLType;
-import com.io7m.jcanephora.ProgramAttributeType;
-import com.io7m.jcanephora.ProgramUsableType;
-import com.io7m.jequality.annotations.EqualityStructural;
+import com.io7m.jcanephora.core.JCGLProgramAttributeType;
+import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
+import com.io7m.jcanephora.core.JCGLType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.Ranges;
 
 /**
- * <p>
- * An immutable reference to an active attribute variable for a program.
- * </p>
+ * A fake implementation of program attributes.
  */
 
-@EqualityStructural public final class FakeProgramAttribute extends
-  FakeObjectPseudoShared implements ProgramAttributeType
+public final class FakeProgramAttribute extends FakeObjectPseudoShared
+  implements JCGLProgramAttributeType
 {
+  private final int                         location;
+  private final String                      name;
+  private final JCGLProgramShaderUsableType program;
+  private final JCGLType                    type;
+
   /**
-   * Construct a new program attribute.
+   * Construct an attribute.
    *
-   * @param in_context
-   *          The OpenGL context.
-   * @param in_program
-   *          The program.
-   * @param in_index
-   *          The index.
-   * @param in_location
-   *          The location.
-   * @param in_name
-   *          The name.
-   * @param in_type
-   *          The type.
-   * @return A new program attribute.
+   * @param in_context  The context
+   * @param in_program  The owning program
+   * @param in_location The attribute location
+   * @param in_name     The attribute name
+   * @param in_type     The attribute type
    */
 
-  public static FakeProgramAttribute newAttribute(
+  public FakeProgramAttribute(
     final FakeContext in_context,
-    final ProgramUsableType in_program,
-    final int in_index,
-    final int in_location,
-    final String in_name,
-    final JCGLType in_type)
-  {
-    return new FakeProgramAttribute(
-      in_context,
-      in_program,
-      in_index,
-      in_location,
-      in_name,
-      in_type);
-  }
-  private final int               index;
-  private final int               location;
-  private final String            name;
-  private final ProgramUsableType program;
-
-  private final JCGLType          type;
-
-  private FakeProgramAttribute(
-    final FakeContext in_context,
-    final ProgramUsableType in_program,
-    final int in_index,
+    final JCGLProgramShaderUsableType in_program,
     final int in_location,
     final String in_name,
     final JCGLType in_type)
@@ -85,89 +55,32 @@ import com.io7m.jranges.RangeCheck;
     super(in_context);
 
     this.program = NullCheck.notNull(in_program, "Program");
-    this.index =
-      (int) RangeCheck.checkIncludedIn(
-        in_index,
-        "Attribute index",
-        RangeCheck.NATURAL_INTEGER,
-        "Valid attribute indices");
-    this.location =
-      (int) RangeCheck.checkIncludedIn(
-        in_location,
-        "Attribute location",
-        RangeCheck.NATURAL_INTEGER,
-        "Valid attribute locations");
+    this.location = RangeCheck.checkIncludedInInteger(
+      in_location,
+      "Attribute location",
+      Ranges.NATURAL_INTEGER,
+      "Valid attribute locations");
     this.type = NullCheck.notNull(in_type, "Attribute type");
     this.name = NullCheck.notNull(in_name, "Attribute name");
   }
 
-  @Override public int attributeGetLocation()
-  {
-    return this.location;
-  }
-
-  @Override public String attributeGetName()
+  @Override public String getName()
   {
     return this.name;
   }
 
-  @Override public ProgramUsableType attributeGetProgram()
+  @Override public JCGLProgramShaderUsableType getProgram()
   {
     return this.program;
   }
 
-  @Override public JCGLType attributeGetType()
+  @Override public JCGLType getType()
   {
     return this.type;
   }
 
-  @Override public boolean equals(
-    @Nullable final Object obj)
+  @Override public int getGLName()
   {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (this.getClass() != obj.getClass()) {
-      return false;
-    }
-    final FakeProgramAttribute other = (FakeProgramAttribute) obj;
-    return (this.index == other.index)
-      && (this.location == other.location)
-      && (this.name.equals(other.name))
-      && (this.program.equals(other.program))
-      && (this.type == other.type);
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + this.index;
-    result = (prime * result) + this.location;
-    result = (prime * result) + this.name.hashCode();
-    result = (prime * result) + this.program.hashCode();
-    result = (prime * result) + this.type.hashCode();
-    return result;
-  }
-
-  @Override public String toString()
-  {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[FakeProgramAttribute ");
-    builder.append(this.attributeGetLocation());
-    builder.append(" ");
-    builder.append(this.index);
-    builder.append(" ");
-    builder.append(this.attributeGetType());
-    builder.append(" \"");
-    builder.append(this.attributeGetName());
-    builder.append("\"");
-    builder.append("]");
-    final String r = builder.toString();
-    assert r != null;
-    return r;
+    return this.location;
   }
 }

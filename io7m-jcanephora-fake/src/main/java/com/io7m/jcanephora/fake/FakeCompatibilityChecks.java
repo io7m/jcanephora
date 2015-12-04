@@ -1,10 +1,10 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,55 +16,65 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jcanephora.ArrayBufferUsableType;
-import com.io7m.jcanephora.FragmentShaderType;
-import com.io7m.jcanephora.FramebufferColorAttachmentPointType;
-import com.io7m.jcanephora.FramebufferDrawBufferType;
-import com.io7m.jcanephora.FramebufferUsableType;
-import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLExceptionWrongContext;
-import com.io7m.jcanephora.ProgramAttributeType;
-import com.io7m.jcanephora.ProgramUniformType;
-import com.io7m.jcanephora.ProgramUsableType;
-import com.io7m.jcanephora.RenderbufferKind;
-import com.io7m.jcanephora.RenderbufferUsableType;
-import com.io7m.jcanephora.Texture2DStaticUsableType;
-import com.io7m.jcanephora.TextureCubeStaticUsableType;
-import com.io7m.jcanephora.TextureUnitType;
-import com.io7m.jcanephora.VertexShaderType;
-import com.io7m.jequality.annotations.EqualityReference;
+import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
+import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
+import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
+import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
+import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
+import com.io7m.jcanephora.core.JCGLFragmentShaderUsableType;
+import com.io7m.jcanephora.core.JCGLFramebufferBuilderType;
+import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
+import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
+import com.io7m.jcanephora.core.JCGLFramebufferUsableType;
+import com.io7m.jcanephora.core.JCGLGeometryShaderUsableType;
+import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
+import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
+import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
+import com.io7m.jcanephora.core.JCGLTextureCubeUsableType;
+import com.io7m.jcanephora.core.JCGLTextureUnitType;
+import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
+import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
+
+// @formatter:off
 
 /**
  * <p>
  * Functions for checking whether objects are usable on the current context.
  * </p>
  * <p>
- * For an arbitrary <i>shared</i> OpenGL object <code>o</code>, the context
- * <code>C</code> upon which <code>o</code> was created, and an arbitrary
- * object <code>D</code>, <code>o</code> can be passed to functions on
- * <code>D</code> iff:
+ * For an arbitrary <i>shared</i> OpenGL object {@code o}, the context
+ * {@code C} upon which {@code o} was created, and an arbitrary
+ * object {@code D}, {@code o} can be passed to functions on
+ * {@code D} iff:
  * </p>
  * <ul>
- * <li><code>C</code> is equal to <code>D</code>.</li>
- * <li><code>C</code> is shared with <code>D</code> (sharing is symmetric).</li>
+ * <li>{@code C} is equal to {@code D}.</li>
+ * <li>{@code C} is shared with {@code D} (sharing is symmetric).</li>
  * </ul>
  * <p>
- * For an arbitrary <i>unshared</i> OpenGL object <code>o</code>, the context
- * <code>C</code> upon which <code>o</code> was created, and an arbitrary
- * object <code>D</code>, <code>o</code> can be passed to functions on
- * <code>D</code> iff:
+ * For an arbitrary <i>unshared</i> OpenGL object {@code o}, the context
+ * {@code C} upon which {@code o} was created, and an arbitrary
+ * object {@code D}, {@code o} can be passed to functions on
+ * {@code D} iff:
  * </p>
  * <ul>
- * <li><code>C</code> is equal to <code>D</code>.</li>
+ * <li>{@code C} is equal to {@code D}.</li>
  * </ul>
  *
  * @see FakeObjectShared
  * @see FakeObjectUnshared
  */
 
-@EqualityReference @SuppressWarnings("null") final class FakeCompatibilityChecks
+// @formatter:on
+
+final class FakeCompatibilityChecks
 {
+  private FakeCompatibilityChecks()
+  {
+    throw new UnreachableCodeException();
+  }
+
   @SuppressWarnings("unchecked") private static <A> A checkAny(
     final FakeContext current,
     final A x)
@@ -72,143 +82,68 @@ import com.io7m.junreachable.UnreachableCodeException;
   {
     if (x instanceof FakeObjectShared) {
       return (A) FakeCompatibilityChecks.checkObjectShared(
-        current,
-        (FakeObjectShared) x);
+        current, (FakeObjectShared) x);
     }
 
     if (x instanceof FakeObjectUnshared) {
       return (A) FakeCompatibilityChecks.checkObjectUnshared(
-        current,
-        (FakeObjectUnshared) x);
+        current, (FakeObjectUnshared) x);
     }
 
     if (x instanceof FakeObjectPseudoUnshared) {
       return (A) FakeCompatibilityChecks.checkObjectPseudoUnshared(
-        current,
-        (FakeObjectPseudoUnshared) x);
+        current, (FakeObjectPseudoUnshared) x);
     }
 
-    if (x instanceof FakeObjectPseudoShared) {
-      return (A) FakeCompatibilityChecks.checkObjectPseudoShared(
-        current,
-        (FakeObjectPseudoShared) x);
-    }
-
-    final String r =
-      String
-        .format(
-          "Object cannot be used: The object %s was not created on this context",
-          x);
+    final String r = String.format(
+      "Object cannot be used: The object %s was not created on this context",
+      x);
     assert r != null;
     throw new JCGLExceptionWrongContext(r);
   }
 
-  public static void checkArray(
+  private static <A extends FakeObjectPseudoUnshared> A
+  checkObjectPseudoUnshared(
     final FakeContext current,
-    final ArrayBufferUsableType x)
+    final A x)
     throws JCGLExceptionWrongContext
   {
+    final FakeContext target = x.getContext();
+    if (current.equals(target)) {
+      return x;
+    }
+
+    throw new JCGLExceptionWrongContext(
+      String.format(
+        "Object cannot be used: Current context %s is not equal to object's "
+        + "context %s", current, target));
+  }
+
+  public static void checkArrayBuffer(
+    final FakeContext current,
+    final JCGLArrayBufferUsableType x)
+    throws JCGLExceptionWrongContext
+  {
+    NullCheck.notNull(x);
     FakeCompatibilityChecks.checkAny(current, x);
-  }
-
-  public static void checkColorAttachmentPoint(
-    final FakeContext ctx,
-    final FramebufferColorAttachmentPointType b)
-    throws JCGLExceptionWrongContext
-  {
-    FakeCompatibilityChecks.checkAny(ctx, b);
-  }
-
-  public static void checkDrawBuffer(
-    final FakeContext ctx,
-    final FramebufferDrawBufferType b)
-    throws JCGLExceptionWrongContext
-  {
-    FakeCompatibilityChecks.checkAny(ctx, b);
-  }
-
-  public static void checkFragmentShader(
-    final FakeContext ctx,
-    final FragmentShaderType x)
-    throws JCGLExceptionWrongContext
-  {
-    FakeCompatibilityChecks.checkAny(ctx, x);
-  }
-
-  public static void checkFramebuffer(
-    final FakeContext ctx,
-    final FramebufferUsableType framebuffer)
-    throws JCGLExceptionWrongContext
-  {
-    FakeCompatibilityChecks.checkAny(ctx, framebuffer);
   }
 
   public static void checkIndexBuffer(
     final FakeContext current,
-    final IndexBufferUsableType x)
+    final JCGLIndexBufferUsableType x)
     throws JCGLExceptionWrongContext
   {
+    NullCheck.notNull(x);
     FakeCompatibilityChecks.checkAny(current, x);
   }
 
-  private static
-    <A extends FakeObjectPseudoShared>
-    A
-    checkObjectPseudoShared(
-      final FakeContext current,
-      final A x)
-      throws JCGLExceptionWrongContext
+  public static void checkArrayObjectBuilder(
+    final FakeContext current,
+    final JCGLArrayObjectBuilderType x)
+    throws JCGLExceptionWrongContext
   {
-    final FakeContext target = x.getContext();
-    if (current.equals(target)) {
-      return x;
-    }
-
-    /**
-     * Sharing is symmetric.
-     */
-
-    if (current.isShared()) {
-      final boolean ok = current.getCreatedShares().contains(target);
-      if (ok) {
-        return x;
-      }
-
-      throw new JCGLExceptionWrongContext(
-        String
-          .format(
-            "Object cannot be used: Current context %s is shared, but is not shared with object's context %s",
-            current,
-            target));
-    }
-
-    throw new JCGLExceptionWrongContext(
-      String
-        .format(
-          "Object cannot be used: Current context %s is not shared, and is not equal to object's context %s",
-          current,
-          target));
-  }
-
-  private static
-    <A extends FakeObjectPseudoUnshared>
-    A
-    checkObjectPseudoUnshared(
-      final FakeContext current,
-      final A x)
-      throws JCGLExceptionWrongContext
-  {
-    final FakeContext target = x.getContext();
-    if (current.equals(target)) {
-      return x;
-    }
-
-    throw new JCGLExceptionWrongContext(
-      String
-        .format(
-          "Object cannot be used: Current context %s is not equal to object's context %s",
-          current,
-          target));
+    NullCheck.notNull(x);
+    FakeCompatibilityChecks.checkAny(current, x);
   }
 
   private static <A extends FakeObjectShared> A checkObjectShared(
@@ -225,26 +160,14 @@ import com.io7m.junreachable.UnreachableCodeException;
      * Sharing is symmetric.
      */
 
-    if (current.isShared()) {
-      final boolean ok = current.getCreatedShares().contains(target);
-      if (ok) {
-        return x;
-      }
-
-      throw new JCGLExceptionWrongContext(
-        String
-          .format(
-            "Object cannot be used: Current context %s is shared, but is not shared with object's context %s",
-            current,
-            target));
+    if (current.contextIsSharedWith(target)) {
+      return x;
     }
 
     throw new JCGLExceptionWrongContext(
-      String
-        .format(
-          "Object cannot be used: Current context %s is not shared, and is not equal to object's context %s",
-          current,
-          target));
+      String.format(
+        "Object cannot be used: Current context %s is not shared with "
+        + "object's context %s", current, target));
   }
 
   private static <A extends FakeObjectUnshared> A checkObjectUnshared(
@@ -258,79 +181,99 @@ import com.io7m.junreachable.UnreachableCodeException;
     }
 
     throw new JCGLExceptionWrongContext(
-      String
-        .format(
-          "Object cannot be used: Current context %s is not equal to object's context %s",
-          current,
-          target));
+      String.format(
+        "Object cannot be used: Current context %s is not equal to object's "
+        + "context %s", current, target));
   }
 
-  public static void checkProgram(
-    final FakeContext current,
-    final ProgramUsableType x)
-    throws JCGLExceptionWrongContext
+  public static void checkArrayAttribute(
+    final FakeContext c,
+    final JCGLArrayVertexAttributeType attrib)
   {
-    FakeCompatibilityChecks.checkAny(current, x);
+    FakeCompatibilityChecks.checkAny(c, attrib);
   }
 
-  public static void checkProgramAttribute(
-    final FakeContext ctx,
-    final ProgramAttributeType x)
-    throws JCGLExceptionWrongContext
+  public static void checkArrayObject(
+    final FakeContext context,
+    final JCGLArrayObjectUsableType a)
   {
-    FakeCompatibilityChecks.checkAny(ctx, x);
+    FakeCompatibilityChecks.checkAny(context, a);
   }
 
-  public static void checkProgramUniform(
-    final FakeContext ctx,
-    final ProgramUniformType x)
-    throws JCGLExceptionWrongContext
+  public static FakeVertexShader checkVertexShader(
+    final FakeContext c,
+    final JCGLVertexShaderUsableType v)
   {
-    FakeCompatibilityChecks.checkAny(ctx, x);
+    return (FakeVertexShader) FakeCompatibilityChecks.checkAny(c, v);
   }
 
-  public static <K extends RenderbufferKind> void checkRenderbuffer(
-    final FakeContext ctx,
-    final RenderbufferUsableType<K> r)
-    throws JCGLExceptionWrongContext
+  public static FakeFragmentShader checkFragmentShader(
+    final FakeContext c,
+    final JCGLFragmentShaderUsableType f)
   {
-    FakeCompatibilityChecks.checkAny(ctx, r);
+    return (FakeFragmentShader) FakeCompatibilityChecks.checkAny(c, f);
   }
 
-  public static void checkTexture(
-    final FakeContext ctx,
-    final Texture2DStaticUsableType x)
-    throws JCGLExceptionWrongContext
+  public static FakeGeometryShader checkGeometryShader(
+    final FakeContext c,
+    final JCGLGeometryShaderUsableType g)
   {
-    FakeCompatibilityChecks.checkAny(ctx, x);
+    return (FakeGeometryShader) FakeCompatibilityChecks.checkAny(c, g);
   }
 
-  public static void checkTextureCube(
-    final FakeContext ctx,
-    final TextureCubeStaticUsableType x)
-    throws JCGLExceptionWrongContext
+  public static FakeProgramShader checkProgramShader(
+    final FakeContext c,
+    final JCGLProgramShaderUsableType p)
   {
-    FakeCompatibilityChecks.checkAny(ctx, x);
+    return (FakeProgramShader) FakeCompatibilityChecks.checkAny(c, p);
   }
 
-  public static void checkTextureUnit(
-    final FakeContext ctx,
-    final TextureUnitType u)
-    throws JCGLExceptionWrongContext
+  public static FakeTextureUnit checkTextureUnit(
+    final FakeContext c,
+    final JCGLTextureUnitType u)
   {
-    FakeCompatibilityChecks.checkAny(ctx, u);
+    return (FakeTextureUnit) FakeCompatibilityChecks.checkAny(c, u);
   }
 
-  public static void checkVertexShader(
-    final FakeContext ctx,
-    final VertexShaderType x)
-    throws JCGLExceptionWrongContext
+  public static FakeTexture2D checkTexture2D(
+    final FakeContext c,
+    final JCGLTexture2DUsableType t)
   {
-    FakeCompatibilityChecks.checkAny(ctx, x);
+    return (FakeTexture2D) FakeCompatibilityChecks.checkAny(c, t);
   }
 
-  private FakeCompatibilityChecks()
+  public static FakeTextureCube checkTextureCube(
+    final FakeContext c,
+    final JCGLTextureCubeUsableType t)
   {
-    throw new UnreachableCodeException();
+    return (FakeTextureCube) FakeCompatibilityChecks.checkAny(c, t);
+  }
+
+  public static void checkFramebufferBuilder(
+    final FakeContext c,
+    final JCGLFramebufferBuilderType b)
+  {
+    FakeCompatibilityChecks.checkAny(c, b);
+  }
+
+  public static void checkFramebufferColorAttachmentPoint(
+    final FakeContext c,
+    final JCGLFramebufferColorAttachmentPointType p)
+  {
+    FakeCompatibilityChecks.checkAny(c, p);
+  }
+
+  public static void checkDrawBuffer(
+    final FakeContext c,
+    final JCGLFramebufferDrawBufferType b)
+  {
+    FakeCompatibilityChecks.checkAny(c, b);
+  }
+
+  public static void checkFramebuffer(
+    final FakeContext c,
+    final JCGLFramebufferUsableType fb)
+  {
+    FakeCompatibilityChecks.checkAny(c, fb);
   }
 }

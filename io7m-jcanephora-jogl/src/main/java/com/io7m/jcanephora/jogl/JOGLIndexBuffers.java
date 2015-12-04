@@ -1,10 +1,10 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,380 +16,218 @@
 
 package com.io7m.jcanephora.jogl;
 
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2ES2;
-import javax.media.opengl.GLContext;
-
-import com.io7m.jcanephora.ArrayBufferUsableType;
-import com.io7m.jcanephora.IndexBufferReadMappedType;
-import com.io7m.jcanephora.IndexBufferType;
-import com.io7m.jcanephora.IndexBufferUpdateMappedType;
-import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
-import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLException;
-import com.io7m.jcanephora.JCGLExceptionBufferMappedMultiple;
-import com.io7m.jcanephora.JCGLExceptionBufferMappedNot;
-import com.io7m.jcanephora.JCGLExceptionDeleted;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.JCGLExceptionWrongContext;
-import com.io7m.jcanephora.JCGLUnsignedType;
-import com.io7m.jcanephora.ResourceCheck;
-import com.io7m.jcanephora.UsageHint;
-import com.io7m.jcanephora.api.JCGLIndexBuffersMappedType;
-import com.io7m.jcanephora.api.JCGLIndexBuffersType;
-import com.io7m.jlog.LogLevel;
-import com.io7m.jlog.LogType;
-import com.io7m.jlog.LogUsableType;
+import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
+import com.io7m.jcanephora.core.JCGLBufferUpdateType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
+import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLIndexBufferType;
+import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
+import com.io7m.jcanephora.core.JCGLReferenceContainerType;
+import com.io7m.jcanephora.core.JCGLResources;
+import com.io7m.jcanephora.core.JCGLUnsignedType;
+import com.io7m.jcanephora.core.JCGLUsageHint;
+import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
-import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.jranges.Ranges;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-final class JOGLIndexBuffers implements
-  JCGLIndexBuffersType,
-  JCGLIndexBuffersMappedType
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.util.Optional;
+
+final class JOGLIndexBuffers implements JCGLIndexBuffersType
 {
-  /**
-   * Check that the given index buffer:
-   * <ul>
-   * <li>Is not null</li>
-   * <li>Was created by this context (or a shared context)</li>
-   * <li>Is not deleted</li>
-   * </ul>
-   */
+  private static final Logger LOG;
 
-  static void checkIndex(
-    final GL gl,
-    final IndexBufferUsableType index)
-    throws JCGLExceptionWrongContext,
-      JCGLExceptionDeleted
-  {
-    NullCheck.notNull(index, "Array");
-    final GLContext ctx = gl.getContext();
-    assert ctx != null;
-    JOGLCompatibilityChecks.checkIndexBuffer(ctx, index);
-    ResourceCheck.notDeleted(index);
+  static {
+    LOG = LoggerFactory.getLogger(JOGLIndexBuffers.class);
   }
 
-  private final GL                         gl;
-  private final JOGLIntegerCacheType       icache;
-  private final LogType                    log;
-  private final Set<IndexBufferUsableType> mapped;
-  private final JOGLLogMessageCacheType    tcache;
+  private final JOGLContext      context;
+  private final GL3              gl;
+  private final IntBuffer        int_cache;
+  private       JOGLArrayObjects array_objects;
 
   JOGLIndexBuffers(
-    final GL in_gl,
-    final LogUsableType in_log,
-    final JOGLIntegerCacheType in_icache,
-    final JOGLLogMessageCacheType in_tcache)
+    final JOGLContext c)
   {
-    this.gl = NullCheck.notNull(in_gl, "GL");
-    this.log = NullCheck.notNull(in_log, "Log").with("index");
-    this.icache = NullCheck.notNull(in_icache, "Integer cache");
-    this.tcache = NullCheck.notNull(in_tcache, "Log message cache");
-    this.mapped = new HashSet<IndexBufferUsableType>();
+    this.context = c;
+    this.gl = c.getGL3();
+    this.int_cache = Buffers.newDirectIntBuffer(1);
   }
 
-  @Override public IndexBufferType indexBufferAllocate(
-    final ArrayBufferUsableType buffer,
+  void setArrayObjects(
+    final JOGLArrayObjects ao)
+  {
+    this.array_objects = NullCheck.notNull(ao);
+  }
+
+  @Override public JCGLIndexBufferType indexBufferAllocate(
     final long indices,
-    final UsageHint usage)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionWrongContext,
-      JCGLExceptionDeleted
-  {
-    JOGLArrays.checkArray(this.gl, buffer);
-    NullCheck.notNull(usage, "Usage");
-
-    RangeCheck.checkIncludedIn(
-      indices,
-      "Index count",
-      RangeCheck.POSITIVE_INTEGER,
-      "Valid index count range");
-
-    JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_BYTE;
-    if (buffer.bufferGetRange().getInterval() > 0xff) {
-      type = JCGLUnsignedType.TYPE_UNSIGNED_SHORT;
-    }
-    if (buffer.bufferGetRange().getInterval() > 0xffff) {
-      type = JCGLUnsignedType.TYPE_UNSIGNED_INT;
-    }
-
-    return this.indexBufferAllocateType(type, indices, usage);
-  }
-
-  @Override public IndexBufferType indexBufferAllocateType(
     final JCGLUnsignedType type,
-    final long indices,
-    final UsageHint usage)
-    throws JCGLExceptionRuntime
+    final JCGLUsageHint usage)
   {
-    NullCheck.notNull(type, "Index type");
-    NullCheck.notNull(usage, "Usage");
+    NullCheck.notNull(usage);
+    NullCheck.notNull(type);
+    RangeCheck.checkIncludedInLong(
+      indices, "Index count", Ranges.NATURAL_LONG, "Valid index counts");
 
-    RangeCheck.checkIncludedIn(
-      indices,
-      "Index count",
-      RangeCheck.POSITIVE_INTEGER,
-      "Valid index count range");
+    final long size = indices * (long) type.getSizeBytes();
 
-    final long size = type.getSizeBytes();
-    final long bytes_total = indices * size;
+    JOGLIndexBuffers.LOG.debug(
+      "allocate {} {} ({} bytes, {})",
+      Long.toUnsignedString(size),
+      type,
+      Long.valueOf(size),
+      usage);
 
-    final StringBuilder text = this.tcache.getTextCache();
+    this.int_cache.rewind();
+    this.gl.glGenBuffers(1, this.int_cache);
+    final int id = this.int_cache.get(0);
 
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("allocate (");
-      text.append(indices);
-      text.append(" elements, ");
-      text.append(size);
-      text.append(" bytes per element, ");
-      text.append(bytes_total);
-      text.append(" bytes)");
-      final String s = text.toString();
-      assert s != null;
-      this.log.debug(s);
-    }
+    JOGLIndexBuffers.LOG.debug("allocated {}", Integer.valueOf(id));
 
-    final IntBuffer ix = this.icache.getIntegerCache();
-    this.gl.glGenBuffers(1, ix);
+    final JOGLIndexBuffer ib =
+      new JOGLIndexBuffer(this.gl.getContext(), id, indices, type, size, usage);
+    this.actualBind(ib);
 
-    final int id = ix.get(0);
-    this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id);
-    try {
-      this.gl.glBufferData(
-        GL.GL_ELEMENT_ARRAY_BUFFER,
-        bytes_total,
-        null,
-        GL2ES2.GL_STREAM_DRAW);
-    } finally {
-      this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
+    this.gl.glBufferData(
+      GL.GL_ELEMENT_ARRAY_BUFFER,
+      size,
+      null,
+      JOGLTypeConversions.usageHintToGL(usage));
 
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("allocated ");
-      text.append(id);
-      final String s = text.toString();
-      assert s != null;
-      this.log.debug(s);
-    }
+    return ib;
+  }
 
-    final RangeInclusiveL range = new RangeInclusiveL(0, indices - 1);
-    final GLContext ctx = this.gl.getContext();
-    assert ctx != null;
-    return new JOGLIndexBuffer(ctx, id, range, type, usage);
+  private void actualBind(final JOGLIndexBuffer ib)
+  {
+    final JOGLArrayObject ao =
+      (JOGLArrayObject) this.array_objects.arrayObjectGetCurrentlyBound();
+
+    ao.setIndexBuffer(
+      ib_opt -> {
+        JOGLIndexBuffers.LOG.trace("bind {}/{} -> {}", ao, ib_opt, ib);
+
+        if (ib_opt.isPresent()) {
+          final JCGLIndexBufferUsableType current = ib_opt.get();
+          if (current.equals(ib)) {
+            return ib_opt;
+          }
+        }
+
+        this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ib.getGLName());
+        return Optional.of(ib);
+      });
+  }
+
+  private void actualUnbind()
+  {
+    final JOGLArrayObject ao =
+      (JOGLArrayObject) this.array_objects.arrayObjectGetCurrentlyBound();
+
+    ao.setIndexBuffer(
+      ib_opt -> {
+        JOGLIndexBuffers.LOG.trace("unbind {}/{}", ao, ib_opt);
+        this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+        return Optional.empty();
+      });
+  }
+
+  @Override
+  public Optional<JCGLIndexBufferUsableType> indexBufferGetCurrentlyBound()
+    throws JCGLException
+  {
+    return this.array_objects.arrayObjectGetCurrentlyBound()
+      .getIndexBufferBound();
+  }
+
+  @Override public void indexBufferBind(
+    final JCGLIndexBufferUsableType i)
+    throws JCGLException, JCGLExceptionDeleted
+  {
+    this.actualBind(this.checkIndexBuffer(i));
+  }
+
+  private JOGLIndexBuffer checkIndexBuffer(final JCGLIndexBufferUsableType i)
+  {
+    NullCheck.notNull(i);
+    JOGLCompatibilityChecks.checkIndexBuffer(this.gl.getContext(), i);
+    JCGLResources.checkNotDeleted(i);
+    return (JOGLIndexBuffer) i;
+  }
+
+  @Override public void indexBufferUnbind()
+    throws JCGLException
+  {
+    this.actualUnbind();
   }
 
   @Override public void indexBufferDelete(
-    final IndexBufferType id)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionWrongContext,
-      JCGLExceptionDeleted
+    final JCGLIndexBufferType ii)
+    throws JCGLException, JCGLExceptionDeleted
   {
-    JOGLIndexBuffers.checkIndex(this.gl, id);
+    final JOGLIndexBuffer i = this.checkIndexBuffer(ii);
 
-    final StringBuilder text = this.tcache.getTextCache();
+    this.int_cache.rewind();
+    this.int_cache.put(0, i.getGLName());
+    this.gl.glDeleteBuffers(1, this.int_cache);
+    i.setDeleted();
 
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("delete ");
-      text.append(id);
-      final String s = text.toString();
-      assert s != null;
-      this.log.debug(s);
-    }
-
-    final IntBuffer ix = this.icache.getIntegerCache();
-    ix.put(0, id.getGLName());
-    this.gl.glDeleteBuffers(1, ix);
-
-    ((JOGLIndexBuffer) id).resourceSetDeleted();
-  }
-
-  @Override public IndexBufferReadMappedType indexBufferMapRead(
-    final IndexBufferUsableType id)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionWrongContext,
-      JCGLExceptionDeleted,
-      JCGLExceptionBufferMappedMultiple
-  {
-    NullCheck.notNull(id, "Index buffer");
-    return this.indexBufferMapReadRange(id, id.bufferGetRange());
-  }
-
-  @Override public IndexBufferReadMappedType indexBufferMapReadRange(
-    final IndexBufferUsableType id,
-    final RangeInclusiveL range)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionWrongContext,
-      JCGLExceptionDeleted,
-      JCGLExceptionBufferMappedMultiple
-  {
-    JOGLIndexBuffers.checkIndex(this.gl, id);
-    NullCheck.notNull(range, "Range");
-
-    final StringBuilder text = this.tcache.getTextCache();
-
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("map ");
-      text.append(id);
-      final String s = text.toString();
-      assert s != null;
-      this.log.debug(s);
-    }
-
-    this.mappingAdd(id);
-
-    this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-
-    final ByteBuffer b;
-    try {
-      final long offset = range.getLower() * id.bufferGetElementSizeBytes();
-      final long length =
-        range.getInterval() * id.bufferGetElementSizeBytes();
-
-      b =
-        this.gl.glMapBufferRange(
-          GL.GL_ELEMENT_ARRAY_BUFFER,
-          offset,
-          length,
-          GL.GL_MAP_READ_BIT);
-
-    } finally {
-      this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-
-    assert b != null;
-    return new JOGLIndexBufferReadableMap(id, b);
-  }
-
-  @Override public IndexBufferUpdateMappedType indexBufferMapWrite(
-    final IndexBufferType id)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionWrongContext,
-      JCGLExceptionDeleted,
-      JCGLExceptionBufferMappedMultiple
-  {
-    JOGLIndexBuffers.checkIndex(this.gl, id);
-
-    final StringBuilder text = this.tcache.getTextCache();
-
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("map ");
-      text.append(id);
-      final String s = text.toString();
-      assert s != null;
-      this.log.debug(s);
-    }
-
-    this.mappingAdd(id);
-
-    this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-
-    ByteBuffer b;
-    try {
-      this.gl.glBufferData(
-        GL.GL_ELEMENT_ARRAY_BUFFER,
-        id.resourceGetSizeBytes(),
-        null,
-        GL2ES2.GL_STREAM_DRAW);
-
-      final RangeInclusiveL range = id.bufferGetRange();
-      final long offset = range.getLower() * id.bufferGetElementSizeBytes();
-      final long length =
-        range.getInterval() * id.bufferGetElementSizeBytes();
-
-      b =
-        this.gl.glMapBufferRange(
-          GL.GL_ELEMENT_ARRAY_BUFFER,
-          offset,
-          length,
-          GL.GL_MAP_WRITE_BIT);
-
-    } finally {
-      this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-
-    assert b != null;
-    return new JOGLIndexBufferUpdateMapped(id, b);
-  }
-
-  @Override public void indexBufferUnmap(
-    final IndexBufferUsableType id)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionWrongContext,
-      JCGLExceptionDeleted,
-      JCGLExceptionBufferMappedNot
-  {
-    JOGLIndexBuffers.checkIndex(this.gl, id);
-
-    final StringBuilder text = this.tcache.getTextCache();
-
-    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
-      text.setLength(0);
-      text.append("unmap ");
-      text.append(id);
-      final String s = text.toString();
-      assert s != null;
-      this.log.debug(s);
-    }
-
-    this.mappingDelete(id);
-
-    this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-    try {
-      this.gl.glUnmapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER);
-    } finally {
-      this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    for (final JCGLReferenceContainerType c : i.getReferringContainers()) {
+      if (c instanceof JOGLArrayObject) {
+        final JOGLArrayObject ao = (JOGLArrayObject) c;
+        ao.setIndexBuffer(ib -> Optional.empty());
+      }
     }
   }
 
   @Override public void indexBufferUpdate(
-    final IndexBufferUpdateUnmappedType data)
-    throws JCGLException
+    final JCGLBufferUpdateType<JCGLIndexBufferType> u)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(data, "Index buffer update");
-    final IndexBufferUsableType b = data.getIndexBuffer();
-    JOGLIndexBuffers.checkIndex(this.gl, b);
+    NullCheck.notNull(u);
+    final JCGLIndexBufferType ii = u.getBuffer();
+    this.checkIndexBuffer(ii);
 
-    this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, b.getGLName());
-    try {
-      this.gl.glBufferSubData(
-        GL.GL_ELEMENT_ARRAY_BUFFER,
-        data.getTargetDataOffset(),
-        data.getTargetDataSize(),
-        data.getTargetData());
-    } finally {
-      this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    final JCGLArrayObjectUsableType ao =
+      this.array_objects.arrayObjectGetCurrentlyBound();
+
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    if (i_opt.isPresent()) {
+      final JCGLIndexBufferUsableType current_ib = i_opt.get();
+      if (ii.equals(current_ib)) {
+        final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
+        final ByteBuffer data = u.getData();
+        data.rewind();
+        this.gl.glBufferSubData(
+          GL.GL_ELEMENT_ARRAY_BUFFER, r.getLower(), r.getInterval(), data);
+        return;
+      }
     }
+
+    final StringBuilder sb = new StringBuilder(128);
+    sb.append("Buffer is not bound.");
+    sb.append(System.lineSeparator());
+    sb.append("  Required: ");
+    sb.append(ii);
+    sb.append(System.lineSeparator());
+    sb.append("  Actual: ");
+    sb.append(i_opt);
+    throw new JCGLExceptionBufferNotBound(sb.toString());
   }
 
-  private void mappingAdd(
-    final IndexBufferUsableType index)
-    throws JCGLExceptionBufferMappedMultiple
+  @Override public boolean indexBufferIsBound()
   {
-    if (this.mapped.contains(index)) {
-      throw JCGLExceptionBufferMappedMultiple.ofIndex(index);
-    }
-    this.mapped.add(index);
-  }
-
-  private void mappingDelete(
-    final IndexBufferUsableType index)
-    throws JCGLExceptionBufferMappedNot
-  {
-    if (this.mapped.contains(index) == false) {
-      throw JCGLExceptionBufferMappedNot.ofIndex(index);
-    }
-
-    this.mapped.remove(index);
+    final JCGLArrayObjectUsableType ao =
+      this.array_objects.arrayObjectGetCurrentlyBound();
+    return ao.getIndexBufferBound().isPresent();
   }
 }
