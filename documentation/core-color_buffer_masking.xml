@@ -1,0 +1,41 @@
+<s:section
+  xml:id="core_interfaces.color_buffer_masking"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLColorBufferMaskingType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLColorBufferMaskingType.html">JCGLColorBufferMaskingType</s:link-external>
+      interface provides functions for masking writes to specific
+      color channels of the framebuffer.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage example</s:subsection-title>
+    <s:paragraph>
+      The following code prevents subsequent rendering operations from
+      rendering to the red channel of any framebuffer:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Masking</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLColorBufferMaskingType g;
+
+g.colorBufferMask(false, true, true, true);
+]]></s:verbatim>
+    </s:formal-item>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      The current masking state is global to a given context; when enabled,
+      it is enabled for all subsequent rendering operations on that context
+      until explicitly modified or disabled.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

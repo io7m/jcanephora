@@ -1,0 +1,44 @@
+<s:section
+  xml:id="core_interfaces.context"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLContextType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLContextType.html">JCGLContextType</s:link-external>
+      interface represents a single OpenGL context.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Currency</s:subsection-title>
+    <s:paragraph>
+      To accept commands, an OpenGL context must be made
+      <s:term s:type="term">current</s:term>. For a given thread
+      <s:term s:type="variable">t</s:term>, at most one context
+      can be <s:term s:type="term">current</s:term> on
+      <s:term s:type="variable">t</s:term> at any given time.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Sharing</s:subsection-title>
+    <s:paragraph>
+      An OpenGL context may be <s:term s:type="term">shared</s:term>. Briefly,
+      this means that if a context <s:term s:type="variable">c</s:term> is
+      <s:term s:type="term">shared</s:term> with a context
+      <s:term s:type="variable">d</s:term>, then certain types of objects
+      allocated on <s:term s:type="variable">c</s:term> are visible to
+      <s:term s:type="variable">d</s:term>, and vice versa. This is often
+      used in rendering engines to enable textures and other large resources
+      to be loaded on a separate background thread without interrupting
+      rendering. The <s:term s:type="package">jcanephora</s:term> API
+      knows types of objects may be shared across contexts, and raises
+      errors at run-time if the user attempts to use a non-shared object
+      on the wrong context.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

@@ -1,0 +1,43 @@
+<s:section
+  xml:id="core_interfaces.blending"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLBlendingType</s:section-title>
+  <s:section-contents/>
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLBlendingType.html">JCGLBlendingType</s:link-external>
+      interface provides functions for configuring framebuffer
+      color blending.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage examples</s:subsection-title>
+    <s:paragraph>
+      To enable blending, using the fairly typical
+      <s:term s:type="expression">color = (destination * source_alpha) + (source * (1.0 - source_alpha))</s:term>
+      blending equation:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Blending</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLBlendingType g;
+
+g.blendingEnable(
+  BlendFunction.BLEND_SOURCE_ALPHA,
+  BlendFunction.BLEND_ONE_MINUS_SOURCE_ALPHA);
+]]></s:verbatim>
+    </s:formal-item>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      The current blending state is global to a given context; when enabled,
+      it is enabled for all subsequent rendering operations on that context
+      until explicitly modified or disabled.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

@@ -1,0 +1,33 @@
+<s:section
+  xml:id="core_interfaces.array_buffers"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLArrayBuffersType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The
+      <s:link-external
+        s:target="apidocs/com/io7m/jcanephora/core/api/JCGLArrayBuffersType.html">
+        JCGLArrayBuffersType
+      </s:link-external>
+      interface provides functions for allocating, updating,
+      and using array buffers. It provides a typed interface
+      to the <s:term s:type="function">glGenBuffers</s:term> and
+      <s:term s:type="function">glBufferData</s:term> functions.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      OpenGL specifies that at most one array buffer can be
+      <s:term s:type="term">bound</s:term> on a context at any given time.
+      Many API functions operate on the currently bound buffer and the
+      <s:term s:type="package">jcanephora</s:term> API avoids changing
+      the current binding behind the programmer's back.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

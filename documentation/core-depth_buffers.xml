@@ -1,0 +1,74 @@
+<s:section
+  xml:id="core_interfaces.depth_buffers"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLDepthBuffersType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The
+      <s:link-external
+        s:target="apidocs/com/io7m/jcanephora/core/api/JCGLDepthBuffersType.html">
+        JCGLDepthBuffersType
+      </s:link-external>
+      interface provides functions for controlling depth testing,
+      writing, and clamping of depth values.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage examples</s:subsection-title>
+    <s:paragraph>
+      To clear the current depth buffer to a value typical of the far clipping
+      plane:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Depth buffer clear</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLDepthBuffersType g;
+
+g.depthBufferClear(1.0f);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      To discard all writes to the depth buffer (note that this will
+      also prevent clearing of the depth buffer):
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Depth buffer mask</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLDepthBuffersType g;
+
+g.depthBufferWriteDisable();
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      To enable depth testing and set the depth function such that
+      only depth values less than the current value in the depth buffer will
+      be written:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Depth buffer enable</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLDepthBuffersType g;
+
+g.depthBufferTestEnable(DepthFunction.DEPTH_LESS_THAN);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      Most of the functions raise exceptions if attempting to perform
+      operations on a framebuffer that does not have a depth buffer.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      The current depth-testing and depth-writing state is global to a given
+      context; when enabled, it is enabled for all subsequent rendering
+      operations on that context until explicitly modified or disabled.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

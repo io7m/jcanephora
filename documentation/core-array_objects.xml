@@ -1,0 +1,116 @@
+<s:section
+  xml:id="core_interfaces.array_objects"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLArrayObjectsType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLArrayObjectsType.html">JCGLArrayObjectsType</s:link-external>
+      interface provides functions for allocating, updating,
+      and using array objects.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage Examples</s:subsection-title>
+    <s:paragraph>
+      An <s:term s:type="term">array object</s:term> is a container
+      for an
+      <s:link s:target="core_interfaces.index_buffers">index buffer binding</s:link>
+      and a set of numbered
+      <s:term s:type="term">vertex array attributes</s:term>. Essentially,
+      the programmer can state that numbered
+      <s:term s:type="term">vertex array attributes</s:term> will be supplied
+      with data from assigned
+      <s:link s:target="core_interfaces.array_buffers">array buffers</s:link>,
+      with each attribute knowing how to extract values from the otherwise
+      untyped buffer. An array attribute will read <s:term s:type="variable">count</s:term>
+      values of type <s:term s:type="variable">t</s:term> from an array
+      buffer, starting at offset <s:term s:type="variable">o</s:term> in
+      bytes, and stepping forward <s:term s:type="variable">stride</s:term>
+      bytes for each vertex. This more or less encodes the notion that an
+      array buffer is an array of <s:term s:type="term">record</s:term>
+      <s:footnote>
+        Or <s:term s:type="term">struct</s:term>, in C terminology.
+      </s:footnote> values, with each array attribute
+      reading from a specific <s:term s:type="term">record field</s:term> for
+      each element.
+    </s:paragraph>
+    <s:formal-item s:kind="diagrams">
+      <s:formal-item-title>Array Buffers As Arrays Of Records</s:formal-item-title>
+      <s:image s:source="encoding.png">Array Buffers As Arrays Of Records</s:image>
+    </s:formal-item>
+    <s:paragraph>
+      As a simple example, consider an array containing three vertices,
+      with each vertex containing a single three-element floating point
+      vector:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Positions</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLArrayBuffersType g_ab;
+JCGLArrayBufferType ab;
+
+final int vertex_size = 3 * 4;
+ab = g_ab.arrayBufferAllocate(vertex_size * 3L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+final JCGLBufferUpdateType<JCGLArrayBufferType> u = JCGLBufferUpdates.newUpdateReplacingAll(ab);
+final FloatBuffer d = u.getData().asFloatBuffer();
+
+d.put(0, -0.5f);
+d.put(1, 0.5f);
+d.put(2, -0.5f);
+
+d.put(3, -0.5f);
+d.put(4, -0.5f);
+d.put(5, -0.5f);
+
+d.put(6, 0.5f);
+d.put(7, -0.5f);
+d.put(8, -0.5f);
+
+g_ab.arrayBufferUpdate(u);
+g_ab.arrayBufferUnbind();
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      Then, assuming that vertex positions should be supplied to a shading
+      language program via vertex attribute
+      <s:term s:type="constant">0</s:term>:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Attribute</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLArrayObjectsType aob;
+
+final JCGLArrayObjectBuilderType aob = g_ao.arrayObjectNewBuilder();
+aob.setAttributeFloatingPoint(
+  0,
+  ab,
+  3,
+  JCGLScalarType.TYPE_FLOAT,
+  vertex_size,
+  0L,
+  false);
+
+JCGLArrayObjectType ao = g_ao.arrayObjectAllocate(aob);
+]]></s:verbatim>
+    </s:formal-item>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      OpenGL specifies that exactly one array object will be
+      <s:term s:type="term">bound</s:term> on a context at any given time.
+      OpenGL provides a <s:term s:type="term">default array object</s:term>
+      that is bound when no user-created array object exists.
+      Many API functions operate on the currently bound array object and the
+      <s:term s:type="package">jcanephora</s:term> API avoids changing
+      the current binding behind the programmer's back.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

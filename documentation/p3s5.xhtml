@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>io7m-jcanephora 0.40.0-SNAPSHOT Documentation: 3.5. JCGLArrayObjectsType</title><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-layout.css"/><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-colour.css"/><link rel="stylesheet" type="text/css" href="documentation.css"/></head><body><div class="st200_body"><div class="brand">
+  <div class="brand_left">
+    <a href="http://io7m.com/">io7m</a>
+  </div>
+  <div class="brand_right">
+    <a href="http://github.com/io7m/jcanephora">io7m-jcanephora</a> 0.40.0-SNAPSHOT
+  </div>
+</div><div class="st200_navbar st200_navbar_top"><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_title_cell">3.4. JCGLArrayBuffersType</td><td class="st200_navbar_up_title_cell">3. jcanephora Core Interfaces</td><td class="st200_navbar_next_title_cell">3.6. JCGLBlendingType</td></tr><tr><td class="st200_navbar_prev_file_cell"><a href="p3s4.xhtml#st200_p3s4">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p3.xhtml#st200_p3">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p3s6.xhtml#st200_p3s6">Next</a></td></tr></table><hr class="st200_hr"/></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s5" href="#st200_p3s5">3.5</a></div><div class="st200_section_title">JCGLArrayObjectsType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s5.xhtml#st200_p3s5ss1">3.5.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s5.xhtml#st200_p3s5ss2">3.5.2. Usage Examples</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s5.xhtml#st200_p3s5ss3">3.5.3. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s5ss1" href="#st200_p3s5ss1">3.5.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s5ss1pg1" href="#st200_p3s5ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLArrayObjectsType.html">JCGLArrayObjectsType</a>
+      interface provides functions for allocating, updating,
+      and using array objects.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s5ss2" href="#st200_p3s5ss2">3.5.2</a></div><div class="st200_subsection_title">Usage Examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s5ss2pg1" href="#st200_p3s5ss2pg1">1</a></div><div class="st200_paragraph">
+      An <span class="st200_term term">array object</span> is a container
+      for an
+      <a class="st200_link" href="p3s12.xhtml#st200_p3s12">index buffer binding</a>
+      and a set of numbered
+      <span class="st200_term term">vertex array attributes</span>. Essentially,
+      the programmer can state that numbered
+      <span class="st200_term term">vertex array attributes</span> will be supplied
+      with data from assigned
+      <a class="st200_link" href="p3s4.xhtml#st200_p3s4">array buffers</a>,
+      with each attribute knowing how to extract values from the otherwise
+      untyped buffer. An array attribute will read <span class="st200_term variable">count</span>
+      values of type <span class="st200_term variable">t</span> from an array
+      buffer, starting at offset <span class="st200_term variable">o</span> in
+      bytes, and stepping forward <span class="st200_term variable">stride</span>
+      bytes for each vertex. This more or less encodes the notion that an
+      array buffer is an array of <span class="st200_term term">record</span>
+      <span class="st200_footnote_reference"><a id="st200_fn_3_ref" href="#st200_fn_3">[3]</a></span> values, with each array attribute
+      reading from a specific <span class="st200_term term">record field</span> for
+      each element.
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s5ss2fo1" href="#st200_p3s5ss2fo1">3.5.2.1. Array Buffers As Arrays Of Records</a></div><img class="st200_image" alt="Array Buffers As Arrays Of Records" src="encoding.png"/></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s5ss2pg2" href="#st200_p3s5ss2pg2">2</a></div><div class="st200_paragraph">
+      As a simple example, consider an array containing three vertices,
+      with each vertex containing a single three-element floating point
+      vector:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s5ss2fo2" href="#st200_p3s5ss2fo2">3.5.2.2. Positions</a></div><pre class="st200_verbatim">
+JCGLArrayBuffersType g_ab;
+JCGLArrayBufferType ab;
+
+final int vertex_size = 3 * 4;
+ab = g_ab.arrayBufferAllocate(vertex_size * 3L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+final JCGLBufferUpdateType&lt;JCGLArrayBufferType&gt; u = JCGLBufferUpdates.newUpdateReplacingAll(ab);
+final FloatBuffer d = u.getData().asFloatBuffer();
+
+d.put(0, -0.5f);
+d.put(1, 0.5f);
+d.put(2, -0.5f);
+
+d.put(3, -0.5f);
+d.put(4, -0.5f);
+d.put(5, -0.5f);
+
+d.put(6, 0.5f);
+d.put(7, -0.5f);
+d.put(8, -0.5f);
+
+g_ab.arrayBufferUpdate(u);
+g_ab.arrayBufferUnbind();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s5ss2pg3" href="#st200_p3s5ss2pg3">3</a></div><div class="st200_paragraph">
+      Then, assuming that vertex positions should be supplied to a shading
+      language program via vertex attribute
+      <span class="st200_term constant">0</span>:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s5ss2fo3" href="#st200_p3s5ss2fo3">3.5.2.3. Attribute</a></div><pre class="st200_verbatim">
+JCGLArrayObjectsType aob;
+
+final JCGLArrayObjectBuilderType aob = g_ao.arrayObjectNewBuilder();
+aob.setAttributeFloatingPoint(
+  0,
+  ab,
+  3,
+  JCGLScalarType.TYPE_FLOAT,
+  vertex_size,
+  0L,
+  false);
+
+JCGLArrayObjectType ao = g_ao.arrayObjectAllocate(aob);
+</pre></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s5ss3" href="#st200_p3s5ss3">3.5.3</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s5ss3pg1" href="#st200_p3s5ss3pg1">1</a></div><div class="st200_paragraph">
+      OpenGL specifies that exactly one array object will be
+      <span class="st200_term term">bound</span> on a context at any given time.
+      OpenGL provides a <span class="st200_term term">default array object</span>
+      that is bound when no user-created array object exists.
+      Many API functions operate on the currently bound array object and the
+      <span class="st200_term package">jcanephora</span> API avoids changing
+      the current binding behind the programmer's back.
+    </div></div></div></div><div class="st200_footnotes"><hr/><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_3" href="#st200_fn_3_ref">3</a>]</div><div class="st200_footnote_body">
+        Or <span class="st200_term term">struct</span>, in C terminology.
+      </div></div></div><div class="st200_navbar st200_navbar_bottom"><hr class="st200_hr"/><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_file_cell"><a href="p3s4.xhtml#st200_p3s4">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p3.xhtml#st200_p3">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p3s6.xhtml#st200_p3s6">Next</a></td></tr><tr><td class="st200_navbar_prev_title_cell">3.4. JCGLArrayBuffersType</td><td class="st200_navbar_up_title_cell">3. jcanephora Core Interfaces</td><td class="st200_navbar_next_title_cell">3.6. JCGLBlendingType</td></tr></table></div></div></body></html>

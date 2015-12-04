@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>io7m-jcanephora 0.40.0-SNAPSHOT Documentation: 2.3. API Design</title><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-layout.css"/><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-colour.css"/><link rel="stylesheet" type="text/css" href="documentation.css"/></head><body><div class="st200_body"><div class="brand">
+  <div class="brand_left">
+    <a href="http://io7m.com/">io7m</a>
+  </div>
+  <div class="brand_right">
+    <a href="http://github.com/io7m/jcanephora">io7m-jcanephora</a> 0.40.0-SNAPSHOT
+  </div>
+</div><div class="st200_navbar st200_navbar_top"><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_title_cell">2.2. Goals</td><td class="st200_navbar_up_title_cell">2. Design/Rationale</td><td class="st200_navbar_next_title_cell">3. jcanephora Core Interfaces</td></tr><tr><td class="st200_navbar_prev_file_cell"><a href="p2s2.xhtml#st200_p2s2">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p2.xhtml#st200_p2">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p3.xhtml#st200_p3">Next</a></td></tr></table><hr class="st200_hr"/></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p2s3" href="#st200_p2s3">2.3</a></div><div class="st200_section_title">API Design</div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s3ss1" href="#st200_p2s3ss1">2.3.1</a></div><div class="st200_subsection_title">Interfaces as capabilities</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss1pg1" href="#st200_p2s3ss1pg1">1</a></div><div class="st200_paragraph">
+        The package is written with one particular concept, throughout:
+        Types represent capabilities. If the developer has a value of a
+        given type, then the developer can perform all of the operations
+        associated with that type.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss1pg2" href="#st200_p2s3ss1pg2">2</a></div><div class="st200_paragraph">
+        This is in direct contrast to the OpenGL
+        API, where the developer always has full access to all API functions,
+        and individual functions (or combinations of parameters to functions)
+        may not work based on what the implementation supports. The emphasis
+        is on <span class="st200_term emphasis">isolating the correct operations and
+        statically preventing incorrect operations from occurring</span>.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s3ss2" href="#st200_p2s3ss2">2.3.2</a></div><div class="st200_subsection_title">Types</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg1" href="#st200_p2s3ss2pg1">1</a></div><div class="st200_paragraph">
+        The
+        <span class="st200_term package">jcanephora</span>
+        package wraps all
+        conceptually distinct objects in new types and provides sane and
+        unsurprising functions to construct them. This prevents large
+        classes of bugs from occurring, at compile time. It also allows
+        the interfaces to be self-documenting. Consider the following
+        C function prototype:
+      </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p2s3ss2fo1" href="#st200_p2s3ss2fo1">2.3.2.1. Weakly typed C function</a></div><pre class="st200_verbatim">void _ (GLsizei, GLuint *)</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg2" href="#st200_p2s3ss2pg2">2</a></div><div class="st200_paragraph">
+        What does the function do? It could generate a set of textures
+        (<span class="st200_term function">glGenTextures</span>), or it could
+        generate a set of new buffer names
+        (<span class="st200_term function">glGenBuffers</span>). Without carefully
+        reading the documentation, the required parameters to the function
+        are certainly not obvious from the type alone. Assuming the developer
+        has read the documentation and worked out that the correct way to
+        call the function is with the following sequence:
+      </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p2s3ss2fo2" href="#st200_p2s3ss2fo2">2.3.2.2. Weakly typed C calls</a></div><pre class="st200_verbatim">GLuint texture;
+
+glGenTextures(1, &amp;texture);
+checkGLErrors();</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg3" href="#st200_p2s3ss2pg3">3</a></div><div class="st200_paragraph">
+        The developer now has a value of type
+        <span class="st200_term type">GLuint</span>. Given that many functions in
+        the OpenGL API also take values of<span class="st200_term type">
+        GLuint</span>,
+        and those values have nothing to do with textures, that's a huge
+        number of potential bugs that cannot be prevented by the compiler.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg4" href="#st200_p2s3ss2pg4">4</a></div><div class="st200_paragraph">
+        The developer now wants to allocate a new RGBA texture. The
+        types of the <span class="st200_term function">glTexImage2D</span>
+        and <span class="st200_term function">glTexParameteri</span> functions
+        are, quite frankly, insane. Almost no developer manages to use these
+        functions successfully without trial and error and, naturally, all
+        errors are runtime errors. Eventually, through some painful
+        experimentation, the developer might stumble onto the following
+        sequence of calls:
+      </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p2s3ss2fo3" href="#st200_p2s3ss2fo3">2.3.2.3. Allocating a texture</a></div><pre class="st200_verbatim">GLuint texture;
+void *data = makeTextureData();
+
+glGenTextures(1, &amp;texture);
+glBindTexture(GL_TEXTURE_2D, texture);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg5" href="#st200_p2s3ss2pg5">5</a></div><div class="st200_paragraph">
+        The types of the parameters to all of the functions mentioned allow
+        the developer to pass in practically anything. Only a very small
+        subset of the possible parameters are actually valid. An even
+        smaller subset of the possible parameters actually work across
+        different versions of OpenGL!
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg6" href="#st200_p2s3ss2pg6">6</a></div><div class="st200_paragraph">
+        Now consider the
+        following <span class="st200_term package">jcanephora</span> function:
+      </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p2s3ss2fo4" href="#st200_p2s3ss2fo4">2.3.2.4. Texture allocation?</a></div><pre class="st200_verbatim">public JCGLTexture2DType _(
+    JCGLTextureUnitType _,
+    long _,
+    long _,
+    JCGLTextureFormat _,
+    JCGLTextureWrapS _,
+    JCGLTextureWrapT _,
+    JCGLTextureFilterMinification _,
+    JCGLTextureFilterMagnification _)
+    throws JCGLException;</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg7" href="#st200_p2s3ss2pg7">7</a></div><div class="st200_paragraph">
+        Even without the names of the function and the parameters,
+        the type above make it quite clear that the function returns a
+        <span class="st200_term type">JCGLTexture2DType</span>, which is somehow
+        derived from the arguments to the function. It's a reasonable
+        assumption to make that the function allocates a new texture.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg8" href="#st200_p2s3ss2pg8">8</a></div><div class="st200_paragraph">
+        The wrapping modes on the <span class="st200_term constant">S</span> and
+        <span class="st200_term constant">T</span> axis will presumably be
+        derived from the parameters of type
+        <span class="st200_term type">JCGLTextureWrapS</span> and
+        <span class="st200_term type">JCGLTextureWrapT</span> respectively. The
+        minification and magnification filters will presumably be derived
+        from the parameters of type
+        <span class="st200_term type">JCGLTextureFilterMinification</span> and
+        <span class="st200_term type">JCGLTextureFilterMagnification</span>,
+        respectively. The programmer is statically prevented from mixing
+        up the two axes, or the two filter domains. The
+        <span class="st200_term type">JCGLTextureFormat</span> parameter is
+        obviously intended to specify the format of the texture. Any
+        parameter familiar with OpenGL texturing will be aware that any
+        operations involving textures requires access to a
+        <span class="st200_term term">texture unit</span>, and the
+        <span class="st200_term type">JCGLTextureUnitType</span> parameter
+        above presumably specifies the unit that will be used.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg9" href="#st200_p2s3ss2pg9">9</a></div><div class="st200_paragraph">
+        The two parameters of type <span class="st200_term type">long</span>
+        presumably correspond to the width and height of the resulting
+        texture, but the types are not descriptive enough to say for sure.
+        Unfortunately, Java lacks a way to make existing arithmetic types
+        incompatible without sacrificing efficiency
+        <span class="st200_footnote_reference"><a id="st200_fn_2_ref" href="#st200_fn_2">[2]</a></span>. In this case, the two parameters do indeed
+        correspond to the width and height, in that order, and the
+        <span class="st200_term package">jcanephora</span> package uses this
+        order consistently throughout.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg10" href="#st200_p2s3ss2pg10">10</a></div><div class="st200_paragraph">
+        The extremely descriptive type given for the function, and the
+        presence of declared (but unchecked) exceptions are direct contributions
+        towards the goals of
+        <a class="st200_link" href="p2s2.xhtml#st200_p2s2ss3">type safety</a>
+        and
+        <a class="st200_link" href="p2s2.xhtml#st200_p2s2ss5">conspicuity of errors</a>.
+        It is very difficult for the programmer to use this function
+        incorrectly: the type system guarantees correct usage.
+      </div></div></div></div><div class="st200_footnotes"><hr/><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_2" href="#st200_fn_2_ref">2</a>]</div><div class="st200_footnote_body">
+          New types will be new classes, resulting in all integers being
+          replaced with pointers to integers.
+        </div></div></div><div class="st200_navbar st200_navbar_bottom"><hr class="st200_hr"/><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_file_cell"><a href="p2s2.xhtml#st200_p2s2">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p2.xhtml#st200_p2">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p3.xhtml#st200_p3">Next</a></td></tr><tr><td class="st200_navbar_prev_title_cell">2.2. Goals</td><td class="st200_navbar_up_title_cell">2. Design/Rationale</td><td class="st200_navbar_next_title_cell">3. jcanephora Core Interfaces</td></tr></table></div></div></body></html>

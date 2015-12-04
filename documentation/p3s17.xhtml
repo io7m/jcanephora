@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>io7m-jcanephora 0.40.0-SNAPSHOT Documentation: 3.17. JCGLTexturesType</title><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-layout.css"/><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-colour.css"/><link rel="stylesheet" type="text/css" href="documentation.css"/></head><body><div class="st200_body"><div class="brand">
+  <div class="brand_left">
+    <a href="http://io7m.com/">io7m</a>
+  </div>
+  <div class="brand_right">
+    <a href="http://github.com/io7m/jcanephora">io7m-jcanephora</a> 0.40.0-SNAPSHOT
+  </div>
+</div><div class="st200_navbar st200_navbar_top"><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_title_cell">3.16. JCGLStencilBuffersType</td><td class="st200_navbar_up_title_cell">3. jcanephora Core Interfaces</td><td class="st200_navbar_next_title_cell">3.18. JCGLViewportsType</td></tr><tr><td class="st200_navbar_prev_file_cell"><a href="p3s16.xhtml#st200_p3s16">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p3.xhtml#st200_p3">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p3s18.xhtml#st200_p3s18">Next</a></td></tr></table><hr class="st200_hr"/></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s17" href="#st200_p3s17">3.17</a></div><div class="st200_section_title">JCGLTexturesType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s17.xhtml#st200_p3s17ss1">3.17.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s17.xhtml#st200_p3s17ss2">3.17.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s17.xhtml#st200_p3s17ss3">3.17.3. Cube map coordinate systems</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s17ss1" href="#st200_p3s17ss1">3.17.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss1pg1" href="#st200_p3s17ss1pg1">1</a></div><div class="st200_paragraph">
+      The
+      <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLTexturesType.html">
+        JCGLTexturesType
+      </a>
+      interface provides functions for allocating, updating,
+      and using textures.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s17ss2" href="#st200_p3s17ss2">3.17.2</a></div><div class="st200_subsection_title">Usage examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg1" href="#st200_p3s17ss2pg1">1</a></div><div class="st200_paragraph">
+      The <span class="st200_term type">JCGLTexturesType</span>
+      interfaces expose functions that
+      will allocate textures of formats supported by the current
+      implementation. The interfaces only expose textures that are
+      <span class="st200_term emphasis">required</span>
+      to be supported by OpenGL 3.3 core.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg2" href="#st200_p3s17ss2pg2">2</a></div><div class="st200_paragraph">
+      In order to use a texture in OpenGL, the texture must be bound
+      to a <span class="st200_term term">texture unit</span>. There are a
+      limited number of texture units available
+      <span class="st200_footnote_reference"><a id="st200_fn_6_ref" href="#st200_fn_6">[6]</a></span>, and so the API requires the user to obtain access
+      to a list of the current units:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s17ss2fo1" href="#st200_p3s17ss2fo1">3.17.2.1. Texture units</a></div><pre class="st200_verbatim">
+JCGLTexturesType g;
+List&lt;JCGLTextureUnitType&gt; u = g.textureGetUnits();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg3" href="#st200_p3s17ss2pg3">3</a></div><div class="st200_paragraph">
+      A texture unit may have at most one texture bound to it at any
+      one time. This is in slight contrast to the way that the OpenGL
+      API normally works: The OpenGL API specifies that a given texture
+      unit may have multiple textures bound to a given texture unit as long
+      as all of the textures are of a different type
+      (two-dimensional, cube map, etc). However, it then states that
+      it is <span class="st200_term term">not</span> legal to pass that texture
+      unit to multiple different uniform parameters in a shading program.
+      There is, therefore, very little practical utility to binding multiple
+      textures to a single texture unit, and exposing such behaviour in the
+      API complicates tracking of state and makes programs slightly more
+      difficult to reason about. The
+      <span class="st200_term package">jcanephora</span> API therefore imposes
+      a simple restriction: One texture per texture unit.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg4" href="#st200_p3s17ss2pg4">4</a></div><div class="st200_paragraph">
+      To allocate a
+      <span class="st200_term expression">256 * 256</span>
+      RGBA texture, 8 bits per channel (four bytes per pixel),
+      with nearest-neighbour filtering and repeat wrapping around
+      both axes:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s17ss2fo2" href="#st200_p3s17ss2fo2">3.17.2.2. Texture allocation</a></div><pre class="st200_verbatim">
+JCGLTexturesType g;
+JCGLTextureUnitType u;
+
+JCGLTexture2DType t =
+  g.texture2DAllocate(
+    u,
+    256,
+    256,
+    JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+    JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+    JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+    JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+    JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg5" href="#st200_p3s17ss2pg5">5</a></div><div class="st200_paragraph">
+      Once allocated, the texture will remain bound to the texture
+      unit <span class="st200_term variable">u</span> until explicitly unbound.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg6" href="#st200_p3s17ss2pg6">6</a></div><div class="st200_paragraph">
+      The <span class="st200_term package">jcanephora</span> exposes both
+      two-dimensional and cube map textures. See the relevant superinterfaces.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s17ss3" href="#st200_p3s17ss3">3.17.3</a></div><div class="st200_subsection_title">Cube map coordinate systems</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg1" href="#st200_p3s17ss3pg1">1</a></div><div class="st200_paragraph">
+      Note that in the OpenGL specification, cube textures arbitrarily
+      use a left-handed coordinate system as opposed to OpenGL's right-handed system.
+      This is a frequent source of errors in programs. See the following fragment
+      shader:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s17ss3fo1" href="#st200_p3s17ss3fo1">3.17.3.1. Cube map shader</a></div><pre class="st200_verbatim">
+in vec3 f_normal;   // Eye-space surface normal
+in vec3 f_position; // Eye-space surface position
+
+uniform mat4        m_view_inverse; // Inverse view matrix, eye-space -&gt; world-space.
+uniform samplerCube t_reflection;
+
+out vec4 frag_color;
+
+void
+main (void)
+{
+  vec3 n = normalize (f_normal);
+  vec3 v = normalize (f_position);
+  vec3 r = reflect (v, n);
+  vec3 u = m_view_inverse * r;
+
+  frag_color = texture (t_reflection, u);
+}</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg2" href="#st200_p3s17ss3pg2">2</a></div><div class="st200_paragraph">
+      The program calculates a reflection vector
+      <span class="st200_term variable">r</span> from the eye-space incident vector
+      <span class="st200_term variable">f_position</span> and eye-space surface normal
+      <span class="st200_term variable">f_normal</span>. It transforms
+      <span class="st200_term variable">r</span> back into world-space, giving
+      <span class="st200_term variable">u</span>, and then uses <span class="st200_term variable">u</span>
+      to index into the cube texture. This would be textbook-correct, if OpenGL
+      didn't arbitrarily use a left-handed coordinate system for cube textures!
+      The coordinates <span class="st200_term variable">u</span> are obviously specified
+      in a right-handed coordinate system. The practical results of this are that
+      all of the cube texture faces will be displayed upside down, and the
+      familiar concept of the negative Z axis meaning "forwards" will be reversed.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg3" href="#st200_p3s17ss3pg3">3</a></div><div class="st200_paragraph">
+      The <span class="st200_term package">jcanephora</span> package contains support
+      for using right-handed cube maps in OpenGL, consistent with the
+      right-handed coordinate system used in most OpenGL programs. In order
+      to use right-handed cube maps, the following steps are required:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s17ss3fo2" href="#st200_p3s17ss3fo2">3.17.3.2. Cube map addressing</a></div><ol class="st200_list_ordered"><li class="st200_list_item">
+          Cube map textures are supplied to the OpenGL implementation using
+          the "RH" variants of the texture loading and update functions. Faces
+          are specified in a manner consistent with OpenGL's
+          coordinate system. Informally, the "forward" face of the cube map
+          is the negative Z face, the "right" face of the cube map is the
+          positive X face, and so on.
+        </li><li class="st200_list_item">
+          In shaders, the coordinates passed to the <span class="st200_term function">texture</span>
+          function
+          (or <span class="st200_term function">textureCube</span> function, on old OpenGL implementations)
+          should be multiplied with a matrix that effectively negates the <span class="st200_term variable">Y</span>
+          and <span class="st200_term variable">Z</span> components.
+        </li></ol></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg4" href="#st200_p3s17ss3pg4">4</a></div><div class="st200_paragraph">
+      The earlier example shader becomes:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s17ss3fo3" href="#st200_p3s17ss3fo3">3.17.3.3. Cube map shader</a></div><pre class="st200_verbatim">
+in vec3 f_normal;   // Eye-space surface normal
+in vec3 f_position; // Eye-space surface position
+
+uniform mat4        m_view_inverse; // Inverse view matrix, eye-space -&gt; world-space.
+uniform samplerCube t_reflection;
+
+out vec4 frag_color;
+
+void
+main (void)
+{
+  const mat3 m_t = mat3 (
+    1.0,  0.0,  0.0,
+    0.0, -1.0,  0.0,
+    0.0,  0.0, -1.0
+  );
+
+  vec3 n = normalize (f_normal);
+  vec3 v = normalize (f_position);
+  vec3 r = reflect (v, n);
+  vec3 u = m_view_inverse * r;
+  vec3 w = m_t * u;
+
+  frag_color = texture (t_reflection, w);
+}</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg5" href="#st200_p3s17ss3pg5">5</a></div><div class="st200_paragraph">
+      This approach means that both the loading and generation of cube textures
+      is consistent with that of 2D textures and the rest of OpenGL, and the
+      complexity of addressing the textures is limited to one function call in
+      shaders. Renderers that produce cube maps do not need to use unusual
+      projection matrices to "flip" the coordinate system when rendering, and
+      everything works according to the principles of least astonishment!
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg6" href="#st200_p3s17ss3pg6">6</a></div><div class="st200_paragraph">
+      The correct solution to the problem would have been for the cube map
+      coordinate system  to have been in a consistent right-handed coordinate
+      space to begin with.
+    </div></div></div></div><div class="st200_footnotes"><hr/><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_6" href="#st200_fn_6_ref">6</a>]</div><div class="st200_footnote_body">
+        OpenGL 3.3 guarantees that at least 16 will be available in any
+        implementation.
+      </div></div></div><div class="st200_navbar st200_navbar_bottom"><hr class="st200_hr"/><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_file_cell"><a href="p3s16.xhtml#st200_p3s16">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p3.xhtml#st200_p3">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p3s18.xhtml#st200_p3s18">Next</a></td></tr><tr><td class="st200_navbar_prev_title_cell">3.16. JCGLStencilBuffersType</td><td class="st200_navbar_up_title_cell">3. jcanephora Core Interfaces</td><td class="st200_navbar_next_title_cell">3.18. JCGLViewportsType</td></tr></table></div></div></body></html>

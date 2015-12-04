@@ -1,0 +1,1008 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>io7m-jcanephora 0.40.0-SNAPSHOT Documentation</title><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-layout.css"/><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-colour.css"/><link rel="stylesheet" type="text/css" href="documentation.css"/></head><body><div class="st200_body"><div class="brand">
+  <div class="brand_left">
+    <a href="http://io7m.com/">io7m</a>
+  </div>
+  <div class="brand_right">
+    <a href="http://github.com/io7m/jcanephora">io7m-jcanephora</a> 0.40.0-SNAPSHOT
+  </div>
+</div><div class="st200_document_title">io7m-jcanephora 0.40.0-SNAPSHOT Documentation</div><ul class="st200_contents st200_document_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_part"><a href="#st200_p1">1. Package Information</a><ul class="st200_contents st200_part_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p1s1">1.1. Orientation</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p1s2">1.2. Requirements</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p1s3">1.3. Installation</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p1s4">1.4. Platform Specific Issues</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p1s5">1.5. License</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_part"><a href="#st200_p2">2. Design/Rationale</a><ul class="st200_contents st200_part_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p2s1">2.1. Problems with OpenGL</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p2s2">2.2. Goals</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p2s3">2.3. API Design</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_part"><a href="#st200_p3">3. jcanephora Core Interfaces</a><ul class="st200_contents st200_part_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s1">3.1. Overview</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s2">3.2. JCGLContextType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s3">3.3. JCGLContextType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s4">3.4. JCGLArrayBuffersType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s5">3.5. JCGLArrayObjectsType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s6">3.6. JCGLBlendingType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s7">3.7. JCGLClearType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s8">3.8. JCGLColorBufferMaskingType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s9">3.9. JCGLDepthBuffersType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s10">3.10. JCGLDrawType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s11">3.11. JCGLFramebuffersType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s12">3.12. JCGLIndexBuffersType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s13">3.13. JCGLPolygonModesType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s14">3.14. JCGLScissorType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s15">3.15. JCGLShadersType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s16">3.16. JCGLStencilBuffersType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s17">3.17. JCGLTexturesType</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p3s18">3.18. JCGLViewportsType</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_part"><a href="#st200_p4">4. API Reference</a><ul class="st200_contents st200_part_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_section"><a href="#st200_p4s1">4.1. Javadoc</a></li></ul></li></ul><div class="st200_part_container"><div class="st200_part_title_number"><a id="st200_p1" href="#st200_p1">1</a></div><div class="st200_part_title">Package Information</div><ul class="st200_contents st200_part_contents_outer st200_part_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p1s1">1.1. Orientation</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p1s1ss1">1.1.1. Overview</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p1s1ss2">1.1.2. Correctness</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p1s1ss3">1.1.3. Simplicity</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p1s1ss4">1.1.4. Compatibility</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p1s1ss5">1.1.5. Performance</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p1s2">1.2. Requirements</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p1s3">1.3. Installation</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p1s3ss1">1.3.1. Source compilation</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p1s3ss2">1.3.2. Maven</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p1s4">1.4. Platform Specific Issues</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p1s5">1.5. License</a></li></ul><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p1s1" href="#st200_p1s1">1.1</a></div><div class="st200_section_title">Orientation</div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p1s1ss1" href="#st200_p1s1ss1">1.1.1</a></div><div class="st200_subsection_title">Overview</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s1ss1pg1" href="#st200_p1s1ss1pg1">1</a></div><div class="st200_paragraph">
+        The <span class="st200_term package">jcanephora</span>
+        package implements a set of abstractions over
+        <a class="st200_link_external" href="http://opengl.org">OpenGL</a>
+        with the intention of providing an API that enforces program
+        correctness statically. The OpenGL API is extremely error prone, but
+        thankfully many of the problems can be alleviated with the simple
+        application of static types. Where the Java type system is too weak
+        to give static guarantees, dynamic checks are used to prevent silent
+        failure.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p1s1ss2" href="#st200_p1s1ss2">1.1.2</a></div><div class="st200_subsection_title">Correctness</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s1ss2pg1" href="#st200_p1s1ss2pg1">1</a></div><div class="st200_paragraph">
+        Most functions in OpenGL return integers (type <span class="st200_term type">int</span>).
+        The <span class="st200_term function">glCreateShader()</span> function, for example,
+        returns an <span class="st200_term type">int</span> regardless of whether the function
+        is creating a fragment shader or a vertex shader. Obviously, returning a different
+        type depending on whether a fragment shader or a vertex shader was requested
+        would require a dependent type system. As Java clearly does not have dependent types, the
+        <span class="st200_term package">jcanephora</span> package
+        provides a <span class="st200_term function">shaderCompileVertex()</span> function that
+        returns a value of type <span class="st200_term type">JCGLVertexShaderType</span> and a
+        <span class="st200_term function">shaderCompileFragment()</span> function that returns
+        a value of type <span class="st200_term type">JCGLFragmentShaderType</span>, eliminating
+        at compile-time the possibility of confusing the two. The package takes a similar
+        approach to static safety throughout.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s1ss2pg2" href="#st200_p1s1ss2pg2">2</a></div><div class="st200_paragraph">
+        All implementations of the <span class="st200_term package">jcanephora</span> API are
+        run through a large battery of tests to ensure consistent semantics.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p1s1ss3" href="#st200_p1s1ss3">1.1.3</a></div><div class="st200_subsection_title">Simplicity</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s1ss3pg1" href="#st200_p1s1ss3pg1">1</a></div><div class="st200_paragraph">
+        The <span class="st200_term package">jcanephora</span> package attempts to
+        provide abstractions that are as minimal as possible. It should be
+        possible for any experienced OpenGL programmer to use the package
+        without having to learn new concepts or fight a complicated class
+        hierarchy. The idea is to provide static type safety in as simple
+        a manner as possible.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p1s1ss4" href="#st200_p1s1ss4">1.1.4</a></div><div class="st200_subsection_title">Compatibility</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s1ss4pg1" href="#st200_p1s1ss4pg1">1</a></div><div class="st200_paragraph">
+        The <span class="st200_term package">jcanephora</span> exposes interfaces
+        that represent the OpenGL 3.3 core API.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p1s1ss5" href="#st200_p1s1ss5">1.1.5</a></div><div class="st200_subsection_title">Performance</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s1ss5pg1" href="#st200_p1s1ss5pg1">1</a></div><div class="st200_paragraph">
+        OpenGL programs often have high performance requirements.
+        The <span class="st200_term package">jcanephora</span> API abstractions
+        attempt to be as cheap as possible. Operations that allocate memory or perform
+        potentially expensive operations are clearly marked. Emphasis is placed on
+        writing code paths that generate little in the way of garbage to be collected,
+        reducing GC pressure and improving realtime performance. Many potentially expensive
+        queries (such as a request for the available number of texture units) are requested eagerly and
+        cached, in order to reduce the number of OpenGL calls required at "render time".
+        The package tracks OpenGL state locally to avoid redundant OpenGL
+        calls.
+      </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p1s2" href="#st200_p1s2">1.2</a></div><div class="st200_section_title">Requirements</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s2pg1" href="#st200_p1s2pg1">1</a></div><div class="st200_paragraph">
+      The Maven POM files are the canonical source for the project's
+      dependencies:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p1s2fo1" href="#st200_p1s2fo1">1.2.1. POM files</a></div><ul class="st200_list_unordered"><li class="st200_list_item"><a class="st200_link_external" href="./io7m-jcanephora-core-0.40.0-SNAPSHOT.pom">io7m-jcanephora-core-0.40.0-SNAPSHOT.pom</a></li><li class="st200_list_item"><a class="st200_link_external" href="./io7m-jcanephora-jogl-0.40.0-SNAPSHOT.pom">io7m-jcanephora-jogl-0.40.0-SNAPSHOT.pom</a></li></ul></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s2pg2" href="#st200_p1s2pg2">2</a></div><div class="st200_paragraph">
+      Beyond the dependencies given in the POM files, the
+      <span class="st200_term package">jcanephora</span> package requires a
+      a GPU supporting OpenGL 3.3.
+    </div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p1s3" href="#st200_p1s3">1.3</a></div><div class="st200_section_title">Installation</div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p1s3ss1" href="#st200_p1s3ss1">1.3.1</a></div><div class="st200_subsection_title">Source compilation</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s3ss1pg1" href="#st200_p1s3ss1pg1">1</a></div><div class="st200_paragraph">
+        The project can be compiled and installed with
+        <a class="st200_link_external" href="http://maven.apache.org">
+          Maven</a>:
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s3ss1pg2" href="#st200_p1s3ss1pg2">2</a></div><div class="st200_paragraph">
+        <pre class="st200_verbatim example">$ mvn -C clean install</pre>
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p1s3ss2" href="#st200_p1s3ss2">1.3.2</a></div><div class="st200_subsection_title">Maven</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s3ss2pg1" href="#st200_p1s3ss2pg1">1</a></div><div class="st200_paragraph">
+        Regular releases are made to the
+        <a class="st200_link_external" href="http://search.maven.org/#search%7Cga%7C1%7Cio7m-jcanephora">
+          Central Repository</a>,
+        so it's possible to use the
+        <span class="st200_term package">io7m-jcanephora</span>
+        package in your projects by simply adding some dependencies to
+        your Maven project.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s3ss2pg2" href="#st200_p1s3ss2pg2">2</a></div><div class="st200_paragraph">
+        The package is split into multiple sub-packages. The
+        <span class="st200_term package">jcanephora-core</span> package provides
+        the types, interfaces, and implementations comprising the core of
+        <span class="st200_term package">jcanephora</span>. This package is
+        required to use <span class="st200_term package">jcanephora</span>.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s3ss2pg3" href="#st200_p1s3ss2pg3">3</a></div><div class="st200_paragraph">
+        <pre class="st200_verbatim example">&lt;dependency&gt;
+  &lt;groupId&gt;com.io7m.jcanephora&lt;/groupId&gt;
+  &lt;artifactId&gt;io7m-jcanephora-core&lt;/artifactId&gt;
+  &lt;version&gt;0.40.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s3ss2pg4" href="#st200_p1s3ss2pg4">4</a></div><div class="st200_paragraph">
+        To use the <a class="st200_link_external" href="http://jogamp.org">JOGL</a>
+        backend for <span class="st200_term package">jcanephora</span>, include the
+        <span class="st200_term package">jcanephora-jogl</span> package:
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s3ss2pg5" href="#st200_p1s3ss2pg5">5</a></div><div class="st200_paragraph">
+        <pre class="st200_verbatim example">&lt;dependency&gt;
+  &lt;groupId&gt;com.io7m.jcanephora&lt;/groupId&gt;
+  &lt;artifactId&gt;io7m-jcanephora-jogl&lt;/artifactId&gt;
+  &lt;version&gt;0.40.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s3ss2pg6" href="#st200_p1s3ss2pg6">6</a></div><div class="st200_paragraph">
+        All
+        <a class="st200_link_external" href="http://io7m.com">io7m.com</a>
+        packages use Semantic Versioning
+        <span class="st200_footnote_reference"><a id="st200_fn_0_ref" href="#st200_fn_0">[0]</a></span>
+        , which implies that it is always safe to use version ranges
+        with an exclusive upper bound equal to the next major version - the
+        API of
+        the package will not change in a backwards-incompatible manner before
+        the
+        next major version.
+      </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p1s4" href="#st200_p1s4">1.4</a></div><div class="st200_section_title">Platform Specific Issues</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s4pg1" href="#st200_p1s4pg1">1</a></div><div class="st200_paragraph">
+      There are currently no known platform-specific issues.
+    </div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p1s5" href="#st200_p1s5">1.5</a></div><div class="st200_section_title">License</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p1s5pg1" href="#st200_p1s5pg1">1</a></div><div class="st200_paragraph">
+      All files distributed with the
+      <span class="st200_term package">io7m-jcanephora</span>
+      package are placed under the following license:
+      <pre class="st200_verbatim license">Copyright © 2015 &lt;code@io7m.com&gt; http://io7m.com
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+      </pre>
+    </div></div></div></div><div class="st200_part_container"><div class="st200_part_title_number"><a id="st200_p2" href="#st200_p2">2</a></div><div class="st200_part_title">Design/Rationale</div><ul class="st200_contents st200_part_contents_outer st200_part_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p2s1">2.1. Problems with OpenGL</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s1ss1">2.1.1. Overview</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s1ss2">2.1.2. Types</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s1ss3">2.1.3. Confusion</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s1ss4">2.1.4. Silent failure</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p2s2">2.2. Goals</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s2ss1">2.2.1. Overview</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s2ss2">2.2.2. Portability</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s2ss3">2.2.3. Type safety</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s2ss4">2.2.4. Linearity</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s2ss5">2.2.5. Conspicuity of errors</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p2s3">2.3. API Design</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s3ss1">2.3.1. Interfaces as capabilities</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p2s3ss2">2.3.2. Types</a></li></ul></li></ul><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p2s1" href="#st200_p2s1">2.1</a></div><div class="st200_section_title">Problems with OpenGL</div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s1ss1" href="#st200_p2s1ss1">2.1.1</a></div><div class="st200_subsection_title">Overview</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s1ss1pg1" href="#st200_p2s1ss1pg1">1</a></div><div class="st200_paragraph">
+        The
+        <span class="st200_term package">jcanephora</span>
+        package takes the
+        general view that OpenGL as an API is a ridiculously error-prone
+        and poorly defined mess
+        <span class="st200_footnote_reference"><a id="st200_fn_1_ref" href="#st200_fn_1">[1]</a></span>. The package attempts to address most if not all of
+        the problems listed in this section.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s1ss2" href="#st200_p2s1ss2">2.1.2</a></div><div class="st200_subsection_title">Types</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s1ss2pg1" href="#st200_p2s1ss2pg1">1</a></div><div class="st200_paragraph">
+        The OpenGL API itself is weakly typed even for a C language API,
+        simply exposing absolutely everything as a<span class="st200_term type">
+        float</span>,
+        <span class="st200_term type">int</span>, or untyped pointer. Entire classes
+        of problems that should be prevented at compile time are moved to
+        run-time, increasing development time, developer frustration, and
+        testing burden.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s1ss3" href="#st200_p2s1ss3">2.1.3</a></div><div class="st200_subsection_title">Confusion</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s1ss3pg1" href="#st200_p2s1ss3pg1">1</a></div><div class="st200_paragraph">
+        Rather than add or remove function entry points, the OpenGL
+        designers decided to endlessly extend existing functions with
+        yet more combinations of barely-typed parameters. Actually using
+        the OpenGL API correctly is a challenge even for those that are
+        familiar with the full API specification. Out of the hundreds of
+        thousands of combinations of parameters that can be passed to any
+        given API function, only a handful are actually valid.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s1ss4" href="#st200_p2s1ss4">2.1.4</a></div><div class="st200_subsection_title">Silent failure</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s1ss4pg1" href="#st200_p2s1ss4pg1">1</a></div><div class="st200_paragraph">
+        OpenGL programs frequently fail, and when they do, they usually do
+        so silently. Programmers are forced to call
+        <span class="st200_term function">glGetError</span>
+        after every API call
+        if they wish to avoid this (and actually detect the error at the
+        correct function call).
+      </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p2s2" href="#st200_p2s2">2.2</a></div><div class="st200_section_title">Goals</div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s2ss1" href="#st200_p2s2ss1">2.2.1</a></div><div class="st200_subsection_title">Overview</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss1pg1" href="#st200_p2s2ss1pg1">1</a></div><div class="st200_paragraph">
+        Given the
+        <a class="st200_link" href="#st200_p2s1">problems</a>
+        with OpenGL, the
+        <span class="st200_term package">jcanephora</span>
+        package
+        has the following goals (in no particular order):
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s2ss2" href="#st200_p2s2ss2">2.2.2</a></div><div class="st200_subsection_title">Portability</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss2pg1" href="#st200_p2s2ss2pg1">1</a></div><div class="st200_paragraph">
+        Programs using the
+        <span class="st200_term package">jcanephora</span>
+        APIs
+        must run on as many different OpenGL implementations as possible.
+        Code written using the API should be version-branch-free, and use
+        only the features common to all available OpenGL implementations.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s2ss3" href="#st200_p2s2ss3">2.2.3</a></div><div class="st200_subsection_title">Type safety</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss3pg1" href="#st200_p2s2ss3pg1">1</a></div><div class="st200_paragraph">
+        Representing every object as an integer is unacceptable. Any
+        conceptually distinct objects must be made type-incompatible,
+        eliminating entire classes of bugs typical to OpenGL programs
+        at compile time.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss3pg2" href="#st200_p2s2ss3pg2">2</a></div><div class="st200_paragraph">
+        Only the correct ways to use the API are exposed. Misuse of the API
+        is simply made impossible.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s2ss4" href="#st200_p2s2ss4">2.2.4</a></div><div class="st200_subsection_title">Linearity</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss4pg1" href="#st200_p2s2ss4pg1">1</a></div><div class="st200_paragraph">
+        Branching, version-specific code must be eliminated as far as
+        is possible. Code of this type is fragile, difficult to test,
+        and usually incorrect.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s2ss5" href="#st200_p2s2ss5">2.2.5</a></div><div class="st200_subsection_title">Conspicuity of errors</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss5pg1" href="#st200_p2s2ss5pg1">1</a></div><div class="st200_paragraph">
+        Silent failure of programs is unacceptable. All errors that
+        cannot be prevented statically must be loudly and immediately
+        signalled at runtime.
+      </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p2s3" href="#st200_p2s3">2.3</a></div><div class="st200_section_title">API Design</div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s3ss1" href="#st200_p2s3ss1">2.3.1</a></div><div class="st200_subsection_title">Interfaces as capabilities</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss1pg1" href="#st200_p2s3ss1pg1">1</a></div><div class="st200_paragraph">
+        The package is written with one particular concept, throughout:
+        Types represent capabilities. If the developer has a value of a
+        given type, then the developer can perform all of the operations
+        associated with that type.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss1pg2" href="#st200_p2s3ss1pg2">2</a></div><div class="st200_paragraph">
+        This is in direct contrast to the OpenGL
+        API, where the developer always has full access to all API functions,
+        and individual functions (or combinations of parameters to functions)
+        may not work based on what the implementation supports. The emphasis
+        is on <span class="st200_term emphasis">isolating the correct operations and
+        statically preventing incorrect operations from occurring</span>.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s3ss2" href="#st200_p2s3ss2">2.3.2</a></div><div class="st200_subsection_title">Types</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg1" href="#st200_p2s3ss2pg1">1</a></div><div class="st200_paragraph">
+        The
+        <span class="st200_term package">jcanephora</span>
+        package wraps all
+        conceptually distinct objects in new types and provides sane and
+        unsurprising functions to construct them. This prevents large
+        classes of bugs from occurring, at compile time. It also allows
+        the interfaces to be self-documenting. Consider the following
+        C function prototype:
+      </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p2s3ss2fo1" href="#st200_p2s3ss2fo1">2.3.2.1. Weakly typed C function</a></div><pre class="st200_verbatim">void _ (GLsizei, GLuint *)</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg2" href="#st200_p2s3ss2pg2">2</a></div><div class="st200_paragraph">
+        What does the function do? It could generate a set of textures
+        (<span class="st200_term function">glGenTextures</span>), or it could
+        generate a set of new buffer names
+        (<span class="st200_term function">glGenBuffers</span>). Without carefully
+        reading the documentation, the required parameters to the function
+        are certainly not obvious from the type alone. Assuming the developer
+        has read the documentation and worked out that the correct way to
+        call the function is with the following sequence:
+      </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p2s3ss2fo2" href="#st200_p2s3ss2fo2">2.3.2.2. Weakly typed C calls</a></div><pre class="st200_verbatim">GLuint texture;
+
+glGenTextures(1, &amp;texture);
+checkGLErrors();</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg3" href="#st200_p2s3ss2pg3">3</a></div><div class="st200_paragraph">
+        The developer now has a value of type
+        <span class="st200_term type">GLuint</span>. Given that many functions in
+        the OpenGL API also take values of<span class="st200_term type">
+        GLuint</span>,
+        and those values have nothing to do with textures, that's a huge
+        number of potential bugs that cannot be prevented by the compiler.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg4" href="#st200_p2s3ss2pg4">4</a></div><div class="st200_paragraph">
+        The developer now wants to allocate a new RGBA texture. The
+        types of the <span class="st200_term function">glTexImage2D</span>
+        and <span class="st200_term function">glTexParameteri</span> functions
+        are, quite frankly, insane. Almost no developer manages to use these
+        functions successfully without trial and error and, naturally, all
+        errors are runtime errors. Eventually, through some painful
+        experimentation, the developer might stumble onto the following
+        sequence of calls:
+      </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p2s3ss2fo3" href="#st200_p2s3ss2fo3">2.3.2.3. Allocating a texture</a></div><pre class="st200_verbatim">GLuint texture;
+void *data = makeTextureData();
+
+glGenTextures(1, &amp;texture);
+glBindTexture(GL_TEXTURE_2D, texture);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg5" href="#st200_p2s3ss2pg5">5</a></div><div class="st200_paragraph">
+        The types of the parameters to all of the functions mentioned allow
+        the developer to pass in practically anything. Only a very small
+        subset of the possible parameters are actually valid. An even
+        smaller subset of the possible parameters actually work across
+        different versions of OpenGL!
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg6" href="#st200_p2s3ss2pg6">6</a></div><div class="st200_paragraph">
+        Now consider the
+        following <span class="st200_term package">jcanephora</span> function:
+      </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p2s3ss2fo4" href="#st200_p2s3ss2fo4">2.3.2.4. Texture allocation?</a></div><pre class="st200_verbatim">public JCGLTexture2DType _(
+    JCGLTextureUnitType _,
+    long _,
+    long _,
+    JCGLTextureFormat _,
+    JCGLTextureWrapS _,
+    JCGLTextureWrapT _,
+    JCGLTextureFilterMinification _,
+    JCGLTextureFilterMagnification _)
+    throws JCGLException;</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg7" href="#st200_p2s3ss2pg7">7</a></div><div class="st200_paragraph">
+        Even without the names of the function and the parameters,
+        the type above make it quite clear that the function returns a
+        <span class="st200_term type">JCGLTexture2DType</span>, which is somehow
+        derived from the arguments to the function. It's a reasonable
+        assumption to make that the function allocates a new texture.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg8" href="#st200_p2s3ss2pg8">8</a></div><div class="st200_paragraph">
+        The wrapping modes on the <span class="st200_term constant">S</span> and
+        <span class="st200_term constant">T</span> axis will presumably be
+        derived from the parameters of type
+        <span class="st200_term type">JCGLTextureWrapS</span> and
+        <span class="st200_term type">JCGLTextureWrapT</span> respectively. The
+        minification and magnification filters will presumably be derived
+        from the parameters of type
+        <span class="st200_term type">JCGLTextureFilterMinification</span> and
+        <span class="st200_term type">JCGLTextureFilterMagnification</span>,
+        respectively. The programmer is statically prevented from mixing
+        up the two axes, or the two filter domains. The
+        <span class="st200_term type">JCGLTextureFormat</span> parameter is
+        obviously intended to specify the format of the texture. Any
+        parameter familiar with OpenGL texturing will be aware that any
+        operations involving textures requires access to a
+        <span class="st200_term term">texture unit</span>, and the
+        <span class="st200_term type">JCGLTextureUnitType</span> parameter
+        above presumably specifies the unit that will be used.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg9" href="#st200_p2s3ss2pg9">9</a></div><div class="st200_paragraph">
+        The two parameters of type <span class="st200_term type">long</span>
+        presumably correspond to the width and height of the resulting
+        texture, but the types are not descriptive enough to say for sure.
+        Unfortunately, Java lacks a way to make existing arithmetic types
+        incompatible without sacrificing efficiency
+        <span class="st200_footnote_reference"><a id="st200_fn_2_ref" href="#st200_fn_2">[2]</a></span>. In this case, the two parameters do indeed
+        correspond to the width and height, in that order, and the
+        <span class="st200_term package">jcanephora</span> package uses this
+        order consistently throughout.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s3ss2pg10" href="#st200_p2s3ss2pg10">10</a></div><div class="st200_paragraph">
+        The extremely descriptive type given for the function, and the
+        presence of declared (but unchecked) exceptions are direct contributions
+        towards the goals of
+        <a class="st200_link" href="#st200_p2s2ss3">type safety</a>
+        and
+        <a class="st200_link" href="#st200_p2s2ss5">conspicuity of errors</a>.
+        It is very difficult for the programmer to use this function
+        incorrectly: the type system guarantees correct usage.
+      </div></div></div></div></div><div class="st200_part_container"><div class="st200_part_title_number"><a id="st200_p3" href="#st200_p3">3</a></div><div class="st200_part_title">jcanephora Core Interfaces</div><ul class="st200_contents st200_part_contents_outer st200_part_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s1">3.1. Overview</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s2">3.2. JCGLContextType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s2ss1">3.2.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s2ss2">3.2.2. Usage Example</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s3">3.3. JCGLContextType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s3ss1">3.3.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s3ss2">3.3.2. Currency</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s3ss3">3.3.3. Sharing</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s4">3.4. JCGLArrayBuffersType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s4ss1">3.4.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s4ss2">3.4.2. State</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s5">3.5. JCGLArrayObjectsType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s5ss1">3.5.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s5ss2">3.5.2. Usage Examples</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s5ss3">3.5.3. State</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s6">3.6. JCGLBlendingType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s6ss1">3.6.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s6ss2">3.6.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s6ss3">3.6.3. State</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s7">3.7. JCGLClearType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s7ss1">3.7.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s7ss2">3.7.2. Usage example</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s8">3.8. JCGLColorBufferMaskingType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s8ss1">3.8.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s8ss2">3.8.2. Usage example</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s8ss3">3.8.3. State</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s9">3.9. JCGLDepthBuffersType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s9ss1">3.9.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s9ss2">3.9.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s9ss3">3.9.3. State</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s10">3.10. JCGLDrawType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s10ss1">3.10.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s10ss2">3.10.2. Usage examples</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s11">3.11. JCGLFramebuffersType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s11ss1">3.11.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s11ss2">3.11.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s11ss3">3.11.3. Feedback</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s11ss4">3.11.4. State</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s12">3.12. JCGLIndexBuffersType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s12ss1">3.12.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s12ss2">3.12.2. State</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s13">3.13. JCGLPolygonModesType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s13ss1">3.13.1. Description</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s14">3.14. JCGLScissorType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s14ss1">3.14.1. Description</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s15">3.15. JCGLShadersType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s15ss1">3.15.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s15ss2">3.15.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s15ss3">3.15.3. State</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s16">3.16. JCGLStencilBuffersType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s16ss1">3.16.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s16ss2">3.16.2. Usage examples</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s17">3.17. JCGLTexturesType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s17ss1">3.17.1. Description</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s17ss2">3.17.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s17ss3">3.17.3. Cube map coordinate systems</a></li></ul></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p3s18">3.18. JCGLViewportsType</a><ul class="st200_contents st200_section_contents"><li class="st200_contents_item st200_contents_item2 st200_contents_item_subsection"><a href="#st200_p3s18ss1">3.18.1. Description</a></li></ul></li></ul><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s1" href="#st200_p3s1">3.1</a></div><div class="st200_section_title">Overview</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s1pg1" href="#st200_p3s1pg1">1</a></div><div class="st200_paragraph">
+      The <span class="st200_term package">jcanephora</span> package
+      is separated into a number of "core" interfaces, through which
+      all higher-level abstractions/interfaces work.
+    </div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s2" href="#st200_p3s2">3.2</a></div><div class="st200_section_title">JCGLContextType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s2ss1">3.2.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s2ss2">3.2.2. Usage Example</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s2ss1" href="#st200_p3s2ss1">3.2.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s2ss1pg1" href="#st200_p3s2ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLImplementationType.html">JCGLImplementationType</a>
+      interface represents an OpenGL implementation. Specific implementations,
+      such as the
+      <a class="st200_link_external" href="http://jogamp.org/jogl">JOGL</a>
+      implementation, provide subtypes of this interface that allow for
+      the creation of
+      <a class="st200_link" href="#st200_p3s3">Contexts</a>. It is
+      not a goal of the package to wrap all of the complicated context
+      creation functionality exposed by packages such as JOGL - users
+      are expected to initialize and configure OpenGL contexts and then
+      pass those contexts to <span class="st200_term package">jcanephora</span>
+      for use.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s2ss2" href="#st200_p3s2ss2">3.2.2</a></div><div class="st200_subsection_title">Usage Example</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s2ss2pg1" href="#st200_p3s2ss2pg1">1</a></div><div class="st200_paragraph">
+      An example that creates a pair of contexts using the JOGL
+      implementation:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s2ss2fo1" href="#st200_p3s2ss2fo1">3.2.2.1. JOGL Implementation Example</a></div><pre class="st200_verbatim">
+GLContext gc_main;
+GLContext gc_background;
+
+JCGLImplementationJOGLType i = JCGLImplementationJOGL.getInstance();
+JCGLContextType c_main = i.newContextFrom(gc_main, "main");
+JCGLContextType c_back = i.newContextFrom(gc_background, "background-resources");
+
+      </pre></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s3" href="#st200_p3s3">3.3</a></div><div class="st200_section_title">JCGLContextType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s3ss1">3.3.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s3ss2">3.3.2. Currency</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s3ss3">3.3.3. Sharing</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s3ss1" href="#st200_p3s3ss1">3.3.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s3ss1pg1" href="#st200_p3s3ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLContextType.html">JCGLContextType</a>
+      interface represents a single OpenGL context.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s3ss2" href="#st200_p3s3ss2">3.3.2</a></div><div class="st200_subsection_title">Currency</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s3ss2pg1" href="#st200_p3s3ss2pg1">1</a></div><div class="st200_paragraph">
+      To accept commands, an OpenGL context must be made
+      <span class="st200_term term">current</span>. For a given thread
+      <span class="st200_term variable">t</span>, at most one context
+      can be <span class="st200_term term">current</span> on
+      <span class="st200_term variable">t</span> at any given time.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s3ss3" href="#st200_p3s3ss3">3.3.3</a></div><div class="st200_subsection_title">Sharing</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s3ss3pg1" href="#st200_p3s3ss3pg1">1</a></div><div class="st200_paragraph">
+      An OpenGL context may be <span class="st200_term term">shared</span>. Briefly,
+      this means that if a context <span class="st200_term variable">c</span> is
+      <span class="st200_term term">shared</span> with a context
+      <span class="st200_term variable">d</span>, then certain types of objects
+      allocated on <span class="st200_term variable">c</span> are visible to
+      <span class="st200_term variable">d</span>, and vice versa. This is often
+      used in rendering engines to enable textures and other large resources
+      to be loaded on a separate background thread without interrupting
+      rendering. The <span class="st200_term package">jcanephora</span> API
+      knows types of objects may be shared across contexts, and raises
+      errors at run-time if the user attempts to use a non-shared object
+      on the wrong context.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s4" href="#st200_p3s4">3.4</a></div><div class="st200_section_title">JCGLArrayBuffersType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s4ss1">3.4.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s4ss2">3.4.2. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s4ss1" href="#st200_p3s4ss1">3.4.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s4ss1pg1" href="#st200_p3s4ss1pg1">1</a></div><div class="st200_paragraph">
+      The
+      <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLArrayBuffersType.html">
+        JCGLArrayBuffersType
+      </a>
+      interface provides functions for allocating, updating,
+      and using array buffers. It provides a typed interface
+      to the <span class="st200_term function">glGenBuffers</span> and
+      <span class="st200_term function">glBufferData</span> functions.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s4ss2" href="#st200_p3s4ss2">3.4.2</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s4ss2pg1" href="#st200_p3s4ss2pg1">1</a></div><div class="st200_paragraph">
+      OpenGL specifies that at most one array buffer can be
+      <span class="st200_term term">bound</span> on a context at any given time.
+      Many API functions operate on the currently bound buffer and the
+      <span class="st200_term package">jcanephora</span> API avoids changing
+      the current binding behind the programmer's back.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s5" href="#st200_p3s5">3.5</a></div><div class="st200_section_title">JCGLArrayObjectsType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s5ss1">3.5.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s5ss2">3.5.2. Usage Examples</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s5ss3">3.5.3. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s5ss1" href="#st200_p3s5ss1">3.5.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s5ss1pg1" href="#st200_p3s5ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLArrayObjectsType.html">JCGLArrayObjectsType</a>
+      interface provides functions for allocating, updating,
+      and using array objects.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s5ss2" href="#st200_p3s5ss2">3.5.2</a></div><div class="st200_subsection_title">Usage Examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s5ss2pg1" href="#st200_p3s5ss2pg1">1</a></div><div class="st200_paragraph">
+      An <span class="st200_term term">array object</span> is a container
+      for an
+      <a class="st200_link" href="#st200_p3s12">index buffer binding</a>
+      and a set of numbered
+      <span class="st200_term term">vertex array attributes</span>. Essentially,
+      the programmer can state that numbered
+      <span class="st200_term term">vertex array attributes</span> will be supplied
+      with data from assigned
+      <a class="st200_link" href="#st200_p3s4">array buffers</a>,
+      with each attribute knowing how to extract values from the otherwise
+      untyped buffer. An array attribute will read <span class="st200_term variable">count</span>
+      values of type <span class="st200_term variable">t</span> from an array
+      buffer, starting at offset <span class="st200_term variable">o</span> in
+      bytes, and stepping forward <span class="st200_term variable">stride</span>
+      bytes for each vertex. This more or less encodes the notion that an
+      array buffer is an array of <span class="st200_term term">record</span>
+      <span class="st200_footnote_reference"><a id="st200_fn_3_ref" href="#st200_fn_3">[3]</a></span> values, with each array attribute
+      reading from a specific <span class="st200_term term">record field</span> for
+      each element.
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s5ss2fo1" href="#st200_p3s5ss2fo1">3.5.2.1. Array Buffers As Arrays Of Records</a></div><img class="st200_image" alt="Array Buffers As Arrays Of Records" src="encoding.png"/></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s5ss2pg2" href="#st200_p3s5ss2pg2">2</a></div><div class="st200_paragraph">
+      As a simple example, consider an array containing three vertices,
+      with each vertex containing a single three-element floating point
+      vector:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s5ss2fo2" href="#st200_p3s5ss2fo2">3.5.2.2. Positions</a></div><pre class="st200_verbatim">
+JCGLArrayBuffersType g_ab;
+JCGLArrayBufferType ab;
+
+final int vertex_size = 3 * 4;
+ab = g_ab.arrayBufferAllocate(vertex_size * 3L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+final JCGLBufferUpdateType&lt;JCGLArrayBufferType&gt; u = JCGLBufferUpdates.newUpdateReplacingAll(ab);
+final FloatBuffer d = u.getData().asFloatBuffer();
+
+d.put(0, -0.5f);
+d.put(1, 0.5f);
+d.put(2, -0.5f);
+
+d.put(3, -0.5f);
+d.put(4, -0.5f);
+d.put(5, -0.5f);
+
+d.put(6, 0.5f);
+d.put(7, -0.5f);
+d.put(8, -0.5f);
+
+g_ab.arrayBufferUpdate(u);
+g_ab.arrayBufferUnbind();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s5ss2pg3" href="#st200_p3s5ss2pg3">3</a></div><div class="st200_paragraph">
+      Then, assuming that vertex positions should be supplied to a shading
+      language program via vertex attribute
+      <span class="st200_term constant">0</span>:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s5ss2fo3" href="#st200_p3s5ss2fo3">3.5.2.3. Attribute</a></div><pre class="st200_verbatim">
+JCGLArrayObjectsType aob;
+
+final JCGLArrayObjectBuilderType aob = g_ao.arrayObjectNewBuilder();
+aob.setAttributeFloatingPoint(
+  0,
+  ab,
+  3,
+  JCGLScalarType.TYPE_FLOAT,
+  vertex_size,
+  0L,
+  false);
+
+JCGLArrayObjectType ao = g_ao.arrayObjectAllocate(aob);
+</pre></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s5ss3" href="#st200_p3s5ss3">3.5.3</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s5ss3pg1" href="#st200_p3s5ss3pg1">1</a></div><div class="st200_paragraph">
+      OpenGL specifies that exactly one array object will be
+      <span class="st200_term term">bound</span> on a context at any given time.
+      OpenGL provides a <span class="st200_term term">default array object</span>
+      that is bound when no user-created array object exists.
+      Many API functions operate on the currently bound array object and the
+      <span class="st200_term package">jcanephora</span> API avoids changing
+      the current binding behind the programmer's back.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s6" href="#st200_p3s6">3.6</a></div><div class="st200_section_title">JCGLBlendingType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s6ss1">3.6.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s6ss2">3.6.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s6ss3">3.6.3. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s6ss1" href="#st200_p3s6ss1">3.6.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s6ss1pg1" href="#st200_p3s6ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLBlendingType.html">JCGLBlendingType</a>
+      interface provides functions for configuring framebuffer
+      color blending.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s6ss2" href="#st200_p3s6ss2">3.6.2</a></div><div class="st200_subsection_title">Usage examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s6ss2pg1" href="#st200_p3s6ss2pg1">1</a></div><div class="st200_paragraph">
+      To enable blending, using the fairly typical
+      <span class="st200_term expression">color = (destination * source_alpha) + (source * (1.0 - source_alpha))</span>
+      blending equation:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s6ss2fo1" href="#st200_p3s6ss2fo1">3.6.2.1. Blending</a></div><pre class="st200_verbatim">
+JCGLBlendingType g;
+
+g.blendingEnable(
+  BlendFunction.BLEND_SOURCE_ALPHA,
+  BlendFunction.BLEND_ONE_MINUS_SOURCE_ALPHA);
+</pre></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s6ss3" href="#st200_p3s6ss3">3.6.3</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s6ss3pg1" href="#st200_p3s6ss3pg1">1</a></div><div class="st200_paragraph">
+      The current blending state is global to a given context; when enabled,
+      it is enabled for all subsequent rendering operations on that context
+      until explicitly modified or disabled.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s7" href="#st200_p3s7">3.7</a></div><div class="st200_section_title">JCGLClearType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s7ss1">3.7.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s7ss2">3.7.2. Usage example</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s7ss1" href="#st200_p3s7ss1">3.7.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s7ss1pg1" href="#st200_p3s7ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLClearType.html">JCGLClearType</a>
+      interface provides functions for clearing the contents of
+      framebuffers.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s7ss2" href="#st200_p3s7ss2">3.7.2</a></div><div class="st200_subsection_title">Usage example</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s7ss2pg1" href="#st200_p3s7ss2pg1">1</a></div><div class="st200_paragraph">
+      The following code creates a
+      <span class="st200_term term">clearing specification</span> that
+      will clear the current framebuffer to a dark grey color, and
+      the current depth buffer to <span class="st200_term constant">1.0</span>:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s7ss2fo1" href="#st200_p3s7ss2fo1">3.7.2.1. Blending</a></div><pre class="st200_verbatim">
+JCGLClearType g;
+
+final JCGLClearSpecification.Builder cb = JCGLClearSpecification.builder();
+cb.setColorBufferClear(new VectorI4F(0.1f, 0.1f, 0.1f, 1.0f));
+cb.setDepthBufferClear(1.0f);
+JCGLClearSpecification c = cb.build();
+
+g.clear(c);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s7ss2pg2" href="#st200_p3s7ss2pg2">2</a></div><div class="st200_paragraph">
+      The <span class="st200_term type">JCGLClearSpecification</span> value
+      can be re-used indefinitely. The API also provides optional strict
+      checking which can, for example, raise an exception if the programmer
+      attempts to clear the depth or stencil buffer without the current
+      framebuffer actually having one
+      <span class="st200_footnote_reference"><a id="st200_fn_4_ref" href="#st200_fn_4">[4]</a></span>.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s8" href="#st200_p3s8">3.8</a></div><div class="st200_section_title">JCGLColorBufferMaskingType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s8ss1">3.8.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s8ss2">3.8.2. Usage example</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s8ss3">3.8.3. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s8ss1" href="#st200_p3s8ss1">3.8.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s8ss1pg1" href="#st200_p3s8ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLColorBufferMaskingType.html">JCGLColorBufferMaskingType</a>
+      interface provides functions for masking writes to specific
+      color channels of the framebuffer.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s8ss2" href="#st200_p3s8ss2">3.8.2</a></div><div class="st200_subsection_title">Usage example</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s8ss2pg1" href="#st200_p3s8ss2pg1">1</a></div><div class="st200_paragraph">
+      The following code prevents subsequent rendering operations from
+      rendering to the red channel of any framebuffer:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s8ss2fo1" href="#st200_p3s8ss2fo1">3.8.2.1. Masking</a></div><pre class="st200_verbatim">
+JCGLColorBufferMaskingType g;
+
+g.colorBufferMask(false, true, true, true);
+</pre></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s8ss3" href="#st200_p3s8ss3">3.8.3</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s8ss3pg1" href="#st200_p3s8ss3pg1">1</a></div><div class="st200_paragraph">
+      The current masking state is global to a given context; when enabled,
+      it is enabled for all subsequent rendering operations on that context
+      until explicitly modified or disabled.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s9" href="#st200_p3s9">3.9</a></div><div class="st200_section_title">JCGLDepthBuffersType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s9ss1">3.9.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s9ss2">3.9.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s9ss3">3.9.3. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s9ss1" href="#st200_p3s9ss1">3.9.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s9ss1pg1" href="#st200_p3s9ss1pg1">1</a></div><div class="st200_paragraph">
+      The
+      <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLDepthBuffersType.html">
+        JCGLDepthBuffersType
+      </a>
+      interface provides functions for controlling depth testing,
+      writing, and clamping of depth values.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s9ss2" href="#st200_p3s9ss2">3.9.2</a></div><div class="st200_subsection_title">Usage examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s9ss2pg1" href="#st200_p3s9ss2pg1">1</a></div><div class="st200_paragraph">
+      To clear the current depth buffer to a value typical of the far clipping
+      plane:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s9ss2fo1" href="#st200_p3s9ss2fo1">3.9.2.1. Depth buffer clear</a></div><pre class="st200_verbatim">
+JCGLDepthBuffersType g;
+
+g.depthBufferClear(1.0f);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s9ss2pg2" href="#st200_p3s9ss2pg2">2</a></div><div class="st200_paragraph">
+      To discard all writes to the depth buffer (note that this will
+      also prevent clearing of the depth buffer):
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s9ss2fo2" href="#st200_p3s9ss2fo2">3.9.2.2. Depth buffer mask</a></div><pre class="st200_verbatim">
+JCGLDepthBuffersType g;
+
+g.depthBufferWriteDisable();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s9ss2pg3" href="#st200_p3s9ss2pg3">3</a></div><div class="st200_paragraph">
+      To enable depth testing and set the depth function such that
+      only depth values less than the current value in the depth buffer will
+      be written:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s9ss2fo3" href="#st200_p3s9ss2fo3">3.9.2.3. Depth buffer enable</a></div><pre class="st200_verbatim">
+JCGLDepthBuffersType g;
+
+g.depthBufferTestEnable(DepthFunction.DEPTH_LESS_THAN);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s9ss2pg4" href="#st200_p3s9ss2pg4">4</a></div><div class="st200_paragraph">
+      Most of the functions raise exceptions if attempting to perform
+      operations on a framebuffer that does not have a depth buffer.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s9ss3" href="#st200_p3s9ss3">3.9.3</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s9ss3pg1" href="#st200_p3s9ss3pg1">1</a></div><div class="st200_paragraph">
+      The current depth-testing and depth-writing state is global to a given
+      context; when enabled, it is enabled for all subsequent rendering
+      operations on that context until explicitly modified or disabled.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s10" href="#st200_p3s10">3.10</a></div><div class="st200_section_title">JCGLDrawType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s10ss1">3.10.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s10ss2">3.10.2. Usage examples</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s10ss1" href="#st200_p3s10ss1">3.10.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s10ss1pg1" href="#st200_p3s10ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLDrawType.html">JCGLDrawType</a>
+      interface provides functions for initiating rendering operations.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s10ss2" href="#st200_p3s10ss2">3.10.2</a></div><div class="st200_subsection_title">Usage examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s10ss2pg1" href="#st200_p3s10ss2pg1">1</a></div><div class="st200_paragraph">
+      Assuming that an <a class="st200_link" href="#st200_p3s5">array object</a>
+      is currently bound and has an attached
+      <a class="st200_link" href="#st200_p3s12">index buffer</a>,
+      drawing an object is trivial:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s10ss2fo1" href="#st200_p3s10ss2fo1">3.10.2.1. Drawing</a></div><pre class="st200_verbatim">
+JCGLDrawType g;
+
+g.drawElements(Primitives.PRIMITIVE_TRIANGLES);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s10ss2pg2" href="#st200_p3s10ss2pg2">2</a></div><div class="st200_paragraph">
+      Similar functions exist for rendering without index buffers.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s11" href="#st200_p3s11">3.11</a></div><div class="st200_section_title">JCGLFramebuffersType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s11ss1">3.11.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s11ss2">3.11.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s11ss3">3.11.3. Feedback</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s11ss4">3.11.4. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s11ss1" href="#st200_p3s11ss1">3.11.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss1pg1" href="#st200_p3s11ss1pg1">1</a></div><div class="st200_paragraph">
+      The
+      <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLFramebuffersType.html">
+        JCGLFramebuffersType
+      </a>
+      interface provides functions for creating and controlling
+      framebuffers.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s11ss2" href="#st200_p3s11ss2">3.11.2</a></div><div class="st200_subsection_title">Usage examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg1" href="#st200_p3s11ss2pg1">1</a></div><div class="st200_paragraph">
+      A
+      <span class="st200_term term">framebuffer</span>
+      in OpenGL is an
+      opaque structure with one or more<span class="st200_term term">
+      attachments</span>.
+      Currently, attachments can only be
+      <a class="st200_link" href="#st200_p3s17">textures</a>.
+      Textures are useful when the result of rendering to a framebuffer is
+      going to be read back at some point, or perhaps used to texture
+      other objects. For example, some 3D engines implement so-called
+      "procedural textures" by rendering a generated pattern to a texture
+      and then applying that texture to objects in the scene.
+      Attachments are attached at specific points to
+      any given framebuffer: Framebuffers can have a
+      <span class="st200_term term">depth</span>
+      attachment, a
+      <span class="st200_term term">stencil</span>
+      attachment, a
+      <span class="st200_term term">depth+stencil</span>
+      attachment, and an implementation-defined maximum number of
+      <span class="st200_term term">color</span>
+      attachments.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg2" href="#st200_p3s11ss2pg2">2</a></div><div class="st200_paragraph">
+      When rendering to a framebuffer, a
+      <span class="st200_term term">shading program</span>
+      will write values
+      to one or more<span class="st200_term term">draw buffers</span>, and
+      each
+      <span class="st200_term term">draw buffer</span>
+      is mapped to a
+      <span class="st200_term term">color attachments</span>. Multiple
+      draw buffers cannot be mapped to the same color attachment.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg3" href="#st200_p3s11ss2pg3">3</a></div><div class="st200_paragraph">
+      In <span class="st200_term package">jcanephora</span>, framebuffers
+      are created via mutable builders which are then passed to the
+      API functions, resulting in immutable framebuffers
+      <span class="st200_footnote_reference"><a id="st200_fn_5_ref" href="#st200_fn_5">[5]</a></span>.
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo1" href="#st200_p3s11ss2fo1">3.11.2.1. Framebuffer builder</a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+JCGLFramebufferBuilderType b = g.framebufferNewBuilder();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg4" href="#st200_p3s11ss2pg4">4</a></div><div class="st200_paragraph">
+      To attach allocated textures/buffers to a framebuffer, the API requires
+      the programmer to first obtain a list of the available attachment
+      points:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo2" href="#st200_p3s11ss2fo2">3.11.2.2. Framebuffer color attachment points
+      </a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+
+List&lt;JCGLFramebufferColorAttachmentPointType&gt; points = g.framebufferGetColorAttachmentPoints();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg5" href="#st200_p3s11ss2pg5">5</a></div><div class="st200_paragraph">
+      Similarly, the API requires the programmer to obtain a list of the
+      available draw buffers:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo3" href="#st200_p3s11ss2fo3">3.11.2.3. Framebuffer draw buffers</a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+
+List&lt;JCGLFramebufferDrawBufferType&gt; buffers = g.framebufferGetDrawBuffers();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg6" href="#st200_p3s11ss2pg6">6</a></div><div class="st200_paragraph">
+      The programmer must pass values of type
+      <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/JCGLFramebufferColorAttachmentPointType.html">
+        JCGLFramebufferColorAttachmentPointType
+      </a>
+      to various attachment functions and is therefore statically prevented
+      from
+      trying to use more color attachments than the OpenGL implementation
+      allows.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg7" href="#st200_p3s11ss2pg7">7</a></div><div class="st200_paragraph">
+      After allocating a color and depth/stencil texture, the textures must
+      be attached at the relevant attachment points and draw buffers mapped
+      to the color attachments.
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo4" href="#st200_p3s11ss2fo4">3.11.2.4. Framebuffer attachments</a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+JCGLTexturesType gt;
+JCGLTextureUnitType u;
+
+List&lt;FramebufferColorAttachmentPointType&gt; points = g.framebufferGetColorAttachmentPoints();
+List&lt;JCGLFramebufferDrawBufferType&gt; buffers = g.framebufferGetDrawBuffers();
+
+JCGLTexture2DType d = gt.texture2DAllocate(u, 128, 128, JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP, ...);
+JCGLTexture2DType c = gt.texture2DAllocate(u, 128, 128, JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP, ...);
+gt.textureUnitUnbind(u);
+
+JCGLFramebufferBuilderType b = g.framebufferNewBuilder();
+b.attachColorTexture2DAt(points.get(0), buffers.get(0), c);
+b.attachDepthTexture2D(d);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg8" href="#st200_p3s11ss2pg8">8</a></div><div class="st200_paragraph">
+      All unspecified draw buffers are mapped to
+      <span class="st200_term constant">GL_NONE</span>
+      (meaning that any data
+      written to the other draw buffers will go nowhere). The builders
+      also raise exceptions if the programmer attempts to, for example,
+      specify a non-color-renderable format for a color attachment.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg9" href="#st200_p3s11ss2pg9">9</a></div><div class="st200_paragraph">
+      To actually allocate a framebuffer, the mutable builder is passed to
+      an allocation function:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo5" href="#st200_p3s11ss2fo5">3.11.2.5. Framebuffer attachment/buffer mappings
+      </a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+JCGLFramebufferBuilderType b;
+
+FramebufferType f = g.framebufferAllocate(b);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg10" href="#st200_p3s11ss2pg10">10</a></div><div class="st200_paragraph">
+      The function validates the framebuffer configuration upon allocation,
+      raising an exception if the framebuffer is not usable on the current
+      OpenGL implementation.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg11" href="#st200_p3s11ss2pg11">11</a></div><div class="st200_paragraph">
+      To render to the framebuffer, the framebuffer must be bound:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo6" href="#st200_p3s11ss2fo6">3.11.2.6. Framebuffer binding</a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+JCGLFramebufferType f;
+
+g.framebufferDrawBind(f);
+{
+  // Perform rendering.
+}
+g.framebufferDrawUnbind(f);
+</pre></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s11ss3" href="#st200_p3s11ss3">3.11.3</a></div><div class="st200_subsection_title">Feedback</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss3pg1" href="#st200_p3s11ss3pg1">1</a></div><div class="st200_paragraph">
+      The OpenGL specification explicitly states that
+      <span class="st200_term term">feedback</span> is illegal and
+      results in undefined behaviour. <span class="st200_term term">Feedback</span>
+      is defined as occurring when a texture
+      <span class="st200_term variable">t</span> is both attached to the current
+      <span class="st200_term term">draw</span> framebuffer and is also
+      bound to a texture unit and being sampled. This would result in
+      a feedback loop where data written to the framebuffer would be
+      written to a texture currently being sampled.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss3pg2" href="#st200_p3s11ss3pg2">2</a></div><div class="st200_paragraph">
+      The <span class="st200_term package">jcanephora</span> attempts to detect
+      and prevent feedback by raising exceptions:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss3fo1" href="#st200_p3s11ss3fo1">3.11.3.1. Feedback</a></div><ol class="st200_list_ordered"><li class="st200_list_item">
+          When a texture is bound, the current framebuffer (if any) is checked to see if the texture is attached to the framebuffer.
+        </li><li class="st200_list_item">
+          When a <span class="st200_term term">draw</span> framebuffer is bound, a check is made to see if any of the attached textures are currently bound.
+        </li></ol></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s11ss4" href="#st200_p3s11ss4">3.11.4</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss4pg1" href="#st200_p3s11ss4pg1">1</a></div><div class="st200_paragraph">
+      OpenGL specifies that at most one framebuffer can be
+      <span class="st200_term term">bound</span>
+      on a context at any given time.
+      Many API functions operate on the currently bound framebuffer and the
+      <span class="st200_term package">jcanephora</span>
+      API avoids changing
+      the current binding behind the programmer's back.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s12" href="#st200_p3s12">3.12</a></div><div class="st200_section_title">JCGLIndexBuffersType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s12ss1">3.12.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s12ss2">3.12.2. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s12ss1" href="#st200_p3s12ss1">3.12.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s12ss1pg1" href="#st200_p3s12ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLIndexBuffersType.html">JCGLIndexBuffersType</a>
+      interface provides functions for allocating, updating,
+      and using index buffers. It provides a typed interface
+      to the<span class="st200_term function">glGenBuffers</span> and
+      <span class="st200_term function">glBufferData</span> functions.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s12ss2" href="#st200_p3s12ss2">3.12.2</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s12ss2pg1" href="#st200_p3s12ss2pg1">1</a></div><div class="st200_paragraph">
+      OpenGL specifies that at most one index buffer can be
+      <span class="st200_term term">bound</span> to the current
+      <a class="st200_link" href="#st200_p3s5">array object</a>
+      at any given time. OpenGL provides a
+      <span class="st200_term term">default array object</span> that is used
+      when attempting to bind an index buffer, if no user-created
+      array object is bound.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s13" href="#st200_p3s13">3.13</a></div><div class="st200_section_title">JCGLPolygonModesType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s13ss1">3.13.1. Description</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s13ss1" href="#st200_p3s13ss1">3.13.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s13ss1pg1" href="#st200_p3s13ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLPolygonModesType.html">JCGLPolygonModesType</a>
+      interface provides functions for controlling the
+      rendering style of individual polygons.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s14" href="#st200_p3s14">3.14</a></div><div class="st200_section_title">JCGLScissorType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s14ss1">3.14.1. Description</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s14ss1" href="#st200_p3s14ss1">3.14.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s14ss1pg1" href="#st200_p3s14ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLScissorType.html">JCGLScissorType</a>
+      interface provides functions for controlling the
+      OpenGL scissor test.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s15" href="#st200_p3s15">3.15</a></div><div class="st200_section_title">JCGLShadersType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s15ss1">3.15.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s15ss2">3.15.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s15ss3">3.15.3. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s15ss1" href="#st200_p3s15ss1">3.15.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s15ss1pg1" href="#st200_p3s15ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLShadersType.html">JCGLShadersType</a>
+      interface provides functions for compiling and using
+      shading language programs.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s15ss2" href="#st200_p3s15ss2">3.15.2</a></div><div class="st200_subsection_title">Usage examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s15ss2pg1" href="#st200_p3s15ss2pg1">1</a></div><div class="st200_paragraph">
+      To compile vertex, geometry, and fragment shaders, simply pass in lists
+      of strings, with each string terminated with CRLF or LF characters:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s15ss2fo1" href="#st200_p3s15ss2fo1">3.15.2.1. Compiling shaders</a></div><pre class="st200_verbatim">
+JCGLShadersType g;
+
+List&lt;String&gt; v_source = new ArrayList&lt;String&gt;();
+v_source.add("#version 330\n");
+v_source.add("in vec4 position;\n");
+v_source.add("void\n");
+v_source.add("main (void)\n");
+v_source.add("{\n");
+v_source.add("  gl_Position = position;\n");
+v_source.add("}\n");
+JCGLVertexShaderType vs = g.shaderCompileVertex("example-v", v_source);
+
+List&lt;String&gt; g_source = new ArrayList&lt;String&gt;();
+g_source.add("#version 330 core\n");
+g_source.add("layout(points) in;\n");
+g_source.add("layout(points, max_vertices = 1) out;\n");
+g_source.add("void\n");
+g_source.add("main ()\n");
+g_source.add("{\n");
+g_source.add("  gl_Position = gl_in[0].gl_Position;\n");
+g_source.add("  EmitVertex();\n");
+g_source.add("  EndPrimitive();\n");
+g_source.add("}\n");
+JCGLGeometryShaderType gs = g.shaderCompileGeometry("example-g", g_source);
+
+List&lt;String&gt; f_source = new ArrayList&lt;String&gt;();
+f_source.add("#version 330\n");
+f_source.add("uniform vec4 color;\n");
+f_source.add("out vec4 color0;\n");
+f_source.add("void\n");
+f_source.add("main (void)\n");
+f_source.add("{\n");
+f_source.add("  color0 = color;\n");
+f_source.add("}\n");
+JCGLFragmentShaderType fs = g.shaderCompileFragment("example-f", f_source);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s15ss2pg2" href="#st200_p3s15ss2pg2">2</a></div><div class="st200_paragraph">
+      To combine (attach and link) the shaders into a working program:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s15ss2fo2" href="#st200_p3s15ss2fo2">3.15.2.2. Producing a program</a></div><pre class="st200_verbatim">
+JCGLShadersType g;
+
+JCGLProgramShaderType p = g.shaderLinkProgram("program", vs, Optional.of(gs), fs);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s15ss2pg3" href="#st200_p3s15ss2pg3">3</a></div><div class="st200_paragraph">
+      The program functions interrogate the compiled program when
+      it is created and produce a set of mappings from names
+      to active uniforms (parameters). A read-only view of these
+      can be accessed via the program reference, and assigned values
+      via the provided functions:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s15ss2fo3" href="#st200_p3s15ss2fo3">3.15.2.3. Program uniforms</a></div><pre class="st200_verbatim">
+JCGLShadersType g;
+
+Map&lt;String, JCGLProgramUniformType&gt; uniforms = p.getUniforms();
+
+JCGLProgramUniformType p = uniforms.get("color");
+assert p != null;
+g.programActivate(p);
+p.programUniformPutVector4f(p, new VectorI4F(1.0f, 0.0f, 0.0f, 1.0f));
+</pre></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s15ss3" href="#st200_p3s15ss3">3.15.3</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s15ss3pg1" href="#st200_p3s15ss3pg1">1</a></div><div class="st200_paragraph">
+      OpenGL specifies that at most one shading program can be
+      <span class="st200_term term">active</span> on a context at any given time.
+      Many API functions operate on the currently active program and the
+      <span class="st200_term package">jcanephora</span> API avoids changing
+      the current binding behind the programmer's back.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s16" href="#st200_p3s16">3.16</a></div><div class="st200_section_title">JCGLStencilBuffersType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s16ss1">3.16.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s16ss2">3.16.2. Usage examples</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s16ss1" href="#st200_p3s16ss1">3.16.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s16ss1pg1" href="#st200_p3s16ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLStencilBuffersType.html">JCGLStencilBuffersType</a>
+      interface provides functions for controlling the stencil
+      buffer.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s16ss2" href="#st200_p3s16ss2">3.16.2</a></div><div class="st200_subsection_title">Usage examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s16ss2pg1" href="#st200_p3s16ss2pg1">1</a></div><div class="st200_paragraph">
+      To clear the current stencil buffer:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s16ss2fo1" href="#st200_p3s16ss2fo1">3.16.2.1. Stencil buffer clear</a></div><pre class="st200_verbatim">
+JCGLStencilBuffersType g;
+
+g.stencilBufferClear(0);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s16ss2pg2" href="#st200_p3s16ss2pg2">2</a></div><div class="st200_paragraph">
+      See the referenced <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLStencilBufferType.html">JavaDoc</a>
+      for the full range of functions. Most
+      of the functions will raise exceptions if the current framebuffer
+      configuration does not include a stencil buffer; this is considered
+      to be behaviour preferable to silently producing incorrect results.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s17" href="#st200_p3s17">3.17</a></div><div class="st200_section_title">JCGLTexturesType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s17ss1">3.17.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s17ss2">3.17.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s17ss3">3.17.3. Cube map coordinate systems</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s17ss1" href="#st200_p3s17ss1">3.17.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss1pg1" href="#st200_p3s17ss1pg1">1</a></div><div class="st200_paragraph">
+      The
+      <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLTexturesType.html">
+        JCGLTexturesType
+      </a>
+      interface provides functions for allocating, updating,
+      and using textures.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s17ss2" href="#st200_p3s17ss2">3.17.2</a></div><div class="st200_subsection_title">Usage examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg1" href="#st200_p3s17ss2pg1">1</a></div><div class="st200_paragraph">
+      The <span class="st200_term type">JCGLTexturesType</span>
+      interfaces expose functions that
+      will allocate textures of formats supported by the current
+      implementation. The interfaces only expose textures that are
+      <span class="st200_term emphasis">required</span>
+      to be supported by OpenGL 3.3 core.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg2" href="#st200_p3s17ss2pg2">2</a></div><div class="st200_paragraph">
+      In order to use a texture in OpenGL, the texture must be bound
+      to a <span class="st200_term term">texture unit</span>. There are a
+      limited number of texture units available
+      <span class="st200_footnote_reference"><a id="st200_fn_6_ref" href="#st200_fn_6">[6]</a></span>, and so the API requires the user to obtain access
+      to a list of the current units:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s17ss2fo1" href="#st200_p3s17ss2fo1">3.17.2.1. Texture units</a></div><pre class="st200_verbatim">
+JCGLTexturesType g;
+List&lt;JCGLTextureUnitType&gt; u = g.textureGetUnits();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg3" href="#st200_p3s17ss2pg3">3</a></div><div class="st200_paragraph">
+      A texture unit may have at most one texture bound to it at any
+      one time. This is in slight contrast to the way that the OpenGL
+      API normally works: The OpenGL API specifies that a given texture
+      unit may have multiple textures bound to a given texture unit as long
+      as all of the textures are of a different type
+      (two-dimensional, cube map, etc). However, it then states that
+      it is <span class="st200_term term">not</span> legal to pass that texture
+      unit to multiple different uniform parameters in a shading program.
+      There is, therefore, very little practical utility to binding multiple
+      textures to a single texture unit, and exposing such behaviour in the
+      API complicates tracking of state and makes programs slightly more
+      difficult to reason about. The
+      <span class="st200_term package">jcanephora</span> API therefore imposes
+      a simple restriction: One texture per texture unit.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg4" href="#st200_p3s17ss2pg4">4</a></div><div class="st200_paragraph">
+      To allocate a
+      <span class="st200_term expression">256 * 256</span>
+      RGBA texture, 8 bits per channel (four bytes per pixel),
+      with nearest-neighbour filtering and repeat wrapping around
+      both axes:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s17ss2fo2" href="#st200_p3s17ss2fo2">3.17.2.2. Texture allocation</a></div><pre class="st200_verbatim">
+JCGLTexturesType g;
+JCGLTextureUnitType u;
+
+JCGLTexture2DType t =
+  g.texture2DAllocate(
+    u,
+    256,
+    256,
+    JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+    JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+    JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+    JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+    JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg5" href="#st200_p3s17ss2pg5">5</a></div><div class="st200_paragraph">
+      Once allocated, the texture will remain bound to the texture
+      unit <span class="st200_term variable">u</span> until explicitly unbound.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss2pg6" href="#st200_p3s17ss2pg6">6</a></div><div class="st200_paragraph">
+      The <span class="st200_term package">jcanephora</span> exposes both
+      two-dimensional and cube map textures. See the relevant superinterfaces.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s17ss3" href="#st200_p3s17ss3">3.17.3</a></div><div class="st200_subsection_title">Cube map coordinate systems</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg1" href="#st200_p3s17ss3pg1">1</a></div><div class="st200_paragraph">
+      Note that in the OpenGL specification, cube textures arbitrarily
+      use a left-handed coordinate system as opposed to OpenGL's right-handed system.
+      This is a frequent source of errors in programs. See the following fragment
+      shader:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s17ss3fo1" href="#st200_p3s17ss3fo1">3.17.3.1. Cube map shader</a></div><pre class="st200_verbatim">
+in vec3 f_normal;   // Eye-space surface normal
+in vec3 f_position; // Eye-space surface position
+
+uniform mat4        m_view_inverse; // Inverse view matrix, eye-space -&gt; world-space.
+uniform samplerCube t_reflection;
+
+out vec4 frag_color;
+
+void
+main (void)
+{
+  vec3 n = normalize (f_normal);
+  vec3 v = normalize (f_position);
+  vec3 r = reflect (v, n);
+  vec3 u = m_view_inverse * r;
+
+  frag_color = texture (t_reflection, u);
+}</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg2" href="#st200_p3s17ss3pg2">2</a></div><div class="st200_paragraph">
+      The program calculates a reflection vector
+      <span class="st200_term variable">r</span> from the eye-space incident vector
+      <span class="st200_term variable">f_position</span> and eye-space surface normal
+      <span class="st200_term variable">f_normal</span>. It transforms
+      <span class="st200_term variable">r</span> back into world-space, giving
+      <span class="st200_term variable">u</span>, and then uses <span class="st200_term variable">u</span>
+      to index into the cube texture. This would be textbook-correct, if OpenGL
+      didn't arbitrarily use a left-handed coordinate system for cube textures!
+      The coordinates <span class="st200_term variable">u</span> are obviously specified
+      in a right-handed coordinate system. The practical results of this are that
+      all of the cube texture faces will be displayed upside down, and the
+      familiar concept of the negative Z axis meaning "forwards" will be reversed.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg3" href="#st200_p3s17ss3pg3">3</a></div><div class="st200_paragraph">
+      The <span class="st200_term package">jcanephora</span> package contains support
+      for using right-handed cube maps in OpenGL, consistent with the
+      right-handed coordinate system used in most OpenGL programs. In order
+      to use right-handed cube maps, the following steps are required:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s17ss3fo2" href="#st200_p3s17ss3fo2">3.17.3.2. Cube map addressing</a></div><ol class="st200_list_ordered"><li class="st200_list_item">
+          Cube map textures are supplied to the OpenGL implementation using
+          the "RH" variants of the texture loading and update functions. Faces
+          are specified in a manner consistent with OpenGL's
+          coordinate system. Informally, the "forward" face of the cube map
+          is the negative Z face, the "right" face of the cube map is the
+          positive X face, and so on.
+        </li><li class="st200_list_item">
+          In shaders, the coordinates passed to the <span class="st200_term function">texture</span>
+          function
+          (or <span class="st200_term function">textureCube</span> function, on old OpenGL implementations)
+          should be multiplied with a matrix that effectively negates the <span class="st200_term variable">Y</span>
+          and <span class="st200_term variable">Z</span> components.
+        </li></ol></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg4" href="#st200_p3s17ss3pg4">4</a></div><div class="st200_paragraph">
+      The earlier example shader becomes:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s17ss3fo3" href="#st200_p3s17ss3fo3">3.17.3.3. Cube map shader</a></div><pre class="st200_verbatim">
+in vec3 f_normal;   // Eye-space surface normal
+in vec3 f_position; // Eye-space surface position
+
+uniform mat4        m_view_inverse; // Inverse view matrix, eye-space -&gt; world-space.
+uniform samplerCube t_reflection;
+
+out vec4 frag_color;
+
+void
+main (void)
+{
+  const mat3 m_t = mat3 (
+    1.0,  0.0,  0.0,
+    0.0, -1.0,  0.0,
+    0.0,  0.0, -1.0
+  );
+
+  vec3 n = normalize (f_normal);
+  vec3 v = normalize (f_position);
+  vec3 r = reflect (v, n);
+  vec3 u = m_view_inverse * r;
+  vec3 w = m_t * u;
+
+  frag_color = texture (t_reflection, w);
+}</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg5" href="#st200_p3s17ss3pg5">5</a></div><div class="st200_paragraph">
+      This approach means that both the loading and generation of cube textures
+      is consistent with that of 2D textures and the rest of OpenGL, and the
+      complexity of addressing the textures is limited to one function call in
+      shaders. Renderers that produce cube maps do not need to use unusual
+      projection matrices to "flip" the coordinate system when rendering, and
+      everything works according to the principles of least astonishment!
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s17ss3pg6" href="#st200_p3s17ss3pg6">6</a></div><div class="st200_paragraph">
+      The correct solution to the problem would have been for the cube map
+      coordinate system  to have been in a consistent right-handed coordinate
+      space to begin with.
+    </div></div></div></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s18" href="#st200_p3s18">3.18</a></div><div class="st200_section_title">JCGLViewportsType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="#st200_p3s18ss1">3.18.1. Description</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s18ss1" href="#st200_p3s18ss1">3.18.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s18ss1pg1" href="#st200_p3s18ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLViewportsType.html">JCGLViewportsType</a>
+      interface provides functions for controlling the current
+      viewport.
+    </div></div></div></div></div><div class="st200_part_container"><div class="st200_part_title_number"><a id="st200_p4" href="#st200_p4">4</a></div><div class="st200_part_title">API Reference</div><ul class="st200_contents st200_part_contents_outer st200_part_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_section"><a href="#st200_p4s1">4.1. Javadoc</a></li></ul><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p4s1" href="#st200_p4s1">4.1</a></div><div class="st200_section_title">Javadoc</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p4s1pg1" href="#st200_p4s1pg1">1</a></div><div class="st200_paragraph">
+        API documentation for the package is provided via the
+        included <a class="st200_link_external" href="apidocs">Javadoc</a>.
+      </div></div></div></div><div class="st200_footnotes"><hr/><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_0" href="#st200_fn_0_ref">0</a>]</div><div class="st200_footnote_body">
+          <a class="st200_link_external" href="http://semver.org">http://semver.org
+          </a>
+        </div></div><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_1" href="#st200_fn_1_ref">1</a>]</div><div class="st200_footnote_body">
+          Whilst, annoyingly, being the only viable cross-platform and
+          vendor neutral graphics API available.
+        </div></div><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_2" href="#st200_fn_2_ref">2</a>]</div><div class="st200_footnote_body">
+          New types will be new classes, resulting in all integers being
+          replaced with pointers to integers.
+        </div></div><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_3" href="#st200_fn_3_ref">3</a>]</div><div class="st200_footnote_body">
+        Or <span class="st200_term term">struct</span>, in C terminology.
+      </div></div><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_4" href="#st200_fn_4_ref">4</a>]</div><div class="st200_footnote_body">
+        This is usually the result of the programmer forgetting to
+        attach a depth/stencil attachment on framebuffer creation, and
+        can lead to difficult-to-trace bugs.
+      </div></div><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_5" href="#st200_fn_5_ref">5</a>]</div><div class="st200_footnote_body">
+        That is, the framebuffer attachments cannot be reconfigured
+        once the framebuffer is created. This matches the typical
+        use patterns with regards to framebuffers and is also a
+        design choice taken from practical experience: On most OpenGL
+        implementations, reconfiguring a framebuffer is a rather
+        expensive operation.
+      </div></div><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_6" href="#st200_fn_6_ref">6</a>]</div><div class="st200_footnote_body">
+        OpenGL 3.3 guarantees that at least 16 will be available in any
+        implementation.
+      </div></div></div></div></body></html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>io7m-jcanephora 0.40.0-SNAPSHOT Documentation: 3.15. JCGLShadersType</title><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-layout.css"/><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-colour.css"/><link rel="stylesheet" type="text/css" href="documentation.css"/></head><body><div class="st200_body"><div class="brand">
+  <div class="brand_left">
+    <a href="http://io7m.com/">io7m</a>
+  </div>
+  <div class="brand_right">
+    <a href="http://github.com/io7m/jcanephora">io7m-jcanephora</a> 0.40.0-SNAPSHOT
+  </div>
+</div><div class="st200_navbar st200_navbar_top"><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_title_cell">3.14. JCGLScissorType</td><td class="st200_navbar_up_title_cell">3. jcanephora Core Interfaces</td><td class="st200_navbar_next_title_cell">3.16. JCGLStencilBuffersType</td></tr><tr><td class="st200_navbar_prev_file_cell"><a href="p3s14.xhtml#st200_p3s14">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p3.xhtml#st200_p3">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p3s16.xhtml#st200_p3s16">Next</a></td></tr></table><hr class="st200_hr"/></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s15" href="#st200_p3s15">3.15</a></div><div class="st200_section_title">JCGLShadersType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s15.xhtml#st200_p3s15ss1">3.15.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s15.xhtml#st200_p3s15ss2">3.15.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s15.xhtml#st200_p3s15ss3">3.15.3. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s15ss1" href="#st200_p3s15ss1">3.15.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s15ss1pg1" href="#st200_p3s15ss1pg1">1</a></div><div class="st200_paragraph">
+      The <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLShadersType.html">JCGLShadersType</a>
+      interface provides functions for compiling and using
+      shading language programs.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s15ss2" href="#st200_p3s15ss2">3.15.2</a></div><div class="st200_subsection_title">Usage examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s15ss2pg1" href="#st200_p3s15ss2pg1">1</a></div><div class="st200_paragraph">
+      To compile vertex, geometry, and fragment shaders, simply pass in lists
+      of strings, with each string terminated with CRLF or LF characters:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s15ss2fo1" href="#st200_p3s15ss2fo1">3.15.2.1. Compiling shaders</a></div><pre class="st200_verbatim">
+JCGLShadersType g;
+
+List&lt;String&gt; v_source = new ArrayList&lt;String&gt;();
+v_source.add("#version 330\n");
+v_source.add("in vec4 position;\n");
+v_source.add("void\n");
+v_source.add("main (void)\n");
+v_source.add("{\n");
+v_source.add("  gl_Position = position;\n");
+v_source.add("}\n");
+JCGLVertexShaderType vs = g.shaderCompileVertex("example-v", v_source);
+
+List&lt;String&gt; g_source = new ArrayList&lt;String&gt;();
+g_source.add("#version 330 core\n");
+g_source.add("layout(points) in;\n");
+g_source.add("layout(points, max_vertices = 1) out;\n");
+g_source.add("void\n");
+g_source.add("main ()\n");
+g_source.add("{\n");
+g_source.add("  gl_Position = gl_in[0].gl_Position;\n");
+g_source.add("  EmitVertex();\n");
+g_source.add("  EndPrimitive();\n");
+g_source.add("}\n");
+JCGLGeometryShaderType gs = g.shaderCompileGeometry("example-g", g_source);
+
+List&lt;String&gt; f_source = new ArrayList&lt;String&gt;();
+f_source.add("#version 330\n");
+f_source.add("uniform vec4 color;\n");
+f_source.add("out vec4 color0;\n");
+f_source.add("void\n");
+f_source.add("main (void)\n");
+f_source.add("{\n");
+f_source.add("  color0 = color;\n");
+f_source.add("}\n");
+JCGLFragmentShaderType fs = g.shaderCompileFragment("example-f", f_source);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s15ss2pg2" href="#st200_p3s15ss2pg2">2</a></div><div class="st200_paragraph">
+      To combine (attach and link) the shaders into a working program:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s15ss2fo2" href="#st200_p3s15ss2fo2">3.15.2.2. Producing a program</a></div><pre class="st200_verbatim">
+JCGLShadersType g;
+
+JCGLProgramShaderType p = g.shaderLinkProgram("program", vs, Optional.of(gs), fs);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s15ss2pg3" href="#st200_p3s15ss2pg3">3</a></div><div class="st200_paragraph">
+      The program functions interrogate the compiled program when
+      it is created and produce a set of mappings from names
+      to active uniforms (parameters). A read-only view of these
+      can be accessed via the program reference, and assigned values
+      via the provided functions:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s15ss2fo3" href="#st200_p3s15ss2fo3">3.15.2.3. Program uniforms</a></div><pre class="st200_verbatim">
+JCGLShadersType g;
+
+Map&lt;String, JCGLProgramUniformType&gt; uniforms = p.getUniforms();
+
+JCGLProgramUniformType p = uniforms.get("color");
+assert p != null;
+g.programActivate(p);
+p.programUniformPutVector4f(p, new VectorI4F(1.0f, 0.0f, 0.0f, 1.0f));
+</pre></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s15ss3" href="#st200_p3s15ss3">3.15.3</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s15ss3pg1" href="#st200_p3s15ss3pg1">1</a></div><div class="st200_paragraph">
+      OpenGL specifies that at most one shading program can be
+      <span class="st200_term term">active</span> on a context at any given time.
+      Many API functions operate on the currently active program and the
+      <span class="st200_term package">jcanephora</span> API avoids changing
+      the current binding behind the programmer's back.
+    </div></div></div></div><div class="st200_navbar st200_navbar_bottom"><hr class="st200_hr"/><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_file_cell"><a href="p3s14.xhtml#st200_p3s14">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p3.xhtml#st200_p3">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p3s16.xhtml#st200_p3s16">Next</a></td></tr><tr><td class="st200_navbar_prev_title_cell">3.14. JCGLScissorType</td><td class="st200_navbar_up_title_cell">3. jcanephora Core Interfaces</td><td class="st200_navbar_next_title_cell">3.16. JCGLStencilBuffersType</td></tr></table></div></div></body></html>

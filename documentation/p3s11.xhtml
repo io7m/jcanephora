@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>io7m-jcanephora 0.40.0-SNAPSHOT Documentation: 3.11. JCGLFramebuffersType</title><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-layout.css"/><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-colour.css"/><link rel="stylesheet" type="text/css" href="documentation.css"/></head><body><div class="st200_body"><div class="brand">
+  <div class="brand_left">
+    <a href="http://io7m.com/">io7m</a>
+  </div>
+  <div class="brand_right">
+    <a href="http://github.com/io7m/jcanephora">io7m-jcanephora</a> 0.40.0-SNAPSHOT
+  </div>
+</div><div class="st200_navbar st200_navbar_top"><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_title_cell">3.10. JCGLDrawType</td><td class="st200_navbar_up_title_cell">3. jcanephora Core Interfaces</td><td class="st200_navbar_next_title_cell">3.12. JCGLIndexBuffersType</td></tr><tr><td class="st200_navbar_prev_file_cell"><a href="p3s10.xhtml#st200_p3s10">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p3.xhtml#st200_p3">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p3s12.xhtml#st200_p3s12">Next</a></td></tr></table><hr class="st200_hr"/></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p3s11" href="#st200_p3s11">3.11</a></div><div class="st200_section_title">JCGLFramebuffersType</div><ul class="st200_contents st200_section_contents_outer st200_section_contents"><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s11.xhtml#st200_p3s11ss1">3.11.1. Description</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s11.xhtml#st200_p3s11ss2">3.11.2. Usage examples</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s11.xhtml#st200_p3s11ss3">3.11.3. Feedback</a></li><li class="st200_contents_item st200_contents_item1 st200_contents_item_subsection"><a href="p3s11.xhtml#st200_p3s11ss4">3.11.4. State</a></li></ul><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s11ss1" href="#st200_p3s11ss1">3.11.1</a></div><div class="st200_subsection_title">Description</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss1pg1" href="#st200_p3s11ss1pg1">1</a></div><div class="st200_paragraph">
+      The
+      <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/core/api/JCGLFramebuffersType.html">
+        JCGLFramebuffersType
+      </a>
+      interface provides functions for creating and controlling
+      framebuffers.
+    </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s11ss2" href="#st200_p3s11ss2">3.11.2</a></div><div class="st200_subsection_title">Usage examples</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg1" href="#st200_p3s11ss2pg1">1</a></div><div class="st200_paragraph">
+      A
+      <span class="st200_term term">framebuffer</span>
+      in OpenGL is an
+      opaque structure with one or more<span class="st200_term term">
+      attachments</span>.
+      Currently, attachments can only be
+      <a class="st200_link" href="p3s17.xhtml#st200_p3s17">textures</a>.
+      Textures are useful when the result of rendering to a framebuffer is
+      going to be read back at some point, or perhaps used to texture
+      other objects. For example, some 3D engines implement so-called
+      "procedural textures" by rendering a generated pattern to a texture
+      and then applying that texture to objects in the scene.
+      Attachments are attached at specific points to
+      any given framebuffer: Framebuffers can have a
+      <span class="st200_term term">depth</span>
+      attachment, a
+      <span class="st200_term term">stencil</span>
+      attachment, a
+      <span class="st200_term term">depth+stencil</span>
+      attachment, and an implementation-defined maximum number of
+      <span class="st200_term term">color</span>
+      attachments.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg2" href="#st200_p3s11ss2pg2">2</a></div><div class="st200_paragraph">
+      When rendering to a framebuffer, a
+      <span class="st200_term term">shading program</span>
+      will write values
+      to one or more<span class="st200_term term">draw buffers</span>, and
+      each
+      <span class="st200_term term">draw buffer</span>
+      is mapped to a
+      <span class="st200_term term">color attachments</span>. Multiple
+      draw buffers cannot be mapped to the same color attachment.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg3" href="#st200_p3s11ss2pg3">3</a></div><div class="st200_paragraph">
+      In <span class="st200_term package">jcanephora</span>, framebuffers
+      are created via mutable builders which are then passed to the
+      API functions, resulting in immutable framebuffers
+      <span class="st200_footnote_reference"><a id="st200_fn_5_ref" href="#st200_fn_5">[5]</a></span>.
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo1" href="#st200_p3s11ss2fo1">3.11.2.1. Framebuffer builder</a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+JCGLFramebufferBuilderType b = g.framebufferNewBuilder();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg4" href="#st200_p3s11ss2pg4">4</a></div><div class="st200_paragraph">
+      To attach allocated textures/buffers to a framebuffer, the API requires
+      the programmer to first obtain a list of the available attachment
+      points:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo2" href="#st200_p3s11ss2fo2">3.11.2.2. Framebuffer color attachment points
+      </a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+
+List&lt;JCGLFramebufferColorAttachmentPointType&gt; points = g.framebufferGetColorAttachmentPoints();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg5" href="#st200_p3s11ss2pg5">5</a></div><div class="st200_paragraph">
+      Similarly, the API requires the programmer to obtain a list of the
+      available draw buffers:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo3" href="#st200_p3s11ss2fo3">3.11.2.3. Framebuffer draw buffers</a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+
+List&lt;JCGLFramebufferDrawBufferType&gt; buffers = g.framebufferGetDrawBuffers();
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg6" href="#st200_p3s11ss2pg6">6</a></div><div class="st200_paragraph">
+      The programmer must pass values of type
+      <a class="st200_link_external" href="apidocs/com/io7m/jcanephora/JCGLFramebufferColorAttachmentPointType.html">
+        JCGLFramebufferColorAttachmentPointType
+      </a>
+      to various attachment functions and is therefore statically prevented
+      from
+      trying to use more color attachments than the OpenGL implementation
+      allows.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg7" href="#st200_p3s11ss2pg7">7</a></div><div class="st200_paragraph">
+      After allocating a color and depth/stencil texture, the textures must
+      be attached at the relevant attachment points and draw buffers mapped
+      to the color attachments.
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo4" href="#st200_p3s11ss2fo4">3.11.2.4. Framebuffer attachments</a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+JCGLTexturesType gt;
+JCGLTextureUnitType u;
+
+List&lt;FramebufferColorAttachmentPointType&gt; points = g.framebufferGetColorAttachmentPoints();
+List&lt;JCGLFramebufferDrawBufferType&gt; buffers = g.framebufferGetDrawBuffers();
+
+JCGLTexture2DType d = gt.texture2DAllocate(u, 128, 128, JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP, ...);
+JCGLTexture2DType c = gt.texture2DAllocate(u, 128, 128, JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP, ...);
+gt.textureUnitUnbind(u);
+
+JCGLFramebufferBuilderType b = g.framebufferNewBuilder();
+b.attachColorTexture2DAt(points.get(0), buffers.get(0), c);
+b.attachDepthTexture2D(d);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg8" href="#st200_p3s11ss2pg8">8</a></div><div class="st200_paragraph">
+      All unspecified draw buffers are mapped to
+      <span class="st200_term constant">GL_NONE</span>
+      (meaning that any data
+      written to the other draw buffers will go nowhere). The builders
+      also raise exceptions if the programmer attempts to, for example,
+      specify a non-color-renderable format for a color attachment.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg9" href="#st200_p3s11ss2pg9">9</a></div><div class="st200_paragraph">
+      To actually allocate a framebuffer, the mutable builder is passed to
+      an allocation function:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo5" href="#st200_p3s11ss2fo5">3.11.2.5. Framebuffer attachment/buffer mappings
+      </a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+JCGLFramebufferBuilderType b;
+
+FramebufferType f = g.framebufferAllocate(b);
+</pre></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg10" href="#st200_p3s11ss2pg10">10</a></div><div class="st200_paragraph">
+      The function validates the framebuffer configuration upon allocation,
+      raising an exception if the framebuffer is not usable on the current
+      OpenGL implementation.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss2pg11" href="#st200_p3s11ss2pg11">11</a></div><div class="st200_paragraph">
+      To render to the framebuffer, the framebuffer must be bound:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss2fo6" href="#st200_p3s11ss2fo6">3.11.2.6. Framebuffer binding</a></div><pre class="st200_verbatim">
+JCGLFramebuffersType g;
+JCGLFramebufferType f;
+
+g.framebufferDrawBind(f);
+{
+  // Perform rendering.
+}
+g.framebufferDrawUnbind(f);
+</pre></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s11ss3" href="#st200_p3s11ss3">3.11.3</a></div><div class="st200_subsection_title">Feedback</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss3pg1" href="#st200_p3s11ss3pg1">1</a></div><div class="st200_paragraph">
+      The OpenGL specification explicitly states that
+      <span class="st200_term term">feedback</span> is illegal and
+      results in undefined behaviour. <span class="st200_term term">Feedback</span>
+      is defined as occurring when a texture
+      <span class="st200_term variable">t</span> is both attached to the current
+      <span class="st200_term term">draw</span> framebuffer and is also
+      bound to a texture unit and being sampled. This would result in
+      a feedback loop where data written to the framebuffer would be
+      written to a texture currently being sampled.
+    </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss3pg2" href="#st200_p3s11ss3pg2">2</a></div><div class="st200_paragraph">
+      The <span class="st200_term package">jcanephora</span> attempts to detect
+      and prevent feedback by raising exceptions:
+    </div></div><div class="st200_formal_item"><div class="st200_formal_item_title"><a id="st200_p3s11ss3fo1" href="#st200_p3s11ss3fo1">3.11.3.1. Feedback</a></div><ol class="st200_list_ordered"><li class="st200_list_item">
+          When a texture is bound, the current framebuffer (if any) is checked to see if the texture is attached to the framebuffer.
+        </li><li class="st200_list_item">
+          When a <span class="st200_term term">draw</span> framebuffer is bound, a check is made to see if any of the attached textures are currently bound.
+        </li></ol></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p3s11ss4" href="#st200_p3s11ss4">3.11.4</a></div><div class="st200_subsection_title">State</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p3s11ss4pg1" href="#st200_p3s11ss4pg1">1</a></div><div class="st200_paragraph">
+      OpenGL specifies that at most one framebuffer can be
+      <span class="st200_term term">bound</span>
+      on a context at any given time.
+      Many API functions operate on the currently bound framebuffer and the
+      <span class="st200_term package">jcanephora</span>
+      API avoids changing
+      the current binding behind the programmer's back.
+    </div></div></div></div><div class="st200_footnotes"><hr/><div class="st200_footnote_container"><div class="st200_footnote_number">[<a id="st200_fn_5" href="#st200_fn_5_ref">5</a>]</div><div class="st200_footnote_body">
+        That is, the framebuffer attachments cannot be reconfigured
+        once the framebuffer is created. This matches the typical
+        use patterns with regards to framebuffers and is also a
+        design choice taken from practical experience: On most OpenGL
+        implementations, reconfiguring a framebuffer is a rather
+        expensive operation.
+      </div></div></div><div class="st200_navbar st200_navbar_bottom"><hr class="st200_hr"/><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_file_cell"><a href="p3s10.xhtml#st200_p3s10">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p3.xhtml#st200_p3">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p3s12.xhtml#st200_p3s12">Next</a></td></tr><tr><td class="st200_navbar_prev_title_cell">3.10. JCGLDrawType</td><td class="st200_navbar_up_title_cell">3. jcanephora Core Interfaces</td><td class="st200_navbar_next_title_cell">3.12. JCGLIndexBuffersType</td></tr></table></div></div></body></html>

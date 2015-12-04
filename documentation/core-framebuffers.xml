@@ -1,0 +1,226 @@
+<s:section
+  xml:id="core_interfaces.framebuffers"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLFramebuffersType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The
+      <s:link-external
+        s:target="apidocs/com/io7m/jcanephora/core/api/JCGLFramebuffersType.html">
+        JCGLFramebuffersType
+      </s:link-external>
+      interface provides functions for creating and controlling
+      framebuffers.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage examples</s:subsection-title>
+    <s:paragraph>
+      A
+      <s:term s:type="term">framebuffer</s:term>
+      in OpenGL is an
+      opaque structure with one or more<s:term s:type="term">
+      attachments</s:term>.
+      Currently, attachments can only be
+      <s:link s:target="core_interfaces.textures">textures</s:link>.
+      Textures are useful when the result of rendering to a framebuffer is
+      going to be read back at some point, or perhaps used to texture
+      other objects. For example, some 3D engines implement so-called
+      "procedural textures" by rendering a generated pattern to a texture
+      and then applying that texture to objects in the scene.
+      Attachments are attached at specific points to
+      any given framebuffer: Framebuffers can have a
+      <s:term s:type="term">depth</s:term>
+      attachment, a
+      <s:term s:type="term">stencil</s:term>
+      attachment, a
+      <s:term s:type="term">depth+stencil</s:term>
+      attachment, and an implementation-defined maximum number of
+      <s:term s:type="term">color</s:term>
+      attachments.
+    </s:paragraph>
+    <s:paragraph>
+      When rendering to a framebuffer, a
+      <s:term s:type="term">shading program</s:term>
+      will write values
+      to one or more<s:term s:type="term">draw buffers</s:term>, and
+      each
+      <s:term s:type="term">draw buffer</s:term>
+      is mapped to a
+      <s:term s:type="term">color attachments</s:term>. Multiple
+      draw buffers cannot be mapped to the same color attachment.
+    </s:paragraph>
+    <s:paragraph>
+      In <s:term s:type="package">jcanephora</s:term>, framebuffers
+      are created via mutable builders which are then passed to the
+      API functions, resulting in immutable framebuffers
+      <s:footnote>
+        That is, the framebuffer attachments cannot be reconfigured
+        once the framebuffer is created. This matches the typical
+        use patterns with regards to framebuffers and is also a
+        design choice taken from practical experience: On most OpenGL
+        implementations, reconfiguring a framebuffer is a rather
+        expensive operation.
+      </s:footnote>.
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Framebuffer builder</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLFramebuffersType g;
+JCGLFramebufferBuilderType b = g.framebufferNewBuilder();
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      To attach allocated textures/buffers to a framebuffer, the API requires
+      the programmer to first obtain a list of the available attachment
+      points:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Framebuffer color attachment points
+      </s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLFramebuffersType g;
+
+List<JCGLFramebufferColorAttachmentPointType> points = g.framebufferGetColorAttachmentPoints();
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      Similarly, the API requires the programmer to obtain a list of the
+      available draw buffers:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Framebuffer draw buffers</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLFramebuffersType g;
+
+List<JCGLFramebufferDrawBufferType> buffers = g.framebufferGetDrawBuffers();
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      The programmer must pass values of type
+      <s:link-external
+        s:target="apidocs/com/io7m/jcanephora/JCGLFramebufferColorAttachmentPointType.html">
+        JCGLFramebufferColorAttachmentPointType
+      </s:link-external>
+      to various attachment functions and is therefore statically prevented
+      from
+      trying to use more color attachments than the OpenGL implementation
+      allows.
+    </s:paragraph>
+    <s:paragraph>
+      After allocating a color and depth/stencil texture, the textures must
+      be attached at the relevant attachment points and draw buffers mapped
+      to the color attachments.
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Framebuffer attachments</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLFramebuffersType g;
+JCGLTexturesType gt;
+JCGLTextureUnitType u;
+
+List<FramebufferColorAttachmentPointType> points = g.framebufferGetColorAttachmentPoints();
+List<JCGLFramebufferDrawBufferType> buffers = g.framebufferGetDrawBuffers();
+
+JCGLTexture2DType d = gt.texture2DAllocate(u, 128, 128, JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP, ...);
+JCGLTexture2DType c = gt.texture2DAllocate(u, 128, 128, JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP, ...);
+gt.textureUnitUnbind(u);
+
+JCGLFramebufferBuilderType b = g.framebufferNewBuilder();
+b.attachColorTexture2DAt(points.get(0), buffers.get(0), c);
+b.attachDepthTexture2D(d);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      All unspecified draw buffers are mapped to
+      <s:term s:type="constant">GL_NONE</s:term>
+      (meaning that any data
+      written to the other draw buffers will go nowhere). The builders
+      also raise exceptions if the programmer attempts to, for example,
+      specify a non-color-renderable format for a color attachment.
+    </s:paragraph>
+    <s:paragraph>
+      To actually allocate a framebuffer, the mutable builder is passed to
+      an allocation function:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Framebuffer attachment/buffer mappings
+      </s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLFramebuffersType g;
+JCGLFramebufferBuilderType b;
+
+FramebufferType f = g.framebufferAllocate(b);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      The function validates the framebuffer configuration upon allocation,
+      raising an exception if the framebuffer is not usable on the current
+      OpenGL implementation.
+    </s:paragraph>
+    <s:paragraph>
+      To render to the framebuffer, the framebuffer must be bound:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Framebuffer binding</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLFramebuffersType g;
+JCGLFramebufferType f;
+
+g.framebufferDrawBind(f);
+{
+  // Perform rendering.
+}
+g.framebufferDrawUnbind(f);
+]]></s:verbatim>
+    </s:formal-item>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Feedback</s:subsection-title>
+    <s:paragraph>
+      The OpenGL specification explicitly states that
+      <s:term s:type="term">feedback</s:term> is illegal and
+      results in undefined behaviour. <s:term s:type="term">Feedback</s:term>
+      is defined as occurring when a texture
+      <s:term s:type="variable">t</s:term> is both attached to the current
+      <s:term s:type="term">draw</s:term> framebuffer and is also
+      bound to a texture unit and being sampled. This would result in
+      a feedback loop where data written to the framebuffer would be
+      written to a texture currently being sampled.
+    </s:paragraph>
+    <s:paragraph>
+      The <s:term s:type="package">jcanephora</s:term> attempts to detect
+      and prevent feedback by raising exceptions:
+    </s:paragraph>
+    <s:formal-item s:kind="specifications">
+      <s:formal-item-title>Feedback</s:formal-item-title>
+      <s:list-ordered>
+        <s:list-item>
+          When a texture is bound, the current framebuffer (if any) is checked to see if the texture is attached to the framebuffer.
+        </s:list-item>
+        <s:list-item>
+          When a <s:term s:type="term">draw</s:term> framebuffer is bound, a check is made to see if any of the attached textures are currently bound.
+        </s:list-item>
+      </s:list-ordered>
+    </s:formal-item>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      OpenGL specifies that at most one framebuffer can be
+      <s:term s:type="term">bound</s:term>
+      on a context at any given time.
+      Many API functions operate on the currently bound framebuffer and the
+      <s:term s:type="package">jcanephora</s:term>
+      API avoids changing
+      the current binding behind the programmer's back.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

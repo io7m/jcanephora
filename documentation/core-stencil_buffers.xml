@@ -1,0 +1,38 @@
+<s:section
+  xml:id="core_interfaces.stencil_buffers"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLStencilBuffersType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLStencilBuffersType.html">JCGLStencilBuffersType</s:link-external>
+      interface provides functions for controlling the stencil
+      buffer.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage examples</s:subsection-title>
+    <s:paragraph>
+      To clear the current stencil buffer:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Stencil buffer clear</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLStencilBuffersType g;
+
+g.stencilBufferClear(0);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      See the referenced <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLStencilBufferType.html">JavaDoc</s:link-external>
+      for the full range of functions. Most
+      of the functions will raise exceptions if the current framebuffer
+      configuration does not include a stencil buffer; this is considered
+      to be behaviour preferable to silently producing incorrect results.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>io7m-jcanephora 0.40.0-SNAPSHOT Documentation: 2.2. Goals</title><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-layout.css"/><link rel="stylesheet" type="text/css" href="jstructural-2.0.0-colour.css"/><link rel="stylesheet" type="text/css" href="documentation.css"/></head><body><div class="st200_body"><div class="brand">
+  <div class="brand_left">
+    <a href="http://io7m.com/">io7m</a>
+  </div>
+  <div class="brand_right">
+    <a href="http://github.com/io7m/jcanephora">io7m-jcanephora</a> 0.40.0-SNAPSHOT
+  </div>
+</div><div class="st200_navbar st200_navbar_top"><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_title_cell">2.1. Problems with OpenGL</td><td class="st200_navbar_up_title_cell">2. Design/Rationale</td><td class="st200_navbar_next_title_cell">2.3. API Design</td></tr><tr><td class="st200_navbar_prev_file_cell"><a href="p2s1.xhtml#st200_p2s1">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p2.xhtml#st200_p2">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p2s3.xhtml#st200_p2s3">Next</a></td></tr></table><hr class="st200_hr"/></div><div class="st200_section_container"><div class="st200_section_title_number"><a id="st200_p2s2" href="#st200_p2s2">2.2</a></div><div class="st200_section_title">Goals</div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s2ss1" href="#st200_p2s2ss1">2.2.1</a></div><div class="st200_subsection_title">Overview</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss1pg1" href="#st200_p2s2ss1pg1">1</a></div><div class="st200_paragraph">
+        Given the
+        <a class="st200_link" href="p2s1.xhtml#st200_p2s1">problems</a>
+        with OpenGL, the
+        <span class="st200_term package">jcanephora</span>
+        package
+        has the following goals (in no particular order):
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s2ss2" href="#st200_p2s2ss2">2.2.2</a></div><div class="st200_subsection_title">Portability</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss2pg1" href="#st200_p2s2ss2pg1">1</a></div><div class="st200_paragraph">
+        Programs using the
+        <span class="st200_term package">jcanephora</span>
+        APIs
+        must run on as many different OpenGL implementations as possible.
+        Code written using the API should be version-branch-free, and use
+        only the features common to all available OpenGL implementations.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s2ss3" href="#st200_p2s2ss3">2.2.3</a></div><div class="st200_subsection_title">Type safety</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss3pg1" href="#st200_p2s2ss3pg1">1</a></div><div class="st200_paragraph">
+        Representing every object as an integer is unacceptable. Any
+        conceptually distinct objects must be made type-incompatible,
+        eliminating entire classes of bugs typical to OpenGL programs
+        at compile time.
+      </div></div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss3pg2" href="#st200_p2s2ss3pg2">2</a></div><div class="st200_paragraph">
+        Only the correct ways to use the API are exposed. Misuse of the API
+        is simply made impossible.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s2ss4" href="#st200_p2s2ss4">2.2.4</a></div><div class="st200_subsection_title">Linearity</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss4pg1" href="#st200_p2s2ss4pg1">1</a></div><div class="st200_paragraph">
+        Branching, version-specific code must be eliminated as far as
+        is possible. Code of this type is fragile, difficult to test,
+        and usually incorrect.
+      </div></div></div><div class="st200_subsection_container"><div class="st200_subsection_title_number"><a id="st200_p2s2ss5" href="#st200_p2s2ss5">2.2.5</a></div><div class="st200_subsection_title">Conspicuity of errors</div><div class="st200_paragraph_container"><div class="st200_paragraph_number"><a id="st200_p2s2ss5pg1" href="#st200_p2s2ss5pg1">1</a></div><div class="st200_paragraph">
+        Silent failure of programs is unacceptable. All errors that
+        cannot be prevented statically must be loudly and immediately
+        signalled at runtime.
+      </div></div></div></div><div class="st200_navbar st200_navbar_bottom"><hr class="st200_hr"/><table class="st200_navbar_table" summary="Navigation bar"><tr><td class="st200_navbar_prev_file_cell"><a href="p2s1.xhtml#st200_p2s1">Previous</a></td><td class="st200_navbar_up_file_cell"><a href="p2.xhtml#st200_p2">Up</a></td><td class="st200_navbar_next_file_cell"><a href="p2s3.xhtml#st200_p2s3">Next</a></td></tr><tr><td class="st200_navbar_prev_title_cell">2.1. Problems with OpenGL</td><td class="st200_navbar_up_title_cell">2. Design/Rationale</td><td class="st200_navbar_next_title_cell">2.3. API Design</td></tr></table></div></div></body></html>

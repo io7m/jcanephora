@@ -1,0 +1,106 @@
+<s:section
+  xml:id="core_interfaces.shaders"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLShadersType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLShadersType.html">JCGLShadersType</s:link-external>
+      interface provides functions for compiling and using
+      shading language programs.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage examples</s:subsection-title>
+    <s:paragraph>
+      To compile vertex, geometry, and fragment shaders, simply pass in lists
+      of strings, with each string terminated with CRLF or LF characters:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Compiling shaders</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLShadersType g;
+
+List<String> v_source = new ArrayList<String>();
+v_source.add("#version 330\n");
+v_source.add("in vec4 position;\n");
+v_source.add("void\n");
+v_source.add("main (void)\n");
+v_source.add("{\n");
+v_source.add("  gl_Position = position;\n");
+v_source.add("}\n");
+JCGLVertexShaderType vs = g.shaderCompileVertex("example-v", v_source);
+
+List<String> g_source = new ArrayList<String>();
+g_source.add("#version 330 core\n");
+g_source.add("layout(points) in;\n");
+g_source.add("layout(points, max_vertices = 1) out;\n");
+g_source.add("void\n");
+g_source.add("main ()\n");
+g_source.add("{\n");
+g_source.add("  gl_Position = gl_in[0].gl_Position;\n");
+g_source.add("  EmitVertex();\n");
+g_source.add("  EndPrimitive();\n");
+g_source.add("}\n");
+JCGLGeometryShaderType gs = g.shaderCompileGeometry("example-g", g_source);
+
+List<String> f_source = new ArrayList<String>();
+f_source.add("#version 330\n");
+f_source.add("uniform vec4 color;\n");
+f_source.add("out vec4 color0;\n");
+f_source.add("void\n");
+f_source.add("main (void)\n");
+f_source.add("{\n");
+f_source.add("  color0 = color;\n");
+f_source.add("}\n");
+JCGLFragmentShaderType fs = g.shaderCompileFragment("example-f", f_source);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      To combine (attach and link) the shaders into a working program:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Producing a program</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLShadersType g;
+
+JCGLProgramShaderType p = g.shaderLinkProgram("program", vs, Optional.of(gs), fs);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      The program functions interrogate the compiled program when
+      it is created and produce a set of mappings from names
+      to active uniforms (parameters). A read-only view of these
+      can be accessed via the program reference, and assigned values
+      via the provided functions:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Program uniforms</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLShadersType g;
+
+Map<String, JCGLProgramUniformType> uniforms = p.getUniforms();
+
+JCGLProgramUniformType p = uniforms.get("color");
+assert p != null;
+g.programActivate(p);
+p.programUniformPutVector4f(p, new VectorI4F(1.0f, 0.0f, 0.0f, 1.0f));
+]]></s:verbatim>
+    </s:formal-item>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      OpenGL specifies that at most one shading program can be
+      <s:term s:type="term">active</s:term> on a context at any given time.
+      Many API functions operate on the currently active program and the
+      <s:term s:type="package">jcanephora</s:term> API avoids changing
+      the current binding behind the programmer's back.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>
