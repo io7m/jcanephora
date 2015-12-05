@@ -44,6 +44,6 @@ public interface JCGLPolygonModesType
    */
 
   void polygonSetMode(
-    final JCGLPolygonMode mode)
+    JCGLPolygonMode mode)
     throws JCGLException;
 }
