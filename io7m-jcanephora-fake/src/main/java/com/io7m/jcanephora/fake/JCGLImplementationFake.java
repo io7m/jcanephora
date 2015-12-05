@@ -54,7 +54,14 @@ public final class JCGLImplementationFake implements JCGLImplementationFakeType
     NullCheck.notNull(name);
     NullCheck.notNull(in_listener);
 
-    return new FakeContext(this, name, in_listener);
+    final FakeContext ac = FakeContext.getCurrentContext();
+    if (ac != null) {
+      ac.contextReleaseCurrent();
+    }
+
+    final FakeContext c = new FakeContext(this, name, in_listener);
+    c.contextMakeCurrent();
+    return c;
   }
 
   @Override public JCGLContextType newContextSharedWith(

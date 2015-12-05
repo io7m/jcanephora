@@ -119,12 +119,18 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     final JCGLArrayBuffersType ga = p.getValueA();
     final JCGLArrayBuffersType gb = p.getValueB();
 
+    Assert.assertFalse(ca.contextIsCurrent());
+    Assert.assertTrue(cb.contextIsCurrent());
+
+    cb.contextReleaseCurrent();
     ca.contextMakeCurrent();
+
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
     ga.arrayBufferDelete(a);
     Assert.assertTrue(a.isDeleted());
 
+    ca.contextReleaseCurrent();
     cb.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     gb.arrayBufferBind(a);
@@ -139,10 +145,13 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     final JCGLArrayBuffersType ga = p.getMasterValue();
     final JCGLArrayBuffersType gb = p.getSlaveValue();
 
-    ca.contextMakeCurrent();
+    Assert.assertTrue(ca.contextIsCurrent());
+    Assert.assertFalse(cb.contextIsCurrent());
+
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
+    ca.contextReleaseCurrent();
     cb.contextMakeCurrent();
     gb.arrayBufferBind(a);
   }
@@ -168,10 +177,16 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     final JCGLArrayBuffersType ga = p.getValueA();
     final JCGLArrayBuffersType gb = p.getValueB();
 
+    Assert.assertFalse(ca.contextIsCurrent());
+    Assert.assertTrue(cb.contextIsCurrent());
+
+    cb.contextReleaseCurrent();
     ca.contextMakeCurrent();
+
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
+    ca.contextReleaseCurrent();
     cb.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     gb.arrayBufferDelete(a);
@@ -186,10 +201,13 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     final JCGLArrayBuffersType ga = p.getMasterValue();
     final JCGLArrayBuffersType gb = p.getSlaveValue();
 
-    ca.contextMakeCurrent();
+    Assert.assertTrue(ca.contextIsCurrent());
+    Assert.assertFalse(cb.contextIsCurrent());
+
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
+    ca.contextReleaseCurrent();
     cb.contextMakeCurrent();
     gb.arrayBufferDelete(a);
   }
@@ -248,13 +266,19 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     final JCGLArrayBuffersType ga = p.getValueA();
     final JCGLArrayBuffersType gb = p.getValueB();
 
+    Assert.assertFalse(ca.contextIsCurrent());
+    Assert.assertTrue(cb.contextIsCurrent());
+
+    cb.contextReleaseCurrent();
     ca.contextMakeCurrent();
+
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
     final JCGLBufferUpdateType<JCGLArrayBufferType> u =
       JCGLBufferUpdates.newUpdateReplacingAll(a);
 
+    ca.contextReleaseCurrent();
     cb.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     gb.arrayBufferUpdate(u);
@@ -283,13 +307,16 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     final JCGLArrayBuffersType ga = p.getMasterValue();
     final JCGLArrayBuffersType gb = p.getSlaveValue();
 
-    ca.contextMakeCurrent();
+    Assert.assertTrue(ca.contextIsCurrent());
+    Assert.assertFalse(cb.contextIsCurrent());
+
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
     final JCGLBufferUpdateType<JCGLArrayBufferType> u =
       JCGLBufferUpdates.newUpdateReplacingAll(a);
 
+    ca.contextReleaseCurrent();
     cb.contextMakeCurrent();
     gb.arrayBufferBind(a);
     gb.arrayBufferUpdate(u);

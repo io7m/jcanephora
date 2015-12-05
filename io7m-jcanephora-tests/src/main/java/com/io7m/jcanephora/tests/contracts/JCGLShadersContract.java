@@ -180,10 +180,15 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getContextB();
     final JCGLShadersType s1 = cp.getValueB();
 
+    Assert.assertFalse(c0.contextIsCurrent());
+    Assert.assertTrue(c1.contextIsCurrent());
+
+    c1.contextReleaseCurrent();
     c0.contextMakeCurrent();
     final JCGLVertexShaderType v =
       s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     s1.shaderDeleteVertex(v);
@@ -198,10 +203,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getSlaveContext();
     final JCGLShadersType s1 = cp.getSlaveValue();
 
-    c0.contextMakeCurrent();
+    Assert.assertTrue(c0.contextIsCurrent());
+    Assert.assertFalse(c1.contextIsCurrent());
+
     final JCGLVertexShaderType v =
       s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     s1.shaderDeleteVertex(v);
 
@@ -257,10 +265,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getSlaveContext();
     final JCGLShadersType s1 = cp.getSlaveValue();
 
-    c0.contextMakeCurrent();
+    Assert.assertTrue(c0.contextIsCurrent());
+    Assert.assertFalse(c1.contextIsCurrent());
+
     final JCGLFragmentShaderType f =
       s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     s1.shaderDeleteFragment(f);
 
@@ -276,10 +287,15 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getContextB();
     final JCGLShadersType s1 = cp.getValueB();
 
+    Assert.assertFalse(c0.contextIsCurrent());
+    Assert.assertTrue(c1.contextIsCurrent());
+
+    c1.contextReleaseCurrent();
     c0.contextMakeCurrent();
     final JCGLFragmentShaderType f =
       s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     s1.shaderDeleteFragment(f);
@@ -369,10 +385,15 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getContextB();
     final JCGLShadersType s1 = cp.getValueB();
 
+    Assert.assertFalse(c0.contextIsCurrent());
+    Assert.assertTrue(c1.contextIsCurrent());
+
+    c1.contextReleaseCurrent();
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
       s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     s1.shaderDeleteGeometry(g);
@@ -387,10 +408,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getSlaveContext();
     final JCGLShadersType s1 = cp.getSlaveValue();
 
-    c0.contextMakeCurrent();
+    Assert.assertTrue(c0.contextIsCurrent());
+    Assert.assertFalse(c1.contextIsCurrent());
+
     final JCGLGeometryShaderType g =
       s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     s1.shaderDeleteGeometry(g);
 
@@ -878,10 +902,16 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getContextB();
     final JCGLShadersType s1 = cp.getValueB();
 
+    Assert.assertFalse(c0.contextIsCurrent());
+    Assert.assertTrue(c1.contextIsCurrent());
+
+    c1.contextReleaseCurrent();
     c0.contextMakeCurrent();
+
     final JCGLVertexShaderType v =
       s0.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     final JCGLGeometryShaderType g =
       s1.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
@@ -901,10 +931,16 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getContextB();
     final JCGLShadersType s1 = cp.getValueB();
 
+    Assert.assertFalse(c0.contextIsCurrent());
+    Assert.assertTrue(c1.contextIsCurrent());
+
+    c1.contextReleaseCurrent();
     c0.contextMakeCurrent();
+
     final JCGLFragmentShaderType f =
       s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     final JCGLVertexShaderType v =
       s1.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
@@ -924,9 +960,15 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getContextB();
     final JCGLShadersType s1 = cp.getValueB();
 
+    Assert.assertFalse(c0.contextIsCurrent());
+    Assert.assertTrue(c1.contextIsCurrent());
+
+    c1.contextReleaseCurrent();
     c0.contextMakeCurrent();
+
     final JCGLGeometryShaderType g =
       s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
+    c0.contextReleaseCurrent();
 
     c1.contextMakeCurrent();
     final JCGLVertexShaderType v =
@@ -947,7 +989,9 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getSlaveContext();
     final JCGLShadersType s1 = cp.getSlaveValue();
 
-    c0.contextMakeCurrent();
+    Assert.assertTrue(c0.contextIsCurrent());
+    Assert.assertFalse(c1.contextIsCurrent());
+
     final JCGLGeometryShaderType g =
       s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLVertexShaderType v =
@@ -955,6 +999,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLFragmentShaderType f =
       s0.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     final JCGLProgramShaderType p =
       s1.shaderLinkProgram("valid0", v, Optional.of(g), f);
@@ -983,7 +1028,9 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getSlaveContext();
     final JCGLShadersType s1 = cp.getSlaveValue();
 
-    c0.contextMakeCurrent();
+    Assert.assertTrue(c0.contextIsCurrent());
+    Assert.assertFalse(c1.contextIsCurrent());
+
     final JCGLGeometryShaderType g =
       s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLVertexShaderType v =
@@ -993,6 +1040,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s0.shaderLinkProgram("valid0", v, Optional.of(g), f);
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     s1.shaderActivateProgram(p);
 
@@ -1008,6 +1056,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getContextB();
     final JCGLShadersType s1 = cp.getValueB();
 
+    Assert.assertFalse(c0.contextIsCurrent());
+    Assert.assertTrue(c1.contextIsCurrent());
+
+    c1.contextReleaseCurrent();
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
       s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
@@ -1018,6 +1070,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s0.shaderLinkProgram("valid0", v, Optional.of(g), f);
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     s1.shaderActivateProgram(p);
@@ -1102,6 +1155,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getContextB();
     final JCGLShadersType s1 = cp.getValueB();
 
+    Assert.assertFalse(c0.contextIsCurrent());
+    Assert.assertTrue(c1.contextIsCurrent());
+
+    c1.contextReleaseCurrent();
     c0.contextMakeCurrent();
     final JCGLGeometryShaderType g =
       s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
@@ -1112,6 +1169,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s0.shaderLinkProgram("valid0", v, Optional.of(g), f);
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     s1.shaderDeleteProgram(p);
@@ -1126,7 +1184,9 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLContextType c1 = cp.getSlaveContext();
     final JCGLShadersType s1 = cp.getSlaveValue();
 
-    c0.contextMakeCurrent();
+    Assert.assertTrue(c0.contextIsCurrent());
+    Assert.assertFalse(c1.contextIsCurrent());
+
     final JCGLGeometryShaderType g =
       s0.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
     final JCGLVertexShaderType v =
@@ -1136,6 +1196,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s0.shaderLinkProgram("valid0", v, Optional.of(g), f);
 
+    c0.contextReleaseCurrent();
     c1.contextMakeCurrent();
     s1.shaderDeleteProgram(p);
     Assert.assertTrue(p.isDeleted());

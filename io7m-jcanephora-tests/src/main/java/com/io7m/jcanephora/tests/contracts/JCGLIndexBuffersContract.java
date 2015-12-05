@@ -157,6 +157,10 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     final JCGLIndexBuffersType gi = p.getValueA();
     final JCGLIndexBuffersType gb = p.getValueB();
 
+    Assert.assertFalse(ca.contextIsCurrent());
+    Assert.assertTrue(cb.contextIsCurrent());
+
+    cb.contextReleaseCurrent();
     ca.contextMakeCurrent();
     final JCGLIndexBufferType i = gi.indexBufferAllocate(
       100L,
@@ -166,6 +170,7 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     final JCGLBufferUpdateType<JCGLIndexBufferType> u =
       JCGLBufferUpdates.newUpdateReplacingAll(i);
 
+    ca.contextReleaseCurrent();
     cb.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     gb.indexBufferUpdate(u);
@@ -197,7 +202,9 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     final JCGLIndexBuffersType gi = p.getMasterValue();
     final JCGLIndexBuffersType gb = p.getSlaveValue();
 
-    ca.contextMakeCurrent();
+    Assert.assertTrue(ca.contextIsCurrent());
+    Assert.assertFalse(cb.contextIsCurrent());
+
     final JCGLIndexBufferType i = gi.indexBufferAllocate(
       100L,
       JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
@@ -206,6 +213,7 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     final JCGLBufferUpdateType<JCGLIndexBufferType> u =
       JCGLBufferUpdates.newUpdateReplacingAll(i);
 
+    ca.contextReleaseCurrent();
     cb.contextMakeCurrent();
     gb.indexBufferBind(i);
     gb.indexBufferUpdate(u);

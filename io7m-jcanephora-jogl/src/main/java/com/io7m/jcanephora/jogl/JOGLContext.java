@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jcanephora.core.JCGLExceptionContextIsCurrent;
+import com.io7m.jcanephora.core.JCGLExceptionContextNotCurrent;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.api.JCGLContextType;
@@ -30,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 final class JOGLContext implements JCGLContextType
@@ -133,7 +136,40 @@ final class JOGLContext implements JCGLContextType
   {
     this.checkNotDestroyed();
     JOGLContext.LOG.trace("make current");
-    this.context.makeCurrent();
+
+    /**
+     * If no context is current on this thread, make the context current.
+     */
+
+    final GLContext actual_current = GLContext.getCurrent();
+    if (actual_current == null) {
+      this.context.makeCurrent();
+    } else {
+
+      /**
+       * Any other situation is an error.
+       */
+
+      final StringBuilder sb = new StringBuilder(128);
+      if (Objects.equals(this.context, actual_current)) {
+        sb.append("The given context is already current.");
+      } else {
+        sb.append("The current thread already has a current context.");
+      }
+
+      sb.append(System.lineSeparator());
+      sb.append("Context: ");
+      sb.append(this.context);
+      sb.append("Thread context: ");
+      sb.append(actual_current);
+      sb.append(System.lineSeparator());
+      sb.append("Thread: ");
+      sb.append(Thread.currentThread());
+      sb.append(System.lineSeparator());
+      final String m = sb.toString();
+      JOGLContext.LOG.error(m);
+      throw new JCGLExceptionContextIsCurrent(m);
+    }
   }
 
   @Override public void contextReleaseCurrent()
@@ -142,6 +178,22 @@ final class JOGLContext implements JCGLContextType
     JOGLContext.LOG.trace("release current");
     if (this.context.isCurrent()) {
       this.context.release();
+    } else {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Attempted to release a context that is not current.");
+      sb.append(System.lineSeparator());
+      sb.append("Context: ");
+      sb.append(this.context);
+      sb.append(System.lineSeparator());
+      sb.append("Current context: ");
+      sb.append(GLContext.getCurrent());
+      sb.append(System.lineSeparator());
+      sb.append("Thread: ");
+      sb.append(Thread.currentThread());
+      sb.append(System.lineSeparator());
+      final String m = sb.toString();
+      JOGLContext.LOG.error(m);
+      throw new JCGLExceptionContextNotCurrent(m);
     }
   }
 
@@ -161,6 +213,22 @@ final class JOGLContext implements JCGLContextType
     throws JCGLExceptionDeleted
   {
     this.checkNotDestroyed();
+
+    if (this.context.isCurrent()) {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Attempted to destroy a context that is still current.");
+      sb.append(System.lineSeparator());
+      sb.append("Context: ");
+      sb.append(this.context);
+      sb.append(System.lineSeparator());
+      sb.append("Thread: ");
+      sb.append(Thread.currentThread());
+      sb.append(System.lineSeparator());
+      final String m = sb.toString();
+      JOGLContext.LOG.error(m);
+      throw new JCGLExceptionContextIsCurrent(m);
+    }
+
     this.context.destroy();
     this.destroyed = true;
   }

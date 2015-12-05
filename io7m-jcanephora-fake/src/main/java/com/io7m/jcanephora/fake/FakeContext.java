@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.fake;
 
+import com.io7m.jcanephora.core.JCGLExceptionContextIsCurrent;
+import com.io7m.jcanephora.core.JCGLExceptionContextNotCurrent;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.api.JCGLContextType;
@@ -29,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -38,10 +41,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class FakeContext implements JCGLContextType
 {
-  private static final Logger LOG;
+  private static final Logger                   LOG;
+  private static final ThreadLocal<FakeContext> CURRENT;
 
   static {
     LOG = LoggerFactory.getLogger(FakeContext.class);
+    CURRENT = new ThreadLocal<>();
   }
 
   private final    FakeInterfaceGL33      gl33;
@@ -51,7 +56,6 @@ public final class FakeContext implements JCGLContextType
   private final    AtomicInteger          next_id;
   private final    FakeShaderListenerType shader_listener;
   private volatile boolean                destroyed;
-  private volatile boolean                current;
 
   /**
    * Construct a context.
@@ -76,6 +80,11 @@ public final class FakeContext implements JCGLContextType
     this.shared_with = new HashSet<>(8);
     this.implementation = i;
     this.name = NullCheck.notNull(in_name);
+  }
+
+  static FakeContext getCurrentContext()
+  {
+    return CURRENT.get();
   }
 
   int getFreshID()
@@ -134,21 +143,72 @@ public final class FakeContext implements JCGLContextType
   @Override public boolean contextIsCurrent()
   {
     this.checkNotDestroyed();
-    return this.current;
+    return Objects.equals(CURRENT.get(), this);
   }
 
   @Override public void contextMakeCurrent()
   {
     this.checkNotDestroyed();
     FakeContext.LOG.trace("make current");
-    this.current = true;
+
+    /**
+     * If no context is current on this thread, make the context current.
+     */
+
+    final FakeContext actual_current = CURRENT.get();
+    if (actual_current == null) {
+      CURRENT.set(this);
+    } else {
+
+      /**
+       * Any other situation is an error.
+       */
+
+      final StringBuilder sb = new StringBuilder(128);
+      if (Objects.equals(this, actual_current)) {
+        sb.append("The given context is already current.");
+      } else {
+        sb.append("The current thread already has a current context.");
+      }
+
+      sb.append(System.lineSeparator());
+      sb.append("Context: ");
+      sb.append(this);
+      sb.append("Thread context: ");
+      sb.append(actual_current);
+      sb.append(System.lineSeparator());
+      sb.append("Thread: ");
+      sb.append(Thread.currentThread());
+      sb.append(System.lineSeparator());
+      final String m = sb.toString();
+      FakeContext.LOG.error(m);
+      throw new JCGLExceptionContextIsCurrent(m);
+    }
   }
 
   @Override public void contextReleaseCurrent()
   {
     this.checkNotDestroyed();
     FakeContext.LOG.trace("release current");
-    this.current = false;
+    if (this.contextIsCurrent()) {
+      CURRENT.set(null);
+    } else {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Attempted to release a context that is not current.");
+      sb.append(System.lineSeparator());
+      sb.append("Context: ");
+      sb.append(this);
+      sb.append(System.lineSeparator());
+      sb.append("Current context: ");
+      sb.append(CURRENT.get());
+      sb.append(System.lineSeparator());
+      sb.append("Thread: ");
+      sb.append(Thread.currentThread());
+      sb.append(System.lineSeparator());
+      final String m = sb.toString();
+      FakeContext.LOG.error(m);
+      throw new JCGLExceptionContextNotCurrent(m);
+    }
   }
 
   @Override public JCGLInterfaceGL33Type contextGetGL33()
@@ -167,6 +227,22 @@ public final class FakeContext implements JCGLContextType
     throws JCGLExceptionDeleted
   {
     this.checkNotDestroyed();
+
+    if (this.contextIsCurrent()) {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Attempted to destroy a context that is still current.");
+      sb.append(System.lineSeparator());
+      sb.append("Context: ");
+      sb.append(this);
+      sb.append(System.lineSeparator());
+      sb.append("Thread: ");
+      sb.append(Thread.currentThread());
+      sb.append(System.lineSeparator());
+      final String m = sb.toString();
+      FakeContext.LOG.error(m);
+      throw new JCGLExceptionContextIsCurrent(m);
+    }
+
     this.destroyed = true;
   }
 

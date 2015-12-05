@@ -16,6 +16,9 @@
 
 package com.io7m.jcanephora.core.api;
 
+import com.io7m.jcanephora.core.JCGLExceptionContextIsCurrent;
+import com.io7m.jcanephora.core.JCGLExceptionContextNotCurrent;
+
 import java.util.List;
 
 /**
@@ -54,15 +57,24 @@ public interface JCGLContextUsableType
 
   /**
    * Make this context current on the current thread.
+   *
+   * @throws JCGLExceptionContextIsCurrent If a context (including this
+   *                                            one) is already current on this
+   *                                            thread
    */
 
-  void contextMakeCurrent();
+  void contextMakeCurrent()
+    throws JCGLExceptionContextIsCurrent;
 
   /**
    * Release this context on the current thread.
+   *
+   * @throws JCGLExceptionContextNotCurrent If the context is not current on any
+   *                                        thread
    */
 
-  void contextReleaseCurrent();
+  void contextReleaseCurrent()
+    throws JCGLExceptionContextNotCurrent;
 
   /**
    * @return The OpenGL 3.3 interface for the context

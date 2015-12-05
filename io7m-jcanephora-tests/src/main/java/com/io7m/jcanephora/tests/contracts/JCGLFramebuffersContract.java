@@ -79,7 +79,9 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb_main = im.getFramebuffers();
     final JCGLFramebuffersType g_fb_alt = ia.getFramebuffers();
 
-    ia.context.contextMakeCurrent();
+    Assert.assertFalse(im.context.contextIsCurrent());
+    Assert.assertTrue(ia.context.contextIsCurrent());
+
     final JCGLFramebufferBuilderType fbb = g_fb_alt.framebufferNewBuilder();
     ia.context.contextReleaseCurrent();
 
@@ -95,10 +97,11 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
 
     final JCGLFramebuffersType g_fb_main = im.getFramebuffers();
     final JCGLFramebufferBuilderType fbb = g_fb_main.framebufferNewBuilder();
-    im.context.contextReleaseCurrent();
+
+    Assert.assertFalse(im.context.contextIsCurrent());
+    Assert.assertTrue(ia.context.contextIsCurrent());
 
     final JCGLTexturesType g_tex = ia.getTextures();
-    ia.context.contextMakeCurrent();
     final List<JCGLTextureUnitType> us = g_tex.textureGetUnits();
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType tc = g_tex.texture2DAllocate(
@@ -110,9 +113,10 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-    ia.context.contextReleaseCurrent();
 
+    ia.context.contextReleaseCurrent();
     im.context.contextMakeCurrent();
+
     this.expected.expect(JCGLExceptionWrongContext.class);
     fbb.attachDepthTexture2D(tc);
   }
@@ -124,9 +128,10 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
 
     final JCGLFramebuffersType g_fb_main = im.getFramebuffers();
     final JCGLFramebufferBuilderType fbb = g_fb_main.framebufferNewBuilder();
-    im.context.contextReleaseCurrent();
 
-    ia.context.contextMakeCurrent();
+    Assert.assertFalse(im.context.contextIsCurrent());
+    Assert.assertTrue(ia.context.contextIsCurrent());
+
     final JCGLTexturesType g_tex = ia.getTextures();
     final List<JCGLTextureUnitType> us = g_tex.textureGetUnits();
     final JCGLTextureUnitType u0 = us.get(0);
@@ -151,6 +156,11 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     final Interfaces im = this.getInterfaces("main");
     final Interfaces ia = this.getInterfaces("alt");
 
+    Assert.assertFalse(im.context.contextIsCurrent());
+    Assert.assertTrue(ia.context.contextIsCurrent());
+
+    ia.context.contextReleaseCurrent();
+    im.context.contextMakeCurrent();
     final JCGLFramebuffersType g_fb_main = im.getFramebuffers();
     im.context.contextReleaseCurrent();
 
@@ -192,12 +202,16 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb_main = im.getFramebuffers();
     final JCGLFramebuffersType g_fb_alt = ia.getFramebuffers();
 
+    Assert.assertFalse(im.context.contextIsCurrent());
+    Assert.assertTrue(ia.context.contextIsCurrent());
+
+    ia.context.contextReleaseCurrent();
     im.context.contextMakeCurrent();
     final List<JCGLFramebufferColorAttachmentPointType> points =
       g_fb_main.framebufferGetColorAttachments();
     im.context.contextReleaseCurrent();
 
-    im.context.contextReleaseCurrent();
+    ia.context.contextMakeCurrent();
     final List<JCGLFramebufferDrawBufferType> draw_buffers =
       g_fb_alt.framebufferGetDrawBuffers();
     ia.context.contextReleaseCurrent();
@@ -226,8 +240,17 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     final Interfaces im = this.getInterfaces("main");
     final Interfaces ia = this.getInterfaces("alt");
 
+    Assert.assertFalse(im.context.contextIsCurrent());
+    Assert.assertTrue(ia.context.contextIsCurrent());
+
+    ia.context.contextReleaseCurrent();
+    im.context.contextMakeCurrent();
     final JCGLFramebuffersType g_fb_main = im.getFramebuffers();
+    im.context.contextReleaseCurrent();
+
+    ia.context.contextMakeCurrent();
     final JCGLFramebuffersType g_fb_alt = ia.getFramebuffers();
+    ia.context.contextReleaseCurrent();
 
     im.context.contextMakeCurrent();
     final List<JCGLFramebufferColorAttachmentPointType> points =
@@ -251,6 +274,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tex.textureUnitUnbind(u0);
     ia.context.contextReleaseCurrent();
 
     im.context.contextMakeCurrent();

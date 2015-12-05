@@ -273,10 +273,15 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     final JCGLArrayObjectsType go_alt = i_alt.getArrayObjects();
     final JCGLContextType c_alt = i_alt.getContext();
 
+    Assert.assertFalse(c_main.contextIsCurrent());
+    Assert.assertTrue(c_alt.contextIsCurrent());
+
+    c_alt.contextReleaseCurrent();
     c_main.contextMakeCurrent();
     final JCGLArrayBufferType a =
       ga_main.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
+    c_main.contextReleaseCurrent();
     c_alt.contextMakeCurrent();
     final JCGLArrayObjectBuilderType b = go_alt.arrayObjectNewBuilder();
     Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
@@ -398,10 +403,15 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     final JCGLArrayObjectsType go_alt = i_alt.getArrayObjects();
     final JCGLContextType c_alt = i_alt.getContext();
 
+    Assert.assertFalse(c_main.contextIsCurrent());
+    Assert.assertTrue(c_alt.contextIsCurrent());
+
+    c_alt.contextReleaseCurrent();
     c_main.contextMakeCurrent();
     final JCGLArrayBufferType a =
       ga_main.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
+    c_main.contextReleaseCurrent();
     c_alt.contextMakeCurrent();
     final JCGLArrayObjectBuilderType b = go_alt.arrayObjectNewBuilder();
     Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);

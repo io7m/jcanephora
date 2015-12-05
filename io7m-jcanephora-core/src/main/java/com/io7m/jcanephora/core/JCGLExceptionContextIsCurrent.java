@@ -14,9 +14,26 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.fake;
+package com.io7m.jcanephora.core;
 
-final class FakeContexts
+/**
+ * Exception class representing an error caused by the programmer attempting to
+ * make a context {@code c} current when <i>any</i> context (including {@code
+ * c}) is already current.
+ */
+
+public final class JCGLExceptionContextIsCurrent extends JCGLException
 {
+  private static final long serialVersionUID = 1L;
 
+  /**
+   * Construct an exception.
+   *
+   * @param message The message
+   */
+
+  public JCGLExceptionContextIsCurrent(final String message)
+  {
+    super(message);
+  }
 }
