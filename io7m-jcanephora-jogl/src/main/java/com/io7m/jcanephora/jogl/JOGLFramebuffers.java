@@ -549,9 +549,8 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
         "No draw framebuffer is bound");
     }
 
-    final int gs =
-      this.gl.glCheckFramebufferStatus(GL3.GL_DRAW_FRAMEBUFFER);
-    return JOGLTypeConversions.framebufferStatusFromGL(gs);
+    return JOGLTypeConversions.framebufferStatusFromGL(
+      this.gl.glCheckFramebufferStatus(GL3.GL_DRAW_FRAMEBUFFER));
   }
 
   @Override
@@ -587,6 +586,18 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     throws JCGLException
   {
     return Optional.ofNullable(this.bind_read);
+  }
+
+  @Override public JCGLFramebufferStatus framebufferReadValidate()
+    throws JCGLException
+  {
+    if (this.bind_read == null) {
+      throw new JCGLExceptionFramebufferNotBound(
+        "No read framebuffer is bound");
+    }
+
+    return JOGLTypeConversions.framebufferStatusFromGL(
+      this.gl.glCheckFramebufferStatus(GL3.GL_READ_FRAMEBUFFER));
   }
 
   @Override

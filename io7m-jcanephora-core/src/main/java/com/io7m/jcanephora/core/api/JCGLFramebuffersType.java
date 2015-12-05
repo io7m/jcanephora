@@ -186,6 +186,18 @@ public interface JCGLFramebuffersType
     throws JCGLException;
 
   /**
+   * <p>Determine the validity of the currently bound <i>read</i>
+   * framebuffer.</p>
+   *
+   * @return The status of the framebuffer.
+   *
+   * @throws JCGLException Iff an OpenGL exception occurs.
+   */
+
+  JCGLFramebufferStatus framebufferReadValidate()
+    throws JCGLException;
+
+  /**
    * @param framebuffer The framebuffer.
    *
    * @return {@code true} iff {@code framebuffer} is currently bound to the

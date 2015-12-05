@@ -463,6 +463,22 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     return Optional.ofNullable(this.bind_read);
   }
 
+  @Override public JCGLFramebufferStatus framebufferReadValidate()
+    throws JCGLException
+  {
+    if (this.bind_read == null) {
+      throw new JCGLExceptionFramebufferNotBound(
+        "No read framebuffer is bound");
+    }
+
+    if (this.bind_draw.getReferences().isEmpty()) {
+      return JCGLFramebufferStatus
+        .FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT;
+    }
+
+    return JCGLFramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
+  }
+
   @Override
   public boolean framebufferReadIsBound(
     final JCGLFramebufferUsableType framebuffer)

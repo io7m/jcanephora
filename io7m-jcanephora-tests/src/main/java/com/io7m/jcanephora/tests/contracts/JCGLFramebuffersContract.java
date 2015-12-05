@@ -30,6 +30,7 @@ import com.io7m.jcanephora.core.JCGLFramebufferBuilderType;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
+import com.io7m.jcanephora.core.JCGLFramebufferStatus;
 import com.io7m.jcanephora.core.JCGLFramebufferType;
 import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
@@ -283,12 +284,20 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachColorTexture2DAt(points.get(0), draw_buffers.get(0), tc);
   }
 
-  @Test public final void testFramebufferValidateUnbound()
+  @Test public final void testFramebufferValidateDrawUnbound()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     this.expected.expect(JCGLExceptionFramebufferNotBound.class);
     g_fb.framebufferDrawValidate();
+  }
+
+  @Test public final void testFramebufferValidateReadUnbound()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+    this.expected.expect(JCGLExceptionFramebufferNotBound.class);
+    g_fb.framebufferReadValidate();
   }
 
   @Test public final void testFramebufferBuildNothing()
@@ -670,6 +679,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.textureUnitUnbind(u0);
     fbb.attachDepthStencilTexture2D(td);
 
     final int min = Math.min(db.size(), ps.size());
@@ -685,6 +695,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      g_tx.textureUnitUnbind(u0);
+
       final JCGLFramebufferColorAttachmentPointType point = ps.get(index);
       fbb.attachColorTexture2DAt(point, db.get(index), tc);
       fbb.detachColorAttachment(point);
@@ -762,7 +774,14 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     Assert.assertFalse(g_fb.framebufferReadAnyIsBound());
 
     g_fb.framebufferDrawBind(fb_draw);
+    Assert.assertEquals(
+      JCGLFramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE,
+      g_fb.framebufferDrawValidate());
+
     g_fb.framebufferReadBind(fb_read);
+    Assert.assertEquals(
+      JCGLFramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE,
+      g_fb.framebufferReadValidate());
 
     this.expected.expect(JCGLExceptionFramebufferWrongBlitFilter.class);
     g_fb.framebufferBlit(
