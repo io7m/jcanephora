@@ -22,6 +22,7 @@ import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionFeedback;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferInvalid;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferNotBound;
+import com.io7m.jcanephora.core.JCGLExceptionFramebufferReadDrawSame;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferWrongBlitFilter;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitBuffer;
@@ -58,6 +59,7 @@ import org.valid4j.Assertive;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
@@ -494,6 +496,10 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     if (!this.framebufferDrawAnyIsBound()) {
       throw new JCGLExceptionFramebufferNotBound(
         "No draw framebuffer is bound");
+    }
+    if (Objects.equals(this.bind_draw, this.bind_read)) {
+      throw new JCGLExceptionFramebufferReadDrawSame(
+        "Attempted to blit a framebuffer to itself.");
     }
 
     final boolean want_depth =

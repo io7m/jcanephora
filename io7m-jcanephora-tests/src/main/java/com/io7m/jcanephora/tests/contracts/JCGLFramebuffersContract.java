@@ -21,6 +21,7 @@ import com.io7m.jcanephora.core.JCGLExceptionFeedback;
 import com.io7m.jcanephora.core.JCGLExceptionFormatError;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferInvalid;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferNotBound;
+import com.io7m.jcanephora.core.JCGLExceptionFramebufferReadDrawSame;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferWrongBlitFilter;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitBuffer;
@@ -729,6 +730,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      g_tx.textureUnitUnbind(u0);
+
       area = t.textureGetArea();
       fbb.attachDepthTexture2D(t);
       fb_draw = g_fb.framebufferAllocate(fbb);
@@ -743,6 +746,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      g_tx.textureUnitUnbind(u0);
+
       fbb.attachDepthTexture2D(t);
       fb_read = g_fb.framebufferAllocate(fbb);
     }
@@ -760,6 +765,53 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     g_fb.framebufferReadBind(fb_read);
 
     this.expected.expect(JCGLExceptionFramebufferWrongBlitFilter.class);
+    g_fb.framebufferBlit(
+      area,
+      area,
+      EnumSet.of(JCGLFramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_DEPTH),
+      JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_LINEAR);
+  }
+
+  @Test public final void testFramebufferBlitSameFramebuffer()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+    final JCGLTexturesType g_tx = i.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+
+    final JCGLFramebufferType fb;
+    final AreaInclusiveUnsignedLType area;
+
+    {
+      final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+      final JCGLTexture2DType t = g_tx.texture2DAllocate(
+        u0, 64L, 64L,
+        JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      g_tx.textureUnitUnbind(u0);
+
+      area = t.textureGetArea();
+      fbb.attachDepthTexture2D(t);
+      fb = g_fb.framebufferAllocate(fbb);
+    }
+
+    g_fb.framebufferDrawUnbind();
+    g_fb.framebufferReadUnbind();
+
+    Assert.assertEquals(Optional.empty(), g_fb.framebufferDrawGetBound());
+    Assert.assertFalse(g_fb.framebufferDrawAnyIsBound());
+
+    Assert.assertEquals(Optional.empty(), g_fb.framebufferReadGetBound());
+    Assert.assertFalse(g_fb.framebufferReadAnyIsBound());
+
+    g_fb.framebufferDrawBind(fb);
+    g_fb.framebufferReadBind(fb);
+
+    this.expected.expect(JCGLExceptionFramebufferReadDrawSame.class);
     g_fb.framebufferBlit(
       area,
       area,
@@ -797,6 +849,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      g_tx.textureUnitUnbind(u0);
+
       area = t_draw.textureGetArea();
       fbb.attachDepthTexture2D(t_draw);
       fb_draw = g_fb.framebufferAllocate(fbb);
@@ -823,6 +877,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         expected_contents.put(index, (byte) (Math.random() * 0xff));
       }
       g_tx.texture2DUpdate(u0, up);
+      g_tx.textureUnitUnbind(u0);
 
       fbb.attachDepthTexture2D(t_read);
       fb_read = g_fb.framebufferAllocate(fbb);
@@ -887,6 +942,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      g_tx.textureUnitUnbind(u0);
+
       area = t.textureGetArea();
       fbb.attachDepthStencilTexture2D(t);
       fb_draw = g_fb.framebufferAllocate(fbb);
@@ -901,6 +958,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      g_tx.textureUnitUnbind(u0);
+
       fbb.attachDepthStencilTexture2D(t);
       fb_read = g_fb.framebufferAllocate(fbb);
     }
@@ -946,6 +1005,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      g_tx.textureUnitUnbind(u0);
+
       area = t.textureGetArea();
       fbb.attachDepthStencilTexture2D(t);
       fb_draw = g_fb.framebufferAllocate(fbb);
@@ -960,6 +1021,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      g_tx.textureUnitUnbind(u0);
+
       fbb.attachDepthStencilTexture2D(t);
       fb_read = g_fb.framebufferAllocate(fbb);
     }
@@ -1006,8 +1069,9 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-      area = t.textureGetArea();
       g_tx.textureUnitUnbind(u0);
+
+      area = t.textureGetArea();
       fbb.attachDepthTexture2D(t);
       fb_draw = g_fb.framebufferAllocate(fbb);
     }
@@ -1044,6 +1108,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      g_tx.textureUnitUnbind(u0);
+
       area = t.textureGetArea();
       fbb.attachDepthTexture2D(t);
       fb_read = g_fb.framebufferAllocate(fbb);
@@ -1078,6 +1144,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.textureUnitUnbind(u0);
+
     fbb.attachDepthTexture2D(t);
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
