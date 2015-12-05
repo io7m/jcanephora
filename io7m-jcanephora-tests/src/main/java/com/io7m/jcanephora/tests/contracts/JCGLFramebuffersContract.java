@@ -728,6 +728,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     final JCGLTexturesType g_tx = i.getTextures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
     final JCGLTextureUnitType u0 = us.get(0);
+    List<JCGLFramebufferColorAttachmentPointType> points = g_fb.framebufferGetColorAttachments();
+    List<JCGLFramebufferDrawBufferType> buffers = g_fb.framebufferGetDrawBuffers();
 
     final JCGLFramebufferType fb_read;
     final JCGLFramebufferType fb_draw;
@@ -735,32 +737,48 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
 
     {
       final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
-      final JCGLTexture2DType t = g_tx.texture2DAllocate(
+      final JCGLTexture2DType td = g_tx.texture2DAllocate(
         u0, 64L, 64L,
         JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
         JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      final JCGLTexture2DType tc = g_tx.texture2DAllocate(
+        u0, 64L, 64L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       g_tx.textureUnitUnbind(u0);
 
-      area = t.textureGetArea();
-      fbb.attachDepthTexture2D(t);
+      area = td.textureGetArea();
+      fbb.attachDepthTexture2D(td);
+      fbb.attachColorTexture2DAt(points.get(0), buffers.get(0), tc);
       fb_draw = g_fb.framebufferAllocate(fbb);
     }
 
     {
       final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
-      final JCGLTexture2DType t = g_tx.texture2DAllocate(
+      final JCGLTexture2DType td = g_tx.texture2DAllocate(
         u0, 64L, 64L,
         JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
         JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      final JCGLTexture2DType tc = g_tx.texture2DAllocate(
+        u0, 64L, 64L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       g_tx.textureUnitUnbind(u0);
 
-      fbb.attachDepthTexture2D(t);
+      fbb.attachDepthTexture2D(td);
+      fbb.attachColorTexture2DAt(points.get(0), buffers.get(0), tc);
       fb_read = g_fb.framebufferAllocate(fbb);
     }
 
