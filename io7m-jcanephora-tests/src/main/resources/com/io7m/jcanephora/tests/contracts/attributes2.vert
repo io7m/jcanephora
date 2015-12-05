@@ -1,8 +1,8 @@
 #version 330 core
 
 layout(location = 0) in mat4x4 m4;
-layout(location = 1) in mat4x3 m3;
-layout(location = 2) in mat4x2 m2;
+layout(location = 4) in mat4x3 m3;
+layout(location = 8) in mat4x2 m2;
 
 void
 main (void)
