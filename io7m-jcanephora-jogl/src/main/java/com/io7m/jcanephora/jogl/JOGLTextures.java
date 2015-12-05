@@ -83,6 +83,17 @@ final class JOGLTextures implements JCGLTexturesType
     this.units = JOGLTextures.makeUnits(c, this.g3, this.icache);
     this.size = JOGLTextures.makeSize(this.g3, this.icache);
     this.texture_to_units = new Int2ObjectOpenHashMap<>(this.units.size());
+
+    /**
+     * Configure baseline defaults.
+     */
+
+    for (int index = 0; index < this.units.size(); ++index) {
+      this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
+      this.g3.glBindTexture(GL.GL_TEXTURE_2D, 0);
+      this.g3.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
+    }
+    JOGLErrorChecking.checkErrors(this.g3);
   }
 
   private static List<JCGLTextureUnitType> makeUnits(

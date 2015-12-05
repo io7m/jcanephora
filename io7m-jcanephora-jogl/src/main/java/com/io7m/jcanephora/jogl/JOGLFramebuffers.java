@@ -100,6 +100,18 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     this.draw_buffers =
       JOGLFramebuffers.makeDrawBuffers(c, this.gl, this.int_cache);
     this.textures.setFramebuffers(this);
+
+    /**
+     * Configure baseline defaults.
+     */
+
+    this.gl.glBindFramebuffer(
+      GL.GL_DRAW_FRAMEBUFFER,
+      this.gl.getDefaultDrawFramebuffer());
+    this.gl.glBindFramebuffer(
+      GL.GL_READ_FRAMEBUFFER,
+      this.gl.getDefaultReadFramebuffer());
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   private static List<JCGLFramebufferDrawBufferType> makeDrawBuffers(

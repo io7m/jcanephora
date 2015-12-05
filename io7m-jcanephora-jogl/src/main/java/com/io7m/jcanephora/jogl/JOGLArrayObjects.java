@@ -112,9 +112,17 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     this.valid_attribs = new RangeInclusiveI(0, this.max_attribs - 1);
 
     final GLContext gc = this.context.getContext();
+    final int vao_id = gc.getDefaultVAO();
     this.default_buffer = new JOGLArrayObject(
-      gc, gc.getDefaultVAO(), new JCGLArrayVertexAttributeType[0]);
+      gc, vao_id, new JCGLArrayVertexAttributeType[0]);
     this.bind = this.default_buffer;
+
+    /**
+     * Configure baseline defaults.
+     */
+
+    this.gl.glBindVertexArray(0);
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   @Override public JCGLArrayObjectBuilderType arrayObjectNewBuilder()

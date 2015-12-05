@@ -33,6 +33,7 @@ final class JOGLScissor implements JCGLScissorType
   {
     final JOGLContext context = NullCheck.notNull(c);
     this.gl = context.getGL3();
+    this.gl.glDisable(GL.GL_SCISSOR_TEST);
     this.enabled = false;
   }
 

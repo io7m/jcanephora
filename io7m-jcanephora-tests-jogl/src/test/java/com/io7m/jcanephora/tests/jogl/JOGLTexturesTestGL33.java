@@ -18,12 +18,10 @@ package com.io7m.jcanephora.tests.jogl;
 
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jcanephora.tests.contracts.JCGLTexturesContract;
 import com.jogamp.opengl.DebugGL3;
 import com.jogamp.opengl.GL3;
-import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,35 +97,5 @@ public final class JOGLTexturesTestGL33 extends JCGLTexturesContract
           }
         };
       }, 24, 8);
-  }
-
-  @Test public void testClampedTextures()
-    throws Exception
-  {
-    final JCGLContextType x =
-      JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
-        "main", c -> {
-          final GL3 base = c.getGL().getGL3();
-          return new DebugGL3(base)
-          {
-            @Override public void glGetIntegerv(
-              final int name,
-              final IntBuffer buffer)
-            {
-              if (name == GL3.GL_MAX_TEXTURE_IMAGE_UNITS) {
-                JOGLTexturesTestGL33.LOG.debug(
-                  "overriding request for {}",
-                  Integer.valueOf(GL3.GL_MAX_TEXTURE_IMAGE_UNITS));
-                buffer.put(0, 2048);
-              } else {
-                super.glGetIntegerv(name, buffer);
-              }
-            }
-          };
-        }, 24, 8);
-
-    final JCGLInterfaceGL33Type g = x.contextGetGL33();
-    final JCGLTexturesType t = g.getTextures();
-    Assert.assertEquals(1024L, (long) t.textureGetUnits().size());
   }
 }

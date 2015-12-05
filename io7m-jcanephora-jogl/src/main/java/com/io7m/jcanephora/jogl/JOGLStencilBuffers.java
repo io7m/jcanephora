@@ -74,6 +74,25 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     this.front_func = JCGLStencilFunction.STENCIL_ALWAYS;
     this.front_func_mask = 0b11111111_11111111_11111111_11111111;
     this.front_func_ref = 0;
+
+    /**
+     * Configure baseline defaults.
+     */
+
+    this.gl.glDisable(GL.GL_STENCIL_TEST);
+    final int func = JOGLTypeConversions.stencilFunctionToGL(this.back_func);
+    final int face = JOGLTypeConversions.faceSelectionToGL(
+      JCGLFaceSelection.FACE_FRONT_AND_BACK);
+    this.gl.glStencilFuncSeparate(
+      face, func, this.back_func_ref, this.back_func_mask);
+    this.gl.glStencilMaskSeparate(
+      face, this.back_mask);
+    this.gl.glStencilOpSeparate(
+      face,
+      JOGLTypeConversions.stencilOperationToGL(this.back_sfail),
+      JOGLTypeConversions.stencilOperationToGL(this.back_dfail),
+      JOGLTypeConversions.stencilOperationToGL(this.back_dpass));
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   private void checkStencilBits()

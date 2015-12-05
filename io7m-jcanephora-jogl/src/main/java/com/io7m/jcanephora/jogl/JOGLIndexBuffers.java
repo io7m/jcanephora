@@ -50,7 +50,6 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     LOG = LoggerFactory.getLogger(JOGLIndexBuffers.class);
   }
 
-  private final JOGLContext      context;
   private final GL3              gl;
   private final IntBuffer        int_cache;
   private       JOGLArrayObjects array_objects;
@@ -58,9 +57,17 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
   JOGLIndexBuffers(
     final JOGLContext c)
   {
-    this.context = c;
+    final JOGLContext context = NullCheck.notNull(c);
+
     this.gl = c.getGL3();
     this.int_cache = Buffers.newDirectIntBuffer(1);
+
+    /**
+     * Configure baseline defaults.
+     */
+
+    this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   void setArrayObjects(

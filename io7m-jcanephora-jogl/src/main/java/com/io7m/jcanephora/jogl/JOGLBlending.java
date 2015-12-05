@@ -35,7 +35,8 @@ final class JOGLBlending implements JCGLBlendingType
   {
     this.context = NullCheck.notNull(c);
     this.gl = this.context.getGL3();
-    this.blend = false;
+    this.blend = this.gl.glIsEnabled(GL.GL_BLEND);
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   @Override public void blendingDisable()

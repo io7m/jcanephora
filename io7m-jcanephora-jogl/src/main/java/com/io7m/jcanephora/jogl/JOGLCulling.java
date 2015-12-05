@@ -38,6 +38,17 @@ final class JOGLCulling implements JCGLCullingType
     this.enabled = false;
     this.current_faces = JCGLFaceSelection.FACE_BACK;
     this.current_order = JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
+
+    /**
+     * Configure baseline defaults.
+     */
+
+    this.gl.glDisable(GL.GL_CULL_FACE);
+    this.gl.glCullFace(
+      JOGLTypeConversions.faceSelectionToGL(this.current_faces));
+    this.gl.glFrontFace(
+      JOGLTypeConversions.faceWindingOrderToGL(this.current_order));
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   @Override public void cullingDisable()

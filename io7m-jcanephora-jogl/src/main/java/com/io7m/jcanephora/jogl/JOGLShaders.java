@@ -87,6 +87,13 @@ final class JOGLShaders implements JCGLShadersType
     this.icache = Buffers.newDirectIntBuffer(1);
     this.check_active = true;
     this.check_type = true;
+
+    /**
+     * Configure baseline defaults.
+     */
+
+    this.g3.glUseProgram(0);
+    JOGLErrorChecking.checkErrors(this.g3);
   }
 
   private static boolean isEmpty(final List<String> lines)

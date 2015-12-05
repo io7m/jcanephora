@@ -33,6 +33,14 @@ final class JOGLPolygonMode implements JCGLPolygonModesType
     final JOGLContext context = NullCheck.notNull(c);
     this.gl = context.getGL3();
     this.mode = JCGLPolygonMode.POLYGON_FILL;
+
+    /**
+     * Configure baseline defaults.
+     */
+
+    this.gl.glPolygonMode(
+      GL.GL_FRONT_AND_BACK,
+      JOGLTypeConversions.polygonModeToGL(this.mode));
   }
 
   @Override public JCGLPolygonMode polygonGetMode()

@@ -58,6 +58,13 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     NullCheck.notNull(c);
     this.gl = c.getGL3();
     this.int_cache = Buffers.newDirectIntBuffer(1);
+
+    /**
+     * Configure baseline defaults.
+     */
+
+    this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   @Override public JCGLArrayBufferType arrayBufferAllocate(

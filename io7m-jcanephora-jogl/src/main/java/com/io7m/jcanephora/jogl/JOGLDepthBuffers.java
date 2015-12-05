@@ -42,9 +42,19 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
     this.framebuffers = NullCheck.notNull(f);
     this.gl = c.getGL3();
 
+    /**
+     * Configure baseline defaults.
+     */
+
+    this.gl.glDisable(GL.GL_DEPTH_TEST);
+    this.gl.glDepthMask(true);
+    this.gl.glDisable(GL3.GL_DEPTH_CLAMP);
+
     this.enable_test = false;
     this.enable_write = true;
     this.clamp = false;
+
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   @Override public void depthBufferClear(final float depth)

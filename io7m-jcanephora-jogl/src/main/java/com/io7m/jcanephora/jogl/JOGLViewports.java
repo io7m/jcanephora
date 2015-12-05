@@ -31,6 +31,7 @@ final class JOGLViewports implements JCGLViewportsType
   {
     final JOGLContext context = NullCheck.notNull(c);
     this.gl = context.getGL3();
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   @Override public void viewportSet(
