@@ -13,4 +13,28 @@
     </s:paragraph>
   </s:subsection>
 
+  <s:subsection>
+    <s:subsection-title>Usage example</s:subsection-title>
+    <s:paragraph>
+      The following code sets a wireframe rendering style:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Wireframe</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLPolygonModesType g;
+
+g.polygonSetMode(JCGLPolygonMode.POLYGON_LINES);
+]]></s:verbatim>
+    </s:formal-item>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      The current polygon rendering style state is global to a given context; when enabled,
+      it is enabled for all subsequent rendering operations on that context
+      until explicitly modified or disabled.
+    </s:paragraph>
+  </s:subsection>
+
 </s:section>
