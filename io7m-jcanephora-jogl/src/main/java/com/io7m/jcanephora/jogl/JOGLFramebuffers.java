@@ -447,6 +447,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     final JCGLFramebufferStatus status = this.framebufferDrawValidate();
     switch (status) {
       case FRAMEBUFFER_STATUS_COMPLETE: {
+        LOG.debug("allocated {}", fb);
         return fb;
       }
       case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT:
@@ -489,7 +490,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
   private void actualUnbindDraw()
   {
-    JOGLFramebuffers.LOG.trace("unbind {} -> none", this.bind_draw);
+    JOGLFramebuffers.LOG.trace("unbind draw {} -> none", this.bind_draw);
     this.gl.glBindFramebuffer(
       GL.GL_DRAW_FRAMEBUFFER,
       this.gl.getDefaultDrawFramebuffer());
@@ -498,7 +499,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
   private void actualUnbindRead()
   {
-    JOGLFramebuffers.LOG.trace("unbind {} -> none", this.bind_read);
+    JOGLFramebuffers.LOG.trace("unbind read {} -> none", this.bind_read);
     this.gl.glBindFramebuffer(
       GL.GL_READ_FRAMEBUFFER,
       this.gl.getDefaultReadFramebuffer());

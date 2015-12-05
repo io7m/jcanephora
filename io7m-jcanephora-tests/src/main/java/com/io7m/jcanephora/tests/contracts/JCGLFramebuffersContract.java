@@ -847,12 +847,16 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     final JCGLTexturesType g_tx = i.getTextures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
     final JCGLTextureUnitType u0 = us.get(0);
+    List<JCGLFramebufferColorAttachmentPointType> points = g_fb.framebufferGetColorAttachments();
+    List<JCGLFramebufferDrawBufferType> buffers = g_fb.framebufferGetDrawBuffers();
 
     final JCGLFramebufferType fb_read;
     final JCGLFramebufferType fb_draw;
     final AreaInclusiveUnsignedLType area;
-    final JCGLTexture2DType t_draw;
-    final JCGLTexture2DType t_read;
+    final JCGLTexture2DType t_draw_color;
+    final JCGLTexture2DType t_read_color;
+    final JCGLTexture2DType t_draw_depth;
+    final JCGLTexture2DType t_read_depth;
     final ByteBuffer expected_contents;
 
     /**
@@ -861,7 +865,14 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
 
     {
       final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
-      t_draw = g_tx.texture2DAllocate(
+      t_draw_color = g_tx.texture2DAllocate(
+        u0, 64L, 64L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      t_draw_depth = g_tx.texture2DAllocate(
         u0, 64L, 64L,
         JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
         JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
@@ -870,8 +881,9 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       g_tx.textureUnitUnbind(u0);
 
-      area = t_draw.textureGetArea();
-      fbb.attachDepthTexture2D(t_draw);
+      area = t_draw_color.textureGetArea();
+      fbb.attachColorTexture2DAt(points.get(0), buffers.get(0), t_draw_color);
+      fbb.attachDepthTexture2D(t_draw_depth);
       fb_draw = g_fb.framebufferAllocate(fbb);
     }
 
@@ -881,7 +893,14 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
 
     {
       final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
-      t_read = g_tx.texture2DAllocate(
+      t_read_color = g_tx.texture2DAllocate(
+        u0, 64L, 64L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      t_read_depth = g_tx.texture2DAllocate(
         u0, 64L, 64L,
         JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
         JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
@@ -890,7 +909,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
       final JCGLTexture2DUpdateType up =
-        JCGLTextureUpdates.newUpdateReplacingAll2D(t_read);
+        JCGLTextureUpdates.newUpdateReplacingAll2D(t_read_depth);
       expected_contents = up.getData();
       for (int index = 0; index < expected_contents.capacity(); ++index) {
         expected_contents.put(index, (byte) (Math.random() * 0xff));
@@ -898,7 +917,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       g_tx.texture2DUpdate(u0, up);
       g_tx.textureUnitUnbind(u0);
 
-      fbb.attachDepthTexture2D(t_read);
+      fbb.attachColorTexture2DAt(points.get(0), buffers.get(0), t_read_color);
+      fbb.attachDepthTexture2D(t_read_depth);
       fb_read = g_fb.framebufferAllocate(fbb);
     }
 
@@ -926,8 +946,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
      * Compare the contents of each of the buffers.
      */
 
-    final ByteBuffer image_d = g_tx.texture2DGetImage(u0, t_draw);
-    final ByteBuffer image_r = g_tx.texture2DGetImage(u0, t_read);
+    final ByteBuffer image_d = g_tx.texture2DGetImage(u0, t_draw_depth);
+    final ByteBuffer image_r = g_tx.texture2DGetImage(u0, t_read_depth);
     final byte[] image_db = new byte[image_d.capacity()];
     final byte[] image_rb = new byte[image_r.capacity()];
     final byte[] image_exp = new byte[expected_contents.capacity()];
