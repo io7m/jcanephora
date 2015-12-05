@@ -25,6 +25,7 @@ import com.io7m.jcanephora.core.api.JCGLContextUsableType;
 import com.io7m.jcanephora.core.api.JCGLImplementationType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jnull.NullCheck;
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLContext;
 import org.slf4j.Logger;
@@ -65,7 +66,10 @@ final class JOGLContext implements JCGLContextType
     this.implementation = i;
     this.context.attachObject("JCGLContextType", this);
     JOGLContext.LOG.debug("created context {}", this.name);
-    JOGLContext.LOG.trace("context: {}", c);
+    JOGLContext.LOG.trace("context:  {}", c);
+    JOGLContext.LOG.trace("vendor:   {}", this.gl3.glGetString(GL.GL_VENDOR));
+    JOGLContext.LOG.trace("version:  {}", this.gl3.glGetString(GL.GL_VERSION));
+    JOGLContext.LOG.trace("renderer: {}", this.gl3.glGetString(GL.GL_RENDERER));
   }
 
   GLContext getContext()
