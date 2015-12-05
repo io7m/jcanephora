@@ -788,6 +788,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
       final int index = point.colorAttachmentPointGetIndex();
       this.color_attaches.set(index, null);
+      this.draw_buffers.values().remove(point);
     }
 
     private static final class CubeAttachment
