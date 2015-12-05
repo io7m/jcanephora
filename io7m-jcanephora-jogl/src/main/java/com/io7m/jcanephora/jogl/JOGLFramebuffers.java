@@ -290,7 +290,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
             throws JCGLException
           {
             JOGLFramebuffers.LOG.debug(
-              "[{}] attach {} at depth",
+              "[{}] attach depth {}",
               Integer.valueOf(f_id),
               t);
 
@@ -320,7 +320,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
             throws JCGLException
           {
             JOGLFramebuffers.LOG.debug(
-              "[{}] attach {} at depth+stencil",
+              "[{}] attach depth+stencil {}",
               Integer.valueOf(f_id),
               t);
 
@@ -360,10 +360,10 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
               throws JCGLException
             {
               JOGLFramebuffers.LOG.debug(
-                "[{}] attach {} at color {}",
+                "[{}] attach color {} {}",
                 Integer.valueOf(f_id),
-                t,
-                Integer.valueOf(f_index));
+                Integer.valueOf(f_index),
+                t);
 
               JOGLTextures.checkTexture2D(c, t);
               final JCGLTextureFormat f = t.textureGetFormat();
@@ -384,11 +384,11 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
               throws JCGLException, UnreachableCodeException
             {
               JOGLFramebuffers.LOG.debug(
-                "[{}] attach {} (face {}) at color {}",
+                "[{}] attach color {} {} (face {})",
                 Integer.valueOf(f_id),
+                Integer.valueOf(f_index),
                 t,
-                face,
-                Integer.valueOf(f_index));
+                face);
 
               JOGLTextures.checkTextureCube(c, t);
               final JCGLTextureFormat f = t.textureGetFormat();
