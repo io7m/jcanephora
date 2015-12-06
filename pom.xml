@@ -17,6 +17,7 @@
   <modules>
     <module>io7m-jcanephora-checkstyle</module>
     <module>io7m-jcanephora-core</module>
+    <module>io7m-jcanephora-cursors</module>
     <module>io7m-jcanephora-documentation</module>
     <module>io7m-jcanephora-examples-core</module>
     <module>io7m-jcanephora-examples-jogl</module>
@@ -90,6 +91,11 @@
         <version>[1.0.0, 2.0.0)</version>
       </dependency>
       <dependency>
+        <groupId>com.io7m.junreachable</groupId>
+        <artifactId>io7m-junreachable-core</artifactId>
+        <version>[1.0.0, 2.0.0)</version>
+      </dependency>
+      <dependency>
         <groupId>com.io7m.jranges</groupId>
         <artifactId>io7m-jranges-core</artifactId>
         <version>[2.0.0, 3.0.0)</version>
@@ -112,7 +118,22 @@
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>io7m-jtensors-core</artifactId>
-        <version>7.0.0-beta0004</version>
+        <version>7.0.0-beta0010</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jpra</groupId>
+        <artifactId>io7m-jpra-runtime-java</artifactId>
+        <version>0.3.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jnfp</groupId>
+        <artifactId>io7m-jnfp-core</artifactId>
+        <version>0.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.ieee754b16</groupId>
+        <artifactId>io7m-ieee754b16-core</artifactId>
+        <version>[1.0.0, 2.0.0)</version>
       </dependency>
 
       <dependency>
@@ -241,7 +262,7 @@
         <plugin>
           <groupId>com.io7m.jpra</groupId>
           <artifactId>io7m-jpra-maven-plugin</artifactId>
-          <version>0.3.0</version>
+          <version>0.3.2</version>
         </plugin>
 
         <!-- Submodule checkstyle configuration. -->

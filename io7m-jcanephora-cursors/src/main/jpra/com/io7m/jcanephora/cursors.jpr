@@ -1,0 +1,273 @@
+(package-begin com.io7m.jcanephora.cursors)
+
+(packed JCGLDepth16 [
+  (field depth [integer unsigned-normalized 16])
+])
+
+(packed JCGLDepth24S8 [
+  (field depth [integer unsigned-normalized 24])
+  (padding-bits 8)
+])
+
+(record JCGLDepth32F [
+  (field depth [float 32])
+])
+
+
+
+(packed JCGLRGBA8 [
+  (field r [integer unsigned-normalized 8])
+  (field g [integer unsigned-normalized 8])
+  (field b [integer unsigned-normalized 8])
+  (field a [integer unsigned-normalized 8])
+])
+
+(record JCGLRGB8 [
+  (field r [integer unsigned-normalized 8])
+  (field g [integer unsigned-normalized 8])
+  (field b [integer unsigned-normalized 8])
+])
+
+(packed JCGLRG8 [
+  (field r [integer unsigned-normalized 8])
+  (field g [integer unsigned-normalized 8])
+])
+
+(packed JCGLR8 [
+  (field r [integer unsigned-normalized 8])
+])
+
+(packed JCGLRGBA8I [
+  (field r [integer signed 8])
+  (field g [integer signed 8])
+  (field b [integer signed 8])
+  (field a [integer signed 8])
+])
+
+(record JCGLRGB8I [
+  (field r [integer signed 8])
+  (field g [integer signed 8])
+  (field b [integer signed 8])
+])
+
+(packed JCGLRG8I [
+  (field r [integer signed 8])
+  (field g [integer signed 8])
+])
+
+(packed JCGLR8I [
+  (field r [integer signed 8])
+])
+
+(packed JCGLRGBA8U [
+  (field r [integer unsigned 8])
+  (field g [integer unsigned 8])
+  (field b [integer unsigned 8])
+  (field a [integer unsigned 8])
+])
+
+(record JCGLRGB8U [
+  (field r [integer unsigned 8])
+  (field g [integer unsigned 8])
+  (field b [integer unsigned 8])
+])
+
+(packed JCGLRG8U [
+  (field r [integer unsigned 8])
+  (field g [integer unsigned 8])
+])
+
+(packed JCGLR8U [
+  (field r [integer unsigned 8])
+])
+
+
+
+(record JCGLRGBA16 [
+  (field r [integer unsigned-normalized 16])
+  (field g [integer unsigned-normalized 16])
+  (field b [integer unsigned-normalized 16])
+  (field a [integer unsigned-normalized 16])
+])
+
+(record JCGLRGB16 [
+  (field r [integer unsigned-normalized 16])
+  (field g [integer unsigned-normalized 16])
+  (field b [integer unsigned-normalized 16])
+])
+
+(record JCGLRG16 [
+  (field r [integer unsigned-normalized 16])
+  (field g [integer unsigned-normalized 16])
+])
+
+(record JCGLR16 [
+  (field r [integer unsigned-normalized 16])
+])
+
+(record JCGLRGBA16I [
+  (field r [integer signed 16])
+  (field g [integer signed 16])
+  (field b [integer signed 16])
+  (field a [integer signed 16])
+])
+
+(record JCGLRGB16I [
+  (field r [integer signed 16])
+  (field g [integer signed 16])
+  (field b [integer signed 16])
+])
+
+(record JCGLRG16I [
+  (field r [integer signed 16])
+  (field g [integer signed 16])
+])
+
+(record JCGLR16I [
+  (field r [integer signed 16])
+])
+
+(record JCGLRGBA16U [
+  (field r [integer unsigned 16])
+  (field g [integer unsigned 16])
+  (field b [integer unsigned 16])
+  (field a [integer unsigned 16])
+])
+
+(record JCGLRGB16U [
+  (field r [integer unsigned 16])
+  (field g [integer unsigned 16])
+  (field b [integer unsigned 16])
+])
+
+(record JCGLRG16U [
+  (field r [integer unsigned 16])
+  (field g [integer unsigned 16])
+])
+
+(record JCGLR16U [
+  (field r [integer unsigned 16])
+])
+
+(record JCGLRGBA16F [
+  (field r [float 16])
+  (field g [float 16])
+  (field b [float 16])
+  (field a [float 16])
+])
+
+(record JCGLRGB16F [
+  (field r [float 16])
+  (field g [float 16])
+  (field b [float 16])
+])
+
+(record JCGLRG16F [
+  (field r [float 16])
+  (field g [float 16])
+])
+
+(record JCGLR16F [
+  (field r [float 16])
+])
+
+
+
+(record JCGLRGBA32 [
+  (field r [integer unsigned-normalized 32])
+  (field g [integer unsigned-normalized 32])
+  (field b [integer unsigned-normalized 32])
+  (field a [integer unsigned-normalized 32])
+])
+
+(record JCGLRGB32 [
+  (field r [integer unsigned-normalized 32])
+  (field g [integer unsigned-normalized 32])
+  (field b [integer unsigned-normalized 32])
+])
+
+(record JCGLRG32 [
+  (field r [integer unsigned-normalized 32])
+  (field g [integer unsigned-normalized 32])
+])
+
+(record JCGLR32 [
+  (field r [integer unsigned-normalized 32])
+])
+
+(record JCGLRGBA32I [
+  (field r [integer signed 32])
+  (field g [integer signed 32])
+  (field b [integer signed 32])
+  (field a [integer signed 32])
+])
+
+(record JCGLRGB32I [
+  (field r [integer signed 32])
+  (field g [integer signed 32])
+  (field b [integer signed 32])
+])
+
+(record JCGLRG32I [
+  (field r [integer signed 32])
+  (field g [integer signed 32])
+])
+
+(record JCGLR32I [
+  (field r [integer signed 32])
+])
+
+(record JCGLRGBA32U [
+  (field r [integer unsigned 32])
+  (field g [integer unsigned 32])
+  (field b [integer unsigned 32])
+  (field a [integer unsigned 32])
+])
+
+(record JCGLRGB32U [
+  (field r [integer unsigned 32])
+  (field g [integer unsigned 32])
+  (field b [integer unsigned 32])
+])
+
+(record JCGLRG32U [
+  (field r [integer unsigned 32])
+  (field g [integer unsigned 32])
+])
+
+(record JCGLR32U [
+  (field r [integer unsigned 32])
+])
+
+(record JCGLRGBA32F [
+  (field r [float 32])
+  (field g [float 32])
+  (field b [float 32])
+  (field a [float 32])
+])
+
+(record JCGLRGB32F [
+  (field r [float 32])
+  (field g [float 32])
+  (field b [float 32])
+])
+
+(record JCGLRG32F [
+  (field r [float 32])
+  (field g [float 32])
+])
+
+(record JCGLR32F [
+  (field r [float 32])
+])
+
+
+
+(packed JCGLRGBA1010102 [
+  (field r [integer unsigned-normalized 10])
+  (field g [integer unsigned-normalized 10])
+  (field b [integer unsigned-normalized 10])
+  (field a [integer unsigned-normalized 2])
+])
+
+(package-end)

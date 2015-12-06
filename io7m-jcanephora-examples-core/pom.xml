@@ -29,6 +29,11 @@
       <artifactId>io7m-jcanephora-core</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-cursors</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>commons-io</groupId>
