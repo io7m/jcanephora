@@ -71,14 +71,15 @@ import java.util.stream.Collectors;
 
 public final class ExampleSingleTriangleGradient implements ExampleType
 {
-  private JCGLClearSpecification clear;
-  private JCGLArrayObjectType array_object;
-  private JCGLArrayBufferType array_buffer;
-  private JCGLIndexBufferType index_buffer;
-  private JCGLProgramShaderType program;
-  private JCGLTexture2DType texture;
-  private JCGLTexture2DUpdateType texture_update;
-  private JCGLProgramUniformType texture_uniform;
+  private JCGLClearSpecification         clear;
+  private JCGLArrayObjectType            array_object;
+  private JCGLArrayBufferType            array_buffer;
+  private JCGLIndexBufferType            index_buffer;
+  private JCGLProgramShaderType          program;
+  private JCGLTexture2DType              texture;
+  private JCGLTexture2DUpdateType        texture_update;
+  private JCGLProgramUniformType         texture_uniform;
+  private JPRACursor2DType<JCGLRGB8Type> texture_update_cursor;
 
   /**
    * Construct an example.
@@ -217,9 +218,12 @@ public final class ExampleSingleTriangleGradient implements ExampleType
        * and so are manually inserted into the lines of GLSL source code.
        */
 
+      final Class<ExampleSingleTriangleGradient> cl =
+        ExampleSingleTriangleGradient.class;
+
       final List<String> vv_lines =
         IOUtils.readLines(
-          ExampleSingleTriangleGradient.class.getResourceAsStream("basic_uv.vert"))
+          cl.getResourceAsStream("basic_uv.vert"))
           .stream()
           .map(x -> x + System.lineSeparator())
           .collect(Collectors.toList());
@@ -233,7 +237,7 @@ public final class ExampleSingleTriangleGradient implements ExampleType
 
       final List<String> ff_lines =
         IOUtils.readLines(
-          ExampleSingleTriangleGradient.class.getResourceAsStream("texture.frag"))
+          cl.getResourceAsStream("texture.frag"))
           .stream()
           .map(x -> x + System.lineSeparator())
           .collect(Collectors.toList());
@@ -287,6 +291,10 @@ public final class ExampleSingleTriangleGradient implements ExampleType
     g_tex.textureUnitUnbind(u0);
     this.texture_update =
       JCGLTextureUpdates.newUpdateReplacingAll2D(this.texture);
+    this.texture_update_cursor =
+      JPRACursor2DByteBufferedChecked.newCursor(
+        this.texture_update.getData(), 64, 64,
+        JCGLRGB8ByteBuffered::newValueWithOffset);
 
     /**
      * Configure a clearing specification that will clear the color
@@ -321,15 +329,10 @@ public final class ExampleSingleTriangleGradient implements ExampleType
     final JCGLTextureUnitType u0 = units.get(0);
 
     {
-      final JPRACursor2DType<JCGLRGB8Type> c =
-        JPRACursor2DByteBufferedChecked.newCursor(
-          this.texture_update.getData(), 64, 64,
-          JCGLRGB8ByteBuffered::newValueWithOffset);
-
-      final JCGLRGB8Type view = c.getElementView();
+      final JCGLRGB8Type view = this.texture_update_cursor.getElementView();
       for (int y = 0; y < 64; ++y) {
         for (int x = 0; x < 64; ++x) {
-          c.setElementPosition(x, y);
+          this.texture_update_cursor.setElementPosition(x, y);
           view.setR(x / 64.0);
           view.setG((64.0 - y) / 64.0);
           view.setB(Math.random());
