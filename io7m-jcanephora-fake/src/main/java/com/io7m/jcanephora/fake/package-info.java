@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,16 +15,8 @@
  */
 
 /**
- * <p>
- * A fake implementation of the <tt>jcanephora</tt> API that does not talk to
- * an OpenGL context.
- * </p>
- * <p>
- * The package does not admit the existence of <code>null</code>; all
- * functions will raise {@link com.io7m.jnull.NullCheckException} on receipt
- * of <code>null</code>. Passing <code>null</code> to a
- * <code>jcanephora</code> function is never correct.
- * </p>
+ * A fake implementation of the {@code jcanephora} APIs intended for unit
+ * testing code without access to a GPU.
  */
 
 @com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.fake;

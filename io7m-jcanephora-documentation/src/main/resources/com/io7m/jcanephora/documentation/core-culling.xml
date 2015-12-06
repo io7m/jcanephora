@@ -1,0 +1,43 @@
+<s:section
+  xml:id="core_interfaces.culling"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLCullingType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLCullingType.html">JCGLCullingType</s:link-external>
+      interface provides functions for controlling face culling.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage example</s:subsection-title>
+    <s:paragraph>
+      The following code enables culling of back-facing polygons, assuming
+      that front-facing polygons are specified in counter-clockwise winding
+      order:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Culling</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLCullingType g;
+
+g.cullingEnable(
+  JCGLFaceSelection.FACE_BACK,
+  JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE);
+]]></s:verbatim>
+    </s:formal-item>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      The current polygon culling state is global to a given context; when enabled,
+      it is enabled for all subsequent rendering operations on that context
+      until explicitly modified or disabled.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,19 +16,13 @@
 
 package com.io7m.jcanephora.jogl;
 
-import javax.media.opengl.GLContext;
-
-import com.io7m.jcanephora.FramebufferColorAttachmentPointType;
-import com.io7m.jnull.NullCheck;
-import com.io7m.jnull.Nullable;
+import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
 import com.io7m.jranges.RangeCheck;
-
-/**
- * A color attachment point on a framebuffer.
- */
+import com.io7m.jranges.Ranges;
+import com.jogamp.opengl.GLContext;
 
 final class JOGLFramebufferColorAttachmentPoint extends
-  JOGLObjectPseudoUnshared implements FramebufferColorAttachmentPointType
+  JOGLObjectPseudoUnshared implements JCGLFramebufferColorAttachmentPointType
 {
   private final int index;
 
@@ -38,11 +32,39 @@ final class JOGLFramebufferColorAttachmentPoint extends
   {
     super(in_context);
     this.index =
-      (int) RangeCheck.checkIncludedIn(
+      RangeCheck.checkIncludedInInteger(
         in_index,
         "Attachment point",
-        RangeCheck.NATURAL_INTEGER,
+        Ranges.NATURAL_INTEGER,
         "Valid attachment points");
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder sb =
+      new StringBuilder("[FramebufferColorAttachmentPoint ");
+    sb.append(this.index);
+    sb.append(']');
+    return sb.toString();
+  }
+
+  @Override public boolean equals(final Object o)
+  {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || this.getClass() != o.getClass()) {
+      return false;
+    }
+
+    final JOGLFramebufferColorAttachmentPoint that =
+      (JOGLFramebufferColorAttachmentPoint) o;
+    return this.index == that.index;
+  }
+
+  @Override public int hashCode()
+  {
+    return this.index;
   }
 
   @Override public int colorAttachmentPointGetIndex()
@@ -50,53 +72,9 @@ final class JOGLFramebufferColorAttachmentPoint extends
     return this.index;
   }
 
-  @Override public int compareTo(
-    final @Nullable FramebufferColorAttachmentPointType other)
+  @Override
+  public int compareTo(final JCGLFramebufferColorAttachmentPointType o)
   {
-    final FramebufferColorAttachmentPointType o =
-      NullCheck.notNull(other, "Other");
-
-    final Integer ix = Integer.valueOf(this.index);
-    final Integer iy = Integer.valueOf(o.colorAttachmentPointGetIndex());
-    return ix.compareTo(iy);
-  }
-
-  @Override public boolean equals(
-    final @Nullable Object obj)
-  {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (this.getClass() != obj.getClass()) {
-      return false;
-    }
-    final JOGLFramebufferColorAttachmentPoint other =
-      (JOGLFramebufferColorAttachmentPoint) obj;
-    if (this.index != other.index) {
-      return false;
-    }
-    return true;
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + this.index;
-    return result;
-  }
-
-  @Override public String toString()
-  {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[JOGLFramebufferColorAttachmentPoint ");
-    builder.append(this.index);
-    builder.append("]");
-    final String r = builder.toString();
-    assert r != null;
-    return r;
+    return Integer.compare(this.index, o.colorAttachmentPointGetIndex());
   }
 }

@@ -1,10 +1,10 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,29 +16,19 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.io7m.jcanephora.FaceSelection;
+import com.io7m.jcanephora.core.JCGLFaceSelection;
 import com.io7m.jcanephora.jogl.JOGLTypeConversions;
-import com.io7m.junreachable.UnreachableCodeException;
+import com.io7m.jcanephora.tests.contracts.JCGLFaceSelectionContract;
 
-@SuppressWarnings({ "null", "static-method" }) public final class JOGLFaceSelectionTest
+public final class JOGLFaceSelectionTest extends JCGLFaceSelectionContract
 {
-  /**
-   * ∀f. faceSelectionFromGL(faceSelectionToGL(f)) = f.
-   */
-
-  @Test public void testFaceBijection()
+  @Override protected int toInt(final JCGLFaceSelection d)
   {
-    for (final FaceSelection f : FaceSelection.values()) {
-      Assert.assertEquals(JOGLTypeConversions
-        .faceSelectionFromGL(JOGLTypeConversions.faceSelectionToGL(f)), f);
-    }
+    return JOGLTypeConversions.faceSelectionToGL(d);
   }
 
-  @Test(expected = UnreachableCodeException.class) public void testNonsense()
+  @Override protected JCGLFaceSelection fromInt(final int c)
   {
-    JOGLTypeConversions.faceSelectionFromGL(-1);
+    return JOGLTypeConversions.faceSelectionFromGL(c);
   }
 }

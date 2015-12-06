@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,73 +16,54 @@
 
 package com.io7m.jcanephora.jogl;
 
-import javax.media.opengl.GL;
-
-import com.io7m.jcanephora.FaceSelection;
-import com.io7m.jcanephora.FaceWindingOrder;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.api.JCGLCullType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLFaceSelection;
+import com.io7m.jcanephora.core.JCGLFaceWindingOrder;
+import com.io7m.jcanephora.core.api.JCGLCullingType;
 import com.io7m.jnull.NullCheck;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL3;
 
-final class JOGLCulling implements JCGLCullType
+final class JOGLCulling implements JCGLCullingType
 {
-  private static FaceSelection uncachedGetFaceSelection(
-    final GL in_gl,
-    final JOGLIntegerCacheType in_icache)
+  private final GL3                  gl;
+  private       boolean              enabled;
+  private       JCGLFaceSelection    current_faces;
+  private       JCGLFaceWindingOrder current_order;
+
+  JOGLCulling(final JOGLContext c)
   {
-    final int faces = in_icache.getInteger(in_gl, GL.GL_CULL_FACE_MODE);
-    return JOGLTypeConversions.faceSelectionFromGL(faces);
-  }
+    final JOGLContext context = NullCheck.notNull(c);
+    this.gl = context.getGL3();
+    this.enabled = false;
+    this.current_faces = JCGLFaceSelection.FACE_BACK;
+    this.current_order = JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
 
-  private static FaceWindingOrder uncachedGetWindingOrder(
-    final GL in_gl,
-    final JOGLIntegerCacheType in_icache)
-  {
-    final int order = in_icache.getInteger(in_gl, GL.GL_FRONT_FACE);
-    return JOGLTypeConversions.faceWindingOrderFromGL(order);
-  }
+    /**
+     * Configure baseline defaults.
+     */
 
-  private static boolean uncachedIsEnabled(
-    final GL in_gl)
-  {
-    return in_gl.glIsEnabled(GL.GL_CULL_FACE);
-  }
-
-  private final boolean    caching;
-  private FaceSelection    current_faces;
-  private FaceWindingOrder current_order;
-  private boolean          enabled;
-  private final GL         gl;
-
-  JOGLCulling(
-    final GL in_gl,
-    final JOGLIntegerCacheType in_icache,
-    final boolean in_caching)
-  {
-    this.gl = NullCheck.notNull(in_gl, "GL");
-    NullCheck.notNull(in_icache, "Integer cache");
-
-    this.caching = in_caching;
-    this.current_faces =
-      JOGLCulling.uncachedGetFaceSelection(in_gl, in_icache);
-    this.current_order =
-      JOGLCulling.uncachedGetWindingOrder(in_gl, in_icache);
-    this.enabled = JOGLCulling.uncachedIsEnabled(in_gl);
+    this.gl.glDisable(GL.GL_CULL_FACE);
+    this.gl.glCullFace(
+      JOGLTypeConversions.faceSelectionToGL(this.current_faces));
+    this.gl.glFrontFace(
+      JOGLTypeConversions.faceWindingOrderToGL(this.current_order));
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   @Override public void cullingDisable()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    if (this.ignoreCache() || this.enabled) {
+    if (this.enabled) {
       this.gl.glDisable(GL.GL_CULL_FACE);
+      this.enabled = false;
     }
-    this.enabled = false;
   }
 
   @Override public void cullingEnable(
-    final FaceSelection faces,
-    final FaceWindingOrder order)
-    throws JCGLExceptionRuntime
+    final JCGLFaceSelection faces,
+    final JCGLFaceWindingOrder order)
+    throws JCGLException
   {
     NullCheck.notNull(faces, "Face selection");
     NullCheck.notNull(order, "Face winding order");
@@ -90,32 +71,23 @@ final class JOGLCulling implements JCGLCullType
     final int fi = JOGLTypeConversions.faceSelectionToGL(faces);
     final int oi = JOGLTypeConversions.faceWindingOrderToGL(order);
 
-    if (this.ignoreCache() || (this.enabled == false)) {
+    if (!this.enabled) {
       this.gl.glEnable(GL.GL_CULL_FACE);
+      this.enabled = true;
     }
-    if (this.ignoreCache() || (this.current_faces != faces)) {
+    if (this.current_faces != faces) {
       this.gl.glCullFace(fi);
+      this.current_faces = faces;
     }
-    if (this.ignoreCache() || (this.current_order != order)) {
+    if (this.current_order != order) {
       this.gl.glFrontFace(oi);
+      this.current_order = order;
     }
-
-    this.current_faces = faces;
-    this.current_order = order;
-    this.enabled = true;
   }
 
   @Override public boolean cullingIsEnabled()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    if (this.ignoreCache()) {
-      return JOGLCulling.uncachedIsEnabled(this.gl);
-    }
     return this.enabled;
-  }
-
-  private boolean ignoreCache()
-  {
-    return this.caching == false;
   }
 }

@@ -1,0 +1,37 @@
+<s:part
+  xml:id="core_interfaces"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+
+  <s:part-title>jcanephora Core Interfaces</s:part-title>
+  <s:part-contents/>
+
+  <s:section xml:id="core_interfaces.overview">
+    <s:section-title>Overview</s:section-title>
+    <s:paragraph>
+      The <s:term s:type="package">jcanephora</s:term> package
+      is separated into a number of "core" interfaces, through which
+      all higher-level abstractions/interfaces work.
+    </s:paragraph>
+  </s:section>
+
+  <xi:include href="core-implementation.xml"/>
+  <xi:include href="core-context.xml"/>
+
+  <xi:include href="core-array_buffers.xml"/>
+  <xi:include href="core-array_objects.xml"/>
+  <xi:include href="core-blending.xml"/>
+  <xi:include href="core-clear.xml"/>
+  <xi:include href="core-color_buffer_masking.xml"/>
+  <xi:include href="core-depth_buffers.xml"/>
+  <xi:include href="core-draw.xml"/>
+  <xi:include href="core-framebuffers.xml"/>
+  <xi:include href="core-index_buffers.xml"/>
+  <xi:include href="core-polygon_modes.xml"/>
+  <xi:include href="core-scissor.xml"/>
+  <xi:include href="core-shaders.xml"/>
+  <xi:include href="core-stencil_buffers.xml"/>
+  <xi:include href="core-textures.xml"/>
+  <xi:include href="core-viewports.xml"/>
+
+</s:part>

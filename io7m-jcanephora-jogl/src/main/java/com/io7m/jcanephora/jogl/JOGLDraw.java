@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,61 +16,61 @@
 
 package com.io7m.jcanephora.jogl;
 
-import javax.media.opengl.GL;
-
-import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLExceptionBufferNotBound;
-import com.io7m.jcanephora.JCGLExceptionDeleted;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.JCGLExceptionWrongContext;
-import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.api.JCGLDrawType;
-import com.io7m.jlog.LogType;
-import com.io7m.jlog.LogUsableType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
+import com.io7m.jcanephora.core.JCGLPrimitives;
+import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.Ranges;
+import com.jogamp.opengl.GL3;
 
 final class JOGLDraw implements JCGLDrawType
 {
-  private final GL                   gl;
-  private final LogType              log;
-  private final JCGLArrayBuffersType arrays;
+  private final JOGLArrayObjects array_objects;
+  private final JOGLIndexBuffers index_buffers;
+  private final JOGLContext      context;
+  private final GL3              g3;
 
   JOGLDraw(
-    final GL in_gl,
-    final JCGLArrayBuffersType in_arrays,
-    final LogUsableType in_log)
+    final JOGLContext in_context,
+    final JOGLArrayObjects in_array_objects,
+    final JOGLIndexBuffers in_index_buffers)
   {
-    this.gl = NullCheck.notNull(in_gl, "GL");
-    this.log = NullCheck.notNull(in_log, "Log").with("draw");
-    this.arrays = NullCheck.notNull(in_arrays, "Arrays");
+    this.context = NullCheck.notNull(in_context);
+    this.array_objects = NullCheck.notNull(in_array_objects);
+    this.index_buffers = NullCheck.notNull(in_index_buffers);
+    this.g3 = this.context.getGL3();
   }
 
-  @Override public void drawElements(
-    final Primitives mode,
-    final IndexBufferUsableType indices)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionWrongContext,
-      JCGLExceptionDeleted
+  @Override public void draw(
+    final JCGLPrimitives p,
+    final int first,
+    final int count)
+    throws JCGLException
   {
-    NullCheck.notNull(mode, "Drawing mode");
-    JOGLIndexBuffers.checkIndex(this.gl, indices);
+    NullCheck.notNull(p);
+    RangeCheck.checkIncludedInInteger(
+      first, "First", Ranges.NATURAL_INTEGER, "Valid index");
+    RangeCheck.checkIncludedInInteger(
+      count, "Count", Ranges.NATURAL_INTEGER, "Valid counts");
 
-    if (this.arrays.arrayBufferAnyIsBound()) {
-      final int index_id = indices.getGLName();
-      final int index_count = (int) indices.bufferGetRange().getInterval();
-      final int mode_gl = JOGLTypeConversions.primitiveToGL(mode);
-      final int type =
-        JOGLTypeConversions.unsignedTypeToGL(indices.indexGetType());
+    this.g3.glDrawArrays(JOGLTypeConversions.primitiveToGL(p), first, count);
+  }
 
-      this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, index_id);
-      try {
-        this.gl.glDrawElements(mode_gl, index_count, type, 0L);
-      } finally {
-        this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
-      }
+  @Override public void drawElements(final JCGLPrimitives p)
+    throws JCGLException, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(p);
+
+    if (this.index_buffers.indexBufferIsBound()) {
+      final JOGLIndexBuffer ib = this.array_objects.getCurrentIndexBuffer();
+      final int pgl = JOGLTypeConversions.primitiveToGL(p);
+      final int type = JOGLTypeConversions.unsignedTypeToGL(ib.getType());
+      this.g3.glDrawElements(pgl, (int) ib.getIndices(), type, 0L);
     } else {
-      throw new JCGLExceptionBufferNotBound("No array buffer is bound");
+      throw new JCGLExceptionBufferNotBound(
+        "No index buffer is currently bound");
     }
   }
 }

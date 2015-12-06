@@ -1,0 +1,66 @@
+<s:section
+  xml:id="core_interfaces.index_buffers"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLIndexBuffersType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLIndexBuffersType.html">JCGLIndexBuffersType</s:link-external>
+      interface provides functions for allocating, updating,
+      and using index buffers. It provides a typed interface
+      to the <s:term s:type="function">glGenBuffers</s:term> and
+      <s:term s:type="function">glBufferData</s:term> functions.
+    </s:paragraph>
+    <s:paragraph>
+      Index buffers are used to store indices for
+      <s:term s:type="term">indexed rendering</s:term> as provided by
+      the OpenGL <s:term s:type="function">glDrawElements</s:term> family
+      of functions.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage examples</s:subsection-title>
+    <s:paragraph>
+      Usage of index buffers is similar to
+      <s:link s:target="core_interfaces.array_buffers">array buffers</s:link>
+      with the main difference being that index buffers know the type of
+      their indices.
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Allocation and Updates</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLIndexBuffersType g;
+
+JCGLIndexBufferType a = g.indexBufferAllocate(3, JCGLUnsignedType.TYPE_UNSIGNED_INT, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+final JCGLBufferUpdateType<JCGLIndexBufferType> u =
+  JCGLBufferUpdates.newUpdateReplacingAll(this.index_buffer);
+final IntBuffer i = u.getData().asIntBuffer();
+
+i.put(0, 0);
+i.put(1, 1);
+i.put(2, 2);
+
+g.indexBufferUpdate(u);
+g.indexBufferUnbind();
+]]></s:verbatim>
+    </s:formal-item>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      OpenGL specifies that at most one index buffer can be
+      <s:term s:type="term">bound</s:term> to the current
+      <s:link s:target="core_interfaces.array_objects">array object</s:link>
+      at any given time. OpenGL provides a
+      <s:term s:type="term">default array object</s:term> that is used
+      when attempting to bind an index buffer, if no user-created
+      array object is bound.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

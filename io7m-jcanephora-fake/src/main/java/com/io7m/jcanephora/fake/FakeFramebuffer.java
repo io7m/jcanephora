@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,233 +16,103 @@
 
 package com.io7m.jcanephora.fake;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
+import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentType;
+import com.io7m.jcanephora.core.JCGLFramebufferDepthAttachmentType;
+import com.io7m.jcanephora.core.JCGLFramebufferDepthStencilAttachmentType;
+import com.io7m.jcanephora.core.JCGLFramebufferType;
+import com.io7m.jcanephora.core.JCGLReferableType;
+import org.valid4j.Assertive;
 
-import com.io7m.jcanephora.FramebufferDrawBufferType;
-import com.io7m.jcanephora.FramebufferType;
-import com.io7m.jcanephora.JCGLException;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.RenderableColorKind;
-import com.io7m.jcanephora.RenderableDepthKind;
-import com.io7m.jcanephora.RenderableDepthStencilKind;
-import com.io7m.jcanephora.RenderableStencilKind;
-import com.io7m.jcanephora.RenderbufferKind;
-import com.io7m.jnull.Nullable;
-import com.io7m.junreachable.UnreachableCodeException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
-/**
- * An allocated framebuffer.
- */
-
-public final class FakeFramebuffer extends FakeObjectUnshared implements
-  FramebufferType
+final class FakeFramebuffer extends FakeObjectUnshared implements
+  JCGLFramebufferType
 {
-  private final List<FakeFramebufferAttachableType> color_attachments;
-  private @Nullable FakeFramebufferAttachableType   depth_attachment;
-  private @Nullable FakeFramebufferAttachableType   stencil_attachment;
+  private final String image;
+  private final
+  Map<JCGLFramebufferColorAttachmentPointType,
+    JCGLFramebufferColorAttachmentType> colors;
+  private final FakeReferenceContainer refs;
+  private       int                    depth_bits;
+  private       int                    stencil_bits;
 
   FakeFramebuffer(
     final FakeContext in_context,
-    final FakeDrawBuffers in_draw_buffers,
     final int in_id)
-    throws JCGLExceptionRuntime
   {
     super(in_context, in_id);
-    this.color_attachments = new ArrayList<FakeFramebufferAttachableType>();
+    this.depth_bits = 0;
+    this.stencil_bits = 0;
+    this.colors = new HashMap<>(16);
+    this.refs = new FakeReferenceContainer(this, 16);
 
-    final List<FramebufferDrawBufferType> buffers =
-      in_draw_buffers.getDrawBuffers();
-    for (int index = 0; index < buffers.size(); ++index) {
-      this.color_attachments.add(null);
+    {
+      final StringBuilder sb = new StringBuilder("[Framebuffer ");
+      sb.append(super.getGLName());
+      sb.append(']');
+      this.image = sb.toString();
     }
-
-    this.depth_attachment = null;
-    this.stencil_attachment = null;
-  }
-
-  /**
-   * @return The number of bits in the depth attachment (if any).
-   */
-
-  @Override @SuppressWarnings("boxing") public int framebufferGetDepthBits()
-  {
-    try {
-      if (this.depth_attachment != null) {
-        return this.depth_attachment
-          .attachableAccept(
-            new FakeFramebufferAttachableVisitorType<Integer, UnreachableCodeException>() {
-              @Override public
-                <K extends RenderbufferKind>
-                Integer
-                renderbuffer(
-                  final FakeRenderbuffer<K> r)
-              {
-                switch (r.renderbufferGetFormat()) {
-                  case RENDERBUFFER_COLOR_RGBA_4444:
-                  case RENDERBUFFER_COLOR_RGBA_5551:
-                  case RENDERBUFFER_COLOR_RGBA_8888:
-                  case RENDERBUFFER_COLOR_RGB_565:
-                  case RENDERBUFFER_COLOR_RGB_888:
-                  {
-                    throw new UnreachableCodeException();
-                  }
-                  case RENDERBUFFER_DEPTH_16:
-                  {
-                    return 16;
-                  }
-                  case RENDERBUFFER_DEPTH_24_STENCIL_8:
-                  case RENDERBUFFER_DEPTH_24:
-                  {
-                    return 24;
-                  }
-                  case RENDERBUFFER_STENCIL_8:
-                  {
-                    throw new UnreachableCodeException();
-                  }
-                }
-
-                throw new UnreachableCodeException();
-              }
-
-              @Override public Integer texture2D(
-                final FakeTexture2DStatic t)
-              {
-                switch (t.textureGetFormat()) {
-                  case TEXTURE_FORMAT_DEPTH_16_2BPP:
-                  {
-                    return 16;
-                  }
-                  case TEXTURE_FORMAT_DEPTH_24_4BPP:
-                  case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
-                  {
-                    return 24;
-                  }
-                  case TEXTURE_FORMAT_DEPTH_32F_4BPP:
-                  {
-                    return 32;
-                  }
-                  // $CASES-OMITTED$
-                  default:
-                    throw new UnreachableCodeException();
-                }
-              }
-
-              @Override public Integer textureCube(
-                final FakeTextureCubeStatic t)
-              {
-                switch (t.textureGetFormat()) {
-                  case TEXTURE_FORMAT_DEPTH_16_2BPP:
-                  {
-                    return 16;
-                  }
-                  case TEXTURE_FORMAT_DEPTH_24_4BPP:
-                  case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
-                  {
-                    return 24;
-                  }
-                  case TEXTURE_FORMAT_DEPTH_32F_4BPP:
-                  {
-                    return 32;
-                  }
-                  // $CASES-OMITTED$
-                  default:
-                    throw new UnreachableCodeException();
-                }
-              }
-            }).intValue();
-      }
-
-      return 0;
-    } catch (final JCGLException e) {
-      throw new UnreachableCodeException(e);
-    }
-  }
-
-  @Override public int framebufferGetStencilBits()
-  {
-    final FakeFramebufferAttachableType da = this.depth_attachment;
-    if (da != null) {
-      if (da.isStencilRenderable()) {
-        return da.getStencilBits();
-      }
-    }
-    if (this.stencil_attachment != null) {
-      return this.stencil_attachment.getStencilBits();
-    }
-
-    return 0;
-  }
-
-  List<FakeFramebufferAttachableType> getColorAttachments()
-  {
-    return this.color_attachments;
-  }
-
-  @Nullable FakeFramebufferAttachableType getDepthAttachment()
-  {
-    return this.depth_attachment;
-  }
-
-  @Nullable FakeFramebufferAttachableType getStencilAttachment()
-  {
-    return this.stencil_attachment;
-  }
-
-  void setColorRenderbuffer(
-    final int i,
-    final FakeRenderbuffer<RenderableColorKind> renderbuffer)
-  {
-    this.color_attachments.set(i, renderbuffer);
-  }
-
-  void setColorTexture(
-    final int i,
-    final FakeTexture2DStatic t)
-  {
-    this.color_attachments.set(i, t);
-  }
-
-  void setDepthRenderbuffer(
-    final FakeRenderbuffer<RenderableDepthKind> fake_r)
-  {
-    this.depth_attachment = fake_r;
-  }
-
-  void setDepthStencilRenderbuffer(
-    final FakeRenderbuffer<RenderableDepthStencilKind> fake_r)
-  {
-    this.depth_attachment = fake_r;
-    this.stencil_attachment = fake_r;
-  }
-
-  void setDepthStencilTexture2D(
-    final FakeTexture2DStatic fake_t)
-  {
-    this.depth_attachment = fake_t;
-    this.stencil_attachment = fake_t;
-  }
-
-  void setDepthTexture2D(
-    final FakeTexture2DStatic fake_t)
-  {
-    this.depth_attachment = fake_t;
-  }
-
-  void setStencilRenderbuffer(
-    final FakeRenderbuffer<RenderableStencilKind> fake_r)
-  {
-    this.stencil_attachment = fake_r;
   }
 
   @Override public String toString()
   {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[FakeFramebuffer ");
-    builder.append(this.getGLName());
-    builder.append("]");
-    final String r = builder.toString();
-    assert r != null;
-    return r;
+    return this.image;
+  }
+
+  @Override
+  public Optional<JCGLFramebufferColorAttachmentType>
+  framebufferGetColorAttachment(
+    final JCGLFramebufferColorAttachmentPointType c)
+  {
+    return Optional.ofNullable(this.colors.get(c));
+  }
+
+  @Override public int framebufferGetDepthBits()
+  {
+    return this.depth_bits;
+  }
+
+  @Override public int framebufferGetStencilBits()
+  {
+    return this.stencil_bits;
+  }
+
+  void setColorAttachment(
+    final JCGLFramebufferColorAttachmentPointType p,
+    final JCGLFramebufferColorAttachmentType a)
+  {
+    this.colors.put(p, a);
+    this.refs.referenceAdd((FakeReferable) a);
+  }
+
+  @Override public Set<JCGLReferableType> getReferences()
+  {
+    return this.refs.getReferences();
+  }
+
+  void setDepthAttachment(
+    final JCGLFramebufferDepthAttachmentType a,
+    final int bits)
+  {
+    Assertive.ensure(this.depth_bits == 0);
+    Assertive.ensure(this.stencil_bits == 0);
+    this.refs.referenceAdd((FakeReferable) a);
+    this.depth_bits = bits;
+  }
+
+  void setDepthStencilAttachment(
+    final JCGLFramebufferDepthStencilAttachmentType a,
+    final int d_bits,
+    final int s_bits)
+  {
+    Assertive.ensure(this.depth_bits == 0);
+    Assertive.ensure(this.stencil_bits == 0);
+    this.refs.referenceAdd((FakeReferable) a);
+    this.depth_bits = d_bits;
+    this.stencil_bits = s_bits;
   }
 }

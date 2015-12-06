@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,18 +16,23 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jcanephora.JCGLNameType;
+import com.io7m.jcanephora.core.JCGLNamedType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.Ranges;
+
+//@formatter:off
 
 /**
  * <p>
  * An object that cannot be shared across contexts, according to the OpenGL
  * specification.
  * </p>
+ *
  * <p>
  * As of 4.3, the list includes:
  * </p>
+ *
  * <ul>
  * <li>Framebuffer objects</li>
  * <li>Program pipeline objects</li>
@@ -37,8 +42,10 @@ import com.io7m.jranges.RangeCheck;
  * </ul>
  */
 
-abstract class FakeObjectUnshared extends FakeObjectDeletable implements
-  JCGLNameType
+// @formatter:on
+
+abstract class FakeObjectUnshared extends FakeObjectDeletable
+  implements JCGLNamedType
 {
   private final FakeContext context;
   private final int         id;
@@ -48,15 +55,11 @@ abstract class FakeObjectUnshared extends FakeObjectDeletable implements
     final int in_id)
   {
     this.context = NullCheck.notNull(in_context, "Context");
-    this.id =
-      (int) RangeCheck.checkIncludedIn(
-        in_id,
-        "Identifier",
-        RangeCheck.POSITIVE_INTEGER,
-        "Valid OpenGL identifiers");
+    this.id = RangeCheck.checkIncludedInInteger(
+      in_id, "Identifier", Ranges.POSITIVE_INTEGER, "Valid OpenGL identifiers");
   }
 
-  protected final FakeContext getContext()
+  public final FakeContext getContext()
   {
     return this.context;
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,46 +16,47 @@
 
 package com.io7m.jcanephora.jogl;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2GL3;
-
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.PolygonMode;
-import com.io7m.jcanephora.api.JCGLPolygonModesType;
-import com.io7m.jlog.LogType;
-import com.io7m.jlog.LogUsableType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLPolygonMode;
+import com.io7m.jcanephora.core.api.JCGLPolygonModesType;
 import com.io7m.jnull.NullCheck;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL3;
 
 final class JOGLPolygonMode implements JCGLPolygonModesType
 {
-  private final GL      gl;
-  private final LogType log;
-  private PolygonMode   polygon_mode;
+  private final GL3             gl;
+  private       JCGLPolygonMode mode;
 
-  JOGLPolygonMode(
-    final GL in_gl,
-    final LogUsableType in_log)
+  JOGLPolygonMode(final JOGLContext c)
   {
-    this.gl = NullCheck.notNull(in_gl, "GL");
-    this.log = NullCheck.notNull(in_log, "Log").with("polygon-modes");
-    this.polygon_mode = PolygonMode.POLYGON_FILL;
+    final JOGLContext context = NullCheck.notNull(c);
+    this.gl = context.getGL3();
+    this.mode = JCGLPolygonMode.POLYGON_FILL;
+
+    /**
+     * Configure baseline defaults.
+     */
+
+    this.gl.glPolygonMode(
+      GL.GL_FRONT_AND_BACK,
+      JOGLTypeConversions.polygonModeToGL(this.mode));
   }
 
-  @Override public PolygonMode polygonGetMode()
-    throws JCGLExceptionRuntime
+  @Override public JCGLPolygonMode polygonGetMode()
+    throws JCGLException
   {
-    return this.polygon_mode;
+    return this.mode;
   }
 
   @Override public void polygonSetMode(
-    final PolygonMode mode)
-    throws JCGLExceptionRuntime
+    final JCGLPolygonMode m)
+    throws JCGLException
   {
-    NullCheck.notNull(mode, "Polygon mode");
+    NullCheck.notNull(m);
 
-    final GL2GL3 g3 = this.gl.getGL2GL3();
-    final int im = JOGLTypeConversions.polygonModeToGL(mode);
-    g3.glPolygonMode(GL.GL_FRONT_AND_BACK, im);
-    this.polygon_mode = mode;
+    final int im = JOGLTypeConversions.polygonModeToGL(m);
+    this.gl.glPolygonMode(GL.GL_FRONT_AND_BACK, im);
+    this.mode = m;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,44 +16,39 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.api.JCGLScissorType;
-import com.io7m.jlog.LogType;
-import com.io7m.jlog.LogUsableType;
+import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jnull.NullCheck;
 
 final class FakeScissor implements JCGLScissorType
 {
-  private final FakeContext context;
-  private final LogType     log;
-  private boolean           scissor;
+  private boolean enabled;
 
-  FakeScissor(
-    final FakeContext in_gl,
-    final LogUsableType in_log)
+  FakeScissor(final FakeContext c)
   {
-    this.context = NullCheck.notNull(in_gl, "FakeContext");
-    this.log = NullCheck.notNull(in_log, "Log").with("scissor");
+    this.enabled = false;
   }
 
   @Override public void scissorDisable()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    this.scissor = false;
+    if (this.enabled) {
+      this.enabled = false;
+    }
   }
 
   @Override public void scissorEnable(
-    final AreaInclusive area)
-    throws JCGLExceptionRuntime
+    final AreaInclusiveUnsignedLType area)
+    throws JCGLException
   {
-    NullCheck.notNull(area, "Scissor area");
-    this.scissor = true;
+    NullCheck.notNull(area);
+    this.enabled = true;
   }
 
   @Override public boolean scissorIsEnabled()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return this.scissor;
+    return this.enabled;
   }
 }

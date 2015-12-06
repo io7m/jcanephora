@@ -1,0 +1,36 @@
+<s:section
+  xml:id="core_interfaces.draw"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLDrawType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLDrawType.html">JCGLDrawType</s:link-external>
+      interface provides functions for initiating rendering operations.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage examples</s:subsection-title>
+    <s:paragraph>
+      Assuming that an <s:link s:target="core_interfaces.array_objects">array object</s:link>
+      is currently bound and has an attached
+      <s:link s:target="core_interfaces.index_buffers">index buffer</s:link>,
+      drawing an object is trivial:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Drawing</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLDrawType g;
+
+g.drawElements(Primitives.PRIMITIVE_TRIANGLES);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      Similar functions exist for rendering without index buffers.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

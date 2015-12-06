@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,66 +16,47 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jcanephora.IndexBufferType;
-import com.io7m.jcanephora.JCGLUnsignedType;
-import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.core.JCGLIndexBufferType;
+import com.io7m.jcanephora.core.JCGLUnsignedType;
+import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jranges.RangeInclusiveL;
 
-final class FakeIndexBuffer extends FakeObjectShared implements
-  IndexBufferType
+import java.nio.ByteBuffer;
+
+final class FakeIndexBuffer extends FakeBuffer implements JCGLIndexBufferType
 {
-  private final RangeInclusiveL  range;
+  private final long             indices;
   private final JCGLUnsignedType type;
-  private final UsageHint        usage;
+  private final String           image;
 
   FakeIndexBuffer(
     final FakeContext in_context,
-    final int in_name,
-    final RangeInclusiveL in_range,
+    final int in_id,
+    final long in_indices,
     final JCGLUnsignedType in_type,
-    final UsageHint in_usage)
+    final ByteBuffer in_data,
+    final JCGLUsageHint in_usage)
   {
-    super(in_context, in_name);
-    this.range = NullCheck.notNull(in_range, "Range");
-    this.type = NullCheck.notNull(in_type, "GL type");
-    this.usage = NullCheck.notNull(in_usage, "Usage hint");
+    super(in_context, in_id, in_data, in_usage);
+    this.indices = in_indices;
+    this.type = NullCheck.notNull(in_type);
+
+    this.image = String.format(
+      "[JOGLIndexBuffer %d]", Integer.valueOf(this.getGLName()));
   }
 
-  @Override public long bufferGetElementSizeBytes()
+  @Override public long getIndices()
   {
-    return this.type.getSizeBytes();
-  }
-
-  @Override public RangeInclusiveL bufferGetRange()
-  {
-    return this.range;
-  }
-
-  @Override public JCGLUnsignedType indexGetType()
-  {
-    return this.type;
-  }
-
-  @Override public UsageHint indexGetUsageHint()
-  {
-    return this.usage;
-  }
-
-  @Override public long resourceGetSizeBytes()
-  {
-    return this.bufferGetElementSizeBytes() * this.range.getInterval();
+    return this.indices;
   }
 
   @Override public String toString()
   {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[FakeIndexBuffer ");
-    builder.append(super.getGLName());
-    builder.append("]");
+    return this.image;
+  }
 
-    final String r = builder.toString();
-    assert r != null;
-    return r;
+  @Override public JCGLUnsignedType getType()
+  {
+    return this.type;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,81 +16,50 @@
 
 package com.io7m.jcanephora.jogl;
 
-import java.nio.IntBuffer;
-
-import javax.media.opengl.GL;
-
-import com.io7m.jcanephora.BlendEquationGL3;
-import com.io7m.jcanephora.BlendEquationGLES2;
-import com.io7m.jcanephora.BlendFunction;
-import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.api.JCGLBlendingGL3Type;
-import com.io7m.jlog.LogType;
-import com.io7m.jlog.LogUsableType;
+import com.io7m.jcanephora.core.JCGLBlendEquation;
+import com.io7m.jcanephora.core.JCGLBlendFunction;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionBlendingMisconfigured;
+import com.io7m.jcanephora.core.api.JCGLBlendingType;
 import com.io7m.jnull.NullCheck;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL3;
 
-final class JOGLBlending implements JCGLBlendingGL3Type
+final class JOGLBlending implements JCGLBlendingType
 {
-  private final JOGLIntegerCacheType cache;
-  private final GL                   gl;
-  private final LogType              log;
+  private final JOGLContext context;
+  private final GL3         gl;
+  private       boolean     blend;
 
-  JOGLBlending(
-    final GL in_gl,
-    final LogUsableType in_log,
-    final JOGLIntegerCacheType in_cache)
+  JOGLBlending(final JOGLContext c)
   {
-    this.gl = NullCheck.notNull(in_gl, "GL");
-    this.log = NullCheck.notNull(in_log, "Log").with("blending");
-    this.cache = NullCheck.notNull(in_cache, "Cache");
+    this.context = NullCheck.notNull(c);
+    this.gl = this.context.getGL3();
+    this.blend = this.gl.glIsEnabled(GL.GL_BLEND);
+    JOGLErrorChecking.checkErrors(this.gl);
   }
 
   @Override public void blendingDisable()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
     this.gl.glDisable(GL.GL_BLEND);
+    this.blend = false;
   }
 
-  @Override public void blendingEnable(
-    final BlendFunction source_factor,
-    final BlendFunction destination_factor)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionBlendingMisconfigured
+  @Override public boolean blendingIsEnabled()
+    throws JCGLException
   {
-    this.blendingEnableSeparate(
-      source_factor,
-      source_factor,
-      destination_factor,
-      destination_factor);
-  }
-
-  @Override public void blendingEnableSeparate(
-    final BlendFunction source_rgb_factor,
-    final BlendFunction source_alpha_factor,
-    final BlendFunction destination_rgb_factor,
-    final BlendFunction destination_alpha_factor)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionBlendingMisconfigured
-  {
-    this.blendingEnableSeparateWithEquationSeparateES2(
-      source_rgb_factor,
-      source_alpha_factor,
-      destination_rgb_factor,
-      destination_alpha_factor,
-      BlendEquationGLES2.BLEND_EQUATION_ADD,
-      BlendEquationGLES2.BLEND_EQUATION_ADD);
+    return this.blend;
   }
 
   @Override public void blendingEnableSeparateWithEquationSeparate(
-    final BlendFunction source_rgb_factor,
-    final BlendFunction source_alpha_factor,
-    final BlendFunction destination_rgb_factor,
-    final BlendFunction destination_alpha_factor,
-    final BlendEquationGL3 equation_rgb,
-    final BlendEquationGL3 equation_alpha)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionBlendingMisconfigured
+    final JCGLBlendFunction source_rgb_factor,
+    final JCGLBlendFunction source_alpha_factor,
+    final JCGLBlendFunction destination_rgb_factor,
+    final JCGLBlendFunction destination_alpha_factor,
+    final JCGLBlendEquation equation_rgb,
+    final JCGLBlendEquation equation_alpha)
+    throws JCGLException, JCGLExceptionBlendingMisconfigured
   {
     NullCheck.notNull(source_rgb_factor, "Source RGB factor");
     NullCheck.notNull(source_alpha_factor, "Source alpha factor");
@@ -99,11 +68,13 @@ final class JOGLBlending implements JCGLBlendingGL3Type
     NullCheck.notNull(equation_rgb, "Equation RGB");
     NullCheck.notNull(equation_alpha, "Equation alpha");
 
-    if (destination_rgb_factor == BlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
+    if (destination_rgb_factor
+        == JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
       throw new JCGLExceptionBlendingMisconfigured(
         "Destination RGB factor not SOURCE_ALPHA_SATURATE");
     }
-    if (destination_alpha_factor == BlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
+    if (destination_alpha_factor
+        == JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
       throw new JCGLExceptionBlendingMisconfigured(
         "Destination alpha factor not SOURCE_ALPHA_SATURATE");
     }
@@ -117,116 +88,6 @@ final class JOGLBlending implements JCGLBlendingGL3Type
       JOGLTypeConversions.blendFunctionToGL(destination_rgb_factor),
       JOGLTypeConversions.blendFunctionToGL(source_alpha_factor),
       JOGLTypeConversions.blendFunctionToGL(destination_alpha_factor));
-  }
-
-  @Override public void blendingEnableSeparateWithEquationSeparateES2(
-    final BlendFunction source_rgb_factor,
-    final BlendFunction source_alpha_factor,
-    final BlendFunction destination_rgb_factor,
-    final BlendFunction destination_alpha_factor,
-    final BlendEquationGLES2 equation_rgb,
-    final BlendEquationGLES2 equation_alpha)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionBlendingMisconfigured
-  {
-    NullCheck.notNull(source_rgb_factor, "Source RGB factor");
-    NullCheck.notNull(source_alpha_factor, "Source alpha factor");
-    NullCheck.notNull(destination_rgb_factor, "Destination RGB factor");
-    NullCheck.notNull(destination_alpha_factor, "Destination alpha factor");
-    NullCheck.notNull(equation_rgb, "Equation RGB");
-    NullCheck.notNull(equation_alpha, "Equation alpha");
-
-    if (destination_rgb_factor == BlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
-      throw new JCGLExceptionBlendingMisconfigured(
-        "Destination RGB factor not SOURCE_ALPHA_SATURATE");
-    }
-    if (destination_alpha_factor == BlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
-      throw new JCGLExceptionBlendingMisconfigured(
-        "Destination alpha factor not SOURCE_ALPHA_SATURATE");
-    }
-
-    this.gl.glEnable(GL.GL_BLEND);
-    this.gl.glBlendEquationSeparate(
-      JOGLTypeConversions.blendEquationES2ToGL(equation_rgb),
-      JOGLTypeConversions.blendEquationES2ToGL(equation_alpha));
-    this.gl.glBlendFuncSeparate(
-      JOGLTypeConversions.blendFunctionToGL(source_rgb_factor),
-      JOGLTypeConversions.blendFunctionToGL(destination_rgb_factor),
-      JOGLTypeConversions.blendFunctionToGL(source_alpha_factor),
-      JOGLTypeConversions.blendFunctionToGL(destination_alpha_factor));
-  }
-
-  @Override public void blendingEnableWithEquation(
-    final BlendFunction source_factor,
-    final BlendFunction destination_factor,
-    final BlendEquationGL3 equation)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionBlendingMisconfigured
-  {
-    this.blendingEnableSeparateWithEquationSeparate(
-      source_factor,
-      source_factor,
-      destination_factor,
-      destination_factor,
-      equation,
-      equation);
-  }
-
-  @Override public void blendingEnableWithEquationES2(
-    final BlendFunction source_factor,
-    final BlendFunction destination_factor,
-    final BlendEquationGLES2 equation)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionBlendingMisconfigured
-  {
-    this.blendingEnableSeparateWithEquationSeparateES2(
-      source_factor,
-      source_factor,
-      destination_factor,
-      destination_factor,
-      equation,
-      equation);
-  }
-
-  @Override public void blendingEnableWithEquationSeparate(
-    final BlendFunction source_factor,
-    final BlendFunction destination_factor,
-    final BlendEquationGL3 equation_rgb,
-    final BlendEquationGL3 equation_alpha)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionBlendingMisconfigured
-  {
-    this.blendingEnableSeparateWithEquationSeparate(
-      source_factor,
-      source_factor,
-      destination_factor,
-      destination_factor,
-      equation_rgb,
-      equation_alpha);
-  }
-
-  @Override public void blendingEnableWithEquationSeparateES2(
-    final BlendFunction source_factor,
-    final BlendFunction destination_factor,
-    final BlendEquationGLES2 equation_rgb,
-    final BlendEquationGLES2 equation_alpha)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionBlendingMisconfigured
-  {
-    this.blendingEnableSeparateWithEquationSeparateES2(
-      source_factor,
-      source_factor,
-      destination_factor,
-      destination_factor,
-      equation_rgb,
-      equation_alpha);
-  }
-
-  @Override public boolean blendingIsEnabled()
-    throws JCGLExceptionRuntime
-  {
-    final IntBuffer icache = this.cache.getIntegerCache();
-    this.gl.glGetIntegerv(GL.GL_BLEND, icache);
-    return icache.get(0) == GL.GL_TRUE;
+    this.blend = true;
   }
 }

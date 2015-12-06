@@ -1,0 +1,47 @@
+<s:section
+  xml:id="core_interfaces.viewports"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLViewportsType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLViewportsType.html">JCGLViewportsType</s:link-external>
+      interface provides functions for controlling the current
+      viewport.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage example</s:subsection-title>
+    <s:paragraph>
+      The following code configures a <s:term s:type="expression">640x480</s:term>
+      viewport:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Viewport</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLViewportsType g;
+
+AreaInclusiveUnsignedLType area =
+  AreaInclusiveUnsignedL.of(
+    new UnsignedRangeInclusiveL(0, 639),
+    new UnsignedRangeInclusiveL(0, 479)
+  );
+
+g.viewportSet(area);
+]]></s:verbatim>
+    </s:formal-item>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>State</s:subsection-title>
+    <s:paragraph>
+      The current viewport state is global to a given context; when modified,
+      it is modified for all subsequent rendering operations on that context
+      until modified again.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

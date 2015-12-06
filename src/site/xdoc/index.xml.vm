@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document
+  xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>${project.name}</title>
+  </properties>
+
+  <body>
+    <subsection name="${project.name}">
+      <p>
+        The <b>${project.name}</b> package implements a set of abstractions over
+        <a href="http://opengl.org">OpenGL</a> with the intention of providing an
+        API that enforces program correctness statically.
+      </p>
+    </subsection>
+    <subsection name="Features">
+      <ul>
+        <li>Strongly typed wrappers for OpenGL 3.3 objects: No more accidental API misuse</li>
+        <li>Run-time checking (where static checks are not possible) of various OpenGL preconditions and invariants</li>
+        <li>Generated cursor types for efficient and safe texture updates (provided by <a href="http://io7m.github.io/jpra/">jpra</a>)</li>
+        <li>Strict checking of cross-context object sharing</li>
+        <li>Run-time type checking of shader parameters</li>
+        <li>Large automated test suite: ~95% coverage</li>
+        <li>ISC license</li>
+      </ul>
+    </subsection>
+  </body>
+
+</document>

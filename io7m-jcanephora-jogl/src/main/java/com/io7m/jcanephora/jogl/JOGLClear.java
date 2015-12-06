@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,104 +16,56 @@
 
 package com.io7m.jcanephora.jogl;
 
-import javax.media.opengl.GL;
-
-import com.io7m.jcanephora.ClearSpecification;
-import com.io7m.jcanephora.JCGLException;
-import com.io7m.jcanephora.JCGLExceptionNoDepthBuffer;
-import com.io7m.jcanephora.JCGLExceptionNoStencilBuffer;
-import com.io7m.jcanephora.api.JCGLClearType;
-import com.io7m.jcanephora.api.JCGLDepthBufferType;
-import com.io7m.jcanephora.api.JCGLStencilBufferType;
-import com.io7m.jfunctional.OptionType;
-import com.io7m.jfunctional.Some;
+import com.io7m.jcanephora.core.JCGLClearSpecificationType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.api.JCGLClearType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorReadable4FType;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL3;
+
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
 
 final class JOGLClear implements JCGLClearType
 {
-  private final GL                    gl;
-  private final JCGLDepthBufferType   d;
-  private final JCGLStencilBufferType s;
+  private final JOGLContext context;
+  private final GL3         g3;
 
   JOGLClear(
-    final GL in_gl,
-    final JCGLDepthBufferType in_d,
-    final JCGLStencilBufferType in_s)
+    final JOGLContext in_context)
   {
-    this.gl = NullCheck.notNull(in_gl, "GL");
-    this.d = NullCheck.notNull(in_d, "Depth buffers");
-    this.s = NullCheck.notNull(in_s, "Stencil buffers");
+    this.context = NullCheck.notNull(in_context);
+    this.g3 = this.context.getGL3();
   }
 
-  @Override public void clear(
-    final ClearSpecification spec)
+  @Override public void clear(final JCGLClearSpecificationType c)
     throws JCGLException
   {
-    NullCheck.notNull(spec, "Specification");
+    NullCheck.notNull(c);
 
     int buffers = 0;
-    final OptionType<VectorReadable4FType> opt_color = spec.getColor();
-    final OptionType<Float> opt_depth = spec.getDepth();
-    final OptionType<Integer> opt_stencil = spec.getStencil();
+    final Optional<VectorReadable4FType> opt_color = c.getColorBufferClear();
+    final OptionalDouble opt_depth = c.getDepthBufferClear();
+    final OptionalInt opt_stencil = c.getStencilBufferClear();
 
-    /**
-     * Perform checks.
-     */
-
-    if (spec.isStrict()) {
-      if (opt_depth.isSome()) {
-        if (this.d.depthBufferGetBits() == 0) {
-          throw new JCGLExceptionNoDepthBuffer("No depth buffer available");
-        }
-      }
-      if (opt_stencil.isSome()) {
-        if (this.s.stencilBufferGetBits() == 0) {
-          throw new JCGLExceptionNoStencilBuffer(
-            "No stencil buffer available");
-        }
-      }
-    }
-
-    /**
-     * Set clear color, if necessary.
-     */
-
-    if (opt_color.isSome()) {
+    if (opt_color.isPresent()) {
       buffers |= GL.GL_COLOR_BUFFER_BIT;
-
-      final Some<VectorReadable4FType> some_color =
-        (Some<VectorReadable4FType>) opt_color;
-      final VectorReadable4FType c = some_color.get();
-      this.gl.glClearColor(c.getXF(), c.getYF(), c.getZF(), c.getWF());
+      final VectorReadable4FType cc = opt_color.get();
+      this.g3.glClearColor(cc.getXF(), cc.getYF(), cc.getZF(), cc.getWF());
     }
 
-    /**
-     * Set depth, if necessary.
-     */
-
-    if (opt_depth.isSome()) {
+    if (opt_depth.isPresent()) {
       buffers |= GL.GL_DEPTH_BUFFER_BIT;
-
-      final Some<Float> some_depth = (Some<Float>) opt_depth;
-      final Float dv = some_depth.get();
-      final float df = dv.floatValue();
-      this.gl.glClearDepth(df);
+      this.g3.glClearDepth(opt_depth.getAsDouble());
     }
 
-    /**
-     * Set stencil, if necessary.
-     */
-
-    if (opt_stencil.isSome()) {
+    if (opt_stencil.isPresent()) {
       buffers |= GL.GL_STENCIL_BUFFER_BIT;
-
-      final Some<Integer> some_stencil = (Some<Integer>) opt_stencil;
-      final Integer x = some_stencil.get();
-      final int xi = x.intValue();
-      this.gl.glClearStencil(xi);
+      this.g3.glClearStencil(opt_stencil.getAsInt());
     }
 
-    this.gl.glClear(buffers);
+    this.g3.glClear(buffers);
   }
 }

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright © 2015 <code@io7m.com> http://io7m.com
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  -->
+
+<s:part xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:part-title>Design/Rationale</s:part-title>
+  <s:part-contents/>
+
+  <s:section xml:id="rationale.problems">
+    <s:section-title>Problems with OpenGL</s:section-title>
+    <s:subsection>
+      <s:subsection-title>Overview</s:subsection-title>
+      <s:paragraph>
+        The
+        <s:term s:type="package">jcanephora</s:term>
+        package takes the
+        general view that OpenGL as an API is a ridiculously error-prone
+        and poorly defined mess
+        <s:footnote>
+          Whilst, annoyingly, being the only viable cross-platform and
+          vendor neutral graphics API available.
+        </s:footnote>. The package attempts to address most if not all of
+        the problems listed in this section.
+      </s:paragraph>
+    </s:subsection>
+    <s:subsection xml:id="rationale.problems.types">
+      <s:subsection-title>Types</s:subsection-title>
+      <s:paragraph>
+        The OpenGL API itself is weakly typed even for a C language API,
+        simply exposing absolutely everything as a<s:term s:type="type">
+        float</s:term>,
+        <s:term s:type="type">int</s:term>, or untyped pointer. Entire classes
+        of problems that should be prevented at compile time are moved to
+        run-time, increasing development time, developer frustration, and
+        testing burden.
+      </s:paragraph>
+    </s:subsection>
+    <s:subsection xml:id="rationale.problems.confusion">
+      <s:subsection-title>Confusion</s:subsection-title>
+      <s:paragraph>
+        Rather than add or remove function entry points, the OpenGL
+        designers decided to endlessly extend existing functions with
+        yet more combinations of barely-typed parameters. Actually using
+        the OpenGL API correctly is a challenge even for those that are
+        familiar with the full API specification. Out of the hundreds of
+        thousands of combinations of parameters that can be passed to any
+        given API function, only a handful are actually valid.
+      </s:paragraph>
+    </s:subsection>
+    <s:subsection xml:id="rationale.problems.silent_failure">
+      <s:subsection-title>Silent failure</s:subsection-title>
+      <s:paragraph>
+        OpenGL programs frequently fail, and when they do, they usually do
+        so silently. Programmers are forced to call
+        <s:term s:type="function">glGetError</s:term>
+        after every API call
+        if they wish to avoid this (and actually detect the error at the
+        correct function call).
+      </s:paragraph>
+    </s:subsection>
+  </s:section>
+
+  <s:section>
+    <s:section-title>Goals</s:section-title>
+    <s:subsection>
+      <s:subsection-title>Overview</s:subsection-title>
+      <s:paragraph>
+        Given the
+        <s:link s:target="rationale.problems">problems</s:link>
+        with OpenGL, the
+        <s:term s:type="package">jcanephora</s:term>
+        package
+        has the following goals (in no particular order):
+      </s:paragraph>
+    </s:subsection>
+    <s:subsection xml:id="rationale.goals.portability">
+      <s:subsection-title>Portability</s:subsection-title>
+      <s:paragraph>
+        Programs using the
+        <s:term s:type="package">jcanephora</s:term>
+        APIs
+        must run on as many different OpenGL implementations as possible.
+        Code written using the API should be version-branch-free, and use
+        only the features common to all available OpenGL implementations.
+      </s:paragraph>
+    </s:subsection>
+    <s:subsection xml:id="rationale.goals.type_safety">
+      <s:subsection-title>Type safety</s:subsection-title>
+      <s:paragraph>
+        Representing every object as an integer is unacceptable. Any
+        conceptually distinct objects must be made type-incompatible,
+        eliminating entire classes of bugs typical to OpenGL programs
+        at compile time.
+      </s:paragraph>
+      <s:paragraph>
+        Only the correct ways to use the API are exposed. Misuse of the API
+        is simply made impossible.
+      </s:paragraph>
+    </s:subsection>
+    <s:subsection xml:id="rationale.goals.linearity">
+      <s:subsection-title>Linearity</s:subsection-title>
+      <s:paragraph>
+        Branching, version-specific code must be eliminated as far as
+        is possible. Code of this type is fragile, difficult to test,
+        and usually incorrect.
+      </s:paragraph>
+    </s:subsection>
+    <s:subsection xml:id="rationale.goals.conspicuity">
+      <s:subsection-title>Conspicuity of errors</s:subsection-title>
+      <s:paragraph>
+        Silent failure of programs is unacceptable. All errors that
+        cannot be prevented statically must be loudly and immediately
+        signalled at runtime.
+      </s:paragraph>
+    </s:subsection>
+  </s:section>
+
+  <s:section>
+    <s:section-title>API Design</s:section-title>
+    <s:subsection xml:id="rationale.solutions.capabilities">
+      <s:subsection-title>Interfaces as capabilities</s:subsection-title>
+      <s:paragraph>
+        The package is written with one particular concept, throughout:
+        Types represent capabilities. If the developer has a value of a
+        given type, then the developer can perform all of the operations
+        associated with that type.
+      </s:paragraph>
+      <s:paragraph>
+        This is in direct contrast to the OpenGL
+        API, where the developer always has full access to all API functions,
+        and individual functions (or combinations of parameters to functions)
+        may not work based on what the implementation supports. The emphasis
+        is on <s:term s:type="emphasis">isolating the correct operations and
+        statically preventing incorrect operations from occurring</s:term>.
+      </s:paragraph>
+    </s:subsection>
+
+    <s:subsection xml:id="rationale.solutions.types">
+      <s:subsection-title>Types</s:subsection-title>
+      <s:paragraph>
+        The
+        <s:term s:type="package">jcanephora</s:term>
+        package wraps all
+        conceptually distinct objects in new types and provides sane and
+        unsurprising functions to construct them. This prevents large
+        classes of bugs from occurring, at compile time. It also allows
+        the interfaces to be self-documenting. Consider the following
+        C function prototype:
+      </s:paragraph>
+      <s:formal-item s:kind="examples">
+        <s:formal-item-title>Weakly typed C function</s:formal-item-title>
+        <s:verbatim>void _ (GLsizei, GLuint *)</s:verbatim>
+      </s:formal-item>
+      <s:paragraph>
+        What does the function do? It could generate a set of textures
+        (<s:term s:type="function">glGenTextures</s:term>), or it could
+        generate a set of new buffer names
+        (<s:term s:type="function">glGenBuffers</s:term>). Without carefully
+        reading the documentation, the required parameters to the function
+        are certainly not obvious from the type alone. Assuming the developer
+        has read the documentation and worked out that the correct way to
+        call the function is with the following sequence:
+      </s:paragraph>
+      <s:formal-item s:kind="examples">
+        <s:formal-item-title>Weakly typed C calls</s:formal-item-title>
+        <s:verbatim><![CDATA[GLuint texture;
+
+glGenTextures(1, &texture);
+checkGLErrors();]]></s:verbatim>
+      </s:formal-item>
+      <s:paragraph>
+        The developer now has a value of type
+        <s:term s:type="type">GLuint</s:term>. Given that many functions in
+        the OpenGL API also take values of<s:term s:type="type">
+        GLuint</s:term>,
+        and those values have nothing to do with textures, that's a huge
+        number of potential bugs that cannot be prevented by the compiler.
+      </s:paragraph>
+      <s:paragraph>
+        The developer now wants to allocate a new RGBA texture. The
+        types of the <s:term s:type="function">glTexImage2D</s:term>
+        and <s:term s:type="function">glTexParameteri</s:term> functions
+        are, quite frankly, insane. Almost no developer manages to use these
+        functions successfully without trial and error and, naturally, all
+        errors are runtime errors. Eventually, through some painful
+        experimentation, the developer might stumble onto the following
+        sequence of calls:
+      </s:paragraph>
+      <s:formal-item s:kind="examples">
+        <s:formal-item-title>Allocating a texture</s:formal-item-title>
+        <s:verbatim><![CDATA[GLuint texture;
+void *data = makeTextureData();
+
+glGenTextures(1, &texture);
+glBindTexture(GL_TEXTURE_2D, texture);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);]]></s:verbatim>
+      </s:formal-item>
+      <s:paragraph>
+        The types of the parameters to all of the functions mentioned allow
+        the developer to pass in practically anything. Only a very small
+        subset of the possible parameters are actually valid. An even
+        smaller subset of the possible parameters actually work across
+        different versions of OpenGL!
+      </s:paragraph>
+      <s:paragraph>
+        Now consider the
+        following <s:term s:type="package">jcanephora</s:term> function:
+      </s:paragraph>
+      <s:formal-item s:kind="examples">
+        <s:formal-item-title>Texture allocation?</s:formal-item-title>
+        <s:verbatim><![CDATA[public JCGLTexture2DType _(
+    JCGLTextureUnitType _,
+    long _,
+    long _,
+    JCGLTextureFormat _,
+    JCGLTextureWrapS _,
+    JCGLTextureWrapT _,
+    JCGLTextureFilterMinification _,
+    JCGLTextureFilterMagnification _)
+    throws JCGLException;]]></s:verbatim>
+      </s:formal-item>
+      <s:paragraph>
+        Even without the names of the function and the parameters,
+        the type above make it quite clear that the function returns a
+        <s:term s:type="type">JCGLTexture2DType</s:term>, which is somehow
+        derived from the arguments to the function. It's a reasonable
+        assumption to make that the function allocates a new texture.
+      </s:paragraph>
+      <s:paragraph>
+        The wrapping modes on the <s:term s:type="constant">S</s:term> and
+        <s:term s:type="constant">T</s:term> axis will presumably be
+        derived from the parameters of type
+        <s:term s:type="type">JCGLTextureWrapS</s:term> and
+        <s:term s:type="type">JCGLTextureWrapT</s:term> respectively. The
+        minification and magnification filters will presumably be derived
+        from the parameters of type
+        <s:term s:type="type">JCGLTextureFilterMinification</s:term> and
+        <s:term s:type="type">JCGLTextureFilterMagnification</s:term>,
+        respectively. The programmer is statically prevented from mixing
+        up the two axes, or the two filter domains. The
+        <s:term s:type="type">JCGLTextureFormat</s:term> parameter is
+        obviously intended to specify the format of the texture. Any
+        parameter familiar with OpenGL texturing will be aware that any
+        operations involving textures requires access to a
+        <s:term s:type="term">texture unit</s:term>, and the
+        <s:term s:type="type">JCGLTextureUnitType</s:term> parameter
+        above presumably specifies the unit that will be used.
+      </s:paragraph>
+      <s:paragraph>
+        The two parameters of type <s:term s:type="type">long</s:term>
+        presumably correspond to the width and height of the resulting
+        texture, but the types are not descriptive enough to say for sure.
+        Unfortunately, Java lacks a way to make existing arithmetic types
+        incompatible without sacrificing efficiency
+        <s:footnote>
+          New types will be new classes, resulting in all integers being
+          replaced with pointers to integers.
+        </s:footnote>. In this case, the two parameters do indeed
+        correspond to the width and height, in that order, and the
+        <s:term s:type="package">jcanephora</s:term> package uses this
+        order consistently throughout.
+      </s:paragraph>
+      <s:paragraph>
+        The extremely descriptive type given for the function, and the
+        presence of declared (but unchecked) exceptions are direct contributions
+        towards the goals of
+        <s:link s:target="rationale.goals.type_safety">type safety</s:link>
+        and
+        <s:link s:target="rationale.goals.conspicuity">conspicuity of errors</s:link>.
+        It is very difficult for the programmer to use this function
+        incorrectly: the type system guarantees correct usage.
+      </s:paragraph>
+    </s:subsection>
+  </s:section>
+
+</s:part>

@@ -1,0 +1,215 @@
+<s:section
+  xml:id="core_interfaces.textures"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLTexturesType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The
+      <s:link-external
+        s:target="apidocs/com/io7m/jcanephora/core/api/JCGLTexturesType.html">
+        JCGLTexturesType
+      </s:link-external>
+      interface provides functions for allocating, updating,
+      and using textures.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage examples</s:subsection-title>
+    <s:paragraph>
+      The <s:term s:type="type">JCGLTexturesType</s:term>
+      interfaces expose functions that
+      will allocate textures of formats supported by the current
+      implementation. The interfaces only expose textures that are
+      <s:term s:type="emphasis">required</s:term>
+      to be supported by OpenGL 3.3 core.
+    </s:paragraph>
+    <s:paragraph>
+      In order to use a texture in OpenGL, the texture must be bound
+      to a <s:term s:type="term">texture unit</s:term>. There are a
+      limited number of texture units available
+      <s:footnote>
+        OpenGL 3.3 guarantees that at least 16 will be available in any
+        implementation.
+      </s:footnote>, and so the API requires the user to obtain access
+      to a list of the current units:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Texture units</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLTexturesType g;
+List<JCGLTextureUnitType> u = g.textureGetUnits();
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      A texture unit may have at most one texture bound to it at any
+      one time. This is in slight contrast to the way that the OpenGL
+      API normally works: The OpenGL API specifies that a given texture
+      unit may have multiple textures bound to a given texture unit as long
+      as all of the textures are of a different type
+      (two-dimensional, cube map, etc). However, it then states that
+      it is <s:term s:type="term">not</s:term> legal to pass that texture
+      unit to multiple different uniform parameters in a shading program.
+      There is, therefore, very little practical utility to binding multiple
+      textures to a single texture unit, and exposing such behaviour in the
+      API complicates tracking of state and makes programs slightly more
+      difficult to reason about. The
+      <s:term s:type="package">jcanephora</s:term> API therefore imposes
+      a simple restriction: One texture per texture unit.
+    </s:paragraph>
+    <s:paragraph>
+      To allocate a
+      <s:term s:type="expression">256 * 256</s:term>
+      RGBA texture, 8 bits per channel (four bytes per pixel),
+      with nearest-neighbour filtering and repeat wrapping around
+      both axes:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Texture allocation</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLTexturesType g;
+JCGLTextureUnitType u;
+
+JCGLTexture2DType t =
+  g.texture2DAllocate(
+    u,
+    256,
+    256,
+    JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+    JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+    JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+    JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+    JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      Once allocated, the texture will remain bound to the texture
+      unit <s:term s:type="variable">u</s:term> until explicitly unbound.
+    </s:paragraph>
+    <s:paragraph>
+      The <s:term s:type="package">jcanephora</s:term> exposes both
+      two-dimensional and cube map textures. See the relevant superinterfaces.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Cube map coordinate systems</s:subsection-title>
+    <s:paragraph>
+      Note that in the OpenGL specification, cube textures arbitrarily
+      use a left-handed coordinate system as opposed to OpenGL's right-handed system.
+      This is a frequent source of errors in programs. See the following fragment
+      shader:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Cube map shader</s:formal-item-title>
+      <s:verbatim><![CDATA[
+in vec3 f_normal;   // Eye-space surface normal
+in vec3 f_position; // Eye-space surface position
+
+uniform mat4        m_view_inverse; // Inverse view matrix, eye-space -> world-space.
+uniform samplerCube t_reflection;
+
+out vec4 frag_color;
+
+void
+main (void)
+{
+  vec3 n = normalize (f_normal);
+  vec3 v = normalize (f_position);
+  vec3 r = reflect (v, n);
+  vec3 u = m_view_inverse * r;
+
+  frag_color = texture (t_reflection, u);
+}]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      The program calculates a reflection vector
+      <s:term s:type="variable">r</s:term> from the eye-space incident vector
+      <s:term s:type="variable">f_position</s:term> and eye-space surface normal
+      <s:term s:type="variable">f_normal</s:term>. It transforms
+      <s:term s:type="variable">r</s:term> back into world-space, giving
+      <s:term s:type="variable">u</s:term>, and then uses <s:term s:type="variable">u</s:term>
+      to index into the cube texture. This would be textbook-correct, if OpenGL
+      didn't arbitrarily use a left-handed coordinate system for cube textures!
+      The coordinates <s:term s:type="variable">u</s:term> are obviously specified
+      in a right-handed coordinate system. The practical results of this are that
+      all of the cube texture faces will be displayed upside down, and the
+      familiar concept of the negative Z axis meaning "forwards" will be reversed.
+    </s:paragraph>
+    <s:paragraph>
+      The <s:term s:type="package">jcanephora</s:term> package contains support
+      for using right-handed cube maps in OpenGL, consistent with the
+      right-handed coordinate system used in most OpenGL programs. In order
+      to use right-handed cube maps, the following steps are required:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Cube map addressing</s:formal-item-title>
+      <s:list-ordered>
+        <s:list-item>
+          Cube map textures are supplied to the OpenGL implementation using
+          the "RH" variants of the texture loading and update functions. Faces
+          are specified in a manner consistent with OpenGL's
+          coordinate system. Informally, the "forward" face of the cube map
+          is the negative Z face, the "right" face of the cube map is the
+          positive X face, and so on.
+        </s:list-item>
+        <s:list-item>
+          In shaders, the coordinates passed to the <s:term s:type="function">texture</s:term>
+          function
+          (or <s:term s:type="function">textureCube</s:term> function, on old OpenGL implementations)
+          should be multiplied with a matrix that effectively negates the <s:term s:type="variable">Y</s:term>
+          and <s:term s:type="variable">Z</s:term> components.
+        </s:list-item>
+      </s:list-ordered>
+    </s:formal-item>
+    <s:paragraph>
+      The earlier example shader becomes:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Cube map shader</s:formal-item-title>
+      <s:verbatim><![CDATA[
+in vec3 f_normal;   // Eye-space surface normal
+in vec3 f_position; // Eye-space surface position
+
+uniform mat4        m_view_inverse; // Inverse view matrix, eye-space -> world-space.
+uniform samplerCube t_reflection;
+
+out vec4 frag_color;
+
+void
+main (void)
+{
+  const mat3 m_t = mat3 (
+    1.0,  0.0,  0.0,
+    0.0, -1.0,  0.0,
+    0.0,  0.0, -1.0
+  );
+
+  vec3 n = normalize (f_normal);
+  vec3 v = normalize (f_position);
+  vec3 r = reflect (v, n);
+  vec3 u = m_view_inverse * r;
+  vec3 w = m_t * u;
+
+  frag_color = texture (t_reflection, w);
+}]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      This approach means that both the loading and generation of cube textures
+      is consistent with that of 2D textures and the rest of OpenGL, and the
+      complexity of addressing the textures is limited to one function call in
+      shaders. Renderers that produce cube maps do not need to use unusual
+      projection matrices to "flip" the coordinate system when rendering, and
+      everything works according to the principles of least astonishment!
+    </s:paragraph>
+    <s:paragraph>
+      The correct solution to the problem would have been for the cube map
+      coordinate system  to have been in a consistent right-handed coordinate
+      space to begin with.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

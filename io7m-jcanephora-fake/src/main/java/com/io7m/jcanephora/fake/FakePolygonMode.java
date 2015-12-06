@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,39 +16,31 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.PolygonMode;
-import com.io7m.jcanephora.api.JCGLPolygonModesType;
-import com.io7m.jlog.LogType;
-import com.io7m.jlog.LogUsableType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLPolygonMode;
+import com.io7m.jcanephora.core.api.JCGLPolygonModesType;
 import com.io7m.jnull.NullCheck;
 
 final class FakePolygonMode implements JCGLPolygonModesType
 {
-  private final FakeContext context;
-  private final LogType     log;
-  private PolygonMode       polygon_mode;
+  private JCGLPolygonMode mode;
 
-  FakePolygonMode(
-    final FakeContext in_gl,
-    final LogUsableType in_log)
+  FakePolygonMode(final FakeContext c)
   {
-    this.context = NullCheck.notNull(in_gl, "FakeContext");
-    this.log = NullCheck.notNull(in_log, "Log").with("polygon-modes");
-    this.polygon_mode = PolygonMode.POLYGON_FILL;
+    this.mode = JCGLPolygonMode.POLYGON_FILL;
   }
 
-  @Override public PolygonMode polygonGetMode()
-    throws JCGLExceptionRuntime
+  @Override public JCGLPolygonMode polygonGetMode()
+    throws JCGLException
   {
-    return this.polygon_mode;
+    return this.mode;
   }
 
   @Override public void polygonSetMode(
-    final PolygonMode mode)
-    throws JCGLExceptionRuntime
+    final JCGLPolygonMode m)
+    throws JCGLException
   {
-    NullCheck.notNull(mode, "Polygon mode");
-    this.polygon_mode = mode;
+    NullCheck.notNull(m);
+    this.mode = m;
   }
 }

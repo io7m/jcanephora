@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,52 +16,56 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jcanephora.FaceSelection;
-import com.io7m.jcanephora.FaceWindingOrder;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.api.JCGLCullType;
-import com.io7m.jlog.LogType;
-import com.io7m.jlog.LogUsableType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLFaceSelection;
+import com.io7m.jcanephora.core.JCGLFaceWindingOrder;
+import com.io7m.jcanephora.core.api.JCGLCullingType;
 import com.io7m.jnull.NullCheck;
 
-final class FakeCulling implements JCGLCullType
+final class FakeCulling implements JCGLCullingType
 {
-  private boolean          culling;
-  private FaceSelection    current_faces;
-  private FaceWindingOrder current_order;
-  private final LogType    log;
+  private boolean              enabled;
+  private JCGLFaceSelection    current_faces;
+  private JCGLFaceWindingOrder current_order;
 
-  FakeCulling(
-    final LogUsableType in_log)
+  FakeCulling(final FakeContext c)
   {
-    this.log = NullCheck.notNull(in_log, "Log").with("culling");
-    this.culling = false;
-    this.current_faces = FaceSelection.FACE_BACK;
-    this.current_order = FaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
+    final FakeContext context = NullCheck.notNull(c);
+    this.enabled = false;
+    this.current_faces = JCGLFaceSelection.FACE_BACK;
+    this.current_order = JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
   }
 
   @Override public void cullingDisable()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    this.culling = false;
+    if (this.enabled) {
+      this.enabled = false;
+    }
   }
 
   @Override public void cullingEnable(
-    final FaceSelection faces,
-    final FaceWindingOrder order)
-    throws JCGLExceptionRuntime
+    final JCGLFaceSelection faces,
+    final JCGLFaceWindingOrder order)
+    throws JCGLException
   {
     NullCheck.notNull(faces, "Face selection");
     NullCheck.notNull(order, "Face winding order");
 
-    this.culling = true;
-    this.current_faces = faces;
-    this.current_order = order;
+    if (!this.enabled) {
+      this.enabled = true;
+    }
+    if (this.current_faces != faces) {
+      this.current_faces = faces;
+    }
+    if (this.current_order != order) {
+      this.current_order = order;
+    }
   }
 
   @Override public boolean cullingIsEnabled()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return this.culling;
+    return this.enabled;
   }
 }

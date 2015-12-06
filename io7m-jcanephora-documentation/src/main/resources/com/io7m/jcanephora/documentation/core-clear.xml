@@ -1,0 +1,51 @@
+<s:section
+  xml:id="core_interfaces.clear"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLClearType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The <s:link-external s:target="apidocs/com/io7m/jcanephora/core/api/JCGLClearType.html">JCGLClearType</s:link-external>
+      interface provides functions for clearing the contents of
+      framebuffers.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage example</s:subsection-title>
+    <s:paragraph>
+      The following code creates a
+      <s:term s:type="term">clearing specification</s:term> that
+      will clear the current framebuffer to a dark grey color, and
+      the current depth buffer to <s:term s:type="constant">1.0</s:term>:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Blending</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLClearType g;
+
+final JCGLClearSpecification.Builder cb = JCGLClearSpecification.builder();
+cb.setColorBufferClear(new VectorI4F(0.1f, 0.1f, 0.1f, 1.0f));
+cb.setDepthBufferClear(1.0f);
+JCGLClearSpecification c = cb.build();
+
+g.clear(c);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      The <s:term s:type="type">JCGLClearSpecification</s:term> value
+      can be re-used indefinitely. The API also provides optional strict
+      checking which can, for example, raise an exception if the programmer
+      attempts to clear the depth or stencil buffer without the current
+      framebuffer actually having one
+      <s:footnote>
+        This is usually the result of the programmer forgetting to
+        attach a depth/stencil attachment on framebuffer creation, and
+        can lead to difficult-to-trace bugs.
+      </s:footnote>.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

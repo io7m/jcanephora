@@ -16,14 +16,13 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
+import com.io7m.jcanephora.core.JCGLScalarType;
+import com.io7m.jcanephora.jogl.JOGLTypeConversions;
+import com.io7m.junreachable.UnreachableCodeException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jcanephora.JCGLScalarType;
-import com.io7m.jcanephora.jogl.JOGLTypeConversions;
-import com.io7m.junreachable.UnreachableCodeException;
-
-@SuppressWarnings({ "null", "static-method" }) public final class JOGLScalarTypeTest
+public final class JOGLScalarTypeTest
 {
   /**
    * ∀t. scalarTypeFromGL(scalarTypeToGL(t)) = t.
@@ -32,14 +31,15 @@ import com.io7m.junreachable.UnreachableCodeException;
   @Test public void testScalarBijection()
   {
     for (final JCGLScalarType t : JCGLScalarType.values()) {
-      Assert.assertEquals(JOGLTypeConversions
-        .scalarTypeFromGL(JOGLTypeConversions.scalarTypeToGL(t)), t);
+      Assert.assertEquals(
+        JOGLTypeConversions.scalarTypeFromGL(
+          JOGLTypeConversions.scalarTypeToGL(
+            t)), t);
     }
   }
 
-  @Test(expected = UnreachableCodeException.class) public
-    void
-    testScalarFailure()
+  @Test(expected = UnreachableCodeException.class)
+  public void testScalarFailure()
   {
     JOGLTypeConversions.scalarTypeFromGL(-1);
   }

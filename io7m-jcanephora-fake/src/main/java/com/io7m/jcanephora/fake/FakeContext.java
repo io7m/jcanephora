@@ -1,10 +1,10 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,206 +16,243 @@
 
 package com.io7m.jcanephora.fake;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.io7m.jcanephora.JCGLApi;
-import com.io7m.jcanephora.JCGLSLVersion;
-import com.io7m.jcanephora.JCGLSLVersionNumber;
-import com.io7m.jcanephora.JCGLVersion;
-import com.io7m.jcanephora.JCGLVersionNumber;
+import com.io7m.jcanephora.core.JCGLExceptionContextIsCurrent;
+import com.io7m.jcanephora.core.JCGLExceptionContextNotCurrent;
+import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
+import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jcanephora.core.api.JCGLContextUsableType;
+import com.io7m.jcanephora.core.api.JCGLImplementationType;
+import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jnull.NullCheck;
-import com.io7m.junreachable.UnimplementedCodeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A completely imaginary OpenGL context.
+ * The type of fake contexts.
  */
 
-@SuppressWarnings("boxing") public final class FakeContext
+public final class FakeContext implements JCGLContextType
 {
-  private static String makeVersion()
-  {
-    final String v =
-      FakeContext.class.getPackage().getImplementationVersion();
-    if (v == null) {
-      return "Unknown";
-    }
-    return v;
+  private static final Logger                   LOG;
+  private static final ThreadLocal<FakeContext> CURRENT;
+
+  static {
+    LOG = LoggerFactory.getLogger(FakeContext.class);
+    CURRENT = new ThreadLocal<>();
   }
 
+  private final    FakeInterfaceGL33      gl33;
+  private final    Set<FakeContext>       shared_with;
+  private final    JCGLImplementationFake implementation;
+  private final    String                 name;
+  private final    AtomicInteger          next_id;
+  private final    FakeShaderListenerType shader_listener;
+  private volatile boolean                destroyed;
+
   /**
-   * Construct a new context.
+   * Construct a context.
    *
-   * @param in_framebuffer
-   *          A description of the default framebuffer.
-   * @param in_number
-   *          The OpenGL version number.
-   * @param in_api
-   *          The OpenGL API.
-   * @param in_glsl_version
-   *          The GLSL version.
-   * @return A new context.
-   */
-
-  public static FakeContext newContext(
-    final FakeDefaultFramebuffer in_framebuffer,
-    final JCGLVersionNumber in_number,
-    final JCGLApi in_api,
-    final JCGLSLVersionNumber in_glsl_version)
-  {
-    return new FakeContext(in_framebuffer, in_number, in_api, in_glsl_version);
-  }
-
-  private final FakeDefaultFramebuffer framebuffer;
-  private final String                 renderer;
-  private final Set<FakeContext>       shared;
-  private final JCGLSLVersion          sl_version;
-  private final String                 vendor;
-  private final JCGLVersion            version;
-
-  private FakeContext(
-    final FakeDefaultFramebuffer in_framebuffer,
-    final JCGLVersionNumber in_number,
-    final JCGLApi in_api,
-    final JCGLSLVersionNumber in_glsl_version)
-  {
-    NullCheck.notNull(in_framebuffer, "Framebuffer");
-    NullCheck.notNull(in_number, "Number");
-    NullCheck.notNull(in_api, "API");
-    NullCheck.notNull(in_glsl_version, "GLSL version");
-
-    final String v = FakeContext.makeVersion();
-
-    this.framebuffer = in_framebuffer;
-    this.shared = new HashSet<FakeContext>();
-    this.renderer = "Fake on Canephora " + v;
-    this.vendor = "io7m.com";
-
-    String sl_text = null;
-    String text = null;
-    switch (in_api) {
-      case JCGL_ES:
-      {
-        text =
-          String.format(
-            "OpenGL ES %d.%d Canephora",
-            in_number.getVersionMajor(),
-            in_number.getVersionMinor());
-        sl_text =
-          String.format(
-            "OpenGL ES GLSL ES %d.%d",
-            in_glsl_version.getVersionMajor(),
-            in_glsl_version.getVersionMinor());
-        break;
-      }
-      case JCGL_FULL:
-      {
-        text =
-          String.format(
-            "%d.%d Canephora",
-            in_number.getVersionMajor(),
-            in_number.getVersionMinor());
-        sl_text =
-          String.format(
-            "%d.%d",
-            in_glsl_version.getVersionMajor(),
-            in_glsl_version.getVersionMinor());
-        break;
-      }
-    }
-    assert text != null;
-    assert sl_text != null;
-
-    this.version = JCGLVersion.make(in_number, in_api, text);
-    this.sl_version = JCGLSLVersion.make(in_glsl_version, in_api, sl_text);
-  }
-
-  /**
-   * @return The set of contexts with which this context is shared.
-   */
-
-  public Set<FakeContext> getCreatedShares()
-  {
-    return this.shared;
-  }
-
-  /**
-   * @return A description of the default framebuffer.
-   */
-
-  public FakeDefaultFramebuffer getDefaultFramebuffer()
-  {
-    return this.framebuffer;
-  }
-
-  /**
-   * @return The current error code for the context.
-   */
-
-  public int getError()
-  {
-    // TODO Auto-generated method stub
-    throw new UnimplementedCodeException();
-  }
-
-  /**
-   * @return The name of the renderer.
-   */
-
-  public String getRenderer()
-  {
-    return this.renderer;
-  }
-
-  /**
-   * @return The GLSL version number.
-   */
-
-  public JCGLSLVersion getSLVersion()
-  {
-    return this.sl_version;
-  }
-
-  /**
-   * @return The name of the vendor.
-   */
-
-  public String getVendor()
-  {
-    return this.vendor;
-  }
-
-  /**
-   * @return The OpenGL version number.
-   */
-
-  public JCGLVersion getVersion()
-  {
-    return this.version;
-  }
-
-  /**
-   * @return <code>true</code> if this context is shared.
-   */
-
-  public boolean isShared()
-  {
-    return this.shared.isEmpty() == false;
-  }
-
-  /**
-   * Mark this context as shared with the other given context.
+   * @param i           The implementation
+   * @param in_name     The name
+   * @param in_listener The shader listener
    *
-   * @param c
-   *          The context.
+   * @throws JCGLExceptionNonCompliant On non-compliant OpenGL implementations
    */
 
-  public void shareWith(
-    final FakeContext c)
+  public FakeContext(
+    final JCGLImplementationFake i,
+    final String in_name,
+    final FakeShaderListenerType in_listener)
+    throws JCGLExceptionNonCompliant
   {
-    NullCheck.notNull(c, "Context");
+    this.next_id = new AtomicInteger(1);
+    this.shader_listener = NullCheck.notNull(in_listener);
+    this.gl33 = new FakeInterfaceGL33(this);
+    this.destroyed = false;
+    this.shared_with = new HashSet<>(8);
+    this.implementation = i;
+    this.name = NullCheck.notNull(in_name);
+  }
 
-    this.shared.add(c);
-    c.shared.add(this);
+  static FakeContext getCurrentContext()
+  {
+    return CURRENT.get();
+  }
+
+  int getFreshID()
+  {
+    return this.next_id.getAndIncrement();
+  }
+
+  void setSharedWith(final FakeContext other)
+  {
+    FakeContext.LOG.debug("sharing context {} with {}", this, other);
+    this.shared_with.add(other);
+    other.shared_with.add(this);
+  }
+
+  @Override public String toString()
+  {
+    return String.format("[FakeContext %s]", this.name);
+  }
+
+  @Override public String contextGetName()
+  {
+    return this.name;
+  }
+
+  @Override public List<JCGLContextUsableType> contextGetShares()
+  {
+    this.checkNotDestroyed();
+
+    final List<JCGLContextUsableType> xs =
+      new ArrayList<>(this.shared_with.size());
+    xs.addAll(this.shared_with);
+    return xs;
+  }
+
+  void checkNotDestroyed()
+  {
+    if (this.destroyed) {
+      throw new JCGLExceptionDeleted(
+        String.format("Context %s is destroyed", this));
+    }
+  }
+
+  @Override public boolean contextIsSharedWith(final JCGLContextUsableType c)
+  {
+    this.checkNotDestroyed();
+
+    if (c instanceof FakeContext) {
+      final FakeContext jc = (FakeContext) c;
+      jc.checkNotDestroyed();
+      return this.shared_with.contains(c);
+    }
+
+    return false;
+  }
+
+  @Override public boolean contextIsCurrent()
+  {
+    this.checkNotDestroyed();
+    return Objects.equals(CURRENT.get(), this);
+  }
+
+  @Override public void contextMakeCurrent()
+  {
+    this.checkNotDestroyed();
+    FakeContext.LOG.trace("make current");
+
+    /**
+     * If no context is current on this thread, make the context current.
+     */
+
+    final FakeContext actual_current = CURRENT.get();
+    if (actual_current == null) {
+      CURRENT.set(this);
+    } else {
+
+      /**
+       * Any other situation is an error.
+       */
+
+      final StringBuilder sb = new StringBuilder(128);
+      if (Objects.equals(this, actual_current)) {
+        sb.append("The given context is already current.");
+      } else {
+        sb.append("The current thread already has a current context.");
+      }
+
+      sb.append(System.lineSeparator());
+      sb.append("Context: ");
+      sb.append(this);
+      sb.append("Thread context: ");
+      sb.append(actual_current);
+      sb.append(System.lineSeparator());
+      sb.append("Thread: ");
+      sb.append(Thread.currentThread());
+      sb.append(System.lineSeparator());
+      final String m = sb.toString();
+      FakeContext.LOG.error(m);
+      throw new JCGLExceptionContextIsCurrent(m);
+    }
+  }
+
+  @Override public void contextReleaseCurrent()
+  {
+    this.checkNotDestroyed();
+    FakeContext.LOG.trace("release current");
+    if (this.contextIsCurrent()) {
+      CURRENT.set(null);
+    } else {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Attempted to release a context that is not current.");
+      sb.append(System.lineSeparator());
+      sb.append("Context: ");
+      sb.append(this);
+      sb.append(System.lineSeparator());
+      sb.append("Current context: ");
+      sb.append(CURRENT.get());
+      sb.append(System.lineSeparator());
+      sb.append("Thread: ");
+      sb.append(Thread.currentThread());
+      sb.append(System.lineSeparator());
+      final String m = sb.toString();
+      FakeContext.LOG.error(m);
+      throw new JCGLExceptionContextNotCurrent(m);
+    }
+  }
+
+  @Override public JCGLInterfaceGL33Type contextGetGL33()
+  {
+    this.checkNotDestroyed();
+    return this.gl33;
+  }
+
+  @Override public JCGLImplementationType contextGetImplementation()
+  {
+    this.checkNotDestroyed();
+    return this.implementation;
+  }
+
+  @Override public void contextDestroy()
+    throws JCGLExceptionDeleted
+  {
+    this.checkNotDestroyed();
+
+    if (this.contextIsCurrent()) {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Attempted to destroy a context that is still current.");
+      sb.append(System.lineSeparator());
+      sb.append("Context: ");
+      sb.append(this);
+      sb.append(System.lineSeparator());
+      sb.append("Thread: ");
+      sb.append(Thread.currentThread());
+      sb.append(System.lineSeparator());
+      final String m = sb.toString();
+      FakeContext.LOG.error(m);
+      throw new JCGLExceptionContextIsCurrent(m);
+    }
+
+    this.destroyed = true;
+  }
+
+  @Override public boolean isDeleted()
+  {
+    return this.destroyed;
+  }
+
+  FakeShaderListenerType getShaderListener()
+  {
+    return this.shader_listener;
   }
 }

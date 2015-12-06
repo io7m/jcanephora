@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2015 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,80 +16,85 @@
 
 package com.io7m.jcanephora.jogl;
 
-import javax.media.opengl.GLContext;
-
-import com.io7m.jcanephora.TextureUnitType;
-import com.io7m.jnull.NullCheck;
+import com.io7m.jcanephora.core.JCGLTextureUnitType;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.Ranges;
+import com.jogamp.opengl.GLContext;
 
 final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
-  TextureUnitType
+  JCGLTextureUnitType
 {
-  private final int index;
+  private final     int             index;
+  private @Nullable JOGLTexture2D   bind_2d;
+  private @Nullable JOGLTextureCube bind_cube;
 
-  protected JOGLTextureUnit(
+  JOGLTextureUnit(
     final GLContext in_context,
     final int in_index)
   {
     super(in_context);
     this.index =
-      (int) RangeCheck.checkIncludedIn(
+      RangeCheck.checkIncludedInInteger(
         in_index,
         "Index",
-        RangeCheck.NATURAL_INTEGER,
+        Ranges.NATURAL_INTEGER,
         "Valid indices");
   }
 
-  @Override public int compareTo(
-    final @Nullable TextureUnitType other)
+  JOGLTexture2D getBind2D()
   {
-    final TextureUnitType o = NullCheck.notNull(other, "Other");
-    final Integer ix = Integer.valueOf(this.index);
-    final Integer iy = Integer.valueOf(o.unitGetIndex());
-    return ix.compareTo(iy);
+    return this.bind_2d;
   }
 
-  @Override public boolean equals(
-    final @Nullable Object obj)
+  void setBind2D(final JOGLTexture2D t)
   {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (this.getClass() != obj.getClass()) {
-      return false;
-    }
-    final JOGLTextureUnit other = (JOGLTextureUnit) obj;
-    if (this.index != other.index) {
-      return false;
-    }
-    return true;
+    this.bind_2d = t;
   }
 
-  @Override public int hashCode()
+  JOGLTextureCube getBindCube()
   {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + this.index;
-    return result;
+    return this.bind_cube;
+  }
+
+  void setBindCube(final JOGLTextureCube t)
+  {
+    this.bind_cube = t;
   }
 
   @Override public String toString()
   {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[JOGLTextureUnit ");
-    builder.append(this.index);
-    builder.append("]");
-    final String r = builder.toString();
-    assert r != null;
-    return r;
+    final StringBuilder sb = new StringBuilder("[TextureUnit ");
+    sb.append(this.index);
+    sb.append(']');
+    return sb.toString();
+  }
+
+  @Override public boolean equals(final Object o)
+  {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || this.getClass() != o.getClass()) {
+      return false;
+    }
+
+    final JOGLTextureUnit that = (JOGLTextureUnit) o;
+    return this.index == that.index;
+  }
+
+  @Override public int hashCode()
+  {
+    return this.index;
   }
 
   @Override public int unitGetIndex()
   {
     return this.index;
+  }
+
+  @Override public int compareTo(final JCGLTextureUnitType o)
+  {
+    return Integer.compareUnsigned(this.index, o.unitGetIndex());
   }
 }
