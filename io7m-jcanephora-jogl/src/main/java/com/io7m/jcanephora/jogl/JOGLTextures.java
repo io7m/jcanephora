@@ -53,6 +53,7 @@ import org.slf4j.LoggerFactory;
 import org.valid4j.Assertive;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -509,6 +510,7 @@ final class JOGLTextures implements JCGLTexturesType
     final long height = area.getRangeY().getInterval();
     final ByteBuffer data = ByteBuffer.allocateDirect(
       (int) (width * height * (long) format.getBytesPerPixel()));
+    data.order(ByteOrder.nativeOrder());
 
     this.texture2DBind(unit, texture);
     this.g3.glGetTexImage(
@@ -775,6 +777,8 @@ final class JOGLTextures implements JCGLTexturesType
     final long height = area.getRangeY().getInterval();
     final ByteBuffer data = ByteBuffer.allocateDirect(
       (int) (width * height * (long) format.getBytesPerPixel()));
+    data.order(ByteOrder.nativeOrder());
+
     final int gface = JOGLTypeConversions.cubeFaceToGL(face);
 
     this.textureCubeBind(unit, texture);

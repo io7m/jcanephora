@@ -3,10 +3,21 @@
   <c:project>io7m-jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
-    <c:date>2015-12-26</c:date>
+    <c:date>2015-12-11</c:date>
+    <c:version>0.40.1</c:version>
+    <c:item>
+      <c:date>2015-12-11</c:date>
+      <c:type-code-fix/>
+      <c:ticket>18</c:ticket>
+      <c:summary>Ensure returned texture images are in native byte order.</c:summary>
+    </c:item>
+  </c:release>
+
+  <c:release c:ticket-system="com.github.io7m.jcanephora">
+    <c:date>2015-12-06</c:date>
     <c:version>0.40.0</c:version>
     <c:item>
-      <c:date>2015-12-26</c:date>
+      <c:date>2015-12-06</c:date>
       <c:type-code-new/>
       <c:summary>Initial release.</c:summary>
     </c:item>

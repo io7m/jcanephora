@@ -49,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import org.valid4j.Assertive;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -453,7 +454,9 @@ final class FakeTextures implements JCGLTexturesType
 
     final FakeTexture2D ft = (FakeTexture2D) texture;
     this.texture2DBind(unit, texture);
-    return ft.getData().duplicate();
+    final ByteBuffer data = ft.getData().duplicate();
+    data.order(ByteOrder.nativeOrder());
+    return data;
   }
 
   @Override public void textureCubeBind(
@@ -626,7 +629,9 @@ final class FakeTextures implements JCGLTexturesType
 
     final FakeTextureCube ft = (FakeTextureCube) texture;
     this.textureCubeBind(unit, texture);
-    return ft.getData(face).duplicate();
+    final ByteBuffer data = ft.getData(face).duplicate();
+    data.order(ByteOrder.nativeOrder());
+    return data;
   }
 
   void setFramebuffers(final FakeFramebuffers fb)
