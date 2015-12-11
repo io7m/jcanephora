@@ -39,6 +39,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.List;
 
 /**
@@ -250,6 +251,39 @@ public abstract class JCGLTexturesContract extends JCGLContract
       Assert.assertEquals(
         JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR,
         ta.textureGetMagnificationFilter());
+
+      Assert.assertFalse(ta.isDeleted());
+      t.texture2DDelete(ta);
+      Assert.assertTrue(ta.isDeleted());
+    }
+  }
+
+  @Test public final void testTexture2DGetImageIdentities()
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final List<JCGLTextureUnitType> us = t.textureGetUnits();
+    final JCGLTextureUnitType u = us.get(0);
+
+    for (final JCGLTextureFormat v : JCGLTextureFormat.values()) {
+      final JCGLTexture2DType ta =
+        t.texture2DAllocate(
+          u,
+          128L,
+          256L,
+          v,
+          JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+          JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+          JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+          JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
+
+      Assert.assertTrue(t.textureUnitIsBound(u));
+      Assert.assertTrue(t.texture2DIsBound(u, ta));
+
+      final ByteBuffer i = t.texture2DGetImage(u, ta);
+      Assert.assertEquals(ByteOrder.nativeOrder(), i.order());
+      Assert.assertEquals(
+        128L * 256L * (long) v.getBytesPerPixel(),
+        (long) i.capacity());
 
       Assert.assertFalse(ta.isDeleted());
       t.texture2DDelete(ta);
@@ -942,6 +976,41 @@ public abstract class JCGLTexturesContract extends JCGLContract
       Assert.assertEquals(
         JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR,
         ta.textureGetMagnificationFilter());
+
+      Assert.assertFalse(ta.isDeleted());
+      t.textureCubeDelete(ta);
+      Assert.assertTrue(ta.isDeleted());
+    }
+  }
+
+  @Test public final void testTextureCubeGetImageLHIdentities()
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final List<JCGLTextureUnitType> us = t.textureGetUnits();
+    final JCGLTextureUnitType u = us.get(0);
+
+    for (final JCGLTextureFormat v : JCGLTextureFormat.values()) {
+      final JCGLTextureCubeType ta =
+        t.textureCubeAllocate(
+          u,
+          128L,
+          v,
+          JCGLTextureWrapR.TEXTURE_WRAP_REPEAT,
+          JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+          JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+          JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+          JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
+
+      Assert.assertTrue(t.textureUnitIsBound(u));
+      Assert.assertTrue(t.textureCubeIsBound(u, ta));
+
+      for (final JCGLCubeMapFaceLH f : JCGLCubeMapFaceLH.values()) {
+        final ByteBuffer i = t.textureCubeGetImageLH(u, f, ta);
+        Assert.assertEquals(ByteOrder.nativeOrder(), i.order());
+        Assert.assertEquals(
+          128L * 128L * (long) v.getBytesPerPixel(),
+          (long) i.capacity());
+      }
 
       Assert.assertFalse(ta.isDeleted());
       t.textureCubeDelete(ta);
