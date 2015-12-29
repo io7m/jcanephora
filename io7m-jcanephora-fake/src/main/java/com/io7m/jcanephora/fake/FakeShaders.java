@@ -36,8 +36,8 @@ import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jtensors.MatrixDirect3x3FType;
-import com.io7m.jtensors.MatrixDirect4x4FType;
+import com.io7m.jtensors.MatrixDirectReadable3x3FType;
+import com.io7m.jtensors.MatrixDirectReadable4x4FType;
 import com.io7m.jtensors.VectorReadable2FType;
 import com.io7m.jtensors.VectorReadable2IType;
 import com.io7m.jtensors.VectorReadable3FType;
@@ -456,7 +456,7 @@ final class FakeShaders implements JCGLShadersType
 
   @Override public void shaderUniformPutMatrix3x3f(
     final JCGLProgramUniformType u,
-    final MatrixDirect3x3FType value)
+    final MatrixDirectReadable3x3FType value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -467,7 +467,7 @@ final class FakeShaders implements JCGLShadersType
 
   @Override public void shaderUniformPutMatrix4x4f(
     final JCGLProgramUniformType u,
-    final MatrixDirect4x4FType value)
+    final MatrixDirectReadable4x4FType value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
