@@ -247,7 +247,8 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     return this.bind_draw;
   }
 
-  @Override public JCGLFramebufferBuilderType framebufferNewBuilder()
+  @Override
+  public JCGLFramebufferBuilderType framebufferNewBuilder()
     throws JCGLException
   {
     return new Builder(this.color_points, this.context);
@@ -269,7 +270,9 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     g3.glGenFramebuffers(1, this.int_cache);
     final int f_id = this.int_cache.get(0);
 
-    JOGLFramebuffers.LOG.debug("allocate {}", Integer.valueOf(f_id));
+    if (JOGLFramebuffers.LOG.isDebugEnabled()) {
+      JOGLFramebuffers.LOG.debug("allocate {}", Integer.valueOf(f_id));
+    }
 
     final JOGLFramebuffer fb =
       new JOGLFramebuffer(this.context.getContext(), f_id);
@@ -285,14 +288,17 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
         new JCGLFramebufferDepthAttachmentMatcherType<Unit,
           UnreachableCodeException>()
         {
-          @Override public Unit onTexture2D(
+          @Override
+          public Unit onTexture2D(
             final JCGLTexture2DUsableType t)
             throws JCGLException
           {
-            JOGLFramebuffers.LOG.debug(
-              "[{}] attach depth {}",
-              Integer.valueOf(f_id),
-              t);
+            if (JOGLFramebuffers.LOG.isDebugEnabled()) {
+              JOGLFramebuffers.LOG.debug(
+                "[{}] attach depth {}",
+                Integer.valueOf(f_id),
+                t);
+            }
 
             final JCGLTextureFormat f = t.textureGetFormat();
             JOGLTextures.checkTexture2D(c, t);
@@ -316,13 +322,16 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
         new JCGLFramebufferDepthStencilAttachmentMatcherType<Unit,
           UnreachableCodeException>()
         {
-          @Override public Unit onTexture2D(final JCGLTexture2DUsableType t)
+          @Override
+          public Unit onTexture2D(final JCGLTexture2DUsableType t)
             throws JCGLException
           {
-            JOGLFramebuffers.LOG.debug(
-              "[{}] attach depth+stencil {}",
-              Integer.valueOf(f_id),
-              t);
+            if (JOGLFramebuffers.LOG.isDebugEnabled()) {
+              JOGLFramebuffers.LOG.debug(
+                "[{}] attach depth+stencil {}",
+                Integer.valueOf(f_id),
+                t);
+            }
 
             JOGLTextures.checkTexture2D(c, t);
             final JCGLTextureFormat f = t.textureGetFormat();
@@ -356,14 +365,17 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
           new JCGLFramebufferColorAttachmentMatcherType<Unit,
             UnreachableCodeException>()
           {
-            @Override public Unit onTexture2D(final JCGLTexture2DUsableType t)
+            @Override
+            public Unit onTexture2D(final JCGLTexture2DUsableType t)
               throws JCGLException
             {
-              JOGLFramebuffers.LOG.debug(
-                "[{}] attach color {} {}",
-                Integer.valueOf(f_id),
-                Integer.valueOf(f_index),
-                t);
+              if (JOGLFramebuffers.LOG.isDebugEnabled()) {
+                JOGLFramebuffers.LOG.debug(
+                  "[{}] attach color {} {}",
+                  Integer.valueOf(f_id),
+                  Integer.valueOf(f_index),
+                  t);
+              }
 
               JOGLTextures.checkTexture2D(c, t);
               final JCGLTextureFormat f = t.textureGetFormat();
@@ -378,17 +390,20 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
               return Unit.unit();
             }
 
-            @Override public Unit onTextureCube(
+            @Override
+            public Unit onTextureCube(
               final JCGLTextureCubeUsableType t,
               final JCGLCubeMapFaceLH face)
               throws JCGLException, UnreachableCodeException
             {
-              JOGLFramebuffers.LOG.debug(
-                "[{}] attach color {} {} (face {})",
-                Integer.valueOf(f_id),
-                Integer.valueOf(f_index),
-                t,
-                face);
+              if (JOGLFramebuffers.LOG.isDebugEnabled()) {
+                JOGLFramebuffers.LOG.debug(
+                  "[{}] attach color {} {} (face {})",
+                  Integer.valueOf(f_id),
+                  Integer.valueOf(f_index),
+                  t,
+                  face);
+              }
 
               JOGLTextures.checkTextureCube(c, t);
               final JCGLTextureFormat f = t.textureGetFormat();
@@ -420,19 +435,24 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       if (bb.draw_buffers.containsKey(buffer)) {
         final JCGLFramebufferColorAttachmentPointType attach =
           bb.draw_buffers.get(buffer);
-        JOGLFramebuffers.LOG.debug(
-          "[{}] draw buffer {} -> color {}",
-          Integer.valueOf(f_id),
-          Integer.valueOf(index),
-          Integer.valueOf(attach.colorAttachmentPointGetIndex()));
+
+        if (JOGLFramebuffers.LOG.isDebugEnabled()) {
+          JOGLFramebuffers.LOG.debug(
+            "[{}] draw buffer {} -> color {}",
+            Integer.valueOf(f_id),
+            Integer.valueOf(index),
+            Integer.valueOf(attach.colorAttachmentPointGetIndex()));
+        }
         draw_buffer_mappings.put(
           index,
           GL.GL_COLOR_ATTACHMENT0 + attach.colorAttachmentPointGetIndex());
       } else {
-        JOGLFramebuffers.LOG.debug(
-          "[{}] draw buffer {} -> none",
-          Integer.valueOf(f_id),
-          Integer.valueOf(index));
+        if (JOGLFramebuffers.LOG.isDebugEnabled()) {
+          JOGLFramebuffers.LOG.debug(
+            "[{}] draw buffer {} -> none",
+            Integer.valueOf(f_id),
+            Integer.valueOf(index));
+        }
         draw_buffer_mappings.put(index, GL.GL_NONE);
       }
     }
@@ -447,7 +467,9 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     final JCGLFramebufferStatus status = this.framebufferDrawValidate();
     switch (status) {
       case FRAMEBUFFER_STATUS_COMPLETE: {
-        LOG.debug("allocated {}", fb);
+        if (JOGLFramebuffers.LOG.isDebugEnabled()) {
+          JOGLFramebuffers.LOG.debug("allocated {}", fb);
+        }
         return fb;
       }
       case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT:
@@ -465,7 +487,9 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
   private void actualBindDraw(final JOGLFramebuffer f)
   {
-    JOGLFramebuffers.LOG.trace("bind draw {} -> {}", this.bind_draw, f);
+    if (JOGLFramebuffers.LOG.isTraceEnabled()) {
+      JOGLFramebuffers.LOG.trace("bind draw {} -> {}", this.bind_draw, f);
+    }
 
     for (final JCGLReferableType r : f.getReferences()) {
       if (r instanceof JCGLTexture2DUsableType) {
@@ -482,7 +506,9 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
   private void actualBindRead(final JOGLFramebuffer f)
   {
-    JOGLFramebuffers.LOG.trace("bind read {} -> {}", this.bind_read, f);
+    if (JOGLFramebuffers.LOG.isTraceEnabled()) {
+      JOGLFramebuffers.LOG.trace("bind read {} -> {}", this.bind_read, f);
+    }
 
     this.gl.glBindFramebuffer(GL.GL_READ_FRAMEBUFFER, f.getGLName());
     this.bind_read = f;
@@ -490,7 +516,9 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
   private void actualUnbindDraw()
   {
-    JOGLFramebuffers.LOG.trace("unbind draw {} -> none", this.bind_draw);
+    if (JOGLFramebuffers.LOG.isTraceEnabled()) {
+      JOGLFramebuffers.LOG.trace("unbind draw {} -> none", this.bind_draw);
+    }
     this.gl.glBindFramebuffer(
       GL.GL_DRAW_FRAMEBUFFER,
       this.gl.getDefaultDrawFramebuffer());
@@ -499,14 +527,17 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
 
   private void actualUnbindRead()
   {
-    JOGLFramebuffers.LOG.trace("unbind read {} -> none", this.bind_read);
+    if (JOGLFramebuffers.LOG.isTraceEnabled()) {
+      JOGLFramebuffers.LOG.trace("unbind read {} -> none", this.bind_read);
+    }
     this.gl.glBindFramebuffer(
       GL.GL_READ_FRAMEBUFFER,
       this.gl.getDefaultReadFramebuffer());
     this.bind_read = null;
   }
 
-  @Override public boolean framebufferDrawAnyIsBound()
+  @Override
+  public boolean framebufferDrawAnyIsBound()
     throws JCGLException
   {
     return this.bind_draw != null;
@@ -521,7 +552,8 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     this.actualBindDraw((JOGLFramebuffer) framebuffer);
   }
 
-  @Override public Optional<JCGLFramebufferUsableType> framebufferDrawGetBound()
+  @Override
+  public Optional<JCGLFramebufferUsableType> framebufferDrawGetBound()
     throws JCGLException
   {
     return Optional.ofNullable(this.bind_draw);
@@ -535,7 +567,8 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     return framebuffer.equals(this.bind_draw);
   }
 
-  @Override public void framebufferDrawUnbind()
+  @Override
+  public void framebufferDrawUnbind()
     throws JCGLException
   {
     this.actualUnbindDraw();
@@ -569,7 +602,8 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     return this.color_points;
   }
 
-  @Override public boolean framebufferReadAnyIsBound()
+  @Override
+  public boolean framebufferReadAnyIsBound()
     throws JCGLException
   {
     return this.bind_read != null;
@@ -583,13 +617,15 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     this.actualBindRead((JOGLFramebuffer) framebuffer);
   }
 
-  @Override public Optional<JCGLFramebufferUsableType> framebufferReadGetBound()
+  @Override
+  public Optional<JCGLFramebufferUsableType> framebufferReadGetBound()
     throws JCGLException
   {
     return Optional.ofNullable(this.bind_read);
   }
 
-  @Override public JCGLFramebufferStatus framebufferReadValidate()
+  @Override
+  public JCGLFramebufferStatus framebufferReadValidate()
     throws JCGLException
   {
     if (this.bind_read == null) {
@@ -609,13 +645,15 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     return framebuffer.equals(this.bind_read);
   }
 
-  @Override public void framebufferReadUnbind()
+  @Override
+  public void framebufferReadUnbind()
     throws JCGLException
   {
     this.actualUnbindRead();
   }
 
-  @Override public void framebufferBlit(
+  @Override
+  public void framebufferBlit(
     final AreaInclusiveUnsignedLType source,
     final AreaInclusiveUnsignedLType target,
     final Set<JCGLFramebufferBlitBuffer> buffers,
@@ -724,7 +762,8 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       this.draw_buffers = new TreeMap<>();
     }
 
-    @Override public void attachColorTexture2DAt(
+    @Override
+    public void attachColorTexture2DAt(
       final JCGLFramebufferColorAttachmentPointType point,
       final JCGLFramebufferDrawBufferType buffer,
       final JCGLTexture2DUsableType texture)
@@ -741,7 +780,8 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       this.draw_buffers.put(buffer, point);
     }
 
-    @Override public void attachColorTextureCubeAt(
+    @Override
+    public void attachColorTextureCubeAt(
       final JCGLFramebufferColorAttachmentPointType point,
       final JCGLFramebufferDrawBufferType buffer,
       final JCGLTextureCubeUsableType texture,
@@ -762,7 +802,8 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       this.draw_buffers.put(buffer, point);
     }
 
-    @Override public void attachDepthTexture2D(
+    @Override
+    public void attachDepthTexture2D(
       final JCGLTexture2DUsableType t)
     {
       final GLContext c = this.context.getContext();
@@ -784,7 +825,8 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       this.depth_stencil = t;
     }
 
-    @Override public void detachDepth()
+    @Override
+    public void detachDepth()
     {
       this.depth = null;
       this.depth_stencil = null;
@@ -825,12 +867,14 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
         return m.onTextureCube(this.texture, this.face);
       }
 
-      @Override public Set<JCGLReferenceContainerType> getReferringContainers()
+      @Override
+      public Set<JCGLReferenceContainerType> getReferringContainers()
       {
         throw new UnreachableCodeException();
       }
 
-      @Override public int getGLName()
+      @Override
+      public int getGLName()
       {
         return this.texture.getGLName();
       }

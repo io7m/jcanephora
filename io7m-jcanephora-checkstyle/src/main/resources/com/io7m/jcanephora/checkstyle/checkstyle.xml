@@ -153,7 +153,7 @@
     <!-- <module name="MultipleStringLiterals"/> -->
     <module name="MultipleVariableDeclarations"/>
     <module name="MutableException"/>
-    <module name="NPathComplexity"/>
+    <!-- <module name="NPathComplexity"/> -->
     <module name="NeedBraces"/>
     <module name="NestedForDepth">
       <property name="max" value="2"/>
