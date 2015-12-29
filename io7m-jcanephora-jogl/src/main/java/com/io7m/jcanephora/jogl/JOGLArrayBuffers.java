@@ -67,7 +67,8 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     JOGLErrorChecking.checkErrors(this.gl);
   }
 
-  @Override public JCGLArrayBufferType arrayBufferAllocate(
+  @Override
+  public JCGLArrayBufferType arrayBufferAllocate(
     final long size,
     final JCGLUsageHint usage)
     throws JCGLException
@@ -76,14 +77,18 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     RangeCheck.checkIncludedInLong(
       size, "Size", Ranges.NATURAL_LONG, "Valid size range");
 
-    JOGLArrayBuffers.LOG.debug(
-      "allocate ({} bytes, {})", Long.valueOf(size), usage);
+    if (JOGLArrayBuffers.LOG.isDebugEnabled()) {
+      JOGLArrayBuffers.LOG.debug(
+        "allocate ({} bytes, {})", Long.valueOf(size), usage);
+    }
 
     this.int_cache.rewind();
     this.gl.glGenBuffers(1, this.int_cache);
     final int id = this.int_cache.get(0);
 
-    JOGLArrayBuffers.LOG.debug("allocated {}", Integer.valueOf(id));
+    if (JOGLArrayBuffers.LOG.isDebugEnabled()) {
+      JOGLArrayBuffers.LOG.debug("allocated {}", Integer.valueOf(id));
+    }
 
     final JOGLArrayBuffer a =
       new JOGLArrayBuffer(this.gl.getContext(), id, size, usage);
@@ -97,7 +102,10 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
 
   private void actualBind(final JOGLArrayBuffer a)
   {
-    JOGLArrayBuffers.LOG.trace("bind {} -> {}", this.bind, a);
+    if (JOGLArrayBuffers.LOG.isTraceEnabled()) {
+      JOGLArrayBuffers.LOG.trace("bind {} -> {}", this.bind, a);
+    }
+
     if (!a.equals(this.bind)) {
       this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, a.getGLName());
       this.bind = a;
@@ -106,7 +114,10 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
 
   private void actualUnbind()
   {
-    JOGLArrayBuffers.LOG.trace("unbind {} -> {}", this.bind, null);
+    if (JOGLArrayBuffers.LOG.isTraceEnabled()) {
+      JOGLArrayBuffers.LOG.trace("unbind {} -> {}", this.bind, null);
+    }
+
     if (this.bind != null) {
       this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
       this.bind = null;
@@ -120,7 +131,8 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     return Optional.ofNullable(this.bind);
   }
 
-  @Override public void arrayBufferBind(final JCGLArrayBufferUsableType a)
+  @Override
+  public void arrayBufferBind(final JCGLArrayBufferUsableType a)
     throws JCGLException, JCGLExceptionDeleted
   {
     this.checkArray(a);
@@ -133,18 +145,22 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     JCGLResources.checkNotDeleted(a);
   }
 
-  @Override public void arrayBufferUnbind()
+  @Override
+  public void arrayBufferUnbind()
     throws JCGLException
   {
     this.actualUnbind();
   }
 
-  @Override public void arrayBufferDelete(final JCGLArrayBufferType a)
+  @Override
+  public void arrayBufferDelete(final JCGLArrayBufferType a)
     throws JCGLException, JCGLExceptionDeleted
   {
     this.checkArray(a);
 
-    JOGLArrayBuffers.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+    if (JOGLArrayBuffers.LOG.isDebugEnabled()) {
+      JOGLArrayBuffers.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+    }
 
     this.int_cache.rewind();
     this.int_cache.put(0, a.getGLName());
@@ -156,7 +172,8 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     }
   }
 
-  @Override public void arrayBufferUpdate(
+  @Override
+  public void arrayBufferUpdate(
     final JCGLBufferUpdateType<JCGLArrayBufferType> u)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {

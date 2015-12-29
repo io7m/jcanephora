@@ -54,12 +54,10 @@ import java.util.Optional;
 
 final class JOGLArrayObjects implements JCGLArrayObjectsType
 {
-  private static final RangeInclusiveI MAX_ATTRIBS_RANGE;
   private static final Logger          LOG;
   private static final RangeInclusiveI VALID_ELEMENT_COUNT;
 
   static {
-    MAX_ATTRIBS_RANGE = new RangeInclusiveI(16, Integer.MAX_VALUE);
     VALID_ELEMENT_COUNT = new RangeInclusiveI(1, 4);
     LOG = LoggerFactory.getLogger(JOGLArrayObjects.class);
   }
@@ -91,8 +89,11 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     this.gl.glGetIntegerv(GL3.GL_MAX_VERTEX_ATTRIBS, this.int_cache);
     final int max = this.int_cache.get(0);
 
-    JOGLArrayObjects.LOG.debug(
-      "reported maximum supported vertex attributes: {}", Integer.valueOf(max));
+    if (JOGLArrayObjects.LOG.isDebugEnabled()) {
+      JOGLArrayObjects.LOG.debug(
+        "reported maximum supported vertex attributes: {}",
+        Integer.valueOf(max));
+    }
 
     if (max < 16) {
       final StringBuilder sb = new StringBuilder(128);
@@ -125,13 +126,15 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     JOGLErrorChecking.checkErrors(this.gl);
   }
 
-  @Override public JCGLArrayObjectBuilderType arrayObjectNewBuilder()
+  @Override
+  public JCGLArrayObjectBuilderType arrayObjectNewBuilder()
     throws JCGLException
   {
     return new Builder();
   }
 
-  @Override public JCGLArrayObjectType arrayObjectAllocate(
+  @Override
+  public JCGLArrayObjectType arrayObjectAllocate(
     final JCGLArrayObjectBuilderType b)
     throws JCGLException
   {
@@ -158,7 +161,10 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 
     g3.glGenVertexArrays(1, this.int_cache);
     final Integer aid = Integer.valueOf(this.int_cache.get(0));
-    JOGLArrayObjects.LOG.debug("allocated {}", aid);
+
+    if (JOGLArrayObjects.LOG.isDebugEnabled()) {
+      JOGLArrayObjects.LOG.debug("allocated {}", aid);
+    }
 
     final JCGLArrayVertexAttributeType[] write_attribs =
       Arrays.copyOf(bb.attribs, bb.attribs.length);
@@ -176,7 +182,12 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         final Integer box_index = Integer.valueOf(index);
         final JCGLArrayVertexAttributeType a = bb.attribs[index];
         if (a == null) {
-          JOGLArrayObjects.LOG.trace("[{}]: attr {} disabled", aid, box_index);
+          if (JOGLArrayObjects.LOG.isTraceEnabled()) {
+            JOGLArrayObjects.LOG.trace(
+              "[{}]: attr {} disabled",
+              aid,
+              box_index);
+          }
           g3.glDisableVertexAttribArray(index);
           continue;
         }
@@ -186,7 +197,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         a.matchVertexAttribute(
           new JCGLArrayVertexAttributeMatcherType<Void, JCGLException>()
           {
-            @Override public Void matchFloatingPoint(
+            @Override
+            public Void matchFloatingPoint(
               final JCGLArrayVertexAttributeFloatingPointType af)
               throws JCGLException
             {
@@ -196,15 +208,17 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
               final int stride = af.getStride();
               final JCGLScalarType t = af.getType();
 
-              JOGLArrayObjects.LOG.trace(
-                "[{}]: attr {} floating type:{}/{} norm:{} off:{} stride:{}",
-                aid,
-                box_index,
-                t,
-                Integer.valueOf(e),
-                Boolean.valueOf(n),
-                Long.valueOf(off),
-                Integer.valueOf(stride));
+              if (JOGLArrayObjects.LOG.isTraceEnabled()) {
+                JOGLArrayObjects.LOG.trace(
+                  "[{}]: attr {} floating type:{}/{} norm:{} off:{} stride:{}",
+                  aid,
+                  box_index,
+                  t,
+                  Integer.valueOf(e),
+                  Boolean.valueOf(n),
+                  Long.valueOf(off),
+                  Integer.valueOf(stride));
+              }
 
               g3.glVertexAttribPointer(
                 box_index.intValue(),
@@ -216,7 +230,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
               return null;
             }
 
-            @Override public Void matchIntegral(
+            @Override
+            public Void matchIntegral(
               final JCGLArrayVertexAttributeIntegralType ai)
               throws JCGLException
             {
@@ -225,14 +240,16 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
               final long offset = ai.getOffset();
               final int stride = ai.getStride();
 
-              JOGLArrayObjects.LOG.trace(
-                "[{}]: attr {} integral type:{}/{} off:{} stride:{}",
-                aid,
-                box_index,
-                t,
-                Integer.valueOf(e),
-                Long.valueOf(offset),
-                Integer.valueOf(stride));
+              if (JOGLArrayObjects.LOG.isTraceEnabled()) {
+                JOGLArrayObjects.LOG.trace(
+                  "[{}]: attr {} integral type:{}/{} off:{} stride:{}",
+                  aid,
+                  box_index,
+                  t,
+                  Integer.valueOf(e),
+                  Long.valueOf(offset),
+                  Integer.valueOf(stride));
+              }
 
               g3.glVertexAttribIPointer(
                 box_index.intValue(),
@@ -256,7 +273,10 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 
   private void actualBind(final JOGLArrayObject a)
   {
-    JOGLArrayObjects.LOG.trace("bind {} -> {}", this.bind, a);
+    if (JOGLArrayObjects.LOG.isTraceEnabled()) {
+      JOGLArrayObjects.LOG.trace("bind {} -> {}", this.bind, a);
+    }
+
     if (this.bind.getGLName() != a.getGLName()) {
       this.gl.glBindVertexArray(a.getGLName());
       this.bind = a;
@@ -265,21 +285,26 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 
   private void actualUnbind()
   {
-    JOGLArrayObjects.LOG.trace(
-      "unbind {} -> {}", this.bind, this.default_buffer);
+    if (JOGLArrayObjects.LOG.isTraceEnabled()) {
+      JOGLArrayObjects.LOG.trace(
+        "unbind {} -> {}", this.bind, this.default_buffer);
+    }
+
     if (this.bind.getGLName() != this.default_buffer.getGLName()) {
       this.gl.glBindVertexArray(0);
       this.bind = this.default_buffer;
     }
   }
 
-  @Override public JCGLArrayObjectUsableType arrayObjectGetCurrentlyBound()
+  @Override
+  public JCGLArrayObjectUsableType arrayObjectGetCurrentlyBound()
     throws JCGLException
   {
     return this.bind;
   }
 
-  @Override public void arrayObjectBind(
+  @Override
+  public void arrayObjectBind(
     final JCGLArrayObjectUsableType a)
     throws JCGLException, JCGLExceptionDeleted
   {
@@ -294,13 +319,15 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     return (JOGLArrayObject) a;
   }
 
-  @Override public void arrayObjectUnbind()
+  @Override
+  public void arrayObjectUnbind()
     throws JCGLException
   {
     this.actualUnbind();
   }
 
-  @Override public void arrayObjectDelete(
+  @Override
+  public void arrayObjectDelete(
     final JCGLArrayObjectType ai)
     throws JCGLException, JCGLExceptionDeleted
   {
@@ -311,7 +338,9 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         "Cannot delete the default array object");
     }
 
-    JOGLArrayObjects.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+    if (JOGLArrayObjects.LOG.isDebugEnabled()) {
+      JOGLArrayObjects.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+    }
 
     this.int_cache.rewind();
     this.int_cache.put(0, a.getGLName());
@@ -328,7 +357,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     }
   }
 
-  @Override public JCGLArrayObjectUsableType arrayObjectGetDefault()
+  @Override
+  public JCGLArrayObjectUsableType arrayObjectGetDefault()
   {
     return this.default_buffer;
   }
@@ -365,7 +395,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         new JCGLArrayVertexAttributeType[this.getMaximumVertexAttributes()];
     }
 
-    @Override public Optional<JCGLArrayVertexAttributeType> getAttributeAt(
+    @Override
+    public Optional<JCGLArrayVertexAttributeType> getAttributeAt(
       final int index)
     {
       RangeCheck.checkIncludedInInteger(
@@ -377,12 +408,14 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       return Optional.ofNullable(this.attribs[index]);
     }
 
-    @Override public int getMaximumVertexAttributes()
+    @Override
+    public int getMaximumVertexAttributes()
     {
       return JOGLArrayObjects.this.max_attribs;
     }
 
-    @Override public void setAttributeFloatingPoint(
+    @Override
+    public void setAttributeFloatingPoint(
       final int index,
       final JCGLArrayBufferUsableType a,
       final int elements,
@@ -423,7 +456,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       this.attribs[index] = attr;
     }
 
-    @Override public void setAttributeIntegral(
+    @Override
+    public void setAttributeIntegral(
       final int index,
       final JCGLArrayBufferUsableType a,
       final int elements,
@@ -462,14 +496,16 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       this.attribs[index] = attr;
     }
 
-    @Override public void setIndexBuffer(final JCGLIndexBufferUsableType i)
+    @Override
+    public void setIndexBuffer(final JCGLIndexBufferUsableType i)
       throws JCGLExceptionDeleted
     {
       JOGLArrayObjects.this.checkIndexBuffer(i);
       this.index_buffer = i;
     }
 
-    @Override public void setNoIndexBuffer()
+    @Override
+    public void setNoIndexBuffer()
     {
       this.index_buffer = null;
     }
@@ -485,14 +521,16 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
           exist_a.matchVertexAttribute(
             new JCGLArrayVertexAttributeMatcherType<Void, RuntimeException>()
             {
-              @Override public Void matchFloatingPoint(
+              @Override
+              public Void matchFloatingPoint(
                 final JCGLArrayVertexAttributeFloatingPointType a)
               {
                 aa[a.getIndex()] = null;
                 return null;
               }
 
-              @Override public Void matchIntegral(
+              @Override
+              public Void matchIntegral(
                 final JCGLArrayVertexAttributeIntegralType a)
               {
                 aa[a.getIndex()] = null;
@@ -503,7 +541,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       }
     }
 
-    @Override public void reset()
+    @Override
+    public void reset()
     {
       for (int index = 0; index < this.attribs.length; ++index) {
         this.attribs[index] = null;

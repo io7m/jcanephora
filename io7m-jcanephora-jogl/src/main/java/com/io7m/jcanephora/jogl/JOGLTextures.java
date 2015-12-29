@@ -108,9 +108,11 @@ final class JOGLTextures implements JCGLTexturesType
 
     final int max = in_cache.get(0);
 
-    JOGLTextures.LOG.debug(
-      "implementation supports {} texture units",
-      Integer.valueOf(max));
+    if (JOGLTextures.LOG.isDebugEnabled()) {
+      JOGLTextures.LOG.debug(
+        "implementation supports {} texture units",
+        Integer.valueOf(max));
+    }
 
     if (max < 16) {
       final String message = String.format(
@@ -122,10 +124,12 @@ final class JOGLTextures implements JCGLTexturesType
 
     final int clamped = Math.min(1024, max);
     if (clamped != max) {
-      JOGLTextures.LOG.debug(
-        "clamped unreasonable texture unit count {} to {}",
-        Integer.valueOf(max),
-        Integer.valueOf(clamped));
+      if (JOGLTextures.LOG.isDebugEnabled()) {
+        JOGLTextures.LOG.debug(
+          "clamped unreasonable texture unit count {} to {}",
+          Integer.valueOf(max),
+          Integer.valueOf(clamped));
+      }
     }
 
     final List<JCGLTextureUnitType> u = new ArrayList<>(clamped);
@@ -146,9 +150,11 @@ final class JOGLTextures implements JCGLTexturesType
 
     final int size = in_cache.get(0);
 
-    JOGLTextures.LOG.debug(
-      "implementation reports maximum texture size {}",
-      Integer.valueOf(size));
+    if (JOGLTextures.LOG.isDebugEnabled()) {
+      JOGLTextures.LOG.debug(
+        "implementation reports maximum texture size {}",
+        Integer.valueOf(size));
+    }
 
     if (size < 1024) {
       final String message = String.format(
@@ -189,19 +195,22 @@ final class JOGLTextures implements JCGLTexturesType
     return r;
   }
 
-  @Override public int textureGetMaximumSize()
+  @Override
+  public int textureGetMaximumSize()
     throws JCGLException
   {
     return this.size;
   }
 
-  @Override public List<JCGLTextureUnitType> textureGetUnits()
+  @Override
+  public List<JCGLTextureUnitType> textureGetUnits()
     throws JCGLException
   {
     return this.units;
   }
 
-  @Override public boolean textureUnitIsBound(final JCGLTextureUnitType unit)
+  @Override
+  public boolean textureUnitIsBound(final JCGLTextureUnitType unit)
     throws JCGLException
   {
     final JOGLTextureUnit u =
@@ -209,7 +218,8 @@ final class JOGLTextures implements JCGLTexturesType
     return u.getBind2D() != null || u.getBindCube() != null;
   }
 
-  @Override public void textureUnitUnbind(final JCGLTextureUnitType unit)
+  @Override
+  public void textureUnitUnbind(final JCGLTextureUnitType unit)
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
@@ -219,10 +229,12 @@ final class JOGLTextures implements JCGLTexturesType
     {
       final JOGLTexture2D t2d = u.getBind2D();
       if (t2d != null) {
-        JOGLTextures.LOG.trace(
-          "unbind 2D [{}]: {} -> none",
-          Integer.valueOf(index),
-          t2d);
+        if (JOGLTextures.LOG.isTraceEnabled()) {
+          JOGLTextures.LOG.trace(
+            "unbind 2D [{}]: {} -> none",
+            Integer.valueOf(index),
+            t2d);
+        }
         this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
         this.g3.glBindTexture(GL.GL_TEXTURE_2D, 0);
         this.bindingRemoveTextureReference(t2d.getGLName(), index);
@@ -233,10 +245,12 @@ final class JOGLTextures implements JCGLTexturesType
     {
       final JOGLTextureCube tc = u.getBindCube();
       if (tc != null) {
-        JOGLTextures.LOG.trace(
-          "unbind cube [{}]: {} -> none",
-          Integer.valueOf(index),
-          tc);
+        if (JOGLTextures.LOG.isTraceEnabled()) {
+          JOGLTextures.LOG.trace(
+            "unbind cube [{}]: {} -> none",
+            Integer.valueOf(index),
+            tc);
+        }
         this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
         this.g3.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
         this.bindingRemoveTextureReference(tc.getGLName(), index);
@@ -245,7 +259,8 @@ final class JOGLTextures implements JCGLTexturesType
     }
   }
 
-  @Override public void texture2DBind(
+  @Override
+  public void texture2DBind(
     final JCGLTextureUnitType unit,
     final JCGLTexture2DUsableType texture)
     throws JCGLException
@@ -260,10 +275,12 @@ final class JOGLTextures implements JCGLTexturesType
     final int texture_id = texture.getGLName();
     this.textureUnitUnbind(u);
 
-    JOGLTextures.LOG.trace(
-      "bind 2D [{}]: none -> {}",
-      Integer.valueOf(index),
-      texture);
+    if (JOGLTextures.LOG.isTraceEnabled()) {
+      JOGLTextures.LOG.trace(
+        "bind 2D [{}]: none -> {}",
+        Integer.valueOf(index),
+        texture);
+    }
     this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
     this.g3.glBindTexture(GL.GL_TEXTURE_2D, texture_id);
     this.bindingAddTextureReference(texture_id, index);
@@ -297,14 +314,17 @@ final class JOGLTextures implements JCGLTexturesType
     }
   }
 
-  @Override public void texture2DDelete(
+  @Override
+  public void texture2DDelete(
     final JCGLTexture2DType texture)
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
     JOGLTextures.checkTexture2D(c, texture);
 
-    JOGLTextures.LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+    if (JOGLTextures.LOG.isDebugEnabled()) {
+      JOGLTextures.LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+    }
 
     final int texture_id = texture.getGLName();
     this.icache.rewind();
@@ -327,7 +347,8 @@ final class JOGLTextures implements JCGLTexturesType
     }
   }
 
-  @Override public boolean texture2DIsBound(
+  @Override
+  public boolean texture2DIsBound(
     final JCGLTextureUnitType unit,
     final JCGLTexture2DUsableType texture)
     throws JCGLException
@@ -348,7 +369,8 @@ final class JOGLTextures implements JCGLTexturesType
     return this.texture_to_units.containsKey(texture_id);
   }
 
-  @Override public JCGLTexture2DType texture2DAllocate(
+  @Override
+  public JCGLTexture2DType texture2DAllocate(
     final JCGLTextureUnitType unit,
     final long width,
     final long height,
@@ -368,13 +390,15 @@ final class JOGLTextures implements JCGLTexturesType
     RangeCheck.checkGreaterEqualLong(width, "Width", 2L, "Valid widths");
     RangeCheck.checkGreaterEqualLong(height, "Height", 2L, "Valid heights");
 
-    final long bytes = width * height * format.getBytesPerPixel();
-    JOGLTextures.LOG.debug(
-      "allocate {} {}x{} {} bytes",
-      format,
-      Long.valueOf(width),
-      Long.valueOf(height),
-      Long.valueOf(bytes));
+    final long bytes = width * height * (long) format.getBytesPerPixel();
+    if (JOGLTextures.LOG.isDebugEnabled()) {
+      JOGLTextures.LOG.debug(
+        "allocate {} {}x{} {} bytes",
+        format,
+        Long.valueOf(width),
+        Long.valueOf(height),
+        Long.valueOf(bytes));
+    }
 
     this.icache.rewind();
     this.g3.glGenTextures(1, this.icache);
@@ -436,11 +460,14 @@ final class JOGLTextures implements JCGLTexturesType
       }
     }
 
-    JOGLTextures.LOG.debug("allocated {}", Integer.valueOf(texture_id));
+    if (JOGLTextures.LOG.isDebugEnabled()) {
+      JOGLTextures.LOG.debug("allocated {}", Integer.valueOf(texture_id));
+    }
     return t;
   }
 
-  @Override public void texture2DUpdate(
+  @Override
+  public void texture2DUpdate(
     final JCGLTextureUnitType unit,
     final JCGLTexture2DUpdateType data)
     throws JCGLException
@@ -490,7 +517,8 @@ final class JOGLTextures implements JCGLTexturesType
     }
   }
 
-  @Override public ByteBuffer texture2DGetImage(
+  @Override
+  public ByteBuffer texture2DGetImage(
     final JCGLTextureUnitType unit,
     final JCGLTexture2DUsableType texture)
     throws JCGLException
@@ -527,7 +555,8 @@ final class JOGLTextures implements JCGLTexturesType
     this.framebuffers = NullCheck.notNull(in_fb);
   }
 
-  @Override public void textureCubeBind(
+  @Override
+  public void textureCubeBind(
     final JCGLTextureUnitType unit,
     final JCGLTextureCubeUsableType texture)
     throws JCGLException
@@ -542,10 +571,12 @@ final class JOGLTextures implements JCGLTexturesType
     final int texture_id = texture.getGLName();
     this.textureUnitUnbind(unit);
 
-    JOGLTextures.LOG.trace(
-      "bind cube [{}]: none -> {}",
-      Integer.valueOf(index),
-      texture);
+    if (JOGLTextures.LOG.isTraceEnabled()) {
+      JOGLTextures.LOG.trace(
+        "bind cube [{}]: none -> {}",
+        Integer.valueOf(index),
+        texture);
+    }
     this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
     this.g3.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture_id);
     this.bindingAddTextureReference(texture_id, index);
@@ -564,13 +595,16 @@ final class JOGLTextures implements JCGLTexturesType
     }
   }
 
-  @Override public void textureCubeDelete(final JCGLTextureCubeType texture)
+  @Override
+  public void textureCubeDelete(final JCGLTextureCubeType texture)
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
     JOGLTextures.checkTextureCube(c, texture);
 
-    JOGLTextures.LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+    if (JOGLTextures.LOG.isDebugEnabled()) {
+      JOGLTextures.LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+    }
 
     final int texture_id = texture.getGLName();
     this.icache.rewind();
@@ -580,7 +614,8 @@ final class JOGLTextures implements JCGLTexturesType
     this.unbindDeleted(texture_id);
   }
 
-  @Override public boolean textureCubeIsBound(
+  @Override
+  public boolean textureCubeIsBound(
     final JCGLTextureUnitType unit,
     final JCGLTextureCubeUsableType texture)
     throws JCGLException
@@ -602,7 +637,8 @@ final class JOGLTextures implements JCGLTexturesType
     return this.texture_to_units.containsKey(texture_id);
   }
 
-  @Override public void textureCubeUpdateLH(
+  @Override
+  public void textureCubeUpdateLH(
     final JCGLTextureUnitType unit,
     final JCGLCubeMapFaceLH face,
     final JCGLTextureCubeUpdateType data)
@@ -654,7 +690,8 @@ final class JOGLTextures implements JCGLTexturesType
     }
   }
 
-  @Override public JCGLTextureCubeType textureCubeAllocate(
+  @Override
+  public JCGLTextureCubeType textureCubeAllocate(
     final JCGLTextureUnitType unit,
     final long in_size,
     final JCGLTextureFormat format,
@@ -676,12 +713,14 @@ final class JOGLTextures implements JCGLTexturesType
     RangeCheck.checkGreaterEqualLong(in_size, "Size", 2L, "Valid sizes");
 
     final long bytes = (in_size * in_size) * 6L * format.getBytesPerPixel();
-    JOGLTextures.LOG.debug(
-      "allocate {} {}x{}x6 {} bytes",
-      format,
-      Long.valueOf(in_size),
-      Long.valueOf(in_size),
-      Long.valueOf(bytes));
+    if (JOGLTextures.LOG.isDebugEnabled()) {
+      JOGLTextures.LOG.debug(
+        "allocate {} {}x{}x6 {} bytes",
+        format,
+        Long.valueOf(in_size),
+        Long.valueOf(in_size),
+        Long.valueOf(bytes));
+    }
 
     this.icache.rewind();
     this.g3.glGenTextures(1, this.icache);
@@ -751,11 +790,14 @@ final class JOGLTextures implements JCGLTexturesType
       }
     }
 
-    JOGLTextures.LOG.debug("allocated {}", Integer.valueOf(texture_id));
+    if (JOGLTextures.LOG.isDebugEnabled()) {
+      JOGLTextures.LOG.debug("allocated {}", Integer.valueOf(texture_id));
+    }
     return t;
   }
 
-  @Override public ByteBuffer textureCubeGetImageLH(
+  @Override
+  public ByteBuffer textureCubeGetImageLH(
     final JCGLTextureUnitType unit,
     final JCGLCubeMapFaceLH face,
     final JCGLTextureCubeUsableType texture)

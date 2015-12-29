@@ -76,7 +76,8 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     this.array_objects = NullCheck.notNull(ao);
   }
 
-  @Override public JCGLIndexBufferType indexBufferAllocate(
+  @Override
+  public JCGLIndexBufferType indexBufferAllocate(
     final long indices,
     final JCGLUnsignedType type,
     final JCGLUsageHint usage)
@@ -88,18 +89,22 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
 
     final long size = indices * (long) type.getSizeBytes();
 
-    JOGLIndexBuffers.LOG.debug(
-      "allocate {} {} ({} bytes, {})",
-      Long.toUnsignedString(size),
-      type,
-      Long.valueOf(size),
-      usage);
+    if (JOGLIndexBuffers.LOG.isDebugEnabled()) {
+      JOGLIndexBuffers.LOG.debug(
+        "allocate {} {} ({} bytes, {})",
+        Long.toUnsignedString(size),
+        type,
+        Long.valueOf(size),
+        usage);
+    }
 
     this.int_cache.rewind();
     this.gl.glGenBuffers(1, this.int_cache);
     final int id = this.int_cache.get(0);
 
-    JOGLIndexBuffers.LOG.debug("allocated {}", Integer.valueOf(id));
+    if (JOGLIndexBuffers.LOG.isDebugEnabled()) {
+      JOGLIndexBuffers.LOG.debug("allocated {}", Integer.valueOf(id));
+    }
 
     final JOGLIndexBuffer ib =
       new JOGLIndexBuffer(this.gl.getContext(), id, indices, type, size, usage);
@@ -121,7 +126,9 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
 
     ao.setIndexBuffer(
       ib_opt -> {
-        JOGLIndexBuffers.LOG.trace("bind {}/{} -> {}", ao, ib_opt, ib);
+        if (JOGLIndexBuffers.LOG.isTraceEnabled()) {
+          JOGLIndexBuffers.LOG.trace("bind {}/{} -> {}", ao, ib_opt, ib);
+        }
 
         if (ib_opt.isPresent()) {
           final JCGLIndexBufferUsableType current = ib_opt.get();
@@ -156,7 +163,8 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
       .getIndexBufferBound();
   }
 
-  @Override public void indexBufferBind(
+  @Override
+  public void indexBufferBind(
     final JCGLIndexBufferUsableType i)
     throws JCGLException, JCGLExceptionDeleted
   {
@@ -171,13 +179,15 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     return (JOGLIndexBuffer) i;
   }
 
-  @Override public void indexBufferUnbind()
+  @Override
+  public void indexBufferUnbind()
     throws JCGLException
   {
     this.actualUnbind();
   }
 
-  @Override public void indexBufferDelete(
+  @Override
+  public void indexBufferDelete(
     final JCGLIndexBufferType ii)
     throws JCGLException, JCGLExceptionDeleted
   {
@@ -196,7 +206,8 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     }
   }
 
-  @Override public void indexBufferUpdate(
+  @Override
+  public void indexBufferUpdate(
     final JCGLBufferUpdateType<JCGLIndexBufferType> u)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
@@ -231,7 +242,8 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     throw new JCGLExceptionBufferNotBound(sb.toString());
   }
 
-  @Override public boolean indexBufferIsBound()
+  @Override
+  public boolean indexBufferIsBound()
   {
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
