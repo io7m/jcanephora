@@ -21,8 +21,8 @@ import com.io7m.jcanephora.core.JCGLExceptionProgramNotActive;
 import com.io7m.jcanephora.core.JCGLExceptionProgramTypeError;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
-import com.io7m.jtensors.MatrixDirect3x3FType;
-import com.io7m.jtensors.MatrixDirect4x4FType;
+import com.io7m.jtensors.MatrixDirectReadable3x3FType;
+import com.io7m.jtensors.MatrixDirectReadable4x4FType;
 import com.io7m.jtensors.VectorReadable2FType;
 import com.io7m.jtensors.VectorReadable2IType;
 import com.io7m.jtensors.VectorReadable3FType;
@@ -375,7 +375,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutMatrix3x3f(
     JCGLProgramUniformType u,
-    MatrixDirect3x3FType value)
+    MatrixDirectReadable3x3FType value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -400,7 +400,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutMatrix4x4f(
     JCGLProgramUniformType u,
-    MatrixDirect4x4FType value)
+    MatrixDirectReadable4x4FType value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
