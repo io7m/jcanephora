@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.Objects;
 import java.util.Optional;
 
 final class JOGLArrayBuffers implements JCGLArrayBuffersType
@@ -129,6 +130,22 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     throws JCGLException
   {
     return Optional.ofNullable(this.bind);
+  }
+
+  @Override
+  public boolean arrayBufferAnyIsBound()
+    throws JCGLException
+  {
+    return this.bind != null;
+  }
+
+  @Override
+  public boolean arrayBufferIsBound(
+    final JCGLArrayBufferUsableType a)
+    throws JCGLException
+  {
+    this.checkArray(a);
+    return Objects.equals(a, this.bind);
   }
 
   @Override
