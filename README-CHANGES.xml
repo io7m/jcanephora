@@ -3,6 +3,17 @@
   <c:project>io7m-jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
+    <c:date>2015-12-30</c:date>
+    <c:version>0.40.4</c:version>
+    <c:item>
+      <c:date>2015-12-30</c:date>
+      <c:type-code-fix/>
+      <c:ticket>22</c:ticket>
+      <c:summary>Add view/projection matrix construction functions.</c:summary>
+    </c:item>
+  </c:release>
+
+  <c:release c:ticket-system="com.github.io7m.jcanephora">
     <c:date>2015-12-29</c:date>
     <c:version>0.40.3</c:version>
     <c:item>
