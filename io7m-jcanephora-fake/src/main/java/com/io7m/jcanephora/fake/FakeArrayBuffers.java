@@ -69,7 +69,8 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     }
   }
 
-  @Override public JCGLArrayBufferType arrayBufferAllocate(
+  @Override
+  public JCGLArrayBufferType arrayBufferAllocate(
     final long size,
     final JCGLUsageHint usage)
     throws JCGLException
@@ -95,7 +96,24 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     return Optional.ofNullable(this.bind);
   }
 
-  @Override public void arrayBufferBind(final JCGLArrayBufferUsableType a)
+  @Override
+  public boolean arrayBufferAnyIsBound()
+    throws JCGLException
+  {
+    return this.bind != null;
+  }
+
+  @Override
+  public boolean arrayBufferIsBound(
+    final JCGLArrayBufferUsableType a)
+    throws JCGLException
+  {
+    this.checkArray(a);
+    return a.equals(this.bind);
+  }
+
+  @Override
+  public void arrayBufferBind(final JCGLArrayBufferUsableType a)
     throws JCGLException, JCGLExceptionDeleted
   {
     this.checkArray(a);
@@ -108,13 +126,15 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     JCGLResources.checkNotDeleted(a);
   }
 
-  @Override public void arrayBufferUnbind()
+  @Override
+  public void arrayBufferUnbind()
     throws JCGLException
   {
     this.actualUnbind();
   }
 
-  @Override public void arrayBufferDelete(final JCGLArrayBufferType a)
+  @Override
+  public void arrayBufferDelete(final JCGLArrayBufferType a)
     throws JCGLException, JCGLExceptionDeleted
   {
     this.checkArray(a);
@@ -128,7 +148,8 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     }
   }
 
-  @Override public void arrayBufferUpdate(
+  @Override
+  public void arrayBufferUpdate(
     final JCGLBufferUpdateType<JCGLArrayBufferType> u)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {

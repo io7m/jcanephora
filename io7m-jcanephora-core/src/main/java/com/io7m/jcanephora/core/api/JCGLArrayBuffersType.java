@@ -62,6 +62,26 @@ public interface JCGLArrayBuffersType
     throws JCGLException;
 
   /**
+   * @return {@code true} iff any array buffer is bound
+   *
+   * @throws JCGLException Iff an OpenGL error occurs
+   */
+
+  boolean arrayBufferAnyIsBound()
+    throws JCGLException;
+
+  /**
+   * @param a The array buffer
+   *
+   * @return {@code true} iff the given array buffer is bound
+   *
+   * @throws JCGLException Iff an OpenGL error occurs
+   */
+
+  boolean arrayBufferIsBound(JCGLArrayBufferUsableType a)
+    throws JCGLException;
+
+  /**
    * Bind the given array buffer.
    *
    * @param a The array buffer

@@ -56,7 +56,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     String name,
     String shared);
 
-  @Test public final void testArrayAllocateNegative()
+  @Test
+  public final void testArrayAllocateNegative()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 
@@ -64,7 +65,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     ga.arrayBufferAllocate(-1L, JCGLUsageHint.USAGE_STATIC_DRAW);
   }
 
-  @Test public final void testArrayAllocateIdentities()
+  @Test
+  public final void testArrayAllocateIdentities()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 
@@ -77,28 +79,39 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     Assert.assertFalse(a.isDeleted());
   }
 
-  @Test public final void testArrayBindIdentities()
+  @Test
+  public final void testArrayBindIdentities()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 
     Assert.assertFalse(ga.arrayBufferGetCurrentlyBound().isPresent());
+    Assert.assertFalse(ga.arrayBufferAnyIsBound());
 
     final JCGLArrayBufferType a0 =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
     final JCGLArrayBufferType a1 =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
+    Assert.assertTrue(ga.arrayBufferAnyIsBound());
+    Assert.assertTrue(ga.arrayBufferIsBound(a1));
     Assert.assertEquals(Optional.of(a1), ga.arrayBufferGetCurrentlyBound());
     ga.arrayBufferBind(a0);
+    Assert.assertTrue(ga.arrayBufferAnyIsBound());
+    Assert.assertTrue(ga.arrayBufferIsBound(a0));
     Assert.assertEquals(Optional.of(a0), ga.arrayBufferGetCurrentlyBound());
     ga.arrayBufferBind(a1);
+    Assert.assertTrue(ga.arrayBufferAnyIsBound());
+    Assert.assertTrue(ga.arrayBufferIsBound(a1));
     Assert.assertEquals(Optional.of(a1), ga.arrayBufferGetCurrentlyBound());
 
     ga.arrayBufferUnbind();
     Assert.assertEquals(Optional.empty(), ga.arrayBufferGetCurrentlyBound());
+    Assert.assertFalse(ga.arrayBufferGetCurrentlyBound().isPresent());
+    Assert.assertFalse(ga.arrayBufferAnyIsBound());
   }
 
-  @Test public final void testArrayBindDeleted()
+  @Test
+  public final void testArrayBindDeleted()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
@@ -110,7 +123,21 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     ga.arrayBufferBind(a);
   }
 
-  @Test public final void testArrayBindWrongContext()
+  @Test
+  public final void testArrayIsBoundDeleted()
+  {
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    ga.arrayBufferDelete(a);
+    Assert.assertTrue(a.isDeleted());
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    ga.arrayBufferIsBound(a);
+  }
+
+  @Test
+  public final void testArrayBindWrongContext()
   {
     final JCGLUnsharedContextPair<JCGLArrayBuffersType> p =
       this.getArrayBuffersUnshared("main", "alt");
@@ -136,7 +163,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     gb.arrayBufferBind(a);
   }
 
-  @Test public final void testArrayBindShared()
+  @Test
+  public final void testArrayBindShared()
   {
     final JCGLSharedContextPair<JCGLArrayBuffersType> p =
       this.getArrayBuffersSharedWith("main", "alt");
@@ -156,7 +184,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     gb.arrayBufferBind(a);
   }
 
-  @Test public final void testArrayDeleteDeleted()
+  @Test
+  public final void testArrayDeleteDeleted()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
@@ -168,7 +197,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     ga.arrayBufferDelete(a);
   }
 
-  @Test public final void testArrayDeleteWrongContext()
+  @Test
+  public final void testArrayDeleteWrongContext()
   {
     final JCGLUnsharedContextPair<JCGLArrayBuffersType> p =
       this.getArrayBuffersUnshared("main", "alt");
@@ -192,7 +222,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     gb.arrayBufferDelete(a);
   }
 
-  @Test public final void testArrayDeleteShared()
+  @Test
+  public final void testArrayDeleteShared()
   {
     final JCGLSharedContextPair<JCGLArrayBuffersType> p =
       this.getArrayBuffersSharedWith("main", "alt");
@@ -212,7 +243,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     gb.arrayBufferDelete(a);
   }
 
-  @Test public final void testArrayDeleteUnbinds()
+  @Test
+  public final void testArrayDeleteUnbinds()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
@@ -226,7 +258,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     Assert.assertFalse(ga.arrayBufferGetCurrentlyBound().isPresent());
   }
 
-  @Test public final void testArrayDeleteNoUnbindOther()
+  @Test
+  public final void testArrayDeleteNoUnbindOther()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
@@ -242,7 +275,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     Assert.assertEquals(Optional.of(a), ga.arrayBufferGetCurrentlyBound());
   }
 
-  @Test public final void testArrayUpdateDeleted()
+  @Test
+  public final void testArrayUpdateDeleted()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
@@ -257,7 +291,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     ga.arrayBufferUpdate(u);
   }
 
-  @Test public final void testArrayUpdateWrongContext()
+  @Test
+  public final void testArrayUpdateWrongContext()
   {
     final JCGLUnsharedContextPair<JCGLArrayBuffersType> p =
       this.getArrayBuffersUnshared("main", "alt");
@@ -284,7 +319,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     gb.arrayBufferUpdate(u);
   }
 
-  @Test public final void testArrayUpdateNotBound()
+  @Test
+  public final void testArrayUpdateNotBound()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
     final JCGLArrayBufferType a =
@@ -298,7 +334,8 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     ga.arrayBufferUpdate(u);
   }
 
-  @Test public final void testArrayUpdateShared()
+  @Test
+  public final void testArrayUpdateShared()
   {
     final JCGLSharedContextPair<JCGLArrayBuffersType> p =
       this.getArrayBuffersSharedWith("main", "alt");

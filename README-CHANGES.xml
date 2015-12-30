@@ -3,6 +3,28 @@
   <c:project>io7m-jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
+    <c:date>2015-12-30</c:date>
+    <c:version>0.41.0</c:version>
+    <c:item>
+      <c:date>2015-12-30</c:date>
+      <c:type-code-new/>
+      <c:ticket>22</c:ticket>
+      <c:summary>Add view/projection matrix construction functions.</c:summary>
+    </c:item>
+    <c:item>
+      <c:date>2015-12-30</c:date>
+      <c:type-code-fix/>
+      <c:ticket>21</c:ticket>
+      <c:summary>Avoid rebinding array buffers during array object construction.</c:summary>
+    </c:item>
+    <c:item>
+      <c:date>2015-12-30</c:date>
+      <c:type-code-new/>
+      <c:summary>Add arrayBufferAnyIsBound and arrayBufferIsBound methods.</c:summary>
+    </c:item>
+  </c:release>
+
+  <c:release c:ticket-system="com.github.io7m.jcanephora">
     <c:date>2015-12-29</c:date>
     <c:version>0.40.3</c:version>
     <c:item>

@@ -193,7 +193,12 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         }
 
         g3.glEnableVertexAttribArray(index);
-        this.array_buffers.arrayBufferBind(a.getArrayBuffer());
+
+        final JCGLArrayBufferUsableType ab = a.getArrayBuffer();
+        if (!this.array_buffers.arrayBufferIsBound(ab)) {
+          this.array_buffers.arrayBufferBind(ab);
+        }
+
         a.matchVertexAttribute(
           new JCGLArrayVertexAttributeMatcherType<Void, JCGLException>()
           {
