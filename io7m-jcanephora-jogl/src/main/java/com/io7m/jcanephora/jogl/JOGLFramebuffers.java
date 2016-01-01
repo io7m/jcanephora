@@ -216,13 +216,14 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     JOGLCompatibilityChecks.checkDrawBuffer(c, buffer);
   }
 
-  static void checkFramebuffer(
+  static JOGLFramebuffer checkFramebuffer(
     final JOGLContext c,
     final JCGLFramebufferUsableType framebuffer)
   {
     NullCheck.notNull(framebuffer);
     JOGLCompatibilityChecks.checkFramebuffer(c.getContext(), framebuffer);
     JCGLResources.checkNotDeleted(framebuffer);
+    return (JOGLFramebuffer) framebuffer;
   }
 
   static void onFeedbackLoop(
@@ -485,6 +486,27 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     throw new UnreachableCodeException();
   }
 
+  @Override
+  public void framebufferDelete(
+    final JCGLFramebufferType framebuffer)
+    throws JCGLException
+  {
+    final JOGLFramebuffer fb =
+      JOGLFramebuffers.checkFramebuffer(this.context, framebuffer);
+
+    this.int_cache.rewind();
+    this.int_cache.put(0, framebuffer.getGLName());
+    this.gl.glDeleteFramebuffers(1, this.int_cache);
+
+    fb.setDeleted();
+    if (framebuffer.equals(this.bind_draw)) {
+      this.actualUnbindDraw();
+    }
+    if (framebuffer.equals(this.bind_read)) {
+      this.actualUnbindRead();
+    }
+  }
+
   private void actualBindDraw(final JOGLFramebuffer f)
   {
     if (JOGLFramebuffers.LOG.isTraceEnabled()) {
@@ -564,6 +586,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     final JCGLFramebufferUsableType framebuffer)
     throws JCGLException
   {
+    JOGLFramebuffers.checkFramebuffer(this.context, framebuffer);
     return framebuffer.equals(this.bind_draw);
   }
 
@@ -642,6 +665,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     final JCGLFramebufferUsableType framebuffer)
     throws JCGLException
   {
+    JOGLFramebuffers.checkFramebuffer(this.context, framebuffer);
     return framebuffer.equals(this.bind_read);
   }
 
