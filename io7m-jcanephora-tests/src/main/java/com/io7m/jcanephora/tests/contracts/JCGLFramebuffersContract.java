@@ -17,6 +17,8 @@
 package com.io7m.jcanephora.tests.contracts;
 
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
+import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionFeedback;
 import com.io7m.jcanephora.core.JCGLExceptionFormatError;
 import com.io7m.jcanephora.core.JCGLExceptionFramebufferInvalid;
@@ -73,7 +75,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
 
   protected abstract boolean hasRealBlitting();
 
-  @Test public final void testFramebufferBuildWrongContextAllocate()
+  @Test
+  public final void testFramebufferBuildWrongContextAllocate()
   {
     final Interfaces im = this.getInterfaces("main");
     final Interfaces ia = this.getInterfaces("alt");
@@ -92,7 +95,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     g_fb_main.framebufferAllocate(fbb);
   }
 
-  @Test public final void testFramebufferBuildWrongContextDepth()
+  @Test
+  public final void testFramebufferBuildWrongContextDepth()
   {
     final Interfaces im = this.getInterfaces("main");
     final Interfaces ia = this.getInterfaces("alt");
@@ -123,7 +127,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachDepthTexture2D(tc);
   }
 
-  @Test public final void testFramebufferBuildWrongContextDepthStencil()
+  @Test
+  public final void testFramebufferBuildWrongContextDepthStencil()
   {
     final Interfaces im = this.getInterfaces("main");
     final Interfaces ia = this.getInterfaces("alt");
@@ -153,7 +158,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachDepthStencilTexture2D(tc);
   }
 
-  @Test public final void testFramebufferBuildWrongContextColorAttachmentPoint()
+  @Test
+  public final void testFramebufferBuildWrongContextColorAttachmentPoint()
   {
     final Interfaces im = this.getInterfaces("main");
     final Interfaces ia = this.getInterfaces("alt");
@@ -196,7 +202,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachColorTexture2DAt(points.get(0), draw_buffers.get(0), tc);
   }
 
-  @Test public final void testFramebufferBuildWrongContextColorDrawBuffer()
+  @Test
+  public final void testFramebufferBuildWrongContextColorDrawBuffer()
   {
     final Interfaces im = this.getInterfaces("main");
     final Interfaces ia = this.getInterfaces("alt");
@@ -237,7 +244,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachColorTexture2DAt(points.get(0), draw_buffers.get(0), tc);
   }
 
-  @Test public final void testFramebufferBuildWrongContextColorTexture()
+  @Test
+  public final void testFramebufferBuildWrongContextColorTexture()
   {
     final Interfaces im = this.getInterfaces("main");
     final Interfaces ia = this.getInterfaces("alt");
@@ -284,7 +292,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachColorTexture2DAt(points.get(0), draw_buffers.get(0), tc);
   }
 
-  @Test public final void testFramebufferValidateDrawUnbound()
+  @Test
+  public final void testFramebufferValidateDrawUnbound()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -292,7 +301,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     g_fb.framebufferDrawValidate();
   }
 
-  @Test public final void testFramebufferValidateReadUnbound()
+  @Test
+  public final void testFramebufferValidateReadUnbound()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -300,7 +310,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     g_fb.framebufferReadValidate();
   }
 
-  @Test public final void testFramebufferBuildNothing()
+  @Test
+  public final void testFramebufferBuildNothing()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -310,7 +321,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     g_fb.framebufferAllocate(fbb);
   }
 
-  @Test public final void testFramebufferBuildDepthOnly()
+  @Test
+  public final void testFramebufferBuildDepthOnly()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -334,7 +346,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     Assert.assertEquals(16L, (long) fb.framebufferGetDepthBits());
   }
 
-  @Test public final void testFramebufferBindIdentitiesDraw()
+  @Test
+  public final void testFramebufferBindIdentitiesDraw()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -371,7 +384,191 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
   }
 
-  @Test public final void testFramebufferBindFeedback()
+  @Test
+  public final void testFramebufferDeleteIdentitiesDraw()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+    final JCGLTexturesType g_tx = i.getTextures();
+
+    final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType t = g_tx.texture2DAllocate(
+      u0, 64L, 64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.textureUnitUnbind(u0);
+
+    fbb.attachDepthTexture2D(t);
+
+    final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
+    Assert.assertEquals(Optional.of(fb), g_fb.framebufferDrawGetBound());
+    Assert.assertTrue(g_fb.framebufferDrawAnyIsBound());
+    Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
+
+    g_fb.framebufferDelete(fb);
+    Assert.assertTrue(fb.isDeleted());
+    Assert.assertFalse(g_fb.framebufferDrawAnyIsBound());
+  }
+
+  @Test
+  public final void testFramebufferBindDrawDeleted()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+    final JCGLTexturesType g_tx = i.getTextures();
+
+    final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType t = g_tx.texture2DAllocate(
+      u0, 64L, 64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.textureUnitUnbind(u0);
+
+    fbb.attachDepthTexture2D(t);
+
+    final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
+    g_fb.framebufferDelete(fb);
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    g_fb.framebufferDrawBind(fb);
+  }
+
+  @Test
+  public final void testFramebufferIsBoundReadDeleted()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+    final JCGLTexturesType g_tx = i.getTextures();
+
+    final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType t = g_tx.texture2DAllocate(
+      u0, 64L, 64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.textureUnitUnbind(u0);
+
+    fbb.attachDepthTexture2D(t);
+
+    final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
+    g_fb.framebufferDelete(fb);
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    g_fb.framebufferReadIsBound(fb);
+  }
+
+  @Test
+  public final void testFramebufferIsBoundDrawDeleted()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+    final JCGLTexturesType g_tx = i.getTextures();
+
+    final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType t = g_tx.texture2DAllocate(
+      u0, 64L, 64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.textureUnitUnbind(u0);
+
+    fbb.attachDepthTexture2D(t);
+
+    final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
+    g_fb.framebufferDelete(fb);
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    g_fb.framebufferDrawIsBound(fb);
+  }
+
+  @Test
+  public final void testFramebufferBindReadDeleted()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+    final JCGLTexturesType g_tx = i.getTextures();
+
+    final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType t = g_tx.texture2DAllocate(
+      u0, 64L, 64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.textureUnitUnbind(u0);
+
+    fbb.attachDepthTexture2D(t);
+
+    final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
+    g_fb.framebufferDelete(fb);
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    g_fb.framebufferReadBind(fb);
+  }
+
+  @Test
+  public final void testFramebufferDeleteIdentitiesRead()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+    final JCGLTexturesType g_tx = i.getTextures();
+
+    final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTexture2DType t = g_tx.texture2DAllocate(
+      u0, 64L, 64L,
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+    g_tx.textureUnitUnbind(u0);
+
+    fbb.attachDepthTexture2D(t);
+
+    final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
+    g_fb.framebufferDrawUnbind();
+    g_fb.framebufferReadBind(fb);
+
+    Assert.assertEquals(Optional.of(fb), g_fb.framebufferReadGetBound());
+    Assert.assertTrue(g_fb.framebufferReadAnyIsBound());
+    Assert.assertTrue(g_fb.framebufferReadIsBound(fb));
+
+    g_fb.framebufferDelete(fb);
+    Assert.assertTrue(fb.isDeleted());
+    Assert.assertFalse(g_fb.framebufferReadAnyIsBound());
+  }
+
+  @Test
+  public final void testFramebufferBindFeedback()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -399,7 +596,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     g_fb.framebufferDrawBind(fb);
   }
 
-  @Test public final void testFramebufferBindFeedbackTexture()
+  @Test
+  public final void testFramebufferBindFeedbackTexture()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -427,7 +625,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     g_tx.texture2DBind(u0, t);
   }
 
-  @Test public final void testFramebufferBuildDepthNotStencil()
+  @Test
+  public final void testFramebufferBuildDepthNotStencil()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -449,7 +648,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachDepthTexture2D(t);
   }
 
-  @Test public final void testFramebufferBuildDepthStencilNotStencil()
+  @Test
+  public final void testFramebufferBuildDepthStencilNotStencil()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -471,7 +671,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachDepthStencilTexture2D(t);
   }
 
-  @Test public final void testFramebufferBuildDepthStencil()
+  @Test
+  public final void testFramebufferBuildDepthStencil()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -500,7 +701,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     Assert.assertTrue(refs.contains(t));
   }
 
-  @Test public final void testFramebufferBuildDetachDepth()
+  @Test
+  public final void testFramebufferBuildDetachDepth()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -552,7 +754,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     Assert.assertFalse(refs.contains(td));
   }
 
-  @Test public final void testFramebufferBuildDetachDepthStencil()
+  @Test
+  public final void testFramebufferBuildDetachDepthStencil()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -604,7 +807,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     Assert.assertFalse(refs.contains(td));
   }
 
-  @Test public final void testFramebufferBuildColorAll()
+  @Test
+  public final void testFramebufferBuildColorAll()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -654,7 +858,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     }
   }
 
-  @Test public final void testFramebufferBuildDetachColorAll()
+  @Test
+  public final void testFramebufferBuildDetachColorAll()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -721,15 +926,18 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     }
   }
 
-  @Test public final void testFramebufferBlitWrongFilterDepth()
+  @Test
+  public final void testFramebufferBlitWrongFilterDepth()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tx = i.getTextures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
     final JCGLTextureUnitType u0 = us.get(0);
-    List<JCGLFramebufferColorAttachmentPointType> points = g_fb.framebufferGetColorAttachments();
-    List<JCGLFramebufferDrawBufferType> buffers = g_fb.framebufferGetDrawBuffers();
+    List<JCGLFramebufferColorAttachmentPointType> points = g_fb
+      .framebufferGetColorAttachments();
+    List<JCGLFramebufferDrawBufferType> buffers = g_fb
+      .framebufferGetDrawBuffers();
 
     final JCGLFramebufferType fb_read;
     final JCGLFramebufferType fb_draw;
@@ -809,7 +1017,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_LINEAR);
   }
 
-  @Test public final void testFramebufferBlitSameFramebuffer()
+  @Test
+  public final void testFramebufferBlitSameFramebuffer()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -856,7 +1065,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_LINEAR);
   }
 
-  @Test public final void testFramebufferBlitOK()
+  @Test
+  public final void testFramebufferBlitOK()
   {
     Assume.assumeTrue("Real blitting is supported", this.hasRealBlitting());
 
@@ -865,8 +1075,10 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     final JCGLTexturesType g_tx = i.getTextures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
     final JCGLTextureUnitType u0 = us.get(0);
-    List<JCGLFramebufferColorAttachmentPointType> points = g_fb.framebufferGetColorAttachments();
-    List<JCGLFramebufferDrawBufferType> buffers = g_fb.framebufferGetDrawBuffers();
+    List<JCGLFramebufferColorAttachmentPointType> points = g_fb
+      .framebufferGetColorAttachments();
+    List<JCGLFramebufferDrawBufferType> buffers = g_fb
+      .framebufferGetDrawBuffers();
 
     final JCGLFramebufferType fb_read;
     final JCGLFramebufferType fb_draw;
@@ -978,7 +1190,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     Assert.assertArrayEquals(image_db, image_rb);
   }
 
-  @Test public final void testFramebufferBlitWrongFilterStencil()
+  @Test
+  public final void testFramebufferBlitWrongFilterStencil()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -1041,7 +1254,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_LINEAR);
   }
 
-  @Test public final void testFramebufferBlitWrongFilterDepthStencil()
+  @Test
+  public final void testFramebufferBlitWrongFilterDepthStencil()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -1106,7 +1320,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_LINEAR);
   }
 
-  @Test public final void testFramebufferBlitReadNotBound()
+  @Test
+  public final void testFramebufferBlitReadNotBound()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -1145,7 +1360,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST);
   }
 
-  @Test public final void testFramebufferBlitDrawNotBound()
+  @Test
+  public final void testFramebufferBlitDrawNotBound()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
@@ -1184,7 +1400,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
       JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST);
   }
 
-  @Test public final void testFramebufferBindIdentitiesRead()
+  @Test
+  public final void testFramebufferBindIdentitiesRead()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLFramebuffersType g_fb = i.getFramebuffers();

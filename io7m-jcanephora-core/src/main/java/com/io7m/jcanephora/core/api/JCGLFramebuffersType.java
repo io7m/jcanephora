@@ -70,6 +70,18 @@ public interface JCGLFramebuffersType
     throws JCGLException;
 
   /**
+   * Delete the given framebuffer. The attachments are <i>not</i> deleted.
+   *
+   * @param f The framebuffer
+   *
+   * @throws JCGLException On OpenGL errors
+   */
+
+  void framebufferDelete(
+    JCGLFramebufferType f)
+    throws JCGLException;
+
+  /**
    * @return {@code true} iff any application-created <i>draw</i> framebuffer is
    * currently bound.
    *

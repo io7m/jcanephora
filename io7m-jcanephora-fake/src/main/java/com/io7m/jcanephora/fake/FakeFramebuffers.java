@@ -140,13 +140,14 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     FakeCompatibilityChecks.checkDrawBuffer(c, buffer);
   }
 
-  static void checkFramebuffer(
+  static FakeFramebuffer checkFramebuffer(
     final FakeContext c,
     final JCGLFramebufferUsableType framebuffer)
   {
     NullCheck.notNull(framebuffer);
     FakeCompatibilityChecks.checkFramebuffer(c, framebuffer);
     JCGLResources.checkNotDeleted(framebuffer);
+    return (FakeFramebuffer) framebuffer;
   }
 
   static void onFeedbackLoop(
@@ -171,7 +172,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     return this.bind_draw;
   }
 
-  @Override public JCGLFramebufferBuilderType framebufferNewBuilder()
+  @Override
+  public JCGLFramebufferBuilderType framebufferNewBuilder()
     throws JCGLException
   {
     return new Builder(this.color_points, this.context);
@@ -204,7 +206,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
         new JCGLFramebufferDepthAttachmentMatcherType<Unit,
           UnreachableCodeException>()
         {
-          @Override public Unit onTexture2D(
+          @Override
+          public Unit onTexture2D(
             final JCGLTexture2DUsableType t)
             throws JCGLException
           {
@@ -228,7 +231,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
         new JCGLFramebufferDepthStencilAttachmentMatcherType<Unit,
           UnreachableCodeException>()
         {
-          @Override public Unit onTexture2D(final JCGLTexture2DUsableType t)
+          @Override
+          public Unit onTexture2D(final JCGLTexture2DUsableType t)
             throws JCGLException
           {
             FakeFramebuffers.LOG.debug(
@@ -261,7 +265,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
           new JCGLFramebufferColorAttachmentMatcherType<Unit,
             UnreachableCodeException>()
           {
-            @Override public Unit onTexture2D(final JCGLTexture2DUsableType t)
+            @Override
+            public Unit onTexture2D(final JCGLTexture2DUsableType t)
               throws JCGLException
             {
               FakeFramebuffers.LOG.debug(
@@ -276,7 +281,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
               return Unit.unit();
             }
 
-            @Override public Unit onTextureCube(
+            @Override
+            public Unit onTextureCube(
               final JCGLTextureCubeUsableType t,
               final JCGLCubeMapFaceLH face)
               throws JCGLException, UnreachableCodeException
@@ -342,6 +348,23 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     throw new UnreachableCodeException();
   }
 
+  @Override
+  public void framebufferDelete(
+    final JCGLFramebufferType framebuffer)
+    throws JCGLException
+  {
+    final FakeFramebuffer fb =
+      FakeFramebuffers.checkFramebuffer(this.context, framebuffer);
+
+    fb.setDeleted();
+    if (framebuffer.equals(this.bind_draw)) {
+      this.actualUnbindDraw();
+    }
+    if (framebuffer.equals(this.bind_read)) {
+      this.actualUnbindRead();
+    }
+  }
+
   private void actualBindDraw(final FakeFramebuffer f)
   {
     FakeFramebuffers.LOG.trace("bind draw {} -> {}", this.bind_draw, f);
@@ -376,7 +399,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     this.bind_read = null;
   }
 
-  @Override public boolean framebufferDrawAnyIsBound()
+  @Override
+  public boolean framebufferDrawAnyIsBound()
     throws JCGLException
   {
     return this.bind_draw != null;
@@ -391,7 +415,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     this.actualBindDraw((FakeFramebuffer) framebuffer);
   }
 
-  @Override public Optional<JCGLFramebufferUsableType> framebufferDrawGetBound()
+  @Override
+  public Optional<JCGLFramebufferUsableType> framebufferDrawGetBound()
     throws JCGLException
   {
     return Optional.ofNullable(this.bind_draw);
@@ -402,10 +427,12 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     final JCGLFramebufferUsableType framebuffer)
     throws JCGLException
   {
+    FakeFramebuffers.checkFramebuffer(this.context, framebuffer);
     return framebuffer.equals(this.bind_draw);
   }
 
-  @Override public void framebufferDrawUnbind()
+  @Override
+  public void framebufferDrawUnbind()
     throws JCGLException
   {
     this.actualUnbindDraw();
@@ -443,7 +470,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     return this.color_points;
   }
 
-  @Override public boolean framebufferReadAnyIsBound()
+  @Override
+  public boolean framebufferReadAnyIsBound()
     throws JCGLException
   {
     return this.bind_read != null;
@@ -457,13 +485,15 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     this.actualBindRead((FakeFramebuffer) framebuffer);
   }
 
-  @Override public Optional<JCGLFramebufferUsableType> framebufferReadGetBound()
+  @Override
+  public Optional<JCGLFramebufferUsableType> framebufferReadGetBound()
     throws JCGLException
   {
     return Optional.ofNullable(this.bind_read);
   }
 
-  @Override public JCGLFramebufferStatus framebufferReadValidate()
+  @Override
+  public JCGLFramebufferStatus framebufferReadValidate()
     throws JCGLException
   {
     if (this.bind_read == null) {
@@ -484,16 +514,19 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     final JCGLFramebufferUsableType framebuffer)
     throws JCGLException
   {
+    FakeFramebuffers.checkFramebuffer(this.context, framebuffer);
     return framebuffer.equals(this.bind_read);
   }
 
-  @Override public void framebufferReadUnbind()
+  @Override
+  public void framebufferReadUnbind()
     throws JCGLException
   {
     this.actualUnbindRead();
   }
 
-  @Override public void framebufferBlit(
+  @Override
+  public void framebufferBlit(
     final AreaInclusiveUnsignedLType source,
     final AreaInclusiveUnsignedLType target,
     final Set<JCGLFramebufferBlitBuffer> buffers,
@@ -566,7 +599,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
       this.draw_buffers = new TreeMap<>();
     }
 
-    @Override public void attachColorTexture2DAt(
+    @Override
+    public void attachColorTexture2DAt(
       final JCGLFramebufferColorAttachmentPointType point,
       final JCGLFramebufferDrawBufferType buffer,
       final JCGLTexture2DUsableType texture)
@@ -582,7 +616,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
       this.draw_buffers.put(buffer, point);
     }
 
-    @Override public void attachColorTextureCubeAt(
+    @Override
+    public void attachColorTextureCubeAt(
       final JCGLFramebufferColorAttachmentPointType point,
       final JCGLFramebufferDrawBufferType buffer,
       final JCGLTextureCubeUsableType texture,
@@ -603,7 +638,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
       this.draw_buffers.put(buffer, point);
     }
 
-    @Override public void attachDepthTexture2D(
+    @Override
+    public void attachDepthTexture2D(
       final JCGLTexture2DUsableType t)
     {
       FakeTextures.checkTexture2D(this.context, t);
@@ -623,7 +659,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
       this.depth_stencil = t;
     }
 
-    @Override public void detachDepth()
+    @Override
+    public void detachDepth()
     {
       this.depth = null;
       this.depth_stencil = null;
@@ -662,12 +699,14 @@ final class FakeFramebuffers implements JCGLFramebuffersType
         return m.onTextureCube(this.texture, this.face);
       }
 
-      @Override public Set<JCGLReferenceContainerType> getReferringContainers()
+      @Override
+      public Set<JCGLReferenceContainerType> getReferringContainers()
       {
         throw new UnreachableCodeException();
       }
 
-      @Override public int getGLName()
+      @Override
+      public int getGLName()
       {
         return this.texture.getGLName();
       }
