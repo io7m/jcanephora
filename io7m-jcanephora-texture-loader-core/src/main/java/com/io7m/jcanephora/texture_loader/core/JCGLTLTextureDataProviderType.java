@@ -16,15 +16,21 @@
 
 package com.io7m.jcanephora.texture_loader.core;
 
+import net.jcip.annotations.ThreadSafe;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * The type of texture data providers.
+ * <p>The type of texture data providers.</p>
  *
- * A texture data provider synchronously loads images from streams.
+ * <p>A texture data provider synchronously loads images from streams.</p>
+ *
+ * <p>Implementations are required to be thread-safe in the sense that they must
+ * be able to accept loading requests from arbitrary threads.</p>
  */
 
+@ThreadSafe
 public interface JCGLTLTextureDataProviderType
 {
   /**
