@@ -14,30 +14,40 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.texture_loader;
+package com.io7m.jcanephora.texture_loader.core;
 
-import com.io7m.jcanephora.tests.contracts.JCGLTLTextureDataProviderContract;
-import com.io7m.jcanephora.texture_loader.awt.JCGLAWTTextureDataProvider;
-import com.io7m.jcanephora.texture_loader.core.JCGLTLTextureDataProviderType;
+import com.io7m.jcanephora.core.JCGLTexture2DType;
+
+import java.util.concurrent.Future;
 
 /**
- * AWT texture data provider test.
+ * The type of "soft" async textures.
+ *
+ * See the {@link JCGLTLSoftAsyncTexture2DUsableType} interface for a more
+ * detailed description.
  */
 
-// CHECKSTYLE_JAVADOC:OFF
-
-public final class JCGLAWTTextureDataProviderTest extends
-  JCGLTLTextureDataProviderContract
+public interface JCGLTLSoftAsyncTexture2DType extends
+  JCGLTLSoftAsyncTexture2DUsableType
 {
-  @Override
-  protected JCGLTLTextureDataProviderType getProvider()
-  {
-    return JCGLAWTTextureDataProvider.newProvider();
-  }
+  /**
+   * Cancel loading of the texture. Has no effect if the texture has already
+   * completed loading.
+   */
 
-  @Override
-  public void onTestCompleted()
-  {
+  void cancel();
 
-  }
+  /**
+   * Schedule a deletion of the texture.
+   *
+   * @return A future representing the operation in progress
+   */
+
+  Future<Void> delete();
+
+  /**
+   * @return A future representing the loading operation
+   */
+
+  Future<JCGLTexture2DType> future();
 }

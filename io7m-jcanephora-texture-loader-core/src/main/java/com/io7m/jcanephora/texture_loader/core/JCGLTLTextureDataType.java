@@ -47,13 +47,13 @@ public interface JCGLTLTextureDataType
    * @return The width of the texture in pixels
    */
 
-  int getWidth();
+  long getWidth();
 
   /**
    * @return The height of the texture in pixels
    */
 
-  int getHeight();
+  long getHeight();
 
   /**
    * Retrieve the pixel at {@code (x, y)}, writing the color data to {@code v}.

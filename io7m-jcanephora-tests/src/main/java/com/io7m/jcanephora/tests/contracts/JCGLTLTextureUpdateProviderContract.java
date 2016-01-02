@@ -43,7 +43,7 @@ import java.util.List;
 
 // CHECKSTYLE_JAVADOC:OFF
 
-public abstract class JCGLTLTextureUpdateProviderContract
+public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
 {
   @Rule public final ExpectedException expected = ExpectedException.none();
 

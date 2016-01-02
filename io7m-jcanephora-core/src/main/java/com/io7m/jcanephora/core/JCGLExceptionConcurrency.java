@@ -14,30 +14,24 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.texture_loader;
-
-import com.io7m.jcanephora.tests.contracts.JCGLTLTextureDataProviderContract;
-import com.io7m.jcanephora.texture_loader.awt.JCGLAWTTextureDataProvider;
-import com.io7m.jcanephora.texture_loader.core.JCGLTLTextureDataProviderType;
+package com.io7m.jcanephora.core;
 
 /**
- * AWT texture data provider test.
+ * An exception indicating an unspecified error relating to concurrency.
  */
 
-// CHECKSTYLE_JAVADOC:OFF
-
-public final class JCGLAWTTextureDataProviderTest extends
-  JCGLTLTextureDataProviderContract
+public final class JCGLExceptionConcurrency extends JCGLException
 {
-  @Override
-  protected JCGLTLTextureDataProviderType getProvider()
-  {
-    return JCGLAWTTextureDataProvider.newProvider();
-  }
+  private static final long serialVersionUID = 1L;
 
-  @Override
-  public void onTestCompleted()
-  {
+  /**
+   * Construct an exception.
+   *
+   * @param cause The cause
+   */
 
+  public JCGLExceptionConcurrency(final Throwable cause)
+  {
+    super(cause);
   }
 }

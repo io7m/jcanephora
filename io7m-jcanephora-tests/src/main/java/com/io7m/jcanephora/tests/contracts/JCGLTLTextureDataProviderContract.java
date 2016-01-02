@@ -33,7 +33,7 @@ import java.io.InputStream;
 
 // CHECKSTYLE_JAVADOC:OFF
 
-public abstract class JCGLTLTextureDataProviderContract
+public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
 {
   @Rule public ExpectedException expected = ExpectedException.none();
 
@@ -48,8 +48,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("2x2_rgb.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(2L, (long) d.getWidth());
-    Assert.assertEquals(2L, (long) d.getHeight());
+    Assert.assertEquals(2L, d.getWidth());
+    Assert.assertEquals(2L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -88,8 +88,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("2x2_grey.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(2L, (long) d.getWidth());
-    Assert.assertEquals(2L, (long) d.getHeight());
+    Assert.assertEquals(2L, d.getWidth());
+    Assert.assertEquals(2L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -142,8 +142,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn0g01.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -182,8 +182,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn0g02.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -222,8 +222,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn0g04.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -262,8 +262,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn0g08.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -302,8 +302,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn0g16.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -342,8 +342,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn2c08.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -382,8 +382,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn2c16.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -422,8 +422,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn4a08.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -462,8 +462,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn3p01.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -502,8 +502,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn3p02.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -542,8 +542,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn3p04.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -582,8 +582,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn3p08.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -628,8 +628,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn4a16.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();
@@ -680,8 +680,8 @@ public abstract class JCGLTLTextureDataProviderContract
     final InputStream s = c.getResourceAsStream("basn6a08.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, (long) d.getWidth());
-    Assert.assertEquals(32L, (long) d.getHeight());
+    Assert.assertEquals(32L, d.getWidth());
+    Assert.assertEquals(32L, d.getHeight());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorM4D v = new VectorM4D();

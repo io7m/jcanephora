@@ -169,8 +169,8 @@ public final class JCGLTLTextureUpdateProvider implements
 
     final int tw = (int) t.textureGetWidth();
     final int th = (int) t.textureGetHeight();
-    final int dw = data.getWidth();
-    final int dh = data.getHeight();
+    final long dw = data.getWidth();
+    final long dh = data.getHeight();
     RangeCheck.checkGreaterEqualLong(tw, "Texture width", dw, "Data width");
     RangeCheck.checkGreaterEqualLong(th, "Texture height", dh, "Data height");
 

@@ -118,13 +118,13 @@ public final class JCGLAWTTextureDataProvider implements
     }
 
     @Override
-    public final int getWidth()
+    public final long getWidth()
     {
       return this.image.getWidth();
     }
 
     @Override
-    public final int getHeight()
+    public final long getHeight()
     {
       return this.image.getHeight();
     }

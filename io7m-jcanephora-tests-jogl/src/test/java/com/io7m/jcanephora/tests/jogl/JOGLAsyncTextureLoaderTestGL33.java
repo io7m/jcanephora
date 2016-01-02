@@ -17,22 +17,22 @@
 package com.io7m.jcanephora.tests.jogl;
 
 import com.io7m.jcanephora.core.api.JCGLContextType;
+import com.io7m.jcanephora.core.api.JCGLContextUsableType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
-import com.io7m.jcanephora.tests.contracts.JCGLTLTextureUpdateProviderContract;
+import com.io7m.jcanephora.tests.contracts.JCGLSharedContextPair;
+import com.io7m.jcanephora.tests.contracts.JCGLTLAsyncTextureLoaderContract;
 import com.io7m.jcanephora.texture_loader.awt.JCGLAWTTextureDataProvider;
+import com.io7m.jcanephora.texture_loader.core.JCGLTLAsyncTextureLoader;
+import com.io7m.jcanephora.texture_loader.core.JCGLTLAsyncTextureLoaderType;
 import com.io7m.jcanephora.texture_loader.core.JCGLTLTextureDataProviderType;
 import com.io7m.jcanephora.texture_loader.core.JCGLTLTextureUpdateProvider;
 import com.io7m.jcanephora.texture_loader.core.JCGLTLTextureUpdateProviderType;
 
-public final class JOGLTLTextureUpdateProviderTestGL33 extends
-  JCGLTLTextureUpdateProviderContract
-{
-  @Override
-  protected JCGLTLTextureUpdateProviderType getUpdateProvider()
-  {
-    return JCGLTLTextureUpdateProvider.newProvider();
-  }
+import java.util.concurrent.Executor;
 
+public final class JOGLAsyncTextureLoaderTestGL33 extends
+  JCGLTLAsyncTextureLoaderContract
+{
   @Override
   protected JCGLTLTextureDataProviderType getDataProvider()
   {
@@ -40,10 +40,37 @@ public final class JOGLTLTextureUpdateProviderTestGL33 extends
   }
 
   @Override
-  protected JCGLTexturesType getTextures(final String name)
+  protected JCGLTLTextureUpdateProviderType getUpdateProvider()
   {
-    final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getTextures();
+    return JCGLTLTextureUpdateProvider.newProvider();
+  }
+
+  @Override
+  protected JCGLTLAsyncTextureLoaderType getLoader(
+    final JCGLTLTextureDataProviderType data,
+    final JCGLTLTextureUpdateProviderType updates,
+    final JCGLContextUsableType c,
+    final Executor exec)
+  {
+    return JCGLTLAsyncTextureLoader.newLoader(data, updates, c, exec);
+  }
+
+  @Override
+  protected JCGLSharedContextPair<JCGLTexturesType> getTexturesSharedWith(
+    final String name,
+    final String shared)
+  {
+    final JCGLSharedContextPair<JCGLContextType> p =
+      JOGLTestContexts.newGL33ContextSharedWith(
+        name, shared);
+
+    final JCGLContextType mc = p.getMasterContext();
+    final JCGLContextType sc = p.getSlaveContext();
+    return new JCGLSharedContextPair<>(
+      mc.contextGetGL33().getTextures(),
+      mc,
+      sc.contextGetGL33().getTextures(),
+      sc);
   }
 
   @Override
