@@ -18,7 +18,6 @@ package com.io7m.jcanephora.texture_loader.core;
 
 import com.io7m.jcanephora.core.JCGLTexture2DUpdateType;
 import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
-import com.io7m.jcanephora.core.JCGLTextureUnitType;
 
 /**
  * The type of texture update providers.
@@ -26,6 +25,17 @@ import com.io7m.jcanephora.core.JCGLTextureUnitType;
 
 public interface JCGLTLTextureUpdateProviderType
 {
+  /**
+   * Populate and return a texture update for {@code t} using the contents of
+   * {@code data}. The width and height of {@code data} must be less than or
+   * equal to the width and height of {@code t}.
+   *
+   * @param t    The texture
+   * @param data The update data
+   *
+   * @return A texture update
+   */
+
   JCGLTexture2DUpdateType getTextureUpdate(
     JCGLTexture2DUsableType t,
     JCGLTLTextureDataType data);
