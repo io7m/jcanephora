@@ -223,6 +223,7 @@ public final class JCGLTLAsyncTextureLoader implements
         final JCGLTexture2DUpdateType u =
           this.update_prov.getTextureUpdate(t, d);
         this.textures.texture2DUpdate(unit, u);
+        this.textures.textureUnitUnbind(unit);
 
         JCGLTLAsyncTextureLoader.LOG.debug("[{}] loaded texture", idb);
         return t;
