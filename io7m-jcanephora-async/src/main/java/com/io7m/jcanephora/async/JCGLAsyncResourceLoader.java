@@ -136,6 +136,15 @@ public final class JCGLAsyncResourceLoader implements
     final BiFunction<T, JCGLIndexBufferType,
       JCGLBufferUpdateType<JCGLIndexBufferType>> on_populate_index)
   {
+    NullCheck.notNull(on_data);
+    NullCheck.notNull(on_array_size);
+    NullCheck.notNull(array_usage);
+    NullCheck.notNull(on_index_size);
+    NullCheck.notNull(index_type);
+    NullCheck.notNull(index_usage);
+    NullCheck.notNull(on_populate_array);
+    NullCheck.notNull(on_populate_index);
+
     final CompletableFuture<T> f_data =
       CompletableFuture.supplyAsync(on_data, this.exec_io);
     final CompletableFuture<Long> f_array_size =
