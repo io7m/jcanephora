@@ -14,26 +14,26 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.async;
+
+import com.io7m.jcanephora.core.JCGLArrayBufferType;
+import com.io7m.jcanephora.core.JCGLIndexBufferType;
 
 /**
- * An exception indicating that the package cannot execute on the current
- * context because it does not comply to the OpenGL specification in some
- * manner.
+ * A pair consisting of an array buffer and an index buffer.
  */
 
-public final class JCGLExceptionNonCompliant extends JCGLExceptionChecked
+public interface JCGLAsyncBufferPairType
 {
-  private static final long serialVersionUID = 1L;
-
   /**
-   * Construct an exception.
-   *
-   * @param message The message
+   * @return The array buffer
    */
 
-  public JCGLExceptionNonCompliant(final String message)
-  {
-    super(message);
-  }
+  JCGLArrayBufferType getArrayBuffer();
+
+  /**
+   * @return The index buffer
+   */
+
+  JCGLIndexBufferType getIndexBuffer();
 }

@@ -14,26 +14,9 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
-
 /**
- * An exception indicating that the package cannot execute on the current
- * context because it does not comply to the OpenGL specification in some
- * manner.
+ * Asynchronous resource loading.
  */
 
-public final class JCGLExceptionNonCompliant extends JCGLExceptionChecked
-{
-  private static final long serialVersionUID = 1L;
+@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.async;
 
-  /**
-   * Construct an exception.
-   *
-   * @param message The message
-   */
-
-  public JCGLExceptionNonCompliant(final String message)
-  {
-    super(message);
-  }
-}
