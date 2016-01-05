@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora</artifactId>
-  <version>0.41.1</version>
+  <version>0.42.0</version>
 
   <packaging>pom</packaging>
   <name>io7m-jcanephora</name>
@@ -15,6 +15,7 @@
   <url>http://github.com/io7m/jcanephora</url>
 
   <modules>
+    <module>io7m-jcanephora-async</module>
     <module>io7m-jcanephora-checkstyle</module>
     <module>io7m-jcanephora-core</module>
     <module>io7m-jcanephora-cursors</module>
@@ -26,6 +27,8 @@
     <module>io7m-jcanephora-tests-fake</module>
     <module>io7m-jcanephora-tests-jogl</module>
     <module>io7m-jcanephora-tests</module>
+    <module>io7m-jcanephora-texture-loader-awt</module>
+    <module>io7m-jcanephora-texture-loader-core</module>
   </modules>
 
   <properties>

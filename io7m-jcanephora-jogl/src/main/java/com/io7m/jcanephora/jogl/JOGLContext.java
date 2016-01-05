@@ -77,12 +77,14 @@ final class JOGLContext implements JCGLContextType
     return this.context;
   }
 
-  @Override public String contextGetName()
+  @Override
+  public String contextGetName()
   {
     return this.name;
   }
 
-  @Override public List<JCGLContextUsableType> contextGetShares()
+  @Override
+  public List<JCGLContextUsableType> contextGetShares()
   {
     this.checkNotDestroyed();
 
@@ -107,7 +109,8 @@ final class JOGLContext implements JCGLContextType
     return xs;
   }
 
-  @Override public boolean contextIsSharedWith(final JCGLContextUsableType c)
+  @Override
+  public boolean contextIsSharedWith(final JCGLContextUsableType c)
   {
     this.checkNotDestroyed();
 
@@ -130,16 +133,23 @@ final class JOGLContext implements JCGLContextType
     }
   }
 
-  @Override public boolean contextIsCurrent()
+  @Override
+  public boolean contextIsCurrent()
   {
     this.checkNotDestroyed();
     return this.context.isCurrent();
   }
 
-  @Override public void contextMakeCurrent()
+  @Override
+  public void contextMakeCurrent()
   {
     this.checkNotDestroyed();
-    JOGLContext.LOG.trace("make current");
+
+    if (JOGLContext.LOG.isTraceEnabled()) {
+      final Thread t = Thread.currentThread();
+      JOGLContext.LOG.trace(
+        "make current (thread {} {})", Long.valueOf(t.getId()), t.getName());
+    }
 
     /**
      * If no context is current on this thread, make the context current.
@@ -176,10 +186,17 @@ final class JOGLContext implements JCGLContextType
     }
   }
 
-  @Override public void contextReleaseCurrent()
+  @Override
+  public void contextReleaseCurrent()
   {
     this.checkNotDestroyed();
-    JOGLContext.LOG.trace("release current");
+
+    if (JOGLContext.LOG.isTraceEnabled()) {
+      final Thread t = Thread.currentThread();
+      JOGLContext.LOG.trace(
+        "release current (thread {} {})", Long.valueOf(t.getId()), t.getName());
+    }
+
     if (this.context.isCurrent()) {
       this.context.release();
     } else {
@@ -201,19 +218,22 @@ final class JOGLContext implements JCGLContextType
     }
   }
 
-  @Override public JCGLInterfaceGL33Type contextGetGL33()
+  @Override
+  public JCGLInterfaceGL33Type contextGetGL33()
   {
     this.checkNotDestroyed();
     return this.gl33;
   }
 
-  @Override public JCGLImplementationType contextGetImplementation()
+  @Override
+  public JCGLImplementationType contextGetImplementation()
   {
     this.checkNotDestroyed();
     return this.implementation;
   }
 
-  @Override public void contextDestroy()
+  @Override
+  public void contextDestroy()
     throws JCGLExceptionDeleted
   {
     this.checkNotDestroyed();
@@ -237,7 +257,8 @@ final class JOGLContext implements JCGLContextType
     this.destroyed = true;
   }
 
-  @Override public boolean isDeleted()
+  @Override
+  public boolean isDeleted()
   {
     return this.destroyed;
   }

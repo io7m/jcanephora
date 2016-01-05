@@ -22,7 +22,7 @@ package com.io7m.jcanephora.core;
  * manner.
  */
 
-public final class JCGLExceptionNonCompliant extends Exception
+public final class JCGLExceptionNonCompliant extends JCGLExceptionChecked
 {
   private static final long serialVersionUID = 1L;
 

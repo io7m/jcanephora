@@ -23,7 +23,7 @@ import com.io7m.jnull.NullCheck;
  * context version.
  */
 
-public final class JCGLExceptionUnsupported extends Exception
+public final class JCGLExceptionUnsupported extends JCGLExceptionChecked
 {
   private static final long serialVersionUID = 1L;
   private final JCGLVersionNumber expected;
