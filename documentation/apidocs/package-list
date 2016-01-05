@@ -1,5 +1,9 @@
+com.io7m.jcanephora.async
 com.io7m.jcanephora.core
 com.io7m.jcanephora.core.api
+com.io7m.jcanephora.cursors
 com.io7m.jcanephora.documentation
 com.io7m.jcanephora.fake
 com.io7m.jcanephora.jogl
+com.io7m.jcanephora.texture_loader.awt
+com.io7m.jcanephora.texture_loader.core
