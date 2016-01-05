@@ -101,8 +101,8 @@
     <s:formal-item s:kind="listings">
       <s:formal-item-title>POM files</s:formal-item-title>
       <s:list-unordered>
-        <s:list-item><s:link-external s:target="./io7m-jcanephora-core-0.41.1.pom">io7m-jcanephora-core-0.41.1.pom</s:link-external></s:list-item>
-        <s:list-item><s:link-external s:target="./io7m-jcanephora-jogl-0.41.1.pom">io7m-jcanephora-jogl-0.41.1.pom</s:link-external></s:list-item>
+        <s:list-item><s:link-external s:target="./io7m-jcanephora-core-0.42.0.pom">io7m-jcanephora-core-0.42.0.pom</s:link-external></s:list-item>
+        <s:list-item><s:link-external s:target="./io7m-jcanephora-jogl-0.42.0.pom">io7m-jcanephora-jogl-0.42.0.pom</s:link-external></s:list-item>
       </s:list-unordered>
     </s:formal-item>
     <s:paragraph>
@@ -150,7 +150,7 @@
         <s:verbatim s:type="example"><![CDATA[<dependency>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora-core</artifactId>
-  <version>0.41.1</version>
+  <version>0.42.0</version>
 </dependency>]]></s:verbatim>
       </s:paragraph>
 
@@ -163,7 +163,7 @@
         <s:verbatim s:type="example"><![CDATA[<dependency>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora-jogl</artifactId>
-  <version>0.41.1</version>
+  <version>0.42.0</version>
 </dependency>]]></s:verbatim>
       </s:paragraph>
 

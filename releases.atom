@@ -6,44 +6,51 @@
   </a:author>
   <a:id>http://github.com/io7m/jcanephora/releases.atom</a:id>
   <a:title>io7m-jcanephora Releases</a:title>
-  <a:updated>2016-01-01T00:00:00Z</a:updated>
+  <a:updated>2016-01-05T00:00:00Z</a:updated>
   <a:entry>
     <a:id>0</a:id>
+    <a:updated>2016-01-05T00:00:00Z</a:updated>
+    <a:published>2016-01-05T00:00:00Z</a:published>
+    <a:title>io7m-jcanephora 0.42.0 released</a:title>
+    <a:content type="text"> io7m-jcanephora 0.42.0 released </a:content>
+  </a:entry>
+  <a:entry>
+    <a:id>1</a:id>
     <a:updated>2016-01-01T00:00:00Z</a:updated>
     <a:published>2016-01-01T00:00:00Z</a:published>
     <a:title>io7m-jcanephora 0.41.1 released</a:title>
     <a:content type="text"> io7m-jcanephora 0.41.1 released </a:content>
   </a:entry>
   <a:entry>
-    <a:id>1</a:id>
+    <a:id>2</a:id>
     <a:updated>2015-12-30T00:00:00Z</a:updated>
     <a:published>2015-12-30T00:00:00Z</a:published>
     <a:title>io7m-jcanephora 0.41.0 released</a:title>
     <a:content type="text"> io7m-jcanephora 0.41.0 released </a:content>
   </a:entry>
   <a:entry>
-    <a:id>2</a:id>
+    <a:id>3</a:id>
     <a:updated>2015-12-29T00:00:00Z</a:updated>
     <a:published>2015-12-29T00:00:00Z</a:published>
     <a:title>io7m-jcanephora 0.40.3 released</a:title>
     <a:content type="text"> io7m-jcanephora 0.40.3 released </a:content>
   </a:entry>
   <a:entry>
-    <a:id>3</a:id>
+    <a:id>4</a:id>
     <a:updated>2015-12-29T00:00:00Z</a:updated>
     <a:published>2015-12-29T00:00:00Z</a:published>
     <a:title>io7m-jcanephora 0.40.2 released</a:title>
     <a:content type="text"> io7m-jcanephora 0.40.2 released </a:content>
   </a:entry>
   <a:entry>
-    <a:id>4</a:id>
+    <a:id>5</a:id>
     <a:updated>2015-12-11T00:00:00Z</a:updated>
     <a:published>2015-12-11T00:00:00Z</a:published>
     <a:title>io7m-jcanephora 0.40.1 released</a:title>
     <a:content type="text"> io7m-jcanephora 0.40.1 released </a:content>
   </a:entry>
   <a:entry>
-    <a:id>5</a:id>
+    <a:id>6</a:id>
     <a:updated>2015-12-06T00:00:00Z</a:updated>
     <a:published>2015-12-06T00:00:00Z</a:published>
     <a:title>io7m-jcanephora 0.40.0 released</a:title>
