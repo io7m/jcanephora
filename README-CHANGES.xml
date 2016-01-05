@@ -3,6 +3,23 @@
   <c:project>io7m-jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
+    <c:date>2016-01-05</c:date>
+    <c:version>0.42.0</c:version>
+    <c:item>
+      <c:date>2016-01-05</c:date>
+      <c:type-code-new/>
+      <c:ticket>24</c:ticket>
+      <c:summary>Add texture loading API.</c:summary>
+    </c:item>
+    <c:item>
+      <c:date>2016-01-05</c:date>
+      <c:type-code-new/>
+      <c:ticket>25</c:ticket>
+      <c:summary>Add experimental asynchronous resource loading module.</c:summary>
+    </c:item>
+  </c:release>
+
+  <c:release c:ticket-system="com.github.io7m.jcanephora">
     <c:date>2016-01-01</c:date>
     <c:version>0.41.1</c:version>
     <c:item>
