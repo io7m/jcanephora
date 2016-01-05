@@ -15,7 +15,7 @@
  */
 
 /**
- * Core types and interfaces.
+ * Core texture loading interfaces and types.
  */
 
 @com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.texture_loader.core;
