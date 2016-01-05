@@ -69,7 +69,9 @@ public final class JCGLAsyncInterfaceGL33 implements JCGLAsyncInterfaceGL33Type
 
   /**
    * Construct an async interface, evaluating the given function to obtain a
-   * context that will be used exclusively for async calls.
+   * context that will be used exclusively for async calls. A new dedicated
+   * thread will be created for GL calls, and the context returned from {@code
+   * c} will be made current on that thread.
    *
    * @param c The context supplier
    *
