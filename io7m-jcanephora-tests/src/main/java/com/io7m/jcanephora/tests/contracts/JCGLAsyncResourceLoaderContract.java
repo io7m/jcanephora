@@ -361,4 +361,75 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
       tex.textureGetMagnificationFilter());
   }
+
+  @Test
+  public final void testLoadTextureFailureThenOK()
+    throws Exception
+  {
+    final Class<JCGLAsyncResourceLoaderContract> c =
+      JCGLAsyncResourceLoaderContract.class;
+
+    final JCGLAsyncResourceLoaderType loader =
+      this.getLoader("main");
+    final JCGLTLTextureDataProviderType data_prov =
+      this.getDataProvider();
+    final JCGLTLTextureUpdateProviderType update_prov =
+      this.getUpdateProvider();
+
+    final CompletableFuture<JCGLTexture2DType> f0 =
+      loader.loadTexture(
+        () -> {
+          throw new UncheckedIOException(new IOException("Failure"));
+        },
+        JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
+        (tex, data) -> update_prov.getTextureUpdate(tex, data)
+      );
+
+    try {
+      f0.get(30L, TimeUnit.SECONDS);
+    } catch (final ExecutionException e) {
+      e.printStackTrace();
+    }
+
+    final CompletableFuture<JCGLTexture2DType> f1 =
+      loader.loadTexture(
+        () -> {
+          try {
+            return data_prov.loadFromStream(
+              c.getResourceAsStream("basn6a08.png"));
+          } catch (final IOException e) {
+            throw new UnreachableCodeException();
+          }
+        },
+        JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
+        (tex, data) -> update_prov.getTextureUpdate(tex, data)
+      );
+
+    final JCGLTexture2DType tex = f1.get(30L, TimeUnit.SECONDS);
+    Assert.assertEquals(32L, tex.textureGetWidth());
+    Assert.assertEquals(32L, tex.textureGetHeight());
+    Assert.assertEquals(
+      JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
+      tex.textureGetFormat());
+    Assert.assertEquals(
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      tex.textureGetWrapS());
+    Assert.assertEquals(
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      tex.textureGetWrapT());
+    Assert.assertEquals(
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      tex.textureGetMinificationFilter());
+    Assert.assertEquals(
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
+      tex.textureGetMagnificationFilter());
+  }
 }
