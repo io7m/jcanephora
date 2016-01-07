@@ -47,7 +47,8 @@ public abstract class JCGLDrawContract extends JCGLContract
 
   protected abstract Interfaces getInterfaces(String name);
 
-  @Test public final void testDrawBadFirst()
+  @Test
+  public final void testDrawBadFirst()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLDrawType gd = i.getDraw();
@@ -56,7 +57,8 @@ public abstract class JCGLDrawContract extends JCGLContract
     gd.draw(JCGLPrimitives.PRIMITIVE_TRIANGLES, -1, 1);
   }
 
-  @Test public final void testDrawBadCount()
+  @Test
+  public final void testDrawBadCount()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLDrawType gd = i.getDraw();
@@ -65,7 +67,39 @@ public abstract class JCGLDrawContract extends JCGLContract
     gd.draw(JCGLPrimitives.PRIMITIVE_TRIANGLES, 0, -1);
   }
 
-  @Test public final void testDrawElementsNoIndex()
+
+  @Test
+  public final void testDrawInstancedBadFirst()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLDrawType gd = i.getDraw();
+
+    this.expected.expect(RangeCheckException.class);
+    gd.drawInstanced(JCGLPrimitives.PRIMITIVE_TRIANGLES, -1, 1, 1);
+  }
+
+  @Test
+  public final void testDrawInstancedBadCount()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLDrawType gd = i.getDraw();
+
+    this.expected.expect(RangeCheckException.class);
+    gd.drawInstanced(JCGLPrimitives.PRIMITIVE_TRIANGLES, 0, -1, 1);
+  }
+
+  @Test
+  public final void testDrawInstancedBadInstances()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLDrawType gd = i.getDraw();
+
+    this.expected.expect(RangeCheckException.class);
+    gd.drawInstanced(JCGLPrimitives.PRIMITIVE_TRIANGLES, 0, 0, -1);
+  }
+
+  @Test
+  public final void testDrawElementsNoIndex()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLDrawType gd = i.getDraw();
@@ -74,7 +108,18 @@ public abstract class JCGLDrawContract extends JCGLContract
     gd.drawElements(JCGLPrimitives.PRIMITIVE_TRIANGLES);
   }
 
-  @Test public final void testDrawElementsOK()
+  @Test
+  public final void testDrawElementsInstancedNoIndex()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLDrawType gd = i.getDraw();
+
+    this.expected.expect(JCGLExceptionBufferNotBound.class);
+    gd.drawElementsInstanced(JCGLPrimitives.PRIMITIVE_TRIANGLES, 100);
+  }
+
+  @Test
+  public final void testDrawElementsOK()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayObjectsType go = i.getArrayObjects();
@@ -91,6 +136,26 @@ public abstract class JCGLDrawContract extends JCGLContract
     b.setIndexBuffer(ib);
     final JCGLArrayObjectType ao = go.arrayObjectAllocate(b);
     gd.drawElements(JCGLPrimitives.PRIMITIVE_POINTS);
+  }
+
+  @Test
+  public final void testDrawElementsInstancedOK()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+    final JCGLIndexBuffersType gi = i.getIndexBuffers();
+    final JCGLDrawType gd = i.getDraw();
+
+    final JCGLIndexBufferType ib = gi.indexBufferAllocate(
+      100L,
+      JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+      JCGLUsageHint.USAGE_STATIC_DRAW);
+    gi.indexBufferUnbind();
+
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    b.setIndexBuffer(ib);
+    final JCGLArrayObjectType ao = go.arrayObjectAllocate(b);
+    gd.drawElementsInstanced(JCGLPrimitives.PRIMITIVE_POINTS, 1);
   }
 
   protected static final class Interfaces
