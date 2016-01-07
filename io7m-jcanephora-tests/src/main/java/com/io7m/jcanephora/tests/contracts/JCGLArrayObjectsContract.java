@@ -187,8 +187,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
     Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
 
-    b.setAttributeFloatingPoint(
-      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+    b.setAttributeFloatingPointWithDivisor(
+      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false, 23);
     b.setAttributeFloatingPoint(
       1, a, 3, JCGLScalarType.TYPE_INT, 20, 4L, true);
     b.setAttributeIntegral(
@@ -204,6 +204,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
         (JCGLArrayVertexAttributeFloatingPointType) at_raw;
 
       Assert.assertEquals(0L, (long) at.getIndex());
+      Assert.assertEquals(23L, (long) at.getDivisor());
     }
 
     {
@@ -216,6 +217,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
         (JCGLArrayVertexAttributeFloatingPointType) at_raw;
 
       Assert.assertEquals(1L, (long) at.getIndex());
+      Assert.assertEquals(0L, (long) at.getDivisor());
     }
 
     {
@@ -228,6 +230,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
         (JCGLArrayVertexAttributeIntegralType) at_raw;
 
       Assert.assertEquals(2L, (long) at.getIndex());
+      Assert.assertEquals(0L, (long) at.getDivisor());
     }
 
     {

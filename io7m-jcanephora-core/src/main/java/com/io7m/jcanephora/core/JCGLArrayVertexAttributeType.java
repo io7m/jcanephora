@@ -43,4 +43,10 @@ public interface JCGLArrayVertexAttributeType
   <A, E extends Exception> A matchVertexAttribute(
     final JCGLArrayVertexAttributeMatcherType<A, E> m)
     throws E;
+
+  /**
+   * @return The divisor for the attribute
+   */
+
+  int getDivisor();
 }

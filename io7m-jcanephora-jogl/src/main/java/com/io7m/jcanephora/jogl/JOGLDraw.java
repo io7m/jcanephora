@@ -43,7 +43,8 @@ final class JOGLDraw implements JCGLDrawType
     this.g3 = this.context.getGL3();
   }
 
-  @Override public void draw(
+  @Override
+  public void draw(
     final JCGLPrimitives p,
     final int first,
     final int count)
@@ -58,7 +59,28 @@ final class JOGLDraw implements JCGLDrawType
     this.g3.glDrawArrays(JOGLTypeConversions.primitiveToGL(p), first, count);
   }
 
-  @Override public void drawElements(final JCGLPrimitives p)
+  @Override
+  public void drawInstanced(
+    final JCGLPrimitives p,
+    final int first,
+    final int count,
+    final int instances)
+    throws JCGLException
+  {
+    NullCheck.notNull(p);
+    RangeCheck.checkIncludedInInteger(
+      first, "First", Ranges.NATURAL_INTEGER, "Valid index");
+    RangeCheck.checkIncludedInInteger(
+      count, "Count", Ranges.NATURAL_INTEGER, "Valid counts");
+    RangeCheck.checkIncludedInInteger(
+      instances, "Instances", Ranges.NATURAL_INTEGER, "Valid instances");
+
+    this.g3.glDrawArraysInstanced(
+      JOGLTypeConversions.primitiveToGL(p), first, count, instances);
+  }
+
+  @Override
+  public void drawElements(final JCGLPrimitives p)
     throws JCGLException, JCGLExceptionBufferNotBound
   {
     NullCheck.notNull(p);
@@ -68,6 +90,28 @@ final class JOGLDraw implements JCGLDrawType
       final int pgl = JOGLTypeConversions.primitiveToGL(p);
       final int type = JOGLTypeConversions.unsignedTypeToGL(ib.getType());
       this.g3.glDrawElements(pgl, (int) ib.getIndices(), type, 0L);
+    } else {
+      throw new JCGLExceptionBufferNotBound(
+        "No index buffer is currently bound");
+    }
+  }
+
+  @Override
+  public void drawElementsInstanced(
+    final JCGLPrimitives p,
+    final int instances)
+    throws JCGLException, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(p);
+    RangeCheck.checkIncludedInInteger(
+      instances, "Instances", Ranges.NATURAL_INTEGER, "Valid instances");
+
+    if (this.index_buffers.indexBufferIsBound()) {
+      final JOGLIndexBuffer ib = this.array_objects.getCurrentIndexBuffer();
+      final int pgl = JOGLTypeConversions.primitiveToGL(p);
+      final int type = JOGLTypeConversions.unsignedTypeToGL(ib.getType());
+      this.g3.glDrawElementsInstanced(
+        pgl, (int) ib.getIndices(), type, 0L, instances);
     } else {
       throw new JCGLExceptionBufferNotBound(
         "No index buffer is currently bound");

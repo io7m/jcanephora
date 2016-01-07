@@ -81,6 +81,7 @@ public final class ExampleSingleRunnerMain
     window.setDefaultCloseOperation(
       WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
     window.setVisible(true);
+    window.setTitle("Examples: " + args[0]);
 
     final Animator anim = new Animator(window);
 

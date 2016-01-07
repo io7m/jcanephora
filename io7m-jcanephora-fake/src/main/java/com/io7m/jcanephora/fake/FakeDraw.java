@@ -48,7 +48,8 @@ final class FakeDraw implements JCGLDrawType
     this.index_buffers = NullCheck.notNull(in_index_buffers);
   }
 
-  @Override public void draw(
+  @Override
+  public void draw(
     final JCGLPrimitives p,
     final int first,
     final int count)
@@ -67,7 +68,32 @@ final class FakeDraw implements JCGLDrawType
       Integer.valueOf(first));
   }
 
-  @Override public void drawElements(final JCGLPrimitives p)
+  @Override
+  public void drawInstanced(
+    final JCGLPrimitives p,
+    final int first,
+    final int count,
+    final int instances)
+    throws JCGLException
+  {
+    NullCheck.notNull(p);
+    RangeCheck.checkIncludedInInteger(
+      first, "First", Ranges.NATURAL_INTEGER, "Valid index");
+    RangeCheck.checkIncludedInInteger(
+      count, "Count", Ranges.NATURAL_INTEGER, "Valid counts");
+    RangeCheck.checkIncludedInInteger(
+      instances, "Instances", Ranges.NATURAL_INTEGER, "Valid instances");
+
+    FakeDraw.LOG.trace(
+      "draw: count {} of {} from {}, {} instances",
+      Integer.valueOf(count),
+      p,
+      Integer.valueOf(first),
+      Integer.valueOf(instances));
+  }
+
+  @Override
+  public void drawElements(final JCGLPrimitives p)
     throws JCGLException, JCGLExceptionBufferNotBound
   {
     NullCheck.notNull(p);
@@ -76,6 +102,24 @@ final class FakeDraw implements JCGLDrawType
       FakeDraw.LOG.trace("drawElements: {}", p);
     } else {
       throw new JCGLExceptionBufferNotBound("No index buffer is bound");
+    }
+  }
+
+  @Override
+  public void drawElementsInstanced(
+    final JCGLPrimitives p,
+    final int instances)
+    throws JCGLException, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(p);
+    RangeCheck.checkIncludedInInteger(
+      instances, "Instances", Ranges.NATURAL_INTEGER, "Valid instances");
+
+    if (this.index_buffers.indexBufferIsBound()) {
+      FakeDraw.LOG.trace("drawElementsInstanced: {}", p);
+    } else {
+      throw new JCGLExceptionBufferNotBound(
+        "No index buffer is currently bound");
     }
   }
 }

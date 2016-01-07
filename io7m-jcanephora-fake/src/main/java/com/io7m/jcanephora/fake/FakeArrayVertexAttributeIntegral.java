@@ -31,6 +31,7 @@ final class FakeArrayVertexAttributeIntegral extends FakeObjectPseudoUnshared
   private final int                       stride;
   private final long                      offset;
   private final int                       elements;
+  private final int                       divisor;
 
   FakeArrayVertexAttributeIntegral(
     final FakeContext in_context,
@@ -39,7 +40,8 @@ final class FakeArrayVertexAttributeIntegral extends FakeObjectPseudoUnshared
     final JCGLScalarIntegralType in_type,
     final int in_elements,
     final int in_stride,
-    final long in_offset)
+    final long in_offset,
+    final int in_divisor)
   {
     super(in_context);
 
@@ -49,42 +51,56 @@ final class FakeArrayVertexAttributeIntegral extends FakeObjectPseudoUnshared
     this.elements = in_elements;
     this.stride = in_stride;
     this.offset = in_offset;
+    this.divisor = in_divisor;
   }
 
-  @Override public int getElements()
+  @Override
+  public int getElements()
   {
     return this.elements;
   }
 
-  @Override public long getOffset()
+  @Override
+  public long getOffset()
   {
     return this.offset;
   }
 
-  @Override public int getStride()
+  @Override
+  public int getStride()
   {
     return this.stride;
   }
 
-  @Override public JCGLScalarIntegralType getType()
+  @Override
+  public JCGLScalarIntegralType getType()
   {
     return this.type;
   }
 
-  @Override public int getIndex()
+  @Override
+  public int getIndex()
   {
     return this.index;
   }
 
-  @Override public JCGLArrayBufferUsableType getArrayBuffer()
+  @Override
+  public JCGLArrayBufferUsableType getArrayBuffer()
   {
     return this.array;
   }
 
-  @Override public <A, E extends Exception> A matchVertexAttribute(
+  @Override
+  public <A, E extends Exception> A matchVertexAttribute(
     final JCGLArrayVertexAttributeMatcherType<A, E> m)
     throws E
   {
     return m.matchIntegral(this);
+  }
+
+  @Override
+  public int getDivisor()
+  {
+    return this.divisor;
   }
 }

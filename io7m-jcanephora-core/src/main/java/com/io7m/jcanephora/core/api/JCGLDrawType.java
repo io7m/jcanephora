@@ -46,6 +46,32 @@ public interface JCGLDrawType
     throws JCGLException;
 
   /**
+   * <p>Draw {@code instances} copies of {@code count - 1} primitives of type
+   * {@code p}, starting at element {@code first}, taking the data from each
+   * currently active vertex attribute.</p>
+   *
+   * <p>Implementations use the OpenGL instancing API internally to implement
+   * this method. For the sake of explanation, the OpenGL API makes this
+   * function morally equivalent to calling {@link #draw(JCGLPrimitives, int,
+   * int)} in a loop {@code instances} times.</p>
+   *
+   * @param p         The type of primitives
+   * @param first     The first element
+   * @param count     The number of primitives
+   * @param instances The number of instances
+   *
+   * @throws JCGLException On OpenGL errors
+   * @see JCGLArrayObjectsType
+   */
+
+  void drawInstanced(
+    JCGLPrimitives p,
+    int first,
+    int count,
+    int instances)
+    throws JCGLException;
+
+  /**
    * Draw primitives of type {@code p}, taking the data from each currently
    * active vertex attribute using elements taken from the currently bound index
    * buffer.
@@ -59,5 +85,29 @@ public interface JCGLDrawType
 
   void drawElements(
     JCGLPrimitives p)
+    throws JCGLException, JCGLExceptionBufferNotBound;
+
+  /**
+   * <p>Draw {@code instances} copies of primitives of type {@code p}, taking
+   * the data from each currently active vertex attribute using elements taken
+   * from the currently bound index buffer.</p>
+   *
+   * <p>Implementations use the OpenGL instancing API internally to implement
+   * this method. For the sake of explanation, the OpenGL API makes this
+   * function morally equivalent to calling
+   * {@link #drawElements(JCGLPrimitives)}
+   * in a loop {@code instances} times.</p>
+   *
+   * @param p         The type of primitives
+   * @param instances The number of instances
+   *
+   * @throws JCGLException               On OpenGL errors
+   * @throws JCGLExceptionBufferNotBound If no index buffer is currently bound
+   * @see JCGLArrayObjectsType
+   */
+
+  void drawElementsInstanced(
+    JCGLPrimitives p,
+    int instances)
     throws JCGLException, JCGLExceptionBufferNotBound;
 }

@@ -31,7 +31,8 @@ public interface JCGLArrayObjectBuilderType
    * @return The attribute at the given index, if any
    */
 
-  Optional<JCGLArrayVertexAttributeType> getAttributeAt(int index);
+  Optional<JCGLArrayVertexAttributeType> getAttributeAt(
+    int index);
 
   /**
    * @return The supported maximum number of vertex attributes. Must be {@code
@@ -81,6 +82,39 @@ public interface JCGLArrayObjectBuilderType
    * is equal to the size of the type, which is {@code (3 + 2 + 3) * (sizeof
    * float) == 8 * 4 == 32} bytes. </p>
    *
+   * <p>The divisor specifies the rate at which generic vertex attributes
+   * advance when rendering multiple instances of primitives in a single draw
+   * call. If {@code divisor} is zero, the attribute at slot index​ advances
+   * once per vertex. If {@code divisor} is non-zero, the attribute advances
+   * once per {@code divisor} instances of the set(s) of vertices being
+   * rendered.</p>
+   *
+   * @param index      The attribute
+   * @param a          The array buffer
+   * @param elements   The number of elements
+   * @param type       The type of elements
+   * @param offset     The offset from the start of the buffer
+   * @param stride     The number of bytes to step forward at each vertex
+   * @param normalized {@code true} iff the data should be treated as
+   *                   <i>normalized fixed-point</i> values when converting to
+   *                   floating point
+   * @param divisor    The attribute divisor
+   *
+   * @throws JCGLExceptionDeleted Iff the array buffer has already been deleted
+   */
+
+  void setAttributeFloatingPointWithDivisor(
+    int index,
+    JCGLArrayBufferUsableType a,
+    int elements,
+    JCGLScalarType type,
+    int stride,
+    long offset,
+    boolean normalized,
+    int divisor)
+    throws JCGLExceptionDeleted;
+
+  /**
    * @param index      The attribute
    * @param a          The array buffer
    * @param elements   The number of elements
@@ -92,17 +126,23 @@ public interface JCGLArrayObjectBuilderType
    *                   floating point
    *
    * @throws JCGLExceptionDeleted Iff the array buffer has already been deleted
+   * @see #setAttributeFloatingPointWithDivisor(int, JCGLArrayBufferUsableType,
+   * int, JCGLScalarType, int, long, boolean, int)
    */
 
-  void setAttributeFloatingPoint(
-    int index,
-    JCGLArrayBufferUsableType a,
-    int elements,
-    JCGLScalarType type,
-    int stride,
-    long offset,
-    boolean normalized)
-    throws JCGLExceptionDeleted;
+  default void setAttributeFloatingPoint(
+    final int index,
+    final JCGLArrayBufferUsableType a,
+    final int elements,
+    final JCGLScalarType type,
+    final int stride,
+    final long offset,
+    final boolean normalized)
+    throws JCGLExceptionDeleted
+  {
+    this.setAttributeFloatingPointWithDivisor(
+      index, a, elements, type, stride, offset, normalized, 0);
+  }
 
   /**
    * <p>Configure the attribute {@code index} to retrieve data from {@code
@@ -122,20 +162,48 @@ public interface JCGLArrayObjectBuilderType
    * @param type     The type of elements
    * @param offset   The offset from the start of the buffer
    * @param stride   The number of bytes to step forward at each vertex
+   * @param divisor  The attribute divisor
    *
    * @throws JCGLExceptionDeleted Iff the array buffer has already been deleted
    * @see #setAttributeFloatingPoint(int, JCGLArrayBufferUsableType, int,
    * JCGLScalarType, int, long, boolean)
    */
 
-  void setAttributeIntegral(
+  void setAttributeIntegralWithDivisor(
     int index,
     JCGLArrayBufferUsableType a,
     int elements,
     JCGLScalarIntegralType type,
     int stride,
-    long offset)
+    long offset,
+    int divisor)
     throws JCGLExceptionDeleted;
+
+  /**
+   * @param index    The attribute
+   * @param a        The array buffer
+   * @param elements The number of elements
+   * @param type     The type of elements
+   * @param offset   The offset from the start of the buffer
+   * @param stride   The number of bytes to step forward at each vertex
+   *
+   * @throws JCGLExceptionDeleted Iff the array buffer has already been deleted
+   * @see #setAttributeIntegralWithDivisor(int, JCGLArrayBufferUsableType, int,
+   * JCGLScalarIntegralType, int, long, int)
+   */
+
+  default void setAttributeIntegral(
+    final int index,
+    final JCGLArrayBufferUsableType a,
+    final int elements,
+    final JCGLScalarIntegralType type,
+    final int stride,
+    final long offset)
+    throws JCGLExceptionDeleted
+  {
+    this.setAttributeIntegralWithDivisor(
+      index, a, elements, type, stride, offset, 0);
+  }
 
   /**
    * <p>Set the index buffer that will be bound by default.</p>
@@ -145,7 +213,8 @@ public interface JCGLArrayObjectBuilderType
    * @throws JCGLExceptionDeleted Iff the index buffer has already been deleted
    */
 
-  void setIndexBuffer(JCGLIndexBufferUsableType i)
+  void setIndexBuffer(
+    JCGLIndexBufferUsableType i)
     throws JCGLExceptionDeleted;
 
   /**

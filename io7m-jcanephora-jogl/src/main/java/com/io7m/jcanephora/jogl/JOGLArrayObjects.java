@@ -56,10 +56,19 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 {
   private static final Logger          LOG;
   private static final RangeInclusiveI VALID_ELEMENT_COUNT;
+  private static final String          ATTR_FLOAT_TRACE_FORMAT;
+  private static final String          ATTR_INTEGRAL_TRACE_FORMAT;
+  private static final String          ATTR_DISABLED_TRACE_FORMAT;
 
   static {
     VALID_ELEMENT_COUNT = new RangeInclusiveI(1, 4);
     LOG = LoggerFactory.getLogger(JOGLArrayObjects.class);
+    ATTR_FLOAT_TRACE_FORMAT =
+      "[{}]: attr {} floating type:{}/{} norm:{} off:{} stride:{} div:{}";
+    ATTR_INTEGRAL_TRACE_FORMAT =
+      "[{}]: attr {} integral type:{}/{} off:{} stride:{} div:{}";
+    ATTR_DISABLED_TRACE_FORMAT =
+      "[{}]: attr {} disabled";
   }
 
   private final JOGLContext      context;
@@ -184,7 +193,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         if (a == null) {
           if (JOGLArrayObjects.LOG.isTraceEnabled()) {
             JOGLArrayObjects.LOG.trace(
-              "[{}]: attr {} disabled",
+              JOGLArrayObjects.ATTR_DISABLED_TRACE_FORMAT,
               aid,
               box_index);
           }
@@ -212,17 +221,19 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
               final long off = af.getOffset();
               final int stride = af.getStride();
               final JCGLScalarType t = af.getType();
+              final int divisor = af.getDivisor();
 
               if (JOGLArrayObjects.LOG.isTraceEnabled()) {
                 JOGLArrayObjects.LOG.trace(
-                  "[{}]: attr {} floating type:{}/{} norm:{} off:{} stride:{}",
+                  JOGLArrayObjects.ATTR_FLOAT_TRACE_FORMAT,
                   aid,
                   box_index,
                   t,
                   Integer.valueOf(e),
                   Boolean.valueOf(n),
                   Long.valueOf(off),
-                  Integer.valueOf(stride));
+                  Integer.valueOf(stride),
+                  Integer.valueOf(divisor));
               }
 
               g3.glVertexAttribPointer(
@@ -232,6 +243,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
                 n,
                 stride,
                 off);
+              g3.glVertexAttribDivisor(box_index.intValue(), divisor);
               return null;
             }
 
@@ -244,16 +256,18 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
               final int e = ai.getElements();
               final long offset = ai.getOffset();
               final int stride = ai.getStride();
+              final int divisor = ai.getDivisor();
 
               if (JOGLArrayObjects.LOG.isTraceEnabled()) {
                 JOGLArrayObjects.LOG.trace(
-                  "[{}]: attr {} integral type:{}/{} off:{} stride:{}",
+                  JOGLArrayObjects.ATTR_INTEGRAL_TRACE_FORMAT,
                   aid,
                   box_index,
                   t,
                   Integer.valueOf(e),
                   Long.valueOf(offset),
-                  Integer.valueOf(stride));
+                  Integer.valueOf(stride),
+                  Integer.valueOf(divisor));
               }
 
               g3.glVertexAttribIPointer(
@@ -262,6 +276,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
                 JOGLTypeConversions.scalarIntegralTypeToGL(t),
                 stride,
                 offset);
+              g3.glVertexAttribDivisor(box_index.intValue(), divisor);
               return null;
             }
           });
@@ -396,8 +411,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     Builder()
     {
       super(JOGLArrayObjects.this.context.getContext());
-      this.attribs =
-        new JCGLArrayVertexAttributeType[this.getMaximumVertexAttributes()];
+      final int count = this.getMaximumVertexAttributes();
+      this.attribs = new JCGLArrayVertexAttributeType[count];
     }
 
     @Override
@@ -420,14 +435,15 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     }
 
     @Override
-    public void setAttributeFloatingPoint(
+    public void setAttributeFloatingPointWithDivisor(
       final int index,
       final JCGLArrayBufferUsableType a,
       final int elements,
       final JCGLScalarType type,
       final int stride,
       final long offset,
-      final boolean normalized)
+      final boolean normalized,
+      final int divisor)
     {
       JOGLArrayObjects.this.checkArrayBuffer(a);
       NullCheck.notNull(type);
@@ -445,6 +461,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
       UnsignedRangeCheck.checkIncludedInLong(
         offset, "Offset", a.getRange(), "Buffer range");
+      RangeCheck.checkIncludedInInteger(
+        divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
       this.clearRanges(index, index);
       final JOGLArrayVertexAttributeFloating attr =
@@ -456,19 +474,21 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
           elements,
           stride,
           offset,
-          normalized);
+          normalized,
+          divisor);
 
       this.attribs[index] = attr;
     }
 
     @Override
-    public void setAttributeIntegral(
+    public void setAttributeIntegralWithDivisor(
       final int index,
       final JCGLArrayBufferUsableType a,
       final int elements,
       final JCGLScalarIntegralType type,
       final int stride,
-      final long offset)
+      final long offset,
+      final int divisor)
     {
       JOGLArrayObjects.this.checkArrayBuffer(a);
       NullCheck.notNull(type);
@@ -486,6 +506,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
       UnsignedRangeCheck.checkIncludedInLong(
         offset, "Offset", a.getRange(), "Buffer range");
+      RangeCheck.checkIncludedInInteger(
+        divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
       this.clearRanges(index, index);
       final JOGLArrayVertexAttributeIntegral attr =
@@ -496,7 +518,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
           type,
           elements,
           stride,
-          offset);
+          offset,
+          divisor);
 
       this.attribs[index] = attr;
     }

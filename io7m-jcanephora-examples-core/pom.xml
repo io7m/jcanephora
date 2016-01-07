@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.io7m.jcanephora</groupId>
     <artifactId>io7m-jcanephora</artifactId>
-    <version>0.42.0</version>
+    <version>0.43.0</version>
   </parent>
   <artifactId>io7m-jcanephora-examples-core</artifactId>
 
@@ -33,6 +33,11 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>io7m-jcanephora-cursors</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.io7m.jtensors</groupId>
+      <artifactId>io7m-jtensors-bytebuffered</artifactId>
     </dependency>
 
     <dependency>
