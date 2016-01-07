@@ -124,6 +124,11 @@
         <version>7.0.0-beta0010</version>
       </dependency>
       <dependency>
+        <groupId>com.io7m.jtensors</groupId>
+        <artifactId>io7m-jtensors-bytebuffered</artifactId>
+        <version>7.0.0-beta0010</version>
+      </dependency>
+      <dependency>
         <groupId>com.io7m.jpra</groupId>
         <artifactId>io7m-jpra-runtime-java</artifactId>
         <version>0.3.2</version>
