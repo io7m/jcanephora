@@ -33,6 +33,7 @@ final class JOGLArrayVertexAttributeFloating extends JOGLObjectPseudoUnshared
   private final long                      offset;
   private final int                       elements;
   private final boolean                   normalized;
+  private final int                       divisor;
 
   JOGLArrayVertexAttributeFloating(
     final GLContext in_context,
@@ -42,7 +43,8 @@ final class JOGLArrayVertexAttributeFloating extends JOGLObjectPseudoUnshared
     final int in_elements,
     final int in_stride,
     final long in_offset,
-    final boolean in_normalized)
+    final boolean in_normalized,
+    final int in_divisor)
   {
     super(in_context);
 
@@ -53,9 +55,11 @@ final class JOGLArrayVertexAttributeFloating extends JOGLObjectPseudoUnshared
     this.stride = in_stride;
     this.offset = in_offset;
     this.normalized = in_normalized;
+    this.divisor = in_divisor;
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     final StringBuilder sb =
       new StringBuilder("[ArrayVertexAttributeFloating ");
@@ -65,49 +69,64 @@ final class JOGLArrayVertexAttributeFloating extends JOGLObjectPseudoUnshared
     sb.append(" ").append(this.stride);
     sb.append(" ").append(this.offset);
     sb.append(" ").append(this.normalized);
+    sb.append(" ").append(this.divisor);
     sb.append(']');
     return sb.toString();
   }
 
-  @Override public int getElements()
+  @Override
+  public int getElements()
   {
     return this.elements;
   }
 
-  @Override public boolean isNormalized()
+  @Override
+  public boolean isNormalized()
   {
     return this.normalized;
   }
 
-  @Override public long getOffset()
+  @Override
+  public long getOffset()
   {
     return this.offset;
   }
 
-  @Override public int getStride()
+  @Override
+  public int getStride()
   {
     return this.stride;
   }
 
-  @Override public JCGLScalarType getType()
+  @Override
+  public JCGLScalarType getType()
   {
     return this.type;
   }
 
-  @Override public int getIndex()
+  @Override
+  public int getIndex()
   {
     return this.index;
   }
 
-  @Override public JCGLArrayBufferUsableType getArrayBuffer()
+  @Override
+  public JCGLArrayBufferUsableType getArrayBuffer()
   {
     return this.array;
   }
 
-  @Override public <A, E extends Exception> A matchVertexAttribute(
+  @Override
+  public <A, E extends Exception> A matchVertexAttribute(
     final JCGLArrayVertexAttributeMatcherType<A, E> m)
     throws E
   {
     return m.matchFloatingPoint(this);
+  }
+
+  @Override
+  public int getDivisor()
+  {
+    return this.divisor;
   }
 }

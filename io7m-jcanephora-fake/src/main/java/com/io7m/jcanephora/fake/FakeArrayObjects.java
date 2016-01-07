@@ -52,11 +52,21 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
   private static final RangeInclusiveI MAX_ATTRIBS_RANGE;
   private static final Logger          LOG;
   private static final RangeInclusiveI VALID_ELEMENT_COUNT;
+  private static final String          ATTR_FLOAT_TRACE_FORMAT;
+  private static final String          ATTR_INTEGRAL_TRACE_FORMAT;
+  private static final String          ATTR_DISABLED_TRACE_FORMAT;
 
   static {
     MAX_ATTRIBS_RANGE = new RangeInclusiveI(16, Integer.MAX_VALUE);
     VALID_ELEMENT_COUNT = new RangeInclusiveI(1, 4);
     LOG = LoggerFactory.getLogger(FakeArrayObjects.class);
+
+    ATTR_FLOAT_TRACE_FORMAT =
+      "[{}]: attr {} floating type:{}/{} norm:{} off:{} stride:{} div:{}";
+    ATTR_INTEGRAL_TRACE_FORMAT =
+      "[{}]: attr {} integral type:{}/{} off:{} stride:{} div:{}";
+    ATTR_DISABLED_TRACE_FORMAT =
+      "[{}]: attr {} disabled";
   }
 
   private final FakeContext               context;
@@ -86,13 +96,15 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     this.bind = this.default_buffer;
   }
 
-  @Override public JCGLArrayObjectBuilderType arrayObjectNewBuilder()
+  @Override
+  public JCGLArrayObjectBuilderType arrayObjectNewBuilder()
     throws JCGLException
   {
     return new Builder();
   }
 
-  @Override public JCGLArrayObjectType arrayObjectAllocate(
+  @Override
+  public JCGLArrayObjectType arrayObjectAllocate(
     final JCGLArrayObjectBuilderType b)
     throws JCGLException
   {
@@ -135,7 +147,10 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
         final Integer box_index = Integer.valueOf(index);
         final JCGLArrayVertexAttributeType a = bb.attribs[index];
         if (a == null) {
-          FakeArrayObjects.LOG.trace("[{}]: attr {} disabled", aid, box_index);
+          FakeArrayObjects.LOG.trace(
+            FakeArrayObjects.ATTR_DISABLED_TRACE_FORMAT,
+            aid,
+            box_index);
           continue;
         }
 
@@ -143,7 +158,8 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
         a.matchVertexAttribute(
           new JCGLArrayVertexAttributeMatcherType<Void, JCGLException>()
           {
-            @Override public Void matchFloatingPoint(
+            @Override
+            public Void matchFloatingPoint(
               final JCGLArrayVertexAttributeFloatingPointType af)
               throws JCGLException
             {
@@ -152,20 +168,23 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
               final long off = af.getOffset();
               final int stride = af.getStride();
               final JCGLScalarType t = af.getType();
+              final int divisor = af.getDivisor();
 
               FakeArrayObjects.LOG.trace(
-                "[{}]: attr {} floating type:{}/{} norm:{} off:{} stride:{}",
+                FakeArrayObjects.ATTR_FLOAT_TRACE_FORMAT,
                 aid,
                 box_index,
                 t,
                 Integer.valueOf(e),
                 Boolean.valueOf(n),
                 Long.valueOf(off),
-                Integer.valueOf(stride));
+                Integer.valueOf(stride),
+                Integer.valueOf(divisor));
               return null;
             }
 
-            @Override public Void matchIntegral(
+            @Override
+            public Void matchIntegral(
               final JCGLArrayVertexAttributeIntegralType ai)
               throws JCGLException
             {
@@ -173,15 +192,17 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
               final int e = ai.getElements();
               final long offset = ai.getOffset();
               final int stride = ai.getStride();
+              final int divisor = ai.getDivisor();
 
               FakeArrayObjects.LOG.trace(
-                "[{}]: attr {} integral type:{}/{} off:{} stride:{}",
+                FakeArrayObjects.ATTR_INTEGRAL_TRACE_FORMAT,
                 aid,
                 box_index,
                 t,
                 Integer.valueOf(e),
                 Long.valueOf(offset),
-                Integer.valueOf(stride));
+                Integer.valueOf(stride),
+                Integer.valueOf(divisor));
               return null;
             }
           });
@@ -213,13 +234,15 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     }
   }
 
-  @Override public JCGLArrayObjectUsableType arrayObjectGetCurrentlyBound()
+  @Override
+  public JCGLArrayObjectUsableType arrayObjectGetCurrentlyBound()
     throws JCGLException
   {
     return this.bind;
   }
 
-  @Override public void arrayObjectBind(
+  @Override
+  public void arrayObjectBind(
     final JCGLArrayObjectUsableType a)
     throws JCGLException, JCGLExceptionDeleted
   {
@@ -234,13 +257,15 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     return (FakeArrayObject) a;
   }
 
-  @Override public void arrayObjectUnbind()
+  @Override
+  public void arrayObjectUnbind()
     throws JCGLException
   {
     this.actualUnbind();
   }
 
-  @Override public void arrayObjectDelete(
+  @Override
+  public void arrayObjectDelete(
     final JCGLArrayObjectType ai)
     throws JCGLException, JCGLExceptionDeleted
   {
@@ -265,7 +290,8 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     }
   }
 
-  @Override public JCGLArrayObjectUsableType arrayObjectGetDefault()
+  @Override
+  public JCGLArrayObjectUsableType arrayObjectGetDefault()
   {
     return this.default_buffer;
   }
@@ -293,11 +319,12 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     Builder()
     {
       super(FakeArrayObjects.this.context);
-      this.attribs =
-        new JCGLArrayVertexAttributeType[this.getMaximumVertexAttributes()];
+      final int count = this.getMaximumVertexAttributes();
+      this.attribs = new JCGLArrayVertexAttributeType[count];
     }
 
-    @Override public Optional<JCGLArrayVertexAttributeType> getAttributeAt(
+    @Override
+    public Optional<JCGLArrayVertexAttributeType> getAttributeAt(
       final int index)
     {
       RangeCheck.checkIncludedInInteger(
@@ -309,19 +336,22 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       return Optional.ofNullable(this.attribs[index]);
     }
 
-    @Override public int getMaximumVertexAttributes()
+    @Override
+    public int getMaximumVertexAttributes()
     {
       return FakeArrayObjects.this.max_attribs;
     }
 
-    @Override public void setAttributeFloatingPoint(
+    @Override
+    public void setAttributeFloatingPointWithDivisor(
       final int index,
       final JCGLArrayBufferUsableType a,
       final int elements,
       final JCGLScalarType type,
       final int stride,
       final long offset,
-      final boolean normalized)
+      final boolean normalized,
+      final int divisor)
     {
       FakeArrayObjects.this.checkArrayBuffer(a);
       NullCheck.notNull(type);
@@ -339,6 +369,8 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
       UnsignedRangeCheck.checkIncludedInLong(
         offset, "Offset", a.getRange(), "Buffer range");
+      RangeCheck.checkIncludedInInteger(
+        divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
       this.clearRanges(index, index);
       final FakeArrayVertexAttributeFloating attr =
@@ -350,18 +382,21 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
           elements,
           stride,
           offset,
-          normalized);
+          normalized,
+          divisor);
 
       this.attribs[index] = attr;
     }
 
-    @Override public void setAttributeIntegral(
+    @Override
+    public void setAttributeIntegralWithDivisor(
       final int index,
       final JCGLArrayBufferUsableType a,
       final int elements,
       final JCGLScalarIntegralType type,
       final int stride,
-      final long offset)
+      final long offset,
+      final int divisor)
     {
       FakeArrayObjects.this.checkArrayBuffer(a);
       NullCheck.notNull(type);
@@ -379,6 +414,8 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
       UnsignedRangeCheck.checkIncludedInLong(
         offset, "Offset", a.getRange(), "Buffer range");
+      RangeCheck.checkIncludedInInteger(
+        divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
       this.clearRanges(index, index);
       final FakeArrayVertexAttributeIntegral attr =
@@ -389,19 +426,22 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
           type,
           elements,
           stride,
-          offset);
+          offset,
+          divisor);
 
       this.attribs[index] = attr;
     }
 
-    @Override public void setIndexBuffer(final JCGLIndexBufferUsableType i)
+    @Override
+    public void setIndexBuffer(final JCGLIndexBufferUsableType i)
       throws JCGLExceptionDeleted
     {
       FakeArrayObjects.this.checkIndexBuffer(i);
       this.index_buffer = i;
     }
 
-    @Override public void setNoIndexBuffer()
+    @Override
+    public void setNoIndexBuffer()
     {
       this.index_buffer = null;
     }
@@ -417,14 +457,16 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
           exist_a.matchVertexAttribute(
             new JCGLArrayVertexAttributeMatcherType<Void, RuntimeException>()
             {
-              @Override public Void matchFloatingPoint(
+              @Override
+              public Void matchFloatingPoint(
                 final JCGLArrayVertexAttributeFloatingPointType a)
               {
                 aa[a.getIndex()] = null;
                 return null;
               }
 
-              @Override public Void matchIntegral(
+              @Override
+              public Void matchIntegral(
                 final JCGLArrayVertexAttributeIntegralType a)
               {
                 aa[a.getIndex()] = null;
@@ -435,7 +477,8 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       }
     }
 
-    @Override public void reset()
+    @Override
+    public void reset()
     {
       for (int index = 0; index < this.attribs.length; ++index) {
         this.attribs[index] = null;
