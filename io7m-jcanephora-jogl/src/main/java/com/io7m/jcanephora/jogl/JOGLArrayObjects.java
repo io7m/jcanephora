@@ -39,6 +39,7 @@ import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveI;
 import com.io7m.jranges.Ranges;
+import com.io7m.junreachable.UnreachableCodeException;
 import com.io7m.junsigned.ranges.UnsignedRangeCheck;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL3;
@@ -140,6 +141,50 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     throws JCGLException
   {
     return new Builder();
+  }
+
+  @Override
+  public JCGLArrayObjectBuilderType arrayObjectNewBuilderFromObject(
+    final JCGLArrayObjectUsableType o)
+  {
+    final JOGLArrayObject jo = this.checkArrayObject(o);
+    final Builder b = new Builder();
+    final JCGLArrayVertexAttributeType[] ja = jo.getAttribs();
+    for (int index = 0; index < ja.length; ++index) {
+      final JCGLArrayVertexAttributeType a = ja[index];
+      if (a == null) {
+        continue;
+      }
+
+      if (a instanceof JCGLArrayVertexAttributeFloatingPointType) {
+        final JCGLArrayVertexAttributeFloatingPointType f =
+          (JCGLArrayVertexAttributeFloatingPointType) a;
+        b.setAttributeFloatingPointWithDivisor(
+          index,
+          f.getArrayBuffer(),
+          f.getElements(),
+          f.getType(),
+          f.getStride(),
+          f.getOffset(),
+          f.isNormalized(),
+          f.getDivisor());
+      } else if (a instanceof JCGLArrayVertexAttributeIntegralType) {
+        final JCGLArrayVertexAttributeIntegralType i =
+          (JCGLArrayVertexAttributeIntegralType) a;
+        b.setAttributeIntegralWithDivisor(
+          index,
+          i.getArrayBuffer(),
+          i.getElements(),
+          i.getType(),
+          i.getStride(),
+          i.getOffset(),
+          i.getDivisor());
+      } else {
+        throw new UnreachableCodeException();
+      }
+    }
+
+    return b;
   }
 
   @Override

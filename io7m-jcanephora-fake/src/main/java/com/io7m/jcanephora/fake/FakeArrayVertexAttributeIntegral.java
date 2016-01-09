@@ -91,6 +91,41 @@ final class FakeArrayVertexAttributeIntegral extends FakeObjectPseudoUnshared
   }
 
   @Override
+  public boolean equals(final Object o)
+  {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || this.getClass() != o.getClass()) {
+      return false;
+    }
+
+    final FakeArrayVertexAttributeIntegral that =
+      (FakeArrayVertexAttributeIntegral) o;
+
+    return this.index == that.index
+      && this.stride == that.stride
+      && this.offset == that.offset
+      && this.elements == that.elements
+      && this.divisor == that.divisor
+      && this.array.equals(that.array)
+      && this.type == that.type;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    int result = this.index;
+    result = 31 * result + this.array.hashCode();
+    result = 31 * result + this.type.hashCode();
+    result = 31 * result + this.stride;
+    result = 31 * result + (int) (this.offset ^ (this.offset >>> 32));
+    result = 31 * result + this.elements;
+    result = 31 * result + this.divisor;
+    return result;
+  }
+
+  @Override
   public <A, E extends Exception> A matchVertexAttribute(
     final JCGLArrayVertexAttributeMatcherType<A, E> m)
     throws E

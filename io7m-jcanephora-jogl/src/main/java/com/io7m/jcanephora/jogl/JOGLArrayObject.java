@@ -56,6 +56,11 @@ final class JOGLArrayObject extends JOGLObjectUnshared
     }
   }
 
+  JCGLArrayVertexAttributeType[] getAttribs()
+  {
+    return this.attribs;
+  }
+
   @Override public String toString()
   {
     return this.image;
