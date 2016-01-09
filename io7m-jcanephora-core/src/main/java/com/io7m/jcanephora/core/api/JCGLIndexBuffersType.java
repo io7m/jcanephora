@@ -55,6 +55,27 @@ public interface JCGLIndexBuffersType
     JCGLUsageHint usage);
 
   /**
+   * <p>Reallocate the storage associated with the index buffer {@code i}.</p>
+   *
+   * <p>This is intended to facilitate streaming of buffer contents without
+   * incurring implicit synchronization by the OpenGL driver. The existing array
+   * buffer storage is "orphaned" and replaced by storage of the same size and
+   * with the same usage hint.</p>
+   *
+   * @param i The array buffer
+   *
+   * @throws JCGLException               Iff an OpenGL error occurs
+   * @throws JCGLExceptionDeleted        If the index buffer has already been
+   *                                     deleted
+   * @throws JCGLExceptionBufferNotBound If the index buffer {@code i} is not
+   *                                     bound
+   */
+
+  void indexBufferReallocate(
+    JCGLIndexBufferUsableType i)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound;
+
+  /**
    * @return The currently bound index buffer, if one exists
    *
    * @throws JCGLException Iff an OpenGL error occurs

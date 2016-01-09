@@ -53,6 +53,27 @@ public interface JCGLArrayBuffersType
     throws JCGLException;
 
   /**
+   * <p>Reallocate the storage associated with the array buffer {@code a}.</p>
+   *
+   * <p>This is intended to facilitate streaming of buffer contents without
+   * incurring implicit synchronization by the OpenGL driver. The existing array
+   * buffer storage is "orphaned" and replaced by storage of the same size and
+   * with the same usage hint.</p>
+   *
+   * @param a The array buffer
+   *
+   * @throws JCGLException               Iff an OpenGL error occurs
+   * @throws JCGLExceptionDeleted        If the array buffer has already been
+   *                                     deleted
+   * @throws JCGLExceptionBufferNotBound If the array buffer {@code a} is not
+   *                                     bound
+   */
+
+  void arrayBufferReallocate(
+    JCGLArrayBufferUsableType a)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound;
+
+  /**
    * @return The currently bound array buffer, if one exists
    *
    * @throws JCGLException Iff an OpenGL error occurs

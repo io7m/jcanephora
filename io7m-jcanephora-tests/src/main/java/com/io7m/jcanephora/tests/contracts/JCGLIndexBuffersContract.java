@@ -63,7 +63,8 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     String name,
     String shared);
 
-  @Test public final void testIndexBufferBadSize()
+  @Test
+  public final void testIndexBufferBadSize()
   {
     final Interfaces i = this.getIndexBuffers("name");
     final JCGLIndexBuffersType gi = i.getIndexBuffers();
@@ -75,7 +76,8 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
       JCGLUsageHint.USAGE_STATIC_DRAW);
   }
 
-  @Test public final void testIndexBufferAllocateIdentity()
+  @Test
+  public final void testIndexBufferAllocateIdentity()
   {
     final Interfaces i = this.getIndexBuffers("name");
     final JCGLIndexBuffersType gi = i.getIndexBuffers();
@@ -91,7 +93,32 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     Assert.assertFalse(i0.isDeleted());
   }
 
-  @Test public final void testIndexBufferBindIdentity()
+  @Test
+  public final void testIndexBufferReallocateIdentity()
+  {
+    final Interfaces i = this.getIndexBuffers("name");
+    final JCGLIndexBuffersType gi = i.getIndexBuffers();
+
+    final JCGLIndexBufferType i0 = gi.indexBufferAllocate(
+      1000L,
+      JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+      JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    Assert.assertEquals(1000L, i0.getIndices());
+    Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i0.getType());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, i0.getUsageHint());
+    Assert.assertFalse(i0.isDeleted());
+
+    gi.indexBufferReallocate(i0);
+
+    Assert.assertEquals(1000L, i0.getIndices());
+    Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i0.getType());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, i0.getUsageHint());
+    Assert.assertFalse(i0.isDeleted());
+  }
+
+  @Test
+  public final void testIndexBufferBindIdentity()
   {
     final Interfaces i = this.getIndexBuffers("name");
     final JCGLIndexBuffersType gi = i.getIndexBuffers();
@@ -130,7 +157,8 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     Assert.assertEquals(0L, (long) i0_refs.size());
   }
 
-  @Test public final void testIndexUpdateDeleted()
+  @Test
+  public final void testIndexUpdateDeleted()
   {
     final Interfaces ii = this.getIndexBuffers("main");
     final JCGLIndexBuffersType gi = ii.getIndexBuffers();
@@ -148,7 +176,8 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     gi.indexBufferUpdate(u);
   }
 
-  @Test public final void testIndexUpdateWrongContext()
+  @Test
+  public final void testIndexUpdateWrongContext()
   {
     final JCGLUnsharedContextPair<JCGLIndexBuffersType> p =
       this.getIndexBuffersUnshared("main", "alt");
@@ -176,7 +205,23 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     gb.indexBufferUpdate(u);
   }
 
-  @Test public final void testIndexUpdateNotBound()
+  @Test
+  public final void testIndexReallocateNotBound()
+  {
+    final Interfaces ii = this.getIndexBuffers("main");
+    final JCGLIndexBuffersType gi = ii.getIndexBuffers();
+    final JCGLIndexBufferType i = gi.indexBufferAllocate(
+      100L,
+      JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+      JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    gi.indexBufferUnbind();
+    this.expected.expect(JCGLExceptionBufferNotBound.class);
+    gi.indexBufferReallocate(i);
+  }
+
+  @Test
+  public final void testIndexUpdateNotBound()
   {
     final Interfaces ii = this.getIndexBuffers("main");
     final JCGLIndexBuffersType gi = ii.getIndexBuffers();
@@ -193,7 +238,8 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     gi.indexBufferUpdate(u);
   }
 
-  @Test public final void testIndexUpdateShared()
+  @Test
+  public final void testIndexUpdateShared()
   {
     final JCGLSharedContextPair<JCGLIndexBuffersType> p =
       this.getIndexBuffersSharedWith("main", "alt");
@@ -221,7 +267,7 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
 
   protected static final class Interfaces
   {
-    private final JCGLContextType context;
+    private final JCGLContextType      context;
     private final JCGLIndexBuffersType index_buffers;
     private final JCGLArrayBuffersType array_buffers;
     private final JCGLArrayObjectsType array_objects;

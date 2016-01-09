@@ -80,6 +80,26 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
   }
 
   @Test
+  public final void testArrayReallocateIdentities()
+  {
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
+
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final UnsignedRangeInclusiveL r = a.getRange();
+    Assert.assertEquals(0L, r.getLower());
+    Assert.assertEquals(99L, r.getUpper());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.getUsageHint());
+    Assert.assertFalse(a.isDeleted());
+
+    ga.arrayBufferReallocate(a);
+    Assert.assertEquals(0L, r.getLower());
+    Assert.assertEquals(99L, r.getUpper());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.getUsageHint());
+    Assert.assertFalse(a.isDeleted());
+  }
+
+  @Test
   public final void testArrayBindIdentities()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
@@ -332,6 +352,18 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     ga.arrayBufferUnbind();
     this.expected.expect(JCGLExceptionBufferNotBound.class);
     ga.arrayBufferUpdate(u);
+  }
+
+  @Test
+  public final void testArrayReallocateNotBound()
+  {
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    ga.arrayBufferUnbind();
+    this.expected.expect(JCGLExceptionBufferNotBound.class);
+    ga.arrayBufferReallocate(a);
   }
 
   @Test

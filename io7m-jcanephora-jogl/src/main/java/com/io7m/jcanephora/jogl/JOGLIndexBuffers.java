@@ -70,6 +70,21 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     JOGLErrorChecking.checkErrors(this.gl);
   }
 
+  private static JCGLExceptionBufferNotBound notBound(
+    final JCGLIndexBufferUsableType ii,
+    final Optional<JCGLIndexBufferUsableType> i_opt)
+  {
+    final StringBuilder sb = new StringBuilder(128);
+    sb.append("Buffer is not bound.");
+    sb.append(System.lineSeparator());
+    sb.append("  Required: ");
+    sb.append(ii);
+    sb.append(System.lineSeparator());
+    sb.append("  Actual: ");
+    sb.append(i_opt);
+    return new JCGLExceptionBufferNotBound(sb.toString());
+  }
+
   void setArrayObjects(
     final JOGLArrayObjects ao)
   {
@@ -231,15 +246,37 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
       }
     }
 
-    final StringBuilder sb = new StringBuilder(128);
-    sb.append("Buffer is not bound.");
-    sb.append(System.lineSeparator());
-    sb.append("  Required: ");
-    sb.append(ii);
-    sb.append(System.lineSeparator());
-    sb.append("  Actual: ");
-    sb.append(i_opt);
-    throw new JCGLExceptionBufferNotBound(sb.toString());
+    throw JOGLIndexBuffers.notBound(ii, i_opt);
+  }
+
+  @Override
+  public void indexBufferReallocate(
+    final JCGLIndexBufferUsableType i)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
+  {
+    this.checkIndexBuffer(i);
+
+    final JCGLArrayObjectUsableType ao =
+      this.array_objects.arrayObjectGetCurrentlyBound();
+
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    if (i_opt.isPresent()) {
+      final JCGLIndexBufferUsableType current_ib = i_opt.get();
+      if (i.equals(current_ib)) {
+        if (JOGLIndexBuffers.LOG.isDebugEnabled()) {
+          final int id = current_ib.getGLName();
+          JOGLIndexBuffers.LOG.debug("reallocated {}", Integer.valueOf(id));
+        }
+
+        final UnsignedRangeInclusiveL r = i.getRange();
+        final long size = r.getInterval();
+        final int usage = JOGLTypeConversions.usageHintToGL(i.getUsageHint());
+        this.gl.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, size, null, usage);
+        return;
+      }
+    }
+
+    throw JOGLIndexBuffers.notBound(i, i_opt);
   }
 
   @Override

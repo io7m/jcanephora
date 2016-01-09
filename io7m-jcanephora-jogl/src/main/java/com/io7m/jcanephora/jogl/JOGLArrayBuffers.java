@@ -101,6 +101,33 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     return a;
   }
 
+  @Override
+  public void arrayBufferReallocate(
+    final JCGLArrayBufferUsableType a)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
+  {
+    this.checkArray(a);
+
+    if (a.equals(this.bind)) {
+      final UnsignedRangeInclusiveL r = a.getRange();
+      final long size = r.getInterval();
+      final JCGLUsageHint usage = a.getUsageHint();
+
+      if (JOGLArrayBuffers.LOG.isDebugEnabled()) {
+        JOGLArrayBuffers.LOG.debug(
+          "reallocate ({} bytes, {})", Long.valueOf(size), usage);
+      }
+
+      this.gl.glBufferData(
+        GL.GL_ARRAY_BUFFER,
+        size,
+        null,
+        JOGLTypeConversions.usageHintToGL(usage));
+    } else {
+      throw this.notBound(a);
+    }
+  }
+
   private void actualBind(final JOGLArrayBuffer a)
   {
     if (JOGLArrayBuffers.LOG.isTraceEnabled()) {
@@ -205,15 +232,21 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
       this.gl.glBufferSubData(
         GL.GL_ARRAY_BUFFER, r.getLower(), r.getInterval(), data);
     } else {
-      final StringBuilder sb = new StringBuilder(128);
-      sb.append("Buffer is not bound.");
-      sb.append(System.lineSeparator());
-      sb.append("  Required: ");
-      sb.append(a);
-      sb.append(System.lineSeparator());
-      sb.append("  Actual: ");
-      sb.append(this.bind == null ? "none" : this.bind);
-      throw new JCGLExceptionBufferNotBound(sb.toString());
+      throw this.notBound(a);
     }
+  }
+
+  private JCGLExceptionBufferNotBound notBound(
+    final JCGLArrayBufferUsableType a)
+  {
+    final StringBuilder sb = new StringBuilder(128);
+    sb.append("Buffer is not bound.");
+    sb.append(System.lineSeparator());
+    sb.append("  Required: ");
+    sb.append(a);
+    sb.append(System.lineSeparator());
+    sb.append("  Actual: ");
+    sb.append(this.bind == null ? "none" : this.bind);
+    return new JCGLExceptionBufferNotBound(sb.toString());
   }
 }
