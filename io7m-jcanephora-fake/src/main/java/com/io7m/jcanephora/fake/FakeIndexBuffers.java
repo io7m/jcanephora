@@ -92,6 +92,40 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     return ib;
   }
 
+  @Override
+  public void indexBufferReallocate(final JCGLIndexBufferUsableType i)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
+  {
+    this.checkIndexBuffer(i);
+
+    final JCGLArrayObjectUsableType ao =
+      this.array_objects.arrayObjectGetCurrentlyBound();
+
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    if (i_opt.isPresent()) {
+      final JCGLIndexBufferUsableType current_ib = i_opt.get();
+      if (i.equals(current_ib)) {
+        final FakeIndexBuffer fa = (FakeIndexBuffer) i;
+        final ByteBuffer fa_data = fa.getData();
+
+        /**
+         * XXX: Clearly overflowing integers.
+         */
+
+        final UnsignedRangeInclusiveL r = i.getRange();
+        final long lo = r.getLower();
+        final long hi = r.getUpper();
+        for (long index = lo; Long.compareUnsigned(index, hi) < 0; ++index) {
+          final int i_index = (int) index;
+          fa_data.put(i_index, (byte) 0);
+        }
+        return;
+      }
+    }
+
+    throw FakeIndexBuffers.notBound(i, i_opt);
+  }
+
   private void actualBind(final FakeIndexBuffer ib)
   {
     final FakeArrayObject ao =
@@ -203,6 +237,13 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
       }
     }
 
+    throw FakeIndexBuffers.notBound(ii, i_opt);
+  }
+
+  private static JCGLExceptionBufferNotBound notBound(
+    final JCGLIndexBufferUsableType ii,
+    final Optional<JCGLIndexBufferUsableType> i_opt)
+  {
     final StringBuilder sb = new StringBuilder(128);
     sb.append("Buffer is not bound.");
     sb.append(System.lineSeparator());
@@ -211,7 +252,7 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     sb.append(System.lineSeparator());
     sb.append("  Actual: ");
     sb.append(i_opt);
-    throw new JCGLExceptionBufferNotBound(sb.toString());
+    return new JCGLExceptionBufferNotBound(sb.toString());
   }
 
   @Override public boolean indexBufferIsBound()

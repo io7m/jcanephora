@@ -59,7 +59,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
   protected abstract Interfaces getInterfaces(String name);
 
-  @Test public final void testArrayGetBadIndex()
+  @Test
+  public final void testArrayGetBadIndex()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayObjectsType go = i.getArrayObjects();
@@ -70,7 +71,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     b.getAttributeAt(-1);
   }
 
-  @Test public final void testArrayIntegralReplacesFloating()
+  @Test
+  public final void testArrayIntegralReplacesFloating()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -123,7 +125,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     }
   }
 
-  @Test public final void testArrayFloatingReplacesIntegral()
+  @Test
+  public final void testArrayFloatingReplacesIntegral()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -176,7 +179,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     }
   }
 
-  @Test public final void testArrayIdentities()
+  @Test
+  public final void testArrayIdentities()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -249,7 +253,38 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     }
   }
 
-  @Test public final void testFloatingArrayDeleted()
+  @Test
+  public final void testArrayFromIdentities()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setAttributeFloatingPointWithDivisor(
+      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false, 23);
+    b.setAttributeFloatingPoint(
+      1, a, 3, JCGLScalarType.TYPE_INT, 20, 4L, true);
+    b.setAttributeIntegral(
+      2, a, 2, JCGLScalarIntegralType.TYPE_INT, 24, 8L);
+
+    final JCGLArrayObjectType o =
+      go.arrayObjectAllocate(b);
+
+    final JCGLArrayObjectBuilderType c =
+      go.arrayObjectNewBuilderFromObject(o);
+
+    for (int index = 0; index < b.getMaximumVertexAttributes(); ++index) {
+      Assert.assertEquals(b.getAttributeAt(index), c.getAttributeAt(index));
+    }
+  }
+
+  @Test
+  public final void testFloatingArrayDeleted()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -267,7 +302,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
   }
 
-  @Test public final void testFloatingArrayWrongContext()
+  @Test
+  public final void testFloatingArrayWrongContext()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -294,7 +330,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
   }
 
-  @Test public final void testFloatingArrayBadIndex()
+  @Test
+  public final void testFloatingArrayBadIndex()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -311,7 +348,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       -1, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
   }
 
-  @Test public final void testFloatingArrayBadElements0()
+  @Test
+  public final void testFloatingArrayBadElements0()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -328,7 +366,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, -1, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
   }
 
-  @Test public final void testFloatingArrayBadElements1()
+  @Test
+  public final void testFloatingArrayBadElements1()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -345,7 +384,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 5, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
   }
 
-  @Test public final void testFloatingArrayBadStride()
+  @Test
+  public final void testFloatingArrayBadStride()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -362,7 +402,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 4, JCGLScalarType.TYPE_FLOAT, -1, 0L, false);
   }
 
-  @Test public final void testFloatingArrayBadOffset()
+  @Test
+  public final void testFloatingArrayBadOffset()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -379,7 +420,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 100L, false);
   }
 
-  @Test public final void testIntegralArrayDeleted()
+  @Test
+  public final void testIntegralArrayDeleted()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -397,7 +439,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
   }
 
-  @Test public final void testIntegralArrayWrongContext()
+  @Test
+  public final void testIntegralArrayWrongContext()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -424,7 +467,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
   }
 
-  @Test public final void testIntegralArrayBadIndex()
+  @Test
+  public final void testIntegralArrayBadIndex()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -441,7 +485,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       -1, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
   }
 
-  @Test public final void testIntegralArrayBadElements0()
+  @Test
+  public final void testIntegralArrayBadElements0()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -458,7 +503,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, -1, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
   }
 
-  @Test public final void testIntegralArrayBadElements1()
+  @Test
+  public final void testIntegralArrayBadElements1()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -475,7 +521,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 5, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
   }
 
-  @Test public final void testIntegralArrayBadStride()
+  @Test
+  public final void testIntegralArrayBadStride()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -492,7 +539,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 4, JCGLScalarIntegralType.TYPE_INT, -1, 0L);
   }
 
-  @Test public final void testIntegralArrayBadOffset()
+  @Test
+  public final void testIntegralArrayBadOffset()
   {
     final Interfaces i_main = this.getInterfaces("main");
     final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
@@ -509,7 +557,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       0, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 100L);
   }
 
-  @Test public final void testArrayAllocateIndexDeleted()
+  @Test
+  public final void testArrayAllocateIndexDeleted()
   {
     final Interfaces is = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = is.getArrayBuffers();
@@ -531,7 +580,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     go.arrayObjectAllocate(b);
   }
 
-  @Test public final void testArrayAllocate()
+  @Test
+  public final void testArrayAllocate()
   {
     final Interfaces is = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = is.getArrayBuffers();
@@ -584,7 +634,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     Assert.assertTrue(i_refs.contains(go.arrayObjectGetDefault()));
   }
 
-  @Test public final void testArrayBindIdentity()
+  @Test
+  public final void testArrayBindIdentity()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -613,7 +664,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       go.arrayObjectGetDefault(), go.arrayObjectGetCurrentlyBound());
   }
 
-  @Test public final void testArrayBindDeleted()
+  @Test
+  public final void testArrayBindDeleted()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -636,7 +688,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     go.arrayObjectBind(ai);
   }
 
-  @Test public final void testArrayBindDeleteBind()
+  @Test
+  public final void testArrayBindDeleteBind()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -659,7 +712,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       go.arrayObjectGetDefault(), go.arrayObjectGetCurrentlyBound());
   }
 
-  @Test public final void testArrayBindDeleteBindPreserves()
+  @Test
+  public final void testArrayBindDeleteBindPreserves()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -682,7 +736,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     Assert.assertEquals(a0, go.arrayObjectGetCurrentlyBound());
   }
 
-  @Test public final void testArrayDeleteIdentity()
+  @Test
+  public final void testArrayDeleteIdentity()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -707,7 +762,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     Assert.assertEquals(0L, (long) a_refs.size());
   }
 
-  @Test public final void testArrayDeleteDeleted()
+  @Test
+  public final void testArrayDeleteDeleted()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -728,7 +784,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     go.arrayObjectDelete(ai);
   }
 
-  @Test public final void testArrayDeleteDefault()
+  @Test
+  public final void testArrayDeleteDefault()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -741,7 +798,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     }
   }
 
-  @Test public final void testArrayBufferDeletion()
+  @Test
+  public final void testArrayBufferDeletion()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();
@@ -766,7 +824,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     Assert.assertTrue(refs.contains(a));
   }
 
-  @Test public final void testArrayDeleteIndex()
+  @Test
+  public final void testArrayDeleteIndex()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLArrayBuffersType ga = i.getArrayBuffers();

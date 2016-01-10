@@ -43,6 +43,18 @@ public interface JCGLArrayObjectsType
     throws JCGLException;
 
   /**
+   * @param o An array object
+   *
+   * @return A new array object builder, initialized to the values used to
+   * construct {@code o}
+   *
+   * @see #arrayObjectNewBuilder()
+   */
+
+  JCGLArrayObjectBuilderType arrayObjectNewBuilderFromObject(
+    JCGLArrayObjectUsableType o);
+
+  /**
    * <p>Allocate and bind an array object based on the values given in {@code
    * b}.</p>
    *
@@ -62,8 +74,8 @@ public interface JCGLArrayObjectsType
     throws JCGLException;
 
   /**
-   * @return The currently bound array object, or {@link
-   * #arrayObjectGetDefault()}
+   * @return The currently bound array object, or
+   * {@link #arrayObjectGetDefault()}
    * if the user has not bound an array object.
    *
    * @throws JCGLException Iff an OpenGL error occurs
