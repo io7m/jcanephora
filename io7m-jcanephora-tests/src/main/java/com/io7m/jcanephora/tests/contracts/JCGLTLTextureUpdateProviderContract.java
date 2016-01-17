@@ -181,6 +181,8 @@ public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
 
           final JCGLTexture2DUpdateType u = up.getTextureUpdate(tt, data);
           Assert.assertEquals(tt, u.getTexture());
+
+          t.texture2DUpdate(units.get(0), u);
           break;
         }
       }
