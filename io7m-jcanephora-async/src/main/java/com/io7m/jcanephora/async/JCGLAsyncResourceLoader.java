@@ -50,12 +50,12 @@ import java.util.function.Supplier;
 public final class JCGLAsyncResourceLoader implements
   JCGLAsyncResourceLoaderType
 {
-  private final JCGLAsyncInterfaceGL33Type g;
-  private final Executor                   exec_io;
+  private final JCGLAsyncInterfaceUsableGL33Type g;
+  private final Executor                         exec_io;
 
   private JCGLAsyncResourceLoader(
     final Executor in_exec_io,
-    final JCGLAsyncInterfaceGL33Type in_g)
+    final JCGLAsyncInterfaceUsableGL33Type in_g)
   {
     this.exec_io = NullCheck.notNull(in_exec_io);
     this.g = NullCheck.notNull(in_g);
@@ -72,7 +72,7 @@ public final class JCGLAsyncResourceLoader implements
 
   public static JCGLAsyncResourceLoaderType newLoader(
     final Executor in_exec_io,
-    final JCGLAsyncInterfaceGL33Type in_g)
+    final JCGLAsyncInterfaceUsableGL33Type in_g)
   {
     return new JCGLAsyncResourceLoader(in_exec_io, in_g);
   }
@@ -100,7 +100,7 @@ public final class JCGLAsyncResourceLoader implements
 
     final CompletableFuture<JCGLTexture2DType> f_alloc =
       f_data.thenCompose(
-        td -> this.g.evaluate(g33 -> {
+        td -> this.g.evaluate((g33, unused) -> {
           final JCGLTexturesType gt = g33.getTextures();
           final List<JCGLTextureUnitType> us = gt.textureGetUnits();
           final JCGLTextureUnitType u0 = us.get(0);
@@ -113,7 +113,7 @@ public final class JCGLAsyncResourceLoader implements
     final CompletableFuture<JCGLTexture2DUpdateType> f_pop =
       f_alloc.thenCombine(f_data, on_populate);
 
-    return f_pop.thenCompose(up -> this.g.evaluate(g33 -> {
+    return f_pop.thenCompose(up -> this.g.evaluate((g33, unused) -> {
       final JCGLTexturesType gt = g33.getTextures();
       final List<JCGLTextureUnitType> us = gt.textureGetUnits();
       final JCGLTextureUnitType u0 = us.get(0);
@@ -154,7 +154,7 @@ public final class JCGLAsyncResourceLoader implements
 
     final CompletableFuture<JCGLArrayBufferType> f_array_alloc =
       f_array_size.thenCompose(
-        size -> this.g.evaluate(g33 -> {
+        size -> this.g.evaluate((g33, unused) -> {
           final long sz = size.longValue();
           final JCGLArrayBuffersType ga = g33.getArrayBuffers();
           ga.arrayBufferUnbind();
@@ -162,7 +162,7 @@ public final class JCGLAsyncResourceLoader implements
         }));
     final CompletableFuture<JCGLIndexBufferType> f_index_alloc =
       f_index_size.thenCompose(
-        size -> this.g.evaluate(g33 -> {
+        size -> this.g.evaluate((g33, unused) -> {
           final long sz = size.longValue();
           final JCGLIndexBuffersType gi = g33.getIndexBuffers();
           gi.indexBufferUnbind();
@@ -178,7 +178,7 @@ public final class JCGLAsyncResourceLoader implements
 
     final CompletableFuture<JCGLArrayBufferType> f_array_upload =
       f_array_get_update.thenCompose(
-        up -> this.g.evaluate(g33 -> {
+        up -> this.g.evaluate((g33, unused) -> {
           final JCGLArrayBuffersType ga = g33.getArrayBuffers();
           ga.arrayBufferBind(up.getBuffer());
           ga.arrayBufferUpdate(up);
@@ -188,7 +188,7 @@ public final class JCGLAsyncResourceLoader implements
 
     final CompletableFuture<JCGLIndexBufferType> f_index_upload =
       f_index_get_update.thenCompose(
-        up -> this.g.evaluate(g33 -> {
+        up -> this.g.evaluate((g33, unused) -> {
           final JCGLIndexBuffersType gi = g33.getIndexBuffers();
           gi.indexBufferBind(up.getBuffer());
           gi.indexBufferUpdate(up);

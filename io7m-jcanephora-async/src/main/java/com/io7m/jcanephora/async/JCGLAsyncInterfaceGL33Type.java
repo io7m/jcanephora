@@ -20,27 +20,15 @@ import com.io7m.jcanephora.core.JCGLResourceUsableType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 
 /**
  * <p>An "asynchronous" wrapper around an {@link JCGLInterfaceGL33Type}
  * interface.</p>
  */
 
-public interface JCGLAsyncInterfaceGL33Type extends JCGLResourceUsableType
+public interface JCGLAsyncInterfaceGL33Type extends JCGLResourceUsableType,
+  JCGLAsyncInterfaceUsableGL33Type
 {
-  /**
-   * Evaluate a function on the context's dedicated OpenGL thread.
-   *
-   * @param c   The function that will be evaluated
-   * @param <T> The type of returned values
-   *
-   * @return The value returned by {@code c}
-   */
-
-  <T> CompletableFuture<T> evaluate(
-    Function<JCGLInterfaceGL33Type, T> c);
-
   /**
    * Schedule an orderly shutdown of the interface. This releases the underlying
    * OpenGL context but <i>does not</i> destroy it.

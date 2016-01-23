@@ -18,6 +18,7 @@ package com.io7m.jcanephora.tests.jogl;
 
 import com.io7m.jcanephora.async.JCGLAsyncInterfaceGL33;
 import com.io7m.jcanephora.async.JCGLAsyncInterfaceGL33Type;
+import com.io7m.jcanephora.async.JCGLAsyncInterfaceUsableGL33Type;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.tests.contracts.JCGLAsyncInterfaceGL33Contract;
 import org.junit.Assert;
@@ -33,7 +34,7 @@ public final class JOGLAsyncInterfaceGL33TestGL33 extends
   private final List<JCGLAsyncInterfaceGL33Type> async_gs = new ArrayList<>();
 
   @Override
-  protected JCGLAsyncInterfaceGL33Type getLoader(final String name)
+  protected JCGLAsyncInterfaceUsableGL33Type getLoader(final String name)
   {
     final JCGLContextType c =
       JOGLTestContexts.newGL33Context(name, 24, 8);

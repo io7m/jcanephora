@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import com.io7m.jcanephora.async.JCGLAsyncInterfaceGL33Type;
+import com.io7m.jcanephora.async.JCGLAsyncInterfaceUsableGL33Type;
 import com.io7m.junreachable.UnreachableCodeException;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -39,7 +39,7 @@ public abstract class JCGLAsyncInterfaceGL33Contract extends JCGLContract
 {
   @Rule public ExpectedException expected = ExpectedException.none();
 
-  protected abstract JCGLAsyncInterfaceGL33Type getLoader(String name);
+  protected abstract JCGLAsyncInterfaceUsableGL33Type getLoader(String name);
 
   @Test
   public final void testExecuteThreadDoesNotDie()
@@ -47,8 +47,8 @@ public abstract class JCGLAsyncInterfaceGL33Contract extends JCGLContract
   {
     final AtomicReference<Thread> thread_0 = new AtomicReference<>();
 
-    final JCGLAsyncInterfaceGL33Type ai = this.getLoader("main");
-    final CompletableFuture<Object> f0 = ai.evaluate(g33 -> {
+    final JCGLAsyncInterfaceUsableGL33Type ai = this.getLoader("main");
+    final CompletableFuture<Object> f0 = ai.evaluate((g33, unused) -> {
       final Thread thread = Thread.currentThread();
       thread_0.set(thread);
       throw new RuntimeException();
@@ -63,7 +63,7 @@ public abstract class JCGLAsyncInterfaceGL33Contract extends JCGLContract
     }
 
     final CompletableFuture<Thread> f1 =
-      ai.evaluate(g33 -> Thread.currentThread());
+      ai.evaluate((g33, unused) -> Thread.currentThread());
 
     final Thread thread_1 = f1.get(30L, TimeUnit.SECONDS);
     Assert.assertEquals(thread_0.get(), thread_1);
