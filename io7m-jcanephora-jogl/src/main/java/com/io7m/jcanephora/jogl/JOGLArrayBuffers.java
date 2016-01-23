@@ -25,6 +25,7 @@ import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
+import com.io7m.jcanephora.core.api.JCGLByteBufferProducerType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
@@ -66,6 +67,26 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
 
     this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     JOGLErrorChecking.checkErrors(this.gl);
+  }
+
+  @Override
+  public ByteBuffer arrayBufferRead(
+    final JCGLArrayBufferUsableType a,
+    final JCGLByteBufferProducerType f)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(a);
+    NullCheck.notNull(f);
+    this.checkArray(a);
+
+    if (a.equals(this.bind)) {
+      final long size = a.getRange().getInterval();
+      final ByteBuffer b = f.apply(size);
+      this.gl.glGetBufferSubData(GL.GL_ARRAY_BUFFER, 0L, size, b);
+      return b;
+    }
+
+    throw this.notBound(a);
   }
 
   @Override

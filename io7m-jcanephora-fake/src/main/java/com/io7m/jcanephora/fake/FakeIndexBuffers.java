@@ -27,6 +27,7 @@ import com.io7m.jcanephora.core.JCGLReferenceContainerType;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLUnsignedType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
+import com.io7m.jcanephora.core.api.JCGLByteBufferProducerType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
@@ -55,13 +56,69 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     this.context = c;
   }
 
+  private static JCGLExceptionBufferNotBound notBound(
+    final JCGLIndexBufferUsableType ii,
+    final Optional<JCGLIndexBufferUsableType> i_opt)
+  {
+    final StringBuilder sb = new StringBuilder(128);
+    sb.append("Buffer is not bound.");
+    sb.append(System.lineSeparator());
+    sb.append("  Required: ");
+    sb.append(ii);
+    sb.append(System.lineSeparator());
+    sb.append("  Actual: ");
+    sb.append(i_opt);
+    return new JCGLExceptionBufferNotBound(sb.toString());
+  }
+
   void setArrayObjects(
     final FakeArrayObjects ao)
   {
     this.array_objects = NullCheck.notNull(ao);
   }
 
-  @Override public JCGLIndexBufferType indexBufferAllocate(
+  @Override
+  public ByteBuffer indexBufferRead(
+    final JCGLIndexBufferUsableType i,
+    final JCGLByteBufferProducerType f)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(i);
+    this.checkIndexBuffer(i);
+
+    final JCGLArrayObjectUsableType ao =
+      this.array_objects.arrayObjectGetCurrentlyBound();
+
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    if (i_opt.isPresent()) {
+      final JCGLIndexBufferUsableType current_ib = i_opt.get();
+      if (i.equals(current_ib)) {
+        final UnsignedRangeInclusiveL r = i.getRange();
+        final long size = r.getInterval();
+        final ByteBuffer b = f.apply(size);
+        b.rewind();
+        final FakeIndexBuffer fa = (FakeIndexBuffer) i;
+        final ByteBuffer fa_data = fa.getData();
+
+        /**
+         * XXX: Clearly overflowing integers.
+         */
+
+        final long lo = r.getLower();
+        final long hi = r.getUpper();
+        for (long index = lo; Long.compareUnsigned(index, hi) <= 0; ++index) {
+          final int ii = (int) index;
+          b.put(ii, fa_data.get(ii));
+        }
+        return b;
+      }
+    }
+
+    throw FakeIndexBuffers.notBound(i, i_opt);
+  }
+
+  @Override
+  public JCGLIndexBufferType indexBufferAllocate(
     final long indices,
     final JCGLUnsignedType type,
     final JCGLUsageHint usage)
@@ -115,7 +172,7 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
         final UnsignedRangeInclusiveL r = i.getRange();
         final long lo = r.getLower();
         final long hi = r.getUpper();
-        for (long index = lo; Long.compareUnsigned(index, hi) < 0; ++index) {
+        for (long index = lo; Long.compareUnsigned(index, hi) <= 0; ++index) {
           final int i_index = (int) index;
           fa_data.put(i_index, (byte) 0);
         }
@@ -166,7 +223,8 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
       .getIndexBufferBound();
   }
 
-  @Override public void indexBufferBind(
+  @Override
+  public void indexBufferBind(
     final JCGLIndexBufferUsableType i)
     throws JCGLException, JCGLExceptionDeleted
   {
@@ -181,13 +239,15 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     return (FakeIndexBuffer) i;
   }
 
-  @Override public void indexBufferUnbind()
+  @Override
+  public void indexBufferUnbind()
     throws JCGLException
   {
     this.actualUnbind();
   }
 
-  @Override public void indexBufferDelete(
+  @Override
+  public void indexBufferDelete(
     final JCGLIndexBufferType ii)
     throws JCGLException, JCGLExceptionDeleted
   {
@@ -202,7 +262,8 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     }
   }
 
-  @Override public void indexBufferUpdate(
+  @Override
+  public void indexBufferUpdate(
     final JCGLBufferUpdateType<JCGLIndexBufferType> u)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
@@ -229,7 +290,7 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
 
         final long lo = r.getLower();
         final long hi = r.getUpper();
-        for (long index = lo; Long.compareUnsigned(index, hi) < 0; ++index) {
+        for (long index = lo; Long.compareUnsigned(index, hi) <= 0; ++index) {
           final int i_index = (int) index;
           fa_data.put(i_index, data.get(i_index));
         }
@@ -240,22 +301,8 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     throw FakeIndexBuffers.notBound(ii, i_opt);
   }
 
-  private static JCGLExceptionBufferNotBound notBound(
-    final JCGLIndexBufferUsableType ii,
-    final Optional<JCGLIndexBufferUsableType> i_opt)
-  {
-    final StringBuilder sb = new StringBuilder(128);
-    sb.append("Buffer is not bound.");
-    sb.append(System.lineSeparator());
-    sb.append("  Required: ");
-    sb.append(ii);
-    sb.append(System.lineSeparator());
-    sb.append("  Actual: ");
-    sb.append(i_opt);
-    return new JCGLExceptionBufferNotBound(sb.toString());
-  }
-
-  @Override public boolean indexBufferIsBound()
+  @Override
+  public boolean indexBufferIsBound()
   {
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();

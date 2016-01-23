@@ -33,7 +33,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 /**
@@ -119,24 +119,6 @@ public final class JCGLAsyncInterfaceGL33 implements JCGLAsyncInterfaceGL33Type
     return new JCGLExceptionDeleted("Async interface is shutting down");
   }
 
-  @Override
-  public <T> CompletableFuture<T> evaluate(
-    final Function<JCGLInterfaceGL33Type, T> c)
-  {
-    NullCheck.notNull(c);
-
-    if (!this.closing.get()) {
-      return CompletableFuture.supplyAsync(
-        () -> {
-          if (!this.closing.get()) {
-            return c.apply(this.g33);
-          }
-          throw JCGLAsyncInterfaceGL33.alreadyClosing();
-        }, this.exec);
-    }
-
-    throw JCGLAsyncInterfaceGL33.alreadyClosing();
-  }
 
   @Override
   public CompletableFuture<Void> shutDown()
@@ -165,5 +147,25 @@ public final class JCGLAsyncInterfaceGL33 implements JCGLAsyncInterfaceGL33Type
   public boolean isDeleted()
   {
     return this.closing.get();
+  }
+
+  @Override
+  public <A, B> CompletableFuture<B> evaluateWith(
+    final A c,
+    final BiFunction<JCGLInterfaceGL33Type, A, B> f)
+  {
+    NullCheck.notNull(f);
+
+    if (!this.closing.get()) {
+      return CompletableFuture.supplyAsync(
+        () -> {
+          if (!this.closing.get()) {
+            return f.apply(this.g33, c);
+          }
+          throw JCGLAsyncInterfaceGL33.alreadyClosing();
+        }, this.exec);
+    }
+
+    throw JCGLAsyncInterfaceGL33.alreadyClosing();
   }
 }

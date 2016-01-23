@@ -32,6 +32,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.nio.ByteBuffer;
 import java.util.Optional;
 
 /**
@@ -295,6 +296,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     Assert.assertEquals(Optional.of(a), ga.arrayBufferGetCurrentlyBound());
   }
 
+
   @Test
   public final void testArrayUpdateDeleted()
   {
@@ -389,5 +391,57 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     cb.contextMakeCurrent();
     gb.arrayBufferBind(a);
     gb.arrayBufferUpdate(u);
+  }
+
+  @Test
+  public final void testArrayRead()
+  {
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLBufferUpdateType<JCGLArrayBufferType> u =
+      JCGLBufferUpdates.newUpdateReplacingAll(a);
+    final ByteBuffer b = u.getData();
+    for (int index = 0; index < 100; ++index) {
+      b.put(index, (byte) 0x50);
+    }
+
+    ga.arrayBufferUpdate(u);
+
+    final ByteBuffer e =
+      ga.arrayBufferRead(a, size -> ByteBuffer.allocateDirect((int) size));
+
+    for (int index = 0; index < 100; ++index) {
+      final long bv = (long) b.get(index);
+      final long ev = (long) e.get(index);
+      Assert.assertEquals("index " + index, bv, ev);
+    }
+  }
+
+  @Test
+  public final void testArrayReadDeleted()
+  {
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    ga.arrayBufferDelete(a);
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    ga.arrayBufferRead(a, size -> ByteBuffer.allocateDirect((int) size));
+  }
+
+  @Test
+  public final void testArrayReadNotBound()
+  {
+    final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
+    final JCGLArrayBufferType a =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    ga.arrayBufferUnbind();
+
+    this.expected.expect(JCGLExceptionBufferNotBound.class);
+    ga.arrayBufferRead(a, size -> ByteBuffer.allocateDirect((int) size));
   }
 }

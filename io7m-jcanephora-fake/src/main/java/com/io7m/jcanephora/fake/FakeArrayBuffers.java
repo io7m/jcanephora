@@ -25,6 +25,7 @@ import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
+import com.io7m.jcanephora.core.api.JCGLByteBufferProducerType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
@@ -67,6 +68,40 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     if (this.bind != null) {
       this.bind = null;
     }
+  }
+
+  @Override
+  public ByteBuffer arrayBufferRead(
+    final JCGLArrayBufferUsableType a,
+    final JCGLByteBufferProducerType f)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(a);
+    this.checkArray(a);
+
+    if (a.equals(this.bind)) {
+      final UnsignedRangeInclusiveL r = a.getRange();
+      final long size = r.getInterval();
+      final ByteBuffer b = f.apply(size);
+      b.rewind();
+      final FakeArrayBuffer fa = (FakeArrayBuffer) a;
+      final ByteBuffer fa_data = fa.getData();
+
+      /**
+       * XXX: Clearly overflowing integers.
+       */
+
+      final long lo = r.getLower();
+      final long hi = r.getUpper();
+      for (long index = lo; Long.compareUnsigned(index, hi) <= 0; ++index) {
+        final int ii = (int) index;
+        final byte x = fa_data.get(ii);
+        b.put(ii, x);
+      }
+      return b;
+    }
+
+    throw this.notBound(a);
   }
 
   @Override
@@ -191,7 +226,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
 
       final long lo = r.getLower();
       final long hi = r.getUpper();
-      for (long index = lo; Long.compareUnsigned(index, hi) < 0; ++index) {
+      for (long index = lo; Long.compareUnsigned(index, hi) <= 0; ++index) {
         final int ii = (int) index;
         fa_data.put(ii, data.get(ii));
       }

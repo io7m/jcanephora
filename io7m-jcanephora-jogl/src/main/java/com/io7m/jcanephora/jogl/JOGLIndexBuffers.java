@@ -27,6 +27,7 @@ import com.io7m.jcanephora.core.JCGLReferenceContainerType;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLUnsignedType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
+import com.io7m.jcanephora.core.api.JCGLByteBufferProducerType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
@@ -89,6 +90,32 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     final JOGLArrayObjects ao)
   {
     this.array_objects = NullCheck.notNull(ao);
+  }
+
+  @Override
+  public ByteBuffer indexBufferRead(
+    final JCGLIndexBufferUsableType i,
+    final JCGLByteBufferProducerType f)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
+  {
+    NullCheck.notNull(i);
+    this.checkIndexBuffer(i);
+
+    final JCGLArrayObjectUsableType ao =
+      this.array_objects.arrayObjectGetCurrentlyBound();
+
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    if (i_opt.isPresent()) {
+      final JCGLIndexBufferUsableType current_ib = i_opt.get();
+      if (i.equals(current_ib)) {
+        final long size = i.getRange().getInterval();
+        final ByteBuffer b = f.apply(size);
+        this.gl.glGetBufferSubData(GL.GL_ELEMENT_ARRAY_BUFFER, 0L, size, b);
+        return b;
+      }
+    }
+
+    throw JOGLIndexBuffers.notBound(i, i_opt);
   }
 
   @Override
