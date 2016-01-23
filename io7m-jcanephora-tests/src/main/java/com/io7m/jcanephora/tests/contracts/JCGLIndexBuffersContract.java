@@ -38,6 +38,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.nio.ByteBuffer;
 import java.util.Optional;
 import java.util.Set;
 
@@ -303,5 +304,68 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     {
       return this.array_objects;
     }
+  }
+
+
+  @Test
+  public final void testIndexRead()
+  {
+    final Interfaces ii = this.getIndexBuffers("main");
+    final JCGLIndexBuffersType gi = ii.getIndexBuffers();
+    final JCGLIndexBufferType i =
+      gi.indexBufferAllocate(
+        100L,
+        JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+        JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLBufferUpdateType<JCGLIndexBufferType> u =
+      JCGLBufferUpdates.newUpdateReplacingAll(i);
+    final ByteBuffer b = u.getData();
+    for (int index = 0; index < 100; ++index) {
+      b.put(index, (byte) 0x50);
+    }
+
+    gi.indexBufferUpdate(u);
+
+    final ByteBuffer e =
+      gi.indexBufferRead(i, size -> ByteBuffer.allocateDirect((int) size));
+
+    for (int index = 0; index < 100; ++index) {
+      Assert.assertEquals((long) b.get(index), (long) e.get(index));
+    }
+  }
+
+  @Test
+  public final void testIndexReadDeleted()
+  {
+    final Interfaces ii = this.getIndexBuffers("main");
+    final JCGLIndexBuffersType gi = ii.getIndexBuffers();
+    final JCGLIndexBufferType i =
+      gi.indexBufferAllocate(
+        100L,
+        JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+        JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    gi.indexBufferDelete(i);
+
+    this.expected.expect(JCGLExceptionDeleted.class);
+    gi.indexBufferRead(i, size -> ByteBuffer.allocateDirect((int) size));
+  }
+
+  @Test
+  public final void testIndexReadNotBound()
+  {
+    final Interfaces ii = this.getIndexBuffers("main");
+    final JCGLIndexBuffersType gi = ii.getIndexBuffers();
+    final JCGLIndexBufferType i =
+      gi.indexBufferAllocate(
+        100L,
+        JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+        JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    gi.indexBufferUnbind();
+
+    this.expected.expect(JCGLExceptionBufferNotBound.class);
+    gi.indexBufferRead(i, size -> ByteBuffer.allocateDirect((int) size));
   }
 }

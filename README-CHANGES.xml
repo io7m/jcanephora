@@ -10,6 +10,11 @@
       <c:type-code-change/>
       <c:summary>Split up Async interface to avoid allocations and facilitate use as a functional interface.</c:summary>
     </c:item>
+    <c:item>
+      <c:date>2016-01-23</c:date>
+      <c:type-code-new/>
+      <c:summary>Add array and index buffer reading functions, for unit testing the contents of buffers.</c:summary>
+    </c:item>
   </c:release>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">

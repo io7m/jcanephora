@@ -25,6 +25,7 @@ import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLUnsignedType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 
+import java.nio.ByteBuffer;
 import java.util.Optional;
 
 /**
@@ -33,6 +34,24 @@ import java.util.Optional;
 
 public interface JCGLIndexBuffersType
 {
+  /**
+   * @param i The index buffer that will be read
+   * @param f A function used to allocate the buffer
+   *
+   * @return The contents of the index buffer
+   *
+   * @throws JCGLException               Iff an OpenGL error occurs
+   * @throws JCGLExceptionDeleted        If the index buffer has already been
+   *                                     deleted
+   * @throws JCGLExceptionBufferNotBound If the index buffer {@code i} is not
+   *                                     bound
+   */
+
+  ByteBuffer indexBufferRead(
+    JCGLIndexBufferUsableType i,
+    JCGLByteBufferProducerType f)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound;
+
   /**
    * <p>Allocate and bind an index buffer of {@code indices} values of type
    * {@code type}, informing the implementation that the buffer will be used in

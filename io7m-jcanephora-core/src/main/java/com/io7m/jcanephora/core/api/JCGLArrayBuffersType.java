@@ -24,6 +24,7 @@ import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 
+import java.nio.ByteBuffer;
 import java.util.Optional;
 
 /**
@@ -32,6 +33,24 @@ import java.util.Optional;
 
 public interface JCGLArrayBuffersType
 {
+  /**
+   * @param a The array buffer that will be read
+   * @param f A function used to allocate the buffer
+   *
+   * @return The contents of the array buffer
+   *
+   * @throws JCGLException               Iff an OpenGL error occurs
+   * @throws JCGLExceptionDeleted        If the array buffer has already been
+   *                                     deleted
+   * @throws JCGLExceptionBufferNotBound If the array buffer {@code a} is not
+   *                                     bound
+   */
+
+  ByteBuffer arrayBufferRead(
+    JCGLArrayBufferUsableType a,
+    JCGLByteBufferProducerType f)
+    throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound;
+
   /**
    * <p>Allocate and bind an array buffer of {@code size} bytes, informing the
    * implementation that the buffer will be used in the manner specified by

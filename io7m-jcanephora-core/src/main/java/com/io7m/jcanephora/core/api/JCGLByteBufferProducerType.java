@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 <code@io7m.com> http://io7m.com
+ * Copyright © 2016 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,27 +14,21 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.async;
+package com.io7m.jcanephora.core.api;
 
-import com.io7m.jcanephora.core.JCGLResourceUsableType;
-
-import java.util.concurrent.CompletableFuture;
+import java.nio.ByteBuffer;
 
 /**
- * <p>An "asynchronous" wrapper around an
- * {@link com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type}
- * interface.</p>
+ * A function that yields a {@link ByteBuffer} when evaluated.
  */
 
-public interface JCGLAsyncInterfaceGL33Type extends JCGLResourceUsableType,
-  JCGLAsyncInterfaceUsableGL33Type
+public interface JCGLByteBufferProducerType
 {
   /**
-   * Schedule an orderly shutdown of the interface. This releases the underlying
-   * OpenGL context but <i>does not</i> destroy it.
+   * @param x The size in bytes of the buffer
    *
-   * @return A future representing the shutdown in progress
+   * @return A {@code ByteBuffer} at least {@code x} bytes long
    */
 
-  CompletableFuture<Void> shutDown();
+  ByteBuffer apply(long x);
 }
