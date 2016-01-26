@@ -100,7 +100,12 @@ public interface JCGLArrayObjectBuilderType
    *                   floating point
    * @param divisor    The attribute divisor
    *
-   * @throws JCGLExceptionDeleted Iff the array buffer has already been deleted
+   * @throws JCGLExceptionDeleted                  Iff the array buffer has
+   *                                               already been deleted
+   * @throws JCGLExceptionAttributeAlreadyAssigned Iff strict checking is
+   *                                               enabled and the given
+   *                                               attribute has already been
+   *                                               assigned
    */
 
   void setAttributeFloatingPointWithDivisor(
@@ -112,7 +117,7 @@ public interface JCGLArrayObjectBuilderType
     long offset,
     boolean normalized,
     int divisor)
-    throws JCGLExceptionDeleted;
+    throws JCGLExceptionDeleted, JCGLExceptionAttributeAlreadyAssigned;
 
   /**
    * @param index      The attribute
@@ -125,7 +130,12 @@ public interface JCGLArrayObjectBuilderType
    *                   <i>normalized fixed-point</i> values when converting to
    *                   floating point
    *
-   * @throws JCGLExceptionDeleted Iff the array buffer has already been deleted
+   * @throws JCGLExceptionAttributeAlreadyAssigned Iff strict checking is
+   *                                               enabled and the given
+   *                                               attribute has already been
+   *                                               assigned
+   * @throws JCGLExceptionDeleted                  Iff the array buffer has
+   *                                               already been deleted
    * @see #setAttributeFloatingPointWithDivisor(int, JCGLArrayBufferUsableType,
    * int, JCGLScalarType, int, long, boolean, int)
    */
@@ -138,7 +148,7 @@ public interface JCGLArrayObjectBuilderType
     final int stride,
     final long offset,
     final boolean normalized)
-    throws JCGLExceptionDeleted
+    throws JCGLExceptionDeleted, JCGLExceptionAttributeAlreadyAssigned
   {
     this.setAttributeFloatingPointWithDivisor(
       index, a, elements, type, stride, offset, normalized, 0);
@@ -164,7 +174,12 @@ public interface JCGLArrayObjectBuilderType
    * @param stride   The number of bytes to step forward at each vertex
    * @param divisor  The attribute divisor
    *
-   * @throws JCGLExceptionDeleted Iff the array buffer has already been deleted
+   * @throws JCGLExceptionAttributeAlreadyAssigned Iff strict checking is
+   *                                               enabled and the given
+   *                                               attribute has already been
+   *                                               assigned
+   * @throws JCGLExceptionDeleted                  Iff the array buffer has
+   *                                               already been deleted
    * @see #setAttributeFloatingPoint(int, JCGLArrayBufferUsableType, int,
    * JCGLScalarType, int, long, boolean)
    */
@@ -177,7 +192,7 @@ public interface JCGLArrayObjectBuilderType
     int stride,
     long offset,
     int divisor)
-    throws JCGLExceptionDeleted;
+    throws JCGLExceptionDeleted, JCGLExceptionAttributeAlreadyAssigned;
 
   /**
    * @param index    The attribute
@@ -187,7 +202,12 @@ public interface JCGLArrayObjectBuilderType
    * @param offset   The offset from the start of the buffer
    * @param stride   The number of bytes to step forward at each vertex
    *
-   * @throws JCGLExceptionDeleted Iff the array buffer has already been deleted
+   * @throws JCGLExceptionAttributeAlreadyAssigned Iff strict checking is
+   *                                               enabled and the given
+   *                                               attribute has already been
+   *                                               assigned
+   * @throws JCGLExceptionDeleted                  Iff the array buffer has
+   *                                               already been deleted
    * @see #setAttributeIntegralWithDivisor(int, JCGLArrayBufferUsableType, int,
    * JCGLScalarIntegralType, int, long, int)
    */
@@ -199,11 +219,20 @@ public interface JCGLArrayObjectBuilderType
     final JCGLScalarIntegralType type,
     final int stride,
     final long offset)
-    throws JCGLExceptionDeleted
+    throws JCGLExceptionDeleted, JCGLExceptionAttributeAlreadyAssigned
   {
     this.setAttributeIntegralWithDivisor(
       index, a, elements, type, stride, offset, 0);
   }
+
+  /**
+   * Enable or disable strict checking for the builder. If strict checking is
+   * enabled, then attempts to assign already-assigned attributes will fail.
+   *
+   * @param enabled {@code true} iff strict checking should be enabled
+   */
+
+  void setStrictChecking(boolean enabled);
 
   /**
    * <p>Set the index buffer that will be bound by default.</p>
