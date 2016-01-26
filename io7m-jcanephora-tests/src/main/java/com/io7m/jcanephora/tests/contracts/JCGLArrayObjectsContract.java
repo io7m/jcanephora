@@ -23,6 +23,7 @@ import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeFloatingPointType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeIntegralType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
+import com.io7m.jcanephora.core.JCGLExceptionAttributeAlreadyAssigned;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionObjectNotDeletable;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
@@ -349,6 +350,28 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
   }
 
   @Test
+  public final void testFloatingArrayAlreadyAssigned()
+  {
+    final Interfaces i_main = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
+    final JCGLArrayObjectsType go_main = i_main.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga_main.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLArrayObjectBuilderType b = go_main.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setStrictChecking(true);
+    b.setAttributeFloatingPoint(
+      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+    this.expected.expect(JCGLExceptionAttributeAlreadyAssigned.class);
+
+    b.setAttributeFloatingPoint(
+      0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+  }
+
+  @Test
   public final void testFloatingArrayBadElements0()
   {
     final Interfaces i_main = this.getInterfaces("main");
@@ -483,6 +506,28 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeIntegral(
       -1, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
+  }
+
+  @Test
+  public final void testIntegralArrayAlreadyAssigned()
+  {
+    final Interfaces i_main = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga_main = i_main.getArrayBuffers();
+    final JCGLArrayObjectsType go_main = i_main.getArrayObjects();
+
+    final JCGLArrayBufferType a =
+      ga_main.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLArrayObjectBuilderType b = go_main.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setStrictChecking(true);
+    b.setAttributeIntegral(
+      0, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
+
+    this.expected.expect(JCGLExceptionAttributeAlreadyAssigned.class);
+    b.setAttributeIntegral(
+      0, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
   }
 
   @Test

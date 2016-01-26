@@ -25,6 +25,7 @@ import com.io7m.jcanephora.core.JCGLArrayVertexAttributeIntegralType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeMatcherType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionAttributeAlreadyAssigned;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionObjectNotDeletable;
@@ -452,6 +453,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
   {
     private final     JCGLArrayVertexAttributeType[] attribs;
     private @Nullable JCGLIndexBufferUsableType      index_buffer;
+    private boolean strict;
 
     Builder()
     {
@@ -509,6 +511,15 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       RangeCheck.checkIncludedInInteger(
         divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
+      if (this.strict) {
+        if (this.attribs[index] != null) {
+          throw new JCGLExceptionAttributeAlreadyAssigned(
+            String.format(
+              "Attribute %d has already been assigned",
+              Integer.valueOf(index)));
+        }
+      }
+
       this.clearRanges(index, index);
       final JOGLArrayVertexAttributeFloating attr =
         new JOGLArrayVertexAttributeFloating(
@@ -554,6 +565,15 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       RangeCheck.checkIncludedInInteger(
         divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
+      if (this.strict) {
+        if (this.attribs[index] != null) {
+          throw new JCGLExceptionAttributeAlreadyAssigned(
+            String.format(
+              "Attribute %d has already been assigned",
+              Integer.valueOf(index)));
+        }
+      }
+
       this.clearRanges(index, index);
       final JOGLArrayVertexAttributeIntegral attr =
         new JOGLArrayVertexAttributeIntegral(
@@ -567,6 +587,12 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
           divisor);
 
       this.attribs[index] = attr;
+    }
+
+    @Override
+    public void setStrictChecking(final boolean enabled)
+    {
+      this.strict = enabled;
     }
 
     @Override
