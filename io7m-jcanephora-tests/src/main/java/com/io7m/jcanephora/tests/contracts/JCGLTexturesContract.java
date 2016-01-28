@@ -178,6 +178,19 @@ public abstract class JCGLTexturesContract extends JCGLContract
         }
       }
 
+      t.texture2DBind(u, ta);
+
+      for (int k = 0; k < us.size(); ++k) {
+        final JCGLTextureUnitType ku = us.get(k);
+        if (k == index) {
+          Assert.assertTrue(t.textureUnitIsBound(ku));
+          Assert.assertTrue(t.texture2DIsBound(ku, ta));
+        } else {
+          Assert.assertFalse(t.textureUnitIsBound(ku));
+          Assert.assertFalse(t.texture2DIsBound(ku, ta));
+        }
+      }
+
       t.textureUnitUnbind(u);
 
       for (int k = 0; k < us.size(); ++k) {
@@ -888,6 +901,19 @@ public abstract class JCGLTexturesContract extends JCGLContract
         final JCGLTextureUnitType ku = us.get(k);
         Assert.assertFalse(t.textureUnitIsBound(ku));
         Assert.assertFalse(t.textureCubeIsBound(ku, ta));
+      }
+
+      t.textureCubeBind(u, ta);
+
+      for (int k = 0; k < us.size(); ++k) {
+        final JCGLTextureUnitType ku = us.get(k);
+        if (k == index) {
+          Assert.assertTrue(t.textureUnitIsBound(ku));
+          Assert.assertTrue(t.textureCubeIsBound(ku, ta));
+        } else {
+          Assert.assertFalse(t.textureUnitIsBound(ku));
+          Assert.assertFalse(t.textureCubeIsBound(ku, ta));
+        }
       }
 
       t.textureCubeBind(u, ta);

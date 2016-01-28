@@ -58,6 +58,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 final class JOGLTextures implements JCGLTexturesType
 {
@@ -268,11 +269,24 @@ final class JOGLTextures implements JCGLTexturesType
     final GLContext c = this.context.getContext();
     final JOGLTexture2D t = JOGLTextures.checkTexture2D(c, texture);
     final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    final int index = unit.unitGetIndex();
+    final int texture_id = texture.getGLName();
 
     this.checkFeedback(texture);
 
-    final int index = unit.unitGetIndex();
-    final int texture_id = texture.getGLName();
+    /**
+     * Do not re-bind already bound textures.
+     */
+
+    if (Objects.equals(u.getBind2D(), t)) {
+      if (JOGLTextures.LOG.isTraceEnabled()) {
+        JOGLTextures.LOG.trace(
+          "bind 2D [{}]: keep existing",
+          Integer.valueOf(index));
+      }
+      return;
+    }
+
     this.textureUnitUnbind(u);
 
     if (JOGLTextures.LOG.isTraceEnabled()) {
@@ -564,11 +578,24 @@ final class JOGLTextures implements JCGLTexturesType
     final GLContext c = this.context.getContext();
     final JOGLTextureCube t = JOGLTextures.checkTextureCube(c, texture);
     final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    final int index = unit.unitGetIndex();
+    final int texture_id = texture.getGLName();
 
     this.checkFeedback(texture);
 
-    final int index = unit.unitGetIndex();
-    final int texture_id = texture.getGLName();
+    /**
+     * Do not re-bind already bound textures.
+     */
+
+    if (Objects.equals(u.getBindCube(), t)) {
+      if (JOGLTextures.LOG.isTraceEnabled()) {
+        JOGLTextures.LOG.trace(
+          "bind cube [{}]: keep existing",
+          Integer.valueOf(index));
+      }
+      return;
+    }
+
     this.textureUnitUnbind(unit);
 
     if (JOGLTextures.LOG.isTraceEnabled()) {
