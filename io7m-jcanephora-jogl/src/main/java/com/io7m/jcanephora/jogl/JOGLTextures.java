@@ -75,6 +75,7 @@ final class JOGLTextures implements JCGLTexturesType
   private final int size;
   private final Int2ObjectMap<IntSet> texture_to_units;
   private       JOGLFramebuffers framebuffers;
+  private final boolean[] temp_unbind;
 
   JOGLTextures(final JOGLContext c)
     throws JCGLExceptionNonCompliant
@@ -85,6 +86,7 @@ final class JOGLTextures implements JCGLTexturesType
     this.units = JOGLTextures.makeUnits(c, this.g3, this.icache);
     this.size = JOGLTextures.makeSize(this.g3, this.icache);
     this.texture_to_units = new Int2ObjectOpenHashMap<>(this.units.size());
+    this.temp_unbind = new boolean[this.units.size()];
 
     /**
      * Configure baseline defaults.
@@ -351,11 +353,21 @@ final class JOGLTextures implements JCGLTexturesType
 
   private void unbindDeleted(final int texture_id)
   {
+    for (int index = 0; index < this.temp_unbind.length; ++index) {
+      this.temp_unbind[index] = false;
+    }
+
     final IntSet bound_units = this.texture_to_units.get(texture_id);
     if (bound_units != null) {
       final IntIterator iter = bound_units.iterator();
       while (iter.hasNext()) {
         final int index = iter.nextInt();
+        this.temp_unbind[index] = true;
+      }
+    }
+
+    for (int index = 0; index < this.temp_unbind.length; ++index) {
+      if (this.temp_unbind[index]) {
         this.textureUnitUnbind(this.units.get(index));
       }
     }

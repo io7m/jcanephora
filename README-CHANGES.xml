@@ -7,6 +7,12 @@
     <c:version>0.45.2</c:version>
     <c:item>
       <c:date>2016-01-28</c:date>
+      <c:type-code-fix/>
+      <c:ticket>34</c:ticket>
+      <c:summary>Fix illegal concurrent modification in texture unbinding code.</c:summary>
+    </c:item>
+    <c:item>
+      <c:date>2016-01-28</c:date>
       <c:type-code-new/>
       <c:summary>Optimization: If a texture is already bound to a unit, binding it again has no effect.</c:summary>
     </c:item>

@@ -66,6 +66,7 @@ final class FakeTextures implements JCGLTexturesType
   private final List<JCGLTextureUnitType> units;
   private final int                       size;
   private final Int2ObjectMap<IntSet>     texture_to_units;
+  private final boolean[]                 temp_unbind;
   private       FakeFramebuffers          framebuffers;
 
   FakeTextures(
@@ -75,6 +76,7 @@ final class FakeTextures implements JCGLTexturesType
     this.units = FakeTextures.makeUnits(c);
     this.size = FakeTextures.makeSize();
     this.texture_to_units = new Int2ObjectOpenHashMap<>(this.units.size());
+    this.temp_unbind = new boolean[this.units.size()];
   }
 
   private static List<JCGLTextureUnitType> makeUnits(
@@ -236,26 +238,30 @@ final class FakeTextures implements JCGLTexturesType
     }
   }
 
-  @Override public int textureGetMaximumSize()
+  @Override
+  public int textureGetMaximumSize()
     throws JCGLException
   {
     return this.size;
   }
 
-  @Override public List<JCGLTextureUnitType> textureGetUnits()
+  @Override
+  public List<JCGLTextureUnitType> textureGetUnits()
     throws JCGLException
   {
     return this.units;
   }
 
-  @Override public boolean textureUnitIsBound(final JCGLTextureUnitType unit)
+  @Override
+  public boolean textureUnitIsBound(final JCGLTextureUnitType unit)
     throws JCGLException
   {
     final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
     return u.getBind2D() != null || u.getBindCube() != null;
   }
 
-  @Override public void textureUnitUnbind(final JCGLTextureUnitType unit)
+  @Override
+  public void textureUnitUnbind(final JCGLTextureUnitType unit)
     throws JCGLException
   {
     final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
@@ -286,7 +292,8 @@ final class FakeTextures implements JCGLTexturesType
     }
   }
 
-  @Override public void texture2DBind(
+  @Override
+  public void texture2DBind(
     final JCGLTextureUnitType unit,
     final JCGLTexture2DUsableType texture)
     throws JCGLException
@@ -308,7 +315,8 @@ final class FakeTextures implements JCGLTexturesType
     u.setBind2D(t);
   }
 
-  @Override public void texture2DDelete(
+  @Override
+  public void texture2DDelete(
     final JCGLTexture2DType texture)
     throws JCGLException
   {
@@ -322,17 +330,28 @@ final class FakeTextures implements JCGLTexturesType
 
   private void unbindDeleted(final int texture_id)
   {
+    for (int index = 0; index < this.temp_unbind.length; ++index) {
+      this.temp_unbind[index] = false;
+    }
+
     final IntSet bound_units = this.texture_to_units.get(texture_id);
     if (bound_units != null) {
       final IntIterator iter = bound_units.iterator();
       while (iter.hasNext()) {
         final int index = iter.nextInt();
+        this.temp_unbind[index] = true;
+      }
+    }
+
+    for (int index = 0; index < this.temp_unbind.length; ++index) {
+      if (this.temp_unbind[index]) {
         this.textureUnitUnbind(this.units.get(index));
       }
     }
   }
 
-  @Override public boolean texture2DIsBound(
+  @Override
+  public boolean texture2DIsBound(
     final JCGLTextureUnitType unit,
     final JCGLTexture2DUsableType texture)
     throws JCGLException
@@ -352,7 +371,8 @@ final class FakeTextures implements JCGLTexturesType
     return this.texture_to_units.containsKey(texture_id);
   }
 
-  @Override public JCGLTexture2DType texture2DAllocate(
+  @Override
+  public JCGLTexture2DType texture2DAllocate(
     final JCGLTextureUnitType unit,
     final long width,
     final long height,
@@ -396,7 +416,8 @@ final class FakeTextures implements JCGLTexturesType
     return t;
   }
 
-  @Override public void texture2DUpdate(
+  @Override
+  public void texture2DUpdate(
     final JCGLTextureUnitType unit,
     final JCGLTexture2DUpdateType data)
     throws JCGLException
@@ -438,10 +459,11 @@ final class FakeTextures implements JCGLTexturesType
       source_data,
       target_data,
       target_width
-                          );
+    );
   }
 
-  @Override public ByteBuffer texture2DGetImage(
+  @Override
+  public ByteBuffer texture2DGetImage(
     final JCGLTextureUnitType unit,
     final JCGLTexture2DUsableType texture)
     throws JCGLException
@@ -459,7 +481,8 @@ final class FakeTextures implements JCGLTexturesType
     return data;
   }
 
-  @Override public void textureCubeBind(
+  @Override
+  public void textureCubeBind(
     final JCGLTextureUnitType unit,
     final JCGLTextureCubeUsableType texture)
     throws JCGLException
@@ -494,7 +517,8 @@ final class FakeTextures implements JCGLTexturesType
     }
   }
 
-  @Override public void textureCubeDelete(final JCGLTextureCubeType texture)
+  @Override
+  public void textureCubeDelete(final JCGLTextureCubeType texture)
     throws JCGLException
   {
     FakeTextures.checkTextureCube(this.context, texture);
@@ -505,7 +529,8 @@ final class FakeTextures implements JCGLTexturesType
     this.unbindDeleted(texture_id);
   }
 
-  @Override public boolean textureCubeIsBound(
+  @Override
+  public boolean textureCubeIsBound(
     final JCGLTextureUnitType unit,
     final JCGLTextureCubeUsableType texture)
     throws JCGLException
@@ -525,7 +550,8 @@ final class FakeTextures implements JCGLTexturesType
     return this.texture_to_units.containsKey(texture_id);
   }
 
-  @Override public void textureCubeUpdateLH(
+  @Override
+  public void textureCubeUpdateLH(
     final JCGLTextureUnitType unit,
     final JCGLCubeMapFaceLH face,
     final JCGLTextureCubeUpdateType data)
@@ -570,7 +596,8 @@ final class FakeTextures implements JCGLTexturesType
       target_width);
   }
 
-  @Override public JCGLTextureCubeType textureCubeAllocate(
+  @Override
+  public JCGLTextureCubeType textureCubeAllocate(
     final JCGLTextureUnitType unit,
     final long in_size,
     final JCGLTextureFormat format,
@@ -615,7 +642,8 @@ final class FakeTextures implements JCGLTexturesType
     return t;
   }
 
-  @Override public ByteBuffer textureCubeGetImageLH(
+  @Override
+  public ByteBuffer textureCubeGetImageLH(
     final JCGLTextureUnitType unit,
     final JCGLCubeMapFaceLH face,
     final JCGLTextureCubeUsableType texture)
