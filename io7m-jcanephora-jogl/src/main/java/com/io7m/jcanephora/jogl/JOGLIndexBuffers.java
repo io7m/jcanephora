@@ -290,9 +290,9 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (i.equals(current_ib)) {
-        if (JOGLIndexBuffers.LOG.isDebugEnabled()) {
+        if (JOGLIndexBuffers.LOG.isTraceEnabled()) {
           final int id = current_ib.getGLName();
-          JOGLIndexBuffers.LOG.debug("reallocated {}", Integer.valueOf(id));
+          JOGLIndexBuffers.LOG.trace("reallocated {}", Integer.valueOf(id));
         }
 
         final UnsignedRangeInclusiveL r = i.getRange();

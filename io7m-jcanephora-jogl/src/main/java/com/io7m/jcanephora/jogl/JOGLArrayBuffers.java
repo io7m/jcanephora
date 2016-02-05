@@ -134,8 +134,8 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
       final long size = r.getInterval();
       final JCGLUsageHint usage = a.getUsageHint();
 
-      if (JOGLArrayBuffers.LOG.isDebugEnabled()) {
-        JOGLArrayBuffers.LOG.debug(
+      if (JOGLArrayBuffers.LOG.isTraceEnabled()) {
+        JOGLArrayBuffers.LOG.trace(
           "reallocate ({} bytes, {})", Long.valueOf(size), usage);
       }
 
