@@ -197,8 +197,8 @@ public enum JCGLType
 
   TYPE_FLOAT_MATRIX_2x3("mat2x3");
 
-  private final String name;
   private static final Map<String, JCGLType> NAMES = JCGLType.getNames();
+  private final String name;
 
   JCGLType(
     final String in_name)
@@ -283,6 +283,101 @@ public enum JCGLType
       case TYPE_SAMPLER_3D:
       case TYPE_SAMPLER_CUBE:
         return true;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * @return {@code true} if the current type is a floating point type.
+   */
+
+  public boolean isFloatingPointType()
+  {
+    switch (this) {
+      case TYPE_BOOLEAN:
+      case TYPE_BOOLEAN_VECTOR_2:
+      case TYPE_BOOLEAN_VECTOR_3:
+      case TYPE_BOOLEAN_VECTOR_4:
+      case TYPE_INTEGER:
+      case TYPE_INTEGER_VECTOR_2:
+      case TYPE_INTEGER_VECTOR_3:
+      case TYPE_INTEGER_VECTOR_4:
+      case TYPE_SAMPLER_2D:
+      case TYPE_SAMPLER_3D:
+      case TYPE_SAMPLER_CUBE:
+      case TYPE_UNSIGNED_INTEGER:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_2:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_3:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_4:
+        return false;
+      case TYPE_FLOAT_MATRIX_4x3:
+      case TYPE_FLOAT_MATRIX_4x2:
+      case TYPE_FLOAT_MATRIX_3x4:
+      case TYPE_FLOAT_MATRIX_3x2:
+      case TYPE_FLOAT_MATRIX_2x4:
+      case TYPE_FLOAT_MATRIX_2x3:
+      case TYPE_FLOAT:
+      case TYPE_FLOAT_MATRIX_2:
+      case TYPE_FLOAT_MATRIX_3:
+      case TYPE_FLOAT_MATRIX_4:
+      case TYPE_FLOAT_VECTOR_2:
+      case TYPE_FLOAT_VECTOR_3:
+      case TYPE_FLOAT_VECTOR_4:
+        return true;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * @return The number of scalar elements that the current type implies
+   */
+
+  public int getElementCount()
+  {
+    switch (this) {
+      case TYPE_INTEGER:
+      case TYPE_BOOLEAN:
+      case TYPE_FLOAT:
+      case TYPE_SAMPLER_2D:
+      case TYPE_SAMPLER_3D:
+      case TYPE_SAMPLER_CUBE:
+      case TYPE_UNSIGNED_INTEGER:
+        return 1;
+      case TYPE_BOOLEAN_VECTOR_2:
+      case TYPE_FLOAT_VECTOR_2:
+      case TYPE_INTEGER_VECTOR_2:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_2:
+        return 2;
+      case TYPE_BOOLEAN_VECTOR_3:
+      case TYPE_FLOAT_VECTOR_3:
+      case TYPE_INTEGER_VECTOR_3:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_3:
+        return 3;
+      case TYPE_BOOLEAN_VECTOR_4:
+      case TYPE_FLOAT_VECTOR_4:
+      case TYPE_INTEGER_VECTOR_4:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_4:
+        return 4;
+      case TYPE_FLOAT_MATRIX_2:
+        return 2 * 2;
+      case TYPE_FLOAT_MATRIX_3:
+        return 3 * 3;
+      case TYPE_FLOAT_MATRIX_4:
+        return 4 * 4;
+      case TYPE_FLOAT_MATRIX_4x3:
+        return 4 * 3;
+      case TYPE_FLOAT_MATRIX_4x2:
+        return 4 * 2;
+      case TYPE_FLOAT_MATRIX_3x4:
+        return 3 * 4;
+      case TYPE_FLOAT_MATRIX_3x2:
+        return 3 * 2;
+      case TYPE_FLOAT_MATRIX_2x4:
+        return 2 * 4;
+      case TYPE_FLOAT_MATRIX_2x3:
+        return 2 * 3;
     }
 
     throw new UnreachableCodeException();

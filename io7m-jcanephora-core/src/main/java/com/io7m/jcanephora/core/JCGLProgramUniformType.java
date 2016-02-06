@@ -41,4 +41,10 @@ public interface JCGLProgramUniformType extends JCGLNamedType
 
   JCGLType getType();
 
+  /**
+   * @return The size of the uniform (the number of elements of the array, if
+   * the uniform is of an array type)
+   */
+
+  int getSize();
 }

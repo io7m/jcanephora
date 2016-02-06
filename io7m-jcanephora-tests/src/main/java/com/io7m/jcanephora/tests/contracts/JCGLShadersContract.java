@@ -48,6 +48,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -83,7 +86,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderUsableType p,
     final Map<String, JCGLProgramUniformType> u,
     final String f,
-    final JCGLType t)
+    final JCGLType t,
+    final int size)
   {
     Assert.assertTrue(u.containsKey(f));
     final JCGLProgramUniformType v = u.get(f);
@@ -91,6 +95,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(f, v.getName());
     Assert.assertEquals(t, v.getType());
     Assert.assertEquals(p, v.getProgram());
+    Assert.assertEquals(size, v.getSize());
   }
 
   protected abstract Interfaces getInterfaces(String name);
@@ -719,39 +724,39 @@ public abstract class JCGLShadersContract extends JCGLContract
     }
 
     JCGLShadersContract.checkUniform(
-      p, u, "f", JCGLType.TYPE_FLOAT);
+      p, u, "f", JCGLType.TYPE_FLOAT, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fv2", JCGLType.TYPE_FLOAT_VECTOR_2);
+      p, u, "fv2", JCGLType.TYPE_FLOAT_VECTOR_2, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fv3", JCGLType.TYPE_FLOAT_VECTOR_3);
+      p, u, "fv3", JCGLType.TYPE_FLOAT_VECTOR_3, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fv4", JCGLType.TYPE_FLOAT_VECTOR_4);
+      p, u, "fv4", JCGLType.TYPE_FLOAT_VECTOR_4, 1);
 
-    JCGLShadersContract.checkUniform(p, u, "i", JCGLType.TYPE_INTEGER);
+    JCGLShadersContract.checkUniform(p, u, "i", JCGLType.TYPE_INTEGER, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "iv2", JCGLType.TYPE_INTEGER_VECTOR_2);
+      p, u, "iv2", JCGLType.TYPE_INTEGER_VECTOR_2, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "iv3", JCGLType.TYPE_INTEGER_VECTOR_3);
+      p, u, "iv3", JCGLType.TYPE_INTEGER_VECTOR_3, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "iv4", JCGLType.TYPE_INTEGER_VECTOR_4);
-
-    JCGLShadersContract.checkUniform(
-      p, u, "u", JCGLType.TYPE_UNSIGNED_INTEGER);
-    JCGLShadersContract.checkUniform(
-      p, u, "uv2", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2);
-    JCGLShadersContract.checkUniform(
-      p, u, "uv3", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3);
-    JCGLShadersContract.checkUniform(
-      p, u, "uv4", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4);
+      p, u, "iv4", JCGLType.TYPE_INTEGER_VECTOR_4, 1);
 
     JCGLShadersContract.checkUniform(
-      p, u, "b", JCGLType.TYPE_BOOLEAN);
+      p, u, "u", JCGLType.TYPE_UNSIGNED_INTEGER, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "bv2", JCGLType.TYPE_BOOLEAN_VECTOR_2);
+      p, u, "uv2", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "bv3", JCGLType.TYPE_BOOLEAN_VECTOR_3);
+      p, u, "uv3", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "bv4", JCGLType.TYPE_BOOLEAN_VECTOR_4);
+      p, u, "uv4", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, 1);
+
+    JCGLShadersContract.checkUniform(
+      p, u, "b", JCGLType.TYPE_BOOLEAN, 1);
+    JCGLShadersContract.checkUniform(
+      p, u, "bv2", JCGLType.TYPE_BOOLEAN_VECTOR_2, 1);
+    JCGLShadersContract.checkUniform(
+      p, u, "bv3", JCGLType.TYPE_BOOLEAN_VECTOR_3, 1);
+    JCGLShadersContract.checkUniform(
+      p, u, "bv4", JCGLType.TYPE_BOOLEAN_VECTOR_4, 1);
   }
 
   @Test public final void testProgramLinkValidUniforms1()
@@ -781,31 +786,31 @@ public abstract class JCGLShadersContract extends JCGLContract
     }
 
     JCGLShadersContract.checkUniform(
-      p, u, "fm4", JCGLType.TYPE_FLOAT_MATRIX_4);
+      p, u, "fm4", JCGLType.TYPE_FLOAT_MATRIX_4, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fm4x4", JCGLType.TYPE_FLOAT_MATRIX_4);
+      p, u, "fm4x4", JCGLType.TYPE_FLOAT_MATRIX_4, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fm4x3", JCGLType.TYPE_FLOAT_MATRIX_4x3);
+      p, u, "fm4x3", JCGLType.TYPE_FLOAT_MATRIX_4x3, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fm4x2", JCGLType.TYPE_FLOAT_MATRIX_4x2);
+      p, u, "fm4x2", JCGLType.TYPE_FLOAT_MATRIX_4x2, 1);
 
     JCGLShadersContract.checkUniform(
-      p, u, "fm3", JCGLType.TYPE_FLOAT_MATRIX_3);
+      p, u, "fm3", JCGLType.TYPE_FLOAT_MATRIX_3, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fm3x4", JCGLType.TYPE_FLOAT_MATRIX_3x4);
+      p, u, "fm3x4", JCGLType.TYPE_FLOAT_MATRIX_3x4, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fm3x3", JCGLType.TYPE_FLOAT_MATRIX_3);
+      p, u, "fm3x3", JCGLType.TYPE_FLOAT_MATRIX_3, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fm3x2", JCGLType.TYPE_FLOAT_MATRIX_3x2);
+      p, u, "fm3x2", JCGLType.TYPE_FLOAT_MATRIX_3x2, 1);
 
     JCGLShadersContract.checkUniform(
-      p, u, "fm2", JCGLType.TYPE_FLOAT_MATRIX_2);
+      p, u, "fm2", JCGLType.TYPE_FLOAT_MATRIX_2, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fm2x4", JCGLType.TYPE_FLOAT_MATRIX_2x4);
+      p, u, "fm2x4", JCGLType.TYPE_FLOAT_MATRIX_2x4, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fm2x3", JCGLType.TYPE_FLOAT_MATRIX_2x3);
+      p, u, "fm2x3", JCGLType.TYPE_FLOAT_MATRIX_2x3, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "fm2x2", JCGLType.TYPE_FLOAT_MATRIX_2);
+      p, u, "fm2x2", JCGLType.TYPE_FLOAT_MATRIX_2, 1);
   }
 
   @Test public final void testProgramLinkValidUniforms2()
@@ -835,11 +840,41 @@ public abstract class JCGLShadersContract extends JCGLContract
     }
 
     JCGLShadersContract.checkUniform(
-      p, u, "s2", JCGLType.TYPE_SAMPLER_2D);
+      p, u, "s2", JCGLType.TYPE_SAMPLER_2D, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "s3", JCGLType.TYPE_SAMPLER_3D);
+      p, u, "s3", JCGLType.TYPE_SAMPLER_3D, 1);
     JCGLShadersContract.checkUniform(
-      p, u, "sc", JCGLType.TYPE_SAMPLER_CUBE);
+      p, u, "sc", JCGLType.TYPE_SAMPLER_CUBE, 1);
+  }
+
+  @Test public final void testProgramLinkValidUniforms3()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("validarray0", this.getShaderLines("validarray0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("validarray0", v, Optional.empty(), f);
+
+    Assert.assertEquals("validarray0", p.getName());
+    Assert.assertFalse(p.isDeleted());
+    Assert.assertTrue(p.getGLName() > 0);
+
+    final Map<String, JCGLProgramUniformType> u = p.getUniforms();
+    Assert.assertEquals(1L, (long) u.size());
+
+    final Set<Integer> locations = new HashSet<>(u.values().size());
+    for (final JCGLProgramUniformType uni : u.values()) {
+      final Integer id = Integer.valueOf(uni.getGLName());
+      Assert.assertTrue(id.intValue() >= 0);
+      Assert.assertFalse(locations.contains(id));
+      locations.add(id);
+    }
+
+    JCGLShadersContract.checkUniform(
+      p, u, "big_array[0]", JCGLType.TYPE_FLOAT_VECTOR_4, 16);
   }
 
   @Test public final void testProgramLinkDeletedVertex()
@@ -2231,5 +2266,49 @@ public abstract class JCGLShadersContract extends JCGLContract
     {
       return this.textures;
     }
+  }
+
+  @Test public final void testProgramUniformPutVectorfWrongType()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final FloatBuffer buf = ByteBuffer.allocateDirect(4)
+      .order(ByteOrder.nativeOrder())
+      .asFloatBuffer();
+
+    s.shaderActivateProgram(p);
+
+    final JCGLProgramUniformType u = p.getUniforms().get("u");
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVectorf(u, buf);
+  }
+
+  @Test public final void testProgramUniformPutVectorfTooFew()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final FloatBuffer buf = ByteBuffer.allocateDirect(4)
+      .order(ByteOrder.nativeOrder())
+      .asFloatBuffer();
+
+    s.shaderActivateProgram(p);
+
+    final JCGLProgramUniformType u = p.getUniforms().get("fv4");
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVectorf(u, buf);
   }
 }

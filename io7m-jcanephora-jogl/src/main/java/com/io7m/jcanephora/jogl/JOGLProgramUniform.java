@@ -31,13 +31,15 @@ final class JOGLProgramUniform extends JOGLObjectPseudoShared
   private final String                      name;
   private final JCGLProgramShaderUsableType program;
   private final JCGLType                    type;
+  private final int                         size;
 
   JOGLProgramUniform(
     final GLContext in_context,
     final JCGLProgramShaderUsableType in_program,
     final int in_location,
     final String in_name,
-    final JCGLType in_type)
+    final JCGLType in_type,
+    final int in_size)
   {
     super(in_context);
 
@@ -49,9 +51,12 @@ final class JOGLProgramUniform extends JOGLObjectPseudoShared
       "Valid uniform locations");
     this.type = NullCheck.notNull(in_type, "Uniform type");
     this.name = NullCheck.notNull(in_name, "Uniform name");
+    this.size = RangeCheck.checkIncludedInInteger(
+      in_size, "Size", Ranges.POSITIVE_INTEGER, "Valid sizes");
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[ProgramUniform ");
     sb.append(this.location);
@@ -63,22 +68,32 @@ final class JOGLProgramUniform extends JOGLObjectPseudoShared
     return sb.toString();
   }
 
-  @Override public String getName()
+  @Override
+  public String getName()
   {
     return this.name;
   }
 
-  @Override public JCGLProgramShaderUsableType getProgram()
+  @Override
+  public JCGLProgramShaderUsableType getProgram()
   {
     return this.program;
   }
 
-  @Override public JCGLType getType()
+  @Override
+  public JCGLType getType()
   {
     return this.type;
   }
 
-  @Override public int getGLName()
+  @Override
+  public int getSize()
+  {
+    return this.size;
+  }
+
+  @Override
+  public int getGLName()
   {
     return this.location;
   }

@@ -47,6 +47,7 @@ import com.io7m.jtensors.VectorReadable4IType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -355,6 +356,36 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER);
   }
 
+  @Override
+  public void shaderUniformPutVectorf(
+    final JCGLProgramUniformType u,
+    final FloatBuffer value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActive(u);
+    this.checkIsFloatingPoint(u);
+
+    final int available = value.capacity() / 4;
+    final JCGLType type = u.getType();
+    final int required = type.getElementCount();
+    if (available < required) {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Uniform data error.");
+      sb.append(System.lineSeparator());
+      sb.append("Expected: A buffer containing at least ");
+      sb.append(required);
+      sb.append(" floating point values");
+      sb.append(System.lineSeparator());
+      sb.append("Actual: A buffer containing ");
+      sb.append(available);
+      sb.append(" floating point values");
+      throw new JCGLExceptionProgramTypeError(sb.toString());
+    }
+  }
+
   @Override public void shaderUniformPutVector2f(
     final JCGLProgramUniformType u,
     final VectorReadable2FType value)
@@ -498,20 +529,48 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_SAMPLER_CUBE);
   }
 
+  private void checkIsFloatingPoint(final JCGLProgramUniformType u)
+  {
+    if (this.check_type) {
+      final JCGLType type_uniform = u.getType();
+      if (!type_uniform.isFloatingPointType()) {
+        final StringBuilder sb = new StringBuilder(128);
+        sb.append("Uniform type error.");
+        sb.append(System.lineSeparator());
+        sb.append("Expected: A floating point type");
+        sb.append(System.lineSeparator());
+        sb.append("Actual: ");
+        sb.append(type_uniform);
+        throw new JCGLExceptionProgramTypeError(sb.toString());
+      }
+    }
+  }
+
   private void checkActiveAndType(
     final JCGLProgramUniformType u,
     final JCGLType t)
+  {
+    this.checkActive(u);
+    this.checkType(u, t);
+  }
+
+  private void checkType(
+    final JCGLProgramUniformType u,
+    final JCGLType t)
+  {
+    if (this.check_type) {
+      if (!u.getType().equals(t)) {
+        throw FakeShaders.errorWrongType(u, t);
+      }
+    }
+  }
+
+  private void checkActive(final JCGLProgramUniformType u)
   {
     final JCGLProgramShaderUsableType u_program = u.getProgram();
     if (this.check_active) {
       if (!u_program.equals(this.current)) {
         throw this.errorNotActive(u_program);
-      }
-    }
-
-    if (this.check_type) {
-      if (!u.getType().equals(t)) {
-        throw FakeShaders.errorWrongType(u, t);
       }
     }
   }

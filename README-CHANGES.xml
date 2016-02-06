@@ -16,6 +16,12 @@
       <c:type-code-new/>
       <c:summary>Optimization: If a texture is already bound to a unit, binding it again has no effect.</c:summary>
     </c:item>
+    <c:item>
+      <c:date>2016-02-06</c:date>
+      <c:type-code-new/>
+      <c:ticket>37</c:ticket>
+      <c:summary>Add method for setting floating-point array-typed GLSL uniforms.</c:summary>
+    </c:item>
   </c:release>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
