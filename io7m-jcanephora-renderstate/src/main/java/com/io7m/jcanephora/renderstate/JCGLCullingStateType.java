@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 <code@io7m.com> http://io7m.com
+ * Copyright © 2016 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,32 +14,41 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.core;
+package com.io7m.jcanephora.renderstate;
 
+import com.io7m.jcanephora.core.JCGLFaceSelection;
+import com.io7m.jcanephora.core.JCGLFaceWindingOrder;
+import com.io7m.jcanephora.core.JCGLImmutableStyleType;
 import org.immutables.value.Value;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 /**
- * Style settings for generated immutable types.
+ * Face culling state.
  */
 
-@Target({ElementType.PACKAGE, ElementType.TYPE})
-@Retention(RetentionPolicy.CLASS)
-@Value.Style(
-  get = {"is*", "get*"},
-  init = "set*",
-  typeAbstract = {"Abstract*", "*Type"},
-  typeImmutable = "*",
-  typeModifiable = "*Mutable",
-  builder = "builder",
-  build = "build",
-  visibility = Value.Style.ImplementationVisibility.PUBLIC,
-  defaults = @Value.Immutable(copy = false))
-public @interface JCGLImmutableStyleType
+@JCGLImmutableStyleType
+@Value.Immutable
+@Value.Modifiable
+public interface JCGLCullingStateType
 {
+  /**
+   * @return The faces that will be culled
+   */
 
+  @Value.Parameter
+  @Value.Default
+  default JCGLFaceSelection getFaceSelection()
+  {
+    return JCGLFaceSelection.FACE_BACK;
+  }
+
+  /**
+   * @return The face winding order
+   */
+
+  @Value.Parameter
+  @Value.Default
+  default JCGLFaceWindingOrder getFaceWindingOrder()
+  {
+    return JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
+  }
 }

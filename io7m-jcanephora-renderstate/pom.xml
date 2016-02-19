@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-  xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -10,11 +10,11 @@
     <artifactId>io7m-jcanephora</artifactId>
     <version>0.45.2-SNAPSHOT</version>
   </parent>
-  <artifactId>io7m-jcanephora-tests</artifactId>
+  <artifactId>io7m-jcanephora-renderstate</artifactId>
 
   <packaging>jar</packaging>
-  <name>io7m-jcanephora-tests</name>
-  <description>OpenGL plus static safety (Unit tests and contracts)</description>
+  <name>io7m-jcanephora-renderstate</name>
+  <description>OpenGL plus static safety (Render state abstraction)</description>
   <url>http://io7m.github.io/jcanephora/</url>
 
   <scm>
@@ -26,49 +26,36 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>io7m-jcanephora-async</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>io7m-jcanephora-renderstate</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>io7m-jcanephora-core</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>io7m-jcanephora-texture-loader-core</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>io7m-jcanephora-texture-loader-awt</artifactId>
-      <version>${project.version}</version>
-    </dependency>
 
+    <dependency>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
-
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.valid4j</groupId>
+      <artifactId>valid4j</artifactId>
     </dependency>
-
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <scope>test</scope>
+      <groupId>it.unimi.dsi</groupId>
+      <artifactId>fastutil</artifactId>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
+      <!-- Check style -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
 
