@@ -95,7 +95,7 @@ public interface JCGLRenderStateType
   @Value.Default
   default JCGLDepthStateType getDepthState()
   {
-    return JCGLDepthStateMutable.create(false, Optional.empty(), false, false);
+    return JCGLDepthStateMutable.create();
   }
 
   /**

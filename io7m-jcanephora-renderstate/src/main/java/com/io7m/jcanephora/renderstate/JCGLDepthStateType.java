@@ -36,14 +36,15 @@ public interface JCGLDepthStateType
    * to enable depth writing/testing/clamping will fail with an exception if the
    * currently bound framebuffer does not have a depth buffer.
    *
-   * @return {@code true} iff strict mode is enabled
+   * @return {@link JCGLDepthStrict#DEPTH_STRICT_ENABLED} iff strict mode is
+   * enabled
    */
 
   @Value.Parameter
   @Value.Default
-  default boolean getDepthStrict()
+  default JCGLDepthStrict getDepthStrict()
   {
-    return false;
+    return JCGLDepthStrict.DEPTH_STRICT_DISABLED;
   }
 
   /**
@@ -58,24 +59,26 @@ public interface JCGLDepthStateType
   }
 
   /**
-   * @return {@code true} if depth writing is enabled
+   * @return {@link JCGLDepthWriting#DEPTH_WRITE_ENABLED} if depth writing is
+   * enabled
    */
 
   @Value.Parameter
   @Value.Default
-  default boolean getDepthWrite()
+  default JCGLDepthWriting getDepthWrite()
   {
-    return false;
+    return JCGLDepthWriting.DEPTH_WRITE_DISABLED;
   }
 
   /**
-   * @return {@code true} if depth clamping is enabled
+   * @return {@link JCGLDepthClamping#DEPTH_CLAMP_ENABLED} if depth clamping is
+   * enabled
    */
 
   @Value.Parameter
   @Value.Default
-  default boolean getDepthClamp()
+  default JCGLDepthClamping getDepthClamp()
   {
-    return false;
+    return JCGLDepthClamping.DEPTH_CLAMP_DISABLED;
   }
 }

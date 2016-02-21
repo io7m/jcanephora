@@ -36,7 +36,10 @@ import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jcanephora.core.api.JCGLStencilBuffersType;
 import com.io7m.jcanephora.renderstate.JCGLBlendStateMutable;
 import com.io7m.jcanephora.renderstate.JCGLCullingStateMutable;
+import com.io7m.jcanephora.renderstate.JCGLDepthClamping;
 import com.io7m.jcanephora.renderstate.JCGLDepthStateMutable;
+import com.io7m.jcanephora.renderstate.JCGLDepthStrict;
+import com.io7m.jcanephora.renderstate.JCGLDepthWriting;
 import com.io7m.jcanephora.renderstate.JCGLRenderStateMutable;
 import com.io7m.jcanephora.renderstate.JCGLRenderStates;
 import com.io7m.jcanephora.renderstate.JCGLStencilStateMutable;
@@ -283,10 +286,10 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
     final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
 
     final JCGLDepthStateMutable ds = JCGLDepthStateMutable.create();
-    ds.setDepthStrict(true);
-    ds.setDepthClamp(true);
+    ds.setDepthStrict(JCGLDepthStrict.DEPTH_STRICT_ENABLED);
+    ds.setDepthClamp(JCGLDepthClamping.DEPTH_CLAMP_ENABLED);
     ds.setDepthTest(Optional.of(JCGLDepthFunction.DEPTH_EQUAL));
-    ds.setDepthWrite(true);
+    ds.setDepthWrite(JCGLDepthWriting.DEPTH_WRITE_ENABLED);
     r.setDepthState(ds);
 
     JCGLRenderStates.activate(g, r);
@@ -304,10 +307,10 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
     final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
 
     final JCGLDepthStateMutable ds = JCGLDepthStateMutable.create();
-    ds.setDepthStrict(false);
-    ds.setDepthClamp(true);
+    ds.setDepthStrict(JCGLDepthStrict.DEPTH_STRICT_DISABLED);
+    ds.setDepthClamp(JCGLDepthClamping.DEPTH_CLAMP_ENABLED);
     ds.setDepthTest(Optional.of(JCGLDepthFunction.DEPTH_EQUAL));
-    ds.setDepthWrite(true);
+    ds.setDepthWrite(JCGLDepthWriting.DEPTH_WRITE_ENABLED);
     r.setDepthState(ds);
 
     JCGLRenderStates.activate(g, r);
@@ -325,10 +328,10 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
     final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
 
     final JCGLDepthStateMutable ds = JCGLDepthStateMutable.create();
-    ds.setDepthStrict(true);
-    ds.setDepthClamp(false);
+    ds.setDepthStrict(JCGLDepthStrict.DEPTH_STRICT_ENABLED);
+    ds.setDepthClamp(JCGLDepthClamping.DEPTH_CLAMP_DISABLED);
     ds.setDepthTest(Optional.of(JCGLDepthFunction.DEPTH_EQUAL));
-    ds.setDepthWrite(false);
+    ds.setDepthWrite(JCGLDepthWriting.DEPTH_WRITE_DISABLED);
     r.setDepthState(ds);
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -342,10 +345,10 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
     final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
 
     final JCGLDepthStateMutable ds = JCGLDepthStateMutable.create();
-    ds.setDepthStrict(true);
-    ds.setDepthClamp(false);
+    ds.setDepthStrict(JCGLDepthStrict.DEPTH_STRICT_ENABLED);
+    ds.setDepthClamp(JCGLDepthClamping.DEPTH_CLAMP_DISABLED);
     ds.setDepthTest(Optional.empty());
-    ds.setDepthWrite(true);
+    ds.setDepthWrite(JCGLDepthWriting.DEPTH_WRITE_ENABLED);
     r.setDepthState(ds);
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -359,10 +362,10 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
     final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
 
     final JCGLDepthStateMutable ds = JCGLDepthStateMutable.create();
-    ds.setDepthStrict(true);
-    ds.setDepthClamp(false);
+    ds.setDepthStrict(JCGLDepthStrict.DEPTH_STRICT_ENABLED);
+    ds.setDepthClamp(JCGLDepthClamping.DEPTH_CLAMP_DISABLED);
     ds.setDepthTest(Optional.empty());
-    ds.setDepthWrite(false);
+    ds.setDepthWrite(JCGLDepthWriting.DEPTH_WRITE_DISABLED);
     r.setDepthState(ds);
 
     JCGLRenderStates.activate(g, r);
@@ -375,10 +378,10 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
     final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
 
     final JCGLDepthStateMutable ds = JCGLDepthStateMutable.create();
-    ds.setDepthStrict(false);
-    ds.setDepthClamp(false);
+    ds.setDepthStrict(JCGLDepthStrict.DEPTH_STRICT_DISABLED);
+    ds.setDepthClamp(JCGLDepthClamping.DEPTH_CLAMP_DISABLED);
     ds.setDepthTest(Optional.of(JCGLDepthFunction.DEPTH_EQUAL));
-    ds.setDepthWrite(false);
+    ds.setDepthWrite(JCGLDepthWriting.DEPTH_WRITE_DISABLED);
     r.setDepthState(ds);
 
     JCGLRenderStates.activate(g, r);
@@ -391,10 +394,10 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
     final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
 
     final JCGLDepthStateMutable ds = JCGLDepthStateMutable.create();
-    ds.setDepthStrict(false);
-    ds.setDepthClamp(false);
+    ds.setDepthStrict(JCGLDepthStrict.DEPTH_STRICT_DISABLED);
+    ds.setDepthClamp(JCGLDepthClamping.DEPTH_CLAMP_DISABLED);
     ds.setDepthTest(Optional.empty());
-    ds.setDepthWrite(true);
+    ds.setDepthWrite(JCGLDepthWriting.DEPTH_WRITE_ENABLED);
     r.setDepthState(ds);
 
     JCGLRenderStates.activate(g, r);
@@ -407,10 +410,10 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
     final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
 
     final JCGLDepthStateMutable ds = JCGLDepthStateMutable.create();
-    ds.setDepthStrict(false);
-    ds.setDepthClamp(false);
+    ds.setDepthStrict(JCGLDepthStrict.DEPTH_STRICT_DISABLED);
+    ds.setDepthClamp(JCGLDepthClamping.DEPTH_CLAMP_DISABLED);
     ds.setDepthTest(Optional.empty());
-    ds.setDepthWrite(false);
+    ds.setDepthWrite(JCGLDepthWriting.DEPTH_WRITE_DISABLED);
     r.setDepthState(ds);
 
     JCGLRenderStates.activate(g, r);

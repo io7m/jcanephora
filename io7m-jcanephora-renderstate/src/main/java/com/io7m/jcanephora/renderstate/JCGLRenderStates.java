@@ -73,6 +73,7 @@ public final class JCGLRenderStates
     final JCGLStencilStateType s = r.getStencilState();
     if (s.getStencilStrict()) {
       if (s.getStencilEnabled()) {
+        g_s.stencilBufferEnable();
         JCGLRenderStates.configureStencilActual(g_s, s);
       } else {
         g_s.stencilBufferDisable();
@@ -188,50 +189,72 @@ public final class JCGLRenderStates
     final JCGLDepthClampingType g_dc = g.getDepthBuffers();
     final JCGLDepthStateType ds = r.getDepthState();
 
-    if (ds.getDepthStrict()) {
+    switch (ds.getDepthStrict()) {
+      case DEPTH_STRICT_ENABLED: {
 
-      /**
-       * If there is no depth buffer, then only attempting to enable depth
-       * writing, testing, or clamping is an error. Disabling it is not an
-       * error, because it could never be enabled.
-       */
+        /**
+         * If there is no depth buffer, then only attempting to enable depth
+         * writing, testing, or clamping is an error. Disabling it is not an
+         * error, because it could never be enabled.
+         */
 
-      if (ds.getDepthWrite()) {
-        g_d.depthBufferWriteEnable();
-      }
-
-      final Optional<JCGLDepthFunction> dt_opt = ds.getDepthTest();
-      if (dt_opt.isPresent()) {
-        final JCGLDepthFunction dt = dt_opt.get();
-        g_d.depthBufferTestEnable(dt);
-      }
-
-      if (ds.getDepthClamp()) {
-        g_dc.depthClampingEnable();
-      }
-
-    } else {
-      if (g_d.depthBufferGetBits() > 0) {
-        if (ds.getDepthWrite()) {
-          g_d.depthBufferWriteEnable();
-        } else {
-          g_d.depthBufferWriteDisable();
+        switch (ds.getDepthWrite()) {
+          case DEPTH_WRITE_ENABLED:
+            g_d.depthBufferWriteEnable();
+            break;
+          case DEPTH_WRITE_DISABLED:
+            break;
         }
 
         final Optional<JCGLDepthFunction> dt_opt = ds.getDepthTest();
         if (dt_opt.isPresent()) {
           final JCGLDepthFunction dt = dt_opt.get();
           g_d.depthBufferTestEnable(dt);
-        } else {
-          g_d.depthBufferTestDisable();
         }
 
-        if (ds.getDepthClamp()) {
-          g_dc.depthClampingEnable();
-        } else {
-          g_dc.depthClampingDisable();
+        switch (ds.getDepthClamp()) {
+          case DEPTH_CLAMP_ENABLED:
+            g_dc.depthClampingEnable();
+            break;
+          case DEPTH_CLAMP_DISABLED:
+            break;
         }
+
+        break;
+      }
+      case DEPTH_STRICT_DISABLED: {
+
+        if (g_d.depthBufferGetBits() > 0) {
+
+          switch (ds.getDepthWrite()) {
+            case DEPTH_WRITE_ENABLED:
+              g_d.depthBufferWriteEnable();
+              break;
+            case DEPTH_WRITE_DISABLED:
+              g_d.depthBufferWriteDisable();
+              break;
+          }
+
+          final Optional<JCGLDepthFunction> dt_opt = ds.getDepthTest();
+          if (dt_opt.isPresent()) {
+            final JCGLDepthFunction dt = dt_opt.get();
+            g_d.depthBufferTestEnable(dt);
+          } else {
+            g_d.depthBufferTestDisable();
+          }
+
+          switch (ds.getDepthClamp()) {
+            case DEPTH_CLAMP_ENABLED:
+              g_dc.depthClampingEnable();
+              break;
+            case DEPTH_CLAMP_DISABLED:
+              g_dc.depthClampingDisable();
+              break;
+          }
+        }
+        break;
       }
     }
+
   }
 }
