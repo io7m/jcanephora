@@ -23,7 +23,6 @@ import com.io7m.jcanephora.core.api.JCGLBlendingType;
 import com.io7m.jcanephora.core.api.JCGLColorBufferMaskingType;
 import com.io7m.jcanephora.core.api.JCGLCullingType;
 import com.io7m.jcanephora.core.api.JCGLDepthBuffersType;
-import com.io7m.jcanephora.core.api.JCGLDepthClampingType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jcanephora.core.api.JCGLStencilBuffersType;
@@ -186,75 +185,153 @@ public final class JCGLRenderStates
     final JCGLRenderStateType r)
   {
     final JCGLDepthBuffersType g_d = g.getDepthBuffers();
-    final JCGLDepthClampingType g_dc = g.getDepthBuffers();
     final JCGLDepthStateType ds = r.getDepthState();
 
-    switch (ds.getDepthStrict()) {
-      case DEPTH_STRICT_ENABLED: {
+    JCGLRenderStates.configureDepthWriting(g_d, ds);
+    JCGLRenderStates.configureDepthClamping(g_d, ds);
+    JCGLRenderStates.configureDepthTesting(g_d, ds);
+  }
 
-        /**
-         * If there is no depth buffer, then only attempting to enable depth
-         * writing, testing, or clamping is an error. Disabling it is not an
-         * error, because it could never be enabled.
-         */
+  private static void configureDepthWriting(
+    final JCGLDepthBuffersType g_d,
+    final JCGLDepthStateType ds)
+  {
+    /**
+     * If depth writing should be enabled, attempt to enable it.
+     */
 
-        switch (ds.getDepthWrite()) {
-          case DEPTH_WRITE_ENABLED:
+    switch (ds.getDepthWrite()) {
+      case DEPTH_WRITE_ENABLED:
+        switch (ds.getDepthStrict()) {
+
+          /**
+           * If strict checking is required, enable without checking
+           * that there is a depth buffer - the function will raise an exception
+           * if there isn't.
+           */
+
+          case DEPTH_STRICT_ENABLED:
             g_d.depthBufferWriteEnable();
             break;
-          case DEPTH_WRITE_DISABLED:
+
+          /**
+           * If strict checking is disabled, only enable writing if there
+           * actually is a depth buffer.
+           */
+
+          case DEPTH_STRICT_DISABLED:
+            if (g_d.depthBufferGetBits() > 0) {
+              g_d.depthBufferWriteEnable();
+            }
             break;
         }
-
-        final Optional<JCGLDepthFunction> dt_opt = ds.getDepthTest();
-        if (dt_opt.isPresent()) {
-          final JCGLDepthFunction dt = dt_opt.get();
-          g_d.depthBufferTestEnable(dt);
-        }
-
-        switch (ds.getDepthClamp()) {
-          case DEPTH_CLAMP_ENABLED:
-            g_dc.depthClampingEnable();
-            break;
-          case DEPTH_CLAMP_DISABLED:
-            break;
-        }
-
         break;
-      }
-      case DEPTH_STRICT_DISABLED: {
+
+      case DEPTH_WRITE_DISABLED:
+
+        /**
+         * Disabling depth writing when there is no depth buffer available,
+         * even with strict checking enabled, is never an error.
+         */
 
         if (g_d.depthBufferGetBits() > 0) {
-
-          switch (ds.getDepthWrite()) {
-            case DEPTH_WRITE_ENABLED:
-              g_d.depthBufferWriteEnable();
-              break;
-            case DEPTH_WRITE_DISABLED:
-              g_d.depthBufferWriteDisable();
-              break;
-          }
-
-          final Optional<JCGLDepthFunction> dt_opt = ds.getDepthTest();
-          if (dt_opt.isPresent()) {
-            final JCGLDepthFunction dt = dt_opt.get();
-            g_d.depthBufferTestEnable(dt);
-          } else {
-            g_d.depthBufferTestDisable();
-          }
-
-          switch (ds.getDepthClamp()) {
-            case DEPTH_CLAMP_ENABLED:
-              g_dc.depthClampingEnable();
-              break;
-            case DEPTH_CLAMP_DISABLED:
-              g_dc.depthClampingDisable();
-              break;
-          }
+          g_d.depthBufferWriteDisable();
         }
         break;
+    }
+  }
+
+  private static void configureDepthTesting(
+    final JCGLDepthBuffersType g_d,
+    final JCGLDepthStateType ds)
+  {
+    /**
+     * If depth testing should be enabled, attempt to enable it.
+     */
+
+    final Optional<JCGLDepthFunction> d_opt = ds.getDepthTest();
+    if (d_opt.isPresent()) {
+      switch (ds.getDepthStrict()) {
+
+        /**
+         * If strict checking is required, enable without checking
+         * that there is a depth buffer - the function will raise an exception
+         * if there isn't.
+         */
+
+        case DEPTH_STRICT_ENABLED:
+          g_d.depthBufferTestEnable(d_opt.get());
+          break;
+
+        /**
+         * If strict checking is disabled, only enable testing if there
+         * actually is a depth buffer.
+         */
+
+        case DEPTH_STRICT_DISABLED:
+          if (g_d.depthBufferGetBits() > 0) {
+            g_d.depthBufferTestEnable(d_opt.get());
+          }
+          break;
+      }
+    } else {
+
+      /**
+       * Disabling depth testing when there is no depth buffer, even with
+       * strict checking enabled, is never an error.
+       */
+
+      if (g_d.depthBufferGetBits() > 0) {
+        g_d.depthBufferTestDisable();
       }
     }
+  }
 
+  private static void configureDepthClamping(
+    final JCGLDepthBuffersType g_d,
+    final JCGLDepthStateType ds)
+  {
+    /**
+     * If depth clamping should be enabled, attempt to enable it.
+     */
+
+    switch (ds.getDepthClamp()) {
+      case DEPTH_CLAMP_ENABLED:
+        switch (ds.getDepthStrict()) {
+
+          /**
+           * If strict checking is required, enable without checking
+           * that there is a depth buffer - the function will raise an exception
+           * if there isn't.
+           */
+
+          case DEPTH_STRICT_ENABLED:
+            g_d.depthClampingEnable();
+            break;
+
+          /**
+           * If strict checking is disabled, only enable clamping if there
+           * actually is a depth buffer.
+           */
+
+          case DEPTH_STRICT_DISABLED:
+            if (g_d.depthBufferGetBits() > 0) {
+              g_d.depthClampingEnable();
+            }
+            break;
+        }
+        break;
+
+      case DEPTH_CLAMP_DISABLED:
+
+        /**
+         * Disabling depth clamping when there is no depth buffer, even with
+         * strict checking enabled, is never an error.
+         */
+
+        if (g_d.depthBufferGetBits() > 0) {
+          g_d.depthClampingDisable();
+        }
+    }
   }
 }
