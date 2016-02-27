@@ -264,6 +264,20 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
   }
 
   @Test
+  public final void testPolygonMode()
+  {
+    final JCGLInterfaceGL33Type g = this.getGL33("main", 24, 8);
+    final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
+
+    r.setPolygonMode(JCGLPolygonMode.POLYGON_LINES);
+
+    JCGLRenderStates.activate(g, r);
+
+    final JCGLPolygonModesType g_p = g.getPolygonModes();
+    Assert.assertEquals(JCGLPolygonMode.POLYGON_LINES, g_p.polygonGetMode());
+  }
+
+  @Test
   public final void testScissor()
   {
     final JCGLInterfaceGL33Type g = this.getGL33("main", 24, 8);

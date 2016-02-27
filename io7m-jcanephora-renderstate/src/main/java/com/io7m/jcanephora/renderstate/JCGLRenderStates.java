@@ -60,8 +60,16 @@ public final class JCGLRenderStates
     JCGLRenderStates.configureCulling(g, r);
     JCGLRenderStates.configureColorBufferMasking(g, r);
     JCGLRenderStates.configureDepth(g, r);
+    JCGLRenderStates.configurePolygonMode(g, r);
     JCGLRenderStates.configureScissor(g, r);
     JCGLRenderStates.configureStencil(g, r);
+  }
+
+  private static void configurePolygonMode(
+    final JCGLInterfaceGL33Type g,
+    final JCGLRenderStateType r)
+  {
+    g.getPolygonModes().polygonSetMode(r.getPolygonMode());
   }
 
   private static void configureStencil(
