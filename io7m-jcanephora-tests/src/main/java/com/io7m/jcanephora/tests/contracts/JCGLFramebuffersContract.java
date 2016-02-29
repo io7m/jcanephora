@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
+import com.io7m.jareas.core.AreaInclusiveUnsignedL;
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
@@ -48,6 +49,7 @@ import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Rule;
@@ -845,7 +847,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
 
     final Set<JCGLReferableType> refs = fb.getReferences();
-    Assert.assertEquals(min, (long) refs.size());
+    Assert.assertEquals((long) min, (long) refs.size());
 
     for (int index = 0; index < min; ++index) {
       final JCGLFramebufferColorAttachmentPointType point = ps.get(index);
@@ -1056,6 +1058,27 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
 
     g_fb.framebufferDrawBind(fb);
     g_fb.framebufferReadBind(fb);
+
+    this.expected.expect(JCGLExceptionFramebufferReadDrawSame.class);
+    g_fb.framebufferBlit(
+      area,
+      area,
+      EnumSet.of(JCGLFramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_DEPTH),
+      JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_LINEAR);
+  }
+
+  @Test
+  public final void testFramebufferBlitSameFramebufferDefault()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLFramebuffersType g_fb = i.getFramebuffers();
+
+    final AreaInclusiveUnsignedLType area = AreaInclusiveUnsignedL.of(
+      new UnsignedRangeInclusiveL(0L, 639L),
+      new UnsignedRangeInclusiveL(0L, 479L));
+
+    g_fb.framebufferDrawUnbind();
+    g_fb.framebufferReadUnbind();
 
     this.expected.expect(JCGLExceptionFramebufferReadDrawSame.class);
     g_fb.framebufferBlit(
@@ -1351,8 +1374,6 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     g_fb.framebufferDrawUnbind();
     g_fb.framebufferReadUnbind();
     g_fb.framebufferDrawBind(fb_draw);
-
-    this.expected.expect(JCGLExceptionFramebufferNotBound.class);
     g_fb.framebufferBlit(
       area,
       area,
@@ -1391,8 +1412,6 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     g_fb.framebufferDrawUnbind();
     g_fb.framebufferReadUnbind();
     g_fb.framebufferReadBind(fb_read);
-
-    this.expected.expect(JCGLExceptionFramebufferNotBound.class);
     g_fb.framebufferBlit(
       area,
       area,

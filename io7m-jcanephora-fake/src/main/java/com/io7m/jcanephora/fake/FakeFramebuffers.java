@@ -538,14 +538,6 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     NullCheck.notNull(buffers);
     NullCheck.notNull(filter);
 
-    if (!this.framebufferReadAnyIsBound()) {
-      throw new JCGLExceptionFramebufferNotBound(
-        "No read framebuffer is bound");
-    }
-    if (!this.framebufferDrawAnyIsBound()) {
-      throw new JCGLExceptionFramebufferNotBound(
-        "No draw framebuffer is bound");
-    }
     if (Objects.equals(this.bind_draw, this.bind_read)) {
       throw new JCGLExceptionFramebufferReadDrawSame(
         "Attempted to blit a framebuffer to itself.");
