@@ -18,6 +18,7 @@ package com.io7m.jcanephora.tests.contracts;
 
 import com.io7m.jareas.core.AreaInclusiveUnsignedL;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
+import com.io7m.jcanephora.core.JCGLExceptionTextureNotBound;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
 import com.io7m.jcanephora.core.JCGLTexture2DUpdateType;
 import com.io7m.jcanephora.core.JCGLTextureCubeType;
@@ -54,14 +55,16 @@ public abstract class JCGLTexturesContract extends JCGLContract
 
   protected abstract JCGLTexturesType getTextures(String name);
 
-  @Test public final void testTextureSize()
+  @Test
+  public final void testTextureSize()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final int s = t.textureGetMaximumSize();
     Assert.assertTrue(s >= 1024);
   }
 
-  @Test public final void testTextureUnits()
+  @Test
+  public final void testTextureUnits()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -72,7 +75,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureEmptyBindings()
+  @Test
+  public final void testTextureEmptyBindings()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -83,7 +87,75 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DBoundAnywhere()
+  @Test
+  public final void testTexture2DRegenerateMipmapsNoOp()
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final List<JCGLTextureUnitType> us = t.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+
+    final JCGLTexture2DType ta =
+      t.texture2DAllocate(
+        u0,
+        256L,
+        256L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
+    Assert.assertTrue(t.texture2DIsBoundAnywhere(ta));
+    t.texture2DRegenerateMipmaps(u0);
+  }
+
+  @Test
+  public final void testTexture2DRegenerateMipmapsOK()
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final List<JCGLTextureUnitType> us = t.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+
+    final JCGLTexture2DType ta =
+      t.texture2DAllocate(
+        u0,
+        256L,
+        256L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
+    Assert.assertTrue(t.texture2DIsBoundAnywhere(ta));
+    t.texture2DRegenerateMipmaps(u0);
+  }
+
+  @Test
+  public final void testTexture2DRegenerateMipmapsUnbound()
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final List<JCGLTextureUnitType> us = t.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+
+    final JCGLTexture2DType ta =
+      t.texture2DAllocate(
+        u0,
+        256L,
+        256L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
+    Assert.assertTrue(t.texture2DIsBoundAnywhere(ta));
+
+    t.textureUnitUnbind(u0);
+
+    this.expected.expect(JCGLExceptionTextureNotBound.class);
+    t.texture2DRegenerateMipmaps(u0);
+  }
+
+  @Test
+  public final void testTexture2DBoundAnywhere()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -138,7 +210,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     Assert.assertFalse(t.textureUnitIsBound(u1));
   }
 
-  @Test public final void testTexture2DBinding()
+  @Test
+  public final void testTexture2DBinding()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -201,7 +274,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DDeleteUnbinds()
+  @Test
+  public final void testTexture2DDeleteUnbinds()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -228,7 +302,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     Assert.assertFalse(t.textureUnitIsBound(u));
   }
 
-  @Test public final void testTexture2DAllocate()
+  @Test
+  public final void testTexture2DAllocate()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -271,7 +346,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DGetImageIdentities()
+  @Test
+  public final void testTexture2DGetImageIdentities()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -304,7 +380,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DUpdateAreaNonInclusive()
+  @Test
+  public final void testTexture2DUpdateAreaNonInclusive()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -328,7 +405,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
         new UnsignedRangeInclusiveL(0L, 512L)));
   }
 
-  @Test public final void testTexture2DUpdateAllIdentities()
+  @Test
+  public final void testTexture2DUpdateAllIdentities()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -363,7 +441,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     Assert.assertEquals(expected_range, up.getDataUpdateRange());
   }
 
-  @Test public final void testTexture2DUpdateAreaIdentities()
+  @Test
+  public final void testTexture2DUpdateAreaIdentities()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -398,7 +477,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     Assert.assertEquals(expected_range, up.getDataUpdateRange());
   }
 
-  @Test public final void testTexture2DUpdateAllGet1BPP()
+  @Test
+  public final void testTexture2DUpdateAllGet1BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -433,7 +513,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DUpdateAllGet4BPP()
+  @Test
+  public final void testTexture2DUpdateAllGet4BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -469,7 +550,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DUpdateAllGet3BPP()
+  @Test
+  public final void testTexture2DUpdateAllGet3BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -505,7 +587,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DUpdateAllGet2BPP()
+  @Test
+  public final void testTexture2DUpdateAllGet2BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -541,7 +624,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DUpdateAreaGet1BPP()
+  @Test
+  public final void testTexture2DUpdateAreaGet1BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -599,7 +683,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DUpdateAreaGet4BPP()
+  @Test
+  public final void testTexture2DUpdateAreaGet4BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -678,7 +763,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DUpdateAreaGet3BPP()
+  @Test
+  public final void testTexture2DUpdateAreaGet3BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -752,7 +838,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DUpdateAreaGet2BPP()
+  @Test
+  public final void testTexture2DUpdateAreaGet2BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -821,7 +908,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureCubeBoundAnywhere()
+  @Test
+  public final void testTextureCubeBoundAnywhere()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -876,7 +964,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     Assert.assertFalse(t.textureUnitIsBound(u1));
   }
 
-  @Test public final void testTextureCubeBinding()
+  @Test
+  public final void testTextureCubeBinding()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -939,7 +1028,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureCubeDeleteUnbinds()
+  @Test
+  public final void testTextureCubeDeleteUnbinds()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -966,7 +1056,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     Assert.assertFalse(t.textureUnitIsBound(u));
   }
 
-  @Test public final void testTextureCubeAllocate()
+  @Test
+  public final void testTextureCubeAllocate()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1009,7 +1100,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureCubeGetImageLHIdentities()
+  @Test
+  public final void testTextureCubeGetImageLHIdentities()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1044,7 +1136,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureCubeUpdateAreaNonInclusive()
+  @Test
+  public final void testTextureCubeUpdateAreaNonInclusive()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1068,7 +1161,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
         new UnsignedRangeInclusiveL(0L, 512L)));
   }
 
-  @Test public final void testTextureCubeUpdateAllIdentities()
+  @Test
+  public final void testTextureCubeUpdateAllIdentities()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1103,7 +1197,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     Assert.assertEquals(expected_range, up.getDataUpdateRange());
   }
 
-  @Test public final void testTextureCubeUpdateAreaIdentities()
+  @Test
+  public final void testTextureCubeUpdateAreaIdentities()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1138,7 +1233,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     Assert.assertEquals(expected_range, up.getDataUpdateRange());
   }
 
-  @Test public final void testTextureCubeUpdateAllGet1BPP()
+  @Test
+  public final void testTextureCubeUpdateAllGet1BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1175,7 +1271,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureCubeUpdateAllGet4BPP()
+  @Test
+  public final void testTextureCubeUpdateAllGet4BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1213,7 +1310,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureCubeUpdateAllGet3BPP()
+  @Test
+  public final void testTextureCubeUpdateAllGet3BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1251,7 +1349,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureCubeUpdateAllGet2BPP()
+  @Test
+  public final void testTextureCubeUpdateAllGet2BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1289,7 +1388,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureCubeUpdateAreaGet1BPP()
+  @Test
+  public final void testTextureCubeUpdateAreaGet1BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1349,7 +1449,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureCubeUpdateAreaGet4BPP()
+  @Test
+  public final void testTextureCubeUpdateAreaGet4BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1430,7 +1531,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTextureCubeUpdateAreaGet3BPP()
+  @Test
+  public final void testTextureCubeUpdateAreaGet3BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1507,7 +1609,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
 
   }
 
-  @Test public final void testTextureCubeUpdateAreaGet2BPP()
+  @Test
+  public final void testTextureCubeUpdateAreaGet2BPP()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1578,7 +1681,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
   }
 
-  @Test public final void testTexture2DCubeBindExclusive()
+  @Test
+  public final void testTexture2DCubeBindExclusive()
   {
     final JCGLTexturesType t = this.getTextures("main");
     final List<JCGLTextureUnitType> us = t.textureGetUnits();
@@ -1626,5 +1730,72 @@ public abstract class JCGLTexturesContract extends JCGLContract
     Assert.assertFalse(t.texture2DIsBoundAnywhere(ta));
     Assert.assertTrue(t.textureCubeIsBound(u0, tb));
     Assert.assertTrue(t.textureCubeIsBoundAnywhere(tb));
+  }
+
+  @Test
+  public final void testTextureCubeRegenerateMipmapsNoOp()
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final List<JCGLTextureUnitType> us = t.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+
+    final JCGLTextureCubeType ta =
+      t.textureCubeAllocate(
+        u0,
+        256L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapR.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
+    Assert.assertTrue(t.textureCubeIsBoundAnywhere(ta));
+    t.textureCubeRegenerateMipmaps(u0);
+  }
+
+  @Test
+  public final void testTextureCubeRegenerateMipmapsOK()
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final List<JCGLTextureUnitType> us = t.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+
+    final JCGLTextureCubeType ta =
+      t.textureCubeAllocate(
+        u0,
+        256L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapR.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
+    Assert.assertTrue(t.textureCubeIsBoundAnywhere(ta));
+    t.textureCubeRegenerateMipmaps(u0);
+  }
+
+  @Test
+  public final void testTextureCubeRegenerateMipmapsUnbound()
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final List<JCGLTextureUnitType> us = t.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+
+    final JCGLTextureCubeType ta =
+      t.textureCubeAllocate(
+        u0,
+        256L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapR.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
+    Assert.assertTrue(t.textureCubeIsBoundAnywhere(ta));
+
+    t.textureUnitUnbind(u0);
+
+    this.expected.expect(JCGLExceptionTextureNotBound.class);
+    t.textureCubeRegenerateMipmaps(u0);
   }
 }

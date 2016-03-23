@@ -19,6 +19,7 @@ package com.io7m.jcanephora.fake;
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionTextureNotBound;
 import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
@@ -482,6 +483,41 @@ final class FakeTextures implements JCGLTexturesType
   }
 
   @Override
+  public void texture2DRegenerateMipmaps(final JCGLTextureUnitType unit)
+    throws JCGLException
+  {
+    NullCheck.notNull(unit);
+
+    final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
+    final FakeTexture2D b = u.getBind2D();
+
+    if (b != null) {
+      final JCGLTextureFilterMinification mag =
+        b.textureGetMinificationFilter();
+      switch (mag) {
+        case TEXTURE_FILTER_LINEAR:
+        case TEXTURE_FILTER_NEAREST: {
+          break;
+        }
+        case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
+        case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+        case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+        case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR: {
+          break;
+        }
+      }
+    } else {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("No 2D texture bound to the given unit.");
+      sb.append(System.lineSeparator());
+      sb.append("Unit: ");
+      sb.append(u);
+      sb.append(System.lineSeparator());
+      throw new JCGLExceptionTextureNotBound(sb.toString());
+    }
+  }
+
+  @Override
   public void textureCubeBind(
     final JCGLTextureUnitType unit,
     final JCGLTextureCubeUsableType texture)
@@ -660,6 +696,41 @@ final class FakeTextures implements JCGLTexturesType
     final ByteBuffer data = ft.getData(face).duplicate();
     data.order(ByteOrder.nativeOrder());
     return data;
+  }
+
+  @Override
+  public void textureCubeRegenerateMipmaps(final JCGLTextureUnitType unit)
+    throws JCGLException
+  {
+    NullCheck.notNull(unit);
+
+    final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
+    final FakeTextureCube b = u.getBindCube();
+
+    if (b != null) {
+      final JCGLTextureFilterMinification mag =
+        b.textureGetMinificationFilter();
+      switch (mag) {
+        case TEXTURE_FILTER_LINEAR:
+        case TEXTURE_FILTER_NEAREST: {
+          break;
+        }
+        case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
+        case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+        case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+        case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR: {
+          break;
+        }
+      }
+    } else {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("No cube texture bound to the given unit.");
+      sb.append(System.lineSeparator());
+      sb.append("Unit: ");
+      sb.append(u);
+      sb.append(System.lineSeparator());
+      throw new JCGLExceptionTextureNotBound(sb.toString());
+    }
   }
 
   void setFramebuffers(final FakeFramebuffers fb)

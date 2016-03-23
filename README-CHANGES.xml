@@ -22,6 +22,12 @@
       <c:ticket>37</c:ticket>
       <c:summary>Add method for setting floating-point array-typed GLSL uniforms.</c:summary>
     </c:item>
+    <c:item>
+      <c:date>2016-03-23</c:date>
+      <c:type-code-new/>
+      <c:ticket>41</c:ticket>
+      <c:summary>Add functions for regenerating textures.</c:summary>
+    </c:item>
   </c:release>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">

@@ -20,6 +20,7 @@ import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
+import com.io7m.jcanephora.core.JCGLExceptionTextureNotBound;
 import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
@@ -74,8 +75,8 @@ final class JOGLTextures implements JCGLTexturesType
   private final List<JCGLTextureUnitType> units;
   private final int size;
   private final Int2ObjectMap<IntSet> texture_to_units;
-  private       JOGLFramebuffers framebuffers;
   private final boolean[] temp_unbind;
+  private       JOGLFramebuffers framebuffers;
 
   JOGLTextures(final JOGLContext c)
     throws JCGLExceptionNonCompliant
@@ -576,6 +577,45 @@ final class JOGLTextures implements JCGLTexturesType
     return data;
   }
 
+  @Override
+  public void texture2DRegenerateMipmaps(
+    final JCGLTextureUnitType unit)
+    throws JCGLException
+  {
+    NullCheck.notNull(unit);
+
+    final GLContext c = this.context.getContext();
+    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    final JOGLTexture2D b = u.getBind2D();
+
+    if (b != null) {
+      final JCGLTextureFilterMinification mag =
+        b.textureGetMinificationFilter();
+      switch (mag) {
+        case TEXTURE_FILTER_LINEAR:
+        case TEXTURE_FILTER_NEAREST: {
+          break;
+        }
+        case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
+        case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+        case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+        case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR: {
+          this.g3.glActiveTexture(GL.GL_TEXTURE0 + u.unitGetIndex());
+          this.g3.glGenerateMipmap(GL.GL_TEXTURE_2D);
+          break;
+        }
+      }
+    } else {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("No 2D texture bound to the given unit.");
+      sb.append(System.lineSeparator());
+      sb.append("Unit: ");
+      sb.append(u);
+      sb.append(System.lineSeparator());
+      throw new JCGLExceptionTextureNotBound(sb.toString());
+    }
+  }
+
   void setFramebuffers(final JOGLFramebuffers in_fb)
   {
     this.framebuffers = NullCheck.notNull(in_fb);
@@ -870,5 +910,44 @@ final class JOGLTextures implements JCGLTexturesType
       spec.getType(),
       data);
     return data;
+  }
+
+  @Override
+  public void textureCubeRegenerateMipmaps(
+    final JCGLTextureUnitType unit)
+    throws JCGLException
+  {
+    NullCheck.notNull(unit);
+
+    final GLContext c = this.context.getContext();
+    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    final JOGLTextureCube b = u.getBindCube();
+
+    if (b != null) {
+      final JCGLTextureFilterMinification mag =
+        b.textureGetMinificationFilter();
+      switch (mag) {
+        case TEXTURE_FILTER_LINEAR:
+        case TEXTURE_FILTER_NEAREST: {
+          break;
+        }
+        case TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
+        case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
+        case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
+        case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR: {
+          this.g3.glActiveTexture(GL.GL_TEXTURE0 + u.unitGetIndex());
+          this.g3.glGenerateMipmap(GL.GL_TEXTURE_CUBE_MAP);
+          break;
+        }
+      }
+    } else {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("No cube texture bound to the given unit.");
+      sb.append(System.lineSeparator());
+      sb.append("Unit: ");
+      sb.append(u);
+      sb.append(System.lineSeparator());
+      throw new JCGLExceptionTextureNotBound(sb.toString());
+    }
   }
 }
