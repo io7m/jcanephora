@@ -46,9 +46,6 @@ import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLContext;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntIterator;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.valid4j.Assertive;
@@ -57,6 +54,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -74,8 +72,7 @@ final class JOGLTextures implements JCGLTexturesType
   private final IntBuffer icache;
   private final List<JCGLTextureUnitType> units;
   private final int size;
-  private final Int2ObjectMap<IntSet> texture_to_units;
-  private final boolean[] temp_unbind;
+  private final Int2ObjectMap<BitSet> texture_to_units;
   private       JOGLFramebuffers framebuffers;
 
   JOGLTextures(final JOGLContext c)
@@ -87,7 +84,6 @@ final class JOGLTextures implements JCGLTexturesType
     this.units = JOGLTextures.makeUnits(c, this.g3, this.icache);
     this.size = JOGLTextures.makeSize(this.g3, this.icache);
     this.texture_to_units = new Int2ObjectOpenHashMap<>(this.units.size());
-    this.temp_unbind = new boolean[this.units.size()];
 
     /**
      * Configure baseline defaults.
@@ -308,13 +304,14 @@ final class JOGLTextures implements JCGLTexturesType
     final int texture_id,
     final int index)
   {
-    final IntSet tc;
+    final BitSet tc;
     if (this.texture_to_units.containsKey(texture_id)) {
       tc = this.texture_to_units.get(texture_id);
     } else {
-      tc = new IntOpenHashSet();
+      tc = new BitSet(this.units.size());
     }
-    tc.add(index);
+
+    tc.set(index, true);
     this.texture_to_units.put(texture_id, tc);
   }
 
@@ -323,8 +320,8 @@ final class JOGLTextures implements JCGLTexturesType
     final int index)
   {
     if (this.texture_to_units.containsKey(texture_id)) {
-      final IntSet tc = this.texture_to_units.get(texture_id);
-      tc.remove(index);
+      final BitSet tc = this.texture_to_units.get(texture_id);
+      tc.set(index, false);
       if (tc.isEmpty()) {
         this.texture_to_units.remove(texture_id);
       }
@@ -354,22 +351,12 @@ final class JOGLTextures implements JCGLTexturesType
 
   private void unbindDeleted(final int texture_id)
   {
-    for (int index = 0; index < this.temp_unbind.length; ++index) {
-      this.temp_unbind[index] = false;
-    }
-
-    final IntSet bound_units = this.texture_to_units.get(texture_id);
+    final BitSet bound_units = this.texture_to_units.get(texture_id);
     if (bound_units != null) {
-      final IntIterator iter = bound_units.iterator();
-      while (iter.hasNext()) {
-        final int index = iter.nextInt();
-        this.temp_unbind[index] = true;
-      }
-    }
-
-    for (int index = 0; index < this.temp_unbind.length; ++index) {
-      if (this.temp_unbind[index]) {
-        this.textureUnitUnbind(this.units.get(index));
+      for (int index = 0; index < this.units.size(); ++index) {
+        if (bound_units.get(index)) {
+          this.textureUnitUnbind(this.units.get(index));
+        }
       }
     }
   }
