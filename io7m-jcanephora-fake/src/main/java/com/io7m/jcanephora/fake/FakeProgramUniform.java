@@ -34,6 +34,7 @@ public final class FakeProgramUniform extends FakeObjectPseudoShared
   private final String                      name;
   private final JCGLProgramShaderUsableType program;
   private final JCGLType                    type;
+  private final int                         size;
 
   /**
    * Construct a uniform.
@@ -43,6 +44,7 @@ public final class FakeProgramUniform extends FakeObjectPseudoShared
    * @param in_location The uniform location
    * @param in_name     The uniform name
    * @param in_type     The uniform type
+   * @param in_size     The size of the uniform in elements
    */
 
   public FakeProgramUniform(
@@ -50,7 +52,8 @@ public final class FakeProgramUniform extends FakeObjectPseudoShared
     final JCGLProgramShaderUsableType in_program,
     final int in_location,
     final String in_name,
-    final JCGLType in_type)
+    final JCGLType in_type,
+    final int in_size)
   {
     super(in_context);
 
@@ -62,24 +65,36 @@ public final class FakeProgramUniform extends FakeObjectPseudoShared
       "Valid uniform locations");
     this.type = NullCheck.notNull(in_type, "Uniform type");
     this.name = NullCheck.notNull(in_name, "Uniform name");
+    this.size = RangeCheck.checkIncludedInInteger(
+      in_size, "Size", Ranges.POSITIVE_INTEGER, "Valid sizes");
   }
 
-  @Override public String getName()
+  @Override
+  public String getName()
   {
     return this.name;
   }
 
-  @Override public JCGLProgramShaderUsableType getProgram()
+  @Override
+  public JCGLProgramShaderUsableType getProgram()
   {
     return this.program;
   }
 
-  @Override public JCGLType getType()
+  @Override
+  public JCGLType getType()
   {
     return this.type;
   }
 
-  @Override public int getGLName()
+  @Override
+  public int getSize()
+  {
+    return this.size;
+  }
+
+  @Override
+  public int getGLName()
   {
     return this.location;
   }

@@ -160,6 +160,24 @@ public final class FakeShadersTest extends JCGLShadersContract
         context, p, location++, "f", JCGLType.TYPE_FLOAT));
   }
 
+  private static void onLinkValidArray0(
+    final FakeContext context,
+    final JCGLProgramShaderUsableType p,
+    final Map<String, JCGLProgramAttributeType> attributes,
+    final Map<String, JCGLProgramUniformType> uniforms)
+  {
+    int location = 0;
+
+    uniforms.put(
+      "big_array[0]", new FakeProgramUniform(
+        context,
+        p,
+        location++,
+        "big_array[0]",
+        JCGLType.TYPE_FLOAT_VECTOR_4,
+        16));
+  }
+
   private static void onLinkAttributes0(
     final FakeContext context,
     final JCGLProgramShaderUsableType p,
@@ -230,67 +248,67 @@ public final class FakeShadersTest extends JCGLShadersContract
 
     uniforms.put(
       "f", new FakeProgramUniform(
-        context, p, location++, "f", JCGLType.TYPE_FLOAT));
+        context, p, location++, "f", JCGLType.TYPE_FLOAT, 1));
     uniforms.put(
       "fv2", new FakeProgramUniform(
-        context, p, location++, "fv2", JCGLType.TYPE_FLOAT_VECTOR_2));
+        context, p, location++, "fv2", JCGLType.TYPE_FLOAT_VECTOR_2, 1));
     uniforms.put(
       "fv3", new FakeProgramUniform(
-        context, p, location++, "fv3", JCGLType.TYPE_FLOAT_VECTOR_3));
+        context, p, location++, "fv3", JCGLType.TYPE_FLOAT_VECTOR_3, 1));
     uniforms.put(
       "fv4", new FakeProgramUniform(
-        context, p, location++, "fv4", JCGLType.TYPE_FLOAT_VECTOR_4));
+        context, p, location++, "fv4", JCGLType.TYPE_FLOAT_VECTOR_4, 1));
 
     uniforms.put(
       "i", new FakeProgramUniform(
-        context, p, location++, "i", JCGLType.TYPE_INTEGER));
+        context, p, location++, "i", JCGLType.TYPE_INTEGER, 1));
     uniforms.put(
       "iv2", new FakeProgramUniform(
-        context, p, location++, "iv2", JCGLType.TYPE_INTEGER_VECTOR_2));
+        context, p, location++, "iv2", JCGLType.TYPE_INTEGER_VECTOR_2, 1));
     uniforms.put(
       "iv3", new FakeProgramUniform(
-        context, p, location++, "iv3", JCGLType.TYPE_INTEGER_VECTOR_3));
+        context, p, location++, "iv3", JCGLType.TYPE_INTEGER_VECTOR_3, 1));
     uniforms.put(
       "iv4", new FakeProgramUniform(
-        context, p, location++, "iv4", JCGLType.TYPE_INTEGER_VECTOR_4));
+        context, p, location++, "iv4", JCGLType.TYPE_INTEGER_VECTOR_4, 1));
 
     uniforms.put(
       "u", new FakeProgramUniform(
-        context, p, location++, "u", JCGLType.TYPE_UNSIGNED_INTEGER));
+        context, p, location++, "u", JCGLType.TYPE_UNSIGNED_INTEGER, 1));
     uniforms.put(
       "uv2", new FakeProgramUniform(
         context,
         p,
         location++,
         "uv2",
-        JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2));
+        JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, 1));
     uniforms.put(
       "uv3", new FakeProgramUniform(
         context,
         p,
         location++,
         "uv3",
-        JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3));
+        JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, 1));
     uniforms.put(
       "uv4", new FakeProgramUniform(
         context,
         p,
         location++,
         "uv4",
-        JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4));
+        JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, 1));
 
     uniforms.put(
       "b", new FakeProgramUniform(
-        context, p, location++, "b", JCGLType.TYPE_BOOLEAN));
+        context, p, location++, "b", JCGLType.TYPE_BOOLEAN, 1));
     uniforms.put(
       "bv2", new FakeProgramUniform(
-        context, p, location++, "bv2", JCGLType.TYPE_BOOLEAN_VECTOR_2));
+        context, p, location++, "bv2", JCGLType.TYPE_BOOLEAN_VECTOR_2, 1));
     uniforms.put(
       "bv3", new FakeProgramUniform(
-        context, p, location++, "bv3", JCGLType.TYPE_BOOLEAN_VECTOR_3));
+        context, p, location++, "bv3", JCGLType.TYPE_BOOLEAN_VECTOR_3, 1));
     uniforms.put(
       "bv4", new FakeProgramUniform(
-        context, p, location++, "bv4", JCGLType.TYPE_BOOLEAN_VECTOR_4));
+        context, p, location++, "bv4", JCGLType.TYPE_BOOLEAN_VECTOR_4, 1));
   }
 
   private static void onLinkUniforms1(
@@ -303,42 +321,42 @@ public final class FakeShadersTest extends JCGLShadersContract
 
     uniforms.put(
       "fm4", new FakeProgramUniform(
-        context, p, location++, "fm4", JCGLType.TYPE_FLOAT_MATRIX_4));
+        context, p, location++, "fm4", JCGLType.TYPE_FLOAT_MATRIX_4, 1));
     uniforms.put(
       "fm4x4", new FakeProgramUniform(
-        context, p, location++, "fm4x4", JCGLType.TYPE_FLOAT_MATRIX_4));
+        context, p, location++, "fm4x4", JCGLType.TYPE_FLOAT_MATRIX_4, 1));
     uniforms.put(
       "fm4x3", new FakeProgramUniform(
-        context, p, location++, "fm4x3", JCGLType.TYPE_FLOAT_MATRIX_4x3));
+        context, p, location++, "fm4x3", JCGLType.TYPE_FLOAT_MATRIX_4x3, 1));
     uniforms.put(
       "fm4x2", new FakeProgramUniform(
-        context, p, location++, "fm4x2", JCGLType.TYPE_FLOAT_MATRIX_4x2));
+        context, p, location++, "fm4x2", JCGLType.TYPE_FLOAT_MATRIX_4x2, 1));
 
     uniforms.put(
       "fm3", new FakeProgramUniform(
-        context, p, location++, "fm3", JCGLType.TYPE_FLOAT_MATRIX_3));
+        context, p, location++, "fm3", JCGLType.TYPE_FLOAT_MATRIX_3, 1));
     uniforms.put(
       "fm3x4", new FakeProgramUniform(
-        context, p, location++, "fm3x4", JCGLType.TYPE_FLOAT_MATRIX_3x4));
+        context, p, location++, "fm3x4", JCGLType.TYPE_FLOAT_MATRIX_3x4, 1));
     uniforms.put(
       "fm3x3", new FakeProgramUniform(
-        context, p, location++, "fm3x3", JCGLType.TYPE_FLOAT_MATRIX_3));
+        context, p, location++, "fm3x3", JCGLType.TYPE_FLOAT_MATRIX_3, 1));
     uniforms.put(
       "fm3x2", new FakeProgramUniform(
-        context, p, location++, "fm3x2", JCGLType.TYPE_FLOAT_MATRIX_3x2));
+        context, p, location++, "fm3x2", JCGLType.TYPE_FLOAT_MATRIX_3x2, 1));
 
     uniforms.put(
       "fm2", new FakeProgramUniform(
-        context, p, location++, "fm2", JCGLType.TYPE_FLOAT_MATRIX_2));
+        context, p, location++, "fm2", JCGLType.TYPE_FLOAT_MATRIX_2, 1));
     uniforms.put(
       "fm2x4", new FakeProgramUniform(
-        context, p, location++, "fm2x4", JCGLType.TYPE_FLOAT_MATRIX_2x4));
+        context, p, location++, "fm2x4", JCGLType.TYPE_FLOAT_MATRIX_2x4, 1));
     uniforms.put(
       "fm2x3", new FakeProgramUniform(
-        context, p, location++, "fm2x3", JCGLType.TYPE_FLOAT_MATRIX_2x3));
+        context, p, location++, "fm2x3", JCGLType.TYPE_FLOAT_MATRIX_2x3, 1));
     uniforms.put(
       "fm2x2", new FakeProgramUniform(
-        context, p, location++, "fm2x2", JCGLType.TYPE_FLOAT_MATRIX_2));
+        context, p, location++, "fm2x2", JCGLType.TYPE_FLOAT_MATRIX_2, 1));
   }
 
   private static void onLinkUniforms2(
@@ -351,16 +369,17 @@ public final class FakeShadersTest extends JCGLShadersContract
 
     uniforms.put(
       "s2", new FakeProgramUniform(
-        context, p, location++, "s2", JCGLType.TYPE_SAMPLER_2D));
+        context, p, location++, "s2", JCGLType.TYPE_SAMPLER_2D, 1));
     uniforms.put(
       "s3", new FakeProgramUniform(
-        context, p, location++, "s3", JCGLType.TYPE_SAMPLER_3D));
+        context, p, location++, "s3", JCGLType.TYPE_SAMPLER_3D, 1));
     uniforms.put(
       "sc", new FakeProgramUniform(
-        context, p, location++, "sc", JCGLType.TYPE_SAMPLER_CUBE));
+        context, p, location++, "sc", JCGLType.TYPE_SAMPLER_CUBE, 1));
   }
 
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override
+  protected Interfaces getInterfaces(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
@@ -373,7 +392,8 @@ public final class FakeShadersTest extends JCGLShadersContract
     }
   }
 
-  @Override protected JCGLShadersType getShaders(final String name)
+  @Override
+  protected JCGLShadersType getShaders(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
@@ -427,7 +447,8 @@ public final class FakeShadersTest extends JCGLShadersContract
     }
   }
 
-  @Override protected List<String> getShaderLines(final String name)
+  @Override
+  protected List<String> getShaderLines(final String name)
   {
     final Class<JCGLShadersContract> c = JCGLShadersContract.class;
     final List<String> lines = new ArrayList<>(32);
@@ -447,7 +468,8 @@ public final class FakeShadersTest extends JCGLShadersContract
     }
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
@@ -455,7 +477,8 @@ public final class FakeShadersTest extends JCGLShadersContract
   private static final class FakeShadersTestListener
     extends FakeDefaultShaderListener
   {
-    @Override public void onCompileFragmentShaderStart(
+    @Override
+    public void onCompileFragmentShaderStart(
       final FakeContext context,
       final String name,
       final List<String> sources)
@@ -468,7 +491,8 @@ public final class FakeShadersTest extends JCGLShadersContract
       }
     }
 
-    @Override public void onCompileGeometryShaderStart(
+    @Override
+    public void onCompileGeometryShaderStart(
       final FakeContext context,
       final String name,
       final List<String> sources)
@@ -481,7 +505,8 @@ public final class FakeShadersTest extends JCGLShadersContract
       }
     }
 
-    @Override public void onCompileVertexShaderStart(
+    @Override
+    public void onCompileVertexShaderStart(
       final FakeContext context,
       final String name,
       final List<String> sources)
@@ -494,7 +519,8 @@ public final class FakeShadersTest extends JCGLShadersContract
       }
     }
 
-    @Override public void onLinkProgram(
+    @Override
+    public void onLinkProgram(
       final FakeContext context,
       final JCGLProgramShaderUsableType p,
       final String name,
@@ -508,6 +534,11 @@ public final class FakeShadersTest extends JCGLShadersContract
 
       if ("valid0".equals(name)) {
         FakeShadersTest.onLinkValid0(context, p, attributes, uniforms);
+        return;
+      }
+
+      if ("validarray0".equals(name)) {
+        FakeShadersTest.onLinkValidArray0(context, p, attributes, uniforms);
         return;
       }
 

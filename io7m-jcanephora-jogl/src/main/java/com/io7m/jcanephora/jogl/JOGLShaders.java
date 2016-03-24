@@ -45,6 +45,7 @@ import com.io7m.jtensors.VectorReadable3FType;
 import com.io7m.jtensors.VectorReadable3IType;
 import com.io7m.jtensors.VectorReadable4FType;
 import com.io7m.jtensors.VectorReadable4IType;
+import com.io7m.junreachable.UnreachableCodeException;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GL3;
@@ -55,6 +56,7 @@ import org.slf4j.LoggerFactory;
 import org.valid4j.Assertive;
 
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -598,6 +600,8 @@ final class JOGLShaders implements JCGLShadersType
       final int type_raw = buffer_type.get(0);
       final JCGLType type = JOGLTypeConversions.typeFromGL(type_raw);
 
+      final int size = buffer_size.get(0);
+
       final int name_length = buffer_length.get(0);
       final byte[] temp_buffer = new byte[name_length];
       buffer_name.get(temp_buffer);
@@ -614,17 +618,18 @@ final class JOGLShaders implements JCGLShadersType
 
       if (JOGLShaders.LOG.isTraceEnabled()) {
         JOGLShaders.LOG.trace(
-          "[{}] uniform {} {} {} {}",
+          "[{}] uniform {} {} {} {} (size {})",
           program.getName(),
           Integer.valueOf(index),
           name,
           Integer.valueOf(location),
-          type);
+          type,
+          Integer.valueOf(size));
       }
 
       Assertive.require(!out.containsKey(name));
       final JOGLProgramUniform uniform =
-        new JOGLProgramUniform(c, program, location, name, type);
+        new JOGLProgramUniform(c, program, location, name, type, size);
       out.put(name, uniform);
     }
   }
@@ -678,6 +683,96 @@ final class JOGLShaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER);
     this.g3.glUniform1ui(u.getGLName(), value);
+  }
+
+  @Override
+  public void shaderUniformPutVectorf(
+    final JCGLProgramUniformType u,
+    final FloatBuffer value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActive(u);
+    this.checkIsFloatingPoint(u);
+
+    final int available = value.capacity();
+    final JCGLType type = u.getType();
+    final int required = type.getElementCount();
+    if (available < required) {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Uniform data error.");
+      sb.append(System.lineSeparator());
+      sb.append("Expected: A buffer containing at least ");
+      sb.append(required);
+      sb.append(" floating point values");
+      sb.append(System.lineSeparator());
+      sb.append("Actual: A buffer containing ");
+      sb.append(available);
+      sb.append(" floating point values");
+      throw new JCGLExceptionProgramTypeError(sb.toString());
+    }
+
+    final int location = u.getGLName();
+    final int elements = u.getSize();
+    switch (type) {
+      case TYPE_BOOLEAN:
+      case TYPE_BOOLEAN_VECTOR_2:
+      case TYPE_BOOLEAN_VECTOR_3:
+      case TYPE_BOOLEAN_VECTOR_4:
+      case TYPE_INTEGER:
+      case TYPE_INTEGER_VECTOR_2:
+      case TYPE_INTEGER_VECTOR_3:
+      case TYPE_INTEGER_VECTOR_4:
+      case TYPE_SAMPLER_2D:
+      case TYPE_SAMPLER_3D:
+      case TYPE_SAMPLER_CUBE:
+      case TYPE_UNSIGNED_INTEGER:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_2:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_3:
+      case TYPE_UNSIGNED_INTEGER_VECTOR_4:
+        throw new UnreachableCodeException();
+      case TYPE_FLOAT:
+        this.g3.glUniform1fv(location, elements, value);
+        break;
+      case TYPE_FLOAT_VECTOR_2:
+        this.g3.glUniform2fv(location, elements, value);
+        break;
+      case TYPE_FLOAT_VECTOR_3:
+        this.g3.glUniform3fv(location, elements, value);
+        break;
+      case TYPE_FLOAT_VECTOR_4:
+        this.g3.glUniform4fv(location, elements, value);
+        break;
+      case TYPE_FLOAT_MATRIX_2:
+        this.g3.glUniformMatrix2fv(location, elements, false, value);
+        break;
+      case TYPE_FLOAT_MATRIX_3:
+        this.g3.glUniformMatrix3fv(location, elements, false, value);
+        break;
+      case TYPE_FLOAT_MATRIX_4:
+        this.g3.glUniformMatrix4fv(location, elements, false, value);
+        break;
+      case TYPE_FLOAT_MATRIX_4x3:
+        this.g3.glUniformMatrix4x3fv(location, elements, false, value);
+        break;
+      case TYPE_FLOAT_MATRIX_4x2:
+        this.g3.glUniformMatrix4x2fv(location, elements, false, value);
+        break;
+      case TYPE_FLOAT_MATRIX_3x4:
+        this.g3.glUniformMatrix3x4fv(location, elements, false, value);
+        break;
+      case TYPE_FLOAT_MATRIX_3x2:
+        this.g3.glUniformMatrix3x2fv(location, elements, false, value);
+        break;
+      case TYPE_FLOAT_MATRIX_2x4:
+        this.g3.glUniformMatrix2x4fv(location, elements, false, value);
+        break;
+      case TYPE_FLOAT_MATRIX_2x3:
+        this.g3.glUniformMatrix2x3fv(location, elements, false, value);
+        break;
+    }
   }
 
   @Override
@@ -875,17 +970,45 @@ final class JOGLShaders implements JCGLShadersType
     final JCGLProgramUniformType u,
     final JCGLType type_given)
   {
-    final JCGLProgramShaderUsableType u_program = u.getProgram();
-    if (this.check_active) {
-      if (!u_program.equals(this.current)) {
-        throw this.errorNotActive(u_program);
-      }
-    }
+    this.checkActive(u);
+    this.checkType(u, type_given);
+  }
 
+  private void checkType(
+    final JCGLProgramUniformType u,
+    final JCGLType type_given)
+  {
     if (this.check_type) {
       final JCGLType type_uniform = u.getType();
       if (!type_uniform.equals(type_given)) {
         throw JOGLShaders.errorWrongType(u, type_given);
+      }
+    }
+  }
+
+  private void checkIsFloatingPoint(final JCGLProgramUniformType u)
+  {
+    if (this.check_type) {
+      final JCGLType type_uniform = u.getType();
+      if (!type_uniform.isFloatingPointType()) {
+        final StringBuilder sb = new StringBuilder(128);
+        sb.append("Uniform type error.");
+        sb.append(System.lineSeparator());
+        sb.append("Expected: A floating point type");
+        sb.append(System.lineSeparator());
+        sb.append("Actual: ");
+        sb.append(type_uniform);
+        throw new JCGLExceptionProgramTypeError(sb.toString());
+      }
+    }
+  }
+
+  private void checkActive(final JCGLProgramUniformType u)
+  {
+    final JCGLProgramShaderUsableType u_program = u.getProgram();
+    if (this.check_active) {
+      if (!u_program.equals(this.current)) {
+        throw this.errorNotActive(u_program);
       }
     }
   }

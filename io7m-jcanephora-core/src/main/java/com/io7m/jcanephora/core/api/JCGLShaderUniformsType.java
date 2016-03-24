@@ -30,6 +30,8 @@ import com.io7m.jtensors.VectorReadable3IType;
 import com.io7m.jtensors.VectorReadable4FType;
 import com.io7m.jtensors.VectorReadable4IType;
 
+import java.nio.FloatBuffer;
+
 /**
  * The interface to setting uniforms in shaders.
  */
@@ -126,6 +128,35 @@ public interface JCGLShaderUniformsType
   void shaderUniformPutUnsignedInteger(
     JCGLProgramUniformType u,
     int value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * This method is provided to allow for the use of array-typed uniforms in
+   * GLSL programs, where the type of the array elements are scalar floating
+   * point values, or vector floating point values.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  void shaderUniformPutVectorf(
+    JCGLProgramUniformType u,
+    FloatBuffer value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,

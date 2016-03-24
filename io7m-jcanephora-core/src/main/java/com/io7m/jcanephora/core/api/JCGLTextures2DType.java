@@ -179,4 +179,17 @@ public interface JCGLTextures2DType
     JCGLTextureUnitType unit,
     JCGLTexture2DUsableType texture)
     throws JCGLException;
+
+  /**
+   * Regenerate the mipmaps for the 2D texture bound to the texture unit {@code
+   * unit}. If the texture does not have mipmaps, the function has no effect.
+   *
+   * @param unit The texture unit
+   *
+   * @throws JCGLException Iff an OpenGL error occurs
+   */
+
+  void texture2DRegenerateMipmaps(
+    JCGLTextureUnitType unit)
+    throws JCGLException;
 }

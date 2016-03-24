@@ -3,6 +3,40 @@
   <c:project>io7m-jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
+    <c:date>2016-03-24</c:date>
+    <c:version>0.45.2</c:version>
+    <c:item>
+      <c:date>2016-01-28</c:date>
+      <c:type-code-fix/>
+      <c:ticket>34</c:ticket>
+      <c:summary>Fix illegal concurrent modification in texture unbinding code.</c:summary>
+    </c:item>
+    <c:item>
+      <c:date>2016-01-28</c:date>
+      <c:type-code-new/>
+      <c:summary>Optimization: If a texture is already bound to a unit, binding it again has no effect.</c:summary>
+    </c:item>
+    <c:item>
+      <c:date>2016-02-06</c:date>
+      <c:type-code-new/>
+      <c:ticket>37</c:ticket>
+      <c:summary>Add method for setting floating-point array-typed GLSL uniforms.</c:summary>
+    </c:item>
+    <c:item>
+      <c:date>2016-03-23</c:date>
+      <c:type-code-new/>
+      <c:ticket>41</c:ticket>
+      <c:summary>Add functions for regenerating textures.</c:summary>
+    </c:item>
+    <c:item>
+      <c:date>2016-03-24</c:date>
+      <c:type-code-fix/>
+      <c:ticket>38</c:ticket>
+      <c:summary>Reduce heap usage for texture tracking.</c:summary>
+    </c:item>
+  </c:release>
+
+  <c:release c:ticket-system="com.github.io7m.jcanephora">
     <c:date>2016-01-26</c:date>
     <c:version>0.45.1</c:version>
     <c:item>

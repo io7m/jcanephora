@@ -244,4 +244,18 @@ public interface JCGLTexturesCubeType
       JCGLCubeMapFaceLH.fromRH(face),
       texture);
   }
+
+  /**
+   * Regenerate the mipmaps for the cube texture bound to the texture unit
+   * {@code unit}. If the texture does not have mipmaps, the function has no
+   * effect.
+   *
+   * @param unit The texture unit
+   *
+   * @throws JCGLException Iff an OpenGL error occurs
+   */
+
+  void textureCubeRegenerateMipmaps(
+    JCGLTextureUnitType unit)
+    throws JCGLException;
 }

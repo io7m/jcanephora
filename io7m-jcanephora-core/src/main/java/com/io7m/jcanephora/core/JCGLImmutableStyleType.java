@@ -39,7 +39,7 @@ import java.lang.annotation.Target;
   build = "build",
   visibility = Value.Style.ImplementationVisibility.PUBLIC,
   defaults = @Value.Immutable(copy = false))
-@interface JCGLImmutableStyleType
+public @interface JCGLImmutableStyleType
 {
 
 }
