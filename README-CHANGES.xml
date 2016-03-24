@@ -3,7 +3,7 @@
   <c:project>io7m-jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
-    <c:date>2016-01-28</c:date>
+    <c:date>2016-03-24</c:date>
     <c:version>0.45.2</c:version>
     <c:item>
       <c:date>2016-01-28</c:date>
