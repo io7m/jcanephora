@@ -28,6 +28,12 @@
       <c:ticket>41</c:ticket>
       <c:summary>Add functions for regenerating textures.</c:summary>
     </c:item>
+    <c:item>
+      <c:date>2016-03-24</c:date>
+      <c:type-code-fix/>
+      <c:ticket>38</c:ticket>
+      <c:summary>Reduce heap usage for texture tracking.</c:summary>
+    </c:item>
   </c:release>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
