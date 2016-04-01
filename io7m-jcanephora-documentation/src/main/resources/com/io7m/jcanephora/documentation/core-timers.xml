@@ -1,0 +1,93 @@
+<s:section
+  xml:id="core_interfaces.timers"
+  xmlns:s="http://schemas.io7m.com/structural/2.1.0">
+  <s:section-title>JCGLTimersType</s:section-title>
+  <s:section-contents/>
+
+  <s:subsection>
+    <s:subsection-title>Description</s:subsection-title>
+    <s:paragraph>
+      The
+      <s:link-external
+        s:target="apidocs/com/io7m/jcanephora/core/api/JCGLTimersType.html">
+        JCGLTimersType
+      </s:link-external>
+      interface provides functions for allocating and evaluating
+      timer queries.
+    </s:paragraph>
+  </s:subsection>
+
+  <s:subsection>
+    <s:subsection-title>Usage examples</s:subsection-title>
+    <s:paragraph>
+      The <s:term s:type="type">JCGLTimersType</s:term>
+      interfaces expose functions that allocate and evaluate timer
+      queries. A timer query is, at the most basic level, a way of
+      having the GPU record the current time in a manner that can be
+      retrieved by the CPU later on.
+    </s:paragraph>
+    <s:paragraph>
+      To allocate a new timer query:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Allocation</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLTimersType g;
+JCGLTimerType t = g.timerQueryAllocate();
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      A timer query must be asynchronously updated and can then later
+      be queried. For example, to measure the time it takes to execute
+      a series of OpenGL commands:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Timing</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLDrawType gd;
+JCGLTimersType g;
+JCGLTimerType t_start;
+JCGLTimerType t_end;
+
+g.timerQueryUpdate(t_start);
+gd.drawElements(JCGLPrimitives.PRIMITIVE_TRIANGLES);
+gd.drawElements(JCGLPrimitives.PRIMITIVE_TRIANGLES);
+gd.drawElements(JCGLPrimitives.PRIMITIVE_TRIANGLES);
+g.timerQueryUpdate(t_end);
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      The <s:term s:type="type">timerQueryUpdate</s:term> commands execute
+      asynchronously, recording the current time on the GPU as the GPU
+      reaches each command in the queue. The application can then ask the
+      GPU if both timer commands have finished executing, and return the
+      recorded time values if they have:
+    </s:paragraph>
+    <s:formal-item s:kind="examples">
+      <s:formal-item-title>Retrieval</s:formal-item-title>
+      <s:verbatim><![CDATA[
+JCGLDrawType gd;
+JCGLTimersType g;
+JCGLTimerType t_start;
+JCGLTimerType t_end;
+
+if (g.timerQueryResultIsReady(t_start) && g.timerQueryResultIsReady(t_end)) {
+  long time_start = g.timerQueryResultGet(t_start);
+  long time_end   = g.timerQueryResultGet(t_end);
+  // The time to execute the three draw commands is time_end - time_start nanoseconds
+}
+]]></s:verbatim>
+    </s:formal-item>
+    <s:paragraph>
+      Calling <s:term s:type="type">timerQueryResultGet</s:term> implies
+      synchronization between the CPU and GPU and should therefore be called
+      after all other rendering operations for the frame have completed. As
+      timer queries are most often used to implement OpenGL profiling, this
+      is not usually an onerous restriction. Generally, applications will
+      allocate many timers for their rendering pipelines, update timers during
+      rendering of a frame, and then query all timers at the end of the frame
+      to measure the time taken by each part of the pipeline.
+    </s:paragraph>
+  </s:subsection>
+
+</s:section>

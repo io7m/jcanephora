@@ -33,25 +33,27 @@ import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLStencilBuffersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
+import com.io7m.jcanephora.core.api.JCGLTimersType;
 import com.io7m.jcanephora.core.api.JCGLViewportsType;
 import com.io7m.junreachable.UnimplementedCodeException;
 
 final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
 {
-  private final FakeArrayBuffers       array_buffers;
-  private final FakeArrayObjects       array_objects;
-  private final FakeShaders            shaders;
-  private final FakeIndexBuffers       index_buffers;
-  private final FakeDraw               draw;
-  private final FakeClear              clear;
-  private final FakeTextures           textures;
-  private final FakeBlending           blending;
-  private final FakePolygonMode        poly;
-  private final FakeCulling            culling;
+  private final FakeArrayBuffers array_buffers;
+  private final FakeArrayObjects array_objects;
+  private final FakeShaders shaders;
+  private final FakeIndexBuffers index_buffers;
+  private final FakeDraw draw;
+  private final FakeClear clear;
+  private final FakeTextures textures;
+  private final FakeBlending blending;
+  private final FakePolygonMode poly;
+  private final FakeCulling culling;
   private final FakeColorBufferMasking color_masking;
-  private final FakeViewports          viewports;
-  private final FakeScissor            scissor;
-  private final FakeFramebuffers       framebuffers;
+  private final FakeViewports viewports;
+  private final FakeScissor scissor;
+  private final FakeFramebuffers framebuffers;
+  private final FakeTimers timers;
 
   FakeInterfaceGL33(final FakeContext c)
     throws JCGLExceptionNonCompliant
@@ -71,85 +73,108 @@ final class FakeInterfaceGL33 implements JCGLInterfaceGL33Type
     this.color_masking = new FakeColorBufferMasking(c);
     this.viewports = new FakeViewports(c);
     this.scissor = new FakeScissor(c);
+    this.timers = new FakeTimers(c);
   }
 
-  @Override public JCGLArrayBuffersType getArrayBuffers()
+  @Override
+  public JCGLArrayBuffersType getArrayBuffers()
   {
     return this.array_buffers;
   }
 
-  @Override public JCGLArrayObjectsType getArrayObjects()
+  @Override
+  public JCGLArrayObjectsType getArrayObjects()
   {
     return this.array_objects;
   }
 
-  @Override public JCGLBlendingType getBlending()
+  @Override
+  public JCGLBlendingType getBlending()
   {
     return this.blending;
   }
 
-  @Override public JCGLDepthBuffersType getDepthBuffers()
+  @Override
+  public JCGLDepthBuffersType getDepthBuffers()
   {
     throw new UnimplementedCodeException();
   }
 
-  @Override public JCGLShadersType getShaders()
+  @Override
+  public JCGLShadersType getShaders()
   {
     return this.shaders;
   }
 
-  @Override public JCGLIndexBuffersType getIndexBuffers()
+  @Override
+  public JCGLIndexBuffersType getIndexBuffers()
   {
     return this.index_buffers;
   }
 
-  @Override public JCGLDrawType getDraw()
+  @Override
+  public JCGLDrawType getDraw()
   {
     return this.draw;
   }
 
-  @Override public JCGLClearType getClear()
+  @Override
+  public JCGLClearType getClear()
   {
     return this.clear;
   }
 
-  @Override public JCGLTexturesType getTextures()
+  @Override
+  public JCGLTexturesType getTextures()
   {
     return this.textures;
   }
 
-  @Override public JCGLFramebuffersType getFramebuffers()
+  @Override
+  public JCGLFramebuffersType getFramebuffers()
   {
     return this.framebuffers;
   }
 
-  @Override public JCGLPolygonModesType getPolygonModes()
+  @Override
+  public JCGLPolygonModesType getPolygonModes()
   {
     return this.poly;
   }
 
-  @Override public JCGLCullingType getCulling()
+  @Override
+  public JCGLCullingType getCulling()
   {
     return this.culling;
   }
 
-  @Override public JCGLColorBufferMaskingType getColorBufferMasking()
+  @Override
+  public JCGLColorBufferMaskingType getColorBufferMasking()
   {
     return this.color_masking;
   }
 
-  @Override public JCGLViewportsType getViewports()
+  @Override
+  public JCGLViewportsType getViewports()
   {
     return this.viewports;
   }
 
-  @Override public JCGLScissorType getScissor()
+  @Override
+  public JCGLScissorType getScissor()
   {
     return this.scissor;
   }
 
-  @Override public JCGLStencilBuffersType getStencilBuffers()
+  @Override
+  public JCGLStencilBuffersType getStencilBuffers()
   {
     throw new UnimplementedCodeException();
+  }
+
+  @Override
+  public JCGLTimersType getTimers()
+  {
+    return this.timers;
   }
 }

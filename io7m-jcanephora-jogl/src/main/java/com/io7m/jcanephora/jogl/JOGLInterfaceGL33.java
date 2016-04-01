@@ -33,27 +33,29 @@ import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLStencilBuffersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
+import com.io7m.jcanephora.core.api.JCGLTimersType;
 import com.io7m.jcanephora.core.api.JCGLViewportsType;
 import com.io7m.jnull.NullCheck;
 
 final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
 {
-  private final JOGLArrayBuffers       array_buffers;
-  private final JOGLArrayObjects       array_objects;
-  private final JOGLShaders            shaders;
-  private final JOGLIndexBuffers       index_buffers;
-  private final JOGLDraw               draw;
-  private final JOGLClear              clear;
-  private final JOGLTextures           textures;
-  private final JOGLFramebuffers       framebuffers;
-  private final JOGLDepthBuffers       depth_buffers;
-  private final JOGLBlending           blending;
-  private final JOGLPolygonMode        poly;
-  private final JOGLCulling            culling;
+  private final JOGLArrayBuffers array_buffers;
+  private final JOGLArrayObjects array_objects;
+  private final JOGLShaders shaders;
+  private final JOGLIndexBuffers index_buffers;
+  private final JOGLDraw draw;
+  private final JOGLClear clear;
+  private final JOGLTextures textures;
+  private final JOGLFramebuffers framebuffers;
+  private final JOGLDepthBuffers depth_buffers;
+  private final JOGLBlending blending;
+  private final JOGLPolygonMode poly;
+  private final JOGLCulling culling;
   private final JOGLColorBufferMasking color_masking;
-  private final JOGLViewports          viewports;
-  private final JOGLScissor            scissor;
-  private final JOGLStencilBuffers     stencil;
+  private final JOGLViewports viewports;
+  private final JOGLScissor scissor;
+  private final JOGLStencilBuffers stencil;
+  private final JOGLTimers timers;
 
   JOGLInterfaceGL33(
     final JOGLContext c)
@@ -78,85 +80,108 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
     this.viewports = new JOGLViewports(c);
     this.scissor = new JOGLScissor(c);
     this.stencil = new JOGLStencilBuffers(c, this.framebuffers);
+    this.timers = new JOGLTimers(c);
   }
 
-  @Override public JCGLArrayBuffersType getArrayBuffers()
+  @Override
+  public JCGLArrayBuffersType getArrayBuffers()
   {
     return this.array_buffers;
   }
 
-  @Override public JCGLArrayObjectsType getArrayObjects()
+  @Override
+  public JCGLArrayObjectsType getArrayObjects()
   {
     return this.array_objects;
   }
 
-  @Override public JCGLBlendingType getBlending()
+  @Override
+  public JCGLBlendingType getBlending()
   {
     return this.blending;
   }
 
-  @Override public JCGLDepthBuffersType getDepthBuffers()
+  @Override
+  public JCGLDepthBuffersType getDepthBuffers()
   {
     return this.depth_buffers;
   }
 
-  @Override public JCGLShadersType getShaders()
+  @Override
+  public JCGLShadersType getShaders()
   {
     return this.shaders;
   }
 
-  @Override public JCGLIndexBuffersType getIndexBuffers()
+  @Override
+  public JCGLIndexBuffersType getIndexBuffers()
   {
     return this.index_buffers;
   }
 
-  @Override public JCGLDrawType getDraw()
+  @Override
+  public JCGLDrawType getDraw()
   {
     return this.draw;
   }
 
-  @Override public JCGLClearType getClear()
+  @Override
+  public JCGLClearType getClear()
   {
     return this.clear;
   }
 
-  @Override public JCGLTexturesType getTextures()
+  @Override
+  public JCGLTexturesType getTextures()
   {
     return this.textures;
   }
 
-  @Override public JCGLFramebuffersType getFramebuffers()
+  @Override
+  public JCGLFramebuffersType getFramebuffers()
   {
     return this.framebuffers;
   }
 
-  @Override public JCGLPolygonModesType getPolygonModes()
+  @Override
+  public JCGLPolygonModesType getPolygonModes()
   {
     return this.poly;
   }
 
-  @Override public JCGLCullingType getCulling()
+  @Override
+  public JCGLCullingType getCulling()
   {
     return this.culling;
   }
 
-  @Override public JCGLColorBufferMaskingType getColorBufferMasking()
+  @Override
+  public JCGLColorBufferMaskingType getColorBufferMasking()
   {
     return this.color_masking;
   }
 
-  @Override public JCGLViewportsType getViewports()
+  @Override
+  public JCGLViewportsType getViewports()
   {
     return this.viewports;
   }
 
-  @Override public JCGLScissorType getScissor()
+  @Override
+  public JCGLScissorType getScissor()
   {
     return this.scissor;
   }
 
-  @Override public JCGLStencilBuffersType getStencilBuffers()
+  @Override
+  public JCGLStencilBuffersType getStencilBuffers()
   {
     return this.stencil;
+  }
+
+  @Override
+  public JCGLTimersType getTimers()
+  {
+    return this.timers;
   }
 }

@@ -32,6 +32,7 @@ import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
 import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
 import com.io7m.jcanephora.core.JCGLTextureCubeUsableType;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
+import com.io7m.jcanephora.core.JCGLTimerQueryUsableType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
@@ -40,28 +41,16 @@ import com.jogamp.opengl.GLContext;
 // @formatter:off
 
 /**
- * <p>
- * Functions for checking whether objects are usable on the current context.
- * </p>
- * <p>
- * For an arbitrary <i>shared</i> OpenGL object {@code o}, the context
- * {@code C} upon which {@code o} was created, and an arbitrary
- * object {@code D}, {@code o} can be passed to functions on
- * {@code D} iff:
- * </p>
- * <ul>
- * <li>{@code C} is equal to {@code D}.</li>
- * <li>{@code C} is shared with {@code D} (sharing is symmetric).</li>
- * </ul>
- * <p>
- * For an arbitrary <i>unshared</i> OpenGL object {@code o}, the context
- * {@code C} upon which {@code o} was created, and an arbitrary
- * object {@code D}, {@code o} can be passed to functions on
- * {@code D} iff:
- * </p>
- * <ul>
- * <li>{@code C} is equal to {@code D}.</li>
- * </ul>
+ * <p> Functions for checking whether objects are usable on the current context.
+ * </p> <p> For an arbitrary <i>shared</i> OpenGL object {@code o}, the context
+ * {@code C} upon which {@code o} was created, and an arbitrary object {@code
+ * D}, {@code o} can be passed to functions on {@code D} iff: </p> <ul>
+ * <li>{@code C} is equal to {@code D}.</li> <li>{@code C} is shared with {@code
+ * D} (sharing is symmetric).</li> </ul> <p> For an arbitrary <i>unshared</i>
+ * OpenGL object {@code o}, the context {@code C} upon which {@code o} was
+ * created, and an arbitrary object {@code D}, {@code o} can be passed to
+ * functions on {@code D} iff: </p> <ul> <li>{@code C} is equal to {@code
+ * D}.</li> </ul>
  *
  * @see JOGLObjectShared
  * @see JOGLObjectUnshared
@@ -76,7 +65,8 @@ final class JOGLCompatibilityChecks
     throw new UnreachableCodeException();
   }
 
-  @SuppressWarnings("unchecked") private static <A> A checkAny(
+  @SuppressWarnings("unchecked")
+  private static <A> A checkAny(
     final GLContext current,
     final A x)
     throws JCGLExceptionWrongContext
@@ -117,7 +107,7 @@ final class JOGLCompatibilityChecks
     throw new JCGLExceptionWrongContext(
       String.format(
         "Object cannot be used: Current context %s is not equal to object's "
-        + "context %s", current, target));
+          + "context %s", current, target));
   }
 
   public static void checkArray(
@@ -152,13 +142,13 @@ final class JOGLCompatibilityChecks
       throw new JCGLExceptionWrongContext(
         String.format(
           "Object cannot be used: Current context %s is shared, but is not "
-          + "shared with object's context %s", current, target));
+            + "shared with object's context %s", current, target));
     }
 
     throw new JCGLExceptionWrongContext(
       String.format(
         "Object cannot be used: Current context %s is not shared, and is not "
-        + "equal to object's context %s", current, target));
+          + "equal to object's context %s", current, target));
   }
 
   private static <A extends JOGLObjectUnshared> A checkObjectUnshared(
@@ -174,7 +164,7 @@ final class JOGLCompatibilityChecks
     throw new JCGLExceptionWrongContext(
       String.format(
         "Object cannot be used: Current context %s is not equal to object's "
-        + "context %s", current, target));
+          + "context %s", current, target));
   }
 
   public static void checkArrayObjectBuilder(
@@ -289,5 +279,14 @@ final class JOGLCompatibilityChecks
     final JCGLTextureCubeUsableType t)
   {
     return (JOGLTextureCube) JOGLCompatibilityChecks.checkAny(c, t);
+  }
+
+  public static JOGLTimerQuery checkTimerQuery(
+    final GLContext c,
+    final JCGLTimerQueryUsableType q)
+  {
+    NullCheck.notNull(c);
+    NullCheck.notNull(q);
+    return (JOGLTimerQuery) JOGLCompatibilityChecks.checkAny(c, q);
   }
 }

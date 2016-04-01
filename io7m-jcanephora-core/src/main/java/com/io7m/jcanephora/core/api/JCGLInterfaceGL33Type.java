@@ -117,4 +117,10 @@ public interface JCGLInterfaceGL33Type
    */
 
   JCGLStencilBuffersType getStencilBuffers();
+
+  /**
+   * @return The timers interface
+   */
+
+  JCGLTimersType getTimers();
 }
