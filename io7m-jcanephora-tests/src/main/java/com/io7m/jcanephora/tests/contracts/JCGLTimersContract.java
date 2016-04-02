@@ -17,6 +17,8 @@
 package com.io7m.jcanephora.tests.contracts;
 
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLExceptionQueryAlreadyRunning;
+import com.io7m.jcanephora.core.JCGLExceptionQueryNotRunning;
 import com.io7m.jcanephora.core.JCGLTimerQueryType;
 import com.io7m.jcanephora.core.api.JCGLTimersType;
 import org.junit.Assert;
@@ -49,26 +51,33 @@ public abstract class JCGLTimersContract extends JCGLContract
 
   @Test
   public final void testOrdering()
+    throws Exception
   {
     final JCGLTimersType g_t = this.getTimers("main");
 
     final JCGLTimerQueryType q0 = g_t.timerQueryAllocate();
-    final JCGLTimerQueryType q1 = g_t.timerQueryAllocate();
 
-    g_t.timerQueryUpdate(q0);
-    g_t.timerQueryUpdate(q1);
+    g_t.timerQueryBegin(q0);
 
-    while (!g_t.timerQueryResultIsReady(q0) && !g_t.timerQueryResultIsReady(q1)) {
-      // Nothing
+    // Do some work to waste time
+    g_t.timerQueryAllocate();
+    g_t.timerQueryAllocate();
+    g_t.timerQueryAllocate();
+    g_t.timerQueryAllocate();
+    g_t.timerQueryAllocate();
+
+    g_t.timerQueryFinish(q0);
+
+    while (!g_t.timerQueryResultIsReady(q0)) {
+      System.out.println("Waiting for q0: " + q0);
+      Thread.sleep(1000L);
     }
 
     final long q0_r = g_t.timerQueryResultGet(q0);
-    final long q1_r = g_t.timerQueryResultGet(q1);
 
     System.out.println("q0_r: " + q0_r);
-    System.out.println("q1_r: " + q1_r);
 
-    Assert.assertTrue(q0_r < q1_r);
+    Assert.assertTrue(q0_r > 0);
   }
 
   @Test
@@ -83,5 +92,55 @@ public abstract class JCGLTimersContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionDeleted.class);
     g_t.timerQueryDelete(q);
+  }
+
+  @Test
+  public final void testBeginRunning()
+  {
+    final JCGLTimersType g_t = this.getTimers("main");
+
+    final JCGLTimerQueryType q = g_t.timerQueryAllocate();
+
+    g_t.timerQueryBegin(q);
+    this.expected.expect(JCGLExceptionQueryAlreadyRunning.class);
+    g_t.timerQueryBegin(q);
+  }
+
+  @Test
+  public final void testBeginRunningOther()
+  {
+    final JCGLTimersType g_t = this.getTimers("main");
+
+    final JCGLTimerQueryType q0 = g_t.timerQueryAllocate();
+    final JCGLTimerQueryType q1 = g_t.timerQueryAllocate();
+
+    g_t.timerQueryBegin(q0);
+    this.expected.expect(JCGLExceptionQueryAlreadyRunning.class);
+    g_t.timerQueryBegin(q1);
+  }
+
+  @Test
+  public final void testFinishNotRunning()
+  {
+    final JCGLTimersType g_t = this.getTimers("main");
+
+    final JCGLTimerQueryType q = g_t.timerQueryAllocate();
+
+    this.expected.expect(JCGLExceptionQueryNotRunning.class);
+    g_t.timerQueryFinish(q);
+  }
+
+  @Test
+  public final void testFinishNotRunningOther()
+  {
+    final JCGLTimersType g_t = this.getTimers("main");
+
+    final JCGLTimerQueryType q0 = g_t.timerQueryAllocate();
+    final JCGLTimerQueryType q1 = g_t.timerQueryAllocate();
+
+    g_t.timerQueryBegin(q0);
+
+    this.expected.expect(JCGLExceptionQueryNotRunning.class);
+    g_t.timerQueryFinish(q1);
   }
 }
