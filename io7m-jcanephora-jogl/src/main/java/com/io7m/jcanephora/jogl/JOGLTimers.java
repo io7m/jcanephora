@@ -19,6 +19,7 @@ package com.io7m.jcanephora.jogl;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionQueryAlreadyRunning;
 import com.io7m.jcanephora.core.JCGLExceptionQueryNotRunning;
+import com.io7m.jcanephora.core.JCGLQueryResultAvailability;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLTimerQueryType;
 import com.io7m.jcanephora.core.JCGLTimerQueryUsableType;
@@ -71,6 +72,7 @@ final class JOGLTimers implements JCGLTimersType
       JOGLTimers.LOG.debug("allocate {}", Integer.valueOf(t.getGLName()));
     }
 
+    this.timerQueryResultAvailability(t);
     return t;
   }
 
@@ -95,6 +97,7 @@ final class JOGLTimers implements JCGLTimersType
     }
 
     this.g3.glBeginQuery(GL3.GL_TIME_ELAPSED, tq.getGLName());
+    tq.setExecuted(true);
     this.running = tq;
   }
 
@@ -125,7 +128,7 @@ final class JOGLTimers implements JCGLTimersType
   }
 
   @Override
-  public boolean timerQueryResultIsReady(
+  public JCGLQueryResultAvailability timerQueryResultAvailability(
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
@@ -135,10 +138,18 @@ final class JOGLTimers implements JCGLTimersType
       JOGLCompatibilityChecks.checkTimerQuery(this.context.getContext(), q);
     JCGLResources.checkNotDeleted(q);
 
+    if (!tq.isExecuted()) {
+      return JCGLQueryResultAvailability.QUERY_RESULT_NOT_YET_REQUESTED;
+    }
+
     this.icache.rewind();
     this.g3.glGetQueryObjectiv(
       tq.getGLName(), GL3.GL_QUERY_RESULT_AVAILABLE, this.icache);
-    return this.icache.get(0) == GL.GL_TRUE;
+    final boolean available = this.icache.get(0) == GL.GL_TRUE;
+    if (available) {
+      return JCGLQueryResultAvailability.QUERY_RESULT_AVAILABLE;
+    }
+    return JCGLQueryResultAvailability.QUERY_RESULT_NOT_YET_AVAILABLE;
   }
 
   @Override

@@ -19,6 +19,7 @@ package com.io7m.jcanephora.fake;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionQueryAlreadyRunning;
 import com.io7m.jcanephora.core.JCGLExceptionQueryNotRunning;
+import com.io7m.jcanephora.core.JCGLQueryResultAvailability;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLTimerQueryType;
 import com.io7m.jcanephora.core.JCGLTimerQueryUsableType;
@@ -104,7 +105,7 @@ final class FakeTimers implements JCGLTimersType
   }
 
   @Override
-  public boolean timerQueryResultIsReady(
+  public JCGLQueryResultAvailability timerQueryResultAvailability(
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
@@ -113,7 +114,7 @@ final class FakeTimers implements JCGLTimersType
     final FakeTimerQuery tq =
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);
     JCGLResources.checkNotDeleted(q);
-    return true;
+    return JCGLQueryResultAvailability.QUERY_RESULT_AVAILABLE;
   }
 
   @Override

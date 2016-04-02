@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 <code@io7m.com> http://io7m.com
+ * Copyright © 2016 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,39 +14,31 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLTimerQueryType;
-import com.jogamp.opengl.GLContext;
+/**
+ * The availability of a query result.
+ */
 
-final class JOGLTimerQuery extends JOGLObjectUnshared
-  implements JCGLTimerQueryType
+public enum JCGLQueryResultAvailability
 {
-  private boolean executed;
+  /**
+   * A query result is available.
+   */
 
-  JOGLTimerQuery(
-    final GLContext ctx,
-    final int id)
-  {
-    super(ctx, id);
-  }
+  QUERY_RESULT_AVAILABLE,
 
-  @Override
-  public String toString()
-  {
-    final StringBuilder sb = new StringBuilder("[TimerQuery ");
-    sb.append(super.getGLName());
-    sb.append(']');
-    return sb.toString();
-  }
+  /**
+   * A query result is not yet available, but the query is either running or is
+   * due to run.
+   */
 
-  public void setExecuted(final boolean e)
-  {
-    this.executed = e;
-  }
+  QUERY_RESULT_NOT_YET_AVAILABLE,
 
-  public boolean isExecuted()
-  {
-    return this.executed;
-  }
+  /**
+   * A query result is not available and will not be available until the query
+   * is actually told to execute.
+   */
+
+  QUERY_RESULT_NOT_YET_REQUESTED
 }

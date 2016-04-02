@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.core.api;
 
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLQueryResultAvailability;
 import com.io7m.jcanephora.core.JCGLTimerQueryType;
 import com.io7m.jcanephora.core.JCGLTimerQueryUsableType;
 
@@ -81,15 +82,26 @@ public interface JCGLTimersType
    * other rendering commands have been submitted for execution (perhaps at the
    * end of a frame).</p>
    *
+   * <p>A query that has not yet been started with {@link
+   * #timerQueryBegin(JCGLTimerQueryUsableType)} will yield {@link
+   * JCGLQueryResultAvailability#QUERY_RESULT_NOT_YET_REQUESTED}.</p>
+   *
+   * <p>A query that has been started with {@link #timerQueryBegin(JCGLTimerQueryUsableType)}
+   * but that has not been executed by the GPU will yield {@link
+   * JCGLQueryResultAvailability#QUERY_RESULT_NOT_YET_AVAILABLE}.</p>
+   *
+   * <p>A query that has been fully executed by the GPU will yield {@link
+   * JCGLQueryResultAvailability#QUERY_RESULT_AVAILABLE}.</p>
+   *
    * @param q The query
    *
-   * @return {@code true} if the result of the timer query is ready
+   * @return The availability of the result of the timer query
    *
    * @throws JCGLException On errors
    * @see #timerQueryResultGet(JCGLTimerQueryUsableType)
    */
 
-  boolean timerQueryResultIsReady(
+  JCGLQueryResultAvailability timerQueryResultAvailability(
     JCGLTimerQueryUsableType q)
     throws JCGLException;
 

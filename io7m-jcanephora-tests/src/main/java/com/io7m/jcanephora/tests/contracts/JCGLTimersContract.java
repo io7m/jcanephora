@@ -19,6 +19,7 @@ package com.io7m.jcanephora.tests.contracts;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionQueryAlreadyRunning;
 import com.io7m.jcanephora.core.JCGLExceptionQueryNotRunning;
+import com.io7m.jcanephora.core.JCGLQueryResultAvailability;
 import com.io7m.jcanephora.core.JCGLTimerQueryType;
 import com.io7m.jcanephora.core.api.JCGLTimersType;
 import org.junit.Assert;
@@ -68,7 +69,7 @@ public abstract class JCGLTimersContract extends JCGLContract
 
     g_t.timerQueryFinish(q0);
 
-    while (!g_t.timerQueryResultIsReady(q0)) {
+    while (g_t.timerQueryResultAvailability(q0) == JCGLQueryResultAvailability.QUERY_RESULT_NOT_YET_AVAILABLE) {
       System.out.println("Waiting for q0: " + q0);
       Thread.sleep(1000L);
     }
@@ -78,6 +79,16 @@ public abstract class JCGLTimersContract extends JCGLContract
     System.out.println("q0_r: " + q0_r);
 
     Assert.assertTrue(q0_r > 0);
+  }
+
+  @Test
+  public final void testNotAvailable()
+  {
+    final JCGLTimersType g_t = this.getTimers("main");
+    final JCGLTimerQueryType q = g_t.timerQueryAllocate();
+    Assert.assertEquals(
+      JCGLQueryResultAvailability.QUERY_RESULT_NOT_YET_REQUESTED,
+      g_t.timerQueryResultAvailability(q));
   }
 
   @Test
