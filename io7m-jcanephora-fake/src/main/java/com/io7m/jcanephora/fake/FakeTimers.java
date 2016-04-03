@@ -91,7 +91,7 @@ final class FakeTimers implements JCGLTimersType
 
     if (!Objects.equals(q, this.running)) {
       final StringBuilder sb = new StringBuilder(128);
-      sb.append("Timer query is already running.");
+      sb.append("This timer query is not running.");
       sb.append(System.lineSeparator());
       if (this.running != null) {
         sb.append("Currently running query: ");
