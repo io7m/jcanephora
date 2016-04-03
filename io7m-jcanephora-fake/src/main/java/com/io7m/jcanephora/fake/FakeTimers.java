@@ -75,6 +75,7 @@ final class FakeTimers implements JCGLTimersType
     }
 
     tq.setTimeStart(System.nanoTime());
+    tq.setStarted(true);
     this.running = tq;
   }
 
@@ -114,6 +115,11 @@ final class FakeTimers implements JCGLTimersType
     final FakeTimerQuery tq =
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);
     JCGLResources.checkNotDeleted(q);
+
+    if (!tq.isStarted()) {
+      return JCGLQueryResultAvailability.QUERY_RESULT_NOT_YET_REQUESTED;
+    }
+
     return JCGLQueryResultAvailability.QUERY_RESULT_AVAILABLE;
   }
 

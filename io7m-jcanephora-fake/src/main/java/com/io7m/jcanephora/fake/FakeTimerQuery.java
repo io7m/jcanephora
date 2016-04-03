@@ -23,6 +23,7 @@ final class FakeTimerQuery extends FakeObjectUnshared
 {
   private long time_start;
   private long time_end;
+  private boolean started;
 
   FakeTimerQuery(
     final FakeContext ctx,
@@ -58,5 +59,15 @@ final class FakeTimerQuery extends FakeObjectUnshared
     sb.append(super.getGLName());
     sb.append(']');
     return sb.toString();
+  }
+
+  void setStarted(final boolean s)
+  {
+    this.started = s;
+  }
+
+  boolean isStarted()
+  {
+    return this.started;
   }
 }
