@@ -17,13 +17,19 @@
 package com.io7m.jcanephora.fake;
 
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLExceptionQueryAlreadyRunning;
+import com.io7m.jcanephora.core.JCGLExceptionQueryNotRunning;
+import com.io7m.jcanephora.core.JCGLQueryResultAvailability;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLTimerQueryType;
 import com.io7m.jcanephora.core.JCGLTimerQueryUsableType;
 import com.io7m.jcanephora.core.api.JCGLTimersType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 final class FakeTimers implements JCGLTimersType
 {
@@ -34,6 +40,7 @@ final class FakeTimers implements JCGLTimersType
   }
 
   private final FakeContext context;
+  private @Nullable FakeTimerQuery running;
 
   FakeTimers(final FakeContext c)
   {
@@ -48,8 +55,7 @@ final class FakeTimers implements JCGLTimersType
   }
 
   @Override
-  public void timerQueryUpdate(
-    final JCGLTimerQueryUsableType q)
+  public void timerQueryBegin(final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
     NullCheck.notNull(q);
@@ -58,11 +64,49 @@ final class FakeTimers implements JCGLTimersType
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);
     JCGLResources.checkNotDeleted(q);
 
-    tq.update(System.nanoTime());
+    if (this.running != null) {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("Timer query is already running.");
+      sb.append(System.lineSeparator());
+      sb.append("Query: ");
+      sb.append(q);
+      sb.append(System.lineSeparator());
+      throw new JCGLExceptionQueryAlreadyRunning(sb.toString());
+    }
+
+    tq.setTimeStart(System.nanoTime());
+    tq.setStarted(true);
+    this.running = tq;
   }
 
   @Override
-  public boolean timerQueryResultIsReady(
+  public void timerQueryFinish(final JCGLTimerQueryUsableType q)
+    throws JCGLException
+  {
+    NullCheck.notNull(q);
+
+    final FakeTimerQuery tq =
+      FakeCompatibilityChecks.checkTimerQuery(this.context, q);
+    JCGLResources.checkNotDeleted(q);
+
+    if (!Objects.equals(q, this.running)) {
+      final StringBuilder sb = new StringBuilder(128);
+      sb.append("This timer query is not running.");
+      sb.append(System.lineSeparator());
+      if (this.running != null) {
+        sb.append("Currently running query: ");
+        sb.append(this.running);
+        sb.append(System.lineSeparator());
+      }
+      throw new JCGLExceptionQueryNotRunning(sb.toString());
+    }
+
+    tq.setTimeEnd(System.nanoTime());
+    this.running = null;
+  }
+
+  @Override
+  public JCGLQueryResultAvailability timerQueryResultAvailability(
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
@@ -71,7 +115,12 @@ final class FakeTimers implements JCGLTimersType
     final FakeTimerQuery tq =
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);
     JCGLResources.checkNotDeleted(q);
-    return true;
+
+    if (!tq.isStarted()) {
+      return JCGLQueryResultAvailability.QUERY_RESULT_NOT_YET_REQUESTED;
+    }
+
+    return JCGLQueryResultAvailability.QUERY_RESULT_AVAILABLE;
   }
 
   @Override
@@ -85,7 +134,7 @@ final class FakeTimers implements JCGLTimersType
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);
     JCGLResources.checkNotDeleted(q);
 
-    return tq.getTime();
+    return tq.getTimeEnd() - tq.getTimeStart();
   }
 
   @Override
@@ -98,6 +147,10 @@ final class FakeTimers implements JCGLTimersType
     final FakeTimerQuery tq =
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);
     JCGLResources.checkNotDeleted(q);
+
+    if (Objects.equals(this.running, q)) {
+      this.running = null;
+    }
 
     tq.setDeleted();
   }

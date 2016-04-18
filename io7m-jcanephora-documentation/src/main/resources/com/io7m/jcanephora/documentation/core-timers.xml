@@ -37,30 +37,29 @@ JCGLTimerType t = g.timerQueryAllocate();
 ]]></s:verbatim>
     </s:formal-item>
     <s:paragraph>
-      A timer query must be asynchronously updated and can then later
-      be queried. For example, to measure the time it takes to execute
-      a series of OpenGL commands:
+      A timer query must be asynchronously started and stopped, and
+      can then later be queried. For example, to measure the time it
+      takes to execute a series of OpenGL commands:
     </s:paragraph>
     <s:formal-item s:kind="examples">
       <s:formal-item-title>Timing</s:formal-item-title>
       <s:verbatim><![CDATA[
 JCGLDrawType gd;
 JCGLTimersType g;
-JCGLTimerType t_start;
-JCGLTimerType t_end;
+JCGLTimerType t;
 
-g.timerQueryUpdate(t_start);
+g.timerQueryBegin(t);
 gd.drawElements(JCGLPrimitives.PRIMITIVE_TRIANGLES);
 gd.drawElements(JCGLPrimitives.PRIMITIVE_TRIANGLES);
 gd.drawElements(JCGLPrimitives.PRIMITIVE_TRIANGLES);
-g.timerQueryUpdate(t_end);
+g.timerQueryFinish(t);
 ]]></s:verbatim>
     </s:formal-item>
     <s:paragraph>
-      The <s:term s:type="type">timerQueryUpdate</s:term> commands execute
+      The <s:term s:type="type">timerQueryBegin/timerQueryFinish</s:term> commands execute
       asynchronously, recording the current time on the GPU as the GPU
       reaches each command in the queue. The application can then ask the
-      GPU if both timer commands have finished executing, and return the
+      GPU if the timer commands have finished executing, and return the
       recorded time values if they have:
     </s:paragraph>
     <s:formal-item s:kind="examples">
@@ -68,16 +67,19 @@ g.timerQueryUpdate(t_end);
       <s:verbatim><![CDATA[
 JCGLDrawType gd;
 JCGLTimersType g;
-JCGLTimerType t_start;
-JCGLTimerType t_end;
+JCGLTimerType t;
 
-if (g.timerQueryResultIsReady(t_start) && g.timerQueryResultIsReady(t_end)) {
-  long time_start = g.timerQueryResultGet(t_start);
-  long time_end   = g.timerQueryResultGet(t_end);
+if (g.timerQueryResultIsReady(t)) {
+  long elapsed = g.timerQueryResultGet(t);
   // The time to execute the three draw commands is time_end - time_start nanoseconds
 }
 ]]></s:verbatim>
     </s:formal-item>
+    <s:paragraph>
+      At most one timer query can be executing at any one time; calls to
+      <s:term s:type="type">timerQueryBegin/timerQueryFinish</s:term> cannot
+      be nested.
+    </s:paragraph>
     <s:paragraph>
       Calling <s:term s:type="type">timerQueryResultGet</s:term> implies
       synchronization between the CPU and GPU and should therefore be called

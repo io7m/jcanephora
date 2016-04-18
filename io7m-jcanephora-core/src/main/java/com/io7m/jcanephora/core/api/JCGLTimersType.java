@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.core.api;
 
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jcanephora.core.JCGLQueryResultAvailability;
 import com.io7m.jcanephora.core.JCGLTimerQueryType;
 import com.io7m.jcanephora.core.JCGLTimerQueryUsableType;
 
@@ -32,10 +33,9 @@ import com.io7m.jcanephora.core.JCGLTimerQueryUsableType;
  * possible for the CPU to determine how long it took the GPU to execute one or
  * more commands. A <i>timer query</i> essentially records the current time on
  * the GPU when requested. This makes it possible to, for example, determine how
- * long a set of OpenGL commands took to execute by enqueueing a timer query
- * {@code Q0}, enqueueing a set of OpenGL commands {@code S}, and then enqueuing
- * a timer query {@code Q1}. The time it took to execute {@code S} is then
- * obviously given by {@code get(Q1) - get(Q0)}.</p>
+ * long a set of OpenGL commands took to execute by starting a timer query
+ * {@code Q}, enqueueing a set of OpenGL commands {@code S}, and then finishing
+ * the timer query {@code Q}.</p>
  */
 
 public interface JCGLTimersType
@@ -50,14 +50,26 @@ public interface JCGLTimersType
     throws JCGLException;
 
   /**
-   * Queue an update to the timer.
+   * Start the timer query running.
    *
    * @param q The query
    *
    * @throws JCGLException On errors
    */
 
-  void timerQueryUpdate(
+  void timerQueryBegin(
+    JCGLTimerQueryUsableType q)
+    throws JCGLException;
+
+  /**
+   * Stop the timer query running.
+   *
+   * @param q The query
+   *
+   * @throws JCGLException On errors
+   */
+
+  void timerQueryFinish(
     JCGLTimerQueryUsableType q)
     throws JCGLException;
 
@@ -70,23 +82,35 @@ public interface JCGLTimersType
    * other rendering commands have been submitted for execution (perhaps at the
    * end of a frame).</p>
    *
+   * <p>A query that has not yet been started with {@link
+   * #timerQueryBegin(JCGLTimerQueryUsableType)} will yield {@link
+   * JCGLQueryResultAvailability#QUERY_RESULT_NOT_YET_REQUESTED}.</p>
+   *
+   * <p>A query that has been started with {@link #timerQueryBegin(JCGLTimerQueryUsableType)}
+   * but that has not been executed by the GPU will yield {@link
+   * JCGLQueryResultAvailability#QUERY_RESULT_NOT_YET_AVAILABLE}.</p>
+   *
+   * <p>A query that has been fully executed by the GPU will yield {@link
+   * JCGLQueryResultAvailability#QUERY_RESULT_AVAILABLE}.</p>
+   *
    * @param q The query
    *
-   * @return {@code true} if the result of the timer query is ready
+   * @return The availability of the result of the timer query
    *
    * @throws JCGLException On errors
    * @see #timerQueryResultGet(JCGLTimerQueryUsableType)
    */
 
-  boolean timerQueryResultIsReady(
+  JCGLQueryResultAvailability timerQueryResultAvailability(
     JCGLTimerQueryUsableType q)
     throws JCGLException;
 
   /**
    * <p>Retrieve the result for the timer query.</p>
    *
-   * <p>The result for the query is the what was the current time when {@link
-   * #timerQueryUpdate(JCGLTimerQueryUsableType)} was executed by the GPU.</p>
+   * <p>The result for the query is the time elapsed on the GPU between the
+   * execution of the {@link #timerQueryBegin(JCGLTimerQueryUsableType)} and
+   * {@link #timerQueryFinish(JCGLTimerQueryUsableType)} commands.</p>
    *
    * @param q The query
    *

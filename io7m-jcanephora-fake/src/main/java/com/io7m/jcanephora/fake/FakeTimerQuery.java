@@ -21,7 +21,9 @@ import com.io7m.jcanephora.core.JCGLTimerQueryType;
 final class FakeTimerQuery extends FakeObjectUnshared
   implements JCGLTimerQueryType
 {
-  private long time;
+  private long time_start;
+  private long time_end;
+  private boolean started;
 
   FakeTimerQuery(
     final FakeContext ctx,
@@ -30,9 +32,24 @@ final class FakeTimerQuery extends FakeObjectUnshared
     super(ctx, id);
   }
 
-  long getTime()
+  long getTimeStart()
   {
-    return this.time;
+    return this.time_start;
+  }
+
+  void setTimeStart(final long t)
+  {
+    this.time_start = t;
+  }
+
+  long getTimeEnd()
+  {
+    return this.time_end;
+  }
+
+  void setTimeEnd(final long t)
+  {
+    this.time_end = t;
   }
 
   @Override
@@ -44,8 +61,13 @@ final class FakeTimerQuery extends FakeObjectUnshared
     return sb.toString();
   }
 
-  void update(final long t)
+  void setStarted(final boolean s)
   {
-    this.time = t;
+    this.started = s;
+  }
+
+  boolean isStarted()
+  {
+    return this.started;
   }
 }

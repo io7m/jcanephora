@@ -14,39 +14,25 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLTimerQueryType;
-import com.jogamp.opengl.GLContext;
+/**
+ * Exception class representing an error caused by the programmer attempting to
+ * stop a query that is not running.
+ */
 
-final class JOGLTimerQuery extends JOGLObjectUnshared
-  implements JCGLTimerQueryType
+public final class JCGLExceptionQueryNotRunning extends JCGLException
 {
-  private boolean executed;
+  private static final long serialVersionUID = 1L;
 
-  JOGLTimerQuery(
-    final GLContext ctx,
-    final int id)
-  {
-    super(ctx, id);
-  }
+  /**
+   * Construct an exception.
+   *
+   * @param message The message
+   */
 
-  @Override
-  public String toString()
+  public JCGLExceptionQueryNotRunning(final String message)
   {
-    final StringBuilder sb = new StringBuilder("[TimerQuery ");
-    sb.append(super.getGLName());
-    sb.append(']');
-    return sb.toString();
-  }
-
-  public void setExecuted(final boolean e)
-  {
-    this.executed = e;
-  }
-
-  public boolean isExecuted()
-  {
-    return this.executed;
+    super(message);
   }
 }
