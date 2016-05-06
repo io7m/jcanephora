@@ -17,9 +17,21 @@
 package com.io7m.jcanephora.tests.jogl;
 
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
+import com.io7m.jcanephora.core.JCGLFramebufferBuilderType;
+import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
+import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
+import com.io7m.jcanephora.core.JCGLFramebufferType;
+import com.io7m.jcanephora.core.JCGLTexture2DType;
+import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
+import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
+import com.io7m.jcanephora.core.JCGLTextureFormat;
+import com.io7m.jcanephora.core.JCGLTextureUnitType;
+import com.io7m.jcanephora.core.JCGLTextureWrapS;
+import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
+import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jcanephora.tests.contracts.JCGLFramebuffersContract;
 import com.jogamp.opengl.DebugGL3;
 import com.jogamp.opengl.GL3;
@@ -29,6 +41,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
 {
@@ -149,6 +164,155 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
           }
         };
       }, 24, 8);
+  }
+
+  @Test public void testRedundantReadBind()
+    throws Exception
+  {
+    final AtomicInteger binds = new AtomicInteger(0);
+
+    final JCGLContextType c =
+      JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
+        "main", ctx -> {
+          final GL3 base = ctx.getGL().getGL3();
+          return new DebugGL3(base)
+          {
+            @Override
+            public void glBindFramebuffer(
+              final int arg0,
+              final int arg1)
+            {
+              binds.incrementAndGet();
+              super.glBindFramebuffer(arg0, arg1);
+            }
+          };
+        }, 24, 8);
+
+    final JCGLInterfaceGL33Type g = c.contextGetGL33();
+    final JCGLFramebuffersType g_fb = g.getFramebuffers();
+    final JCGLTexturesType g_tx = g.getTextures();
+    final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+
+    final List<JCGLFramebufferColorAttachmentPointType> ps =
+      g_fb.framebufferGetColorAttachments();
+    final List<JCGLFramebufferDrawBufferType> db =
+      g_fb.framebufferGetDrawBuffers();
+
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+
+    final int min = Math.min(db.size(), ps.size());
+    final List<JCGLTexture2DType> attaches = new ArrayList<>(min);
+    for (int index = 0; index < min; ++index) {
+      final JCGLTexture2DType tc = g_tx.texture2DAllocate(
+        u0,
+        64L,
+        64L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      fbb.attachColorTexture2DAt(ps.get(index), db.get(index), tc);
+      attaches.add(tc);
+    }
+
+    binds.set(0);
+
+    final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
+    Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
+    Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
+    Assert.assertEquals(1L, binds.get());
+
+    g_fb.framebufferDrawUnbind();
+    Assert.assertEquals(2L, binds.get());
+
+    g_fb.framebufferReadBind(fb);
+    Assert.assertEquals(3L, binds.get());
+    g_fb.framebufferReadBind(fb);
+    Assert.assertEquals(3L, binds.get());
+    g_fb.framebufferReadBind(fb);
+    Assert.assertEquals(3L, binds.get());
+
+    g_fb.framebufferReadUnbind();
+    Assert.assertEquals(4L, binds.get());
+    g_fb.framebufferReadUnbind();
+    Assert.assertEquals(4L, binds.get());
+    g_fb.framebufferReadUnbind();
+    Assert.assertEquals(4L, binds.get());
+  }
+
+  @Test public void testRedundantDrawBind()
+    throws Exception
+  {
+    final AtomicInteger binds = new AtomicInteger(0);
+
+    final JCGLContextType c =
+      JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
+      "main", ctx -> {
+        final GL3 base = ctx.getGL().getGL3();
+        return new DebugGL3(base)
+        {
+          @Override
+          public void glBindFramebuffer(
+            final int arg0,
+            final int arg1)
+          {
+            binds.incrementAndGet();
+            super.glBindFramebuffer(arg0, arg1);
+          }
+        };
+      }, 24, 8);
+
+    final JCGLInterfaceGL33Type g = c.contextGetGL33();
+    final JCGLFramebuffersType g_fb = g.getFramebuffers();
+    final JCGLTexturesType g_tx = g.getTextures();
+    final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
+
+    final List<JCGLFramebufferColorAttachmentPointType> ps =
+      g_fb.framebufferGetColorAttachments();
+    final List<JCGLFramebufferDrawBufferType> db =
+      g_fb.framebufferGetDrawBuffers();
+
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+    final JCGLTextureUnitType u0 = us.get(0);
+
+    final int min = Math.min(db.size(), ps.size());
+    final List<JCGLTexture2DType> attaches = new ArrayList<>(min);
+    for (int index = 0; index < min; ++index) {
+      final JCGLTexture2DType tc = g_tx.texture2DAllocate(
+        u0,
+        64L,
+        64L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      fbb.attachColorTexture2DAt(ps.get(index), db.get(index), tc);
+      attaches.add(tc);
+    }
+
+    binds.set(0);
+
+    final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
+    Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
+    Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
+    Assert.assertEquals(1L, binds.get());
+
+    g_fb.framebufferDrawBind(fb);
+    Assert.assertEquals(1L, binds.get());
+    g_fb.framebufferDrawBind(fb);
+    Assert.assertEquals(1L, binds.get());
+    g_fb.framebufferDrawBind(fb);
+    Assert.assertEquals(1L, binds.get());
+
+    g_fb.framebufferDrawUnbind();
+    Assert.assertEquals(2L, binds.get());
+    g_fb.framebufferDrawUnbind();
+    Assert.assertEquals(2L, binds.get());
+    g_fb.framebufferDrawUnbind();
+    Assert.assertEquals(2L, binds.get());
   }
 
   @Override public void onTestCompleted()

@@ -3,8 +3,30 @@
   <c:project>io7m-jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
-    <c:date>2016-04-01</c:date>
+    <c:date>2016-05-06</c:date>
     <c:version>0.45.3</c:version>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
+      <c:type-code-fix/>
+      <c:ticket>42</c:ticket>
+      <c:summary>Optimization: Eliminate redundant state changes in the JCGLStencilBuffers interface</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
+      <c:type-code-fix/>
+      <c:ticket>42</c:ticket>
+      <c:summary>Optimization: Eliminate redundant state changes in the JCGLDepthBuffers interface</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
+      <c:type-code-fix/>
+      <c:ticket>42</c:ticket>
+      <c:summary>Optimization: Eliminate redundant state changes in the JCGLBlending interface</c:summary>
+    </c:item>
+
     <c:item>
       <c:date>2016-04-01</c:date>
       <c:type-code-new/>

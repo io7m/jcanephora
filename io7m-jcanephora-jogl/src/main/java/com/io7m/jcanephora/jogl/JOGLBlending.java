@@ -24,12 +24,26 @@ import com.io7m.jcanephora.core.api.JCGLBlendingType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class JOGLBlending implements JCGLBlendingType
 {
+  private static final Logger LOG;
+
+  static {
+    LOG = LoggerFactory.getLogger(JOGLBlending.class);
+  }
+
   private final JOGLContext context;
-  private final GL3         gl;
-  private       boolean     blend;
+  private final GL3 gl;
+  private boolean blend;
+  private JCGLBlendEquation equation_rgb;
+  private JCGLBlendEquation equation_alpha;
+  private JCGLBlendFunction source_rgb_factor;
+  private JCGLBlendFunction source_alpha_factor;
+  private JCGLBlendFunction destination_rgb_factor;
+  private JCGLBlendFunction destination_alpha_factor;
 
   JOGLBlending(final JOGLContext c)
   {
@@ -39,55 +53,86 @@ final class JOGLBlending implements JCGLBlendingType
     JOGLErrorChecking.checkErrors(this.gl);
   }
 
-  @Override public void blendingDisable()
+  @Override
+  public void blendingDisable()
     throws JCGLException
   {
-    this.gl.glDisable(GL.GL_BLEND);
-    this.blend = false;
+    if (this.blend) {
+      this.gl.glDisable(GL.GL_BLEND);
+      this.blend = false;
+    } else {
+      JOGLBlending.LOG.trace("redundant blend disable ignored");
+    }
   }
 
-  @Override public boolean blendingIsEnabled()
+  @Override
+  public boolean blendingIsEnabled()
     throws JCGLException
   {
     return this.blend;
   }
 
-  @Override public void blendingEnableSeparateWithEquationSeparate(
-    final JCGLBlendFunction source_rgb_factor,
-    final JCGLBlendFunction source_alpha_factor,
-    final JCGLBlendFunction destination_rgb_factor,
-    final JCGLBlendFunction destination_alpha_factor,
-    final JCGLBlendEquation equation_rgb,
-    final JCGLBlendEquation equation_alpha)
+  @Override
+  public void blendingEnableSeparateWithEquationSeparate(
+    final JCGLBlendFunction in_source_rgb_factor,
+    final JCGLBlendFunction in_source_alpha_factor,
+    final JCGLBlendFunction in_destination_rgb_factor,
+    final JCGLBlendFunction in_destination_alpha_factor,
+    final JCGLBlendEquation in_equation_rgb,
+    final JCGLBlendEquation in_equation_alpha)
     throws JCGLException, JCGLExceptionBlendingMisconfigured
   {
-    NullCheck.notNull(source_rgb_factor, "Source RGB factor");
-    NullCheck.notNull(source_alpha_factor, "Source alpha factor");
-    NullCheck.notNull(destination_rgb_factor, "Destination RGB factor");
-    NullCheck.notNull(destination_alpha_factor, "Destination alpha factor");
-    NullCheck.notNull(equation_rgb, "Equation RGB");
-    NullCheck.notNull(equation_alpha, "Equation alpha");
+    NullCheck.notNull(in_source_rgb_factor, "Source RGB factor");
+    NullCheck.notNull(in_source_alpha_factor, "Source alpha factor");
+    NullCheck.notNull(in_destination_rgb_factor, "Destination RGB factor");
+    NullCheck.notNull(in_destination_alpha_factor, "Destination alpha factor");
+    NullCheck.notNull(in_equation_rgb, "Equation RGB");
+    NullCheck.notNull(in_equation_alpha, "Equation alpha");
 
-    if (destination_rgb_factor
-        == JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
+    if (in_destination_rgb_factor
+      == JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
       throw new JCGLExceptionBlendingMisconfigured(
         "Destination RGB factor not SOURCE_ALPHA_SATURATE");
     }
-    if (destination_alpha_factor
-        == JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
+    if (in_destination_alpha_factor
+      == JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
       throw new JCGLExceptionBlendingMisconfigured(
         "Destination alpha factor not SOURCE_ALPHA_SATURATE");
     }
 
-    this.gl.glEnable(GL.GL_BLEND);
-    this.gl.glBlendEquationSeparate(
-      JOGLTypeConversions.blendEquationToGL(equation_rgb),
-      JOGLTypeConversions.blendEquationToGL(equation_alpha));
-    this.gl.glBlendFuncSeparate(
-      JOGLTypeConversions.blendFunctionToGL(source_rgb_factor),
-      JOGLTypeConversions.blendFunctionToGL(destination_rgb_factor),
-      JOGLTypeConversions.blendFunctionToGL(source_alpha_factor),
-      JOGLTypeConversions.blendFunctionToGL(destination_alpha_factor));
-    this.blend = true;
+    if (!this.blend) {
+      this.gl.glEnable(GL.GL_BLEND);
+      this.blend = true;
+    } else {
+      JOGLBlending.LOG.trace("redundant blend enable ignored");
+    }
+
+    if (this.equation_rgb != in_equation_rgb
+      || this.equation_alpha != in_equation_alpha) {
+      this.gl.glBlendEquationSeparate(
+        JOGLTypeConversions.blendEquationToGL(in_equation_rgb),
+        JOGLTypeConversions.blendEquationToGL(in_equation_alpha));
+      this.equation_rgb = in_equation_rgb;
+      this.equation_alpha = in_equation_alpha;
+    } else {
+      JOGLBlending.LOG.trace("redundant blend equation change ignored");
+    }
+
+    if (this.source_rgb_factor != in_source_rgb_factor
+      || this.source_alpha_factor != in_source_alpha_factor
+      || this.destination_rgb_factor != in_destination_rgb_factor
+      || this.destination_alpha_factor != in_destination_alpha_factor) {
+      this.gl.glBlendFuncSeparate(
+        JOGLTypeConversions.blendFunctionToGL(in_source_rgb_factor),
+        JOGLTypeConversions.blendFunctionToGL(in_destination_rgb_factor),
+        JOGLTypeConversions.blendFunctionToGL(in_source_alpha_factor),
+        JOGLTypeConversions.blendFunctionToGL(in_destination_alpha_factor));
+      this.source_rgb_factor = in_source_rgb_factor;
+      this.source_alpha_factor = in_source_alpha_factor;
+      this.destination_rgb_factor = in_destination_rgb_factor;
+      this.destination_alpha_factor = in_destination_alpha_factor;
+    } else {
+      JOGLBlending.LOG.trace("redundant blend function change ignored");
+    }
   }
 }

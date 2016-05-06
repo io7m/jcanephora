@@ -33,8 +33,7 @@ import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferDepthAttachmentMatcherType;
 import com.io7m.jcanephora.core.JCGLFramebufferDepthAttachmentType;
-import com.io7m.jcanephora.core
-  .JCGLFramebufferDepthStencilAttachmentMatcherType;
+import com.io7m.jcanephora.core.JCGLFramebufferDepthStencilAttachmentMatcherType;
 import com.io7m.jcanephora.core.JCGLFramebufferDepthStencilAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
 import com.io7m.jcanephora.core.JCGLFramebufferStatus;
@@ -79,14 +78,14 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     LOG = LoggerFactory.getLogger(JOGLFramebuffers.class);
   }
 
-  private final GL3                                           gl;
-  private final IntBuffer                                     int_cache;
+  private final GL3 gl;
+  private final IntBuffer int_cache;
   private final List<JCGLFramebufferColorAttachmentPointType> color_points;
-  private final JOGLContext                                   context;
-  private final List<JCGLFramebufferDrawBufferType>           draw_buffers;
-  private final JOGLTextures                                  textures;
-  private       JOGLFramebuffer                               bind_draw;
-  private       JOGLFramebuffer                               bind_read;
+  private final JOGLContext context;
+  private final List<JCGLFramebufferDrawBufferType> draw_buffers;
+  private final JOGLTextures textures;
+  private JOGLFramebuffer bind_draw;
+  private JOGLFramebuffer bind_read;
 
   JOGLFramebuffers(
     final JOGLContext c,
@@ -513,17 +512,26 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       JOGLFramebuffers.LOG.trace("bind draw {} -> {}", this.bind_draw, f);
     }
 
-    for (final JCGLReferableType r : f.getReferences()) {
-      if (r instanceof JCGLTexture2DUsableType) {
-        final JCGLTexture2DUsableType t = (JCGLTexture2DUsableType) r;
-        if (this.textures.texture2DIsBoundAnywhere(t)) {
-          JOGLFramebuffers.onFeedbackLoop(f, t);
+    if (!Objects.equals(this.bind_draw, f)) {
+      for (final JCGLReferableType r : f.getReferences()) {
+        if (r instanceof JCGLTexture2DUsableType) {
+          final JCGLTexture2DUsableType t = (JCGLTexture2DUsableType) r;
+          if (this.textures.texture2DIsBoundAnywhere(t)) {
+            JOGLFramebuffers.onFeedbackLoop(f, t);
+          }
         }
       }
-    }
 
-    this.gl.glBindFramebuffer(GL.GL_DRAW_FRAMEBUFFER, f.getGLName());
-    this.bind_draw = f;
+      this.gl.glBindFramebuffer(GL.GL_DRAW_FRAMEBUFFER, f.getGLName());
+      this.bind_draw = f;
+    } else {
+      if (JOGLFramebuffers.LOG.isTraceEnabled()) {
+        JOGLFramebuffers.LOG.trace(
+          "redundant bind draw ignored {} -> {}",
+          this.bind_draw,
+          f);
+      }
+    }
   }
 
   private void actualBindRead(final JOGLFramebuffer f)
@@ -532,8 +540,17 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       JOGLFramebuffers.LOG.trace("bind read {} -> {}", this.bind_read, f);
     }
 
-    this.gl.glBindFramebuffer(GL.GL_READ_FRAMEBUFFER, f.getGLName());
-    this.bind_read = f;
+    if (!Objects.equals(this.bind_read, f)) {
+      this.gl.glBindFramebuffer(GL.GL_READ_FRAMEBUFFER, f.getGLName());
+      this.bind_read = f;
+    } else {
+      if (JOGLFramebuffers.LOG.isTraceEnabled()) {
+        JOGLFramebuffers.LOG.trace(
+          "redundant bind read ignored {} -> {}",
+          this.bind_read,
+          f);
+      }
+    }
   }
 
   private void actualUnbindDraw()
@@ -541,10 +558,19 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     if (JOGLFramebuffers.LOG.isTraceEnabled()) {
       JOGLFramebuffers.LOG.trace("unbind draw {} -> none", this.bind_draw);
     }
-    this.gl.glBindFramebuffer(
-      GL.GL_DRAW_FRAMEBUFFER,
-      this.gl.getDefaultDrawFramebuffer());
-    this.bind_draw = null;
+
+    if (this.bind_draw != null) {
+      this.gl.glBindFramebuffer(
+        GL.GL_DRAW_FRAMEBUFFER,
+        this.gl.getDefaultDrawFramebuffer());
+      this.bind_draw = null;
+    } else {
+      if (JOGLFramebuffers.LOG.isTraceEnabled()) {
+        JOGLFramebuffers.LOG.trace(
+          "redundant unbind draw ignored {} -> none",
+          this.bind_draw);
+      }
+    }
   }
 
   private void actualUnbindRead()
@@ -552,10 +578,19 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     if (JOGLFramebuffers.LOG.isTraceEnabled()) {
       JOGLFramebuffers.LOG.trace("unbind read {} -> none", this.bind_read);
     }
-    this.gl.glBindFramebuffer(
-      GL.GL_READ_FRAMEBUFFER,
-      this.gl.getDefaultReadFramebuffer());
-    this.bind_read = null;
+
+    if (this.bind_read != null) {
+      this.gl.glBindFramebuffer(
+        GL.GL_READ_FRAMEBUFFER,
+        this.gl.getDefaultReadFramebuffer());
+      this.bind_read = null;
+    } else {
+      if (JOGLFramebuffers.LOG.isTraceEnabled()) {
+        JOGLFramebuffers.LOG.trace(
+          "redundant unbind read ignored {} -> none",
+          this.bind_read);
+      }
+    }
   }
 
   @Override
@@ -756,12 +791,12 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     implements JCGLFramebufferBuilderType
   {
     private final List<JCGLFramebufferColorAttachmentPointType> color_points;
-    private final JOGLContext                                   context;
-    private final List<JCGLFramebufferColorAttachmentType>      color_attaches;
+    private final JOGLContext context;
+    private final List<JCGLFramebufferColorAttachmentType> color_attaches;
     private final SortedMap<JCGLFramebufferDrawBufferType,
-      JCGLFramebufferColorAttachmentPointType>                  draw_buffers;
-    private       JCGLFramebufferDepthAttachmentType            depth;
-    private       JCGLFramebufferDepthStencilAttachmentType     depth_stencil;
+      JCGLFramebufferColorAttachmentPointType> draw_buffers;
+    private JCGLFramebufferDepthAttachmentType depth;
+    private JCGLFramebufferDepthStencilAttachmentType depth_stencil;
 
     Builder(
       final List<JCGLFramebufferColorAttachmentPointType> in_color_points,
@@ -865,7 +900,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       implements JCGLFramebufferColorAttachmentType
     {
       private final JCGLTextureCubeUsableType texture;
-      private final JCGLCubeMapFaceLH         face;
+      private final JCGLCubeMapFaceLH face;
 
       CubeAttachment(
         final JCGLTextureCubeUsableType in_texture,
