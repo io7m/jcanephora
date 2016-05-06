@@ -10,6 +10,13 @@
       <c:date>2016-05-06</c:date>
       <c:type-code-fix/>
       <c:ticket>42</c:ticket>
+      <c:summary>Optimization: Eliminate redundant state changes in the JCGLDepthBuffers interface</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
+      <c:type-code-fix/>
+      <c:ticket>42</c:ticket>
       <c:summary>Optimization: Eliminate redundant state changes in the JCGLBlending interface</c:summary>
     </c:item>
 
