@@ -178,24 +178,16 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     boolean set = false;
     switch (faces) {
       case FACE_BACK: {
-        set = this.back_func != function
-          || this.back_func_ref != reference
-          || this.back_func_mask != mask;
+        set = this.backFRMDifferent(function, reference, mask);
         break;
       }
       case FACE_FRONT: {
-        set = this.front_func != function
-          || this.front_func_ref != reference
-          || this.front_func_mask != mask;
+        set = this.frontFRMDifferent(function, reference, mask);
         break;
       }
       case FACE_FRONT_AND_BACK: {
-        set = this.back_func != function
-          || this.back_func_ref != reference
-          || this.back_func_mask != mask
-          || this.front_func != function
-          || this.front_func_ref != reference
-          || this.front_func_mask != mask;
+        set = this.backFRMDifferent(function, reference, mask)
+          || this.frontFRMDifferent(function, reference, mask);
         break;
       }
     }
@@ -238,6 +230,26 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
           Integer.valueOf(mask));
       }
     }
+  }
+
+  private boolean frontFRMDifferent(
+    final JCGLStencilFunction function,
+    final int reference,
+    final int mask)
+  {
+    return this.front_func != function
+      || this.front_func_ref != reference
+      || this.front_func_mask != mask;
+  }
+
+  private boolean backFRMDifferent(
+    final JCGLStencilFunction function,
+    final int reference,
+    final int mask)
+  {
+    return this.back_func != function
+      || this.back_func_ref != reference
+      || this.back_func_mask != mask;
   }
 
   @Override
@@ -328,24 +340,16 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     boolean set = false;
     switch (faces) {
       case FACE_BACK: {
-        set = this.back_sfail != stencil_fail
-          || this.back_dfail != depth_fail
-          || this.back_dpass != pass;
+        set = this.backOpsDifferent(stencil_fail, depth_fail, pass);
         break;
       }
       case FACE_FRONT: {
-        set = this.front_sfail != stencil_fail
-          || this.front_dfail != depth_fail
-          || this.front_dpass != pass;
+        set = this.frontOpsDifferent(stencil_fail, depth_fail, pass);
         break;
       }
       case FACE_FRONT_AND_BACK: {
-        set = this.back_sfail != stencil_fail
-          || this.back_dfail != depth_fail
-          || this.back_dpass != pass
-          || this.front_sfail != stencil_fail
-          || this.front_dfail != depth_fail
-          || this.front_dpass != pass;
+        set = this.backOpsDifferent(stencil_fail, depth_fail, pass)
+          || this.frontOpsDifferent(stencil_fail, depth_fail, pass);
         break;
       }
     }
@@ -391,6 +395,26 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
           pass);
       }
     }
+  }
+
+  private boolean frontOpsDifferent(
+    final JCGLStencilOperation stencil_fail,
+    final JCGLStencilOperation depth_fail,
+    final JCGLStencilOperation pass)
+  {
+    return this.front_sfail != stencil_fail
+      || this.front_dfail != depth_fail
+      || this.front_dpass != pass;
+  }
+
+  private boolean backOpsDifferent(
+    final JCGLStencilOperation stencil_fail,
+    final JCGLStencilOperation depth_fail,
+    final JCGLStencilOperation pass)
+  {
+    return this.back_sfail != stencil_fail
+      || this.back_dfail != depth_fail
+      || this.back_dpass != pass;
   }
 
   @Override
