@@ -32,6 +32,7 @@
   <xi:include href="core-shaders.xml"/>
   <xi:include href="core-stencil_buffers.xml"/>
   <xi:include href="core-textures.xml"/>
+  <xi:include href="core-timers.xml"/>
   <xi:include href="core-viewports.xml"/>
 
 </s:part>
