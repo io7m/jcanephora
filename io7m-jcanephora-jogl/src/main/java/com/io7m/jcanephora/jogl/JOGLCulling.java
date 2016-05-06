@@ -23,9 +23,17 @@ import com.io7m.jcanephora.core.api.JCGLCullingType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class JOGLCulling implements JCGLCullingType
 {
+  private static final Logger LOG;
+
+  static {
+    LOG = LoggerFactory.getLogger(JOGLCulling.class);
+  }
+
   private final GL3                  gl;
   private       boolean              enabled;
   private       JCGLFaceSelection    current_faces;
@@ -57,6 +65,8 @@ final class JOGLCulling implements JCGLCullingType
     if (this.enabled) {
       this.gl.glDisable(GL.GL_CULL_FACE);
       this.enabled = false;
+    } else {
+      JOGLCulling.LOG.trace("redundant culling disable ignored");
     }
   }
 
@@ -74,14 +84,20 @@ final class JOGLCulling implements JCGLCullingType
     if (!this.enabled) {
       this.gl.glEnable(GL.GL_CULL_FACE);
       this.enabled = true;
+    } else {
+      JOGLCulling.LOG.trace("redundant culling enable ignored");
     }
     if (this.current_faces != faces) {
       this.gl.glCullFace(fi);
       this.current_faces = faces;
+    } else {
+      JOGLCulling.LOG.trace("redundant culling face selection ignored");
     }
     if (this.current_order != order) {
       this.gl.glFrontFace(oi);
       this.current_order = order;
+    } else {
+      JOGLCulling.LOG.trace("redundant culling face order ignored");
     }
   }
 
