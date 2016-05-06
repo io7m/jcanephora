@@ -27,28 +27,36 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLDrawable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class JOGLStencilBuffers implements JCGLStencilBuffersType
 {
-  private final JOGLFramebuffers framebuffers;
-  private final GL3              gl;
-  private       boolean          enabled;
+  private static final Logger LOG;
 
-  private int                  front_mask;
+  static {
+    LOG = LoggerFactory.getLogger(JOGLStencilBuffers.class);
+  }
+
+  private final JOGLFramebuffers framebuffers;
+  private final GL3 gl;
+  private boolean enabled;
+
+  private int front_mask;
   private JCGLStencilOperation front_sfail;
   private JCGLStencilOperation front_dfail;
   private JCGLStencilOperation front_dpass;
-  private JCGLStencilFunction  front_func;
-  private int                  front_func_ref;
-  private int                  front_func_mask;
+  private JCGLStencilFunction front_func;
+  private int front_func_ref;
+  private int front_func_mask;
 
-  private int                  back_mask;
+  private int back_mask;
   private JCGLStencilOperation back_sfail;
   private JCGLStencilOperation back_dfail;
   private JCGLStencilOperation back_dpass;
-  private JCGLStencilFunction  back_func;
-  private int                  back_func_ref;
-  private int                  back_func_mask;
+  private JCGLStencilFunction back_func;
+  private int back_func_ref;
+  private int back_func_mask;
 
   JOGLStencilBuffers(
     final JOGLContext c,
@@ -119,7 +127,8 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     return drawable.getChosenGLCapabilities().getStencilBits();
   }
 
-  @Override public void stencilBufferClear(final int stencil)
+  @Override
+  public void stencilBufferClear(final int stencil)
     throws JCGLException, JCGLExceptionNoStencilBuffer
   {
     this.checkStencilBits();
@@ -127,27 +136,34 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     this.gl.glClear(GL.GL_STENCIL_BUFFER_BIT);
   }
 
-  @Override public void stencilBufferDisable()
+  @Override
+  public void stencilBufferDisable()
     throws JCGLException, JCGLExceptionNoStencilBuffer
   {
     this.checkStencilBits();
     if (this.enabled) {
       this.gl.glDisable(GL.GL_STENCIL_TEST);
       this.enabled = false;
+    } else {
+      JOGLStencilBuffers.LOG.trace("redundant stencil test disable ignored");
     }
   }
 
-  @Override public void stencilBufferEnable()
+  @Override
+  public void stencilBufferEnable()
     throws JCGLException, JCGLExceptionNoStencilBuffer
   {
     this.checkStencilBits();
     if (!this.enabled) {
       this.gl.glEnable(GL.GL_STENCIL_TEST);
       this.enabled = true;
+    } else {
+      JOGLStencilBuffers.LOG.trace("redundant stencil test enable ignored");
     }
   }
 
-  @Override public void stencilBufferFunction(
+  @Override
+  public void stencilBufferFunction(
     final JCGLFaceSelection faces,
     final JCGLStencilFunction function,
     final int reference,
@@ -158,49 +174,89 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     NullCheck.notNull(function, "Function");
 
     this.checkStencilBits();
-    final int func = JOGLTypeConversions.stencilFunctionToGL(function);
-    final int face = JOGLTypeConversions.faceSelectionToGL(faces);
-    this.gl.glStencilFuncSeparate(face, func, reference, mask);
 
+    boolean set = false;
     switch (faces) {
       case FACE_BACK: {
-        this.back_func = function;
-        this.back_func_ref = reference;
-        this.back_func_mask = mask;
+        set = this.back_func != function
+          || this.back_func_ref != reference
+          || this.back_func_mask != mask;
         break;
       }
       case FACE_FRONT: {
-        this.front_func = function;
-        this.front_func_ref = reference;
-        this.front_func_mask = mask;
+        set = this.front_func != function
+          || this.front_func_ref != reference
+          || this.front_func_mask != mask;
         break;
       }
       case FACE_FRONT_AND_BACK: {
-        this.front_func = function;
-        this.front_func_ref = reference;
-        this.front_func_mask = mask;
-        this.back_func = function;
-        this.back_func_ref = reference;
-        this.back_func_mask = mask;
+        set = this.back_func != function
+          || this.back_func_ref != reference
+          || this.back_func_mask != mask
+          || this.front_func != function
+          || this.front_func_ref != reference
+          || this.front_func_mask != mask;
         break;
+      }
+    }
+
+    if (set) {
+      final int func = JOGLTypeConversions.stencilFunctionToGL(function);
+      final int face = JOGLTypeConversions.faceSelectionToGL(faces);
+      this.gl.glStencilFuncSeparate(face, func, reference, mask);
+
+      switch (faces) {
+        case FACE_BACK: {
+          this.back_func = function;
+          this.back_func_ref = reference;
+          this.back_func_mask = mask;
+          break;
+        }
+        case FACE_FRONT: {
+          this.front_func = function;
+          this.front_func_ref = reference;
+          this.front_func_mask = mask;
+          break;
+        }
+        case FACE_FRONT_AND_BACK: {
+          this.front_func = function;
+          this.front_func_ref = reference;
+          this.front_func_mask = mask;
+          this.back_func = function;
+          this.back_func_ref = reference;
+          this.back_func_mask = mask;
+          break;
+        }
+      }
+    } else {
+      if (JOGLStencilBuffers.LOG.isTraceEnabled()) {
+        JOGLStencilBuffers.LOG.trace(
+          "redundant stencil func change ignored (faces {}, func {}, ref {}, mask {})",
+          faces,
+          function,
+          Integer.valueOf(reference),
+          Integer.valueOf(mask));
       }
     }
   }
 
-  @Override public int stencilBufferGetBits()
+  @Override
+  public int stencilBufferGetBits()
     throws JCGLException
   {
     return this.getStencilBits();
   }
 
-  @Override public boolean stencilBufferIsEnabled()
+  @Override
+  public boolean stencilBufferIsEnabled()
     throws JCGLException, JCGLExceptionNoStencilBuffer
   {
     this.checkStencilBits();
     return this.enabled;
   }
 
-  @Override public void stencilBufferMask(
+  @Override
+  public void stencilBufferMask(
     final JCGLFaceSelection faces,
     final int mask)
     throws JCGLException, JCGLExceptionNoStencilBuffer
@@ -208,27 +264,54 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     NullCheck.notNull(faces);
 
     this.checkStencilBits();
-    this.gl.glStencilMaskSeparate(
-      JOGLTypeConversions.faceSelectionToGL(faces), mask);
 
+    boolean set = false;
     switch (faces) {
       case FACE_BACK: {
-        this.back_mask = mask;
+        set = this.back_mask != mask;
         break;
       }
       case FACE_FRONT: {
-        this.front_mask = mask;
+        set = this.front_mask != mask;
         break;
       }
       case FACE_FRONT_AND_BACK: {
-        this.back_mask = mask;
-        this.front_mask = mask;
+        set = this.back_mask != mask || this.front_mask != mask;
         break;
+      }
+    }
+
+    if (set) {
+      this.gl.glStencilMaskSeparate(
+        JOGLTypeConversions.faceSelectionToGL(faces), mask);
+
+      switch (faces) {
+        case FACE_BACK: {
+          this.back_mask = mask;
+          break;
+        }
+        case FACE_FRONT: {
+          this.front_mask = mask;
+          break;
+        }
+        case FACE_FRONT_AND_BACK: {
+          this.back_mask = mask;
+          this.front_mask = mask;
+          break;
+        }
+      }
+    } else {
+      if (JOGLStencilBuffers.LOG.isTraceEnabled()) {
+        JOGLStencilBuffers.LOG.trace(
+          "redundant stencil mask change ignored (faces {}, mask {})",
+          faces,
+          Integer.valueOf(mask));
       }
     }
   }
 
-  @Override public void stencilBufferOperation(
+  @Override
+  public void stencilBufferOperation(
     final JCGLFaceSelection faces,
     final JCGLStencilOperation stencil_fail,
     final JCGLStencilOperation depth_fail,
@@ -241,44 +324,83 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     NullCheck.notNull(pass, "Pass operation");
 
     this.checkStencilBits();
-    final int sfail = JOGLTypeConversions.stencilOperationToGL(stencil_fail);
-    final int dfail = JOGLTypeConversions.stencilOperationToGL(depth_fail);
-    final int dpass = JOGLTypeConversions.stencilOperationToGL(pass);
-    final int gface = JOGLTypeConversions.faceSelectionToGL(faces);
-    this.gl.glStencilOpSeparate(gface, sfail, dfail, dpass);
 
+    boolean set = false;
     switch (faces) {
       case FACE_BACK: {
-        this.back_sfail = stencil_fail;
-        this.back_dfail = depth_fail;
-        this.back_dpass = pass;
+        set = this.back_sfail != stencil_fail
+          || this.back_dfail != depth_fail
+          || this.back_dpass != pass;
         break;
       }
       case FACE_FRONT: {
-        this.front_sfail = stencil_fail;
-        this.front_dfail = depth_fail;
-        this.front_dpass = pass;
+        set = this.front_sfail != stencil_fail
+          || this.front_dfail != depth_fail
+          || this.front_dpass != pass;
         break;
       }
       case FACE_FRONT_AND_BACK: {
-        this.front_sfail = stencil_fail;
-        this.front_dfail = depth_fail;
-        this.front_dpass = pass;
-
-        this.back_sfail = stencil_fail;
-        this.back_dfail = depth_fail;
-        this.back_dpass = pass;
+        set = this.back_sfail != stencil_fail
+          || this.back_dfail != depth_fail
+          || this.back_dpass != pass
+          || this.front_sfail != stencil_fail
+          || this.front_dfail != depth_fail
+          || this.front_dpass != pass;
         break;
+      }
+    }
+
+    if (set) {
+      final int sfail = JOGLTypeConversions.stencilOperationToGL(stencil_fail);
+      final int dfail = JOGLTypeConversions.stencilOperationToGL(depth_fail);
+      final int dpass = JOGLTypeConversions.stencilOperationToGL(pass);
+      final int gface = JOGLTypeConversions.faceSelectionToGL(faces);
+      this.gl.glStencilOpSeparate(gface, sfail, dfail, dpass);
+
+      switch (faces) {
+        case FACE_BACK: {
+          this.back_sfail = stencil_fail;
+          this.back_dfail = depth_fail;
+          this.back_dpass = pass;
+          break;
+        }
+        case FACE_FRONT: {
+          this.front_sfail = stencil_fail;
+          this.front_dfail = depth_fail;
+          this.front_dpass = pass;
+          break;
+        }
+        case FACE_FRONT_AND_BACK: {
+          this.front_sfail = stencil_fail;
+          this.front_dfail = depth_fail;
+          this.front_dpass = pass;
+
+          this.back_sfail = stencil_fail;
+          this.back_dfail = depth_fail;
+          this.back_dpass = pass;
+          break;
+        }
+      }
+    } else {
+      if (JOGLStencilBuffers.LOG.isTraceEnabled()) {
+        JOGLStencilBuffers.LOG.trace(
+          "redundant stencil op change ignored (faces {}, stencil fail {}, depth fail {}, pass {})",
+          faces,
+          stencil_fail,
+          depth_fail,
+          pass);
       }
     }
   }
 
-  @Override public int stencilBufferGetMaskFrontFaces()
+  @Override
+  public int stencilBufferGetMaskFrontFaces()
   {
     return this.front_mask;
   }
 
-  @Override public int stencilBufferGetMaskBackFaces()
+  @Override
+  public int stencilBufferGetMaskBackFaces()
   {
     return this.back_mask;
   }
@@ -289,12 +411,14 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     return this.back_sfail;
   }
 
-  @Override public JCGLStencilOperation stencilBufferGetOperationDepthFailBack()
+  @Override
+  public JCGLStencilOperation stencilBufferGetOperationDepthFailBack()
   {
     return this.back_dfail;
   }
 
-  @Override public JCGLStencilOperation stencilBufferGetOperationPassBack()
+  @Override
+  public JCGLStencilOperation stencilBufferGetOperationPassBack()
   {
     return this.back_dpass;
   }
@@ -311,37 +435,44 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     return this.front_dfail;
   }
 
-  @Override public JCGLStencilOperation stencilBufferGetOperationPassFront()
+  @Override
+  public JCGLStencilOperation stencilBufferGetOperationPassFront()
   {
     return this.front_dpass;
   }
 
-  @Override public JCGLStencilFunction stencilBufferGetFunctionFront()
+  @Override
+  public JCGLStencilFunction stencilBufferGetFunctionFront()
   {
     return this.front_func;
   }
 
-  @Override public JCGLStencilFunction stencilBufferGetFunctionBack()
+  @Override
+  public JCGLStencilFunction stencilBufferGetFunctionBack()
   {
     return this.back_func;
   }
 
-  @Override public int stencilBufferGetFunctionReferenceFront()
+  @Override
+  public int stencilBufferGetFunctionReferenceFront()
   {
     return this.front_func_ref;
   }
 
-  @Override public int stencilBufferGetFunctionMaskFront()
+  @Override
+  public int stencilBufferGetFunctionMaskFront()
   {
     return this.front_func_mask;
   }
 
-  @Override public int stencilBufferGetFunctionReferenceBack()
+  @Override
+  public int stencilBufferGetFunctionReferenceBack()
   {
     return this.back_func_ref;
   }
 
-  @Override public int stencilBufferGetFunctionMaskBack()
+  @Override
+  public int stencilBufferGetFunctionMaskBack()
   {
     return this.back_func_mask;
   }
