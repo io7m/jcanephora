@@ -30,6 +30,7 @@
     <module>io7m-jcanephora-tests</module>
     <module>io7m-jcanephora-texture-loader-awt</module>
     <module>io7m-jcanephora-texture-loader-core</module>
+    <module>io7m-jcanephora-texture-unit-allocator</module>
   </modules>
 
   <properties>
