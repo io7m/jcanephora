@@ -24,9 +24,17 @@ import com.io7m.jcanephora.core.api.JCGLBlendingType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class JOGLBlending implements JCGLBlendingType
 {
+  private static final Logger LOG;
+
+  static {
+    LOG = LoggerFactory.getLogger(JOGLBlending.class);
+  }
+
   private final JOGLContext context;
   private final GL3 gl;
   private boolean blend;
@@ -52,6 +60,8 @@ final class JOGLBlending implements JCGLBlendingType
     if (this.blend) {
       this.gl.glDisable(GL.GL_BLEND);
       this.blend = false;
+    } else {
+      JOGLBlending.LOG.trace("redundant blend disable ignored");
     }
   }
 
@@ -93,6 +103,8 @@ final class JOGLBlending implements JCGLBlendingType
     if (!this.blend) {
       this.gl.glEnable(GL.GL_BLEND);
       this.blend = true;
+    } else {
+      JOGLBlending.LOG.trace("redundant blend enable ignored");
     }
 
     if (this.equation_rgb != in_equation_rgb
@@ -102,6 +114,8 @@ final class JOGLBlending implements JCGLBlendingType
         JOGLTypeConversions.blendEquationToGL(in_equation_alpha));
       this.equation_rgb = in_equation_rgb;
       this.equation_alpha = in_equation_alpha;
+    } else {
+      JOGLBlending.LOG.trace("redundant blend equation change ignored");
     }
 
     if (this.source_rgb_factor != in_source_rgb_factor
@@ -117,6 +131,8 @@ final class JOGLBlending implements JCGLBlendingType
       this.source_alpha_factor = in_source_alpha_factor;
       this.destination_rgb_factor = in_destination_rgb_factor;
       this.destination_alpha_factor = in_destination_alpha_factor;
+    } else {
+      JOGLBlending.LOG.trace("redundant blend function change ignored");
     }
   }
 }
