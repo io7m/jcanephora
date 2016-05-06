@@ -8,6 +8,20 @@
 
     <c:item>
       <c:date>2016-05-06</c:date>
+      <c:type-code-new/>
+      <c:ticket>45</c:ticket>
+      <c:summary>Add profiling interface from the r2 renderer</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
+      <c:type-code-new/>
+      <c:ticket>44</c:ticket>
+      <c:summary>Add texture unit allocator interface from the r2 renderer</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
       <c:type-code-fix/>
       <c:ticket>42</c:ticket>
       <c:summary>Optimization: Eliminate redundant state changes in the JCGLStencilBuffers interface</c:summary>

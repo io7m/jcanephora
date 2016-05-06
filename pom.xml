@@ -24,12 +24,14 @@
     <module>io7m-jcanephora-examples-jogl</module>
     <module>io7m-jcanephora-fake</module>
     <module>io7m-jcanephora-jogl</module>
+    <module>io7m-jcanephora-profiler</module>
     <module>io7m-jcanephora-renderstate</module>
     <module>io7m-jcanephora-tests-fake</module>
     <module>io7m-jcanephora-tests-jogl</module>
     <module>io7m-jcanephora-tests</module>
     <module>io7m-jcanephora-texture-loader-awt</module>
     <module>io7m-jcanephora-texture-loader-core</module>
+    <module>io7m-jcanephora-texture-unit-allocator</module>
   </modules>
 
   <properties>
