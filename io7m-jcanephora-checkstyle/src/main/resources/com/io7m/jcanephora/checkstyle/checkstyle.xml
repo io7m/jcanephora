@@ -27,6 +27,10 @@
     <property name="checkFormat" value=".*"/>
   </module>
 
+  <module name="SuppressionFilter">
+    <property name="file" value="/com/io7m/jcanephora/checkstyle/suppressions.xml"/>
+  </module>
+
   <module name="TreeWalker">
     <!-- Required to use the SuppressionCommentFilter above -->
     <module name="FileContentsHolder"/>

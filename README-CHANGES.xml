@@ -3,6 +3,53 @@
   <c:project>io7m-jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
+    <c:date>2016-05-06</c:date>
+    <c:version>0.45.3</c:version>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
+      <c:type-code-new/>
+      <c:ticket>45</c:ticket>
+      <c:summary>Add profiling interface from the r2 renderer</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
+      <c:type-code-new/>
+      <c:ticket>44</c:ticket>
+      <c:summary>Add texture unit allocator interface from the r2 renderer</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
+      <c:type-code-fix/>
+      <c:ticket>42</c:ticket>
+      <c:summary>Optimization: Eliminate redundant state changes in the JCGLStencilBuffers interface</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
+      <c:type-code-fix/>
+      <c:ticket>42</c:ticket>
+      <c:summary>Optimization: Eliminate redundant state changes in the JCGLDepthBuffers interface</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2016-05-06</c:date>
+      <c:type-code-fix/>
+      <c:ticket>42</c:ticket>
+      <c:summary>Optimization: Eliminate redundant state changes in the JCGLBlending interface</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2016-04-01</c:date>
+      <c:type-code-new/>
+      <c:ticket>43</c:ticket>
+      <c:summary>Add timer query interface.</c:summary>
+    </c:item>
+  </c:release>
+
+  <c:release c:ticket-system="com.github.io7m.jcanephora">
     <c:date>2016-03-24</c:date>
     <c:version>0.45.2</c:version>
     <c:item>

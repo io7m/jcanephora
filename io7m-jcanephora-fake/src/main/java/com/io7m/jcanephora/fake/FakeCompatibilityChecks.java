@@ -32,6 +32,7 @@ import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
 import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
 import com.io7m.jcanephora.core.JCGLTextureCubeUsableType;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
+import com.io7m.jcanephora.core.JCGLTimerQueryUsableType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
@@ -39,28 +40,16 @@ import com.io7m.junreachable.UnreachableCodeException;
 // @formatter:off
 
 /**
- * <p>
- * Functions for checking whether objects are usable on the current context.
- * </p>
- * <p>
- * For an arbitrary <i>shared</i> OpenGL object {@code o}, the context
- * {@code C} upon which {@code o} was created, and an arbitrary
- * object {@code D}, {@code o} can be passed to functions on
- * {@code D} iff:
- * </p>
- * <ul>
- * <li>{@code C} is equal to {@code D}.</li>
- * <li>{@code C} is shared with {@code D} (sharing is symmetric).</li>
- * </ul>
- * <p>
- * For an arbitrary <i>unshared</i> OpenGL object {@code o}, the context
- * {@code C} upon which {@code o} was created, and an arbitrary
- * object {@code D}, {@code o} can be passed to functions on
- * {@code D} iff:
- * </p>
- * <ul>
- * <li>{@code C} is equal to {@code D}.</li>
- * </ul>
+ * <p> Functions for checking whether objects are usable on the current context.
+ * </p> <p> For an arbitrary <i>shared</i> OpenGL object {@code o}, the context
+ * {@code C} upon which {@code o} was created, and an arbitrary object {@code
+ * D}, {@code o} can be passed to functions on {@code D} iff: </p> <ul>
+ * <li>{@code C} is equal to {@code D}.</li> <li>{@code C} is shared with {@code
+ * D} (sharing is symmetric).</li> </ul> <p> For an arbitrary <i>unshared</i>
+ * OpenGL object {@code o}, the context {@code C} upon which {@code o} was
+ * created, and an arbitrary object {@code D}, {@code o} can be passed to
+ * functions on {@code D} iff: </p> <ul> <li>{@code C} is equal to {@code
+ * D}.</li> </ul>
  *
  * @see FakeObjectShared
  * @see FakeObjectUnshared
@@ -75,7 +64,8 @@ final class FakeCompatibilityChecks
     throw new UnreachableCodeException();
   }
 
-  @SuppressWarnings("unchecked") private static <A> A checkAny(
+  @SuppressWarnings("unchecked")
+  private static <A> A checkAny(
     final FakeContext current,
     final A x)
     throws JCGLExceptionWrongContext
@@ -116,7 +106,7 @@ final class FakeCompatibilityChecks
     throw new JCGLExceptionWrongContext(
       String.format(
         "Object cannot be used: Current context %s is not equal to object's "
-        + "context %s", current, target));
+          + "context %s", current, target));
   }
 
   public static void checkArrayBuffer(
@@ -167,7 +157,7 @@ final class FakeCompatibilityChecks
     throw new JCGLExceptionWrongContext(
       String.format(
         "Object cannot be used: Current context %s is not shared with "
-        + "object's context %s", current, target));
+          + "object's context %s", current, target));
   }
 
   private static <A extends FakeObjectUnshared> A checkObjectUnshared(
@@ -183,7 +173,7 @@ final class FakeCompatibilityChecks
     throw new JCGLExceptionWrongContext(
       String.format(
         "Object cannot be used: Current context %s is not equal to object's "
-        + "context %s", current, target));
+          + "context %s", current, target));
   }
 
   public static void checkArrayAttribute(
@@ -275,5 +265,12 @@ final class FakeCompatibilityChecks
     final JCGLFramebufferUsableType fb)
   {
     FakeCompatibilityChecks.checkAny(c, fb);
+  }
+
+  public static FakeTimerQuery checkTimerQuery(
+    final FakeContext c,
+    final JCGLTimerQueryUsableType q)
+  {
+    return (FakeTimerQuery) FakeCompatibilityChecks.checkAny(c, q);
   }
 }

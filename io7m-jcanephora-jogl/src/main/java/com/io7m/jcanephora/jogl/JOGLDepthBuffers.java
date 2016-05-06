@@ -25,14 +25,23 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLDrawable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class JOGLDepthBuffers implements JCGLDepthBuffersType
 {
+  private static final Logger LOG;
+
+  static {
+    LOG = LoggerFactory.getLogger(JOGLDepthBuffers.class);
+  }
+
   private final JOGLFramebuffers framebuffers;
-  private final GL3              gl;
-  private       boolean          enable_test;
-  private       boolean          enable_write;
-  private       boolean          clamp;
+  private final GL3 gl;
+  private boolean enable_test;
+  private boolean enable_write;
+  private boolean clamp;
+  private JCGLDepthFunction func;
 
   JOGLDepthBuffers(
     final JOGLContext c,
@@ -57,7 +66,8 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
     JOGLErrorChecking.checkErrors(this.gl);
   }
 
-  @Override public void depthBufferClear(final float depth)
+  @Override
+  public void depthBufferClear(final float depth)
     throws JCGLException, JCGLExceptionNoDepthBuffer
   {
     this.checkDepthBits();
@@ -72,7 +82,8 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
     }
   }
 
-  @Override public int depthBufferGetBits()
+  @Override
+  public int depthBufferGetBits()
     throws JCGLException
   {
     return this.getDepthBits();
@@ -95,58 +106,90 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
     return drawable.getChosenGLCapabilities().getDepthBits();
   }
 
-  @Override public void depthBufferTestDisable()
+  @Override
+  public void depthBufferTestDisable()
     throws JCGLException
   {
     this.checkDepthBits();
-    this.gl.glDisable(GL.GL_DEPTH_TEST);
-    this.enable_test = false;
+
+    if (this.enable_test) {
+      this.gl.glDisable(GL.GL_DEPTH_TEST);
+      this.enable_test = false;
+    } else {
+      JOGLDepthBuffers.LOG.trace("redundant depth test disable ignored");
+    }
   }
 
-  @Override public void depthBufferTestEnable(
+  @Override
+  public void depthBufferTestEnable(
     final JCGLDepthFunction in_func)
     throws JCGLException
   {
     NullCheck.notNull(in_func, "Depth function");
     this.checkDepthBits();
 
-    final int d = JOGLTypeConversions.depthFunctionToGL(in_func);
-    this.gl.glEnable(GL.GL_DEPTH_TEST);
-    this.gl.glDepthFunc(d);
-    this.enable_test = true;
+    if (!this.enable_test) {
+      this.gl.glEnable(GL.GL_DEPTH_TEST);
+      this.enable_test = true;
+    } else {
+      JOGLDepthBuffers.LOG.trace("redundant depth test enable ignored");
+    }
+
+    if (this.func != in_func) {
+      final int d = JOGLTypeConversions.depthFunctionToGL(in_func);
+      this.gl.glDepthFunc(d);
+      this.func = in_func;
+    } else {
+      JOGLDepthBuffers.LOG.trace("redundant depth function change ignored");
+    }
   }
 
-  @Override public boolean depthBufferTestIsEnabled()
+  @Override
+  public boolean depthBufferTestIsEnabled()
     throws JCGLException
   {
     this.checkDepthBits();
     return this.enable_test;
   }
 
-  @Override public void depthBufferWriteDisable()
+  @Override
+  public void depthBufferWriteDisable()
     throws JCGLException
   {
     this.checkDepthBits();
-    this.gl.glDepthMask(false);
-    this.enable_write = false;
+
+    if (this.enable_write) {
+      this.gl.glDepthMask(false);
+      this.enable_write = false;
+    } else {
+      JOGLDepthBuffers.LOG.trace("redundant depth write disable ignored");
+    }
   }
 
-  @Override public void depthBufferWriteEnable()
+  @Override
+  public void depthBufferWriteEnable()
     throws JCGLException
   {
     this.checkDepthBits();
-    this.gl.glDepthMask(true);
-    this.enable_write = true;
+
+    if (!this.enable_write) {
+      this.gl.glDepthMask(true);
+      this.enable_write = true;
+    } else {
+      JOGLDepthBuffers.LOG.trace("redundant depth write enable ignored");
+    }
   }
 
-  @Override public boolean depthBufferWriteIsEnabled()
+  @Override
+  public boolean depthBufferWriteIsEnabled()
     throws JCGLException
   {
     this.checkDepthBits();
     return this.enable_write;
   }
 
-  @Override public void depthClampingDisable()
+  @Override
+  public void depthClampingDisable()
     throws JCGLException, JCGLExceptionNoDepthBuffer
   {
     this.checkDepthBits();
@@ -154,10 +197,13 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
     if (this.clamp) {
       this.gl.glDisable(GL3.GL_DEPTH_CLAMP);
       this.clamp = false;
+    } else {
+      JOGLDepthBuffers.LOG.trace("redundant depth clamp disable ignored");
     }
   }
 
-  @Override public void depthClampingEnable()
+  @Override
+  public void depthClampingEnable()
     throws JCGLException, JCGLExceptionNoDepthBuffer
   {
     this.checkDepthBits();
@@ -165,10 +211,13 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
     if (!this.clamp) {
       this.gl.glEnable(GL3.GL_DEPTH_CLAMP);
       this.clamp = true;
+    } else {
+      JOGLDepthBuffers.LOG.trace("redundant depth clamp enable ignored");
     }
   }
 
-  @Override public boolean depthClampingIsEnabled()
+  @Override
+  public boolean depthClampingIsEnabled()
     throws JCGLException, JCGLExceptionNoDepthBuffer
   {
     this.checkDepthBits();

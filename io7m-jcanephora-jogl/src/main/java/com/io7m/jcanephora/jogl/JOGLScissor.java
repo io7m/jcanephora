@@ -23,9 +23,17 @@ import com.io7m.jnull.NullCheck;
 import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class JOGLScissor implements JCGLScissorType
 {
+  private static final Logger LOG;
+
+  static {
+    LOG = LoggerFactory.getLogger(JOGLScissor.class);
+  }
+
   private final GL3     gl;
   private       boolean enabled;
 
@@ -43,6 +51,8 @@ final class JOGLScissor implements JCGLScissorType
     if (this.enabled) {
       this.gl.glDisable(GL.GL_SCISSOR_TEST);
       this.enabled = false;
+    } else {
+      JOGLScissor.LOG.trace("redundant scissor disable ignored");
     }
   }
 
@@ -55,13 +65,17 @@ final class JOGLScissor implements JCGLScissorType
     final UnsignedRangeInclusiveL range_x = area.getRangeX();
     final UnsignedRangeInclusiveL range_y = area.getRangeY();
 
-    this.gl.glEnable(GL.GL_SCISSOR_TEST);
-    this.enabled = true;
-    this.gl.glScissor(
-      (int) range_x.getLower(),
-      (int) range_y.getLower(),
-      (int) range_x.getInterval(),
-      (int) range_y.getInterval());
+    if (!this.enabled) {
+      this.gl.glEnable(GL.GL_SCISSOR_TEST);
+      this.enabled = true;
+      this.gl.glScissor(
+        (int) range_x.getLower(),
+        (int) range_y.getLower(),
+        (int) range_x.getInterval(),
+        (int) range_y.getInterval());
+    } else {
+      JOGLScissor.LOG.trace("redundant scissor enable ignored");
+    }
   }
 
   @Override public boolean scissorIsEnabled()

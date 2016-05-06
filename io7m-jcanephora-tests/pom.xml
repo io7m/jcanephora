@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.io7m.jcanephora</groupId>
     <artifactId>io7m-jcanephora</artifactId>
-    <version>0.45.2</version>
+    <version>0.45.3</version>
   </parent>
   <artifactId>io7m-jcanephora-tests</artifactId>
 
@@ -47,6 +47,16 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>io7m-jcanephora-texture-loader-awt</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-texture-unit-allocator</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-profiler</artifactId>
       <version>${project.version}</version>
     </dependency>
 

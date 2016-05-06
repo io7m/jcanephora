@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora</artifactId>
-  <version>0.45.2</version>
+  <version>0.45.3</version>
 
   <packaging>pom</packaging>
   <name>io7m-jcanephora</name>
@@ -24,12 +24,14 @@
     <module>io7m-jcanephora-examples-jogl</module>
     <module>io7m-jcanephora-fake</module>
     <module>io7m-jcanephora-jogl</module>
+    <module>io7m-jcanephora-profiler</module>
     <module>io7m-jcanephora-renderstate</module>
     <module>io7m-jcanephora-tests-fake</module>
     <module>io7m-jcanephora-tests-jogl</module>
     <module>io7m-jcanephora-tests</module>
     <module>io7m-jcanephora-texture-loader-awt</module>
     <module>io7m-jcanephora-texture-loader-core</module>
+    <module>io7m-jcanephora-texture-unit-allocator</module>
   </modules>
 
   <properties>
@@ -215,7 +217,7 @@
       <plugin>
         <groupId>com.io7m.changelog</groupId>
         <artifactId>io7m-changelog-plugin</artifactId>
-        <version>2.1.1</version>
+        <version>2.1.2</version>
         <inherited>false</inherited>
         <configuration>
           <file>README-CHANGES.xml</file>
