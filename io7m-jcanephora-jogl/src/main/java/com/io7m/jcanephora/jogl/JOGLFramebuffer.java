@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferDepthAttachmentType;
@@ -23,7 +24,6 @@ import com.io7m.jcanephora.core.JCGLFramebufferDepthStencilAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferType;
 import com.io7m.jcanephora.core.JCGLReferableType;
 import com.jogamp.opengl.GLContext;
-import org.valid4j.Assertive;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +38,8 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
   Map<JCGLFramebufferColorAttachmentPointType,
     JCGLFramebufferColorAttachmentType> colors;
   private final JOGLReferenceContainer refs;
-  private       int                    depth_bits;
-  private       int                    stencil_bits;
+  private int depth_bits;
+  private int stencil_bits;
 
   JOGLFramebuffer(
     final GLContext in_context,
@@ -59,7 +59,8 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
     }
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     return this.image;
   }
@@ -72,12 +73,14 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
     return Optional.ofNullable(this.colors.get(c));
   }
 
-  @Override public int framebufferGetDepthBits()
+  @Override
+  public int framebufferGetDepthBits()
   {
     return this.depth_bits;
   }
 
-  @Override public int framebufferGetStencilBits()
+  @Override
+  public int framebufferGetStencilBits()
   {
     return this.stencil_bits;
   }
@@ -90,7 +93,8 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
     this.refs.referenceAdd((JOGLReferable) a);
   }
 
-  @Override public Set<JCGLReferableType> getReferences()
+  @Override
+  public Set<JCGLReferableType> getReferences()
   {
     return this.refs.getReferences();
   }
@@ -99,8 +103,15 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
     final JCGLFramebufferDepthAttachmentType a,
     final int bits)
   {
-    Assertive.ensure(this.depth_bits == 0);
-    Assertive.ensure(this.stencil_bits == 0);
+    Preconditions.checkPreconditionI(
+      this.depth_bits,
+      this.depth_bits == 0,
+      ignored -> "Depth bits must be zero");
+    Preconditions.checkPreconditionI(
+      this.stencil_bits,
+      this.stencil_bits == 0,
+      ignored -> "Stencil bits must be zero");
+
     this.refs.referenceAdd((JOGLReferable) a);
     this.depth_bits = bits;
   }
@@ -110,8 +121,15 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
     final int d_bits,
     final int s_bits)
   {
-    Assertive.ensure(this.depth_bits == 0);
-    Assertive.ensure(this.stencil_bits == 0);
+    Preconditions.checkPreconditionI(
+      this.depth_bits,
+      this.depth_bits == 0,
+      ignored -> "Depth bits must be zero");
+    Preconditions.checkPreconditionI(
+      this.stencil_bits,
+      this.stencil_bits == 0,
+      ignored -> "Stencil bits must be zero");
+
     this.refs.referenceAdd((JOGLReferable) a);
     this.depth_bits = d_bits;
     this.stencil_bits = s_bits;

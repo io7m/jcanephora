@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.fake;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLException;
@@ -33,8 +34,7 @@ import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
 import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferDepthAttachmentMatcherType;
 import com.io7m.jcanephora.core.JCGLFramebufferDepthAttachmentType;
-import com.io7m.jcanephora.core
-  .JCGLFramebufferDepthStencilAttachmentMatcherType;
+import com.io7m.jcanephora.core.JCGLFramebufferDepthStencilAttachmentMatcherType;
 import com.io7m.jcanephora.core.JCGLFramebufferDepthStencilAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
 import com.io7m.jcanephora.core.JCGLFramebufferStatus;
@@ -54,7 +54,6 @@ import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,11 +73,11 @@ final class FakeFramebuffers implements JCGLFramebuffersType
   }
 
   private final List<JCGLFramebufferColorAttachmentPointType> color_points;
-  private final FakeContext                                   context;
-  private final List<JCGLFramebufferDrawBufferType>           draw_buffers;
-  private final FakeTextures                                  textures;
-  private       FakeFramebuffer                               bind_draw;
-  private       FakeFramebuffer                               bind_read;
+  private final FakeContext context;
+  private final List<JCGLFramebufferDrawBufferType> draw_buffers;
+  private final FakeTextures textures;
+  private FakeFramebuffer bind_draw;
+  private FakeFramebuffer bind_read;
 
   FakeFramebuffers(
     final FakeContext c,
@@ -186,7 +185,11 @@ final class FakeFramebuffers implements JCGLFramebuffersType
   {
     FakeCompatibilityChecks.checkFramebufferBuilder(this.context, b);
 
-    Assertive.ensure(b instanceof Builder);
+    Preconditions.checkPrecondition(
+      b,
+      b instanceof Builder,
+      ignored -> "Builder must belong to this implementation");
+
     final Builder bb = (Builder) b;
     final int f_id = this.context.getFreshID();
 
@@ -201,7 +204,11 @@ final class FakeFramebuffers implements JCGLFramebuffersType
      */
 
     if (bb.depth != null) {
-      Assertive.ensure(bb.depth_stencil == null);
+      Preconditions.checkPrecondition(
+        bb.depth_stencil,
+        bb.depth_stencil == null,
+        ignored -> "Depth stencil must be null");
+
       bb.depth.matchDepthAttachment(
         new JCGLFramebufferDepthAttachmentMatcherType<Unit,
           UnreachableCodeException>()
@@ -226,7 +233,11 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     }
 
     if (bb.depth_stencil != null) {
-      Assertive.ensure(bb.depth == null);
+      Preconditions.checkPrecondition(
+        bb.depth,
+        bb.depth == null,
+        ignored -> "Depth must be null");
+
       bb.depth_stencil.matchDepthStencilAttachment(
         new JCGLFramebufferDepthStencilAttachmentMatcherType<Unit,
           UnreachableCodeException>()
@@ -569,12 +580,12 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     implements JCGLFramebufferBuilderType
   {
     private final List<JCGLFramebufferColorAttachmentPointType> color_points;
-    private final FakeContext                                   context;
-    private final List<JCGLFramebufferColorAttachmentType>      color_attaches;
+    private final FakeContext context;
+    private final List<JCGLFramebufferColorAttachmentType> color_attaches;
     private final SortedMap<JCGLFramebufferDrawBufferType,
-      JCGLFramebufferColorAttachmentPointType>                  draw_buffers;
-    private       JCGLFramebufferDepthAttachmentType            depth;
-    private       JCGLFramebufferDepthStencilAttachmentType     depth_stencil;
+      JCGLFramebufferColorAttachmentPointType> draw_buffers;
+    private JCGLFramebufferDepthAttachmentType depth;
+    private JCGLFramebufferDepthStencilAttachmentType depth_stencil;
 
     Builder(
       final List<JCGLFramebufferColorAttachmentPointType> in_color_points,
@@ -673,7 +684,7 @@ final class FakeFramebuffers implements JCGLFramebuffersType
       implements JCGLFramebufferColorAttachmentType
     {
       private final JCGLTextureCubeUsableType texture;
-      private final JCGLCubeMapFaceLH         face;
+      private final JCGLCubeMapFaceLH face;
 
       CubeAttachment(
         final JCGLTextureCubeUsableType in_texture,

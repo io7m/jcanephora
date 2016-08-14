@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
@@ -48,7 +49,6 @@ import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.nio.IntBuffer;
 import java.util.Arrays;
@@ -56,11 +56,11 @@ import java.util.Optional;
 
 final class JOGLArrayObjects implements JCGLArrayObjectsType
 {
-  private static final Logger          LOG;
+  private static final Logger LOG;
   private static final RangeInclusiveI VALID_ELEMENT_COUNT;
-  private static final String          ATTR_FLOAT_TRACE_FORMAT;
-  private static final String          ATTR_INTEGRAL_TRACE_FORMAT;
-  private static final String          ATTR_DISABLED_TRACE_FORMAT;
+  private static final String ATTR_FLOAT_TRACE_FORMAT;
+  private static final String ATTR_INTEGRAL_TRACE_FORMAT;
+  private static final String ATTR_DISABLED_TRACE_FORMAT;
 
   static {
     VALID_ELEMENT_COUNT = new RangeInclusiveI(1, 4);
@@ -73,15 +73,15 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       "[{}]: attr {} disabled";
   }
 
-  private final JOGLContext      context;
-  private final IntBuffer        int_cache;
-  private final GL3              gl;
-  private final int              max_attribs;
-  private final RangeInclusiveI  valid_attribs;
+  private final JOGLContext context;
+  private final IntBuffer int_cache;
+  private final GL3 gl;
+  private final int max_attribs;
+  private final RangeInclusiveI valid_attribs;
   private final JOGLArrayBuffers array_buffers;
-  private final JOGLArrayObject  default_buffer;
+  private final JOGLArrayObject default_buffer;
   private final JOGLIndexBuffers index_buffers;
-  private       JOGLArrayObject  bind;
+  private JOGLArrayObject bind;
 
   JOGLArrayObjects(
     final JOGLContext c,
@@ -196,7 +196,10 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     final GL3 g3 = this.gl;
     JOGLCompatibilityChecks.checkArrayObjectBuilder(g3.getContext(), b);
 
-    Assertive.ensure(b instanceof Builder);
+    Preconditions.checkPrecondition(
+      b,
+      b instanceof Builder,
+      ignored -> "Builder must belong to this implementation");
     final Builder bb = (Builder) b;
 
     final GLContext c = g3.getContext();
@@ -451,8 +454,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
   private final class Builder extends JOGLObjectPseudoUnshared
     implements JCGLArrayObjectBuilderType
   {
-    private final     JCGLArrayVertexAttributeType[] attribs;
-    private @Nullable JCGLIndexBufferUsableType      index_buffer;
+    private final JCGLArrayVertexAttributeType[] attribs;
+    private @Nullable JCGLIndexBufferUsableType index_buffer;
     private boolean strict;
 
     Builder()

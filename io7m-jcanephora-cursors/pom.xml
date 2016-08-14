@@ -12,7 +12,7 @@
   </parent>
   <artifactId>io7m-jcanephora-cursors</artifactId>
 
-  <packaging>jar</packaging>
+  <packaging>bundle</packaging>
   <name>io7m-jcanephora-cursors</name>
   <description>OpenGL plus static safety (Cursors)</description>
   <url>http://io7m.github.io/jcanephora/</url>
@@ -75,6 +75,20 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+
+      <!-- Produce OSGi bundle -->
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Export-Package>
+              com.io7m.jcanephora.cursors
+            </Export-Package>
+          </instructions>
+        </configuration>
       </plugin>
     </plugins>
   </build>

@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLException;
@@ -58,7 +59,6 @@ import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GLContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -263,7 +263,11 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     final GLContext c = g3.getContext();
     JOGLCompatibilityChecks.checkFramebufferBuilder(c, b);
 
-    Assertive.ensure(b instanceof Builder);
+    Preconditions.checkPrecondition(
+      b,
+      b instanceof Builder,
+      ignored -> "Builder must belong to this implementation");
+
     final Builder bb = (Builder) b;
 
     this.int_cache.rewind();
@@ -283,7 +287,11 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
      */
 
     if (bb.depth != null) {
-      Assertive.ensure(bb.depth_stencil == null);
+      Preconditions.checkPrecondition(
+        bb.depth_stencil,
+        bb.depth_stencil == null,
+        ignored -> "Depth stencil must be null");
+
       bb.depth.matchDepthAttachment(
         new JCGLFramebufferDepthAttachmentMatcherType<Unit,
           UnreachableCodeException>()
@@ -317,7 +325,11 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     }
 
     if (bb.depth_stencil != null) {
-      Assertive.ensure(bb.depth == null);
+      Preconditions.checkPrecondition(
+        bb.depth,
+        bb.depth == null,
+        ignored -> "Depth must be null");
+
       bb.depth_stencil.matchDepthStencilAttachment(
         new JCGLFramebufferDepthStencilAttachmentMatcherType<Unit,
           UnreachableCodeException>()

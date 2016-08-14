@@ -11,6 +11,16 @@
       <c:type-code-fix/>
       <c:summary>Update Maven plugins to latest versions</c:summary>
     </c:item>
+    <c:item>
+      <c:date>2016-08-14</c:date>
+      <c:type-code-new/>
+      <c:summary>The produced packages are now OSGi bundles</c:summary>
+    </c:item>
+    <c:item>
+      <c:date>2016-08-14</c:date>
+      <c:type-code-change/>
+      <c:summary>Switch to using jaffirm internally instead of valid4j</c:summary>
+    </c:item>
   </c:release>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">

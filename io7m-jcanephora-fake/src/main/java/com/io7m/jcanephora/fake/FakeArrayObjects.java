@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.fake;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
@@ -44,7 +45,6 @@ import com.io7m.junreachable.UnreachableCodeException;
 import com.io7m.junsigned.ranges.UnsignedRangeCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -52,11 +52,11 @@ import java.util.Optional;
 final class FakeArrayObjects implements JCGLArrayObjectsType
 {
   private static final RangeInclusiveI MAX_ATTRIBS_RANGE;
-  private static final Logger          LOG;
+  private static final Logger LOG;
   private static final RangeInclusiveI VALID_ELEMENT_COUNT;
-  private static final String          ATTR_FLOAT_TRACE_FORMAT;
-  private static final String          ATTR_INTEGRAL_TRACE_FORMAT;
-  private static final String          ATTR_DISABLED_TRACE_FORMAT;
+  private static final String ATTR_FLOAT_TRACE_FORMAT;
+  private static final String ATTR_INTEGRAL_TRACE_FORMAT;
+  private static final String ATTR_DISABLED_TRACE_FORMAT;
 
   static {
     MAX_ATTRIBS_RANGE = new RangeInclusiveI(16, Integer.MAX_VALUE);
@@ -71,13 +71,13 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       "[{}]: attr {} disabled";
   }
 
-  private final FakeContext               context;
-  private final int                       max_attribs;
-  private final RangeInclusiveI           valid_attribs;
-  private final FakeArrayBuffers          array_buffers;
-  private final FakeArrayObject           default_buffer;
-  private final FakeIndexBuffers          index_buffers;
-  private       JCGLArrayObjectUsableType bind;
+  private final FakeContext context;
+  private final int max_attribs;
+  private final RangeInclusiveI valid_attribs;
+  private final FakeArrayBuffers array_buffers;
+  private final FakeArrayObject default_buffer;
+  private final FakeIndexBuffers index_buffers;
+  private JCGLArrayObjectUsableType bind;
 
   FakeArrayObjects(
     final FakeContext c,
@@ -112,7 +112,11 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
   {
     FakeCompatibilityChecks.checkArrayObjectBuilder(this.context, b);
 
-    Assertive.ensure(b instanceof Builder);
+    Preconditions.checkPrecondition(
+      b,
+      b instanceof Builder,
+      ignored -> "Builder must belong to this implementation");
+
     final Builder bb = (Builder) b;
 
     final int max = b.getMaximumVertexAttributes();
@@ -359,8 +363,8 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
   private final class Builder extends FakeObjectPseudoUnshared
     implements JCGLArrayObjectBuilderType
   {
-    private final     JCGLArrayVertexAttributeType[] attribs;
-    private @Nullable JCGLIndexBufferUsableType      index_buffer;
+    private final JCGLArrayVertexAttributeType[] attribs;
+    private @Nullable JCGLIndexBufferUsableType index_buffer;
     private boolean strict;
 
     Builder()

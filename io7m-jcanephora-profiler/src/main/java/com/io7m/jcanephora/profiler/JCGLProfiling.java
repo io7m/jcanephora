@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.profiler;
 
+import com.io7m.jaffirm.core.Postconditions;
 import com.io7m.jcanephora.core.JCGLTimerQueryType;
 import com.io7m.jcanephora.core.JCGLTimerQueryUsableType;
 import com.io7m.jcanephora.core.api.JCGLTimersType;
@@ -24,7 +25,6 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectBidirectionalIterator;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.objects.ReferenceCollection;
-import org.valid4j.Assertive;
 
 import java.util.Collections;
 import java.util.Map;
@@ -291,8 +291,15 @@ public final class JCGLProfiling implements JCGLProfilingType
         k_iter.remove();
       }
 
-      Assertive.ensure(this.children.isEmpty());
-      Assertive.ensure(!this.timer.isPresent());
+      Postconditions.checkPostcondition(
+        this.children,
+        this.children.isEmpty(),
+        ignored -> "Child nodes have been correctly cleared");
+
+      Postconditions.checkPostcondition(
+        this.timer,
+        !this.timer.isPresent(),
+        ignored -> "Timer must have been deleted");
     }
 
     void startRecursive()
@@ -432,7 +439,11 @@ public final class JCGLProfiling implements JCGLProfilingType
       }
 
       this.children.trim();
-      Assertive.ensure(this.children.isEmpty());
+
+      Postconditions.checkPostcondition(
+        this.children,
+        this.children.isEmpty(),
+        ignored -> "Child nodes have been correctly cleared");
     }
 
     void retrieveRecursive()

@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionProgramCompileError;
@@ -53,7 +54,6 @@ import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -67,7 +67,7 @@ import java.util.regex.Pattern;
 
 final class JOGLShaders implements JCGLShadersType
 {
-  private static final Logger  LOG;
+  private static final Logger LOG;
   private static final Pattern NON_EMPTY;
 
   static {
@@ -75,12 +75,12 @@ final class JOGLShaders implements JCGLShadersType
     NON_EMPTY = Pattern.compile("^\\s*$");
   }
 
-  private final     JOGLContext                 context;
-  private final     GL3                         g3;
-  private final     IntBuffer                   icache;
+  private final JOGLContext context;
+  private final GL3 g3;
+  private final IntBuffer icache;
   private @Nullable JCGLProgramShaderUsableType current;
-  private           boolean                     check_type;
-  private           boolean                     check_active;
+  private boolean check_type;
+  private boolean check_active;
 
   JOGLShaders(final JOGLContext c)
   {
@@ -267,7 +267,8 @@ final class JOGLShaders implements JCGLShadersType
     }
 
     final int id = this.g3.glCreateShader(GL2ES2.GL_VERTEX_SHADER);
-    Assertive.ensure(id > 0);
+    Preconditions.checkPreconditionI(
+      id, id > 0, ignored -> "Generated shader ID must be positive");
 
     try {
       this.compileSources(name, lines, size, id);
@@ -330,7 +331,8 @@ final class JOGLShaders implements JCGLShadersType
     }
 
     final int id = this.g3.glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
-    Assertive.ensure(id > 0);
+    Preconditions.checkPreconditionI(
+      id, id > 0, ignored -> "Generated shader ID must be positive");
 
     try {
       this.compileSources(name, lines, size, id);
@@ -371,7 +373,8 @@ final class JOGLShaders implements JCGLShadersType
     }
 
     final int id = this.g3.glCreateShader(GL3.GL_GEOMETRY_SHADER);
-    Assertive.ensure(id > 0);
+    Preconditions.checkPreconditionI(
+      id, id > 0, ignored -> "Generated shader ID must be positive");
 
     try {
       this.compileSources(name, lines, size, id);
@@ -429,7 +432,9 @@ final class JOGLShaders implements JCGLShadersType
     }
 
     final int pid = this.g3.glCreateProgram();
-    Assertive.ensure(pid > 0);
+    Preconditions.checkPreconditionI(
+      pid, pid > 0, ignored -> "Generated program ID must be positive");
+
     this.g3.glAttachShader(pid, v.getGLName());
     this.g3.glAttachShader(pid, f.getGLName());
     jg.ifPresent(gg -> this.g3.glAttachShader(pid, gg.getGLName()));
@@ -557,7 +562,11 @@ final class JOGLShaders implements JCGLShadersType
           type);
       }
 
-      Assertive.require(!out.containsKey(name));
+      Preconditions.checkPrecondition(
+        name,
+        !out.containsKey(name),
+        ignored -> "Attribute name must be unique");
+
       final JOGLProgramAttribute attrib = new JOGLProgramAttribute(
         c, program, location, name, type);
       out.put(name, attrib);
@@ -627,7 +636,11 @@ final class JOGLShaders implements JCGLShadersType
           Integer.valueOf(size));
       }
 
-      Assertive.require(!out.containsKey(name));
+      Preconditions.checkPrecondition(
+        name,
+        !out.containsKey(name),
+        ignored -> "Uniform name must be unique");
+
       final JOGLProgramUniform uniform =
         new JOGLProgramUniform(c, program, location, name, type, size);
       out.put(name, uniform);

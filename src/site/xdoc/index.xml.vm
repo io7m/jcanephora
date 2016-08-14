@@ -24,6 +24,7 @@
         <li>Strict checking of cross-context object sharing</li>
         <li>Run-time type checking of shader parameters</li>
         <li>Large automated test suite: ~95% coverage</li>
+        <li><a href="https://www.osgi.org/">OSGi</a>-ready.</li>
         <li>ISC license</li>
       </ul>
     </subsection>

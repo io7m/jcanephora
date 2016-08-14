@@ -16,13 +16,13 @@
 
 package com.io7m.jcanephora.texture_loader.awt;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.texture_loader.core.JCGLTLTextureDataProviderType;
 import com.io7m.jcanephora.texture_loader.core.JCGLTLTextureDataType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorWritable4DType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -132,13 +132,13 @@ public final class JCGLAWTTextureDataProvider implements
 
   private static final class TextureDataGreyAlpha extends TextureDataAbstract
   {
-    private final BufferedImage  image;
+    private final BufferedImage image;
     private final WritableRaster raster;
-    private final SampleModel    sample_model;
-    private final int[]          sample_sizes;
-    private final double[]       pixel;
-    private final double[]       div;
-    private final ColorModel     color_model;
+    private final SampleModel sample_model;
+    private final int[] sample_sizes;
+    private final double[] pixel;
+    private final double[] div;
+    private final ColorModel color_model;
 
     private TextureDataGreyAlpha(
       final BufferedImage in_image)
@@ -150,10 +150,14 @@ public final class JCGLAWTTextureDataProvider implements
       this.sample_sizes = this.sample_model.getSampleSize();
       this.color_model = this.image.getColorModel();
 
-      Assertive.ensure(
-        this.sample_sizes.length == 2, "Pixels must have two channels");
-      Assertive.ensure(
-        this.color_model.hasAlpha(), "Pixels must have alpha");
+      Preconditions.checkPreconditionI(
+        this.sample_sizes.length,
+        this.sample_sizes.length == 2,
+        v -> "Pixels must have two channels");
+
+      Preconditions.checkPrecondition(
+        this.color_model.hasAlpha(),
+        "Pixels must have alpha");
 
       this.pixel = new double[2];
       this.div = new double[2];
@@ -182,13 +186,13 @@ public final class JCGLAWTTextureDataProvider implements
 
   private static final class TextureDataGrey extends TextureDataAbstract
   {
-    private final BufferedImage  image;
+    private final BufferedImage image;
     private final WritableRaster raster;
-    private final SampleModel    sample_model;
-    private final int[]          sample_sizes;
-    private final double[]       pixel;
-    private final double[]       div;
-    private final ColorModel     color_model;
+    private final SampleModel sample_model;
+    private final int[] sample_sizes;
+    private final double[] pixel;
+    private final double[] div;
+    private final ColorModel color_model;
 
     private TextureDataGrey(
       final BufferedImage in_image)
@@ -200,10 +204,14 @@ public final class JCGLAWTTextureDataProvider implements
       this.sample_sizes = this.sample_model.getSampleSize();
       this.color_model = this.image.getColorModel();
 
-      Assertive.ensure(
-        this.sample_sizes.length == 1, "Pixels must have one channel");
-      Assertive.ensure(
-        !this.color_model.hasAlpha(), "Pixels cannot have alpha");
+      Preconditions.checkPreconditionI(
+        this.sample_sizes.length,
+        this.sample_sizes.length == 1,
+        v -> "Pixels must have one channel");
+
+      Preconditions.checkPrecondition(
+        !this.color_model.hasAlpha(),
+        "Pixels cannot have alpha");
 
       this.pixel = new double[1];
       this.div = new double[1];
@@ -229,12 +237,12 @@ public final class JCGLAWTTextureDataProvider implements
 
   private static final class TextureDataRGBA extends TextureDataAbstract
   {
-    private final BufferedImage  image;
-    private final double[]       pixel;
+    private final BufferedImage image;
+    private final double[] pixel;
     private final WritableRaster raster;
-    private final int[]          sample_sizes;
-    private final double[]       div;
-    private final SampleModel    sample_model;
+    private final int[] sample_sizes;
+    private final double[] div;
+    private final SampleModel sample_model;
 
     private TextureDataRGBA(
       final BufferedImage in_image)

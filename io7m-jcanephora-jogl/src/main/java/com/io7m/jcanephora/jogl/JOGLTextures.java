@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLException;
@@ -48,7 +49,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -73,7 +73,7 @@ final class JOGLTextures implements JCGLTexturesType
   private final List<JCGLTextureUnitType> units;
   private final int size;
   private final Int2ObjectMap<BitSet> texture_to_units;
-  private       JOGLFramebuffers framebuffers;
+  private JOGLFramebuffers framebuffers;
 
   JOGLTextures(final JOGLContext c)
     throws JCGLExceptionNonCompliant
@@ -495,7 +495,11 @@ final class JOGLTextures implements JCGLTexturesType
     JOGLTextures.checkTexture2D(c, texture);
 
     final AreaInclusiveUnsignedLType update_area = data.getArea();
-    Assertive.require(update_area.isIncludedIn(texture.textureGetArea()));
+
+    Preconditions.checkPrecondition(
+      update_area,
+      update_area.isIncludedIn(texture.textureGetArea()),
+      ignored -> "Update area must be included in texture area");
 
     final int x_offset = (int) update_area.getRangeX().getLower();
     final int y_offset = (int) update_area.getRangeY().getLower();
@@ -719,7 +723,11 @@ final class JOGLTextures implements JCGLTexturesType
     JOGLTextures.checkTextureCube(c, texture);
 
     final AreaInclusiveUnsignedLType update_area = data.getArea();
-    Assertive.require(update_area.isIncludedIn(texture.textureGetArea()));
+
+    Preconditions.checkPrecondition(
+      update_area,
+      update_area.isIncludedIn(texture.textureGetArea()),
+      ignored -> "Update area must be included in texture area");
 
     final int x_offset = (int) update_area.getRangeX().getLower();
     final int y_offset = (int) update_area.getRangeY().getLower();

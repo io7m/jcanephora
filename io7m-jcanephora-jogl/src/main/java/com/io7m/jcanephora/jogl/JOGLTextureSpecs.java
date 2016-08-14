@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.core.JCGLPixelFormat;
 import com.io7m.jcanephora.core.JCGLTextureFormat;
 import com.io7m.jnull.NullCheck;
@@ -24,7 +25,6 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GL2ES3;
 import com.jogamp.opengl.GL2GL3;
-import org.valid4j.Assertive;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -51,7 +51,12 @@ final class JOGLTextureSpecs
     for (int index = 0; index < values.length; ++index) {
       final JCGLTextureFormat format = values[index];
       final JOGLTextureSpec spec = JOGLTextureSpecs.makeTextureSpec(format);
-      Assertive.require(!m.containsKey(format));
+
+      Preconditions.checkPrecondition(
+        format,
+        !m.containsKey(format),
+        ignored -> "Format must be unique");
+
       m.put(format, spec);
     }
 
@@ -347,7 +352,12 @@ final class JOGLTextureSpecs
     final JCGLTextureFormat format)
   {
     NullCheck.notNull(format);
-    Assertive.ensure(JOGLTextureSpecs.SPECS.containsKey(format));
+
+    Preconditions.checkPrecondition(
+      format,
+      JOGLTextureSpecs.SPECS.containsKey(format),
+      ignored -> "Format specification must be known");
+
     return JOGLTextureSpecs.SPECS.get(format);
   }
 }
