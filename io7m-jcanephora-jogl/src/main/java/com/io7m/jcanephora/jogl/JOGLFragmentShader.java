@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLFragmentShaderType;
+import com.io7m.jcanephora.core.JCGLFragmentShaderUsableType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
@@ -34,7 +35,15 @@ final class JOGLFragmentShader extends JOGLReferable
     this.name = NullCheck.notNull(in_name);
   }
 
-  @Override public String toString()
+  static JOGLFragmentShader checkFragmentShader(
+    final GLContext c,
+    final JCGLFragmentShaderUsableType f)
+  {
+    return (JOGLFragmentShader) JOGLCompatibilityChecks.checkAny(c, f);
+  }
+
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[FragmentShader ");
     sb.append(super.getGLName());
@@ -44,7 +53,8 @@ final class JOGLFragmentShader extends JOGLReferable
     return sb.toString();
   }
 
-  @Override public String getName()
+  @Override
+  public String getName()
   {
     return this.name;
   }

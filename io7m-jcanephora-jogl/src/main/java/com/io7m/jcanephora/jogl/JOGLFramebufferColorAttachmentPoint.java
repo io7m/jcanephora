@@ -39,7 +39,16 @@ final class JOGLFramebufferColorAttachmentPoint extends
         "Valid attachment points");
   }
 
-  @Override public String toString()
+  static JOGLFramebufferColorAttachmentPoint checkFramebufferColorAttachmentPoint(
+    final GLContext c,
+    final JCGLFramebufferColorAttachmentPointType t)
+  {
+    return (JOGLFramebufferColorAttachmentPoint)
+      JOGLCompatibilityChecks.checkAny(c, t);
+  }
+
+  @Override
+  public String toString()
   {
     final StringBuilder sb =
       new StringBuilder("[FramebufferColorAttachmentPoint ");
@@ -48,7 +57,8 @@ final class JOGLFramebufferColorAttachmentPoint extends
     return sb.toString();
   }
 
-  @Override public boolean equals(final Object o)
+  @Override
+  public boolean equals(final Object o)
   {
     if (this == o) {
       return true;
@@ -62,12 +72,14 @@ final class JOGLFramebufferColorAttachmentPoint extends
     return this.index == that.index;
   }
 
-  @Override public int hashCode()
+  @Override
+  public int hashCode()
   {
     return this.index;
   }
 
-  @Override public int colorAttachmentPointGetIndex()
+  @Override
+  public int colorAttachmentPointGetIndex()
   {
     return this.index;
   }

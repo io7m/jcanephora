@@ -204,7 +204,9 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     final JCGLFramebufferColorAttachmentPointType point)
   {
     NullCheck.notNull(point);
-    JOGLCompatibilityChecks.checkFramebufferColorAttachmentPoint(c, point);
+    JOGLFramebufferColorAttachmentPoint.checkFramebufferColorAttachmentPoint(
+      c,
+      point);
   }
 
   static void checkDrawBuffer(
@@ -212,7 +214,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     final JCGLFramebufferDrawBufferType buffer)
   {
     NullCheck.notNull(buffer);
-    JOGLCompatibilityChecks.checkDrawBuffer(c, buffer);
+    JOGLFramebufferDrawBuffer.checkDrawBuffer(c, buffer);
   }
 
   static JOGLFramebuffer checkFramebuffer(
@@ -220,7 +222,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     final JCGLFramebufferUsableType framebuffer)
   {
     NullCheck.notNull(framebuffer);
-    JOGLCompatibilityChecks.checkFramebuffer(c.getContext(), framebuffer);
+    JOGLFramebuffer.checkFramebuffer(c.getContext(), framebuffer);
     JCGLResources.checkNotDeleted(framebuffer);
     return (JOGLFramebuffer) framebuffer;
   }
@@ -242,6 +244,15 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     throw new JCGLExceptionFeedback(sb.toString());
   }
 
+  private static Builder checkFramebufferBuilder(
+    final GLContext context,
+    final JCGLFramebufferBuilderType b)
+  {
+    NullCheck.notNull(context);
+    NullCheck.notNull(b);
+    return (Builder) JOGLCompatibilityChecks.checkAny(context, b);
+  }
+
   JOGLFramebuffer getBindDraw()
   {
     return this.bind_draw;
@@ -261,7 +272,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
   {
     final GL3 g3 = this.gl;
     final GLContext c = g3.getContext();
-    JOGLCompatibilityChecks.checkFramebufferBuilder(c, b);
+    JOGLFramebuffers.checkFramebufferBuilder(c, b);
 
     Preconditions.checkPrecondition(
       b,

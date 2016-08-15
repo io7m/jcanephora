@@ -22,7 +22,9 @@ import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferDepthAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferDepthStencilAttachmentType;
 import com.io7m.jcanephora.core.JCGLFramebufferType;
+import com.io7m.jcanephora.core.JCGLFramebufferUsableType;
 import com.io7m.jcanephora.core.JCGLReferableType;
+import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
 import java.util.HashMap;
@@ -57,6 +59,15 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
       sb.append(']');
       this.image = sb.toString();
     }
+  }
+
+  public static JOGLFramebuffer checkFramebuffer(
+    final GLContext c,
+    final JCGLFramebufferUsableType buffer)
+  {
+    NullCheck.notNull(c);
+    NullCheck.notNull(buffer);
+    return (JOGLFramebuffer) JOGLCompatibilityChecks.checkAny(c, buffer);
   }
 
   @Override

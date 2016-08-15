@@ -27,7 +27,7 @@ import java.nio.ByteOrder;
 
 final class JOGLColorBufferMasking implements JCGLColorBufferMaskingType
 {
-  private final GL3        gl;
+  private final GL3 gl;
   private final ByteBuffer cache;
 
   JOGLColorBufferMasking(final JOGLContext c)
@@ -46,7 +46,8 @@ final class JOGLColorBufferMasking implements JCGLColorBufferMaskingType
     return cache;
   }
 
-  @Override public void colorBufferMask(
+  @Override
+  public void colorBufferMask(
     final boolean r,
     final boolean g,
     final boolean b,
@@ -56,28 +57,32 @@ final class JOGLColorBufferMasking implements JCGLColorBufferMaskingType
     this.gl.glColorMask(r, g, b, a);
   }
 
-  @Override public boolean colorBufferMaskStatusAlpha()
+  @Override
+  public boolean colorBufferMaskStatusAlpha()
     throws JCGLException
   {
     return JOGLColorBufferMasking.colorBufferMaskStatus(
       this.gl, this.cache).get(3) != 0;
   }
 
-  @Override public boolean colorBufferMaskStatusBlue()
+  @Override
+  public boolean colorBufferMaskStatusBlue()
     throws JCGLException
   {
     return JOGLColorBufferMasking.colorBufferMaskStatus(
       this.gl, this.cache).get(2) != 0;
   }
 
-  @Override public boolean colorBufferMaskStatusGreen()
+  @Override
+  public boolean colorBufferMaskStatusGreen()
     throws JCGLException
   {
     return JOGLColorBufferMasking.colorBufferMaskStatus(
       this.gl, this.cache).get(1) != 0;
   }
 
-  @Override public boolean colorBufferMaskStatusRed()
+  @Override
+  public boolean colorBufferMaskStatusRed()
     throws JCGLException
   {
     return JOGLColorBufferMasking.colorBufferMaskStatus(

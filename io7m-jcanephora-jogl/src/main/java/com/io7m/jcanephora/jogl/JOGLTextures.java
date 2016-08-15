@@ -172,7 +172,7 @@ final class JOGLTextures implements JCGLTexturesType
     final JCGLTextureUnitType unit)
   {
     NullCheck.notNull(unit, "Texture unit");
-    return JOGLCompatibilityChecks.checkTextureUnit(ctx, unit);
+    return JOGLTextureUnit.checkTextureUnit(ctx, unit);
   }
 
   static JOGLTexture2D checkTexture2D(
@@ -180,7 +180,7 @@ final class JOGLTextures implements JCGLTexturesType
     final JCGLTexture2DUsableType t)
   {
     NullCheck.notNull(t, "Texture");
-    final JOGLTexture2D r = JOGLCompatibilityChecks.checkTexture2D(ctx, t);
+    final JOGLTexture2D r = JOGLTexture2D.checkTexture2D(ctx, t);
     JCGLResources.checkNotDeleted(t);
     return r;
   }
@@ -190,7 +190,7 @@ final class JOGLTextures implements JCGLTexturesType
     final JCGLTextureCubeUsableType t)
   {
     NullCheck.notNull(t, "Texture");
-    final JOGLTextureCube r = JOGLCompatibilityChecks.checkTextureCube(c, t);
+    final JOGLTextureCube r = JOGLTextureCube.checkTextureCube(c, t);
     JCGLResources.checkNotDeleted(t);
     return r;
   }

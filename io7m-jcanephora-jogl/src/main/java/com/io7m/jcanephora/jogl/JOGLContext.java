@@ -44,12 +44,12 @@ final class JOGLContext implements JCGLContextType
     LOG = LoggerFactory.getLogger(JOGLContext.class);
   }
 
-  private final GLContext              context;
-  private final JOGLInterfaceGL33      gl33;
+  private final GLContext context;
+  private final JOGLInterfaceGL33 gl33;
   private final JCGLImplementationJOGL implementation;
-  private final GL3                    gl3;
-  private final String                 name;
-  private       boolean                destroyed;
+  private final GL3 gl3;
+  private final String name;
+  private boolean destroyed;
 
   JOGLContext(
     final JCGLImplementationJOGL i,

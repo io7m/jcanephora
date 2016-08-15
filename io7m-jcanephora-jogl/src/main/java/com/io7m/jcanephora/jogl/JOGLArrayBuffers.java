@@ -50,8 +50,8 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     LOG = LoggerFactory.getLogger(JOGLArrayBuffers.class);
   }
 
-  private final     GL3             gl;
-  private final     IntBuffer       int_cache;
+  private final GL3 gl;
+  private final IntBuffer int_cache;
   private @Nullable JOGLArrayBuffer bind;
 
   JOGLArrayBuffers(
@@ -206,7 +206,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
 
   private void checkArray(final JCGLArrayBufferUsableType a)
   {
-    JOGLCompatibilityChecks.checkArray(this.gl.getContext(), a);
+    JOGLArrayBuffer.checkArray(this.gl.getContext(), a);
     JCGLResources.checkNotDeleted(a);
   }
 

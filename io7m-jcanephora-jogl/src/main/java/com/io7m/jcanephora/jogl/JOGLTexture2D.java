@@ -19,6 +19,7 @@ package com.io7m.jcanephora.jogl;
 import com.io7m.jareas.core.AreaInclusiveUnsignedL;
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
+import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
 import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
 import com.io7m.jcanephora.core.JCGLTextureFormat;
@@ -32,16 +33,16 @@ final class JOGLTexture2D extends JOGLReferable
   implements JCGLTexture2DType
 {
   private final JCGLTextureFilterMagnification filter_mag;
-  private final JCGLTextureFilterMinification  filter_min;
-  private final UnsignedRangeInclusiveL        range_x;
-  private final UnsignedRangeInclusiveL        range_y;
-  private final long                           width;
-  private final long                           height;
-  private final JCGLTextureFormat              format;
-  private final UnsignedRangeInclusiveL        byte_range;
-  private final JCGLTextureWrapS               wrap_s;
-  private final JCGLTextureWrapT               wrap_t;
-  private final AreaInclusiveUnsignedL         area;
+  private final JCGLTextureFilterMinification filter_min;
+  private final UnsignedRangeInclusiveL range_x;
+  private final UnsignedRangeInclusiveL range_y;
+  private final long width;
+  private final long height;
+  private final JCGLTextureFormat format;
+  private final UnsignedRangeInclusiveL byte_range;
+  private final JCGLTextureWrapS wrap_s;
+  private final JCGLTextureWrapT wrap_t;
+  private final AreaInclusiveUnsignedL area;
 
   JOGLTexture2D(
     final GLContext in_context,
@@ -73,48 +74,63 @@ final class JOGLTexture2D extends JOGLReferable
     this.byte_range = new UnsignedRangeInclusiveL(0L, size - 1L);
   }
 
+  static JOGLTexture2D checkTexture2D(
+    final GLContext c,
+    final JCGLTexture2DUsableType t)
+  {
+    return (JOGLTexture2D) JOGLCompatibilityChecks.checkAny(c, t);
+  }
+
   @Override
   public JCGLTextureFilterMagnification textureGetMagnificationFilter()
   {
     return this.filter_mag;
   }
 
-  @Override public JCGLTextureFilterMinification textureGetMinificationFilter()
+  @Override
+  public JCGLTextureFilterMinification textureGetMinificationFilter()
   {
     return this.filter_min;
   }
 
-  @Override public UnsignedRangeInclusiveL textureGetRangeX()
+  @Override
+  public UnsignedRangeInclusiveL textureGetRangeX()
   {
     return this.range_x;
   }
 
-  @Override public UnsignedRangeInclusiveL textureGetRangeY()
+  @Override
+  public UnsignedRangeInclusiveL textureGetRangeY()
   {
     return this.range_y;
   }
 
-  @Override public long textureGetWidth()
+  @Override
+  public long textureGetWidth()
   {
     return this.width;
   }
 
-  @Override public long textureGetHeight()
+  @Override
+  public long textureGetHeight()
   {
     return this.height;
   }
 
-  @Override public JCGLTextureFormat textureGetFormat()
+  @Override
+  public JCGLTextureFormat textureGetFormat()
   {
     return this.format;
   }
 
-  @Override public UnsignedRangeInclusiveL getRange()
+  @Override
+  public UnsignedRangeInclusiveL getRange()
   {
     return this.byte_range;
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[Texture2D ");
     sb.append(super.getGLName());
@@ -131,22 +147,26 @@ final class JOGLTexture2D extends JOGLReferable
     return sb.toString();
   }
 
-  @Override public AreaInclusiveUnsignedLType textureGetArea()
+  @Override
+  public AreaInclusiveUnsignedLType textureGetArea()
   {
     return this.area;
   }
 
-  @Override public JCGLTextureWrapS textureGetWrapS()
+  @Override
+  public JCGLTextureWrapS textureGetWrapS()
   {
     return this.wrap_s;
   }
 
-  @Override public JCGLTextureWrapT textureGetWrapT()
+  @Override
+  public JCGLTextureWrapT textureGetWrapT()
   {
     return this.wrap_t;
   }
 
-  @Override public boolean equals(final Object o)
+  @Override
+  public boolean equals(final Object o)
   {
     if (this == o) {
       return true;
@@ -159,7 +179,8 @@ final class JOGLTexture2D extends JOGLReferable
     return this.getGLName() == that.getGLName();
   }
 
-  @Override public int hashCode()
+  @Override
+  public int hashCode()
   {
     return this.getGLName();
   }

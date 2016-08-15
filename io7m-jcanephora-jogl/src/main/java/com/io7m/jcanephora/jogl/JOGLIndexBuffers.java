@@ -51,9 +51,9 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     LOG = LoggerFactory.getLogger(JOGLIndexBuffers.class);
   }
 
-  private final GL3              gl;
-  private final IntBuffer        int_cache;
-  private       JOGLArrayObjects array_objects;
+  private final GL3 gl;
+  private final IntBuffer int_cache;
+  private JOGLArrayObjects array_objects;
 
   JOGLIndexBuffers(
     final JOGLContext c)
@@ -216,7 +216,7 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
   private JOGLIndexBuffer checkIndexBuffer(final JCGLIndexBufferUsableType i)
   {
     NullCheck.notNull(i);
-    JOGLCompatibilityChecks.checkIndexBuffer(this.gl.getContext(), i);
+    JOGLIndexBuffer.checkIndexBuffer(this.gl.getContext(), i);
     JCGLResources.checkNotDeleted(i);
     return (JOGLIndexBuffer) i;
   }

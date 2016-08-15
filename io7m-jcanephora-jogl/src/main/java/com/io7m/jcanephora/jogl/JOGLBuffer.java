@@ -24,9 +24,9 @@ import com.jogamp.opengl.GLContext;
 
 abstract class JOGLBuffer extends JOGLReferable implements JCGLBufferUsableType
 {
-  private final JCGLUsageHint           usage;
+  private final JCGLUsageHint usage;
   private final UnsignedRangeInclusiveL range;
-  private final String                  image;
+  private final String image;
 
   JOGLBuffer(
     final GLContext in_context,
@@ -49,17 +49,20 @@ abstract class JOGLBuffer extends JOGLReferable implements JCGLBufferUsableType
     }
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     return this.image;
   }
 
-  @Override public final JCGLUsageHint getUsageHint()
+  @Override
+  public final JCGLUsageHint getUsageHint()
   {
     return this.usage;
   }
 
-  @Override public final UnsignedRangeInclusiveL getRange()
+  @Override
+  public final UnsignedRangeInclusiveL getRange()
   {
     return this.range;
   }

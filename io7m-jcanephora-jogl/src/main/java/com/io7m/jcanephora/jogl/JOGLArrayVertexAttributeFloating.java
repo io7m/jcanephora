@@ -26,14 +26,14 @@ import com.jogamp.opengl.GLContext;
 final class JOGLArrayVertexAttributeFloating extends JOGLObjectPseudoUnshared
   implements JCGLArrayVertexAttributeFloatingPointType
 {
-  private final int                       index;
+  private final int index;
   private final JCGLArrayBufferUsableType array;
-  private final JCGLScalarType            type;
-  private final int                       stride;
-  private final long                      offset;
-  private final int                       elements;
-  private final boolean                   normalized;
-  private final int                       divisor;
+  private final JCGLScalarType type;
+  private final int stride;
+  private final long offset;
+  private final int elements;
+  private final boolean normalized;
+  private final int divisor;
 
   JOGLArrayVertexAttributeFloating(
     final GLContext in_context,

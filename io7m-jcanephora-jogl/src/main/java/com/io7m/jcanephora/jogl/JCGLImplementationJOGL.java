@@ -65,7 +65,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementationJOGLType
     }
   }
 
-  @Override public JCGLContextType newContextFrom(
+  @Override
+  public JCGLContextType newContextFrom(
     final GLContext c,
     final String name)
     throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant
@@ -73,7 +74,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementationJOGLType
     return this.newContextFromWithSupplier(c, g -> g.getGL().getGL3(), name);
   }
 
-  @Override public JCGLContextType newContextFromWithSupplier(
+  @Override
+  public JCGLContextType newContextFromWithSupplier(
     final GLContext c,
     final Function<GLContext, GL3> gl_supplier,
     final String name)

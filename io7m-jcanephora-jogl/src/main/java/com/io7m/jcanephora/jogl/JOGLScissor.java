@@ -34,8 +34,8 @@ final class JOGLScissor implements JCGLScissorType
     LOG = LoggerFactory.getLogger(JOGLScissor.class);
   }
 
-  private final GL3     gl;
-  private       boolean enabled;
+  private final GL3 gl;
+  private boolean enabled;
 
   JOGLScissor(final JOGLContext c)
   {
@@ -45,7 +45,8 @@ final class JOGLScissor implements JCGLScissorType
     this.enabled = false;
   }
 
-  @Override public void scissorDisable()
+  @Override
+  public void scissorDisable()
     throws JCGLException
   {
     if (this.enabled) {
@@ -56,7 +57,8 @@ final class JOGLScissor implements JCGLScissorType
     }
   }
 
-  @Override public void scissorEnable(
+  @Override
+  public void scissorEnable(
     final AreaInclusiveUnsignedLType area)
     throws JCGLException
   {
@@ -78,7 +80,8 @@ final class JOGLScissor implements JCGLScissorType
     }
   }
 
-  @Override public boolean scissorIsEnabled()
+  @Override
+  public boolean scissorIsEnabled()
     throws JCGLException
   {
     return this.enabled;

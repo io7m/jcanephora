@@ -30,6 +30,7 @@ import com.io7m.jcanephora.core.JCGLExceptionAttributeAlreadyAssigned;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionObjectNotDeletable;
+import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jcanephora.core.JCGLResources;
@@ -137,6 +138,23 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     JOGLErrorChecking.checkErrors(this.gl);
   }
 
+  private static Builder checkArrayObjectBuilder(
+    final GLContext context,
+    final JCGLArrayObjectBuilderType b)
+    throws JCGLExceptionWrongContext
+  {
+    NullCheck.notNull(context);
+    NullCheck.notNull(b);
+    return (Builder) JOGLCompatibilityChecks.checkAny(context, b);
+  }
+
+  private static void checkArrayAttribute(
+    final GLContext c,
+    final JCGLArrayVertexAttributeType a)
+  {
+    JOGLCompatibilityChecks.checkAny(c, a);
+  }
+
   @Override
   public JCGLArrayObjectBuilderType arrayObjectNewBuilder()
     throws JCGLException
@@ -194,7 +212,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     throws JCGLException
   {
     final GL3 g3 = this.gl;
-    JOGLCompatibilityChecks.checkArrayObjectBuilder(g3.getContext(), b);
+    checkArrayObjectBuilder(g3.getContext(), b);
 
     Preconditions.checkPrecondition(
       b,
@@ -206,7 +224,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     final int max = b.getMaximumVertexAttributes();
     for (int index = 0; index < max; ++index) {
       if (bb.attribs[index] != null) {
-        JOGLCompatibilityChecks.checkArrayAttribute(c, bb.attribs[index]);
+        checkArrayAttribute(c, bb.attribs[index]);
       }
     }
 
@@ -383,7 +401,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
   private JOGLArrayObject checkArrayObject(final JCGLArrayObjectUsableType a)
   {
     NullCheck.notNull(a);
-    JOGLCompatibilityChecks.checkArrayObject(this.context.getContext(), a);
+    JOGLArrayObject.checkArrayObject(this.context.getContext(), a);
     JCGLResources.checkNotDeleted(a);
     return (JOGLArrayObject) a;
   }
@@ -434,14 +452,14 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 
   private void checkArrayBuffer(final JCGLArrayBufferUsableType a)
   {
-    JOGLCompatibilityChecks.checkArray(this.gl.getContext(), a);
+    JOGLArrayBuffer.checkArray(this.gl.getContext(), a);
     JCGLResources.checkNotDeleted(a);
   }
 
   private JOGLIndexBuffer checkIndexBuffer(final JCGLIndexBufferUsableType i)
   {
     NullCheck.notNull(i);
-    JOGLCompatibilityChecks.checkIndexBuffer(this.gl.getContext(), i);
+    JOGLIndexBuffer.checkIndexBuffer(this.gl.getContext(), i);
     JCGLResources.checkNotDeleted(i);
     return (JOGLIndexBuffer) i;
   }

@@ -46,7 +46,7 @@ abstract class JOGLObjectShared extends JOGLObjectDeletable
   implements JCGLNamedType
 {
   private final GLContext context;
-  private final int       id;
+  private final int id;
 
   protected JOGLObjectShared(
     final GLContext in_context,
@@ -62,7 +62,8 @@ abstract class JOGLObjectShared extends JOGLObjectDeletable
     return this.context;
   }
 
-  @Override public final int getGLName()
+  @Override
+  public final int getGLName()
   {
     return this.id;
   }

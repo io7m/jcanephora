@@ -25,8 +25,8 @@ import com.jogamp.opengl.GL3;
 
 final class JOGLPolygonMode implements JCGLPolygonModesType
 {
-  private final GL3             gl;
-  private       JCGLPolygonMode mode;
+  private final GL3 gl;
+  private JCGLPolygonMode mode;
 
   JOGLPolygonMode(final JOGLContext c)
   {
@@ -43,13 +43,15 @@ final class JOGLPolygonMode implements JCGLPolygonModesType
       JOGLTypeConversions.polygonModeToGL(this.mode));
   }
 
-  @Override public JCGLPolygonMode polygonGetMode()
+  @Override
+  public JCGLPolygonMode polygonGetMode()
     throws JCGLException
   {
     return this.mode;
   }
 
-  @Override public void polygonSetMode(
+  @Override
+  public void polygonSetMode(
     final JCGLPolygonMode m)
     throws JCGLException
   {
