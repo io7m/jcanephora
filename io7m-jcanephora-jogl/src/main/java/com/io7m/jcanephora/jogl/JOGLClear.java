@@ -31,7 +31,7 @@ import java.util.OptionalInt;
 final class JOGLClear implements JCGLClearType
 {
   private final JOGLContext context;
-  private final GL3         g3;
+  private final GL3 g3;
 
   JOGLClear(
     final JOGLContext in_context)
@@ -40,7 +40,8 @@ final class JOGLClear implements JCGLClearType
     this.g3 = this.context.getGL3();
   }
 
-  @Override public void clear(final JCGLClearSpecificationType c)
+  @Override
+  public void clear(final JCGLClearSpecificationType c)
     throws JCGLException
   {
     NullCheck.notNull(c);

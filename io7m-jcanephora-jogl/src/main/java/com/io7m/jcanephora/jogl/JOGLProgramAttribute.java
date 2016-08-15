@@ -27,10 +27,10 @@ import com.jogamp.opengl.GLContext;
 final class JOGLProgramAttribute extends JOGLObjectPseudoShared
   implements JCGLProgramAttributeType
 {
-  private final int                         location;
-  private final String                      name;
+  private final int location;
+  private final String name;
   private final JCGLProgramShaderUsableType program;
-  private final JCGLType                    type;
+  private final JCGLType type;
 
   JOGLProgramAttribute(
     final GLContext in_context,
@@ -51,7 +51,8 @@ final class JOGLProgramAttribute extends JOGLObjectPseudoShared
     this.name = NullCheck.notNull(in_name, "Attribute name");
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[ProgramAttribute ");
     sb.append(this.location);
@@ -63,22 +64,26 @@ final class JOGLProgramAttribute extends JOGLObjectPseudoShared
     return sb.toString();
   }
 
-  @Override public String getName()
+  @Override
+  public String getName()
   {
     return this.name;
   }
 
-  @Override public JCGLProgramShaderUsableType getProgram()
+  @Override
+  public JCGLProgramShaderUsableType getProgram()
   {
     return this.program;
   }
 
-  @Override public JCGLType getType()
+  @Override
+  public JCGLType getType()
   {
     return this.type;
   }
 
-  @Override public int getGLName()
+  @Override
+  public int getGLName()
   {
     return this.location;
   }

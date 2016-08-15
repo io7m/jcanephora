@@ -177,7 +177,7 @@ final class JOGLShaders implements JCGLShadersType
     NullCheck.notNull(p);
 
     final GLContext c = this.context.getContext();
-    JOGLCompatibilityChecks.checkProgramShader(c, p);
+    JOGLProgramShader.checkProgramShader(c, p);
     JCGLResources.checkNotDeleted(p);
 
     if (JOGLShaders.LOG.isDebugEnabled()) {
@@ -199,7 +199,7 @@ final class JOGLShaders implements JCGLShadersType
     NullCheck.notNull(v);
 
     final GLContext c = this.context.getContext();
-    JOGLCompatibilityChecks.checkVertexShader(c, v);
+    JOGLVertexShader.checkVertexShader(c, v);
     JCGLResources.checkNotDeleted(v);
 
     if (JOGLShaders.LOG.isDebugEnabled()) {
@@ -217,7 +217,7 @@ final class JOGLShaders implements JCGLShadersType
     NullCheck.notNull(f);
 
     final GLContext c = this.context.getContext();
-    JOGLCompatibilityChecks.checkFragmentShader(c, f);
+    JOGLFragmentShader.checkFragmentShader(c, f);
     JCGLResources.checkNotDeleted(f);
 
     if (JOGLShaders.LOG.isDebugEnabled()) {
@@ -235,7 +235,7 @@ final class JOGLShaders implements JCGLShadersType
     NullCheck.notNull(g);
 
     final GLContext c = this.context.getContext();
-    JOGLCompatibilityChecks.checkGeometryShader(c, g);
+    JOGLGeometryShader.checkGeometryShader(c, g);
     JCGLResources.checkNotDeleted(g);
 
     if (JOGLShaders.LOG.isDebugEnabled()) {
@@ -409,16 +409,16 @@ final class JOGLShaders implements JCGLShadersType
     NullCheck.notNull(jf, "Fragment shader");
 
     final GLContext c = this.context.getContext();
-    final JOGLVertexShader v = JOGLCompatibilityChecks.checkVertexShader(c, jv);
+    final JOGLVertexShader v = JOGLVertexShader.checkVertexShader(c, jv);
     JCGLResources.checkNotDeleted(v);
     final JOGLFragmentShader f =
-      JOGLCompatibilityChecks.checkFragmentShader(c, jf);
+      JOGLFragmentShader.checkFragmentShader(c, jf);
     JCGLResources.checkNotDeleted(f);
 
     final Optional<JOGLGeometryShader> g = jg.map(
       gg -> {
         final JOGLGeometryShader rg =
-          JOGLCompatibilityChecks.checkGeometryShader(c, gg);
+          JOGLGeometryShader.checkGeometryShader(c, gg);
         JCGLResources.checkNotDeleted(rg);
         return rg;
       });
@@ -473,7 +473,7 @@ final class JOGLShaders implements JCGLShadersType
     }
 
     final GLContext c = this.context.getContext();
-    JOGLCompatibilityChecks.checkProgramShader(c, p);
+    JOGLProgramShader.checkProgramShader(c, p);
     JCGLResources.checkNotDeleted(p);
 
     this.g3.glUseProgram(p.getGLName());

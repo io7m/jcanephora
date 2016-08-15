@@ -83,7 +83,7 @@ final class JOGLTimers implements JCGLTimersType
     NullCheck.notNull(q);
 
     final JOGLTimerQuery tq =
-      JOGLCompatibilityChecks.checkTimerQuery(this.context.getContext(), q);
+      JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
     JCGLResources.checkNotDeleted(q);
 
     if (this.running != null) {
@@ -108,7 +108,7 @@ final class JOGLTimers implements JCGLTimersType
     NullCheck.notNull(q);
 
     final JOGLTimerQuery tq =
-      JOGLCompatibilityChecks.checkTimerQuery(this.context.getContext(), q);
+      JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
     JCGLResources.checkNotDeleted(q);
 
     if (!Objects.equals(q, this.running)) {
@@ -135,7 +135,7 @@ final class JOGLTimers implements JCGLTimersType
     NullCheck.notNull(q);
 
     final JOGLTimerQuery tq =
-      JOGLCompatibilityChecks.checkTimerQuery(this.context.getContext(), q);
+      JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
     JCGLResources.checkNotDeleted(q);
 
     if (!tq.isExecuted()) {
@@ -160,7 +160,7 @@ final class JOGLTimers implements JCGLTimersType
     NullCheck.notNull(q);
 
     final JOGLTimerQuery tq =
-      JOGLCompatibilityChecks.checkTimerQuery(this.context.getContext(), q);
+      JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
     JCGLResources.checkNotDeleted(q);
 
     this.lcache.rewind();
@@ -177,7 +177,7 @@ final class JOGLTimers implements JCGLTimersType
     NullCheck.notNull(q);
 
     final JOGLTimerQuery tq =
-      JOGLCompatibilityChecks.checkTimerQuery(this.context.getContext(), q);
+      JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
     JCGLResources.checkNotDeleted(q);
 
     this.icache.put(0, tq.getGLName());

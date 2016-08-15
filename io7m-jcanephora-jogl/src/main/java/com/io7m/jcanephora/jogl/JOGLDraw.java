@@ -29,8 +29,8 @@ final class JOGLDraw implements JCGLDrawType
 {
   private final JOGLArrayObjects array_objects;
   private final JOGLIndexBuffers index_buffers;
-  private final JOGLContext      context;
-  private final GL3              g3;
+  private final JOGLContext context;
+  private final GL3 g3;
 
   JOGLDraw(
     final JOGLContext in_context,

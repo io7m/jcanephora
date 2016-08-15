@@ -34,7 +34,8 @@ final class JOGLViewports implements JCGLViewportsType
     JOGLErrorChecking.checkErrors(this.gl);
   }
 
-  @Override public void viewportSet(
+  @Override
+  public void viewportSet(
     final AreaInclusiveUnsignedLType area)
     throws JCGLException
   {

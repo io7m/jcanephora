@@ -18,6 +18,7 @@ package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLProgramAttributeType;
 import com.io7m.jcanephora.core.JCGLProgramShaderType;
+import com.io7m.jcanephora.core.JCGLProgramShaderUsableType;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
 import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jnull.NullCheck;
@@ -31,10 +32,10 @@ import java.util.Set;
 final class JOGLProgramShader extends JOGLObjectShared
   implements JCGLProgramShaderType
 {
-  private final String                                name;
-  private final JOGLReferenceContainer                references;
-  private       Map<String, JCGLProgramAttributeType> attributes;
-  private       Map<String, JCGLProgramUniformType>   uniforms;
+  private final String name;
+  private final JOGLReferenceContainer references;
+  private Map<String, JCGLProgramAttributeType> attributes;
+  private Map<String, JCGLProgramUniformType> uniforms;
 
   JOGLProgramShader(
     final GLContext ctx,
@@ -52,7 +53,15 @@ final class JOGLProgramShader extends JOGLObjectShared
     this.references.referenceAdd(fs);
   }
 
-  @Override public String toString()
+  static JOGLProgramShader checkProgramShader(
+    final GLContext c,
+    final JCGLProgramShaderUsableType p)
+  {
+    return (JOGLProgramShader) JOGLCompatibilityChecks.checkAny(c, p);
+  }
+
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[ProgramShader ");
     sb.append(super.getGLName());
@@ -62,12 +71,14 @@ final class JOGLProgramShader extends JOGLObjectShared
     return sb.toString();
   }
 
-  @Override public String getName()
+  @Override
+  public String getName()
   {
     return this.name;
   }
 
-  @Override public Map<String, JCGLProgramAttributeType> getAttributes()
+  @Override
+  public Map<String, JCGLProgramAttributeType> getAttributes()
   {
     return this.attributes;
   }
@@ -79,7 +90,8 @@ final class JOGLProgramShader extends JOGLObjectShared
       Collections.unmodifiableMap(NullCheck.notNull(in_attributes));
   }
 
-  @Override public Map<String, JCGLProgramUniformType> getUniforms()
+  @Override
+  public Map<String, JCGLProgramUniformType> getUniforms()
   {
     return this.uniforms;
   }
@@ -90,7 +102,8 @@ final class JOGLProgramShader extends JOGLObjectShared
     this.uniforms = Collections.unmodifiableMap(NullCheck.notNull(in_uniforms));
   }
 
-  @Override public Set<JCGLReferableType> getReferences()
+  @Override
+  public Set<JCGLReferableType> getReferences()
   {
     return this.references.getReferences();
   }

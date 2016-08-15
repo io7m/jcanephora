@@ -34,10 +34,10 @@ final class JOGLCulling implements JCGLCullingType
     LOG = LoggerFactory.getLogger(JOGLCulling.class);
   }
 
-  private final GL3                  gl;
-  private       boolean              enabled;
-  private       JCGLFaceSelection    current_faces;
-  private       JCGLFaceWindingOrder current_order;
+  private final GL3 gl;
+  private boolean enabled;
+  private JCGLFaceSelection current_faces;
+  private JCGLFaceWindingOrder current_order;
 
   JOGLCulling(final JOGLContext c)
   {
@@ -59,7 +59,8 @@ final class JOGLCulling implements JCGLCullingType
     JOGLErrorChecking.checkErrors(this.gl);
   }
 
-  @Override public void cullingDisable()
+  @Override
+  public void cullingDisable()
     throws JCGLException
   {
     if (this.enabled) {
@@ -70,7 +71,8 @@ final class JOGLCulling implements JCGLCullingType
     }
   }
 
-  @Override public void cullingEnable(
+  @Override
+  public void cullingEnable(
     final JCGLFaceSelection faces,
     final JCGLFaceWindingOrder order)
     throws JCGLException
@@ -101,7 +103,8 @@ final class JOGLCulling implements JCGLCullingType
     }
   }
 
-  @Override public boolean cullingIsEnabled()
+  @Override
+  public boolean cullingIsEnabled()
     throws JCGLException
   {
     return this.enabled;

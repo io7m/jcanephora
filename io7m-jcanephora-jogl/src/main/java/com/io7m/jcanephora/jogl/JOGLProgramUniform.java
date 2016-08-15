@@ -27,11 +27,11 @@ import com.jogamp.opengl.GLContext;
 final class JOGLProgramUniform extends JOGLObjectPseudoShared
   implements JCGLProgramUniformType
 {
-  private final int                         location;
-  private final String                      name;
+  private final int location;
+  private final String name;
   private final JCGLProgramShaderUsableType program;
-  private final JCGLType                    type;
-  private final int                         size;
+  private final JCGLType type;
+  private final int size;
 
   JOGLProgramUniform(
     final GLContext in_context,

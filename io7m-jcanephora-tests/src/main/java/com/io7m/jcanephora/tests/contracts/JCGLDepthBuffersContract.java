@@ -99,6 +99,30 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     Assert.assertFalse(g_dep.depthBufferWriteIsEnabled());
   }
 
+  @Test public final void testDepthWriteEnableRedundant()
+  {
+    final Interfaces i = this.getInterfaces("main", 24, 8);
+    final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
+
+    Assert.assertTrue(g_dep.depthBufferWriteIsEnabled());
+    g_dep.depthBufferWriteEnable();
+    Assert.assertTrue(g_dep.depthBufferWriteIsEnabled());
+    g_dep.depthBufferWriteEnable();
+    Assert.assertTrue(g_dep.depthBufferWriteIsEnabled());
+  }
+
+  @Test public final void testDepthWriteDisableRedundant()
+  {
+    final Interfaces i = this.getInterfaces("main", 24, 8);
+    final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
+
+    Assert.assertTrue(g_dep.depthBufferWriteIsEnabled());
+    g_dep.depthBufferWriteDisable();
+    Assert.assertFalse(g_dep.depthBufferWriteIsEnabled());
+    g_dep.depthBufferWriteDisable();
+    Assert.assertFalse(g_dep.depthBufferWriteIsEnabled());
+  }
+
   @Test public final void testDepthClear()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);

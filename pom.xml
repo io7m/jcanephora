@@ -24,10 +24,12 @@
     <module>io7m-jcanephora-examples-jogl</module>
     <module>io7m-jcanephora-fake</module>
     <module>io7m-jcanephora-jogl</module>
+    <module>io7m-jcanephora-lwjgl3</module>
     <module>io7m-jcanephora-profiler</module>
     <module>io7m-jcanephora-renderstate</module>
     <module>io7m-jcanephora-tests-fake</module>
     <module>io7m-jcanephora-tests-jogl</module>
+    <module>io7m-jcanephora-tests-lwjgl3</module>
     <module>io7m-jcanephora-tests</module>
     <module>io7m-jcanephora-texture-loader-awt</module>
     <module>io7m-jcanephora-texture-loader-core</module>
@@ -192,6 +194,24 @@
         <artifactId>lwjgl</artifactId>
         <version>3.0.0</version>
       </dependency>
+      <dependency>
+        <groupId>org.lwjgl</groupId>
+        <artifactId>lwjgl-platform</artifactId>
+        <classifier>natives-linux</classifier>
+        <version>3.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lwjgl</groupId>
+        <artifactId>lwjgl-platform</artifactId>
+        <classifier>natives-osx</classifier>
+        <version>3.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lwjgl</groupId>
+        <artifactId>lwjgl-platform</artifactId>
+        <classifier>natives-windows</classifier>
+        <version>3.0.0</version>
+      </dependency>
 
       <dependency>
         <groupId>junit</groupId>
@@ -330,6 +350,11 @@
           <artifactId>maven-bundle-plugin</artifactId>
           <version>3.2.0</version>
           <extensions>true</extensions>
+        </plugin>
+        <plugin>
+          <groupId>com.teamtter.mavennatives</groupId>
+          <artifactId>nativedependencies-maven-plugin</artifactId>
+          <version>1.0.0</version>
         </plugin>
 
         <!-- Require JDK >= 1.8 -->
