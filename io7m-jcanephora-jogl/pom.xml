@@ -36,13 +36,11 @@
     </dependency>
 
     <dependency>
-      <groupId>org.jogamp.jogl</groupId>
-      <artifactId>jogl-all-main</artifactId>
+      <groupId>com.io7m.bundles</groupId>
+      <artifactId>org.jogamp.jogl</artifactId>
+      <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.jogamp.gluegen</groupId>
-      <artifactId>gluegen-rt-main</artifactId>
-    </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>

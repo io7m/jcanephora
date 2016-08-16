@@ -36,24 +36,11 @@
     </dependency>
 
     <dependency>
-      <groupId>org.lwjgl</groupId>
-      <artifactId>lwjgl</artifactId>
+      <groupId>com.io7m.bundles</groupId>
+      <artifactId>org.lwjgl</artifactId>
+      <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.lwjgl</groupId>
-      <artifactId>lwjgl-platform</artifactId>
-      <classifier>natives-linux</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.lwjgl</groupId>
-      <artifactId>lwjgl-platform</artifactId>
-      <classifier>natives-osx</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.lwjgl</groupId>
-      <artifactId>lwjgl-platform</artifactId>
-      <classifier>natives-windows</classifier>
-    </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
