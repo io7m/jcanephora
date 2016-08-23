@@ -18,5 +18,6 @@
  * Testing contracts.
  */
 
-@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.tests.contracts;
+@com.io7m.jnull.NonNullByDefault
+package com.io7m.jcanephora.tests.contracts;
 

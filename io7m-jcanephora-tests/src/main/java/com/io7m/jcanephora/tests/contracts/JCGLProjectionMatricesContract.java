@@ -126,7 +126,10 @@ public abstract class JCGLProjectionMatricesContract
 
     Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 0), 0.0);
     Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 1), 0.0);
-    Assert.assertEquals(-0.22222222, (double) m.getRowColumnF(2, 2), 0.00000001);
+    Assert.assertEquals(
+      -0.22222222,
+      (double) m.getRowColumnF(2, 2),
+      0.00000001);
     Assert.assertEquals(-1.2222222, (double) m.getRowColumnF(2, 3), 0.00000001);
 
     Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 0), 0.0);
@@ -162,8 +165,14 @@ public abstract class JCGLProjectionMatricesContract
 
     Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 0), 0.0);
     Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 1), 0.0);
-    Assert.assertEquals(-1.002002000808716, (double) m.getRowColumnF(2, 2), 0.00000000001);
-    Assert.assertEquals(-2.002002000808716, (double) m.getRowColumnF(2, 3), 0.00000000001);
+    Assert.assertEquals(
+      -1.002002000808716,
+      (double) m.getRowColumnF(2, 2),
+      0.00000000001);
+    Assert.assertEquals(
+      -2.002002000808716,
+      (double) m.getRowColumnF(2, 3),
+      0.00000000001);
 
     Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 0), 0.0);
     Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 1), 0.0);
@@ -185,13 +194,19 @@ public abstract class JCGLProjectionMatricesContract
 
     System.out.println(m);
 
-    Assert.assertEquals(2.414213657379150, (double) m.getRowColumnF(0, 0), 0.00000000001);
+    Assert.assertEquals(
+      2.414213657379150,
+      (double) m.getRowColumnF(0, 0),
+      0.00000000001);
     Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 1), 0.0);
     Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 2), 0.0);
     Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 3), 0.0);
 
     Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 0), 0.0);
-    Assert.assertEquals(3.138477563858032, (double) m.getRowColumnF(1, 1), 0.00000000001);
+    Assert.assertEquals(
+      3.138477563858032,
+      (double) m.getRowColumnF(1, 1),
+      0.00000000001);
     Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 2), 0.0);
     Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 3), 0.0);
 

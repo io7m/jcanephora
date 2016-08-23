@@ -28,5 +28,6 @@ public abstract class JCGLContract
    * Executed after each test.
    */
 
-  @After public abstract void onTestCompleted();
+  @After
+  public abstract void onTestCompleted();
 }

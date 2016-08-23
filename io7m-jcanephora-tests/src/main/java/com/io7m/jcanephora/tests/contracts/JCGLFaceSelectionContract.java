@@ -32,7 +32,8 @@ public abstract class JCGLFaceSelectionContract
 
   protected abstract JCGLFaceSelection fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLFaceSelection[] vs = JCGLFaceSelection.values();
     for (int index = 0; index < vs.length; ++index) {

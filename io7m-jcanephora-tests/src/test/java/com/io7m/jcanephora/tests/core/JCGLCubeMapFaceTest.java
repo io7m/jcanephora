@@ -23,7 +23,8 @@ import org.junit.Test;
 
 public final class JCGLCubeMapFaceTest
 {
-  @Test public void testConversionsLH_RH()
+  @Test
+  public void testConversionsLH_RH()
   {
     for (final JCGLCubeMapFaceLH v : JCGLCubeMapFaceLH.values()) {
       switch (v) {
@@ -61,7 +62,8 @@ public final class JCGLCubeMapFaceTest
     }
   }
 
-  @Test public void testConversionsRH_LH()
+  @Test
+  public void testConversionsRH_LH()
   {
     for (final JCGLCubeMapFaceRH v : JCGLCubeMapFaceRH.values()) {
       switch (v) {

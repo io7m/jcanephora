@@ -46,9 +46,9 @@ import java.util.List;
 public final class JCGLShaderTestFunctionEvaluator
   implements JCGLShaderTestFunctionEvaluatorType
 {
-  private final JCGLFramebufferType   framebuffer;
+  private final JCGLFramebufferType framebuffer;
   private final JCGLProgramShaderType program;
-  private final JCGLArrayObjectType   quad;
+  private final JCGLArrayObjectType quad;
   private final JCGLInterfaceGL33Type gl;
 
   JCGLShaderTestFunctionEvaluator(
@@ -73,7 +73,8 @@ public final class JCGLShaderTestFunctionEvaluator
     this.gl = NullCheck.notNull(gg);
   }
 
-  @Override public VectorI4F evaluate4f(final VectorI4F x)
+  @Override
+  public VectorI4F evaluate4f(final VectorI4F x)
   {
     final JCGLShadersType gs = this.gl.getShaders();
     final JCGLTexturesType gt = this.gl.getTextures();
@@ -113,7 +114,8 @@ public final class JCGLShaderTestFunctionEvaluator
     return new VectorI4F(v.getR(), v.getG(), v.getB(), v.getA());
   }
 
-  @Override public VectorI4F evaluateArrayF(final FloatBuffer x)
+  @Override
+  public VectorI4F evaluateArrayF(final FloatBuffer x)
   {
     final JCGLShadersType gs = this.gl.getShaders();
     final JCGLTexturesType gt = this.gl.getTextures();

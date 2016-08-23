@@ -42,7 +42,8 @@ public abstract class JCGLBufferUpdatesContract extends JCGLContract
 
   protected abstract JCGLArrayBuffersType getArrayBuffers(String name);
 
-  @Test public final void testBufferUpdateAllIdentities()
+  @Test
+  public final void testBufferUpdateAllIdentities()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 
@@ -59,7 +60,8 @@ public abstract class JCGLBufferUpdatesContract extends JCGLContract
     Assert.assertEquals(u_range.getInterval(), (long) u_data.capacity());
   }
 
-  @Test public final void testBufferUpdateOutOfRange()
+  @Test
+  public final void testBufferUpdateOutOfRange()
   {
     final JCGLArrayBuffersType ga = this.getArrayBuffers("main");
 

@@ -924,7 +924,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
   protected static final class Interfaces
   {
-    private final JCGLContextType      context;
+    private final JCGLContextType context;
     private final JCGLIndexBuffersType index_buffers;
     private final JCGLArrayBuffersType array_buffers;
     private final JCGLArrayObjectsType array_objects;

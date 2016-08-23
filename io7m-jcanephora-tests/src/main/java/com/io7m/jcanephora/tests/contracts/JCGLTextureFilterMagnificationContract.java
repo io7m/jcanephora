@@ -32,7 +32,8 @@ public abstract class JCGLTextureFilterMagnificationContract
 
   protected abstract JCGLTextureFilterMagnification fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLTextureFilterMagnification[] vs =
       JCGLTextureFilterMagnification.values();

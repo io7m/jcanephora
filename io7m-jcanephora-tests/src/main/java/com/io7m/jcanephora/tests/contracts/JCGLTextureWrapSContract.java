@@ -32,7 +32,8 @@ public abstract class JCGLTextureWrapSContract
 
   protected abstract JCGLTextureWrapS fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLTextureWrapS[] vs = JCGLTextureWrapS.values();
     for (int index = 0; index < vs.length; ++index) {

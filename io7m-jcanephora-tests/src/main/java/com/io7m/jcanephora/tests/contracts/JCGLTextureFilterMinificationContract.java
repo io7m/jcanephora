@@ -32,7 +32,8 @@ public abstract class JCGLTextureFilterMinificationContract
 
   protected abstract JCGLTextureFilterMinification fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLTextureFilterMinification[] vs =
       JCGLTextureFilterMinification.values();

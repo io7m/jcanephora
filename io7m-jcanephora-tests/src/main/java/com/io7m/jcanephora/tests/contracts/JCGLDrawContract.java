@@ -160,12 +160,12 @@ public abstract class JCGLDrawContract extends JCGLContract
 
   protected static final class Interfaces
   {
-    private final JCGLContextType      context;
+    private final JCGLContextType context;
     private final JCGLIndexBuffersType index_buffers;
     private final JCGLArrayBuffersType array_buffers;
     private final JCGLArrayObjectsType array_objects;
-    private final JCGLShadersType      shaders;
-    private final JCGLDrawType         draw;
+    private final JCGLShadersType shaders;
+    private final JCGLDrawType draw;
 
     public Interfaces(
       final JCGLContextType in_context,

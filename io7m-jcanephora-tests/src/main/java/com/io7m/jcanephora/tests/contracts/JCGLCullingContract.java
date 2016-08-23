@@ -36,7 +36,8 @@ public abstract class JCGLCullingContract extends JCGLContract
 
   protected abstract JCGLCullingType getCulling(String name);
 
-  @Test public final void testCullingIdentities()
+  @Test
+  public final void testCullingIdentities()
   {
     final JCGLCullingType g_c = this.getCulling("main");
 

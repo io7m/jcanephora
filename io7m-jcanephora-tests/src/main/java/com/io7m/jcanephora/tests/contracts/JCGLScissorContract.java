@@ -36,7 +36,8 @@ public abstract class JCGLScissorContract extends JCGLContract
 
   protected abstract JCGLScissorType getScissor(String name);
 
-  @Test public final void testIdentities()
+  @Test
+  public final void testIdentities()
   {
     final JCGLScissorType s = this.getScissor("main");
 

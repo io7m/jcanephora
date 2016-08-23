@@ -32,7 +32,8 @@ public abstract class JCGLStencilFunctionContract
 
   protected abstract JCGLStencilFunction fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLStencilFunction[] vs = JCGLStencilFunction.values();
     for (int index = 0; index < vs.length; ++index) {

@@ -75,7 +75,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     int depth,
     int stencil);
 
-  @Test public final void testDepthTestEnable()
+  @Test
+  public final void testDepthTestEnable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -87,7 +88,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     Assert.assertFalse(g_dep.depthBufferTestIsEnabled());
   }
 
-  @Test public final void testDepthWriteEnable()
+  @Test
+  public final void testDepthWriteEnable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -99,7 +101,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     Assert.assertFalse(g_dep.depthBufferWriteIsEnabled());
   }
 
-  @Test public final void testDepthWriteEnableRedundant()
+  @Test
+  public final void testDepthWriteEnableRedundant()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -111,7 +114,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     Assert.assertTrue(g_dep.depthBufferWriteIsEnabled());
   }
 
-  @Test public final void testDepthWriteDisableRedundant()
+  @Test
+  public final void testDepthWriteDisableRedundant()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -123,14 +127,16 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     Assert.assertFalse(g_dep.depthBufferWriteIsEnabled());
   }
 
-  @Test public final void testDepthClear()
+  @Test
+  public final void testDepthClear()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
     g_dep.depthBufferClear(1.0f);
   }
 
-  @Test public final void testDepthClamp()
+  @Test
+  public final void testDepthClamp()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -142,21 +148,24 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     Assert.assertFalse(g_dep.depthClampingIsEnabled());
   }
 
-  @Test public final void testDepthGetBitsNoFramebuffer0()
+  @Test
+  public final void testDepthGetBitsNoFramebuffer0()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
     Assert.assertEquals(0L, (long) g_dep.depthBufferGetBits());
   }
 
-  @Test public final void testDepthGetBitsNoFramebuffer24_8()
+  @Test
+  public final void testDepthGetBitsNoFramebuffer24_8()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
     Assert.assertEquals(24L, (long) g_dep.depthBufferGetBits());
   }
 
-  @Test public final void testDepthGetBitsFramebuffer0()
+  @Test
+  public final void testDepthGetBitsFramebuffer0()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -167,7 +176,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     Assert.assertEquals(0L, (long) g_dep.depthBufferGetBits());
   }
 
-  @Test public final void testNoDepthNoFramebufferClampEnable()
+  @Test
+  public final void testNoDepthNoFramebufferClampEnable()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -176,7 +186,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthClampingEnable();
   }
 
-  @Test public final void testNoDepthNoFramebufferClampDisable()
+  @Test
+  public final void testNoDepthNoFramebufferClampDisable()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -185,7 +196,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthClampingDisable();
   }
 
-  @Test public final void testNoDepthNoFramebufferClampIsEnabled()
+  @Test
+  public final void testNoDepthNoFramebufferClampIsEnabled()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -194,7 +206,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthClampingIsEnabled();
   }
 
-  @Test public final void testNoDepthNoFramebufferClear()
+  @Test
+  public final void testNoDepthNoFramebufferClear()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -203,7 +216,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferClear(1.0f);
   }
 
-  @Test public final void testNoDepthNoFramebufferTestDisable()
+  @Test
+  public final void testNoDepthNoFramebufferTestDisable()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -212,7 +226,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferTestDisable();
   }
 
-  @Test public final void testNoDepthNoFramebufferTestEnable()
+  @Test
+  public final void testNoDepthNoFramebufferTestEnable()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -221,7 +236,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferTestEnable(JCGLDepthFunction.DEPTH_EQUAL);
   }
 
-  @Test public final void testNoDepthNoFramebufferWriteDisable()
+  @Test
+  public final void testNoDepthNoFramebufferWriteDisable()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -230,7 +246,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferWriteDisable();
   }
 
-  @Test public final void testNoDepthNoFramebufferWriteEnable()
+  @Test
+  public final void testNoDepthNoFramebufferWriteEnable()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -239,7 +256,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferWriteEnable();
   }
 
-  @Test public final void testNoDepthNoFramebufferTestIsEnabled()
+  @Test
+  public final void testNoDepthNoFramebufferTestIsEnabled()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -248,7 +266,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferTestIsEnabled();
   }
 
-  @Test public final void testNoDepthNoFramebufferWriteIsEnabled()
+  @Test
+  public final void testNoDepthNoFramebufferWriteIsEnabled()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -257,7 +276,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferWriteIsEnabled();
   }
 
-  @Test public final void testNoDepthFramebufferClampEnable()
+  @Test
+  public final void testNoDepthFramebufferClampEnable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -271,7 +291,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthClampingEnable();
   }
 
-  @Test public final void testNoDepthFramebufferClampDisable()
+  @Test
+  public final void testNoDepthFramebufferClampDisable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -285,7 +306,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthClampingDisable();
   }
 
-  @Test public final void testNoDepthFramebufferClampIsEnabled()
+  @Test
+  public final void testNoDepthFramebufferClampIsEnabled()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -299,7 +321,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthClampingIsEnabled();
   }
 
-  @Test public final void testNoDepthFramebufferClear()
+  @Test
+  public final void testNoDepthFramebufferClear()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -313,7 +336,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferClear(1.0f);
   }
 
-  @Test public final void testNoDepthFramebufferTestDisable()
+  @Test
+  public final void testNoDepthFramebufferTestDisable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -327,7 +351,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferTestDisable();
   }
 
-  @Test public final void testNoDepthFramebufferTestEnable()
+  @Test
+  public final void testNoDepthFramebufferTestEnable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -341,7 +366,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferTestEnable(JCGLDepthFunction.DEPTH_EQUAL);
   }
 
-  @Test public final void testNoDepthFramebufferWriteDisable()
+  @Test
+  public final void testNoDepthFramebufferWriteDisable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -355,7 +381,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferWriteDisable();
   }
 
-  @Test public final void testNoDepthFramebufferWriteEnable()
+  @Test
+  public final void testNoDepthFramebufferWriteEnable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -369,7 +396,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferWriteEnable();
   }
 
-  @Test public final void testNoDepthFramebufferTestIsEnabled()
+  @Test
+  public final void testNoDepthFramebufferTestIsEnabled()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
@@ -383,7 +411,8 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     g_dep.depthBufferTestIsEnabled();
   }
 
-  @Test public final void testNoDepthFramebufferWriteIsEnabled()
+  @Test
+  public final void testNoDepthFramebufferWriteIsEnabled()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();

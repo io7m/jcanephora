@@ -41,7 +41,8 @@ public abstract class JCGLContextContract extends JCGLContract
     String name,
     String shared);
 
-  @Test public final void testContextIdentities()
+  @Test
+  public final void testContextIdentities()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -61,7 +62,8 @@ public abstract class JCGLContextContract extends JCGLContract
     Assert.assertEquals("alt", c1.contextGetName());
   }
 
-  @Test public final void testContextIdentitiesShared()
+  @Test
+  public final void testContextIdentitiesShared()
   {
     final JCGLSharedContextPair<JCGLContextType> p =
       this.newSharedContext("main", "alt");
@@ -75,7 +77,8 @@ public abstract class JCGLContextContract extends JCGLContract
     Assert.assertTrue(c0.contextGetShares().contains(c1));
   }
 
-  @Test public final void testContextSharedDestroyed()
+  @Test
+  public final void testContextSharedDestroyed()
   {
     final JCGLSharedContextPair<JCGLContextType> p =
       this.newSharedContext("main", "alt");
@@ -88,7 +91,8 @@ public abstract class JCGLContextContract extends JCGLContract
     c0.contextIsSharedWith(c1);
   }
 
-  @Test public final void testContextDestroyedMakeCurrent()
+  @Test
+  public final void testContextDestroyedMakeCurrent()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -99,7 +103,8 @@ public abstract class JCGLContextContract extends JCGLContract
     c0.contextMakeCurrent();
   }
 
-  @Test public final void testContextDestroyedReleaseCurrent()
+  @Test
+  public final void testContextDestroyedReleaseCurrent()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -110,7 +115,8 @@ public abstract class JCGLContextContract extends JCGLContract
     c0.contextReleaseCurrent();
   }
 
-  @Test public final void testContextDestroyedGetGL33()
+  @Test
+  public final void testContextDestroyedGetGL33()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -121,7 +127,8 @@ public abstract class JCGLContextContract extends JCGLContract
     c0.contextGetGL33();
   }
 
-  @Test public final void testContextDestroyedGetImplementation()
+  @Test
+  public final void testContextDestroyedGetImplementation()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -132,7 +139,8 @@ public abstract class JCGLContextContract extends JCGLContract
     c0.contextGetImplementation();
   }
 
-  @Test public final void testContextDestroyedGetShares()
+  @Test
+  public final void testContextDestroyedGetShares()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -143,7 +151,8 @@ public abstract class JCGLContextContract extends JCGLContract
     c0.contextGetShares();
   }
 
-  @Test public final void testContextDestroyedDestroy()
+  @Test
+  public final void testContextDestroyedDestroy()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -154,7 +163,8 @@ public abstract class JCGLContextContract extends JCGLContract
     c0.contextDestroy();
   }
 
-  @Test public final void testContextDestroyedIsCurrent()
+  @Test
+  public final void testContextDestroyedIsCurrent()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -165,7 +175,8 @@ public abstract class JCGLContextContract extends JCGLContract
     c0.contextIsCurrent();
   }
 
-  @Test public final void testContextMakeCurrentAlreadyCurrent()
+  @Test
+  public final void testContextMakeCurrentAlreadyCurrent()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -174,7 +185,8 @@ public abstract class JCGLContextContract extends JCGLContract
     c0.contextMakeCurrent();
   }
 
-  @Test public final void testContextMakeCurrentIsCurrent()
+  @Test
+  public final void testContextMakeCurrentIsCurrent()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -185,7 +197,8 @@ public abstract class JCGLContextContract extends JCGLContract
     Assert.assertTrue(c0.contextIsCurrent());
   }
 
-  @Test public final void testContextReleaseNotCurrent()
+  @Test
+  public final void testContextReleaseNotCurrent()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());
@@ -195,7 +208,8 @@ public abstract class JCGLContextContract extends JCGLContract
     c0.contextReleaseCurrent();
   }
 
-  @Test public final void testContextDestroyIsCurrent()
+  @Test
+  public final void testContextDestroyIsCurrent()
   {
     final JCGLContextType c0 = this.newContext("main");
     Assert.assertTrue(c0.contextIsCurrent());

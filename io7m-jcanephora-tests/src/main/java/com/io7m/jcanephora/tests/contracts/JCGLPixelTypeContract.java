@@ -40,7 +40,8 @@ public abstract class JCGLPixelTypeContract
 
   protected abstract JCGLPixelFormat fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLPixelFormat[] vs = JCGLPixelFormat.values();
     for (int index = 0; index < vs.length; ++index) {
