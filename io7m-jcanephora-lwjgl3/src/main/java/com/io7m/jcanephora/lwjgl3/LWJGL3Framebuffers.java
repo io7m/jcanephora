@@ -232,6 +232,165 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     return (Builder) LWJGL3CompatibilityChecks.checkAny(context, b);
   }
 
+  private static void framebufferAllocateConfigureColorAttachments(
+    final LWJGL3Context c,
+    final Builder bb,
+    final int f_id,
+    final LWJGL3Framebuffer fb,
+    final int index)
+  {
+    final JCGLFramebufferColorAttachmentType a = bb.color_attaches.get(index);
+    if (a != null) {
+      a.matchColorAttachment(
+        new JCGLFramebufferColorAttachmentMatcherType<Unit,
+          UnreachableCodeException>()
+        {
+          @Override
+          public Unit onTexture2D(final JCGLTexture2DUsableType t)
+            throws JCGLException
+          {
+            if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
+              LWJGL3Framebuffers.LOG.debug(
+                "[{}] attach color {} {}",
+                Integer.valueOf(f_id),
+                Integer.valueOf(index),
+                t);
+            }
+
+            LWJGL3Textures.checkTexture2D(c, t);
+            final JCGLTextureFormat f = t.textureGetFormat();
+            JCGLTextureFormats.checkColorRenderableTexture2D(f);
+
+            GL30.glFramebufferTexture2D(
+              GL30.GL_DRAW_FRAMEBUFFER,
+              GL30.GL_COLOR_ATTACHMENT0 + index,
+              GL11.GL_TEXTURE_2D,
+              t.getGLName(),
+              0);
+            return Unit.unit();
+          }
+
+          @Override
+          public Unit onTextureCube(
+            final JCGLTextureCubeUsableType t,
+            final JCGLCubeMapFaceLH face)
+            throws JCGLException, UnreachableCodeException
+          {
+            if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
+              LWJGL3Framebuffers.LOG.debug(
+                "[{}] attach color {} {} (face {})",
+                Integer.valueOf(f_id),
+                Integer.valueOf(index),
+                t,
+                face);
+            }
+
+            LWJGL3Textures.checkTextureCube(c, t);
+            final JCGLTextureFormat f = t.textureGetFormat();
+            JCGLTextureFormats.checkColorRenderableTexture2D(f);
+
+            final int gface = LWJGL3TypeConversions.cubeFaceToGL(face);
+            GL30.glFramebufferTexture2D(
+              GL30.GL_DRAW_FRAMEBUFFER,
+              GL30.GL_COLOR_ATTACHMENT0 + index,
+              gface,
+              t.getGLName(),
+              0);
+            return Unit.unit();
+          }
+        });
+      fb.setColorAttachment(bb.color_points.get(index), a);
+    }
+  }
+
+  private static void framebufferAllocateConfigureDepthStencil(
+    final LWJGL3Context c,
+    final Builder bb,
+    final int f_id,
+    final LWJGL3Framebuffer fb)
+  {
+    Preconditions.checkPrecondition(
+      bb.depth,
+      bb.depth == null,
+      ignored -> "Depth must be null");
+
+    bb.depth_stencil.matchDepthStencilAttachment(
+      new JCGLFramebufferDepthStencilAttachmentMatcherType<Unit,
+        UnreachableCodeException>()
+      {
+        @Override
+        public Unit onTexture2D(final JCGLTexture2DUsableType t)
+          throws JCGLException
+        {
+          if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
+            LWJGL3Framebuffers.LOG.debug(
+              "[{}] attach depth+stencil {}",
+              Integer.valueOf(f_id),
+              t);
+          }
+
+          LWJGL3Textures.checkTexture2D(c, t);
+          final JCGLTextureFormat f = t.textureGetFormat();
+          JCGLTextureFormats.checkDepthStencilRenderableTexture2D(f);
+          GL30.glFramebufferTexture2D(
+            GL30.GL_DRAW_FRAMEBUFFER,
+            GL30.GL_DEPTH_STENCIL_ATTACHMENT,
+            GL11.GL_TEXTURE_2D,
+            t.getGLName(),
+            0);
+
+          fb.setDepthStencilAttachment(
+            t,
+            JCGLTextureFormats.getDepthBits(f),
+            JCGLTextureFormats.getStencilBits(f));
+          return Unit.unit();
+        }
+      });
+  }
+
+  private static void framebufferAllocateConfigureDepth(
+    final LWJGL3Context c,
+    final Builder bb,
+    final int f_id,
+    final LWJGL3Framebuffer fb)
+  {
+    Preconditions.checkPrecondition(
+      bb.depth_stencil,
+      bb.depth_stencil == null,
+      ignored -> "Depth stencil must be null");
+
+    bb.depth.matchDepthAttachment(
+      new JCGLFramebufferDepthAttachmentMatcherType<Unit,
+        UnreachableCodeException>()
+      {
+        @Override
+        public Unit onTexture2D(
+          final JCGLTexture2DUsableType t)
+          throws JCGLException
+        {
+          if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
+            LWJGL3Framebuffers.LOG.debug(
+              "[{}] attach depth {}",
+              Integer.valueOf(f_id),
+              t);
+          }
+
+          final JCGLTextureFormat f = t.textureGetFormat();
+          LWJGL3Textures.checkTexture2D(c, t);
+          JCGLTextureFormats.checkDepthOnlyRenderableTexture2D(f);
+          GL30.glFramebufferTexture2D(
+            GL30.GL_DRAW_FRAMEBUFFER,
+            GL30.GL_DEPTH_ATTACHMENT,
+            GL11.GL_TEXTURE_2D,
+            t.getGLName(),
+            0);
+
+          fb.setDepthAttachment(t, JCGLTextureFormats.getDepthBits(f));
+          return Unit.unit();
+        }
+      });
+  }
+
   LWJGL3Framebuffer getBindDraw()
   {
     return this.bind_draw;
@@ -271,81 +430,13 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
      */
 
     if (bb.depth != null) {
-      Preconditions.checkPrecondition(
-        bb.depth_stencil,
-        bb.depth_stencil == null,
-        ignored -> "Depth stencil must be null");
-
-      bb.depth.matchDepthAttachment(
-        new JCGLFramebufferDepthAttachmentMatcherType<Unit,
-          UnreachableCodeException>()
-        {
-          @Override
-          public Unit onTexture2D(
-            final JCGLTexture2DUsableType t)
-            throws JCGLException
-          {
-            if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-              LWJGL3Framebuffers.LOG.debug(
-                "[{}] attach depth {}",
-                Integer.valueOf(f_id),
-                t);
-            }
-
-            final JCGLTextureFormat f = t.textureGetFormat();
-            LWJGL3Textures.checkTexture2D(c, t);
-            JCGLTextureFormats.checkDepthOnlyRenderableTexture2D(f);
-            GL30.glFramebufferTexture2D(
-              GL30.GL_DRAW_FRAMEBUFFER,
-              GL30.GL_DEPTH_ATTACHMENT,
-              GL11.GL_TEXTURE_2D,
-              t.getGLName(),
-              0);
-
-            fb.setDepthAttachment(t, JCGLTextureFormats.getDepthBits(f));
-            return Unit.unit();
-          }
-        });
+      LWJGL3Framebuffers.framebufferAllocateConfigureDepth(
+        c, bb, f_id, fb);
     }
 
     if (bb.depth_stencil != null) {
-      Preconditions.checkPrecondition(
-        bb.depth,
-        bb.depth == null,
-        ignored -> "Depth must be null");
-
-      bb.depth_stencil.matchDepthStencilAttachment(
-        new JCGLFramebufferDepthStencilAttachmentMatcherType<Unit,
-          UnreachableCodeException>()
-        {
-          @Override
-          public Unit onTexture2D(final JCGLTexture2DUsableType t)
-            throws JCGLException
-          {
-            if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-              LWJGL3Framebuffers.LOG.debug(
-                "[{}] attach depth+stencil {}",
-                Integer.valueOf(f_id),
-                t);
-            }
-
-            LWJGL3Textures.checkTexture2D(c, t);
-            final JCGLTextureFormat f = t.textureGetFormat();
-            JCGLTextureFormats.checkDepthStencilRenderableTexture2D(f);
-            GL30.glFramebufferTexture2D(
-              GL30.GL_DRAW_FRAMEBUFFER,
-              GL30.GL_DEPTH_STENCIL_ATTACHMENT,
-              GL11.GL_TEXTURE_2D,
-              t.getGLName(),
-              0);
-
-            fb.setDepthStencilAttachment(
-              t,
-              JCGLTextureFormats.getDepthBits(f),
-              JCGLTextureFormats.getStencilBits(f));
-            return Unit.unit();
-          }
-        });
+      LWJGL3Framebuffers.framebufferAllocateConfigureDepthStencil(
+        c, bb, f_id, fb);
     }
 
     /**
@@ -353,76 +444,45 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
      */
 
     for (int index = 0; index < bb.color_attaches.size(); ++index) {
-      final int f_index = index;
-
-      final JCGLFramebufferColorAttachmentType a = bb.color_attaches.get(index);
-      if (a != null) {
-        a.matchColorAttachment(
-          new JCGLFramebufferColorAttachmentMatcherType<Unit,
-            UnreachableCodeException>()
-          {
-            @Override
-            public Unit onTexture2D(final JCGLTexture2DUsableType t)
-              throws JCGLException
-            {
-              if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-                LWJGL3Framebuffers.LOG.debug(
-                  "[{}] attach color {} {}",
-                  Integer.valueOf(f_id),
-                  Integer.valueOf(f_index),
-                  t);
-              }
-
-              LWJGL3Textures.checkTexture2D(c, t);
-              final JCGLTextureFormat f = t.textureGetFormat();
-              JCGLTextureFormats.checkColorRenderableTexture2D(f);
-
-              GL30.glFramebufferTexture2D(
-                GL30.GL_DRAW_FRAMEBUFFER,
-                GL30.GL_COLOR_ATTACHMENT0 + f_index,
-                GL11.GL_TEXTURE_2D,
-                t.getGLName(),
-                0);
-              return Unit.unit();
-            }
-
-            @Override
-            public Unit onTextureCube(
-              final JCGLTextureCubeUsableType t,
-              final JCGLCubeMapFaceLH face)
-              throws JCGLException, UnreachableCodeException
-            {
-              if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-                LWJGL3Framebuffers.LOG.debug(
-                  "[{}] attach color {} {} (face {})",
-                  Integer.valueOf(f_id),
-                  Integer.valueOf(f_index),
-                  t,
-                  face);
-              }
-
-              LWJGL3Textures.checkTextureCube(c, t);
-              final JCGLTextureFormat f = t.textureGetFormat();
-              JCGLTextureFormats.checkColorRenderableTexture2D(f);
-
-              final int gface = LWJGL3TypeConversions.cubeFaceToGL(face);
-              GL30.glFramebufferTexture2D(
-                GL30.GL_DRAW_FRAMEBUFFER,
-                GL30.GL_COLOR_ATTACHMENT0 + f_index,
-                gface,
-                t.getGLName(),
-                0);
-              return Unit.unit();
-            }
-          });
-        fb.setColorAttachment(bb.color_points.get(f_index), a);
-      }
+      LWJGL3Framebuffers.framebufferAllocateConfigureColorAttachments(
+        c, bb, f_id, fb, index);
     }
 
     /**
      * Configure draw buffer mappings.
      */
 
+    this.framebufferAllocateConfigureDrawBuffers(bb, f_id);
+
+    /**
+     * Validate.
+     */
+
+    final JCGLFramebufferStatus status = this.framebufferDrawValidate();
+    switch (status) {
+      case FRAMEBUFFER_STATUS_COMPLETE: {
+        if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
+          LWJGL3Framebuffers.LOG.debug("allocated {}", fb);
+        }
+        return fb;
+      }
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT:
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_DRAW_BUFFER:
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER:
+      case FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT:
+      case FRAMEBUFFER_STATUS_ERROR_UNKNOWN:
+      case FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED: {
+        throw new JCGLExceptionFramebufferInvalid(status);
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  private void framebufferAllocateConfigureDrawBuffers(
+    final Builder bb,
+    final int f_id)
+  {
     final IntBuffer draw_buffer_mappings =
       BufferUtils.createIntBuffer(this.draw_buffers.size());
 
@@ -455,30 +515,6 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
 
     draw_buffer_mappings.rewind();
     GL20.glDrawBuffers(draw_buffer_mappings);
-
-    /**
-     * Validate.
-     */
-
-    final JCGLFramebufferStatus status = this.framebufferDrawValidate();
-    switch (status) {
-      case FRAMEBUFFER_STATUS_COMPLETE: {
-        if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-          LWJGL3Framebuffers.LOG.debug("allocated {}", fb);
-        }
-        return fb;
-      }
-      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT:
-      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_DRAW_BUFFER:
-      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER:
-      case FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT:
-      case FRAMEBUFFER_STATUS_ERROR_UNKNOWN:
-      case FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED: {
-        throw new JCGLExceptionFramebufferInvalid(status);
-      }
-    }
-
-    throw new UnreachableCodeException();
   }
 
   @Override
