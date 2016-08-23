@@ -204,63 +204,11 @@ final class FakeFramebuffers implements JCGLFramebuffersType
      */
 
     if (bb.depth != null) {
-      Preconditions.checkPrecondition(
-        bb.depth_stencil,
-        bb.depth_stencil == null,
-        ignored -> "Depth stencil must be null");
-
-      bb.depth.matchDepthAttachment(
-        new JCGLFramebufferDepthAttachmentMatcherType<Unit,
-          UnreachableCodeException>()
-        {
-          @Override
-          public Unit onTexture2D(
-            final JCGLTexture2DUsableType t)
-            throws JCGLException
-          {
-            FakeFramebuffers.LOG.debug(
-              "[{}] attach {} at depth",
-              Integer.valueOf(f_id),
-              t);
-
-            final JCGLTextureFormat f = t.textureGetFormat();
-            FakeTextures.checkTexture2D(FakeFramebuffers.this.context, t);
-            JCGLTextureFormats.checkDepthOnlyRenderableTexture2D(f);
-            fb.setDepthAttachment(t, JCGLTextureFormats.getDepthBits(f));
-            return Unit.unit();
-          }
-        });
+      this.framebufferAllocateConfigureDepth(bb, f_id, fb);
     }
 
     if (bb.depth_stencil != null) {
-      Preconditions.checkPrecondition(
-        bb.depth,
-        bb.depth == null,
-        ignored -> "Depth must be null");
-
-      bb.depth_stencil.matchDepthStencilAttachment(
-        new JCGLFramebufferDepthStencilAttachmentMatcherType<Unit,
-          UnreachableCodeException>()
-        {
-          @Override
-          public Unit onTexture2D(final JCGLTexture2DUsableType t)
-            throws JCGLException
-          {
-            FakeFramebuffers.LOG.debug(
-              "[{}] attach {} at depth+stencil",
-              Integer.valueOf(f_id),
-              t);
-
-            FakeTextures.checkTexture2D(FakeFramebuffers.this.context, t);
-            final JCGLTextureFormat f = t.textureGetFormat();
-            JCGLTextureFormats.checkDepthStencilRenderableTexture2D(f);
-            fb.setDepthStencilAttachment(
-              t,
-              JCGLTextureFormats.getDepthBits(f),
-              JCGLTextureFormats.getStencilBits(f));
-            return Unit.unit();
-          }
-        });
+      this.framebufferAllocateConfigureDepthStencil(bb, f_id, fb);
     }
 
     /**
@@ -268,74 +216,14 @@ final class FakeFramebuffers implements JCGLFramebuffersType
      */
 
     for (int index = 0; index < bb.color_attaches.size(); ++index) {
-      final int f_index = index;
-
-      final JCGLFramebufferColorAttachmentType a = bb.color_attaches.get(index);
-      if (a != null) {
-        a.matchColorAttachment(
-          new JCGLFramebufferColorAttachmentMatcherType<Unit,
-            UnreachableCodeException>()
-          {
-            @Override
-            public Unit onTexture2D(final JCGLTexture2DUsableType t)
-              throws JCGLException
-            {
-              FakeFramebuffers.LOG.debug(
-                "[{}] attach {} at color {}",
-                Integer.valueOf(f_id),
-                t,
-                Integer.valueOf(f_index));
-
-              FakeTextures.checkTexture2D(FakeFramebuffers.this.context, t);
-              final JCGLTextureFormat f = t.textureGetFormat();
-              JCGLTextureFormats.checkColorRenderableTexture2D(f);
-              return Unit.unit();
-            }
-
-            @Override
-            public Unit onTextureCube(
-              final JCGLTextureCubeUsableType t,
-              final JCGLCubeMapFaceLH face)
-              throws JCGLException, UnreachableCodeException
-            {
-              FakeFramebuffers.LOG.debug(
-                "[{}] attach {} (face {}) at color {}",
-                Integer.valueOf(f_id),
-                t,
-                face,
-                Integer.valueOf(f_index));
-
-              FakeTextures.checkTextureCube(FakeFramebuffers.this.context, t);
-              final JCGLTextureFormat f = t.textureGetFormat();
-              JCGLTextureFormats.checkColorRenderableTexture2D(f);
-              return Unit.unit();
-            }
-          });
-        fb.setColorAttachment(bb.color_points.get(f_index), a);
-      }
+      this.framebufferAllocateConfigureColorAttachments(bb, f_id, fb, index);
     }
 
     /**
      * Configure draw buffer mappings.
      */
 
-    for (int index = 0; index < this.draw_buffers.size(); ++index) {
-      final JCGLFramebufferDrawBufferType buffer = this.draw_buffers.get(index);
-      if (bb.draw_buffers.containsKey(buffer)) {
-        final JCGLFramebufferColorAttachmentPointType attach =
-          bb.draw_buffers.get(buffer);
-        FakeFramebuffers.LOG.debug(
-          "[{}] draw buffer {} -> color {}",
-          Integer.valueOf(f_id),
-          Integer.valueOf(index),
-          Integer.valueOf(attach.colorAttachmentPointGetIndex()));
-      } else {
-        FakeFramebuffers.LOG.debug(
-          "[{}] draw buffer {} -> none",
-          Integer.valueOf(f_id),
-          Integer.valueOf(index));
-      }
-    }
+    this.framebufferAllocateConfigureDrawBuffers(bb, f_id);
 
     /**
      * Validate.
@@ -357,6 +245,148 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     }
 
     throw new UnreachableCodeException();
+  }
+
+  private void framebufferAllocateConfigureDrawBuffers(
+    final Builder bb,
+    final int f_id)
+  {
+    for (int index = 0; index < this.draw_buffers.size(); ++index) {
+      final JCGLFramebufferDrawBufferType buffer = this.draw_buffers.get(index);
+      if (bb.draw_buffers.containsKey(buffer)) {
+        final JCGLFramebufferColorAttachmentPointType attach =
+          bb.draw_buffers.get(buffer);
+        FakeFramebuffers.LOG.debug(
+          "[{}] draw buffer {} -> color {}",
+          Integer.valueOf(f_id),
+          Integer.valueOf(index),
+          Integer.valueOf(attach.colorAttachmentPointGetIndex()));
+      } else {
+        FakeFramebuffers.LOG.debug(
+          "[{}] draw buffer {} -> none",
+          Integer.valueOf(f_id),
+          Integer.valueOf(index));
+      }
+    }
+  }
+
+  private void framebufferAllocateConfigureColorAttachments(
+    final Builder bb,
+    final int f_id,
+    final FakeFramebuffer fb,
+    final int index)
+  {
+    final JCGLFramebufferColorAttachmentType a = bb.color_attaches.get(index);
+    if (a != null) {
+      a.matchColorAttachment(
+        new JCGLFramebufferColorAttachmentMatcherType<Unit,
+          UnreachableCodeException>()
+        {
+          @Override
+          public Unit onTexture2D(final JCGLTexture2DUsableType t)
+            throws JCGLException
+          {
+            FakeFramebuffers.LOG.debug(
+              "[{}] attach {} at color {}",
+              Integer.valueOf(f_id),
+              t,
+              Integer.valueOf(index));
+
+            FakeTextures.checkTexture2D(FakeFramebuffers.this.context, t);
+            final JCGLTextureFormat f = t.textureGetFormat();
+            JCGLTextureFormats.checkColorRenderableTexture2D(f);
+            return Unit.unit();
+          }
+
+          @Override
+          public Unit onTextureCube(
+            final JCGLTextureCubeUsableType t,
+            final JCGLCubeMapFaceLH face)
+            throws JCGLException, UnreachableCodeException
+          {
+            FakeFramebuffers.LOG.debug(
+              "[{}] attach {} (face {}) at color {}",
+              Integer.valueOf(f_id),
+              t,
+              face,
+              Integer.valueOf(index));
+
+            FakeTextures.checkTextureCube(FakeFramebuffers.this.context, t);
+            final JCGLTextureFormat f = t.textureGetFormat();
+            JCGLTextureFormats.checkColorRenderableTexture2D(f);
+            return Unit.unit();
+          }
+        });
+      fb.setColorAttachment(bb.color_points.get(index), a);
+    }
+  }
+
+  private void framebufferAllocateConfigureDepthStencil(
+    final Builder bb,
+    final int f_id,
+    final FakeFramebuffer fb)
+  {
+    Preconditions.checkPrecondition(
+      bb.depth,
+      bb.depth == null,
+      ignored -> "Depth must be null");
+
+    bb.depth_stencil.matchDepthStencilAttachment(
+      new JCGLFramebufferDepthStencilAttachmentMatcherType<Unit,
+        UnreachableCodeException>()
+      {
+        @Override
+        public Unit onTexture2D(final JCGLTexture2DUsableType t)
+          throws JCGLException
+        {
+          FakeFramebuffers.LOG.debug(
+            "[{}] attach {} at depth+stencil",
+            Integer.valueOf(f_id),
+            t);
+
+          FakeTextures.checkTexture2D(FakeFramebuffers.this.context, t);
+          final JCGLTextureFormat f = t.textureGetFormat();
+          JCGLTextureFormats.checkDepthStencilRenderableTexture2D(f);
+          fb.setDepthStencilAttachment(
+            t,
+            JCGLTextureFormats.getDepthBits(f),
+            JCGLTextureFormats.getStencilBits(f));
+          return Unit.unit();
+        }
+      });
+  }
+
+  private void framebufferAllocateConfigureDepth(
+    final Builder bb,
+    final int f_id,
+    final FakeFramebuffer fb)
+  {
+    Preconditions.checkPrecondition(
+      bb.depth_stencil,
+      bb.depth_stencil == null,
+      ignored -> "Depth stencil must be null");
+
+    bb.depth.matchDepthAttachment(
+      new JCGLFramebufferDepthAttachmentMatcherType<Unit,
+        UnreachableCodeException>()
+      {
+        @Override
+        public Unit onTexture2D(
+          final JCGLTexture2DUsableType t)
+          throws JCGLException
+        {
+          FakeFramebuffers.LOG.debug(
+            "[{}] attach {} at depth",
+            Integer.valueOf(f_id),
+            t);
+
+          final JCGLTextureFormat f = t.textureGetFormat();
+          FakeTextures.checkTexture2D(FakeFramebuffers.this.context, t);
+          JCGLTextureFormats.checkDepthOnlyRenderableTexture2D(f);
+          fb.setDepthAttachment(t, JCGLTextureFormats.getDepthBits(f));
+          return Unit.unit();
+        }
+      });
   }
 
   @Override
