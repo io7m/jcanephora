@@ -37,6 +37,7 @@ import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
+import com.io7m.jfunctional.Unit;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
@@ -212,11 +213,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
     final Builder bb = (Builder) b;
 
     final int max = b.getMaximumVertexAttributes();
-    for (int index = 0; index < max; ++index) {
-      if (bb.attribs[index] != null) {
-        LWJGL3ArrayObjects.checkArrayAttribute(this.context, bb.attribs[index]);
-      }
-    }
+    this.checkArrayAttributes(bb, max);
 
     final LWJGL3IndexBuffer ib;
     if (bb.index_buffer != null) {
@@ -225,16 +222,15 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
       ib = null;
     }
 
-    final int aid = GL30.glGenVertexArrays();
-
+    final int array_id = GL30.glGenVertexArrays();
     if (LWJGL3ArrayObjects.LOG.isDebugEnabled()) {
-      LWJGL3ArrayObjects.LOG.debug("allocated {}", Integer.valueOf(aid));
+      LWJGL3ArrayObjects.LOG.debug("allocated {}", Integer.valueOf(array_id));
     }
 
     final JCGLArrayVertexAttributeType[] write_attribs =
       Arrays.copyOf(bb.attribs, bb.attribs.length);
     final LWJGL3ArrayObject new_ao =
-      new LWJGL3ArrayObject(this.context, aid, write_attribs);
+      new LWJGL3ArrayObject(this.context, array_id, write_attribs);
 
     this.actualBind(new_ao);
 
@@ -244,98 +240,8 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
       }
 
       for (int index = 0; index < max; ++index) {
-        final Integer box_index = Integer.valueOf(index);
-        final JCGLArrayVertexAttributeType a = bb.attribs[index];
-        if (a == null) {
-          if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
-            LWJGL3ArrayObjects.LOG.trace(
-              LWJGL3ArrayObjects.ATTR_DISABLED_TRACE_FORMAT,
-              Integer.valueOf(aid),
-              box_index);
-          }
-          GL20.glDisableVertexAttribArray(index);
-          continue;
-        }
-
-        GL20.glEnableVertexAttribArray(index);
-
-        final JCGLArrayBufferUsableType ab = a.getArrayBuffer();
-        if (!this.array_buffers.arrayBufferIsBound(ab)) {
-          this.array_buffers.arrayBufferBind(ab);
-        }
-
-        a.matchVertexAttribute(
-          new JCGLArrayVertexAttributeMatcherType<Void, JCGLException>()
-          {
-            @Override
-            public Void matchFloatingPoint(
-              final JCGLArrayVertexAttributeFloatingPointType af)
-              throws JCGLException
-            {
-              final int e = af.getElements();
-              final boolean n = af.isNormalized();
-              final long off = af.getOffset();
-              final int stride = af.getStride();
-              final JCGLScalarType t = af.getType();
-              final int divisor = af.getDivisor();
-
-              if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
-                LWJGL3ArrayObjects.LOG.trace(
-                  LWJGL3ArrayObjects.ATTR_FLOAT_TRACE_FORMAT,
-                  Integer.valueOf(aid),
-                  box_index,
-                  t,
-                  Integer.valueOf(e),
-                  Boolean.valueOf(n),
-                  Long.valueOf(off),
-                  Integer.valueOf(stride),
-                  Integer.valueOf(divisor));
-              }
-
-              GL20.glVertexAttribPointer(
-                box_index.intValue(),
-                e,
-                LWJGL3TypeConversions.scalarTypeToGL(t),
-                n,
-                stride,
-                off);
-              GL33.glVertexAttribDivisor(box_index.intValue(), divisor);
-              return null;
-            }
-
-            @Override
-            public Void matchIntegral(
-              final JCGLArrayVertexAttributeIntegralType ai)
-              throws JCGLException
-            {
-              final JCGLScalarIntegralType t = ai.getType();
-              final int e = ai.getElements();
-              final long offset = ai.getOffset();
-              final int stride = ai.getStride();
-              final int divisor = ai.getDivisor();
-
-              if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
-                LWJGL3ArrayObjects.LOG.trace(
-                  LWJGL3ArrayObjects.ATTR_INTEGRAL_TRACE_FORMAT,
-                  Integer.valueOf(aid),
-                  box_index,
-                  t,
-                  Integer.valueOf(e),
-                  Long.valueOf(offset),
-                  Integer.valueOf(stride),
-                  Integer.valueOf(divisor));
-              }
-
-              GL30.glVertexAttribIPointer(
-                box_index.intValue(),
-                e,
-                LWJGL3TypeConversions.scalarIntegralTypeToGL(t),
-                stride,
-                offset);
-              GL33.glVertexAttribDivisor(box_index.intValue(), divisor);
-              return null;
-            }
-          });
+        this.arrayObjectAllocateConfigureAttribute(
+          bb.attribs[index], array_id, index);
       }
 
       this.array_buffers.arrayBufferUnbind();
@@ -345,6 +251,115 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
     }
 
     return new_ao;
+  }
+
+  private void arrayObjectAllocateConfigureAttribute(
+    final JCGLArrayVertexAttributeType attrib,
+    final int array_id,
+    final int attrib_index)
+  {
+    final Integer box_index = Integer.valueOf(attrib_index);
+    if (attrib == null) {
+      if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
+        LWJGL3ArrayObjects.LOG.trace(
+          LWJGL3ArrayObjects.ATTR_DISABLED_TRACE_FORMAT,
+          Integer.valueOf(array_id),
+          box_index);
+      }
+      GL20.glDisableVertexAttribArray(attrib_index);
+      return;
+    }
+
+    GL20.glEnableVertexAttribArray(attrib_index);
+
+    final JCGLArrayBufferUsableType ab = attrib.getArrayBuffer();
+    if (!this.array_buffers.arrayBufferIsBound(ab)) {
+      this.array_buffers.arrayBufferBind(ab);
+    }
+
+    attrib.matchVertexAttribute(
+      new JCGLArrayVertexAttributeMatcherType<Unit, JCGLException>()
+      {
+        @Override
+        public Unit matchFloatingPoint(
+          final JCGLArrayVertexAttributeFloatingPointType af)
+          throws JCGLException
+        {
+          final int e = af.getElements();
+          final boolean n = af.isNormalized();
+          final long off = af.getOffset();
+          final int stride = af.getStride();
+          final JCGLScalarType t = af.getType();
+          final int divisor = af.getDivisor();
+
+          if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
+            LWJGL3ArrayObjects.LOG.trace(
+              LWJGL3ArrayObjects.ATTR_FLOAT_TRACE_FORMAT,
+              Integer.valueOf(array_id),
+              box_index,
+              t,
+              Integer.valueOf(e),
+              Boolean.valueOf(n),
+              Long.valueOf(off),
+              Integer.valueOf(stride),
+              Integer.valueOf(divisor));
+          }
+
+          GL20.glVertexAttribPointer(
+            box_index.intValue(),
+            e,
+            LWJGL3TypeConversions.scalarTypeToGL(t),
+            n,
+            stride,
+            off);
+          GL33.glVertexAttribDivisor(box_index.intValue(), divisor);
+          return Unit.unit();
+        }
+
+        @Override
+        public Unit matchIntegral(
+          final JCGLArrayVertexAttributeIntegralType ai)
+          throws JCGLException
+        {
+          final JCGLScalarIntegralType t = ai.getType();
+          final int e = ai.getElements();
+          final long offset = ai.getOffset();
+          final int stride = ai.getStride();
+          final int divisor = ai.getDivisor();
+
+          if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
+            LWJGL3ArrayObjects.LOG.trace(
+              LWJGL3ArrayObjects.ATTR_INTEGRAL_TRACE_FORMAT,
+              Integer.valueOf(array_id),
+              box_index,
+              t,
+              Integer.valueOf(e),
+              Long.valueOf(offset),
+              Integer.valueOf(stride),
+              Integer.valueOf(divisor));
+          }
+
+          GL30.glVertexAttribIPointer(
+            box_index.intValue(),
+            e,
+            LWJGL3TypeConversions.scalarIntegralTypeToGL(t),
+            stride,
+            offset);
+          GL33.glVertexAttribDivisor(box_index.intValue(), divisor);
+          return Unit.unit();
+        }
+      });
+  }
+
+  private void checkArrayAttributes(
+    final Builder bb,
+    final int max)
+  {
+    for (int index = 0; index < max; ++index) {
+      if (bb.attribs[index] != null) {
+        LWJGL3ArrayObjects.checkArrayAttribute(this.context, bb.attribs[index]);
+      }
+    }
   }
 
   private void actualBind(final LWJGL3ArrayObject a)
