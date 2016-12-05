@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.io7m.jcanephora</groupId>
     <artifactId>io7m-jcanephora</artifactId>
-    <version>0.50.0-SNAPSHOT</version>
+    <version>0.50.0</version>
   </parent>
   <artifactId>io7m-jcanephora-examples-core</artifactId>
 
