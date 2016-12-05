@@ -37,22 +37,14 @@ public interface JCGLRenderStateType
    */
 
   @Value.Parameter
-  @Value.Default
-  default Optional<JCGLBlendStateType> getBlendState()
-  {
-    return Optional.empty();
-  }
+  Optional<JCGLBlendStateType> getBlendState();
 
   /**
    * @return The culling state, if culling is enabled
    */
 
   @Value.Parameter
-  @Value.Default
-  default Optional<JCGLCullingStateType> getCullingState()
-  {
-    return Optional.empty();
-  }
+  Optional<JCGLCullingStateType> getCullingState();
 
   /**
    * @return The color buffer masking state
@@ -81,11 +73,7 @@ public interface JCGLRenderStateType
    */
 
   @Value.Parameter
-  @Value.Default
-  default Optional<AreaInclusiveUnsignedLType> getScissor()
-  {
-    return Optional.empty();
-  }
+  Optional<AreaInclusiveUnsignedLType> getScissor();
 
   /**
    * @return The depth buffer state
