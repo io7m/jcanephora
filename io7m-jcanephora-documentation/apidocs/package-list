@@ -5,5 +5,8 @@ com.io7m.jcanephora.cursors
 com.io7m.jcanephora.documentation
 com.io7m.jcanephora.fake
 com.io7m.jcanephora.jogl
+com.io7m.jcanephora.lwjgl3
+com.io7m.jcanephora.profiler
+com.io7m.jcanephora.renderstate
 com.io7m.jcanephora.texture_loader.awt
 com.io7m.jcanephora.texture_loader.core
