@@ -64,6 +64,9 @@ public interface JCGLImplementationLWJGL3Type extends JCGLImplementationType
    * implementation trusts that this is the case and has no way to verify
    * otherwise.</p>
    *
+   * <p>On successfully returning, the {@code master_context} context will be
+   * current on the current thread.</p>
+   *
    * @param master_context An existing context
    * @param master_name    The name assigned to the master context, for
    *                       debugging purposes

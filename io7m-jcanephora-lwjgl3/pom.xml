@@ -12,7 +12,7 @@
   </parent>
   <artifactId>io7m-jcanephora-lwjgl3</artifactId>
 
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>io7m-jcanephora-lwjgl3</name>
   <description>OpenGL plus static safety (LWJGL implementation)</description>
   <url>http://io7m.github.io/jcanephora/</url>
@@ -36,8 +36,23 @@
     </dependency>
 
     <dependency>
-      <groupId>com.io7m.bundles</groupId>
-      <artifactId>org.lwjgl</artifactId>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl-opengl</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl-opengles</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl-glfw</artifactId>
       <scope>provided</scope>
     </dependency>
 
@@ -57,20 +72,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-
-      <!-- Produce OSGi bundle -->
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Export-Package>
-              com.io7m.jcanephora.lwjgl
-            </Export-Package>
-          </instructions>
-        </configuration>
       </plugin>
     </plugins>
   </build>

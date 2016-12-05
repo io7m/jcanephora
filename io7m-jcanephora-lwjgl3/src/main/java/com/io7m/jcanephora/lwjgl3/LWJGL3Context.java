@@ -114,10 +114,24 @@ final class LWJGL3Context implements JCGLContextType
       throw new NullCheckException("Slave context");
     }
 
+    LOG.debug("initializing master context {}", master_name);
+
+    GLFW.glfwMakeContextCurrent(MemoryUtil.NULL);
+    GLFW.glfwMakeContextCurrent(master);
+
     final LWJGL3Context c_master =
       new LWJGL3Context(in_implementation, master, master_name);
+
+    LOG.debug("initializing slave context {}", slave_name);
+
+    GLFW.glfwMakeContextCurrent(MemoryUtil.NULL);
+    GLFW.glfwMakeContextCurrent(slave);
+
     final LWJGL3Context c_slave =
       new LWJGL3Context(in_implementation, slave, slave_name);
+
+    GLFW.glfwMakeContextCurrent(MemoryUtil.NULL);
+    GLFW.glfwMakeContextCurrent(master);
 
     c_master.setShared(c_slave);
     c_slave.setShared(c_master);
