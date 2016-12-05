@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.io7m.jcanephora</groupId>
     <artifactId>io7m-jcanephora</artifactId>
-    <version>0.45.3</version>
+    <version>0.50.0</version>
   </parent>
   <artifactId>io7m-jcanephora-documentation</artifactId>
 
@@ -31,7 +31,37 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-async</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>io7m-jcanephora-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-cursors</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-fake</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-jogl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-lwjgl3</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>io7m-jcanephora-profiler</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -46,18 +76,39 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>io7m-jcanephora-async</artifactId>
+      <artifactId>io7m-jcanephora-renderstate</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!-- Necessary for Javadoc processing -->
     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>io7m-jcanephora-jogl</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>io7m-jcanephora-fake</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.jogamp.jogl</groupId>
+      <artifactId>jogl-all-main</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jogamp.gluegen</groupId>
+      <artifactId>gluegen-rt-main</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl-opengl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl-opengles</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl-glfw</artifactId>
     </dependency>
   </dependencies>
 

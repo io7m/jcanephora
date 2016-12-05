@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
+import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.Ranges;
 import com.jogamp.opengl.GLContext;
@@ -39,7 +40,18 @@ final class JOGLFramebufferDrawBuffer extends
         "Valid draw buffers");
   }
 
-  @Override public String toString()
+  public static JOGLFramebufferDrawBuffer checkDrawBuffer(
+    final GLContext c,
+    final JCGLFramebufferDrawBufferType buffer)
+  {
+    NullCheck.notNull(c);
+    NullCheck.notNull(buffer);
+    return (JOGLFramebufferDrawBuffer)
+      JOGLCompatibilityChecks.checkAny(c, buffer);
+  }
+
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[FramebufferDrawBuffer ");
     sb.append(this.index);
@@ -47,7 +59,8 @@ final class JOGLFramebufferDrawBuffer extends
     return sb.toString();
   }
 
-  @Override public boolean equals(final Object o)
+  @Override
+  public boolean equals(final Object o)
   {
     if (this == o) {
       return true;
@@ -60,7 +73,8 @@ final class JOGLFramebufferDrawBuffer extends
     return this.index == that.index;
   }
 
-  @Override public int hashCode()
+  @Override
+  public int hashCode()
   {
     return this.index;
   }
@@ -71,7 +85,8 @@ final class JOGLFramebufferDrawBuffer extends
     return Integer.compare(this.index, o.drawBufferGetIndex());
   }
 
-  @Override public int drawBufferGetIndex()
+  @Override
+  public int drawBufferGetIndex()
   {
     return this.index;
   }

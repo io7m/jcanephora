@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 <code@io7m.com> http://io7m.com
+ * Copyright © 2016 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -17,7 +17,10 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
+import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
+import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.core.JCGLUsageHint;
+import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
 final class JOGLArrayBuffer extends JOGLBuffer implements JCGLArrayBufferType
@@ -34,7 +37,17 @@ final class JOGLArrayBuffer extends JOGLBuffer implements JCGLArrayBufferType
     this.image = String.format("[JOGLArrayBuffer %s]", super.toString());
   }
 
-  @Override public String toString()
+  static JOGLArrayBuffer checkArray(
+    final GLContext current,
+    final JCGLArrayBufferUsableType x)
+    throws JCGLExceptionWrongContext
+  {
+    NullCheck.notNull(x);
+    return (JOGLArrayBuffer) JOGLCompatibilityChecks.checkAny(current, x);
+  }
+
+  @Override
+  public String toString()
   {
     return this.image;
   }

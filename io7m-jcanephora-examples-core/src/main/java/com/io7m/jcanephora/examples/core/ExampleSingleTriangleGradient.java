@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.examples.core;
 
+import com.io7m.jaffirm.core.Postconditions;
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
@@ -54,7 +55,6 @@ import com.io7m.jpra.runtime.java.JPRACursor2DByteBufferedChecked;
 import com.io7m.jpra.runtime.java.JPRACursor2DType;
 import com.io7m.jtensors.VectorI4F;
 import org.apache.commons.io.IOUtils;
-import org.valid4j.Assertive;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -268,7 +268,12 @@ public final class ExampleSingleTriangleGradient implements ExampleType
 
       final Map<String, JCGLProgramUniformType> uniforms =
         this.program.getUniforms();
-      Assertive.ensure(uniforms.containsKey("t_albedo"));
+
+      Postconditions.checkPostcondition(
+        uniforms,
+        uniforms.containsKey("t_albedo"),
+        ignored -> "Uniforms must contain t_albedo");
+
       this.texture_uniform = uniforms.get("t_albedo");
 
     } catch (final IOException e) {

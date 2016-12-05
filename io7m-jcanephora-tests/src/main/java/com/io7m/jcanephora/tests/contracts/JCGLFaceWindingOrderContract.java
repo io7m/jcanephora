@@ -32,7 +32,8 @@ public abstract class JCGLFaceWindingOrderContract
 
   protected abstract JCGLFaceWindingOrder fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLFaceWindingOrder[] vs = JCGLFaceWindingOrder.values();
     for (int index = 0; index < vs.length; ++index) {

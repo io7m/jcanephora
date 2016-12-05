@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 <code@io7m.com> http://io7m.com
+ * Copyright © 2016 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
+import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLReferableType;
@@ -30,10 +31,10 @@ import java.util.function.Function;
 final class JOGLArrayObject extends JOGLObjectUnshared
   implements JCGLArrayObjectType
 {
-  private final JCGLArrayVertexAttributeType[]      attribs;
-  private final String                              image;
-  private final JOGLReferenceContainer              reference_container;
-  private       Optional<JCGLIndexBufferUsableType> index_buffer;
+  private final JCGLArrayVertexAttributeType[] attribs;
+  private final String image;
+  private final JOGLReferenceContainer reference_container;
+  private Optional<JCGLIndexBufferUsableType> index_buffer;
 
   JOGLArrayObject(
     final GLContext in_context,
@@ -56,12 +57,20 @@ final class JOGLArrayObject extends JOGLObjectUnshared
     }
   }
 
+  static JOGLArrayObject checkArrayObject(
+    final GLContext c,
+    final JCGLArrayObjectUsableType a)
+  {
+    return (JOGLArrayObject) JOGLCompatibilityChecks.checkAny(c, a);
+  }
+
   JCGLArrayVertexAttributeType[] getAttribs()
   {
     return this.attribs;
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     return this.image;
   }
@@ -77,12 +86,14 @@ final class JOGLArrayObject extends JOGLObjectUnshared
     return Optional.ofNullable(this.attribs[index]);
   }
 
-  @Override public int getMaximumVertexAttributes()
+  @Override
+  public int getMaximumVertexAttributes()
   {
     return this.attribs.length;
   }
 
-  @Override public Optional<JCGLIndexBufferUsableType> getIndexBufferBound()
+  @Override
+  public Optional<JCGLIndexBufferUsableType> getIndexBufferBound()
   {
     synchronized (this.index_buffer) {
       return this.index_buffer;
@@ -103,7 +114,8 @@ final class JOGLArrayObject extends JOGLObjectUnshared
     }
   }
 
-  @Override public Set<JCGLReferableType> getReferences()
+  @Override
+  public Set<JCGLReferableType> getReferences()
   {
     return this.reference_container.getReferences();
   }

@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLGeometryShaderType;
+import com.io7m.jcanephora.core.JCGLGeometryShaderUsableType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
@@ -34,7 +35,15 @@ final class JOGLGeometryShader extends JOGLReferable
     this.name = NullCheck.notNull(in_name);
   }
 
-  @Override public String toString()
+  static JOGLGeometryShader checkGeometryShader(
+    final GLContext c,
+    final JCGLGeometryShaderUsableType gg)
+  {
+    return (JOGLGeometryShader) JOGLCompatibilityChecks.checkAny(c, gg);
+  }
+
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[GeometryShader ");
     sb.append(super.getGLName());
@@ -44,7 +53,8 @@ final class JOGLGeometryShader extends JOGLReferable
     return sb.toString();
   }
 
-  @Override public String getName()
+  @Override
+  public String getName()
   {
     return this.name;
   }

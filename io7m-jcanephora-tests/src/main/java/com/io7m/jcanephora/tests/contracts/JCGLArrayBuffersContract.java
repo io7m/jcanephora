@@ -64,6 +64,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     this.expected.expect(RangeCheckException.class);
     ga.arrayBufferAllocate(-1L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    Assert.fail();
   }
 
   @Test
@@ -142,6 +143,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionDeleted.class);
     ga.arrayBufferBind(a);
+    Assert.fail();
   }
 
   @Test
@@ -155,6 +157,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionDeleted.class);
     ga.arrayBufferIsBound(a);
+    Assert.fail();
   }
 
   @Test
@@ -182,6 +185,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     cb.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     gb.arrayBufferBind(a);
+    Assert.fail();
   }
 
   @Test
@@ -216,6 +220,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionDeleted.class);
     ga.arrayBufferDelete(a);
+    Assert.fail();
   }
 
   @Test
@@ -241,6 +246,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     cb.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     gb.arrayBufferDelete(a);
+    Assert.fail();
   }
 
   @Test
@@ -311,6 +317,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionDeleted.class);
     ga.arrayBufferUpdate(u);
+    Assert.fail();
   }
 
   @Test
@@ -339,6 +346,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     cb.contextMakeCurrent();
     this.expected.expect(JCGLExceptionWrongContext.class);
     gb.arrayBufferUpdate(u);
+    Assert.fail();
   }
 
   @Test
@@ -354,6 +362,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     ga.arrayBufferUnbind();
     this.expected.expect(JCGLExceptionBufferNotBound.class);
     ga.arrayBufferUpdate(u);
+    Assert.fail();
   }
 
   @Test
@@ -366,6 +375,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
     ga.arrayBufferUnbind();
     this.expected.expect(JCGLExceptionBufferNotBound.class);
     ga.arrayBufferReallocate(a);
+    Assert.fail();
   }
 
   @Test
@@ -430,6 +440,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionDeleted.class);
     ga.arrayBufferRead(a, size -> ByteBuffer.allocateDirect((int) size));
+    Assert.fail();
   }
 
   @Test
@@ -443,5 +454,6 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionBufferNotBound.class);
     ga.arrayBufferRead(a, size -> ByteBuffer.allocateDirect((int) size));
+    Assert.fail();
   }
 }

@@ -32,7 +32,8 @@ public abstract class JCGLBlendEquationContract
 
   protected abstract JCGLBlendEquation fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLBlendEquation[] vs = JCGLBlendEquation.values();
     for (int index = 0; index < vs.length; ++index) {

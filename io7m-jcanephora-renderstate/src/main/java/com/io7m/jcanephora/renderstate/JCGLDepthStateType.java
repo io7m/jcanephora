@@ -52,11 +52,7 @@ public interface JCGLDepthStateType
    */
 
   @Value.Parameter
-  @Value.Default
-  default Optional<JCGLDepthFunction> getDepthTest()
-  {
-    return Optional.empty();
-  }
+  Optional<JCGLDepthFunction> getDepthTest();
 
   /**
    * @return {@link JCGLDepthWriting#DEPTH_WRITE_ENABLED} if depth writing is

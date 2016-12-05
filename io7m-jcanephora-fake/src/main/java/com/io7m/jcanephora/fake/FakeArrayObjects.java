@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.fake;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
@@ -35,6 +36,7 @@ import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
+import com.io7m.jfunctional.Unit;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
@@ -44,7 +46,6 @@ import com.io7m.junreachable.UnreachableCodeException;
 import com.io7m.junsigned.ranges.UnsignedRangeCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -52,11 +53,11 @@ import java.util.Optional;
 final class FakeArrayObjects implements JCGLArrayObjectsType
 {
   private static final RangeInclusiveI MAX_ATTRIBS_RANGE;
-  private static final Logger          LOG;
+  private static final Logger LOG;
   private static final RangeInclusiveI VALID_ELEMENT_COUNT;
-  private static final String          ATTR_FLOAT_TRACE_FORMAT;
-  private static final String          ATTR_INTEGRAL_TRACE_FORMAT;
-  private static final String          ATTR_DISABLED_TRACE_FORMAT;
+  private static final String ATTR_FLOAT_TRACE_FORMAT;
+  private static final String ATTR_INTEGRAL_TRACE_FORMAT;
+  private static final String ATTR_DISABLED_TRACE_FORMAT;
 
   static {
     MAX_ATTRIBS_RANGE = new RangeInclusiveI(16, Integer.MAX_VALUE);
@@ -71,13 +72,13 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       "[{}]: attr {} disabled";
   }
 
-  private final FakeContext               context;
-  private final int                       max_attribs;
-  private final RangeInclusiveI           valid_attribs;
-  private final FakeArrayBuffers          array_buffers;
-  private final FakeArrayObject           default_buffer;
-  private final FakeIndexBuffers          index_buffers;
-  private       JCGLArrayObjectUsableType bind;
+  private final FakeContext context;
+  private final int max_attribs;
+  private final RangeInclusiveI valid_attribs;
+  private final FakeArrayBuffers array_buffers;
+  private final FakeArrayObject default_buffer;
+  private final FakeIndexBuffers index_buffers;
+  private JCGLArrayObjectUsableType bind;
 
   FakeArrayObjects(
     final FakeContext c,
@@ -112,16 +113,15 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
   {
     FakeCompatibilityChecks.checkArrayObjectBuilder(this.context, b);
 
-    Assertive.ensure(b instanceof Builder);
+    Preconditions.checkPrecondition(
+      b,
+      b instanceof Builder,
+      ignored -> "Builder must belong to this implementation");
+
     final Builder bb = (Builder) b;
 
     final int max = b.getMaximumVertexAttributes();
-    for (int index = 0; index < max; ++index) {
-      if (bb.attribs[index] != null) {
-        FakeCompatibilityChecks.checkArrayAttribute(
-          this.context, bb.attribs[index]);
-      }
-    }
+    this.checkArrayAttributes(bb, max);
 
     final FakeIndexBuffer ib;
     if (bb.index_buffer != null) {
@@ -130,13 +130,13 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       ib = null;
     }
 
-    final Integer aid = Integer.valueOf(this.context.getFreshID());
-    FakeArrayObjects.LOG.debug("allocated {}", aid);
+    final Integer array_id = Integer.valueOf(this.context.getFreshID());
+    FakeArrayObjects.LOG.debug("allocated {}", array_id);
 
     final JCGLArrayVertexAttributeType[] write_attribs =
       Arrays.copyOf(bb.attribs, bb.attribs.length);
     final FakeArrayObject new_ao = new FakeArrayObject(
-      this.context, aid.intValue(), write_attribs);
+      this.context, array_id.intValue(), write_attribs);
 
     this.actualBind(new_ao);
 
@@ -146,68 +146,8 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       }
 
       for (int index = 0; index < max; ++index) {
-        final Integer box_index = Integer.valueOf(index);
-        final JCGLArrayVertexAttributeType a = bb.attribs[index];
-        if (a == null) {
-          FakeArrayObjects.LOG.trace(
-            FakeArrayObjects.ATTR_DISABLED_TRACE_FORMAT,
-            aid,
-            box_index);
-          continue;
-        }
-
-        this.array_buffers.arrayBufferBind(a.getArrayBuffer());
-        a.matchVertexAttribute(
-          new JCGLArrayVertexAttributeMatcherType<Void, JCGLException>()
-          {
-            @Override
-            public Void matchFloatingPoint(
-              final JCGLArrayVertexAttributeFloatingPointType af)
-              throws JCGLException
-            {
-              final int e = af.getElements();
-              final boolean n = af.isNormalized();
-              final long off = af.getOffset();
-              final int stride = af.getStride();
-              final JCGLScalarType t = af.getType();
-              final int divisor = af.getDivisor();
-
-              FakeArrayObjects.LOG.trace(
-                FakeArrayObjects.ATTR_FLOAT_TRACE_FORMAT,
-                aid,
-                box_index,
-                t,
-                Integer.valueOf(e),
-                Boolean.valueOf(n),
-                Long.valueOf(off),
-                Integer.valueOf(stride),
-                Integer.valueOf(divisor));
-              return null;
-            }
-
-            @Override
-            public Void matchIntegral(
-              final JCGLArrayVertexAttributeIntegralType ai)
-              throws JCGLException
-            {
-              final JCGLScalarIntegralType t = ai.getType();
-              final int e = ai.getElements();
-              final long offset = ai.getOffset();
-              final int stride = ai.getStride();
-              final int divisor = ai.getDivisor();
-
-              FakeArrayObjects.LOG.trace(
-                FakeArrayObjects.ATTR_INTEGRAL_TRACE_FORMAT,
-                aid,
-                box_index,
-                t,
-                Integer.valueOf(e),
-                Long.valueOf(offset),
-                Integer.valueOf(stride),
-                Integer.valueOf(divisor));
-              return null;
-            }
-          });
+        this.arrayObjectAllocateConfigureAttribute(
+          bb.attribs[index], array_id, index);
       }
 
       this.array_buffers.arrayBufferUnbind();
@@ -217,6 +157,86 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     }
 
     return new_ao;
+  }
+
+  private void arrayObjectAllocateConfigureAttribute(
+    final JCGLArrayVertexAttributeType attrib,
+    final Integer array_id,
+    final int attrib_index)
+  {
+    final Integer box_index = Integer.valueOf(attrib_index);
+    if (attrib == null) {
+      FakeArrayObjects.LOG.trace(
+        FakeArrayObjects.ATTR_DISABLED_TRACE_FORMAT,
+        array_id,
+        box_index);
+      return;
+    }
+
+    this.array_buffers.arrayBufferBind(attrib.getArrayBuffer());
+    attrib.matchVertexAttribute(
+      new JCGLArrayVertexAttributeMatcherType<Unit, JCGLException>()
+      {
+        @Override
+        public Unit matchFloatingPoint(
+          final JCGLArrayVertexAttributeFloatingPointType af)
+          throws JCGLException
+        {
+          final int e = af.getElements();
+          final boolean n = af.isNormalized();
+          final long off = af.getOffset();
+          final int stride = af.getStride();
+          final JCGLScalarType t = af.getType();
+          final int divisor = af.getDivisor();
+
+          FakeArrayObjects.LOG.trace(
+            FakeArrayObjects.ATTR_FLOAT_TRACE_FORMAT,
+            array_id,
+            box_index,
+            t,
+            Integer.valueOf(e),
+            Boolean.valueOf(n),
+            Long.valueOf(off),
+            Integer.valueOf(stride),
+            Integer.valueOf(divisor));
+          return Unit.unit();
+        }
+
+        @Override
+        public Unit matchIntegral(
+          final JCGLArrayVertexAttributeIntegralType ai)
+          throws JCGLException
+        {
+          final JCGLScalarIntegralType t = ai.getType();
+          final int e = ai.getElements();
+          final long offset = ai.getOffset();
+          final int stride = ai.getStride();
+          final int divisor = ai.getDivisor();
+
+          FakeArrayObjects.LOG.trace(
+            FakeArrayObjects.ATTR_INTEGRAL_TRACE_FORMAT,
+            array_id,
+            box_index,
+            t,
+            Integer.valueOf(e),
+            Long.valueOf(offset),
+            Integer.valueOf(stride),
+            Integer.valueOf(divisor));
+          return Unit.unit();
+        }
+      });
+  }
+
+  private void checkArrayAttributes(
+    final Builder bb,
+    final int max)
+  {
+    for (int index = 0; index < max; ++index) {
+      if (bb.attribs[index] != null) {
+        FakeCompatibilityChecks.checkArrayAttribute(
+          this.context, bb.attribs[index]);
+      }
+    }
   }
 
   @Override
@@ -359,8 +379,8 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
   private final class Builder extends FakeObjectPseudoUnshared
     implements JCGLArrayObjectBuilderType
   {
-    private final     JCGLArrayVertexAttributeType[] attribs;
-    private @Nullable JCGLIndexBufferUsableType      index_buffer;
+    private final JCGLArrayVertexAttributeType[] attribs;
+    private @Nullable JCGLIndexBufferUsableType index_buffer;
     private boolean strict;
 
     Builder()

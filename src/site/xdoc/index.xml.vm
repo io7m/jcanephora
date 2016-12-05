@@ -24,6 +24,8 @@
         <li>Strict checking of cross-context object sharing</li>
         <li>Run-time type checking of shader parameters</li>
         <li>Large automated test suite: ~95% coverage</li>
+        <li>API design that abstracts over both <a href="http://jogamp.org/jogl/www/">JOGL</a> and <a href="http://lwjgl.org">LWJGL3</a>; Write your code once, choose which OpenGL bindings you use at compile time.</li>
+        <li><a href="https://www.osgi.org/">OSGi</a>-ready.</li>
         <li>ISC license</li>
       </ul>
     </subsection>

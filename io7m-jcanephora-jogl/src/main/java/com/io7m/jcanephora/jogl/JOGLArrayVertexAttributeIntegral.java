@@ -26,13 +26,34 @@ import com.jogamp.opengl.GLContext;
 final class JOGLArrayVertexAttributeIntegral extends JOGLObjectPseudoUnshared
   implements JCGLArrayVertexAttributeIntegralType
 {
-  private final int                       index;
+  private final int index;
   private final JCGLArrayBufferUsableType array;
-  private final JCGLScalarIntegralType    type;
-  private final int                       stride;
-  private final long                      offset;
-  private final int                       elements;
-  private final int                       divisor;
+  private final JCGLScalarIntegralType type;
+  private final int stride;
+  private final long offset;
+  private final int elements;
+  private final int divisor;
+
+  JOGLArrayVertexAttributeIntegral(
+    final GLContext in_context,
+    final int in_index,
+    final JCGLArrayBufferUsableType in_a,
+    final JCGLScalarIntegralType in_type,
+    final int in_elements,
+    final int in_stride,
+    final long in_offset,
+    final int in_divisor)
+  {
+    super(in_context);
+
+    this.index = in_index;
+    this.array = NullCheck.notNull(in_a);
+    this.type = NullCheck.notNull(in_type);
+    this.elements = in_elements;
+    this.stride = in_stride;
+    this.offset = in_offset;
+    this.divisor = in_divisor;
+  }
 
   @Override
   public boolean equals(final Object o)
@@ -67,27 +88,6 @@ final class JOGLArrayVertexAttributeIntegral extends JOGLObjectPseudoUnshared
     result = 31 * result + this.elements;
     result = 31 * result + this.divisor;
     return result;
-  }
-
-  JOGLArrayVertexAttributeIntegral(
-    final GLContext in_context,
-    final int in_index,
-    final JCGLArrayBufferUsableType in_a,
-    final JCGLScalarIntegralType in_type,
-    final int in_elements,
-    final int in_stride,
-    final long in_offset,
-    final int in_divisor)
-  {
-    super(in_context);
-
-    this.index = in_index;
-    this.array = NullCheck.notNull(in_a);
-    this.type = NullCheck.notNull(in_type);
-    this.elements = in_elements;
-    this.stride = in_stride;
-    this.offset = in_offset;
-    this.divisor = in_divisor;
   }
 
   @Override

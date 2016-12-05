@@ -70,6 +70,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
     this.expected.expect(RangeCheckException.class);
     b.getAttributeAt(-1);
+    Assert.fail();
   }
 
   @Test
@@ -301,6 +302,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(JCGLExceptionDeleted.class);
     b.setAttributeFloatingPoint(
       0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+    Assert.fail();
   }
 
   @Test
@@ -329,6 +331,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(JCGLExceptionWrongContext.class);
     b.setAttributeFloatingPoint(
       0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+    Assert.fail();
   }
 
   @Test
@@ -347,6 +350,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeFloatingPoint(
       -1, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+    Assert.fail();
   }
 
   @Test
@@ -366,9 +370,9 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     b.setAttributeFloatingPoint(
       0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
     this.expected.expect(JCGLExceptionAttributeAlreadyAssigned.class);
-
     b.setAttributeFloatingPoint(
       0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+    Assert.fail();
   }
 
   @Test
@@ -387,6 +391,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeFloatingPoint(
       0, a, -1, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+    Assert.fail();
   }
 
   @Test
@@ -405,6 +410,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeFloatingPoint(
       0, a, 5, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+    Assert.fail();
   }
 
   @Test
@@ -423,6 +429,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeFloatingPoint(
       0, a, 4, JCGLScalarType.TYPE_FLOAT, -1, 0L, false);
+    Assert.fail();
   }
 
   @Test
@@ -441,6 +448,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeFloatingPoint(
       0, a, 4, JCGLScalarType.TYPE_FLOAT, 16, 100L, false);
+    Assert.fail();
   }
 
   @Test
@@ -460,6 +468,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(JCGLExceptionDeleted.class);
     b.setAttributeIntegral(
       0, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
+    Assert.fail();
   }
 
   @Test
@@ -488,6 +497,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(JCGLExceptionWrongContext.class);
     b.setAttributeIntegral(
       0, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
+    Assert.fail();
   }
 
   @Test
@@ -506,6 +516,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeIntegral(
       -1, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
+    Assert.fail();
   }
 
   @Test
@@ -528,6 +539,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(JCGLExceptionAttributeAlreadyAssigned.class);
     b.setAttributeIntegral(
       0, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
+    Assert.fail();
   }
 
   @Test
@@ -546,6 +558,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeIntegral(
       0, a, -1, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
+    Assert.fail();
   }
 
   @Test
@@ -564,6 +577,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeIntegral(
       0, a, 5, JCGLScalarIntegralType.TYPE_INT, 16, 0L);
+    Assert.fail();
   }
 
   @Test
@@ -582,6 +596,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeIntegral(
       0, a, 4, JCGLScalarIntegralType.TYPE_INT, -1, 0L);
+    Assert.fail();
   }
 
   @Test
@@ -600,6 +615,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     b.setAttributeIntegral(
       0, a, 4, JCGLScalarIntegralType.TYPE_INT, 16, 100L);
+    Assert.fail();
   }
 
   @Test
@@ -623,6 +639,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionDeleted.class);
     go.arrayObjectAllocate(b);
+    Assert.fail();
   }
 
   @Test
@@ -731,6 +748,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionDeleted.class);
     go.arrayObjectBind(ai);
+    Assert.fail();
   }
 
   @Test
@@ -827,6 +845,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionDeleted.class);
     go.arrayObjectDelete(ai);
+    Assert.fail();
   }
 
   @Test
@@ -840,6 +859,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     if (unsafe instanceof JCGLArrayObjectType) {
       this.expected.expect(JCGLExceptionObjectNotDeletable.class);
       go.arrayObjectDelete((JCGLArrayObjectType) unsafe);
+      Assert.fail();
     }
   }
 
@@ -924,7 +944,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
   protected static final class Interfaces
   {
-    private final JCGLContextType      context;
+    private final JCGLContextType context;
     private final JCGLIndexBuffersType index_buffers;
     private final JCGLArrayBuffersType array_buffers;
     private final JCGLArrayObjectsType array_objects;

@@ -114,7 +114,8 @@ public abstract class JCGLShadersContract extends JCGLContract
 
   protected abstract List<String> getShaderLines(String name);
 
-  @Test public final void testVertexShaderCompileEmpty0()
+  @Test
+  public final void testVertexShaderCompileEmpty0()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -122,7 +123,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderCompileVertex("empty0", new ArrayList<>(0));
   }
 
-  @Test public final void testVertexShaderCompileEmpty1()
+  @Test
+  public final void testVertexShaderCompileEmpty1()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -135,7 +137,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderCompileVertex("empty1", lines);
   }
 
-  @Test public final void testVertexShaderCompileInvalid0()
+  @Test
+  public final void testVertexShaderCompileInvalid0()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -143,7 +146,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderCompileVertex("invalid0", this.getShaderLines("invalid0.vert"));
   }
 
-  @Test public final void testVertexShaderCompileValidIdentities()
+  @Test
+  public final void testVertexShaderCompileValidIdentities()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -154,7 +158,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(v.getGLName() > 0);
   }
 
-  @Test public final void testVertexShaderDeleteIdentity()
+  @Test
+  public final void testVertexShaderDeleteIdentity()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -164,7 +169,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(v.isDeleted());
   }
 
-  @Test public final void testVertexShaderDeleteDeleted()
+  @Test
+  public final void testVertexShaderDeleteDeleted()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -176,7 +182,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderDeleteVertex(v);
   }
 
-  @Test public final void testVertexShaderDeleteWrongContext()
+  @Test
+  public final void testVertexShaderDeleteWrongContext()
   {
     final JCGLUnsharedContextPair<JCGLShadersType> cp =
       this.getShadersUnshared("main", "alt");
@@ -199,7 +206,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s1.shaderDeleteVertex(v);
   }
 
-  @Test public final void testVertexShaderDeleteSharedContext()
+  @Test
+  public final void testVertexShaderDeleteSharedContext()
   {
     final JCGLSharedContextPair<JCGLShadersType> cp =
       this.getShadersSharedWith("main", "alt");
@@ -221,7 +229,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(v.isDeleted());
   }
 
-  @Test public final void testFragmentShaderCompileEmpty0()
+  @Test
+  public final void testFragmentShaderCompileEmpty0()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -229,7 +238,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderCompileFragment("empty0", new ArrayList<>(0));
   }
 
-  @Test public final void testFragmentShaderCompileEmpty1()
+  @Test
+  public final void testFragmentShaderCompileEmpty1()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -242,7 +252,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderCompileFragment("empty1", lines);
   }
 
-  @Test public final void testFragmentShaderCompileInvalid0()
+  @Test
+  public final void testFragmentShaderCompileInvalid0()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -250,7 +261,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderCompileFragment("invalid0", this.getShaderLines("invalid0.frag"));
   }
 
-  @Test public final void testFragmentShaderCompileValidIdentities()
+  @Test
+  public final void testFragmentShaderCompileValidIdentities()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -261,7 +273,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(f.getGLName() > 0);
   }
 
-  @Test public final void testFragmentShaderDeleteSharedContext()
+  @Test
+  public final void testFragmentShaderDeleteSharedContext()
   {
     final JCGLSharedContextPair<JCGLShadersType> cp =
       this.getShadersSharedWith("main", "alt");
@@ -283,7 +296,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(f.isDeleted());
   }
 
-  @Test public final void testFragmentShaderDeleteWrongContext()
+  @Test
+  public final void testFragmentShaderDeleteWrongContext()
   {
     final JCGLUnsharedContextPair<JCGLShadersType> cp =
       this.getShadersUnshared("main", "alt");
@@ -306,7 +320,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s1.shaderDeleteFragment(f);
   }
 
-  @Test public final void testFragmentShaderDeleteIdentity()
+  @Test
+  public final void testFragmentShaderDeleteIdentity()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -317,7 +332,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(f.isDeleted());
   }
 
-  @Test public final void testFragmentShaderDeleteDeleted()
+  @Test
+  public final void testFragmentShaderDeleteDeleted()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -329,7 +345,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderDeleteFragment(f);
   }
 
-  @Test public final void testGeometryShaderCompileEmpty0()
+  @Test
+  public final void testGeometryShaderCompileEmpty0()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -337,7 +354,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderCompileGeometry("empty0", new ArrayList<>(0));
   }
 
-  @Test public final void testGeometryShaderCompileEmpty1()
+  @Test
+  public final void testGeometryShaderCompileEmpty1()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -350,7 +368,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderCompileGeometry("empty1", lines);
   }
 
-  @Test public final void testGeometryShaderCompileInvalid0()
+  @Test
+  public final void testGeometryShaderCompileInvalid0()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -358,7 +377,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderCompileGeometry("invalid0", this.getShaderLines("invalid0.geom"));
   }
 
-  @Test public final void testGeometryShaderDeleteDeleted()
+  @Test
+  public final void testGeometryShaderDeleteDeleted()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -370,7 +390,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderDeleteGeometry(g);
   }
 
-  @Test public final void testGeometryShaderDeleteIdentity()
+  @Test
+  public final void testGeometryShaderDeleteIdentity()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -381,7 +402,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(g.isDeleted());
   }
 
-  @Test public final void testGeometryShaderDeleteWrongContext()
+  @Test
+  public final void testGeometryShaderDeleteWrongContext()
   {
     final JCGLUnsharedContextPair<JCGLShadersType> cp =
       this.getShadersUnshared("main", "alt");
@@ -404,7 +426,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s1.shaderDeleteGeometry(g);
   }
 
-  @Test public final void testGeometryShaderDeleteSharedContext()
+  @Test
+  public final void testGeometryShaderDeleteSharedContext()
   {
     final JCGLSharedContextPair<JCGLShadersType> cp =
       this.getShadersSharedWith("main", "alt");
@@ -426,7 +449,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(g.isDeleted());
   }
 
-  @Test public final void testGeometryShaderCompileValidIdentities()
+  @Test
+  public final void testGeometryShaderCompileValidIdentities()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -437,7 +461,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(g.getGLName() > 0);
   }
 
-  @Test public final void testProgramLinkValidIdentities()
+  @Test
+  public final void testProgramLinkValidIdentities()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -475,7 +500,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(0L, (long) u.size());
   }
 
-  @Test public final void testProgramLinkValidAttributes()
+  @Test
+  public final void testProgramLinkValidAttributes()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -527,7 +553,8 @@ public abstract class JCGLShadersContract extends JCGLContract
       p, a, "uv4", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4);
   }
 
-  @Test public final void testProgramLinkValidAttributesMatrices0()
+  @Test
+  public final void testProgramLinkValidAttributesMatrices0()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -561,7 +588,8 @@ public abstract class JCGLShadersContract extends JCGLContract
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_2);
   }
 
-  @Test public final void testProgramLinkValidAttributesMatrices1()
+  @Test
+  public final void testProgramLinkValidAttributesMatrices1()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -595,7 +623,8 @@ public abstract class JCGLShadersContract extends JCGLContract
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_4x2);
   }
 
-  @Test public final void testProgramLinkValidAttributesMatrices2()
+  @Test
+  public final void testProgramLinkValidAttributesMatrices2()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -629,7 +658,8 @@ public abstract class JCGLShadersContract extends JCGLContract
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_4x2);
   }
 
-  @Test public final void testProgramLinkValidAttributesMatrices3()
+  @Test
+  public final void testProgramLinkValidAttributesMatrices3()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -663,7 +693,8 @@ public abstract class JCGLShadersContract extends JCGLContract
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_3x2);
   }
 
-  @Test public final void testProgramLinkValidAttributesMatrices4()
+  @Test
+  public final void testProgramLinkValidAttributesMatrices4()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -697,7 +728,8 @@ public abstract class JCGLShadersContract extends JCGLContract
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_2);
   }
 
-  @Test public final void testProgramLinkValidUniforms0()
+  @Test
+  public final void testProgramLinkValidUniforms0()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -759,7 +791,8 @@ public abstract class JCGLShadersContract extends JCGLContract
       p, u, "bv4", JCGLType.TYPE_BOOLEAN_VECTOR_4, 1);
   }
 
-  @Test public final void testProgramLinkValidUniforms1()
+  @Test
+  public final void testProgramLinkValidUniforms1()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -813,7 +846,8 @@ public abstract class JCGLShadersContract extends JCGLContract
       p, u, "fm2x2", JCGLType.TYPE_FLOAT_MATRIX_2, 1);
   }
 
-  @Test public final void testProgramLinkValidUniforms2()
+  @Test
+  public final void testProgramLinkValidUniforms2()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -847,14 +881,17 @@ public abstract class JCGLShadersContract extends JCGLContract
       p, u, "sc", JCGLType.TYPE_SAMPLER_CUBE, 1);
   }
 
-  @Test public final void testProgramLinkValidUniforms3()
+  @Test
+  public final void testProgramLinkValidUniforms3()
   {
     final JCGLShadersType s = this.getShaders("main");
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
     final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("validarray0", this.getShaderLines("validarray0.frag"));
+      s.shaderCompileFragment(
+        "validarray0",
+        this.getShaderLines("validarray0.frag"));
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("validarray0", v, Optional.empty(), f);
 
@@ -877,7 +914,8 @@ public abstract class JCGLShadersContract extends JCGLContract
       p, u, "big_array[0]", JCGLType.TYPE_FLOAT_VECTOR_4, 16);
   }
 
-  @Test public final void testProgramLinkDeletedVertex()
+  @Test
+  public final void testProgramLinkDeletedVertex()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -894,7 +932,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
-  @Test public final void testProgramLinkDeletedFragment()
+  @Test
+  public final void testProgramLinkDeletedFragment()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -911,7 +950,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
-  @Test public final void testProgramLinkDeletedGeometry()
+  @Test
+  public final void testProgramLinkDeletedGeometry()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -928,7 +968,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
-  @Test public final void testProgramLinkWrongContextVertex()
+  @Test
+  public final void testProgramLinkWrongContextVertex()
   {
     final JCGLUnsharedContextPair<JCGLShadersType> cp =
       this.getShadersUnshared("main", "alt");
@@ -957,7 +998,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s1.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
-  @Test public final void testProgramLinkWrongContextFragment()
+  @Test
+  public final void testProgramLinkWrongContextFragment()
   {
     final JCGLUnsharedContextPair<JCGLShadersType> cp =
       this.getShadersUnshared("main", "alt");
@@ -986,7 +1028,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s1.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
-  @Test public final void testProgramLinkWrongContextGeometry()
+  @Test
+  public final void testProgramLinkWrongContextGeometry()
   {
     final JCGLUnsharedContextPair<JCGLShadersType> cp =
       this.getShadersUnshared("main", "alt");
@@ -1015,7 +1058,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s1.shaderLinkProgram("valid0", v, Optional.of(g), f);
   }
 
-  @Test public final void testProgramLinkSharedContext()
+  @Test
+  public final void testProgramLinkSharedContext()
   {
     final JCGLSharedContextPair<JCGLShadersType> cp =
       this.getShadersSharedWith("main", "alt");
@@ -1041,7 +1085,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(p.getGLName() > 0);
   }
 
-  @Test public final void testProgramLinkIncompatible()
+  @Test
+  public final void testProgramLinkIncompatible()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1054,7 +1099,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderLinkProgram("incompatible0", v, Optional.empty(), f);
   }
 
-  @Test public final void testProgramActivateSharedContext()
+  @Test
+  public final void testProgramActivateSharedContext()
   {
     final JCGLSharedContextPair<JCGLShadersType> cp =
       this.getShadersSharedWith("main", "alt");
@@ -1082,7 +1128,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(Optional.of(p), s1.shaderActivatedProgram());
   }
 
-  @Test public final void testProgramActivateWrongContext()
+  @Test
+  public final void testProgramActivateWrongContext()
   {
     final JCGLUnsharedContextPair<JCGLShadersType> cp =
       this.getShadersUnshared("main", "alt");
@@ -1111,7 +1158,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s1.shaderActivateProgram(p);
   }
 
-  @Test public final void testProgramActivateDeleted()
+  @Test
+  public final void testProgramActivateDeleted()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1127,7 +1175,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderActivateProgram(p);
   }
 
-  @Test public final void testProgramDeleteDeleted()
+  @Test
+  public final void testProgramDeleteDeleted()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1143,7 +1192,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderDeleteProgram(p);
   }
 
-  @Test public final void testProgramActivateDeactivateIdentity()
+  @Test
+  public final void testProgramActivateDeactivateIdentity()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1164,7 +1214,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(Optional.empty(), s.shaderActivatedProgram());
   }
 
-  @Test public final void testProgramDeleteActivated()
+  @Test
+  public final void testProgramDeleteActivated()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1181,7 +1232,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(Optional.empty(), s.shaderActivatedProgram());
   }
 
-  @Test public final void testProgramDeleteWrongContext()
+  @Test
+  public final void testProgramDeleteWrongContext()
   {
     final JCGLUnsharedContextPair<JCGLShadersType> cp =
       this.getShadersUnshared("main", "alt");
@@ -1210,7 +1262,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s1.shaderDeleteProgram(p);
   }
 
-  @Test public final void testProgramDeleteSharedContext()
+  @Test
+  public final void testProgramDeleteSharedContext()
   {
     final JCGLSharedContextPair<JCGLShadersType> cp =
       this.getShadersSharedWith("main", "alt");
@@ -1237,7 +1290,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertTrue(p.isDeleted());
   }
 
-  @Test public final void testProgramUniformFloatCorrect()
+  @Test
+  public final void testProgramUniformFloatCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1257,7 +1311,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutFloat(u, 1.0f);
   }
 
-  @Test public final void testProgramUniformFloatWrong()
+  @Test
+  public final void testProgramUniformFloatWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1278,7 +1333,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutFloat(u, 1.0f);
   }
 
-  @Test public final void testProgramUniformFloatNotActive()
+  @Test
+  public final void testProgramUniformFloatNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1299,7 +1355,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutFloat(u, 1.0f);
   }
 
-  @Test public final void testProgramUniformFloatWrongTypeNoChecking()
+  @Test
+  public final void testProgramUniformFloatWrongTypeNoChecking()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1320,7 +1377,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutFloat(u, 1.0f);
   }
 
-  @Test public final void testProgramUniformIntegerCorrect()
+  @Test
+  public final void testProgramUniformIntegerCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1340,7 +1398,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutInteger(u, 1);
   }
 
-  @Test public final void testProgramUniformIntegerWrong()
+  @Test
+  public final void testProgramUniformIntegerWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1361,7 +1420,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutInteger(u, 1);
   }
 
-  @Test public final void testProgramUniformIntegerNotActive()
+  @Test
+  public final void testProgramUniformIntegerNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1382,7 +1442,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutInteger(u, 1);
   }
 
-  @Test public final void testProgramUniformIntegerWrongTypeNoChecking()
+  @Test
+  public final void testProgramUniformIntegerWrongTypeNoChecking()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1403,7 +1464,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutInteger(u, 1);
   }
 
-  @Test public final void testProgramUniformUnsignedIntegerCorrect()
+  @Test
+  public final void testProgramUniformUnsignedIntegerCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1423,7 +1485,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutUnsignedInteger(u, 1);
   }
 
-  @Test public final void testProgramUniformUnsignedIntegerWrong()
+  @Test
+  public final void testProgramUniformUnsignedIntegerWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1444,7 +1507,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutUnsignedInteger(u, 1);
   }
 
-  @Test public final void testProgramUniformUnsignedIntegerNotActive()
+  @Test
+  public final void testProgramUniformUnsignedIntegerNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1465,7 +1529,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutUnsignedInteger(u, 1);
   }
 
-  @Test public final void testProgramUniformUnsignedIntegerWrongTypeNoChecking()
+  @Test
+  public final void testProgramUniformUnsignedIntegerWrongTypeNoChecking()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1486,7 +1551,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutUnsignedInteger(u, 1);
   }
 
-  @Test public final void testProgramUniformVector2fCorrect()
+  @Test
+  public final void testProgramUniformVector2fCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1506,7 +1572,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
   }
 
-  @Test public final void testProgramUniformVector2fWrong()
+  @Test
+  public final void testProgramUniformVector2fWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1527,7 +1594,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
   }
 
-  @Test public final void testProgramUniformVector2fNotActive()
+  @Test
+  public final void testProgramUniformVector2fNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1548,7 +1616,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
   }
 
-  @Test public final void testProgramUniformVector3fCorrect()
+  @Test
+  public final void testProgramUniformVector3fCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1568,7 +1637,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
   }
 
-  @Test public final void testProgramUniformVector3fWrong()
+  @Test
+  public final void testProgramUniformVector3fWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1589,7 +1659,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
   }
 
-  @Test public final void testProgramUniformVector3fNotActive()
+  @Test
+  public final void testProgramUniformVector3fNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1610,7 +1681,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
   }
 
-  @Test public final void testProgramUniformVector4fCorrect()
+  @Test
+  public final void testProgramUniformVector4fCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1630,7 +1702,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
   }
 
-  @Test public final void testProgramUniformVector4fWrong()
+  @Test
+  public final void testProgramUniformVector4fWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1651,7 +1724,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
   }
 
-  @Test public final void testProgramUniformVector4fNotActive()
+  @Test
+  public final void testProgramUniformVector4fNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1672,7 +1746,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
   }
 
-  @Test public final void testProgramUniformVector2iCorrect()
+  @Test
+  public final void testProgramUniformVector2iCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1692,7 +1767,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector2iWrong()
+  @Test
+  public final void testProgramUniformVector2iWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1713,7 +1789,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector2iNotActive()
+  @Test
+  public final void testProgramUniformVector2iNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1734,7 +1811,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector3iCorrect()
+  @Test
+  public final void testProgramUniformVector3iCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1754,7 +1832,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector3iWrong()
+  @Test
+  public final void testProgramUniformVector3iWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1775,7 +1854,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector3iNotActive()
+  @Test
+  public final void testProgramUniformVector3iNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1796,7 +1876,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector4iCorrect()
+  @Test
+  public final void testProgramUniformVector4iCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1816,7 +1897,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector4iWrong()
+  @Test
+  public final void testProgramUniformVector4iWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1837,7 +1919,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector4iNotActive()
+  @Test
+  public final void testProgramUniformVector4iNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1858,7 +1941,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector2uCorrect()
+  @Test
+  public final void testProgramUniformVector2uCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1878,7 +1962,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector2uWrong()
+  @Test
+  public final void testProgramUniformVector2uWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1899,7 +1984,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector2uNotActive()
+  @Test
+  public final void testProgramUniformVector2uNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1920,7 +2006,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector3uCorrect()
+  @Test
+  public final void testProgramUniformVector3uCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1940,7 +2027,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector3uWrong()
+  @Test
+  public final void testProgramUniformVector3uWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1961,7 +2049,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector3uNotActive()
+  @Test
+  public final void testProgramUniformVector3uNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -1982,7 +2071,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector4uCorrect()
+  @Test
+  public final void testProgramUniformVector4uCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -2002,7 +2092,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector4uWrong()
+  @Test
+  public final void testProgramUniformVector4uWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -2023,7 +2114,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
   }
 
-  @Test public final void testProgramUniformVector4uNotActive()
+  @Test
+  public final void testProgramUniformVector4uNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -2044,7 +2136,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
   }
 
-  @Test public final void testProgramUniformMatrix4fCorrect()
+  @Test
+  public final void testProgramUniformMatrix4fCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -2064,7 +2157,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
   }
 
-  @Test public final void testProgramUniformMatrix4fWrong()
+  @Test
+  public final void testProgramUniformMatrix4fWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -2085,7 +2179,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
   }
 
-  @Test public final void testProgramUniformMatrix4fNotActive()
+  @Test
+  public final void testProgramUniformMatrix4fNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -2106,7 +2201,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
   }
 
-  @Test public final void testProgramUniformMatrix3fCorrect()
+  @Test
+  public final void testProgramUniformMatrix3fCorrect()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -2126,7 +2222,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
   }
 
-  @Test public final void testProgramUniformMatrix3fWrong()
+  @Test
+  public final void testProgramUniformMatrix3fWrong()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -2147,7 +2244,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
   }
 
-  @Test public final void testProgramUniformMatrix3fNotActive()
+  @Test
+  public final void testProgramUniformMatrix3fNotActive()
   {
     final JCGLShadersType s = this.getShaders("main");
 
@@ -2168,7 +2266,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
   }
 
-  @Test public final void testProgramUniformSampler2DCorrect()
+  @Test
+  public final void testProgramUniformSampler2DCorrect()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLShadersType s = i.getShaders();
@@ -2190,7 +2289,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutTexture2DUnit(u, t.textureGetUnits().get(0));
   }
 
-  @Test public final void testProgramUniformSampler2DWrong()
+  @Test
+  public final void testProgramUniformSampler2DWrong()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLShadersType s = i.getShaders();
@@ -2213,7 +2313,8 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutTexture2DUnit(u, t.textureGetUnits().get(0));
   }
 
-  @Test public final void testProgramUniformSampler2DNotActive()
+  @Test
+  public final void testProgramUniformSampler2DNotActive()
   {
     final Interfaces i = this.getInterfaces("main");
     final JCGLShadersType s = i.getShaders();
@@ -2236,10 +2337,56 @@ public abstract class JCGLShadersContract extends JCGLContract
     s.shaderUniformPutTexture2DUnit(u, t.textureGetUnits().get(0));
   }
 
+  @Test
+  public final void testProgramUniformPutVectorfWrongType()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final FloatBuffer buf = ByteBuffer.allocateDirect(4)
+      .order(ByteOrder.nativeOrder())
+      .asFloatBuffer();
+
+    s.shaderActivateProgram(p);
+
+    final JCGLProgramUniformType u = p.getUniforms().get("u");
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVectorf(u, buf);
+  }
+
+  @Test
+  public final void testProgramUniformPutVectorfTooFew()
+  {
+    final JCGLShadersType s = this.getShaders("main");
+
+    final JCGLVertexShaderType v =
+      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
+    final JCGLFragmentShaderType f =
+      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
+    final JCGLProgramShaderType p =
+      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
+
+    final FloatBuffer buf = ByteBuffer.allocateDirect(4)
+      .order(ByteOrder.nativeOrder())
+      .asFloatBuffer();
+
+    s.shaderActivateProgram(p);
+
+    final JCGLProgramUniformType u = p.getUniforms().get("fv4");
+    this.expected.expect(JCGLExceptionProgramTypeError.class);
+    s.shaderUniformPutVectorf(u, buf);
+  }
+
   protected static final class Interfaces
   {
-    private final JCGLContextType  context;
-    private final JCGLShadersType  shaders;
+    private final JCGLContextType context;
+    private final JCGLShadersType shaders;
     private final JCGLTexturesType textures;
 
     public Interfaces(
@@ -2266,49 +2413,5 @@ public abstract class JCGLShadersContract extends JCGLContract
     {
       return this.textures;
     }
-  }
-
-  @Test public final void testProgramUniformPutVectorfWrongType()
-  {
-    final JCGLShadersType s = this.getShaders("main");
-
-    final JCGLVertexShaderType v =
-      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
-    final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
-    final JCGLProgramShaderType p =
-      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
-
-    final FloatBuffer buf = ByteBuffer.allocateDirect(4)
-      .order(ByteOrder.nativeOrder())
-      .asFloatBuffer();
-
-    s.shaderActivateProgram(p);
-
-    final JCGLProgramUniformType u = p.getUniforms().get("u");
-    this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVectorf(u, buf);
-  }
-
-  @Test public final void testProgramUniformPutVectorfTooFew()
-  {
-    final JCGLShadersType s = this.getShaders("main");
-
-    final JCGLVertexShaderType v =
-      s.shaderCompileVertex("uniforms0", this.getShaderLines("uniforms0.vert"));
-    final JCGLFragmentShaderType f =
-      s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
-    final JCGLProgramShaderType p =
-      s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
-
-    final FloatBuffer buf = ByteBuffer.allocateDirect(4)
-      .order(ByteOrder.nativeOrder())
-      .asFloatBuffer();
-
-    s.shaderActivateProgram(p);
-
-    final JCGLProgramUniformType u = p.getUniforms().get("fv4");
-    this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVectorf(u, buf);
   }
 }

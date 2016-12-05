@@ -32,7 +32,8 @@ public abstract class JCGLStencilOperationContract
 
   protected abstract JCGLStencilOperation fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLStencilOperation[] vs = JCGLStencilOperation.values();
     for (int index = 0; index < vs.length; ++index) {

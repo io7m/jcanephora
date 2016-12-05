@@ -25,8 +25,8 @@ import com.jogamp.opengl.GLContext;
 final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
   JCGLTextureUnitType
 {
-  private final     int             index;
-  private @Nullable JOGLTexture2D   bind_2d;
+  private final int index;
+  private @Nullable JOGLTexture2D bind_2d;
   private @Nullable JOGLTextureCube bind_cube;
 
   JOGLTextureUnit(
@@ -40,6 +40,13 @@ final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
         "Index",
         Ranges.NATURAL_INTEGER,
         "Valid indices");
+  }
+
+  static JOGLTextureUnit checkTextureUnit(
+    final GLContext c,
+    final JCGLTextureUnitType u)
+  {
+    return (JOGLTextureUnit) JOGLCompatibilityChecks.checkAny(c, u);
   }
 
   JOGLTexture2D getBind2D()
@@ -62,7 +69,8 @@ final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
     this.bind_cube = t;
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[TextureUnit ");
     sb.append(this.index);
@@ -70,7 +78,8 @@ final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
     return sb.toString();
   }
 
-  @Override public boolean equals(final Object o)
+  @Override
+  public boolean equals(final Object o)
   {
     if (this == o) {
       return true;
@@ -83,17 +92,20 @@ final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
     return this.index == that.index;
   }
 
-  @Override public int hashCode()
+  @Override
+  public int hashCode()
   {
     return this.index;
   }
 
-  @Override public int unitGetIndex()
+  @Override
+  public int unitGetIndex()
   {
     return this.index;
   }
 
-  @Override public int compareTo(final JCGLTextureUnitType o)
+  @Override
+  public int compareTo(final JCGLTextureUnitType o)
   {
     return Integer.compareUnsigned(this.index, o.unitGetIndex());
   }

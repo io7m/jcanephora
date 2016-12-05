@@ -32,7 +32,8 @@ public abstract class JCGLFramebufferBlitBufferContract
 
   protected abstract JCGLFramebufferBlitBuffer fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLFramebufferBlitBuffer[] vs = JCGLFramebufferBlitBuffer.values();
     for (int index = 0; index < vs.length; ++index) {

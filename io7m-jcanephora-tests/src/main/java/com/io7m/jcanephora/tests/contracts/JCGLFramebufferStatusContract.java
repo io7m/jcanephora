@@ -32,7 +32,8 @@ public abstract class JCGLFramebufferStatusContract
 
   protected abstract JCGLFramebufferStatus fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLFramebufferStatus[] vs = JCGLFramebufferStatus.values();
     for (int index = 0; index < vs.length; ++index) {

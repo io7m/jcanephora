@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 <code@io7m.com> http://io7m.com
+ * Copyright © 2016 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -26,8 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 final class JOGLReferenceContainer implements JCGLReferenceContainerType
 {
-  private final Set<JCGLReferableType>     references_view;
-  private final Set<JCGLReferableType>     references;
+  private final Set<JCGLReferableType> references_view;
+  private final Set<JCGLReferableType> references;
   private final JCGLReferenceContainerType owner;
 
   JOGLReferenceContainer(
@@ -51,7 +51,8 @@ final class JOGLReferenceContainer implements JCGLReferenceContainerType
     i.containerReferenceRemove(this.owner);
   }
 
-  @Override public Set<JCGLReferableType> getReferences()
+  @Override
+  public Set<JCGLReferableType> getReferences()
   {
     return this.references_view;
   }

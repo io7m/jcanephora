@@ -28,9 +28,9 @@ import com.io7m.jnull.NullCheck;
 public final class JCGLSharedContextPair<T>
 {
   private final JCGLContextType master_context;
-  private final T               master;
+  private final T master;
   private final JCGLContextType slave_context;
-  private final T               slave;
+  private final T slave;
 
   /**
    * Construct a pair.

@@ -32,7 +32,8 @@ public abstract class JCGLPolygonModeContract
 
   protected abstract JCGLPolygonMode fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLPolygonMode[] vs = JCGLPolygonMode.values();
     for (int index = 0; index < vs.length; ++index) {

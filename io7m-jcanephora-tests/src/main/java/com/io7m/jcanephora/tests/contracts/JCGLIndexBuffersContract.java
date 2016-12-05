@@ -266,47 +266,6 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     gb.indexBufferUpdate(u);
   }
 
-  protected static final class Interfaces
-  {
-    private final JCGLContextType      context;
-    private final JCGLIndexBuffersType index_buffers;
-    private final JCGLArrayBuffersType array_buffers;
-    private final JCGLArrayObjectsType array_objects;
-
-    public Interfaces(
-      final JCGLContextType in_context,
-      final JCGLArrayBuffersType in_array_buffers,
-      final JCGLIndexBuffersType in_index_buffers,
-      final JCGLArrayObjectsType in_array_objects)
-    {
-      this.context = NullCheck.notNull(in_context);
-      this.array_buffers = NullCheck.notNull(in_array_buffers);
-      this.array_objects = NullCheck.notNull(in_array_objects);
-      this.index_buffers = NullCheck.notNull(in_index_buffers);
-    }
-
-    public JCGLContextType getContext()
-    {
-      return this.context;
-    }
-
-    public JCGLIndexBuffersType getIndexBuffers()
-    {
-      return this.index_buffers;
-    }
-
-    public JCGLArrayBuffersType getArrayBuffers()
-    {
-      return this.array_buffers;
-    }
-
-    public JCGLArrayObjectsType getArrayObjects()
-    {
-      return this.array_objects;
-    }
-  }
-
-
   @Test
   public final void testIndexRead()
   {
@@ -367,5 +326,45 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionBufferNotBound.class);
     gi.indexBufferRead(i, size -> ByteBuffer.allocateDirect((int) size));
+  }
+
+  protected static final class Interfaces
+  {
+    private final JCGLContextType context;
+    private final JCGLIndexBuffersType index_buffers;
+    private final JCGLArrayBuffersType array_buffers;
+    private final JCGLArrayObjectsType array_objects;
+
+    public Interfaces(
+      final JCGLContextType in_context,
+      final JCGLArrayBuffersType in_array_buffers,
+      final JCGLIndexBuffersType in_index_buffers,
+      final JCGLArrayObjectsType in_array_objects)
+    {
+      this.context = NullCheck.notNull(in_context);
+      this.array_buffers = NullCheck.notNull(in_array_buffers);
+      this.array_objects = NullCheck.notNull(in_array_objects);
+      this.index_buffers = NullCheck.notNull(in_index_buffers);
+    }
+
+    public JCGLContextType getContext()
+    {
+      return this.context;
+    }
+
+    public JCGLIndexBuffersType getIndexBuffers()
+    {
+      return this.index_buffers;
+    }
+
+    public JCGLArrayBuffersType getArrayBuffers()
+    {
+      return this.array_buffers;
+    }
+
+    public JCGLArrayObjectsType getArrayObjects()
+    {
+      return this.array_objects;
+    }
   }
 }

@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.examples.core;
 
+import com.io7m.jaffirm.core.Postconditions;
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
@@ -50,7 +51,6 @@ import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jtensors.VectorI4F;
 import org.apache.commons.io.IOUtils;
-import org.valid4j.Assertive;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -87,7 +87,8 @@ public final class ExampleSingleTriangleNoise implements ExampleType
 
   }
 
-  @Override public void onInitialize(final JCGLInterfaceGL33Type g)
+  @Override
+  public void onInitialize(final JCGLInterfaceGL33Type g)
   {
     final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
     final JCGLArrayObjectsType g_ao = g.getArrayObjects();
@@ -262,7 +263,12 @@ public final class ExampleSingleTriangleNoise implements ExampleType
 
       final Map<String, JCGLProgramUniformType> uniforms =
         this.program.getUniforms();
-      Assertive.ensure(uniforms.containsKey("t_albedo"));
+
+      Postconditions.checkPostcondition(
+        uniforms,
+        uniforms.containsKey("t_albedo"),
+        ignored -> "Uniforms must contain t_albedo");
+
       this.texture_uniform = uniforms.get("t_albedo");
 
     } catch (final IOException e) {
@@ -297,7 +303,8 @@ public final class ExampleSingleTriangleNoise implements ExampleType
     this.clear = cb.build();
   }
 
-  @Override public void onRender(final JCGLInterfaceGL33Type g)
+  @Override
+  public void onRender(final JCGLInterfaceGL33Type g)
   {
     final JCGLArrayObjectsType g_ao = g.getArrayObjects();
     final JCGLClearType g_c = g.getClear();
@@ -339,7 +346,8 @@ public final class ExampleSingleTriangleNoise implements ExampleType
     g_sh.shaderDeactivateProgram();
   }
 
-  @Override public void onFinish(final JCGLInterfaceGL33Type g)
+  @Override
+  public void onFinish(final JCGLInterfaceGL33Type g)
   {
     final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
     final JCGLArrayObjectsType g_ao = g.getArrayObjects();

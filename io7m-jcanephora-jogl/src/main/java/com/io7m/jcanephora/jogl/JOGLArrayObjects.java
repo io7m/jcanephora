@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.core.JCGLArrayBufferUsableType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
@@ -29,12 +30,14 @@ import com.io7m.jcanephora.core.JCGLExceptionAttributeAlreadyAssigned;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionObjectNotDeletable;
+import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jcanephora.core.JCGLResources;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
+import com.io7m.jfunctional.Unit;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
@@ -48,7 +51,6 @@ import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.nio.IntBuffer;
 import java.util.Arrays;
@@ -56,11 +58,11 @@ import java.util.Optional;
 
 final class JOGLArrayObjects implements JCGLArrayObjectsType
 {
-  private static final Logger          LOG;
+  private static final Logger LOG;
   private static final RangeInclusiveI VALID_ELEMENT_COUNT;
-  private static final String          ATTR_FLOAT_TRACE_FORMAT;
-  private static final String          ATTR_INTEGRAL_TRACE_FORMAT;
-  private static final String          ATTR_DISABLED_TRACE_FORMAT;
+  private static final String ATTR_FLOAT_TRACE_FORMAT;
+  private static final String ATTR_INTEGRAL_TRACE_FORMAT;
+  private static final String ATTR_DISABLED_TRACE_FORMAT;
 
   static {
     VALID_ELEMENT_COUNT = new RangeInclusiveI(1, 4);
@@ -73,15 +75,15 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       "[{}]: attr {} disabled";
   }
 
-  private final JOGLContext      context;
-  private final IntBuffer        int_cache;
-  private final GL3              gl;
-  private final int              max_attribs;
-  private final RangeInclusiveI  valid_attribs;
+  private final JOGLContext context;
+  private final IntBuffer int_cache;
+  private final GL3 gl;
+  private final int max_attribs;
+  private final RangeInclusiveI valid_attribs;
   private final JOGLArrayBuffers array_buffers;
-  private final JOGLArrayObject  default_buffer;
+  private final JOGLArrayObject default_buffer;
   private final JOGLIndexBuffers index_buffers;
-  private       JOGLArrayObject  bind;
+  private JOGLArrayObject bind;
 
   JOGLArrayObjects(
     final JOGLContext c,
@@ -135,6 +137,23 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 
     this.gl.glBindVertexArray(0);
     JOGLErrorChecking.checkErrors(this.gl);
+  }
+
+  private static Builder checkArrayObjectBuilder(
+    final GLContext context,
+    final JCGLArrayObjectBuilderType b)
+    throws JCGLExceptionWrongContext
+  {
+    NullCheck.notNull(context);
+    NullCheck.notNull(b);
+    return (Builder) JOGLCompatibilityChecks.checkAny(context, b);
+  }
+
+  private static void checkArrayAttribute(
+    final GLContext c,
+    final JCGLArrayVertexAttributeType a)
+  {
+    JOGLCompatibilityChecks.checkAny(c, a);
   }
 
   @Override
@@ -194,18 +213,17 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     throws JCGLException
   {
     final GL3 g3 = this.gl;
-    JOGLCompatibilityChecks.checkArrayObjectBuilder(g3.getContext(), b);
+    JOGLArrayObjects.checkArrayObjectBuilder(g3.getContext(), b);
 
-    Assertive.ensure(b instanceof Builder);
+    Preconditions.checkPrecondition(
+      b,
+      b instanceof Builder,
+      ignored -> "Builder must belong to this implementation");
     final Builder bb = (Builder) b;
 
     final GLContext c = g3.getContext();
     final int max = b.getMaximumVertexAttributes();
-    for (int index = 0; index < max; ++index) {
-      if (bb.attribs[index] != null) {
-        JOGLCompatibilityChecks.checkArrayAttribute(c, bb.attribs[index]);
-      }
-    }
+    JOGLArrayObjects.checkArrayAttributes(bb, c, max);
 
     final JOGLIndexBuffer ib;
     if (bb.index_buffer != null) {
@@ -215,16 +233,15 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     }
 
     g3.glGenVertexArrays(1, this.int_cache);
-    final Integer aid = Integer.valueOf(this.int_cache.get(0));
-
+    final Integer array_id = Integer.valueOf(this.int_cache.get(0));
     if (JOGLArrayObjects.LOG.isDebugEnabled()) {
-      JOGLArrayObjects.LOG.debug("allocated {}", aid);
+      JOGLArrayObjects.LOG.debug("allocated {}", array_id);
     }
 
     final JCGLArrayVertexAttributeType[] write_attribs =
       Arrays.copyOf(bb.attribs, bb.attribs.length);
     final JOGLArrayObject new_ao = new JOGLArrayObject(
-      this.context.getContext(), aid.intValue(), write_attribs);
+      this.context.getContext(), array_id.intValue(), write_attribs);
 
     this.actualBind(new_ao);
 
@@ -234,98 +251,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       }
 
       for (int index = 0; index < max; ++index) {
-        final Integer box_index = Integer.valueOf(index);
-        final JCGLArrayVertexAttributeType a = bb.attribs[index];
-        if (a == null) {
-          if (JOGLArrayObjects.LOG.isTraceEnabled()) {
-            JOGLArrayObjects.LOG.trace(
-              JOGLArrayObjects.ATTR_DISABLED_TRACE_FORMAT,
-              aid,
-              box_index);
-          }
-          g3.glDisableVertexAttribArray(index);
-          continue;
-        }
-
-        g3.glEnableVertexAttribArray(index);
-
-        final JCGLArrayBufferUsableType ab = a.getArrayBuffer();
-        if (!this.array_buffers.arrayBufferIsBound(ab)) {
-          this.array_buffers.arrayBufferBind(ab);
-        }
-
-        a.matchVertexAttribute(
-          new JCGLArrayVertexAttributeMatcherType<Void, JCGLException>()
-          {
-            @Override
-            public Void matchFloatingPoint(
-              final JCGLArrayVertexAttributeFloatingPointType af)
-              throws JCGLException
-            {
-              final int e = af.getElements();
-              final boolean n = af.isNormalized();
-              final long off = af.getOffset();
-              final int stride = af.getStride();
-              final JCGLScalarType t = af.getType();
-              final int divisor = af.getDivisor();
-
-              if (JOGLArrayObjects.LOG.isTraceEnabled()) {
-                JOGLArrayObjects.LOG.trace(
-                  JOGLArrayObjects.ATTR_FLOAT_TRACE_FORMAT,
-                  aid,
-                  box_index,
-                  t,
-                  Integer.valueOf(e),
-                  Boolean.valueOf(n),
-                  Long.valueOf(off),
-                  Integer.valueOf(stride),
-                  Integer.valueOf(divisor));
-              }
-
-              g3.glVertexAttribPointer(
-                box_index.intValue(),
-                e,
-                JOGLTypeConversions.scalarTypeToGL(t),
-                n,
-                stride,
-                off);
-              g3.glVertexAttribDivisor(box_index.intValue(), divisor);
-              return null;
-            }
-
-            @Override
-            public Void matchIntegral(
-              final JCGLArrayVertexAttributeIntegralType ai)
-              throws JCGLException
-            {
-              final JCGLScalarIntegralType t = ai.getType();
-              final int e = ai.getElements();
-              final long offset = ai.getOffset();
-              final int stride = ai.getStride();
-              final int divisor = ai.getDivisor();
-
-              if (JOGLArrayObjects.LOG.isTraceEnabled()) {
-                JOGLArrayObjects.LOG.trace(
-                  JOGLArrayObjects.ATTR_INTEGRAL_TRACE_FORMAT,
-                  aid,
-                  box_index,
-                  t,
-                  Integer.valueOf(e),
-                  Long.valueOf(offset),
-                  Integer.valueOf(stride),
-                  Integer.valueOf(divisor));
-              }
-
-              g3.glVertexAttribIPointer(
-                box_index.intValue(),
-                e,
-                JOGLTypeConversions.scalarIntegralTypeToGL(t),
-                stride,
-                offset);
-              g3.glVertexAttribDivisor(box_index.intValue(), divisor);
-              return null;
-            }
-          });
+        this.arrayObjectAllocateConfigureAttribute(
+          g3, bb.attribs[index], array_id, index);
       }
 
       this.array_buffers.arrayBufferUnbind();
@@ -335,6 +262,117 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     }
 
     return new_ao;
+  }
+
+  private void arrayObjectAllocateConfigureAttribute(
+    final GL3 g3,
+    final JCGLArrayVertexAttributeType attrib,
+    final Integer array_id,
+    final int attrib_index)
+  {
+    final Integer box_index = Integer.valueOf(attrib_index);
+    if (attrib == null) {
+      if (JOGLArrayObjects.LOG.isTraceEnabled()) {
+        JOGLArrayObjects.LOG.trace(
+          JOGLArrayObjects.ATTR_DISABLED_TRACE_FORMAT,
+          array_id,
+          box_index);
+      }
+      g3.glDisableVertexAttribArray(attrib_index);
+      return;
+    }
+
+    g3.glEnableVertexAttribArray(attrib_index);
+
+    final JCGLArrayBufferUsableType ab = attrib.getArrayBuffer();
+    if (!this.array_buffers.arrayBufferIsBound(ab)) {
+      this.array_buffers.arrayBufferBind(ab);
+    }
+
+    attrib.matchVertexAttribute(
+      new JCGLArrayVertexAttributeMatcherType<Unit, JCGLException>()
+      {
+        @Override
+        public Unit matchFloatingPoint(
+          final JCGLArrayVertexAttributeFloatingPointType af)
+          throws JCGLException
+        {
+          final int e = af.getElements();
+          final boolean n = af.isNormalized();
+          final long off = af.getOffset();
+          final int stride = af.getStride();
+          final JCGLScalarType t = af.getType();
+          final int divisor = af.getDivisor();
+
+          if (JOGLArrayObjects.LOG.isTraceEnabled()) {
+            JOGLArrayObjects.LOG.trace(
+              JOGLArrayObjects.ATTR_FLOAT_TRACE_FORMAT,
+              array_id,
+              box_index,
+              t,
+              Integer.valueOf(e),
+              Boolean.valueOf(n),
+              Long.valueOf(off),
+              Integer.valueOf(stride),
+              Integer.valueOf(divisor));
+          }
+
+          g3.glVertexAttribPointer(
+            box_index.intValue(),
+            e,
+            JOGLTypeConversions.scalarTypeToGL(t),
+            n,
+            stride,
+            off);
+          g3.glVertexAttribDivisor(box_index.intValue(), divisor);
+          return Unit.unit();
+        }
+
+        @Override
+        public Unit matchIntegral(
+          final JCGLArrayVertexAttributeIntegralType ai)
+          throws JCGLException
+        {
+          final JCGLScalarIntegralType t = ai.getType();
+          final int e = ai.getElements();
+          final long offset = ai.getOffset();
+          final int stride = ai.getStride();
+          final int divisor = ai.getDivisor();
+
+          if (JOGLArrayObjects.LOG.isTraceEnabled()) {
+            JOGLArrayObjects.LOG.trace(
+              JOGLArrayObjects.ATTR_INTEGRAL_TRACE_FORMAT,
+              array_id,
+              box_index,
+              t,
+              Integer.valueOf(e),
+              Long.valueOf(offset),
+              Integer.valueOf(stride),
+              Integer.valueOf(divisor));
+          }
+
+          g3.glVertexAttribIPointer(
+            box_index.intValue(),
+            e,
+            JOGLTypeConversions.scalarIntegralTypeToGL(t),
+            stride,
+            offset);
+          g3.glVertexAttribDivisor(box_index.intValue(), divisor);
+          return Unit.unit();
+        }
+      });
+  }
+
+  private static void checkArrayAttributes(
+    final Builder bb,
+    final GLContext c,
+    final int max)
+  {
+    for (int index = 0; index < max; ++index) {
+      if (bb.attribs[index] != null) {
+        JOGLArrayObjects.checkArrayAttribute(c, bb.attribs[index]);
+      }
+    }
   }
 
   private void actualBind(final JOGLArrayObject a)
@@ -380,7 +418,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
   private JOGLArrayObject checkArrayObject(final JCGLArrayObjectUsableType a)
   {
     NullCheck.notNull(a);
-    JOGLCompatibilityChecks.checkArrayObject(this.context.getContext(), a);
+    JOGLArrayObject.checkArrayObject(this.context.getContext(), a);
     JCGLResources.checkNotDeleted(a);
     return (JOGLArrayObject) a;
   }
@@ -431,14 +469,14 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 
   private void checkArrayBuffer(final JCGLArrayBufferUsableType a)
   {
-    JOGLCompatibilityChecks.checkArray(this.gl.getContext(), a);
+    JOGLArrayBuffer.checkArray(this.gl.getContext(), a);
     JCGLResources.checkNotDeleted(a);
   }
 
   private JOGLIndexBuffer checkIndexBuffer(final JCGLIndexBufferUsableType i)
   {
     NullCheck.notNull(i);
-    JOGLCompatibilityChecks.checkIndexBuffer(this.gl.getContext(), i);
+    JOGLIndexBuffer.checkIndexBuffer(this.gl.getContext(), i);
     JCGLResources.checkNotDeleted(i);
     return (JOGLIndexBuffer) i;
   }
@@ -451,8 +489,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
   private final class Builder extends JOGLObjectPseudoUnshared
     implements JCGLArrayObjectBuilderType
   {
-    private final     JCGLArrayVertexAttributeType[] attribs;
-    private @Nullable JCGLIndexBufferUsableType      index_buffer;
+    private final JCGLArrayVertexAttributeType[] attribs;
+    private @Nullable JCGLIndexBufferUsableType index_buffer;
     private boolean strict;
 
     Builder()

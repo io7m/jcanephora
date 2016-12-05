@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLIndexBufferType;
+import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLUnsignedType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jnull.NullCheck;
@@ -24,9 +25,9 @@ import com.jogamp.opengl.GLContext;
 
 final class JOGLIndexBuffer extends JOGLBuffer implements JCGLIndexBufferType
 {
-  private final long             indices;
+  private final long indices;
   private final JCGLUnsignedType type;
-  private final String           image;
+  private final String image;
 
   JOGLIndexBuffer(
     final GLContext in_context,
@@ -42,17 +43,27 @@ final class JOGLIndexBuffer extends JOGLBuffer implements JCGLIndexBufferType
     this.image = String.format("[IndexBuffer %s]", super.toString());
   }
 
-  @Override public long getIndices()
+  static JOGLIndexBuffer checkIndexBuffer(
+    final GLContext c,
+    final JCGLIndexBufferUsableType i)
+  {
+    return (JOGLIndexBuffer) JOGLCompatibilityChecks.checkAny(c, i);
+  }
+
+  @Override
+  public long getIndices()
   {
     return this.indices;
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     return this.image;
   }
 
-  @Override public JCGLUnsignedType getType()
+  @Override
+  public JCGLUnsignedType getType()
   {
     return this.type;
   }

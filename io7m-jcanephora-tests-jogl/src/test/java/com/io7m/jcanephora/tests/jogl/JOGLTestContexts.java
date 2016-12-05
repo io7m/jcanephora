@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
+import com.io7m.jaffirm.core.Postconditions;
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
 import com.io7m.jcanephora.core.JCGLExceptionUnsupported;
 import com.io7m.jcanephora.core.api.JCGLContextType;
@@ -32,7 +34,6 @@ import com.jogamp.opengl.GLOffscreenAutoDrawable;
 import com.jogamp.opengl.GLProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,11 +42,11 @@ import java.util.function.Function;
 
 public final class JOGLTestContexts
 {
-  private static final JCGLImplementationJOGLType           IMPLEMENTATION;
+  private static final JCGLImplementationJOGLType IMPLEMENTATION;
   private static final Map<String, GLOffscreenAutoDrawable> CACHED_CONTEXTS;
-  private static final Logger                               LOG;
+  private static final Logger LOG;
   private static final Function<GLContext, GL3>
-                                                            GL_CONTEXT_GL3_SUPPLIER;
+    GL_CONTEXT_GL3_SUPPLIER;
 
   static {
     IMPLEMENTATION = JCGLImplementationJOGL.getInstance();
@@ -162,8 +163,16 @@ public final class JOGLTestContexts
 
     final GLContext master_ctx = master.getContext();
     final GLContext slave_ctx = slave.getContext();
-    Assertive.ensure(master_ctx.getCreatedShares().contains(slave_ctx));
-    Assertive.ensure(slave_ctx.getCreatedShares().contains(master_ctx));
+
+    Preconditions.checkPrecondition(
+      master_ctx.getCreatedShares(),
+      master_ctx.getCreatedShares().contains(slave_ctx),
+      ignored -> "Master context must contain slave context");
+
+    Preconditions.checkPrecondition(
+      slave_ctx.getCreatedShares(),
+      slave_ctx.getCreatedShares().contains(master_ctx),
+      ignored -> "Slave context must contain main context");
 
     try {
       master_ctx.makeCurrent();
@@ -176,8 +185,16 @@ public final class JOGLTestContexts
           slave_ctx, JOGLTestContexts.GL_CONTEXT_GL3_SUPPLIER, shared);
       master_ctx.makeCurrent();
 
-      Assertive.require(!JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
-      Assertive.require(!JOGLTestContexts.CACHED_CONTEXTS.containsKey(shared));
+      Preconditions.checkPrecondition(
+        JOGLTestContexts.CACHED_CONTEXTS,
+        !JOGLTestContexts.CACHED_CONTEXTS.containsKey(name),
+        ignored -> "Cached contexts must not contain " + name);
+
+      Preconditions.checkPrecondition(
+        JOGLTestContexts.CACHED_CONTEXTS,
+        !JOGLTestContexts.CACHED_CONTEXTS.containsKey(shared),
+        ignored -> "Cached contexts must not contain " + shared);
+
       JOGLTestContexts.CACHED_CONTEXTS.put(name, master);
       JOGLTestContexts.CACHED_CONTEXTS.put(shared, slave);
 
@@ -212,7 +229,12 @@ public final class JOGLTestContexts
       while (iter.hasNext()) {
         final String name = iter.next();
         JOGLTestContexts.LOG.debug("releasing drawable {}", name);
-        Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
+
+        Postconditions.checkPostcondition(
+          JOGLTestContexts.CACHED_CONTEXTS,
+          JOGLTestContexts.CACHED_CONTEXTS.containsKey(name),
+          ignored -> "Cached contexts must contain " + name);
+
         final GLOffscreenAutoDrawable drawable =
           JOGLTestContexts.CACHED_CONTEXTS.get(name);
         JOGLTestContexts.releaseDrawable(drawable);
@@ -226,7 +248,12 @@ public final class JOGLTestContexts
       while (iter.hasNext()) {
         final String name = iter.next();
         JOGLTestContexts.LOG.debug("destroying drawable {}", name);
-        Assertive.require(JOGLTestContexts.CACHED_CONTEXTS.containsKey(name));
+
+        Postconditions.checkPostcondition(
+          JOGLTestContexts.CACHED_CONTEXTS,
+          JOGLTestContexts.CACHED_CONTEXTS.containsKey(name),
+          ignored -> "Cached contexts must contain " + name);
+
         final GLOffscreenAutoDrawable drawable =
           JOGLTestContexts.CACHED_CONTEXTS.get(name);
 

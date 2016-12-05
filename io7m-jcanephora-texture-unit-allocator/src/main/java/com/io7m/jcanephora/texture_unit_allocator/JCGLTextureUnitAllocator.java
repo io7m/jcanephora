@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.texture_unit_allocator;
 
+import com.io7m.jaffirm.core.Invariants;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
 import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
@@ -33,7 +34,6 @@ import com.io7m.jranges.RangeCheck;
 import com.io7m.junreachable.UnimplementedCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -129,7 +129,12 @@ public final class JCGLTextureUnitAllocator implements
     NullCheck.notNull(c);
 
     final Context c_this = JCGLTextureUnitAllocator.this.contexts_active.pop();
-    Assertive.require(Objects.equals(c_this, c));
+
+    Invariants.checkInvariant(
+      c,
+      Objects.equals(c_this, c),
+      cc -> "The right context must be popped");
+
     JCGLTextureUnitAllocator.this.contexts_free.push(c_this);
 
     final Context c_prev = JCGLTextureUnitAllocator.this.contexts_active.peek();

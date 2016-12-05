@@ -17,6 +17,8 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLTimerQueryType;
+import com.io7m.jcanephora.core.JCGLTimerQueryUsableType;
+import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
 final class JOGLTimerQuery extends JOGLObjectUnshared
@@ -31,6 +33,15 @@ final class JOGLTimerQuery extends JOGLObjectUnshared
     super(ctx, id);
   }
 
+  public static JOGLTimerQuery checkTimerQuery(
+    final GLContext c,
+    final JCGLTimerQueryUsableType q)
+  {
+    NullCheck.notNull(c);
+    NullCheck.notNull(q);
+    return (JOGLTimerQuery) JOGLCompatibilityChecks.checkAny(c, q);
+  }
+
   @Override
   public String toString()
   {
@@ -40,13 +51,13 @@ final class JOGLTimerQuery extends JOGLObjectUnshared
     return sb.toString();
   }
 
-  public void setExecuted(final boolean e)
-  {
-    this.executed = e;
-  }
-
   public boolean isExecuted()
   {
     return this.executed;
+  }
+
+  public void setExecuted(final boolean e)
+  {
+    this.executed = e;
   }
 }

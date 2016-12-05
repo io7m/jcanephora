@@ -28,16 +28,16 @@ import com.io7m.jnull.NullCheck;
 public final class JCGLUnsharedContextPair<T>
 {
   private final JCGLContextType context_a;
-  private final T               value_a;
+  private final T value_a;
   private final JCGLContextType context_b;
-  private final T               value_b;
+  private final T value_b;
 
   /**
    * Construct a pair.
    *
-   * @param in_value_a The first value
+   * @param in_value_a   The first value
    * @param in_context_a The first context
-   * @param in_value_b The second value
+   * @param in_value_b   The second value
    * @param in_context_b The second context
    */
 

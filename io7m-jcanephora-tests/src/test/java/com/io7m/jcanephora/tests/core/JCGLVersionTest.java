@@ -23,7 +23,8 @@ import org.junit.Test;
 
 public final class JCGLVersionTest
 {
-  @Test public void testEquals()
+  @Test
+  public void testEquals()
   {
     final JCGLVersion v0 = JCGLVersion.make(
       new JCGLVersionNumber(1, 0, 0), "OpenGL ES GLSL ES 1.00");
@@ -42,7 +43,8 @@ public final class JCGLVersionTest
     Assert.assertNotEquals(v0, v3);
   }
 
-  @Test public void testHashCode()
+  @Test
+  public void testHashCode()
   {
     final JCGLVersion v0 = JCGLVersion.make(
       new JCGLVersionNumber(1, 0, 0), "OpenGL ES GLSL ES 1.00");
@@ -59,7 +61,8 @@ public final class JCGLVersionTest
     Assert.assertNotEquals((long) v0.hashCode(), (long) (v3.hashCode()));
   }
 
-  @Test public void testIdentities()
+  @Test
+  public void testIdentities()
   {
     final JCGLVersion v0 = JCGLVersion.make(
       new JCGLVersionNumber(1, 2, 3), "OpenGL ES GLSL ES 1.00");
@@ -72,7 +75,8 @@ public final class JCGLVersionTest
     Assert.assertEquals(3L, (long) v0.getVersionMicro());
   }
 
-  @Test public void testToString()
+  @Test
+  public void testToString()
   {
     final JCGLVersion v0 = JCGLVersion.make(
       new JCGLVersionNumber(1, 0, 0), "OpenGL ES GLSL ES 1.00");

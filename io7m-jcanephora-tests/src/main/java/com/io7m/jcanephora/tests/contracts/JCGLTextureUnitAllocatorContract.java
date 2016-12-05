@@ -26,7 +26,6 @@ import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
-import com.io7m.jcanephora.tests.contracts.JCGLContract;
 import com.io7m.jcanephora.texture_unit_allocator.JCGLExceptionTextureUnitContextLimitReached;
 import com.io7m.jcanephora.texture_unit_allocator.JCGLExceptionTextureUnitContextNotActive;
 import com.io7m.jcanephora.texture_unit_allocator.JCGLExceptionTextureUnitExhausted;

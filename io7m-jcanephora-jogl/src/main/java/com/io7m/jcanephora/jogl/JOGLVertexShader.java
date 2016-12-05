@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jcanephora.core.JCGLVertexShaderType;
+import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
@@ -34,7 +35,15 @@ final class JOGLVertexShader extends JOGLReferable
     this.name = NullCheck.notNull(in_name);
   }
 
-  @Override public String toString()
+  static JOGLVertexShader checkVertexShader(
+    final GLContext c,
+    final JCGLVertexShaderUsableType v)
+  {
+    return (JOGLVertexShader) JOGLCompatibilityChecks.checkAny(c, v);
+  }
+
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[VertexShader ");
     sb.append(super.getGLName());
@@ -44,7 +53,8 @@ final class JOGLVertexShader extends JOGLReferable
     return sb.toString();
   }
 
-  @Override public String getName()
+  @Override
+  public String getName()
   {
     return this.name;
   }

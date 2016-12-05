@@ -77,7 +77,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     int depth,
     int stencil);
 
-  @Test public final void testStencilTestEnable()
+  @Test
+  public final void testStencilTestEnable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -93,14 +94,16 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     Assert.assertFalse(g_stencil.stencilBufferIsEnabled());
   }
 
-  @Test public final void testStencilClear()
+  @Test
+  public final void testStencilClear()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
     g_stencil.stencilBufferClear(0xff);
   }
 
-  @Test public final void testStencilMask()
+  @Test
+  public final void testStencilMask()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -122,7 +125,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     Assert.assertEquals(7L, (long) g_stencil.stencilBufferGetMaskBackFaces());
   }
 
-  @Test public final void testStencilOperationFront()
+  @Test
+  public final void testStencilOperationFront()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -160,7 +164,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     }
   }
 
-  @Test public final void testStencilOperationBack()
+  @Test
+  public final void testStencilOperationBack()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -198,7 +203,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     }
   }
 
-  @Test public final void testStencilOperationBoth()
+  @Test
+  public final void testStencilOperationBoth()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -243,7 +249,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     }
   }
 
-  @Test public final void testStencilFunctionBoth()
+  @Test
+  public final void testStencilFunctionBoth()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -286,7 +293,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     }
   }
 
-  @Test public final void testStencilFunctionFront()
+  @Test
+  public final void testStencilFunctionFront()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -324,7 +332,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     }
   }
 
-  @Test public final void testStencilFunctionBack()
+  @Test
+  public final void testStencilFunctionBack()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -362,7 +371,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     }
   }
 
-  @Test public final void testStencilGetBitsFramebuffer0()
+  @Test
+  public final void testStencilGetBitsFramebuffer0()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -373,7 +383,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     Assert.assertEquals(0L, (long) g_stencil.stencilBufferGetBits());
   }
 
-  @Test public final void testNoStencilNoFramebufferClear()
+  @Test
+  public final void testNoStencilNoFramebufferClear()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -382,7 +393,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     g_stencil.stencilBufferClear(1);
   }
 
-  @Test public final void testNoStencilNoFramebufferMask()
+  @Test
+  public final void testNoStencilNoFramebufferMask()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -391,7 +403,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     g_stencil.stencilBufferMask(JCGLFaceSelection.FACE_BACK, 23);
   }
 
-  @Test public final void testNoStencilNoFramebufferFunction()
+  @Test
+  public final void testNoStencilNoFramebufferFunction()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -402,7 +415,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
       JCGLStencilFunction.STENCIL_ALWAYS, 0, 0);
   }
 
-  @Test public final void testNoStencilNoFramebufferOperation()
+  @Test
+  public final void testNoStencilNoFramebufferOperation()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -415,7 +429,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
       JCGLStencilOperation.STENCIL_OP_KEEP);
   }
 
-  @Test public final void testNoStencilNoFramebufferTestDisable()
+  @Test
+  public final void testNoStencilNoFramebufferTestDisable()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -424,7 +439,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     g_stencil.stencilBufferDisable();
   }
 
-  @Test public final void testNoStencilNoFramebufferTestEnable()
+  @Test
+  public final void testNoStencilNoFramebufferTestEnable()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -433,7 +449,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     g_stencil.stencilBufferEnable();
   }
 
-  @Test public final void testNoStencilNoFramebufferTestIsEnabled()
+  @Test
+  public final void testNoStencilNoFramebufferTestIsEnabled()
   {
     final Interfaces i = this.getInterfaces("main", 0, 0);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -442,7 +459,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     g_stencil.stencilBufferIsEnabled();
   }
 
-  @Test public final void testNoStencilFramebufferClear()
+  @Test
+  public final void testNoStencilFramebufferClear()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -456,7 +474,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     g_stencil.stencilBufferClear(1);
   }
 
-  @Test public final void testNoStencilFramebufferMask()
+  @Test
+  public final void testNoStencilFramebufferMask()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -470,7 +489,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     g_stencil.stencilBufferMask(JCGLFaceSelection.FACE_BACK, 23);
   }
 
-  @Test public final void testNoStencilFramebufferFunction()
+  @Test
+  public final void testNoStencilFramebufferFunction()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -488,7 +508,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
       0);
   }
 
-  @Test public final void testNoStencilFramebufferOperation()
+  @Test
+  public final void testNoStencilFramebufferOperation()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -506,7 +527,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
       JCGLStencilOperation.STENCIL_OP_KEEP);
   }
 
-  @Test public final void testNoStencilFramebufferTestDisable()
+  @Test
+  public final void testNoStencilFramebufferTestDisable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -520,7 +542,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     g_stencil.stencilBufferDisable();
   }
 
-  @Test public final void testNoStencilFramebufferTestEnable()
+  @Test
+  public final void testNoStencilFramebufferTestEnable()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -534,7 +557,8 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     g_stencil.stencilBufferEnable();
   }
 
-  @Test public final void testNoStencilFramebufferTestIsEnabled()
+  @Test
+  public final void testNoStencilFramebufferTestIsEnabled()
   {
     final Interfaces i = this.getInterfaces("main", 24, 8);
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
@@ -550,9 +574,9 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
 
   protected static final class Interfaces
   {
-    private final JCGLContextType        context;
-    private final JCGLFramebuffersType   framebuffers;
-    private final JCGLTexturesType       textures;
+    private final JCGLContextType context;
+    private final JCGLFramebuffersType framebuffers;
+    private final JCGLTexturesType textures;
     private final JCGLStencilBuffersType stencil_buffers;
 
     public Interfaces(

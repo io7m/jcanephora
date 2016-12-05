@@ -35,9 +35,10 @@ public abstract class JCGLPolygonModesContract extends JCGLContract
 
   protected abstract JCGLPolygonModesType getPolygonModes(String name);
 
-  @Test public final void testIdentities()
+  @Test
+  public final void testIdentities()
   {
-    final JCGLPolygonModesType g_p = this.getPolygonModes("name");
+    final JCGLPolygonModesType g_p = this.getPolygonModes("main");
 
     Assert.assertEquals(JCGLPolygonMode.POLYGON_FILL, g_p.polygonGetMode());
 

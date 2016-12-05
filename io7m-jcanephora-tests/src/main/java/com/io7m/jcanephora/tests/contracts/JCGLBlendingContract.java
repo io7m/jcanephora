@@ -37,7 +37,8 @@ public abstract class JCGLBlendingContract extends JCGLContract
 
   protected abstract JCGLBlendingType getBlending(String name);
 
-  @Test public final void testBlendingIdentities()
+  @Test
+  public final void testBlendingIdentities()
   {
     final JCGLBlendingType g_b = this.getBlending("main");
     Assert.assertFalse(g_b.blendingIsEnabled());
@@ -49,7 +50,8 @@ public abstract class JCGLBlendingContract extends JCGLContract
     Assert.assertFalse(g_b.blendingIsEnabled());
   }
 
-  @Test public final void testBlendingDestinationRGBWrong()
+  @Test
+  public final void testBlendingDestinationRGBWrong()
   {
     final JCGLBlendingType g_b = this.getBlending("main");
 
@@ -63,7 +65,8 @@ public abstract class JCGLBlendingContract extends JCGLContract
       JCGLBlendEquation.BLEND_EQUATION_ADD);
   }
 
-  @Test public final void testBlendingDestinationAlphaWrong()
+  @Test
+  public final void testBlendingDestinationAlphaWrong()
   {
     final JCGLBlendingType g_b = this.getBlending("main");
 

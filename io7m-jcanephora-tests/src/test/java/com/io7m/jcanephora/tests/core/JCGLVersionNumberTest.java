@@ -22,7 +22,8 @@ import org.junit.Test;
 
 public final class JCGLVersionNumberTest
 {
-  @Test public void testCompareTo()
+  @Test
+  public void testCompareTo()
   {
     final JCGLVersionNumber v0 = new JCGLVersionNumber(1, 0, 0);
     final JCGLVersionNumber v1 = new JCGLVersionNumber(1, 0, 0);
@@ -98,7 +99,8 @@ public final class JCGLVersionNumberTest
     Assert.assertEquals((long) v7.compareTo(v7), 0L);
   }
 
-  @Test public void testEquals()
+  @Test
+  public void testEquals()
   {
     final JCGLVersionNumber v0 = new JCGLVersionNumber(1, 0, 0);
     final JCGLVersionNumber v1 = new JCGLVersionNumber(1, 0, 0);
@@ -113,7 +115,8 @@ public final class JCGLVersionNumberTest
     Assert.assertNotEquals(v0, v3);
   }
 
-  @Test public void testHashCode()
+  @Test
+  public void testHashCode()
   {
     final JCGLVersionNumber v0 = new JCGLVersionNumber(1, 0, 0);
     final JCGLVersionNumber v1 = new JCGLVersionNumber(1, 0, 0);
@@ -126,7 +129,8 @@ public final class JCGLVersionNumberTest
     Assert.assertNotEquals((long) v0.hashCode(), (long) (v3.hashCode()));
   }
 
-  @Test public void testIdentities()
+  @Test
+  public void testIdentities()
   {
     final JCGLVersionNumber v0 = new JCGLVersionNumber(1, 0, 2);
 
@@ -135,7 +139,8 @@ public final class JCGLVersionNumberTest
     Assert.assertEquals(2L, (long) v0.getVersionMicro());
   }
 
-  @Test public void testToString()
+  @Test
+  public void testToString()
   {
     final JCGLVersionNumber v0 = new JCGLVersionNumber(1, 0, 0);
     final JCGLVersionNumber v1 = new JCGLVersionNumber(1, 0, 0);

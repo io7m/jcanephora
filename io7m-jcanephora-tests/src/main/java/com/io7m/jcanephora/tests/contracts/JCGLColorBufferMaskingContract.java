@@ -34,7 +34,8 @@ public abstract class JCGLColorBufferMaskingContract extends JCGLContract
 
   protected abstract JCGLColorBufferMaskingType getColorMasking(String name);
 
-  @Test public final void testColorMasking()
+  @Test
+  public final void testColorMasking()
   {
     final JCGLColorBufferMaskingType g_cm = this.getColorMasking("main");
 

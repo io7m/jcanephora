@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.io7m.jcanephora</groupId>
     <artifactId>io7m-jcanephora</artifactId>
-    <version>0.45.3</version>
+    <version>0.50.0</version>
   </parent>
   <artifactId>io7m-jcanephora-tests-fake</artifactId>
 
@@ -40,13 +40,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.1.3</version>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-    </plugins>
-  </build>
 
 </project>

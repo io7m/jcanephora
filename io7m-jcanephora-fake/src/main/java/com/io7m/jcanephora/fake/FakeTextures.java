@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.fake;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLException;
@@ -47,7 +48,6 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.valid4j.Assertive;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -63,12 +63,12 @@ final class FakeTextures implements JCGLTexturesType
     LOG = LoggerFactory.getLogger(FakeTextures.class);
   }
 
-  private final FakeContext               context;
+  private final FakeContext context;
   private final List<JCGLTextureUnitType> units;
-  private final int                       size;
-  private final Int2ObjectMap<IntSet>     texture_to_units;
-  private final boolean[]                 temp_unbind;
-  private       FakeFramebuffers          framebuffers;
+  private final int size;
+  private final Int2ObjectMap<IntSet> texture_to_units;
+  private final boolean[] temp_unbind;
+  private FakeFramebuffers framebuffers;
 
   FakeTextures(
     final FakeContext c)
@@ -432,7 +432,11 @@ final class FakeTextures implements JCGLTexturesType
 
     final AreaInclusiveUnsignedLType source_area = data.getArea();
     final AreaInclusiveUnsignedLType texture_area = texture.textureGetArea();
-    Assertive.require(source_area.isIncludedIn(texture_area));
+
+    Preconditions.checkPrecondition(
+      source_area,
+      source_area.isIncludedIn(texture_area),
+      ignored -> "Source area must be included in texture area");
 
     this.texture2DBind(unit, texture);
 
@@ -602,7 +606,11 @@ final class FakeTextures implements JCGLTexturesType
 
     final AreaInclusiveUnsignedLType source_area = data.getArea();
     final AreaInclusiveUnsignedLType texture_area = texture.textureGetArea();
-    Assertive.require(source_area.isIncludedIn(texture_area));
+
+    Preconditions.checkPrecondition(
+      source_area,
+      source_area.isIncludedIn(texture_area),
+      ignored -> "Source area must be included in texture area");
 
     this.textureCubeBind(unit, texture);
 

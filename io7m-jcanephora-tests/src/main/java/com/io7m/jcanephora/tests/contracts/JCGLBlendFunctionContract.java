@@ -32,7 +32,8 @@ public abstract class JCGLBlendFunctionContract
 
   protected abstract JCGLBlendFunction fromInt(int c);
 
-  @Test public final void testBijection()
+  @Test
+  public final void testBijection()
   {
     final JCGLBlendFunction[] vs = JCGLBlendFunction.values();
     for (int index = 0; index < vs.length; ++index) {
