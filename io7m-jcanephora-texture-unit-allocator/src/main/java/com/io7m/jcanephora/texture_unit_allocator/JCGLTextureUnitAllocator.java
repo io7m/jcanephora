@@ -19,11 +19,14 @@ package com.io7m.jcanephora.texture_unit_allocator;
 import com.io7m.jaffirm.core.Invariants;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
 import com.io7m.jcanephora.core.JCGLTexture2DUsableType;
+import com.io7m.jcanephora.core.JCGLTextureCubeType;
+import com.io7m.jcanephora.core.JCGLTextureCubeUsableType;
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
 import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
 import com.io7m.jcanephora.core.JCGLTextureFormat;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
 import com.io7m.jcanephora.core.JCGLTextureUsableType;
+import com.io7m.jcanephora.core.JCGLTextureWrapR;
 import com.io7m.jcanephora.core.JCGLTextureWrapS;
 import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
@@ -234,6 +237,8 @@ public final class JCGLTextureUnitAllocator implements
           } else {
             if (t instanceof JCGLTexture2DUsableType) {
               this.g3.texture2DBind(this.unit, (JCGLTexture2DUsableType) t);
+            } else if (t instanceof JCGLTextureCubeUsableType) {
+              this.g3.textureCubeBind(this.unit, (JCGLTextureCubeUsableType) t);
             } else {
               throw new UnimplementedCodeException();
             }
@@ -266,6 +271,33 @@ public final class JCGLTextureUnitAllocator implements
       final List<JCGLTextureUnitType> us = JCGLTextureUnitAllocator.this.units;
       final JCGLTextureUnitType u = us.get(this.next);
       g.texture2DBind(u, t);
+      this.bindings[this.next] = t;
+      ++this.next;
+      return u;
+    }
+
+    @Override
+    public JCGLTextureUnitType unitContextBindTextureCube(
+      final JCGLTexturesType g,
+      final JCGLTextureCubeUsableType t)
+    {
+      NullCheck.notNull(g);
+      NullCheck.notNull(t);
+
+      if (!this.isCurrent()) {
+        throw new JCGLExceptionTextureUnitContextNotActive(
+          "Context not current");
+      }
+
+      this.checkTextureUnitsRequired(this.next + 1);
+
+      if (JCGLTextureUnitAllocator.LOG.isTraceEnabled()) {
+        JCGLTextureUnitAllocator.LOG.trace("bind {}", t);
+      }
+
+      final List<JCGLTextureUnitType> us = JCGLTextureUnitAllocator.this.units;
+      final JCGLTextureUnitType u = us.get(this.next);
+      g.textureCubeBind(u, t);
       this.bindings[this.next] = t;
       ++this.next;
       return u;
@@ -307,6 +339,48 @@ public final class JCGLTextureUnitAllocator implements
         u, width, height, format, wrap_s, wrap_t, min_filter, mag_filter);
 
       g.texture2DBind(u, t);
+      this.bindings[this.next] = t;
+      ++this.next;
+      return Pair.pair(u, t);
+    }
+
+    @Override
+    public Pair<JCGLTextureUnitType, JCGLTextureCubeType>
+    unitContextAllocateTextureCube(
+      final JCGLTexturesType g,
+      final long size,
+      final JCGLTextureFormat format,
+      final JCGLTextureWrapR wrap_r,
+      final JCGLTextureWrapS wrap_s,
+      final JCGLTextureWrapT wrap_t,
+      final JCGLTextureFilterMinification min_filter,
+      final JCGLTextureFilterMagnification mag_filter)
+    {
+      NullCheck.notNull(g);
+      NullCheck.notNull(format);
+      NullCheck.notNull(wrap_r);
+      NullCheck.notNull(wrap_s);
+      NullCheck.notNull(wrap_t);
+      NullCheck.notNull(min_filter);
+      NullCheck.notNull(mag_filter);
+
+      if (!this.isCurrent()) {
+        throw new JCGLExceptionTextureUnitContextNotActive(
+          "Context not current");
+      }
+
+      this.checkTextureUnitsRequired(this.next + 1);
+
+      if (JCGLTextureUnitAllocator.LOG.isTraceEnabled()) {
+        JCGLTextureUnitAllocator.LOG.trace("allocate cube");
+      }
+
+      final List<JCGLTextureUnitType> us = JCGLTextureUnitAllocator.this.units;
+      final JCGLTextureUnitType u = us.get(this.next);
+      final JCGLTextureCubeType t = g.textureCubeAllocate(
+        u, size, format, wrap_r, wrap_s, wrap_t, min_filter, mag_filter);
+
+      g.textureCubeBind(u, t);
       this.bindings[this.next] = t;
       ++this.next;
       return Pair.pair(u, t);

@@ -17,10 +17,12 @@
 package com.io7m.jcanephora.tests.contracts;
 
 import com.io7m.jcanephora.core.JCGLTexture2DType;
+import com.io7m.jcanephora.core.JCGLTextureCubeType;
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
 import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
 import com.io7m.jcanephora.core.JCGLTextureFormat;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
+import com.io7m.jcanephora.core.JCGLTextureWrapR;
 import com.io7m.jcanephora.core.JCGLTextureWrapS;
 import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLContextType;
@@ -32,6 +34,7 @@ import com.io7m.jcanephora.texture_unit_allocator.JCGLExceptionTextureUnitExhaus
 import com.io7m.jcanephora.texture_unit_allocator.JCGLTextureUnitAllocatorType;
 import com.io7m.jcanephora.texture_unit_allocator.JCGLTextureUnitContextParentType;
 import com.io7m.jcanephora.texture_unit_allocator.JCGLTextureUnitContextType;
+import com.io7m.jfunctional.Pair;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -58,6 +61,21 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
       JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
   }
 
+  private static JCGLTextureCubeType newTextureCube(
+    final JCGLTexturesType g_tx,
+    final JCGLTextureUnitType u0)
+  {
+    return g_tx.textureCubeAllocate(
+      u0,
+      2L,
+      JCGLTextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
+      JCGLTextureWrapR.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
+  }
+
   protected abstract JCGLTextureUnitAllocatorType newAllocator(
     final int max_depth,
     final List<JCGLTextureUnitType> u);
@@ -68,7 +86,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     int stencil_bits);
 
   @Test
-  public final void testUsage()
+  public final void testUsage2D()
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
@@ -107,7 +125,46 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   }
 
   @Test
-  public final void testUsageReserved()
+  public final void testUsageCube()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTextureCubeType t0 =
+      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+    g_tx.textureUnitUnbind(u0);
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
+
+    for (int index = 0; index < us.size(); ++index) {
+      final JCGLTextureUnitType ru =
+        c_0.unitContextBindTextureCube(g_tx, t0);
+      Assert.assertTrue(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    c_0.unitContextFinish(g_tx);
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureCubeIsBound(us.get(index), t0));
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+  }
+
+  @Test
+  public final void testUsageReserved2D()
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
@@ -146,7 +203,46 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   }
 
   @Test
-  public final void testOutOfUnits_0()
+  public final void testUsageReservedCube()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTextureCubeType t0 =
+      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+    g_tx.textureUnitUnbind(u0);
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNewWithReserved(16);
+
+    for (int index = 0; index < us.size(); ++index) {
+      final JCGLTextureUnitType ru =
+        c_0.unitContextBindTextureCube(g_tx, t0);
+      Assert.assertTrue(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    c_0.unitContextFinish(g_tx);
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureCubeIsBound(us.get(index), t0));
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+  }
+
+  @Test
+  public final void testOutOfUnits2D_0()
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
@@ -179,7 +275,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   }
 
   @Test
-  public final void testOutOfUnits_1()
+  public final void testOutOfUnits2D_1()
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
@@ -212,7 +308,73 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   }
 
   @Test
-  public final void testUsageDeleted()
+  public final void testOutOfUnitsCube_0()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTextureCubeType t0 =
+      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+    g_tx.textureUnitUnbind(u0);
+
+    final JCGLTextureCubeType rt0 = t0;
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
+
+    for (int index = 0; index < us.size(); ++index) {
+      final JCGLTextureUnitType ru =
+        c_0.unitContextBindTextureCube(g_tx, rt0);
+      Assert.assertTrue(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    this.expected.expect(JCGLExceptionTextureUnitExhausted.class);
+    c_0.unitContextNewWithReserved(1);
+  }
+
+  @Test
+  public final void testOutOfUnitsCube_1()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTextureCubeType t0 =
+      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+    g_tx.textureUnitUnbind(u0);
+
+    final JCGLTextureCubeType rt0 = t0;
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
+
+    for (int index = 0; index < us.size(); ++index) {
+      final JCGLTextureUnitType ru =
+        c_0.unitContextBindTextureCube(g_tx, rt0);
+      Assert.assertTrue(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    this.expected.expect(JCGLExceptionTextureUnitExhausted.class);
+    c_0.unitContextBindTextureCube(g_tx, rt0);
+  }
+
+  @Test
+  public final void testUsageDeleted2D()
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
@@ -267,7 +429,62 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   }
 
   @Test
-  public final void testUsageExtension()
+  public final void testUsageDeletedCube()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTextureCubeType t0 =
+      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+    final JCGLTextureCubeType t1 =
+      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+    g_tx.textureUnitUnbind(u0);
+
+    final JCGLTextureCubeType rt0 = t0;
+    final JCGLTextureCubeType rt1 = t1;
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(3, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
+
+    for (int index = 0; index < 4; ++index) {
+      final JCGLTextureUnitType ru = c_0.unitContextBindTextureCube(g_tx, rt0);
+      Assert.assertTrue(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitContextType c_1 = c_0.unitContextNew();
+    for (int index = 4; index < 8; ++index) {
+      final JCGLTextureUnitType ru = c_1.unitContextBindTextureCube(g_tx, rt1);
+      Assert.assertTrue(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    g_tx.textureCubeDelete(t0);
+    c_1.unitContextFinish(g_tx);
+
+    for (int index = 0; index < 4; ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    for (int index = 4; index < 8; ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    c_0.unitContextFinish(g_tx);
+  }
+
+  @Test
+  public final void testUsageExtension2D()
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
@@ -315,6 +532,71 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     c_1.unitContextBindTexture2D(g_tx, rt1);
     c_1.unitContextBindTexture2D(g_tx, rt1);
     c_1.unitContextBindTexture2D(g_tx, rt1);
+
+    for (int index = 0; index < 8; ++index) {
+      Assert.assertTrue(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    c_1.unitContextFinish(g_tx);
+
+    for (int index = 0; index < 4; ++index) {
+      Assert.assertTrue(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    for (int index = 4; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+  }
+
+  @Test
+  public final void testUsageExtensionCube()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTextureCubeType t0 =
+      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+    final JCGLTextureCubeType t1 =
+      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+    g_tx.textureUnitUnbind(u0);
+
+    for (int index = 0; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(3, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
+
+    final JCGLTextureCubeType rt0 = t0;
+    final JCGLTextureCubeType rt1 = t1;
+
+    c_0.unitContextBindTextureCube(g_tx, rt0);
+    c_0.unitContextBindTextureCube(g_tx, rt0);
+    c_0.unitContextBindTextureCube(g_tx, rt0);
+    c_0.unitContextBindTextureCube(g_tx, rt0);
+
+    for (int index = 0; index < 4; ++index) {
+      Assert.assertTrue(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    for (int index = 4; index < us.size(); ++index) {
+      Assert.assertFalse(g_tx.textureUnitIsBound(us.get(index)));
+    }
+
+    final JCGLTextureUnitContextType c_1 = c_0.unitContextNew();
+
+    c_1.unitContextBindTextureCube(g_tx, rt1);
+    c_1.unitContextBindTextureCube(g_tx, rt1);
+    c_1.unitContextBindTextureCube(g_tx, rt1);
+    c_1.unitContextBindTextureCube(g_tx, rt1);
 
     for (int index = 0; index < 8; ++index) {
       Assert.assertTrue(g_tx.textureUnitIsBound(us.get(index)));
@@ -381,7 +663,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   }
 
   @Test
-  public final void testBindError0()
+  public final void testBindError2D()
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
@@ -400,6 +682,28 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     c_0.unitContextFinish(g_tx);
     this.expected.expect(JCGLExceptionTextureUnitContextNotActive.class);
     c_0.unitContextBindTexture2D(g_tx, t0);
+  }
+
+  @Test
+  public final void testBindErrorCube()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
+
+    final JCGLTextureUnitType u0 = us.get(0);
+    final JCGLTextureCubeType t0 =
+      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+    g_tx.textureUnitUnbind(u0);
+
+    c_0.unitContextFinish(g_tx);
+    this.expected.expect(JCGLExceptionTextureUnitContextNotActive.class);
+    c_0.unitContextBindTextureCube(g_tx, t0);
   }
 
   @Test
@@ -450,5 +754,141 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     this.expected.expect(JCGLExceptionTextureUnitContextNotActive.class);
     c_0.unitContextFinish(g_tx);
+  }
+
+  @Test
+  public final void testNew2D()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
+
+    final Pair<JCGLTextureUnitType, JCGLTexture2DType> p =
+      c_0.unitContextAllocateTexture2D(
+        g_tx,
+        128L,
+        256L,
+        JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+        JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+    final JCGLTexture2DType t = p.getRight();
+    Assert.assertEquals(
+      128L, t.textureGetRangeX().getInterval());
+    Assert.assertEquals(
+      256L, t.textureGetRangeY().getInterval());
+    Assert.assertEquals(
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP, t.textureGetFormat());
+    Assert.assertEquals(
+      JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE, t.textureGetWrapS());
+    Assert.assertEquals(
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT, t.textureGetWrapT());
+    Assert.assertEquals(
+      JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+      t.textureGetMinificationFilter());
+    Assert.assertEquals(
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
+      t.textureGetMagnificationFilter());
+  }
+
+  @Test
+  public final void testNewCube()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
+
+    final Pair<JCGLTextureUnitType, JCGLTextureCubeType> p =
+      c_0.unitContextAllocateTextureCube(
+        g_tx,
+        128L,
+        JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
+        JCGLTextureWrapR.TEXTURE_WRAP_REPEAT,
+        JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+        JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+    final JCGLTextureCubeType t = p.getRight();
+    Assert.assertEquals(
+      128L, t.textureGetRangeX().getInterval());
+    Assert.assertEquals(
+      128L, t.textureGetRangeY().getInterval());
+    Assert.assertEquals(
+      JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP, t.textureGetFormat());
+    Assert.assertEquals(
+      JCGLTextureWrapR.TEXTURE_WRAP_REPEAT, t.textureGetWrapR());
+    Assert.assertEquals(
+      JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE, t.textureGetWrapS());
+    Assert.assertEquals(
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT, t.textureGetWrapT());
+    Assert.assertEquals(
+      JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+      t.textureGetMinificationFilter());
+    Assert.assertEquals(
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
+      t.textureGetMagnificationFilter());
+  }
+
+  @Test
+  public final void testNew2DNotActive()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(4, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
+    final JCGLTextureUnitContextType c_1 = c_0.unitContextNew();
+
+    this.expected.expect(JCGLExceptionTextureUnitContextNotActive.class);
+    c_0.unitContextAllocateTexture2D(
+      g_tx,
+      128L,
+      256L,
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
+      JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+  }
+
+  @Test
+  public final void testNewCubeNotActive()
+  {
+    final JCGLContextType gc = this.newGL33Context("main", 24, 8);
+    final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
+    final JCGLTexturesType g_tx = g33.getTextures();
+    final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
+
+    final JCGLTextureUnitAllocatorType alloc = this.newAllocator(4, us);
+    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
+    final JCGLTextureUnitContextType c_1 = c_0.unitContextNew();
+
+    this.expected.expect(JCGLExceptionTextureUnitContextNotActive.class);
+    c_0.unitContextAllocateTextureCube(
+      g_tx,
+      128L,
+      JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
+      JCGLTextureWrapR.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
   }
 }
