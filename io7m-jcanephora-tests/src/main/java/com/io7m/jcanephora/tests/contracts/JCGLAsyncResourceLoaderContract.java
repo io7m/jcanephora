@@ -339,7 +339,7 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-        (tex, data) -> update_prov.getTextureUpdate(tex, data)
+        (tex, data) -> update_prov.getTextureUpdate2D(tex, data)
       );
 
     final JCGLTexture2DType tex = f.get(30L, TimeUnit.SECONDS);
@@ -386,7 +386,7 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-        (tex, data) -> update_prov.getTextureUpdate(tex, data)
+        (tex, data) -> update_prov.getTextureUpdate2D(tex, data)
       );
 
     try {
@@ -410,7 +410,7 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-        (tex, data) -> update_prov.getTextureUpdate(tex, data)
+        (tex, data) -> update_prov.getTextureUpdate2D(tex, data)
       );
 
     final JCGLTexture2DType tex = f1.get(30L, TimeUnit.SECONDS);

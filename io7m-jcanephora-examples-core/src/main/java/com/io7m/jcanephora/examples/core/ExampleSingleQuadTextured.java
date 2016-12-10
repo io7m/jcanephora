@@ -312,7 +312,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
         JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
       final JCGLTexture2DUpdateType update =
-        this.update_provider.getTextureUpdate(this.texture, data);
+        this.update_provider.getTextureUpdate2D(this.texture, data);
       g_tex.texture2DUpdate(u0, update);
       g_tex.textureUnitUnbind(u0);
     } catch (final IOException e) {
