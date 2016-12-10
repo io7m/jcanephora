@@ -16,12 +16,16 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
+import com.io7m.jcanephora.core.JCGLCubeMapFaceRH;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
 import com.io7m.jcanephora.core.JCGLTexture2DUpdateType;
+import com.io7m.jcanephora.core.JCGLTextureCubeType;
+import com.io7m.jcanephora.core.JCGLTextureCubeUpdateType;
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
 import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
 import com.io7m.jcanephora.core.JCGLTextureFormat;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
+import com.io7m.jcanephora.core.JCGLTextureWrapR;
 import com.io7m.jcanephora.core.JCGLTextureWrapS;
 import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
@@ -54,7 +58,7 @@ public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
   protected abstract JCGLTexturesType getTextures(String name);
 
   @Test
-  public final void testTextureWidthSmall()
+  public final void testTexture2DWidthSmall()
     throws Exception
   {
     final JCGLTexturesType t = this.getTextures("main");
@@ -77,11 +81,11 @@ public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
 
     this.expected.expect(RangeCheckException.class);
     this.expected.expectMessage(new StringContains("Texture width"));
-    up.getTextureUpdate(tt, data);
+    up.getTextureUpdate2D(tt, data);
   }
 
   @Test
-  public final void testTextureHeightSmall()
+  public final void testTexture2DHeightSmall()
     throws Exception
   {
     final JCGLTexturesType t = this.getTextures("main");
@@ -104,11 +108,11 @@ public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
 
     this.expected.expect(RangeCheckException.class);
     this.expected.expectMessage(new StringContains("Texture height"));
-    up.getTextureUpdate(tt, data);
+    up.getTextureUpdate2D(tt, data);
   }
 
   @Test
-  public final void testTextureUpdates()
+  public final void testTexture2DUpdates()
     throws Exception
   {
     final JCGLTexturesType t = this.getTextures("main");
@@ -179,10 +183,126 @@ public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
             JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
             JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
-          final JCGLTexture2DUpdateType u = up.getTextureUpdate(tt, data);
+          final JCGLTexture2DUpdateType u = up.getTextureUpdate2D(tt, data);
           Assert.assertEquals(tt, u.getTexture());
 
           t.texture2DUpdate(units.get(0), u);
+          break;
+        }
+      }
+    }
+  }
+
+  @Test
+  public final void testTextureCubeSizeSmall()
+    throws Exception
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final JCGLTLTextureUpdateProviderType up = this.getUpdateProvider();
+    final JCGLTLTextureDataProviderType dp = this.getDataProvider();
+    final List<JCGLTextureUnitType> units = t.textureGetUnits();
+
+    final JCGLTLTextureDataType data =
+      dp.loadFromStream(
+        JCGLTLTextureUpdateProviderContract.class.getResourceAsStream(
+          "basn6a08.png"));
+
+    final JCGLTextureCubeType tt = t.textureCubeAllocate(
+      units.get(0),
+      8L,
+      JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
+      JCGLTextureWrapR.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+      JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+    this.expected.expect(RangeCheckException.class);
+    this.expected.expectMessage(new StringContains("Texture size"));
+    up.getTextureUpdateCube(tt, data);
+  }
+
+  @Test
+  public final void testTextureCubeUpdates()
+    throws Exception
+  {
+    final JCGLTexturesType t = this.getTextures("main");
+    final JCGLTLTextureUpdateProviderType up = this.getUpdateProvider();
+    final JCGLTLTextureDataProviderType dp = this.getDataProvider();
+    final List<JCGLTextureUnitType> units = t.textureGetUnits();
+
+    final JCGLTLTextureDataType data =
+      dp.loadFromStream(
+        JCGLTLTextureUpdateProviderContract.class.getResourceAsStream(
+          "basn6a08.png"));
+
+    for (final JCGLTextureFormat v : JCGLTextureFormat.values()) {
+      switch (v) {
+        case TEXTURE_FORMAT_R_32I_4BPP:
+        case TEXTURE_FORMAT_R_32U_4BPP:
+        case TEXTURE_FORMAT_R_16I_2BPP:
+        case TEXTURE_FORMAT_R_16U_2BPP:
+        case TEXTURE_FORMAT_R_8I_1BPP:
+        case TEXTURE_FORMAT_R_8U_1BPP:
+        case TEXTURE_FORMAT_RG_16I_4BPP:
+        case TEXTURE_FORMAT_RG_16U_4BPP:
+        case TEXTURE_FORMAT_RG_32I_8BPP:
+        case TEXTURE_FORMAT_RG_32U_8BPP:
+        case TEXTURE_FORMAT_RG_8I_2BPP:
+        case TEXTURE_FORMAT_RG_8U_2BPP:
+        case TEXTURE_FORMAT_RGB_16I_6BPP:
+        case TEXTURE_FORMAT_RGB_16U_6BPP:
+        case TEXTURE_FORMAT_RGB_32I_12BPP:
+        case TEXTURE_FORMAT_RGB_32U_12BPP:
+        case TEXTURE_FORMAT_RGB_8I_3BPP:
+        case TEXTURE_FORMAT_RGB_8U_3BPP:
+        case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+        case TEXTURE_FORMAT_RGBA_16I_8BPP:
+        case TEXTURE_FORMAT_RGBA_16U_8BPP:
+        case TEXTURE_FORMAT_RGBA_32I_16BPP:
+        case TEXTURE_FORMAT_RGBA_32U_16BPP:
+        case TEXTURE_FORMAT_RGBA_8I_4BPP:
+        case TEXTURE_FORMAT_RGBA_8U_4BPP:
+        case TEXTURE_FORMAT_DEPTH_24_4BPP: {
+          continue;
+        }
+
+        case TEXTURE_FORMAT_DEPTH_16_2BPP:
+        case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+        case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+        case TEXTURE_FORMAT_R_16_2BPP:
+        case TEXTURE_FORMAT_R_16F_2BPP:
+        case TEXTURE_FORMAT_R_32F_4BPP:
+        case TEXTURE_FORMAT_R_8_1BPP:
+        case TEXTURE_FORMAT_RG_16_4BPP:
+        case TEXTURE_FORMAT_RG_16F_4BPP:
+        case TEXTURE_FORMAT_RG_32F_8BPP:
+        case TEXTURE_FORMAT_RG_8_2BPP:
+        case TEXTURE_FORMAT_RGB_16_6BPP:
+        case TEXTURE_FORMAT_RGB_16F_6BPP:
+        case TEXTURE_FORMAT_RGB_32F_12BPP:
+        case TEXTURE_FORMAT_RGB_8_3BPP:
+        case TEXTURE_FORMAT_RGBA_16_8BPP:
+        case TEXTURE_FORMAT_RGBA_16F_8BPP:
+        case TEXTURE_FORMAT_RGBA_32F_16BPP:
+        case TEXTURE_FORMAT_RGBA_8_4BPP: {
+
+          final JCGLTextureCubeType tt = t.textureCubeAllocate(
+            units.get(0),
+            32L,
+            v,
+            JCGLTextureWrapR.TEXTURE_WRAP_REPEAT,
+            JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
+            JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
+            JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
+            JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+          final JCGLTextureCubeUpdateType u = up.getTextureUpdateCube(tt, data);
+          Assert.assertEquals(tt, u.getTexture());
+
+          for (final JCGLCubeMapFaceRH face : JCGLCubeMapFaceRH.values()) {
+            t.textureCubeUpdateRH(units.get(0), face, u);
+          }
           break;
         }
       }

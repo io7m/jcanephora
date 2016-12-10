@@ -4,6 +4,17 @@
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
     <c:date>2016-12-10</c:date>
+    <c:version>0.52.0</c:version>
+
+    <c:item>
+      <c:date>2016-12-10</c:date>
+      <c:type-code-change/>
+      <c:summary>Add cube texture method to the texture loader interface. This is a breaking change: The existing 2D texture method was renamed for consistency.</c:summary>
+    </c:item>
+  </c:release>
+
+  <c:release c:ticket-system="com.github.io7m.jcanephora">
+    <c:date>2016-12-10</c:date>
     <c:version>0.51.0</c:version>
 
     <c:item>
