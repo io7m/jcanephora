@@ -4,11 +4,22 @@
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
     <c:date>2016-12-26</c:date>
+    <c:version>0.53.1</c:version>
+
+    <c:item>
+      <c:date>2016-12-26</c:date>
+      <c:type-code-new/>
+      <c:summary>Add from*() methods to the scalar type enums for easy conversions.</c:summary>
+    </c:item>
+  </c:release>
+
+  <c:release c:ticket-system="com.github.io7m.jcanephora">
+    <c:date>2016-12-26</c:date>
     <c:version>0.53.0</c:version>
 
     <c:item>
       <c:date>2016-12-26</c:date>
-      <c:type-code-change/>
+      <c:type-code-new/>
       <c:summary>Add getSizeBytes() methods to the scalar type enums.</c:summary>
     </c:item>
   </c:release>

@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
 
 /**
@@ -216,6 +217,66 @@ public enum JCGLScalarType
         return 4;
       case TYPE_UNSIGNED_SHORT:
         return 2;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert the given scalar integral type to a scalar type.
+   *
+   * @param s The scalar integral type
+   *
+   * @return A scalar type
+   *
+   * @since 0.53.1
+   */
+
+  public static JCGLScalarType fromScalarIntegral(
+    final JCGLScalarIntegralType s)
+  {
+    NullCheck.notNull(s, "Type");
+
+    switch (s) {
+      case TYPE_BYTE:
+        return TYPE_BYTE;
+      case TYPE_INT:
+        return TYPE_INT;
+      case TYPE_SHORT:
+        return TYPE_SHORT;
+      case TYPE_UNSIGNED_BYTE:
+        return TYPE_UNSIGNED_BYTE;
+      case TYPE_UNSIGNED_INT:
+        return TYPE_UNSIGNED_INT;
+      case TYPE_UNSIGNED_SHORT:
+        return TYPE_UNSIGNED_SHORT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert the given unsigned type to a scalar type.
+   *
+   * @param s The unsigned type
+   *
+   * @return A scalar type
+   *
+   * @since 0.53.1
+   */
+
+  public static JCGLScalarType fromScalarUnsigned(
+    final JCGLUnsignedType s)
+  {
+    NullCheck.notNull(s, "Type");
+
+    switch (s) {
+      case TYPE_UNSIGNED_BYTE:
+        return TYPE_UNSIGNED_BYTE;
+      case TYPE_UNSIGNED_INT:
+        return TYPE_UNSIGNED_INT;
+      case TYPE_UNSIGNED_SHORT:
+        return TYPE_UNSIGNED_SHORT;
     }
 
     throw new UnreachableCodeException();
