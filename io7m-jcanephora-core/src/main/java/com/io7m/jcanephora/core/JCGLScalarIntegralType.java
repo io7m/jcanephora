@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.junreachable.UnreachableCodeException;
+
 /**
  * Type-safe interface to integral scalar types.
  */
@@ -56,6 +58,30 @@ public enum JCGLScalarIntegralType
    * An unsigned 16-bit integer.
    */
 
-  TYPE_UNSIGNED_SHORT
+  TYPE_UNSIGNED_SHORT;
 
+  /**
+   * @return The size in bytes of values of the current type.
+   * @since 0.53.0
+   */
+
+  public int getSizeBytes()
+  {
+    switch (this) {
+      case TYPE_BYTE:
+        return 1;
+      case TYPE_INT:
+        return 4;
+      case TYPE_SHORT:
+        return 2;
+      case TYPE_UNSIGNED_BYTE:
+        return 1;
+      case TYPE_UNSIGNED_INT:
+        return 4;
+      case TYPE_UNSIGNED_SHORT:
+        return 2;
+    }
+
+    throw new UnreachableCodeException();
+  }
 }
