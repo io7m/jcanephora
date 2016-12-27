@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
 
 /**
@@ -62,6 +63,7 @@ public enum JCGLScalarIntegralType
 
   /**
    * @return The size in bytes of values of the current type.
+   *
    * @since 0.53.0
    */
 
@@ -80,6 +82,70 @@ public enum JCGLScalarIntegralType
         return 4;
       case TYPE_UNSIGNED_SHORT:
         return 2;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert the given type to a scalar integral type.
+   *
+   * @param s The scalar type
+   *
+   * @return An integral type
+   *
+   * @throws IllegalArgumentException Iff the given type is not integral
+   * @since 0.53.1
+   */
+
+  public static JCGLScalarIntegralType fromScalar(
+    final JCGLScalarType s)
+    throws IllegalArgumentException
+  {
+    NullCheck.notNull(s, "Type");
+    switch (s) {
+      case TYPE_HALF_FLOAT:
+      case TYPE_FLOAT:
+        throw new IllegalArgumentException(
+          "Cannot convert " + s + " to an integral type");
+      case TYPE_BYTE:
+        return JCGLScalarIntegralType.TYPE_BYTE;
+      case TYPE_INT:
+        return JCGLScalarIntegralType.TYPE_INT;
+      case TYPE_SHORT:
+        return JCGLScalarIntegralType.TYPE_SHORT;
+      case TYPE_UNSIGNED_BYTE:
+        return JCGLScalarIntegralType.TYPE_UNSIGNED_BYTE;
+      case TYPE_UNSIGNED_INT:
+        return JCGLScalarIntegralType.TYPE_UNSIGNED_INT;
+      case TYPE_UNSIGNED_SHORT:
+        return JCGLScalarIntegralType.TYPE_UNSIGNED_SHORT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Convert the given type to a scalar integral type.
+   *
+   * @param s The unsigned type
+   *
+   * @return An integral type
+   *
+   * @since 0.53.1
+   */
+
+  public static JCGLScalarIntegralType fromScalarUnsigned(
+    final JCGLUnsignedType s)
+  {
+    NullCheck.notNull(s, "Type");
+    switch (s) {
+      case TYPE_UNSIGNED_BYTE:
+        return JCGLScalarIntegralType.TYPE_UNSIGNED_BYTE;
+      case TYPE_UNSIGNED_INT:
+        return JCGLScalarIntegralType.TYPE_UNSIGNED_INT;
+      case TYPE_UNSIGNED_SHORT:
+        return JCGLScalarIntegralType.TYPE_UNSIGNED_SHORT;
     }
 
     throw new UnreachableCodeException();

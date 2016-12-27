@@ -14,3 +14,6 @@ addons:
 script:
   - mvn -DskipTests=true clean package
 
+notifications:
+  irc: "chat.freenode.net#io7m"
+
