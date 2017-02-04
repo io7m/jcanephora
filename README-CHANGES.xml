@@ -3,6 +3,18 @@
   <c:project>io7m-jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
+    <c:date>2017-02-04</c:date>
+    <c:version>0.54.0</c:version>
+
+    <c:item>
+      <c:date>2017-02-04</c:date>
+      <c:type-code-fix/>
+      <c:ticket>48</c:ticket>
+      <c:summary>Correct OSGi metadata for the JOGL backend.</c:summary>
+    </c:item>
+  </c:release>
+
+  <c:release c:ticket-system="com.github.io7m.jcanephora">
     <c:date>2016-12-26</c:date>
     <c:version>0.53.1</c:version>
 

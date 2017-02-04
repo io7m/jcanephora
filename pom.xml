@@ -41,6 +41,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <siteReposDirectory>com/io7m/jcanephora</siteReposDirectory>
     <siteDocumentationDirectory>com/io7m/jcanephora/io7m-jcanephora-documentation</siteDocumentationDirectory>
+    <com.io7m.jcanephora.jogl.version>2.3.2</com.io7m.jcanephora.jogl.version>
+    <com.io7m.jcanephora.lwjgl.version>3.1.0</com.io7m.jcanephora.lwjgl.version>
   </properties>
 
   <licenses>
@@ -167,12 +169,12 @@
       <dependency>
         <groupId>org.jogamp.jogl</groupId>
         <artifactId>jogl-all-main</artifactId>
-        <version>2.3.2</version>
+        <version>${com.io7m.jcanephora.jogl.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jogamp.gluegen</groupId>
         <artifactId>gluegen-rt-main</artifactId>
-        <version>2.3.2</version>
+        <version>${com.io7m.jcanephora.jogl.version}</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
@@ -193,60 +195,60 @@
       <dependency>
         <groupId>org.lwjgl</groupId>
         <artifactId>lwjgl</artifactId>
-        <version>3.1.0</version>
+        <version>${com.io7m.jcanephora.lwjgl.version}</version>
       </dependency>
       <dependency>
         <groupId>org.lwjgl</groupId>
         <artifactId>lwjgl</artifactId>
         <classifier>natives-linux</classifier>
-        <version>3.1.0</version>
+        <version>${com.io7m.jcanephora.lwjgl.version}</version>
       </dependency>
       <dependency>
         <groupId>org.lwjgl</groupId>
         <artifactId>lwjgl</artifactId>
         <classifier>natives-macos</classifier>
-        <version>3.1.0</version>
+        <version>${com.io7m.jcanephora.lwjgl.version}</version>
       </dependency>
       <dependency>
         <groupId>org.lwjgl</groupId>
         <artifactId>lwjgl</artifactId>
         <classifier>natives-windows</classifier>
-        <version>3.1.0</version>
+        <version>${com.io7m.jcanephora.lwjgl.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.lwjgl</groupId>
         <artifactId>lwjgl-opengl</artifactId>
-        <version>3.1.0</version>
+        <version>${com.io7m.jcanephora.lwjgl.version}</version>
       </dependency>
       <dependency>
         <groupId>org.lwjgl</groupId>
         <artifactId>lwjgl-opengles</artifactId>
-        <version>3.1.0</version>
+        <version>${com.io7m.jcanephora.lwjgl.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.lwjgl</groupId>
         <artifactId>lwjgl-glfw</artifactId>
-        <version>3.1.0</version>
+        <version>${com.io7m.jcanephora.lwjgl.version}</version>
       </dependency>
       <dependency>
         <groupId>org.lwjgl</groupId>
         <artifactId>lwjgl-glfw</artifactId>
         <classifier>natives-linux</classifier>
-        <version>3.1.0</version>
+        <version>${com.io7m.jcanephora.lwjgl.version}</version>
       </dependency>
       <dependency>
         <groupId>org.lwjgl</groupId>
         <artifactId>lwjgl-glfw</artifactId>
         <classifier>natives-macos</classifier>
-        <version>3.1.0</version>
+        <version>${com.io7m.jcanephora.lwjgl.version}</version>
       </dependency>
       <dependency>
         <groupId>org.lwjgl</groupId>
         <artifactId>lwjgl-glfw</artifactId>
         <classifier>natives-windows</classifier>
-        <version>3.1.0</version>
+        <version>${com.io7m.jcanephora.lwjgl.version}</version>
       </dependency>
 
       <dependency>

@@ -71,6 +71,15 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
+            <Import-Package>
+              !com.jogamp.common.nio,
+              !com.jogamp.common.util,
+              !com.jogamp.opengl,
+              *,
+              com.jogamp.common.nio; version=${com.io7m.jcanephora.jogl.version},
+              com.jogamp.common.util; version=${com.io7m.jcanephora.jogl.version},
+              com.jogamp.opengl; version=${com.io7m.jcanephora.jogl.version}
+            </Import-Package>
             <Export-Package>
               com.io7m.jcanephora.jogl
             </Export-Package>
