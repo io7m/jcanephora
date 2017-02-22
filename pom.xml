@@ -128,12 +128,12 @@
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>io7m-jtensors-core</artifactId>
-        <version>7.0.0-beta0012</version>
+        <version>[7.0.0, 8.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>io7m-jtensors-bytebuffered</artifactId>
-        <version>7.0.0-beta0012</version>
+        <version>[7.0.0, 8.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jpra</groupId>
