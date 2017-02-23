@@ -3,7 +3,7 @@
   <c:project>io7m-jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
-    <c:date>2017-02-22</c:date>
+    <c:date>2017-02-23</c:date>
     <c:version>0.54.0</c:version>
 
     <c:item>
@@ -18,6 +18,13 @@
       <c:type-code-fix/>
       <c:ticket>51</c:ticket>
       <c:summary>Use jtensors [7.0.0, 8.0.0).</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2017-02-23</c:date>
+      <c:type-code-fix/>
+      <c:ticket>52</c:ticket>
+      <c:summary>Use fastutil [7.0.0, 8.0.0).</c:summary>
     </c:item>
   </c:release>
 
