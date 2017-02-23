@@ -26,6 +26,12 @@
       <c:ticket>52</c:ticket>
       <c:summary>Use fastutil [7.0.0, 8.0.0).</c:summary>
     </c:item>
+
+    <c:item>
+      <c:date>2017-02-23</c:date>
+      <c:type-code-fix/>
+      <c:summary>Use junsigned [1.0.0, 2.0.0).</c:summary>
+    </c:item>
   </c:release>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">

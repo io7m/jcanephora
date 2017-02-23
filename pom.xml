@@ -118,12 +118,12 @@
       <dependency>
         <groupId>com.io7m.junsigned</groupId>
         <artifactId>io7m-junsigned-core</artifactId>
-        <version>0.3.0</version>
+        <version>[1.0.0, 2.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.junsigned</groupId>
         <artifactId>io7m-junsigned-ranges</artifactId>
-        <version>0.3.0</version>
+        <version>[1.0.0, 2.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
