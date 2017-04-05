@@ -16,12 +16,11 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import com.io7m.jequality.AlmostEqualDouble;
 import com.io7m.jranges.RangeCheckException;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static com.io7m.jcanephora.tests.contracts.JCGLTestUtilities.checkAlmostEquals;
 
 /**
  * Projection matrix contract.
@@ -31,29 +30,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class JCGLProjectionMatricesContract
 {
-  private static final Logger LOG;
-  private static final AlmostEqualDouble.ContextRelative ALMOST_EQUAL_LARGE;
 
-  static {
-    LOG = LoggerFactory.getLogger(JCGLProjectionMatricesContract.class);
-
-    ALMOST_EQUAL_LARGE = new AlmostEqualDouble.ContextRelative();
-    ALMOST_EQUAL_LARGE.setMaxAbsoluteDifference(0.000001);
-    ALMOST_EQUAL_LARGE.setMaxRelativeDifference(0.000001);
-  }
-
-  public static void checkAlmostEquals(
-    final double x,
-    final double y)
-  {
-    if (!AlmostEqualDouble.almostEqual(ALMOST_EQUAL_LARGE, x, y)) {
-      throw new AssertionError(
-        String.format(
-          "Expected: <%f> Received: <%f>",
-          Double.valueOf(x),
-          Double.valueOf(y)));
-    }
-  }
 
   protected abstract Matrix4x4D frustumProjectionRH(
     final double x_min,

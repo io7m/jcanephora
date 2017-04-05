@@ -18,8 +18,9 @@ package com.io7m.jcanephora.tests.contracts;
 
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
-import org.junit.Assert;
 import org.junit.Test;
+
+import static com.io7m.jcanephora.tests.contracts.JCGLTestUtilities.checkAlmostEquals;
 
 /**
  * View matrix contract.
@@ -42,24 +43,24 @@ public abstract class JCGLViewMatricesContract
     final Vector3D vu = Vector3D.of(0.0, 1.0, 0.0);
     final Matrix4x4D m = this.lookAtRH(vc, vt, vu);
 
-    Assert.assertEquals(-1.0, m.rowColumn(0, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 1), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 2), 0.0);
-    Assert.assertEquals(10.0, m.rowColumn(0, 3), 0.0);
+    checkAlmostEquals(-1.0, m.rowColumn(0, 0));
+    checkAlmostEquals(0.0, m.rowColumn(0, 1));
+    checkAlmostEquals(0.0, m.rowColumn(0, 2));
+    checkAlmostEquals(10.0, m.rowColumn(0, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(1, 0), 0.0);
-    Assert.assertEquals(1.0, m.rowColumn(1, 1), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(1, 2), 0.0);
-    Assert.assertEquals(-10.0, m.rowColumn(1, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(1, 0));
+    checkAlmostEquals(1.0, m.rowColumn(1, 1));
+    checkAlmostEquals(0.0, m.rowColumn(1, 2));
+    checkAlmostEquals(-10.0, m.rowColumn(1, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(2, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(2, 1), 0.0);
-    Assert.assertEquals(-1.0, m.rowColumn(2, 2), 0.0);
-    Assert.assertEquals(-10.0, m.rowColumn(2, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(2, 0));
+    checkAlmostEquals(0.0, m.rowColumn(2, 1));
+    checkAlmostEquals(-1.0, m.rowColumn(2, 2));
+    checkAlmostEquals(-10.0, m.rowColumn(2, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(3, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(3, 1), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(3, 2), 0.0);
-    Assert.assertEquals(1.0, m.rowColumn(3, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(3, 0));
+    checkAlmostEquals(0.0, m.rowColumn(3, 1));
+    checkAlmostEquals(0.0, m.rowColumn(3, 2));
+    checkAlmostEquals(1.0, m.rowColumn(3, 3));
   }
 }
