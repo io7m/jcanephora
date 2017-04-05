@@ -14,9 +14,10 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.contracts;
+package com.io7m.jcanephora.tests.core;
 
 import com.io7m.jcanephora.core.JCGLProjectionMatrices;
+import com.io7m.jcanephora.tests.contracts.JCGLProjectionMatricesContract;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 
 /**
