@@ -35,14 +35,14 @@ import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jtensors.MatrixDirectM3x3F;
-import com.io7m.jtensors.MatrixDirectM4x4F;
-import com.io7m.jtensors.VectorI2F;
-import com.io7m.jtensors.VectorI2I;
-import com.io7m.jtensors.VectorI3F;
-import com.io7m.jtensors.VectorI3I;
-import com.io7m.jtensors.VectorI4F;
-import com.io7m.jtensors.VectorI4I;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrices3x3D;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrices4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors2D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors2I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors3D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors3I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors4I;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -1569,7 +1569,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_2, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
+    s.shaderUniformPutVector2f(u, Vectors2D.zero());
   }
 
   @Test
@@ -1591,7 +1591,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
+    s.shaderUniformPutVector2f(u, Vectors2D.zero());
   }
 
   @Test
@@ -1613,7 +1613,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
+    s.shaderUniformPutVector2f(u, Vectors2D.zero());
   }
 
   @Test
@@ -1634,7 +1634,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_3, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
+    s.shaderUniformPutVector3f(u, Vectors3D.zero());
   }
 
   @Test
@@ -1656,7 +1656,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
+    s.shaderUniformPutVector3f(u, Vectors3D.zero());
   }
 
   @Test
@@ -1678,7 +1678,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
+    s.shaderUniformPutVector3f(u, Vectors3D.zero());
   }
 
   @Test
@@ -1699,7 +1699,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
+    s.shaderUniformPutVector4f(u, Vectors4D.zero());
   }
 
   @Test
@@ -1721,7 +1721,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
+    s.shaderUniformPutVector4f(u, Vectors4D.zero());
   }
 
   @Test
@@ -1743,7 +1743,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
+    s.shaderUniformPutVector4f(u, Vectors4D.zero());
   }
 
   @Test
@@ -1764,7 +1764,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_2, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2i(u, Vectors2I.zero());
   }
 
   @Test
@@ -1786,7 +1786,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2i(u, Vectors2I.zero());
   }
 
   @Test
@@ -1808,7 +1808,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2i(u, Vectors2I.zero());
   }
 
   @Test
@@ -1829,7 +1829,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_3, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3i(u, Vectors3I.zero());
   }
 
   @Test
@@ -1851,7 +1851,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3i(u, Vectors3I.zero());
   }
 
   @Test
@@ -1873,7 +1873,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3i(u, Vectors3I.zero());
   }
 
   @Test
@@ -1894,7 +1894,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_4, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4i(u, Vectors4I.zero());
   }
 
   @Test
@@ -1916,7 +1916,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4i(u, Vectors4I.zero());
   }
 
   @Test
@@ -1938,7 +1938,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4i(u, Vectors4I.zero());
   }
 
   @Test
@@ -1959,7 +1959,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2ui(u, Vectors2I.zero());
   }
 
   @Test
@@ -1981,7 +1981,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2ui(u, Vectors2I.zero());
   }
 
   @Test
@@ -2003,7 +2003,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2ui(u, Vectors2I.zero());
   }
 
   @Test
@@ -2024,7 +2024,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3ui(u, Vectors3I.zero());
   }
 
   @Test
@@ -2046,7 +2046,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3ui(u, Vectors3I.zero());
   }
 
   @Test
@@ -2068,7 +2068,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3ui(u, Vectors3I.zero());
   }
 
   @Test
@@ -2089,7 +2089,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4ui(u, Vectors4I.zero());
   }
 
   @Test
@@ -2111,7 +2111,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4ui(u, Vectors4I.zero());
   }
 
   @Test
@@ -2133,7 +2133,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4ui(u, Vectors4I.zero());
   }
 
   @Test
@@ -2154,7 +2154,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_4, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
+    s.shaderUniformPutMatrix4x4f(u, Matrices4x4D.identity());
   }
 
   @Test
@@ -2176,7 +2176,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
+    s.shaderUniformPutMatrix4x4f(u, Matrices4x4D.identity());
   }
 
   @Test
@@ -2198,7 +2198,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
+    s.shaderUniformPutMatrix4x4f(u, Matrices4x4D.identity());
   }
 
   @Test
@@ -2219,7 +2219,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_3, u.getType());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
+    s.shaderUniformPutMatrix3x3f(u, Matrices3x3D.identity());
   }
 
   @Test
@@ -2241,7 +2241,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
+    s.shaderUniformPutMatrix3x3f(u, Matrices3x3D.identity());
   }
 
   @Test
@@ -2263,7 +2263,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
+    s.shaderUniformPutMatrix3x3f(u, Matrices3x3D.identity());
   }
 
   @Test

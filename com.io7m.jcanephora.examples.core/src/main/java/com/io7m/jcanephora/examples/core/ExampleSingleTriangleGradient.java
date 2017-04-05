@@ -53,7 +53,7 @@ import com.io7m.jcanephora.cursors.JCGLRGB8ByteBuffered;
 import com.io7m.jcanephora.cursors.JCGLRGB8Type;
 import com.io7m.jpra.runtime.java.JPRACursor2DByteBufferedChecked;
 import com.io7m.jpra.runtime.java.JPRACursor2DType;
-import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -71,14 +71,14 @@ import java.util.stream.Collectors;
 
 public final class ExampleSingleTriangleGradient implements ExampleType
 {
-  private JCGLClearSpecification         clear;
-  private JCGLArrayObjectType            array_object;
-  private JCGLArrayBufferType            array_buffer;
-  private JCGLIndexBufferType            index_buffer;
-  private JCGLProgramShaderType          program;
-  private JCGLTexture2DType              texture;
-  private JCGLTexture2DUpdateType        texture_update;
-  private JCGLProgramUniformType         texture_uniform;
+  private JCGLClearSpecification clear;
+  private JCGLArrayObjectType array_object;
+  private JCGLArrayBufferType array_buffer;
+  private JCGLIndexBufferType index_buffer;
+  private JCGLProgramShaderType program;
+  private JCGLTexture2DType texture;
+  private JCGLTexture2DUpdateType texture_update;
+  private JCGLProgramUniformType texture_uniform;
   private JPRACursor2DType<JCGLRGB8Type> texture_update_cursor;
 
   /**
@@ -90,7 +90,8 @@ public final class ExampleSingleTriangleGradient implements ExampleType
 
   }
 
-  @Override public void onInitialize(final JCGLInterfaceGL33Type g)
+  @Override
+  public void onInitialize(final JCGLInterfaceGL33Type g)
   {
     final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
     final JCGLArrayObjectsType g_ao = g.getArrayObjects();
@@ -308,11 +309,12 @@ public final class ExampleSingleTriangleGradient implements ExampleType
 
     final JCGLClearSpecification.Builder cb =
       JCGLClearSpecification.builder();
-    cb.setColorBufferClear(new VectorI4F(0.1f, 0.1f, 0.1f, 1.0f));
+    cb.setColorBufferClear(Vector4D.of(0.1, 0.1, 0.1, 1.0));
     this.clear = cb.build();
   }
 
-  @Override public void onRender(final JCGLInterfaceGL33Type g)
+  @Override
+  public void onRender(final JCGLInterfaceGL33Type g)
   {
     final JCGLArrayObjectsType g_ao = g.getArrayObjects();
     final JCGLClearType g_c = g.getClear();
@@ -359,7 +361,8 @@ public final class ExampleSingleTriangleGradient implements ExampleType
     g_sh.shaderDeactivateProgram();
   }
 
-  @Override public void onFinish(final JCGLInterfaceGL33Type g)
+  @Override
+  public void onFinish(final JCGLInterfaceGL33Type g)
   {
     final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
     final JCGLArrayObjectsType g_ao = g.getArrayObjects();

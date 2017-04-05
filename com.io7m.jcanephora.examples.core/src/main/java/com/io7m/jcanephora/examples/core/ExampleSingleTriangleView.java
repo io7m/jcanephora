@@ -28,13 +28,11 @@ import com.io7m.jcanephora.core.JCGLPrimitives;
 import com.io7m.jcanephora.core.JCGLProgramShaderType;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
 import com.io7m.jcanephora.core.JCGLProjectionMatrices;
-import com.io7m.jcanephora.core.JCGLProjectionMatricesType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.JCGLUnsignedType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.JCGLViewMatrices;
-import com.io7m.jcanephora.core.JCGLViewMatricesType;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLClearType;
@@ -42,13 +40,10 @@ import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
-import com.io7m.jtensors.Matrix4x4FType;
-import com.io7m.jtensors.MatrixDirect4x4FType;
-import com.io7m.jtensors.MatrixDirectM4x4F;
-import com.io7m.jtensors.MatrixHeapArrayM4x4F;
-import com.io7m.jtensors.MatrixM4x4F;
-import com.io7m.jtensors.VectorI3F;
-import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors3D;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -66,17 +61,11 @@ import java.util.stream.Collectors;
 
 public final class ExampleSingleTriangleView implements ExampleType
 {
-  private final JCGLViewMatricesType       view_matrices;
-  private final JCGLProjectionMatricesType proj_matrices;
-  private final MatrixDirect4x4FType       m_projection;
-  private final Matrix4x4FType             m_view;
-  private final Matrix4x4FType             m_model;
-  private final MatrixDirect4x4FType       m_modelview;
-  private       JCGLClearSpecification     clear;
-  private       JCGLArrayObjectType        array_object;
-  private       JCGLArrayBufferType        array_buffer;
-  private       JCGLIndexBufferType        index_buffer;
-  private       JCGLProgramShaderType      program;
+  private JCGLClearSpecification clear;
+  private JCGLArrayObjectType array_object;
+  private JCGLArrayBufferType array_buffer;
+  private JCGLIndexBufferType index_buffer;
+  private JCGLProgramShaderType program;
 
   /**
    * Construct an example.
@@ -84,12 +73,7 @@ public final class ExampleSingleTriangleView implements ExampleType
 
   public ExampleSingleTriangleView()
   {
-    this.m_view = MatrixHeapArrayM4x4F.newMatrix();
-    this.m_model = MatrixHeapArrayM4x4F.newMatrix();
-    this.m_projection = MatrixDirectM4x4F.newMatrix();
-    this.m_modelview = MatrixDirectM4x4F.newMatrix();
-    this.view_matrices = JCGLViewMatrices.newMatrices();
-    this.proj_matrices = JCGLProjectionMatrices.newMatrices();
+
   }
 
   @Override
@@ -254,7 +238,7 @@ public final class ExampleSingleTriangleView implements ExampleType
 
     final JCGLClearSpecification.Builder cb =
       JCGLClearSpecification.builder();
-    cb.setColorBufferClear(new VectorI4F(0.1f, 0.1f, 0.1f, 1.0f));
+    cb.setColorBufferClear(Vector4D.of(0.1, 0.1, 0.1, 1.0));
     this.clear = cb.build();
   }
 
@@ -288,20 +272,21 @@ public final class ExampleSingleTriangleView implements ExampleType
     final JCGLProgramUniformType u_modelview = us.get("m_modelview");
     final JCGLProgramUniformType u_projection = us.get("m_projection");
 
-    this.view_matrices.lookAt(
-      this.m_view,
-      new VectorI3F(0.0f, 0.0f, -5.0f),
-      VectorI3F.ZERO,
-      new VectorI3F(0.0f, 1.0f, 0.0f));
+    final Matrix4x4D view_matrix =
+      JCGLViewMatrices.lookAtRH(
+        Vector3D.of(0.0, 0.0, -5.0),
+        Vectors3D.zero(),
+        Vector3D.of(0.0, 1.0, 0.0));
 
-    this.proj_matrices.makePerspectiveProjection(
-      this.m_projection, 0.0001, 100.0, 640.0 / 480.0, Math.toRadians(90.0));
+    final Matrix4x4D proj_matrix =
+      JCGLProjectionMatrices.perspectiveProjectionRH(
+        0.0001,
+        100.0,
+        640.0 / 480.0,
+        Math.toRadians(90.0));
 
-    MatrixM4x4F.setIdentity(this.m_model);
-    MatrixM4x4F.multiply(this.m_view, this.m_model, this.m_modelview);
-
-    g_sh.shaderUniformPutMatrix4x4f(u_modelview, this.m_modelview);
-    g_sh.shaderUniformPutMatrix4x4f(u_projection, this.m_projection);
+    g_sh.shaderUniformPutMatrix4x4f(u_modelview, view_matrix);
+    g_sh.shaderUniformPutMatrix4x4f(u_projection, proj_matrix);
 
     g_d.drawElements(JCGLPrimitives.PRIMITIVE_TRIANGLES);
     g_ao.arrayObjectUnbind();

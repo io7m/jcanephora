@@ -43,8 +43,6 @@
   </modules>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <siteReposDirectory>com/io7m/jcanephora</siteReposDirectory>
     <siteDocumentationDirectory>com/io7m/jcanephora/com.io7m.jcanephora.documentation</siteDocumentationDirectory>
     <com.io7m.jcanephora.jogl.version>2.3.2</com.io7m.jcanephora.jogl.version>
@@ -146,18 +144,28 @@
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
-        <artifactId>io7m-jtensors-core</artifactId>
-        <version>[7.0.0, 8.0.0)</version>
+        <artifactId>com.io7m.jtensors.core</artifactId>
+        <version>[8.0.0-SNAPSHOT, 9.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
-        <artifactId>io7m-jtensors-bytebuffered</artifactId>
-        <version>[7.0.0, 8.0.0)</version>
+        <artifactId>com.io7m.jtensors.storage.api</artifactId>
+        <version>[8.0.0-SNAPSHOT, 9.0.0)</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jtensors</groupId>
+        <artifactId>com.io7m.jtensors.storage.bytebuffered</artifactId>
+        <version>[8.0.0-SNAPSHOT, 9.0.0)</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jtensors</groupId>
+        <artifactId>com.io7m.jtensors.storage.heap</artifactId>
+        <version>[8.0.0-SNAPSHOT, 9.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jpra</groupId>
-        <artifactId>io7m-jpra-runtime-java</artifactId>
-        <version>0.5.0</version>
+        <artifactId>com.io7m.jpra.runtime.java</artifactId>
+        <version>0.6.0-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jnfp</groupId>
@@ -302,8 +310,8 @@
         <!-- JPRA plugin for generating cursors. -->
         <plugin>
           <groupId>com.io7m.jpra</groupId>
-          <artifactId>io7m-jpra-maven-plugin</artifactId>
-          <version>0.5.0</version>
+          <artifactId>com.io7m.jpra.maven.plugin</artifactId>
+          <version>0.6.0-SNAPSHOT</version>
         </plugin>
 
         <!-- jstructural plugin for generating documentation. -->

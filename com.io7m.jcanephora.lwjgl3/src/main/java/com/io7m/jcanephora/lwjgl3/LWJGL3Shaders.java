@@ -38,15 +38,20 @@ import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
-import com.io7m.jtensors.MatrixDirectReadable3x3FType;
-import com.io7m.jtensors.MatrixDirectReadable4x4FType;
-import com.io7m.jtensors.VectorReadable2FType;
-import com.io7m.jtensors.VectorReadable2IType;
-import com.io7m.jtensors.VectorReadable3FType;
-import com.io7m.jtensors.VectorReadable3IType;
-import com.io7m.jtensors.VectorReadable4FType;
-import com.io7m.jtensors.VectorReadable4IType;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix3x3D;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector2D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector2I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4I;
+import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered3x3Type;
+import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered3x3s32;
+import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered4x4Type;
+import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered4x4s32;
 import com.io7m.junreachable.UnreachableCodeException;
+import com.io7m.mutable.numbers.core.MutableLong;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL21;
@@ -75,6 +80,12 @@ final class LWJGL3Shaders implements JCGLShadersType
   }
 
   private final LWJGL3Context context;
+  private final ByteBuffer m3x3_buffer;
+  private final FloatBuffer m3x3_buffer_view;
+  private final MatrixByteBuffered3x3Type m3x3;
+  private final ByteBuffer m4x4_buffer;
+  private final FloatBuffer m4x4_buffer_view;
+  private final MatrixByteBuffered4x4Type m4x4;
   private @Nullable JCGLProgramShaderUsableType current;
   private boolean check_type;
   private boolean check_active;
@@ -85,12 +96,28 @@ final class LWJGL3Shaders implements JCGLShadersType
     this.check_active = true;
     this.check_type = true;
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
     GL20.glUseProgram(0);
     LWJGL3ErrorChecking.checkErrors();
+
+    this.m3x3_buffer =
+      ByteBuffer.allocateDirect(3 * 3 * 4);
+    this.m3x3_buffer_view =
+      this.m3x3_buffer.asFloatBuffer();
+    this.m3x3 =
+      MatrixByteBuffered3x3s32.createWithBase(
+        this.m3x3_buffer, MutableLong.create(), 0);
+
+    this.m4x4_buffer =
+      ByteBuffer.allocateDirect(4 * 4 * 4);
+    this.m4x4_buffer_view =
+      this.m4x4_buffer.asFloatBuffer();
+    this.m4x4 =
+      MatrixByteBuffered4x4s32.createWithBase(
+        this.m4x4_buffer, MutableLong.create(), 0);
   }
 
   private static boolean isEmpty(final List<String> lines)
@@ -746,20 +773,23 @@ final class LWJGL3Shaders implements JCGLShadersType
   @Override
   public void shaderUniformPutVector2f(
     final JCGLProgramUniformType u,
-    final VectorReadable2FType value)
+    final Vector2D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_2);
-    GL20.glUniform2f(u.getGLName(), value.getXF(), value.getYF());
+    GL20.glUniform2f(
+      u.getGLName(),
+      (float) value.x(),
+      (float) value.y());
   }
 
   @Override
   public void shaderUniformPutVector3f(
     final JCGLProgramUniformType u,
-    final VectorReadable3FType value)
+    final Vector3D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -767,13 +797,16 @@ final class LWJGL3Shaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_3);
     GL20.glUniform3f(
-      u.getGLName(), value.getXF(), value.getYF(), value.getZF());
+      u.getGLName(),
+      (float) value.x(),
+      (float) value.y(),
+      (float) value.z());
   }
 
   @Override
   public void shaderUniformPutVector4f(
     final JCGLProgramUniformType u,
-    final VectorReadable4FType value)
+    final Vector4D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -782,16 +815,16 @@ final class LWJGL3Shaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_4);
     GL20.glUniform4f(
       u.getGLName(),
-      value.getXF(),
-      value.getYF(),
-      value.getZF(),
-      value.getWF());
+      (float) value.x(),
+      (float) value.y(),
+      (float) value.z(),
+      (float) value.w());
   }
 
   @Override
   public void shaderUniformPutVector2i(
     final JCGLProgramUniformType u,
-    final VectorReadable2IType value)
+    final Vector2I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -799,13 +832,13 @@ final class LWJGL3Shaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_2);
     GL20.glUniform2i(
-      u.getGLName(), value.getXI(), value.getYI());
+      u.getGLName(), value.x(), value.y());
   }
 
   @Override
   public void shaderUniformPutVector3i(
     final JCGLProgramUniformType u,
-    final VectorReadable3IType value)
+    final Vector3I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -813,13 +846,13 @@ final class LWJGL3Shaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_3);
     GL20.glUniform3i(
-      u.getGLName(), value.getXI(), value.getYI(), value.getZI());
+      u.getGLName(), value.x(), value.y(), value.z());
   }
 
   @Override
   public void shaderUniformPutVector4i(
     final JCGLProgramUniformType u,
-    final VectorReadable4IType value)
+    final Vector4I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -828,29 +861,29 @@ final class LWJGL3Shaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_4);
     GL20.glUniform4i(
       u.getGLName(),
-      value.getXI(),
-      value.getYI(),
-      value.getZI(),
-      value.getWI());
+      value.x(),
+      value.y(),
+      value.z(),
+      value.w());
   }
 
   @Override
   public void shaderUniformPutVector2ui(
     final JCGLProgramUniformType u,
-    final VectorReadable2IType value)
+    final Vector2I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2);
-    GL30.glUniform2ui(u.getGLName(), value.getXI(), value.getYI());
+    GL30.glUniform2ui(u.getGLName(), value.x(), value.y());
   }
 
   @Override
   public void shaderUniformPutVector3ui(
     final JCGLProgramUniformType u,
-    final VectorReadable3IType value)
+    final Vector3I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -858,13 +891,13 @@ final class LWJGL3Shaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3);
     GL30.glUniform3ui(
-      u.getGLName(), value.getXI(), value.getYI(), value.getZI());
+      u.getGLName(), value.x(), value.y(), value.z());
   }
 
   @Override
   public void shaderUniformPutVector4ui(
     final JCGLProgramUniformType u,
-    final VectorReadable4IType value)
+    final Vector4I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -873,36 +906,38 @@ final class LWJGL3Shaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4);
     GL30.glUniform4ui(
       u.getGLName(),
-      value.getXI(),
-      value.getYI(),
-      value.getZI(),
-      value.getWI());
+      value.x(),
+      value.y(),
+      value.z(),
+      value.w());
   }
 
   @Override
   public void shaderUniformPutMatrix3x3f(
     final JCGLProgramUniformType u,
-    final MatrixDirectReadable3x3FType value)
+    final Matrix3x3D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_3);
-    GL20.glUniformMatrix3fv(u.getGLName(), false, value.getDirectFloatBuffer());
+    this.m3x3.setMatrix3x3D(value);
+    GL20.glUniformMatrix3fv(u.getGLName(), false, this.m3x3_buffer_view);
   }
 
   @Override
   public void shaderUniformPutMatrix4x4f(
     final JCGLProgramUniformType u,
-    final MatrixDirectReadable4x4FType value)
+    final Matrix4x4D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_4);
-    GL20.glUniformMatrix4fv(u.getGLName(), false, value.getDirectFloatBuffer());
+    this.m4x4.setMatrix4x4D(value);
+    GL20.glUniformMatrix4fv(u.getGLName(), false, this.m4x4_buffer_view);
   }
 
   @Override

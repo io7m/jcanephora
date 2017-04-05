@@ -36,14 +36,14 @@ import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jtensors.MatrixDirectReadable3x3FType;
-import com.io7m.jtensors.MatrixDirectReadable4x4FType;
-import com.io7m.jtensors.VectorReadable2FType;
-import com.io7m.jtensors.VectorReadable2IType;
-import com.io7m.jtensors.VectorReadable3FType;
-import com.io7m.jtensors.VectorReadable3IType;
-import com.io7m.jtensors.VectorReadable4FType;
-import com.io7m.jtensors.VectorReadable4IType;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix3x3D;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector2D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector2I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4I;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +56,7 @@ import java.util.regex.Pattern;
 
 final class FakeShaders implements JCGLShadersType
 {
-  private static final Logger  LOG;
+  private static final Logger LOG;
   private static final Pattern NON_EMPTY;
 
   static {
@@ -64,11 +64,11 @@ final class FakeShaders implements JCGLShadersType
     NON_EMPTY = Pattern.compile("^\\s*$");
   }
 
-  private final FakeContext                 context;
-  private final FakeShaderListenerType      listener;
-  private       boolean                     check_active;
-  private       boolean                     check_type;
-  private       JCGLProgramShaderUsableType current;
+  private final FakeContext context;
+  private final FakeShaderListenerType listener;
+  private boolean check_active;
+  private boolean check_type;
+  private JCGLProgramShaderUsableType current;
 
   FakeShaders(final FakeContext c)
   {
@@ -107,7 +107,8 @@ final class FakeShaders implements JCGLShadersType
     return new JCGLExceptionProgramTypeError(sb.toString());
   }
 
-  @Override public void shaderDeleteProgram(final JCGLProgramShaderType p)
+  @Override
+  public void shaderDeleteProgram(final JCGLProgramShaderType p)
     throws JCGLException, JCGLExceptionDeleted
   {
     NullCheck.notNull(p);
@@ -123,7 +124,8 @@ final class FakeShaders implements JCGLShadersType
     }
   }
 
-  @Override public void shaderDeleteVertex(final JCGLVertexShaderType v)
+  @Override
+  public void shaderDeleteVertex(final JCGLVertexShaderType v)
     throws JCGLException, JCGLExceptionDeleted
   {
     NullCheck.notNull(v);
@@ -133,7 +135,8 @@ final class FakeShaders implements JCGLShadersType
     ((FakeObjectDeletable) v).setDeleted();
   }
 
-  @Override public void shaderDeleteFragment(final JCGLFragmentShaderType f)
+  @Override
+  public void shaderDeleteFragment(final JCGLFragmentShaderType f)
     throws JCGLException, JCGLExceptionDeleted
   {
     NullCheck.notNull(f);
@@ -143,7 +146,8 @@ final class FakeShaders implements JCGLShadersType
     ((FakeObjectDeletable) f).setDeleted();
   }
 
-  @Override public void shaderDeleteGeometry(final JCGLGeometryShaderType g)
+  @Override
+  public void shaderDeleteGeometry(final JCGLGeometryShaderType g)
     throws JCGLException, JCGLExceptionDeleted
   {
     NullCheck.notNull(g);
@@ -153,7 +157,8 @@ final class FakeShaders implements JCGLShadersType
     ((FakeObjectDeletable) g).setDeleted();
   }
 
-  @Override public JCGLVertexShaderType shaderCompileVertex(
+  @Override
+  public JCGLVertexShaderType shaderCompileVertex(
     final String name,
     final List<String> lines)
     throws JCGLExceptionProgramCompileError, JCGLException
@@ -174,7 +179,8 @@ final class FakeShaders implements JCGLShadersType
       this.context, this.context.getFreshID(), name, lines);
   }
 
-  @Override public JCGLFragmentShaderType shaderCompileFragment(
+  @Override
+  public JCGLFragmentShaderType shaderCompileFragment(
     final String name,
     final List<String> lines)
     throws JCGLExceptionProgramCompileError, JCGLException
@@ -195,7 +201,8 @@ final class FakeShaders implements JCGLShadersType
       this.context, this.context.getFreshID(), name, lines);
   }
 
-  @Override public JCGLGeometryShaderType shaderCompileGeometry(
+  @Override
+  public JCGLGeometryShaderType shaderCompileGeometry(
     final String name,
     final List<String> lines)
     throws JCGLExceptionProgramCompileError, JCGLException
@@ -216,7 +223,8 @@ final class FakeShaders implements JCGLShadersType
       this.context, this.context.getFreshID(), name, lines);
   }
 
-  @Override public JCGLProgramShaderType shaderLinkProgram(
+  @Override
+  public JCGLProgramShaderType shaderLinkProgram(
     final String name,
     final JCGLVertexShaderUsableType iv,
     final Optional<JCGLGeometryShaderUsableType> ig,
@@ -300,7 +308,8 @@ final class FakeShaders implements JCGLShadersType
     this.current = p;
   }
 
-  @Override public void shaderDeactivateProgram()
+  @Override
+  public void shaderDeactivateProgram()
     throws JCGLException
   {
     FakeShaders.LOG.trace("deactivate");
@@ -326,7 +335,8 @@ final class FakeShaders implements JCGLShadersType
     this.check_active = enabled;
   }
 
-  @Override public void shaderUniformPutFloat(
+  @Override
+  public void shaderUniformPutFloat(
     final JCGLProgramUniformType u,
     final float value)
     throws JCGLException
@@ -334,7 +344,8 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT);
   }
 
-  @Override public void shaderUniformPutInteger(
+  @Override
+  public void shaderUniformPutInteger(
     final JCGLProgramUniformType u,
     final int value)
     throws
@@ -345,7 +356,8 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER);
   }
 
-  @Override public void shaderUniformPutUnsignedInteger(
+  @Override
+  public void shaderUniformPutUnsignedInteger(
     final JCGLProgramUniformType u,
     final int value)
     throws
@@ -386,9 +398,10 @@ final class FakeShaders implements JCGLShadersType
     }
   }
 
-  @Override public void shaderUniformPutVector2f(
+  @Override
+  public void shaderUniformPutVector2f(
     final JCGLProgramUniformType u,
-    final VectorReadable2FType value)
+    final Vector2D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -397,9 +410,10 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_2);
   }
 
-  @Override public void shaderUniformPutVector3f(
+  @Override
+  public void shaderUniformPutVector3f(
     final JCGLProgramUniformType u,
-    final VectorReadable3FType value)
+    final Vector3D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -408,9 +422,10 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_3);
   }
 
-  @Override public void shaderUniformPutVector4f(
+  @Override
+  public void shaderUniformPutVector4f(
     final JCGLProgramUniformType u,
-    final VectorReadable4FType value)
+    final Vector4D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -419,9 +434,10 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_4);
   }
 
-  @Override public void shaderUniformPutVector2i(
+  @Override
+  public void shaderUniformPutVector2i(
     final JCGLProgramUniformType u,
-    final VectorReadable2IType value)
+    final Vector2I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -430,9 +446,10 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_2);
   }
 
-  @Override public void shaderUniformPutVector3i(
+  @Override
+  public void shaderUniformPutVector3i(
     final JCGLProgramUniformType u,
-    final VectorReadable3IType value)
+    final Vector3I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -441,9 +458,10 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_3);
   }
 
-  @Override public void shaderUniformPutVector4i(
+  @Override
+  public void shaderUniformPutVector4i(
     final JCGLProgramUniformType u,
-    final VectorReadable4IType value)
+    final Vector4I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -452,9 +470,10 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_4);
   }
 
-  @Override public void shaderUniformPutVector2ui(
+  @Override
+  public void shaderUniformPutVector2ui(
     final JCGLProgramUniformType u,
-    final VectorReadable2IType value)
+    final Vector2I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -463,9 +482,10 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2);
   }
 
-  @Override public void shaderUniformPutVector3ui(
+  @Override
+  public void shaderUniformPutVector3ui(
     final JCGLProgramUniformType u,
-    final VectorReadable3IType value)
+    final Vector3I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -474,9 +494,10 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3);
   }
 
-  @Override public void shaderUniformPutVector4ui(
+  @Override
+  public void shaderUniformPutVector4ui(
     final JCGLProgramUniformType u,
-    final VectorReadable4IType value)
+    final Vector4I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -485,9 +506,10 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4);
   }
 
-  @Override public void shaderUniformPutMatrix3x3f(
+  @Override
+  public void shaderUniformPutMatrix3x3f(
     final JCGLProgramUniformType u,
-    final MatrixDirectReadable3x3FType value)
+    final Matrix3x3D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -496,9 +518,10 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_3);
   }
 
-  @Override public void shaderUniformPutMatrix4x4f(
+  @Override
+  public void shaderUniformPutMatrix4x4f(
     final JCGLProgramUniformType u,
-    final MatrixDirectReadable4x4FType value)
+    final Matrix4x4D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -507,7 +530,8 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_4);
   }
 
-  @Override public void shaderUniformPutTexture2DUnit(
+  @Override
+  public void shaderUniformPutTexture2DUnit(
     final JCGLProgramUniformType u,
     final JCGLTextureUnitType value)
     throws
@@ -518,7 +542,8 @@ final class FakeShaders implements JCGLShadersType
     this.checkActiveAndType(u, JCGLType.TYPE_SAMPLER_2D);
   }
 
-  @Override public void shaderUniformPutTextureCubeUnit(
+  @Override
+  public void shaderUniformPutTextureCubeUnit(
     final JCGLProgramUniformType u,
     final JCGLTextureUnitType value)
     throws

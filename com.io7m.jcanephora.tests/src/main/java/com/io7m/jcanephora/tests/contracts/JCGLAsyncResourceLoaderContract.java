@@ -33,7 +33,7 @@ import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureDataProviderType;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureDataType;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureUpdateProviderType;
-import com.io7m.jtensors.VectorWritable4DType;
+import com.io7m.jtensors.storage.heap.VectorMutable4D;
 import com.io7m.junreachable.UnreachableCodeException;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -273,9 +273,9 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
           public void getPixel(
             final int x,
             final int y,
-            final VectorWritable4DType v)
+            final VectorMutable4D v)
           {
-            v.set4D(0.0, 0.0, 0.0, 1.0);
+            v.setXYZW(0.0, 0.0, 0.0, 1.0);
           }
         },
         JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,

@@ -17,110 +17,64 @@
 package com.io7m.jcanephora.core;
 
 import com.io7m.jnull.NullCheck;
-import com.io7m.jtensors.Matrix4x4FType;
-import com.io7m.jtensors.MatrixHeapArrayM4x4F;
-import com.io7m.jtensors.MatrixM4x4F;
-import com.io7m.jtensors.MatrixWritable4x4FType;
-import com.io7m.jtensors.VectorM3F;
-import com.io7m.jtensors.VectorReadable3FType;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrices4x4D;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors3D;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Functions to produce view matrices.
- *
- * Memory for this implementation is allocated on creation of the class instance
- * and reused.
  */
 
-public final class JCGLViewMatrices implements JCGLViewMatricesType
+public final class JCGLViewMatrices
 {
-  private final VectorM3F      camera_inv;
-  private final VectorM3F      forward;
-  private final VectorM3F      new_up;
-  private final Matrix4x4FType rotation;
-  private final VectorM3F      side;
-  private final Matrix4x4FType translation;
-
   private JCGLViewMatrices()
   {
-    this.forward = new VectorM3F();
-    this.side = new VectorM3F();
-    this.new_up = new VectorM3F();
-    this.camera_inv = new VectorM3F();
-    this.rotation = MatrixHeapArrayM4x4F.newMatrix();
-    this.translation = MatrixHeapArrayM4x4F.newMatrix();
+    throw new UnreachableCodeException();
   }
 
   /**
-   * @return A {@link JCGLViewMatricesType} instance
+   * <p>Calculate a view matrix representing a camera looking from the point
+   * {@code camera} to the point {@code target}. {@code target} must represent
+   * the "up" vector for the camera. Usually, this is simply a unit vector
+   * {@code (0, 1, 0)} representing the Y axis.</p>
+   *
+   * <p>The function assumes a right-handed coordinate system.</p>
+   *
+   * @param camera The position of the viewer.
+   * @param target The target being viewed.
+   * @param up     The up vector.
+   *
+   * @return The view matrix
    */
 
-  public static JCGLViewMatricesType newMatrices()
+  public static Matrix4x4D lookAtRH(
+    final Vector3D camera,
+    final Vector3D target,
+    final Vector3D up)
   {
-    return new JCGLViewMatrices();
-  }
-
-  @Override
-  public void lookAt(
-    final MatrixWritable4x4FType out,
-    final VectorReadable3FType camera,
-    final VectorReadable3FType target,
-    final VectorReadable3FType up)
-  {
-    NullCheck.notNull(out, "Output matrix");
     NullCheck.notNull(camera, "Camera position");
     NullCheck.notNull(target, "Target point");
     NullCheck.notNull(up, "Up vector");
 
-    /**
-     * Calculate "forward" vector.
-     */
+    final Vector3D forward =
+      Vectors3D.normalize(Vectors3D.subtract(target, camera));
+    final Vector3D side =
+      Vectors3D.normalize(Vectors3D.crossProduct(forward, up));
+    final Vector3D new_up =
+      Vectors3D.crossProduct(side, forward);
 
-    {
-      final float dx = target.getXF() - camera.getXF();
-      final float dy = target.getYF() - camera.getYF();
-      final float dz = target.getZF() - camera.getZF();
-      this.forward.set3F(dx, dy, dz);
-      VectorM3F.normalizeInPlace(this.forward);
-    }
+    final Matrix4x4D rotation =
+      Matrix4x4D.of(
+        side.x(), side.y(), side.z(), 0.0,
+        new_up.x(), new_up.y(), new_up.z(), 0.0,
+        -forward.x(), -forward.y(), -forward.z(), 0.0,
+        0.0, 0.0, 0.0, 1.0);
 
-    /**
-     * Calculate "side" vector.
-     */
+    final Matrix4x4D translation =
+      Matrices4x4D.ofTranslation(-camera.x(), -camera.y(), -camera.z());
 
-    VectorM3F.crossProduct(this.forward, up, this.side);
-    VectorM3F.normalizeInPlace(this.side);
-
-    /**
-     * Calculate new "up" vector.
-     */
-
-    VectorM3F.crossProduct(this.side, this.forward, this.new_up);
-
-    /**
-     * Calculate rotation matrix.
-     */
-
-    this.rotation.setR0C0F(this.side.getXF());
-    this.rotation.setR0C1F(this.side.getYF());
-    this.rotation.setR0C2F(this.side.getZF());
-    this.rotation.setR1C0F(this.new_up.getXF());
-    this.rotation.setR1C1F(this.new_up.getYF());
-    this.rotation.setR1C2F(this.new_up.getZF());
-    this.rotation.setR2C0F(-this.forward.getXF());
-    this.rotation.setR2C1F(-this.forward.getYF());
-    this.rotation.setR2C2F(-this.forward.getZF());
-
-    /**
-     * Calculate camera translation vector.
-     */
-
-    this.camera_inv.set3F(-camera.getXF(), -camera.getYF(), -camera.getZF());
-
-    /**
-     * Calculate translation matrix.
-     */
-
-    MatrixM4x4F.makeTranslation3F(this.camera_inv, this.translation);
-    MatrixM4x4F.multiply(this.rotation, this.translation, out);
+    return Matrices4x4D.multiply(rotation, translation);
   }
 }

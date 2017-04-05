@@ -36,7 +36,7 @@ import com.io7m.jcanephora.cursors.JCGLRGBA32FType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jpra.runtime.java.JPRACursor2DByteBufferedChecked;
 import com.io7m.jpra.runtime.java.JPRACursor2DType;
-import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -56,13 +56,6 @@ public final class JCGLShaderTestFunctionEvaluator
     final JCGLProgramShaderType p)
     throws IOException
   {
-    final JCGLShadersType gs = gg.getShaders();
-    final JCGLTexturesType gt = gg.getTextures();
-    final JCGLArrayObjectsType ga = gg.getArrayObjects();
-    final JCGLDrawType gd = gg.getDraw();
-    final JCGLFramebuffersType gf = gg.getFramebuffers();
-    final List<JCGLTextureUnitType> units = gt.textureGetUnits();
-
     final JCGLTextureFormat fmt =
       JCGLTextureFormat.TEXTURE_FORMAT_RGBA_32F_16BPP;
     this.framebuffer =
@@ -74,7 +67,8 @@ public final class JCGLShaderTestFunctionEvaluator
   }
 
   @Override
-  public VectorI4F evaluate4f(final VectorI4F x)
+  public Vector4D evaluate4f(
+    final Vector4D x)
   {
     final JCGLShadersType gs = this.gl.getShaders();
     final JCGLTexturesType gt = this.gl.getTextures();
@@ -111,11 +105,16 @@ public final class JCGLShaderTestFunctionEvaluator
     final JCGLRGBA32FType v = c.getElementView();
 
     c.setElementPosition(0, 0);
-    return new VectorI4F(v.getR(), v.getG(), v.getB(), v.getA());
+    return Vector4D.of(
+      (double) v.getR(),
+      (double) v.getG(),
+      (double) v.getB(),
+      (double) v.getA());
   }
 
   @Override
-  public VectorI4F evaluateArrayF(final FloatBuffer x)
+  public Vector4D evaluateArrayF(
+    final FloatBuffer x)
   {
     final JCGLShadersType gs = this.gl.getShaders();
     final JCGLTexturesType gt = this.gl.getTextures();
@@ -152,6 +151,10 @@ public final class JCGLShaderTestFunctionEvaluator
     final JCGLRGBA32FType v = c.getElementView();
 
     c.setElementPosition(0, 0);
-    return new VectorI4F(v.getR(), v.getG(), v.getB(), v.getA());
+    return Vector4D.of(
+      (double) v.getR(),
+      (double) v.getG(),
+      (double) v.getB(),
+      (double) v.getA());
   }
 }

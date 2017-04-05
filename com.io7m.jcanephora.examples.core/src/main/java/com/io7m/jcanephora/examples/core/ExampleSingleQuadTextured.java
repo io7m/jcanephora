@@ -53,7 +53,7 @@ import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureDataProviderType;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureDataType;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureUpdateProvider;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureUpdateProviderType;
-import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -326,7 +326,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
 
     final JCGLClearSpecification.Builder cb =
       JCGLClearSpecification.builder();
-    cb.setColorBufferClear(new VectorI4F(0.1f, 0.1f, 0.1f, 1.0f));
+    cb.setColorBufferClear(Vector4D.of(0.1, 0.1, 0.1, 1.0));
     this.clear = cb.build();
   }
 

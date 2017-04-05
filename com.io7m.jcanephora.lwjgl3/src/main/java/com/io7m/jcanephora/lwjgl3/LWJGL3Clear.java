@@ -20,7 +20,7 @@ import com.io7m.jcanephora.core.JCGLClearSpecificationType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.api.JCGLClearType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jtensors.VectorReadable4FType;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Optional;
@@ -44,14 +44,18 @@ final class LWJGL3Clear implements JCGLClearType
     NullCheck.notNull(c);
 
     int buffers = 0;
-    final Optional<VectorReadable4FType> opt_color = c.getColorBufferClear();
+    final Optional<Vector4D> opt_color = c.getColorBufferClear();
     final OptionalDouble opt_depth = c.getDepthBufferClear();
     final OptionalInt opt_stencil = c.getStencilBufferClear();
 
     if (opt_color.isPresent()) {
       buffers |= GL11.GL_COLOR_BUFFER_BIT;
-      final VectorReadable4FType cc = opt_color.get();
-      GL11.glClearColor(cc.getXF(), cc.getYF(), cc.getZF(), cc.getWF());
+      final Vector4D cc = opt_color.get();
+      GL11.glClearColor(
+        (float) cc.x(),
+        (float) cc.y(),
+        (float) cc.z(),
+        (float) cc.w());
     }
 
     if (opt_depth.isPresent()) {

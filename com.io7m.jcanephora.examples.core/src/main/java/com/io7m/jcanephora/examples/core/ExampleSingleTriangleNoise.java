@@ -49,7 +49,7 @@ import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
-import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -299,7 +299,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
 
     final JCGLClearSpecification.Builder cb =
       JCGLClearSpecification.builder();
-    cb.setColorBufferClear(new VectorI4F(0.1f, 0.1f, 0.1f, 1.0f));
+    cb.setColorBufferClear(Vector4D.of(0.1, 0.1, 0.1, 1.0));
     this.clear = cb.build();
   }
 

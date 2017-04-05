@@ -28,13 +28,11 @@ import com.io7m.jcanephora.core.JCGLPrimitives;
 import com.io7m.jcanephora.core.JCGLProgramShaderType;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
 import com.io7m.jcanephora.core.JCGLProjectionMatrices;
-import com.io7m.jcanephora.core.JCGLProjectionMatricesType;
 import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jcanephora.core.JCGLUnsignedType;
 import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.JCGLViewMatrices;
-import com.io7m.jcanephora.core.JCGLViewMatricesType;
 import com.io7m.jcanephora.core.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.core.api.JCGLArrayObjectsType;
 import com.io7m.jcanephora.core.api.JCGLClearType;
@@ -42,13 +40,14 @@ import com.io7m.jcanephora.core.api.JCGLDrawType;
 import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
-import com.io7m.jtensors.MatrixDirect4x4FType;
-import com.io7m.jtensors.MatrixDirectM4x4F;
-import com.io7m.jtensors.MatrixM4x4F;
-import com.io7m.jtensors.VectorI3F;
-import com.io7m.jtensors.VectorI4F;
-import com.io7m.jtensors.bytebuffered.MatrixByteBuffered4x4FType;
-import com.io7m.jtensors.bytebuffered.MatrixByteBufferedM4x4F;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrices4x4D;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors3D;
+import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered4x4Type;
+import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered4x4s32;
+import com.io7m.mutable.numbers.core.MutableLong;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -67,18 +66,14 @@ import java.util.stream.Collectors;
 
 public final class ExampleInstancedTrianglesView implements ExampleType
 {
-  private final JCGLViewMatricesType                      view_matrices;
-  private final JCGLProjectionMatricesType                proj_matrices;
-  private final MatrixDirect4x4FType                      m_projection;
-  private final MatrixDirect4x4FType                      m_view;
-  private       JCGLClearSpecification                    clear;
-  private       JCGLArrayObjectType                       array_object;
-  private       JCGLArrayBufferType                       array_buffer;
-  private       JCGLIndexBufferType                       index_buffer;
-  private       JCGLProgramShaderType                     program;
-  private       JCGLArrayBufferType                       matrices_buffer;
-  private       JCGLBufferUpdateType<JCGLArrayBufferType> matrices_update;
-  private       MatrixByteBuffered4x4FType                matrices_models;
+  private JCGLClearSpecification clear;
+  private JCGLArrayObjectType array_object;
+  private JCGLArrayBufferType array_buffer;
+  private JCGLIndexBufferType index_buffer;
+  private JCGLProgramShaderType program;
+  private JCGLArrayBufferType matrices_buffer;
+  private JCGLBufferUpdateType<JCGLArrayBufferType> matrices_update;
+  private MatrixByteBuffered4x4Type matrices_models;
 
   /**
    * Construct an example.
@@ -86,10 +81,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
 
   public ExampleInstancedTrianglesView()
   {
-    this.m_view = MatrixDirectM4x4F.newMatrix();
-    this.m_projection = MatrixDirectM4x4F.newMatrix();
-    this.view_matrices = JCGLViewMatrices.newMatrices();
-    this.proj_matrices = JCGLProjectionMatrices.newMatrices();
+
   }
 
   @Override
@@ -182,31 +174,25 @@ public final class ExampleInstancedTrianglesView implements ExampleType
         JCGLBufferUpdates.newUpdateReplacingAll(this.matrices_buffer);
       final ByteBuffer data = this.matrices_update.getData();
 
+      final MutableLong offset = MutableLong.create();
       this.matrices_models =
-        MatrixByteBufferedM4x4F.newMatrixFromByteBuffer(
-          data,
-          0L);
+        MatrixByteBuffered4x4s32.createWithBase(data, offset, 0);
 
       /**
        * Populate the matrices, positioning the three triangles in a
        * horizontal line.
        */
 
-      long offset = 0L;
-      this.matrices_models.setByteOffset(offset);
-      MatrixM4x4F.makeTranslation3F(
-        new VectorI3F(2.0f, 0.0f, 0.0f),
-        this.matrices_models);
+      offset.setValue(0L);
+      this.matrices_models.setMatrix4x4D(
+        Matrices4x4D.ofTranslation(2.0, 0.0, 0.0));
 
-      offset += (long) matrix_size;
-      this.matrices_models.setByteOffset(offset);
-      MatrixM4x4F.setIdentity(this.matrices_models);
+      offset.setValue(offset.value() + matrix_size);
+      this.matrices_models.setMatrix4x4D(Matrices4x4D.identity());
 
-      offset += (long) matrix_size;
-      this.matrices_models.setByteOffset(offset);
-      MatrixM4x4F.makeTranslation3F(
-        new VectorI3F(-2.0f, 0.0f, 0.0f),
-        this.matrices_models);
+      offset.setValue(offset.value() + matrix_size);
+      this.matrices_models.setMatrix4x4D(
+        Matrices4x4D.ofTranslation(-2.0, 0.0, 0.0));
 
       g_ab.arrayBufferUpdate(this.matrices_update);
       g_ab.arrayBufferUnbind();
@@ -345,7 +331,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
 
     final JCGLClearSpecification.Builder cb =
       JCGLClearSpecification.builder();
-    cb.setColorBufferClear(new VectorI4F(0.1f, 0.1f, 0.1f, 1.0f));
+    cb.setColorBufferClear(Vector4D.of(0.1, 0.1, 0.1, 1.0));
     this.clear = cb.build();
   }
 
@@ -379,17 +365,21 @@ public final class ExampleInstancedTrianglesView implements ExampleType
     final JCGLProgramUniformType u_view = us.get("m_view");
     final JCGLProgramUniformType u_projection = us.get("m_projection");
 
-    this.view_matrices.lookAt(
-      this.m_view,
-      new VectorI3F(0.0f, 0.0f, 5.0f),
-      VectorI3F.ZERO,
-      new VectorI3F(0.0f, 1.0f, 0.0f));
+    final Matrix4x4D view_matrix =
+      JCGLViewMatrices.lookAtRH(
+        Vector3D.of(0.0, 0.0, 5.0),
+        Vectors3D.zero(),
+        Vector3D.of(0.0, 1.0, 0.0));
 
-    this.proj_matrices.makePerspectiveProjection(
-      this.m_projection, 0.0001, 100.0, 640.0 / 480.0, Math.toRadians(90.0));
+    final Matrix4x4D proj_matrix =
+      JCGLProjectionMatrices.perspectiveProjectionRH(
+        0.0001,
+        100.0,
+        640.0 / 480.0,
+        Math.toRadians(90.0));
 
-    g_sh.shaderUniformPutMatrix4x4f(u_view, this.m_view);
-    g_sh.shaderUniformPutMatrix4x4f(u_projection, this.m_projection);
+    g_sh.shaderUniformPutMatrix4x4f(u_view, view_matrix);
+    g_sh.shaderUniformPutMatrix4x4f(u_projection, proj_matrix);
 
     g_d.drawElementsInstanced(JCGLPrimitives.PRIMITIVE_TRIANGLES, 3);
     g_ao.arrayObjectUnbind();

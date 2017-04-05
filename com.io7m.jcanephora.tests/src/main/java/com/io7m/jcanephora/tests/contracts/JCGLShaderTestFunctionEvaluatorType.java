@@ -16,36 +16,40 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import com.io7m.jtensors.VectorI2F;
-import com.io7m.jtensors.VectorI3F;
-import com.io7m.jtensors.VectorI4F;
+
+import com.io7m.jtensors.core.unparameterized.vectors.Vector2D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 
 import java.nio.FloatBuffer;
 
 public interface JCGLShaderTestFunctionEvaluatorType
 {
-  VectorI4F evaluate4f(VectorI4F v);
+  Vector4D evaluate4f(Vector4D v);
 
-  default VectorI3F evaluate3f(final VectorI3F v)
+  default Vector3D evaluate3f(
+    final Vector4D v)
   {
-    final VectorI4F r =
-      this.evaluate4f(new VectorI4F(v.getXF(), v.getYF(), v.getZF(), 0.0f));
-    return new VectorI3F(r.getXF(), r.getYF(), r.getZF());
+    final Vector4D r =
+      this.evaluate4f(Vector4D.of(v.x(), v.y(), v.z(), 0.0));
+    return Vector3D.of(r.x(), r.y(), r.z());
   }
 
-  default VectorI2F evaluate2f(final VectorI2F v)
+  default Vector2D evaluate2f(
+    final Vector4D v)
   {
-    final VectorI4F r =
-      this.evaluate4f(new VectorI4F(v.getXF(), v.getYF(), 0.0f, 0.0f));
-    return new VectorI2F(r.getXF(), r.getYF());
+    final Vector4D r = this.evaluate4f(Vector4D.of(v.x(), v.y(), 0.0, 0.0));
+    return Vector2D.of(r.x(), r.y());
   }
 
-  default float evaluate1f(final float v)
+  default double evaluate1f(
+    final double v)
   {
-    final VectorI4F r =
-      this.evaluate4f(new VectorI4F(v, 0.0f, 0.0f, 0.0f));
-    return r.getXF();
+    final Vector4D r =
+      this.evaluate4f(Vector4D.of(v, 0.0, 0.0, 0.0));
+    return r.x();
   }
 
-  VectorI4F evaluateArrayF(final FloatBuffer x);
+  Vector4D evaluateArrayF(
+    final FloatBuffer x);
 }

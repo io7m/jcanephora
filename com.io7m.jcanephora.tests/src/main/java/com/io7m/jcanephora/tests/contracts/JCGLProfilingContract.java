@@ -26,7 +26,7 @@ import com.io7m.jcanephora.profiler.JCGLProfilingFrameType;
 import com.io7m.jcanephora.profiler.JCGLProfilingIteration;
 import com.io7m.jcanephora.profiler.JCGLProfilingType;
 import com.io7m.jfunctional.Unit;
-import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -96,7 +96,7 @@ public abstract class JCGLProfilingContract extends JCGLContract
         final JCGLClearType gc = g.getClear();
         final JCGLClearSpecification cs =
           JCGLClearSpecification.of(
-            Optional.of(new VectorI4F(1.0f, 1.0f, 1.0f, 1.0f)),
+            Optional.of(Vector4D.of(1.0, 1.0, 1.0, 1.0)),
             OptionalDouble.empty(),
             OptionalInt.empty(),
             false);

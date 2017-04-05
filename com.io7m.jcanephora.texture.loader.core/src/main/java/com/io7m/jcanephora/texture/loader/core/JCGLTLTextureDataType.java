@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.texture.loader.core;
 
-import com.io7m.jtensors.VectorWritable4DType;
+import com.io7m.jtensors.storage.heap.VectorMutable4D;
 
 /**
  * <p>The type of loaded texture data.</p>
@@ -66,5 +66,5 @@ public interface JCGLTLTextureDataType
   void getPixel(
     int x,
     int y,
-    VectorWritable4DType v);
+    VectorMutable4D v);
 }

@@ -20,7 +20,7 @@ import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureDataProviderType;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureDataType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jtensors.VectorWritable4DType;
+import com.io7m.jtensors.storage.heap.VectorMutable4D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -171,11 +171,11 @@ public final class JCGLAWTTextureDataProvider implements
     public void getPixel(
       final int x,
       final int y,
-      final VectorWritable4DType v)
+      final VectorMutable4D v)
     {
       this.raster.getPixel(x, y, this.pixel);
 
-      v.set4D(
+      v.setXYZW(
         this.pixel[0] / this.div[0],
         this.pixel[0] / this.div[0],
         this.pixel[0] / this.div[0],
@@ -222,11 +222,11 @@ public final class JCGLAWTTextureDataProvider implements
     public void getPixel(
       final int x,
       final int y,
-      final VectorWritable4DType v)
+      final VectorMutable4D v)
     {
       this.raster.getPixel(x, y, this.pixel);
 
-      v.set4D(
+      v.setXYZW(
         this.pixel[0] / this.div[0],
         this.pixel[0] / this.div[0],
         this.pixel[0] / this.div[0],
@@ -266,7 +266,7 @@ public final class JCGLAWTTextureDataProvider implements
     public void getPixel(
       final int x,
       final int y,
-      final VectorWritable4DType v)
+      final VectorMutable4D v)
     {
       this.raster.getPixel(x, y, this.pixel);
 
@@ -301,7 +301,7 @@ public final class JCGLAWTTextureDataProvider implements
         }
       }
 
-      v.set4D(
+      v.setXYZW(
         this.pixel[0],
         this.pixel[1],
         this.pixel[2],
@@ -325,14 +325,14 @@ public final class JCGLAWTTextureDataProvider implements
     public void getPixel(
       final int x,
       final int y,
-      final VectorWritable4DType v)
+      final VectorMutable4D v)
     {
       final int c = this.image.getRGB(x, y);
       final int r = (c & 0x00ff0000) >> 16;
       final int g = (c & 0x0000ff00) >> 8;
       final int b = (c & 0x000000ff);
 
-      v.set4D(
+      v.setXYZW(
         ((double) r) / 255.0,
         ((double) g) / 255.0,
         ((double) b) / 255.0,

@@ -35,7 +35,7 @@
 
     <dependency>
       <groupId>com.io7m.jpra</groupId>
-      <artifactId>io7m-jpra-runtime-java</artifactId>
+      <artifactId>com.io7m.jpra.runtime.java</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jnfp</groupId>
@@ -61,7 +61,7 @@
       <!-- Generate cursors -->
       <plugin>
         <groupId>com.io7m.jpra</groupId>
-        <artifactId>io7m-jpra-maven-plugin</artifactId>
+        <artifactId>com.io7m.jpra.maven.plugin</artifactId>
         <executions>
           <execution>
             <goals>
