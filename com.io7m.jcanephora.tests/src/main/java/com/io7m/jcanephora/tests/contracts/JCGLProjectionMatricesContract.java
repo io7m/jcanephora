@@ -16,10 +16,12 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
+import com.io7m.jequality.AlmostEqualDouble;
 import com.io7m.jranges.RangeCheckException;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
-import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Projection matrix contract.
@@ -29,6 +31,30 @@ import org.junit.Test;
 
 public abstract class JCGLProjectionMatricesContract
 {
+  private static final Logger LOG;
+  private static final AlmostEqualDouble.ContextRelative ALMOST_EQUAL_LARGE;
+
+  static {
+    LOG = LoggerFactory.getLogger(JCGLProjectionMatricesContract.class);
+
+    ALMOST_EQUAL_LARGE = new AlmostEqualDouble.ContextRelative();
+    ALMOST_EQUAL_LARGE.setMaxAbsoluteDifference(0.000001);
+    ALMOST_EQUAL_LARGE.setMaxRelativeDifference(0.000001);
+  }
+
+  public static void checkAlmostEquals(
+    final double x,
+    final double y)
+  {
+    if (!AlmostEqualDouble.almostEqual(ALMOST_EQUAL_LARGE, x, y)) {
+      throw new AssertionError(
+        String.format(
+          "Expected: <%f> Received: <%f>",
+          Double.valueOf(x),
+          Double.valueOf(y)));
+    }
+  }
+
   protected abstract Matrix4x4D frustumProjectionRH(
     final double x_min,
     final double x_max,
@@ -83,30 +109,25 @@ public abstract class JCGLProjectionMatricesContract
 
     System.out.println(m);
 
-    Assert.assertEquals(5.0, m.rowColumn(0, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 1), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 2), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 3), 0.0);
+    checkAlmostEquals(5.0, m.rowColumn(0, 0));
+    checkAlmostEquals(0.0, m.rowColumn(0, 1));
+    checkAlmostEquals(0.0, m.rowColumn(0, 2));
+    checkAlmostEquals(0.0, m.rowColumn(0, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(1, 0), 0.0);
-    Assert.assertEquals(5.0, m.rowColumn(1, 1), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(1, 2), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(1, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(1, 0));
+    checkAlmostEquals(5.0, m.rowColumn(1, 1));
+    checkAlmostEquals(0.0, m.rowColumn(1, 2));
+    checkAlmostEquals(0.0, m.rowColumn(1, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(2, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(2, 1), 0.0);
-    Assert.assertEquals(
-      -1.105263113975525,
-      m.rowColumn(2, 2),
-      0.0);
-    Assert.assertEquals(
-      -10.526315689086914,
-      m.rowColumn(2, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(2, 0));
+    checkAlmostEquals(0.0, m.rowColumn(2, 1));
+    checkAlmostEquals(-1.105263113975525, m.rowColumn(2, 2));
+    checkAlmostEquals(-10.526315689086914, m.rowColumn(2, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(3, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(3, 1), 0.0);
-    Assert.assertEquals(-1.0, m.rowColumn(3, 2), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(3, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(3, 0));
+    checkAlmostEquals(0.0, m.rowColumn(3, 1));
+    checkAlmostEquals(-1.0, m.rowColumn(3, 2));
+    checkAlmostEquals(0.0, m.rowColumn(3, 3));
   }
 
 
@@ -122,28 +143,25 @@ public abstract class JCGLProjectionMatricesContract
         1.0,
         10.0);
 
-    Assert.assertEquals(0.2, m.rowColumn(0, 0), 0.00000001);
-    Assert.assertEquals(0.0, m.rowColumn(0, 1), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 2), 0.0);
-    Assert.assertEquals(-1.0, m.rowColumn(0, 3), 0.0);
+    checkAlmostEquals(0.2, m.rowColumn(0, 0));
+    checkAlmostEquals(0.0, m.rowColumn(0, 1));
+    checkAlmostEquals(0.0, m.rowColumn(0, 2));
+    checkAlmostEquals(-1.0, m.rowColumn(0, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(1, 0), 0.0);
-    Assert.assertEquals(0.2, m.rowColumn(1, 1), 0.00000001);
-    Assert.assertEquals(0.0, m.rowColumn(1, 2), 0.0);
-    Assert.assertEquals(-1.0, m.rowColumn(1, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(1, 0));
+    checkAlmostEquals(0.2, m.rowColumn(1, 1));
+    checkAlmostEquals(0.0, m.rowColumn(1, 2));
+    checkAlmostEquals(-1.0, m.rowColumn(1, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(2, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(2, 1), 0.0);
-    Assert.assertEquals(
-      -0.22222222,
-      m.rowColumn(2, 2),
-      0.00000001);
-    Assert.assertEquals(-1.2222222, m.rowColumn(2, 3), 0.00000001);
+    checkAlmostEquals(0.0, m.rowColumn(2, 0));
+    checkAlmostEquals(0.0, m.rowColumn(2, 1));
+    checkAlmostEquals(-0.22222222, m.rowColumn(2, 2));
+    checkAlmostEquals(-1.2222222, m.rowColumn(2, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(3, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(3, 1), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(3, 2), 0.0);
-    Assert.assertEquals(1.0, m.rowColumn(3, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(3, 0));
+    checkAlmostEquals(0.0, m.rowColumn(3, 1));
+    checkAlmostEquals(0.0, m.rowColumn(3, 2));
+    checkAlmostEquals(1.0, m.rowColumn(3, 3));
   }
 
 
@@ -159,31 +177,25 @@ public abstract class JCGLProjectionMatricesContract
 
     System.out.println(m);
 
-    Assert.assertEquals(1.0, m.rowColumn(0, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 1), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 2), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 3), 0.0);
+    checkAlmostEquals(1.0, m.rowColumn(0, 0));
+    checkAlmostEquals(0.0, m.rowColumn(0, 1));
+    checkAlmostEquals(0.0, m.rowColumn(0, 2));
+    checkAlmostEquals(0.0, m.rowColumn(0, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(1, 0), 0.0);
-    Assert.assertEquals(1.0, m.rowColumn(1, 1), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(1, 2), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(1, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(1, 0));
+    checkAlmostEquals(1.0, m.rowColumn(1, 1));
+    checkAlmostEquals(0.0, m.rowColumn(1, 2));
+    checkAlmostEquals(0.0, m.rowColumn(1, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(2, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(2, 1), 0.0);
-    Assert.assertEquals(
-      -1.002002000808716,
-      m.rowColumn(2, 2),
-      0.00000000001);
-    Assert.assertEquals(
-      -2.002002000808716,
-      m.rowColumn(2, 3),
-      0.00000000001);
+    checkAlmostEquals(0.0, m.rowColumn(2, 0));
+    checkAlmostEquals(0.0, m.rowColumn(2, 1));
+    checkAlmostEquals(-1.002002000808716, m.rowColumn(2, 2));
+    checkAlmostEquals(-2.002002000808716, m.rowColumn(2, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(3, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(3, 1), 0.0);
-    Assert.assertEquals(-1.0, m.rowColumn(3, 2), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(3, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(3, 0));
+    checkAlmostEquals(0.0, m.rowColumn(3, 1));
+    checkAlmostEquals(-1.0, m.rowColumn(3, 2));
+    checkAlmostEquals(0.0, m.rowColumn(3, 3));
   }
 
   @Test
@@ -198,31 +210,25 @@ public abstract class JCGLProjectionMatricesContract
 
     System.out.println(m);
 
-    Assert.assertEquals(
-      2.414213657379150,
-      m.rowColumn(0, 0),
-      0.00000000001);
-    Assert.assertEquals(0.0, m.rowColumn(0, 1), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 2), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(0, 3), 0.0);
+    checkAlmostEquals(2.414213657379150, m.rowColumn(0, 0));
+    checkAlmostEquals(0.0, m.rowColumn(0, 1));
+    checkAlmostEquals(0.0, m.rowColumn(0, 2));
+    checkAlmostEquals(0.0, m.rowColumn(0, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(1, 0), 0.0);
-    Assert.assertEquals(
-      3.138477563858032,
-      m.rowColumn(1, 1),
-      0.00000000001);
-    Assert.assertEquals(0.0, m.rowColumn(1, 2), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(1, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(1, 0));
+    checkAlmostEquals(3.138477563858032, m.rowColumn(1, 1));
+    checkAlmostEquals(0.0, m.rowColumn(1, 2));
+    checkAlmostEquals(0.0, m.rowColumn(1, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(2, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(2, 1), 0.0);
-    Assert.assertEquals(-1.0, m.rowColumn(2, 2), 0.0);
-    Assert.assertEquals(-2.0, m.rowColumn(2, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(2, 0));
+    checkAlmostEquals(0.0, m.rowColumn(2, 1));
+    checkAlmostEquals(-1.0, m.rowColumn(2, 2));
+    checkAlmostEquals(-2.0, m.rowColumn(2, 3));
 
-    Assert.assertEquals(0.0, m.rowColumn(3, 0), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(3, 1), 0.0);
-    Assert.assertEquals(-1.0, m.rowColumn(3, 2), 0.0);
-    Assert.assertEquals(0.0, m.rowColumn(3, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(3, 0));
+    checkAlmostEquals(0.0, m.rowColumn(3, 1));
+    checkAlmostEquals(-1.0, m.rowColumn(3, 2));
+    checkAlmostEquals(0.0, m.rowColumn(3, 3));
   }
 
 }
