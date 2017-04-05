@@ -62,6 +62,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
@@ -110,7 +111,7 @@ final class JOGLShaders implements JCGLShadersType
     JOGLErrorChecking.checkErrors(this.g3);
 
     this.m3x3_buffer =
-      ByteBuffer.allocateDirect(3 * 3 * 4);
+      ByteBuffer.allocateDirect(3 * 3 * 4).order(ByteOrder.nativeOrder());
     this.m3x3_buffer_view =
       this.m3x3_buffer.asFloatBuffer();
     this.m3x3 =
@@ -118,7 +119,7 @@ final class JOGLShaders implements JCGLShadersType
         this.m3x3_buffer, MutableLong.create(), 0);
 
     this.m4x4_buffer =
-      ByteBuffer.allocateDirect(4 * 4 * 4);
+      ByteBuffer.allocateDirect(4 * 4 * 4).order(ByteOrder.nativeOrder());
     this.m4x4_buffer_view =
       this.m4x4_buffer.asFloatBuffer();
     this.m4x4 =
