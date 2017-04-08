@@ -32,15 +32,11 @@
 
     <dependency>
       <groupId>com.io7m.jaffirm</groupId>
-      <artifactId>io7m-jaffirm-core</artifactId>
+      <artifactId>com.io7m.jaffirm.core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jnull</groupId>
-      <artifactId>io7m-jnull-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jtensors</groupId>
-      <artifactId>com.io7m.jtensors.core</artifactId>
+      <artifactId>com.io7m.jnull.core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jtensors</groupId>
