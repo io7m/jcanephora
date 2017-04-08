@@ -78,7 +78,7 @@ final class LWJGL3FramebufferColorAttachmentPoint extends
   }
 
   @Override
-  public int colorAttachmentPointGetIndex()
+  public int colorAttachmentPointIndex()
   {
     return this.index;
   }
@@ -86,6 +86,6 @@ final class LWJGL3FramebufferColorAttachmentPoint extends
   @Override
   public int compareTo(final JCGLFramebufferColorAttachmentPointType o)
   {
-    return Integer.compare(this.index, o.colorAttachmentPointGetIndex());
+    return Integer.compare(this.index, o.colorAttachmentPointIndex());
   }
 }

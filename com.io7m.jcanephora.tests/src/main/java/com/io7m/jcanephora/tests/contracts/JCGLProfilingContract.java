@@ -55,8 +55,8 @@ public abstract class JCGLProfilingContract extends JCGLContract
 
     Assert.assertFalse(p.isEnabled());
 
-    final JCGLProfilingFrameMeasurementType f = p.getMostRecentlyMeasuredFrame();
-    Assert.assertTrue(f.getChildren().isEmpty());
+    final JCGLProfilingFrameMeasurementType f = p.mostRecentlyMeasuredFrame();
+    Assert.assertTrue(f.children().isEmpty());
   }
 
   @Test
@@ -69,8 +69,8 @@ public abstract class JCGLProfilingContract extends JCGLContract
     Assert.assertFalse(p.isEnabled());
 
     final JCGLProfilingFrameType f = p.startFrame();
-    final JCGLProfilingContextType c0_0 = f.getChildContext("c0");
-    final JCGLProfilingContextType c0_1 = f.getChildContext("c0");
+    final JCGLProfilingContextType c0_0 = f.childContext("c0");
+    final JCGLProfilingContextType c0_1 = f.childContext("c0");
     Assert.assertSame(c0_0, c0_1);
   }
 
@@ -85,16 +85,16 @@ public abstract class JCGLProfilingContract extends JCGLContract
     p.setEnabled(true);
     Assert.assertTrue(p.isEnabled());
 
-    for (int frame = 0; frame < p.getFrameDelay(); ++frame) {
+    for (int frame = 0; frame < p.frameDelay(); ++frame) {
       final JCGLProfilingFrameType f = p.startFrame();
-      final JCGLProfilingContextType c0 = f.getChildContext("c0");
-      Assert.assertEquals("c0", c0.getName());
+      final JCGLProfilingContextType c0 = f.childContext("c0");
+      Assert.assertEquals("c0", c0.contextName());
       Assert.assertFalse(c0.hasTimer());
       Assert.assertTrue(c0.isEnabled());
 
       c0.startMeasuringIfEnabled();
       {
-        final JCGLClearType gc = g.getClear();
+        final JCGLClearType gc = g.clearing();
         final JCGLClearSpecification cs =
           JCGLClearSpecification.of(
             Optional.of(Vector4D.of(1.0, 1.0, 1.0, 1.0)),
@@ -109,26 +109,26 @@ public abstract class JCGLProfilingContract extends JCGLContract
     }
 
     final JCGLProfilingFrameMeasurementType fm_root =
-      p.getMostRecentlyMeasuredFrame();
-    Assert.assertTrue(fm_root.getElapsedTimeTotal() > 0L);
-    Assert.assertEquals(fm_root.getElapsedTime(), 0L);
+      p.mostRecentlyMeasuredFrame();
+    Assert.assertTrue(fm_root.elapsedTimeTotal() > 0L);
+    Assert.assertEquals(fm_root.elapsedTime(), 0L);
 
     final Map<String, JCGLProfilingFrameMeasurementType> fmc_root =
-      fm_root.getChildren();
+      fm_root.children();
     Assert.assertEquals(1L, (long) fmc_root.size());
     Assert.assertTrue(fmc_root.containsKey("c0"));
 
     {
       final JCGLProfilingFrameMeasurementType fm_c0 = fmc_root.get("c0");
       Assert.assertEquals(
-        fm_c0.getElapsedTimeTotal(),
-        fm_root.getElapsedTimeTotal());
+        fm_c0.elapsedTimeTotal(),
+        fm_root.elapsedTimeTotal());
       Assert.assertEquals(
-        fm_c0.getElapsedTime(),
-        fm_root.getElapsedTimeTotal());
+        fm_c0.elapsedTime(),
+        fm_root.elapsedTimeTotal());
 
       final Map<String, JCGLProfilingFrameMeasurementType> fm_cc =
-        fm_c0.getChildren();
+        fm_c0.children();
       Assert.assertTrue(fm_cc.isEmpty());
     }
   }
@@ -144,23 +144,23 @@ public abstract class JCGLProfilingContract extends JCGLContract
     p.setEnabled(true);
     Assert.assertTrue(p.isEnabled());
 
-    for (int frame = 0; frame < p.getFrameDelay(); ++frame) {
+    for (int frame = 0; frame < p.frameDelay(); ++frame) {
       final JCGLProfilingFrameType f = p.startFrame();
-      final JCGLProfilingContextType c0 = f.getChildContext("c0");
-      final JCGLProfilingContextType c1 = c0.getChildContext("c1");
-      final JCGLProfilingContextType c2 = c0.getChildContext("c2");
-      final JCGLProfilingContextType c3 = c0.getChildContext("c3");
+      final JCGLProfilingContextType c0 = f.childContext("c0");
+      final JCGLProfilingContextType c1 = c0.childContext("c1");
+      final JCGLProfilingContextType c2 = c0.childContext("c2");
+      final JCGLProfilingContextType c3 = c0.childContext("c3");
     }
 
     final JCGLProfilingFrameMeasurementType fm =
-      p.getMostRecentlyMeasuredFrame();
+      p.mostRecentlyMeasuredFrame();
 
     final HashSet<String> seen = new HashSet<>();
 
     final AtomicInteger ai = new AtomicInteger(0);
     fm.iterate(ai, (ii, depth, cx) -> {
       ii.incrementAndGet();
-      seen.add(cx.getName());
+      seen.add(cx.contextName());
       return JCGLProfilingIteration.CONTINUE;
     });
 
@@ -184,23 +184,23 @@ public abstract class JCGLProfilingContract extends JCGLContract
     p.setEnabled(true);
     Assert.assertTrue(p.isEnabled());
 
-    for (int frame = 0; frame < p.getFrameDelay(); ++frame) {
+    for (int frame = 0; frame < p.frameDelay(); ++frame) {
       final JCGLProfilingFrameType f = p.startFrame();
-      final JCGLProfilingContextType c0 = f.getChildContext("c0");
-      final JCGLProfilingContextType c1 = c0.getChildContext("c1");
-      final JCGLProfilingContextType c2 = c0.getChildContext("c2");
-      final JCGLProfilingContextType c3 = c0.getChildContext("c3");
+      final JCGLProfilingContextType c0 = f.childContext("c0");
+      final JCGLProfilingContextType c1 = c0.childContext("c1");
+      final JCGLProfilingContextType c2 = c0.childContext("c2");
+      final JCGLProfilingContextType c3 = c0.childContext("c3");
     }
 
     final JCGLProfilingFrameMeasurementType fm =
-      p.getMostRecentlyMeasuredFrame();
+      p.mostRecentlyMeasuredFrame();
 
     final HashSet<String> seen = new HashSet<>();
 
     final AtomicInteger ai = new AtomicInteger(0);
     fm.iterate(ai, (ii, depth, cx) -> {
       ii.incrementAndGet();
-      seen.add(cx.getName());
+      seen.add(cx.contextName());
       return JCGLProfilingIteration.STOP;
     });
 
@@ -220,16 +220,16 @@ public abstract class JCGLProfilingContract extends JCGLContract
     p.setEnabled(true);
     Assert.assertTrue(p.isEnabled());
 
-    for (int frame = 0; frame < p.getFrameDelay(); ++frame) {
+    for (int frame = 0; frame < p.frameDelay(); ++frame) {
       final JCGLProfilingFrameType f = p.startFrame();
-      final JCGLProfilingContextType c0 = f.getChildContext("c0");
-      final JCGLProfilingContextType c1 = c0.getChildContext("c1");
-      final JCGLProfilingContextType c2 = c0.getChildContext("c2");
-      final JCGLProfilingContextType c3 = c0.getChildContext("c3");
+      final JCGLProfilingContextType c0 = f.childContext("c0");
+      final JCGLProfilingContextType c1 = c0.childContext("c1");
+      final JCGLProfilingContextType c2 = c0.childContext("c2");
+      final JCGLProfilingContextType c3 = c0.childContext("c3");
     }
 
     final JCGLProfilingFrameMeasurementType fm =
-      p.getMostRecentlyMeasuredFrame();
+      p.mostRecentlyMeasuredFrame();
 
     final HashSet<String> seen = new HashSet<>();
 
@@ -237,11 +237,11 @@ public abstract class JCGLProfilingContract extends JCGLContract
     fm.iterate(ai, (ii, depth, cx) -> {
       ii.incrementAndGet();
 
-      if (Objects.equals("c1", cx.getName())) {
+      if (Objects.equals("c1", cx.contextName())) {
         return JCGLProfilingIteration.STOP;
       }
 
-      seen.add(cx.getName());
+      seen.add(cx.contextName());
       return JCGLProfilingIteration.CONTINUE;
     });
 
@@ -269,11 +269,11 @@ public abstract class JCGLProfilingContract extends JCGLContract
      * Make sure there are a decent number of cached contexts.
      */
 
-    for (int frame = 0; frame < p.getFrameDelay(); ++frame) {
+    for (int frame = 0; frame < p.frameDelay(); ++frame) {
       final JCGLProfilingFrameType f = p.startFrame();
-      final JCGLProfilingContextType c0 = f.getChildContext("c0");
+      final JCGLProfilingContextType c0 = f.childContext("c0");
 
-      Assert.assertEquals("c0", c0.getName());
+      Assert.assertEquals("c0", c0.contextName());
       Assert.assertFalse(c0.hasTimer());
       Assert.assertTrue(c0.isEnabled());
 
@@ -281,17 +281,17 @@ public abstract class JCGLProfilingContract extends JCGLContract
       c0.stopMeasuringIfEnabled();
       Assert.assertTrue(c0.hasTimer());
 
-      final JCGLProfilingContextType c1 = c0.getChildContext("c1");
+      final JCGLProfilingContextType c1 = c0.childContext("c1");
       c1.startMeasuringIfEnabled();
       c1.stopMeasuringIfEnabled();
       Assert.assertTrue(c1.hasTimer());
 
-      final JCGLProfilingContextType c2 = c0.getChildContext("c2");
+      final JCGLProfilingContextType c2 = c0.childContext("c2");
       c2.startMeasuringIfEnabled();
       c2.stopMeasuringIfEnabled();
       Assert.assertTrue(c2.hasTimer());
 
-      final JCGLProfilingContextType c3 = c0.getChildContext("c3");
+      final JCGLProfilingContextType c3 = c0.childContext("c3");
 
       seen.put(c0, Unit.unit());
       seen.put(c1, Unit.unit());
@@ -304,15 +304,15 @@ public abstract class JCGLProfilingContract extends JCGLContract
      */
 
     Assert.assertEquals(
-      (long) (p.getFrameDelay() * 4), (long) seen.size());
+      (long) (p.frameDelay() * 4), (long) seen.size());
 
-    for (int frame = 0; frame < p.getFrameDelay() * 2; ++frame) {
+    for (int frame = 0; frame < p.frameDelay() * 2; ++frame) {
       final JCGLProfilingFrameType f = p.startFrame();
 
-      final JCGLProfilingContextType c0 = f.getChildContext("c0");
-      final JCGLProfilingContextType c1 = c0.getChildContext("c1");
-      final JCGLProfilingContextType c2 = c0.getChildContext("c2");
-      final JCGLProfilingContextType c3 = c0.getChildContext("c3");
+      final JCGLProfilingContextType c0 = f.childContext("c0");
+      final JCGLProfilingContextType c1 = c0.childContext("c1");
+      final JCGLProfilingContextType c2 = c0.childContext("c2");
+      final JCGLProfilingContextType c3 = c0.childContext("c3");
 
       Assert.assertTrue(seen.containsKey(c0));
       Assert.assertTrue(seen.containsKey(c1));
@@ -326,25 +326,25 @@ public abstract class JCGLProfilingContract extends JCGLContract
 
     p.trimContexts();
 
-    for (int frame = 0; frame < p.getFrameDelay() * 2; ++frame) {
+    for (int frame = 0; frame < p.frameDelay() * 2; ++frame) {
       final JCGLProfilingFrameType f = p.startFrame();
-      final JCGLProfilingContextType c0 = f.getChildContext("c0");
-      Assert.assertEquals("c0", c0.getName());
+      final JCGLProfilingContextType c0 = f.childContext("c0");
+      Assert.assertEquals("c0", c0.contextName());
       Assert.assertFalse(c0.hasTimer());
       Assert.assertTrue(c0.isEnabled());
 
-      final JCGLProfilingContextType c1 = c0.getChildContext("c1");
-      Assert.assertEquals("c1", c1.getName());
+      final JCGLProfilingContextType c1 = c0.childContext("c1");
+      Assert.assertEquals("c1", c1.contextName());
       Assert.assertFalse(c1.hasTimer());
       Assert.assertTrue(c1.isEnabled());
 
-      final JCGLProfilingContextType c2 = c0.getChildContext("c2");
-      Assert.assertEquals("c2", c2.getName());
+      final JCGLProfilingContextType c2 = c0.childContext("c2");
+      Assert.assertEquals("c2", c2.contextName());
       Assert.assertFalse(c2.hasTimer());
       Assert.assertTrue(c2.isEnabled());
 
-      final JCGLProfilingContextType c3 = c0.getChildContext("c3");
-      Assert.assertEquals("c3", c3.getName());
+      final JCGLProfilingContextType c3 = c0.childContext("c3");
+      Assert.assertEquals("c3", c3.contextName());
       Assert.assertFalse(c3.hasTimer());
       Assert.assertTrue(c3.isEnabled());
 

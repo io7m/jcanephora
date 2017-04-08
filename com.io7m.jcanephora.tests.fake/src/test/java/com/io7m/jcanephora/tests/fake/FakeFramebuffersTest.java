@@ -41,7 +41,7 @@ public final class FakeFramebuffersTest extends JCGLFramebuffersContract
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
-      return new Interfaces(c, g33.getFramebuffers(), g33.getTextures());
+      return new Interfaces(c, g33.framebuffers(), g33.textures());
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

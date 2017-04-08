@@ -105,11 +105,11 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
 
-    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.indexBufferBound();
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (Objects.equals(i, current_ib)) {
-        final long size = i.getRange().getInterval();
+        final long size = i.byteRange().getInterval();
         final ByteBuffer b = f.apply(size);
         this.gl.glGetBufferSubData(GL.GL_ELEMENT_ARRAY_BUFFER, 0L, size, b);
         return b;
@@ -180,7 +180,7 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
           }
         }
 
-        this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ib.getGLName());
+        this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ib.glName());
         return Optional.of(ib);
       });
   }
@@ -203,7 +203,7 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     throws JCGLException
   {
     return this.array_objects.arrayObjectGetCurrentlyBound()
-      .getIndexBufferBound();
+      .indexBufferBound();
   }
 
   @Override
@@ -237,11 +237,11 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     final JOGLIndexBuffer i = this.checkIndexBuffer(ii);
 
     this.int_cache.rewind();
-    this.int_cache.put(0, i.getGLName());
+    this.int_cache.put(0, i.glName());
     this.gl.glDeleteBuffers(1, this.int_cache);
     i.setDeleted();
 
-    for (final JCGLReferenceContainerType c : i.getReferringContainers()) {
+    for (final JCGLReferenceContainerType c : i.referringContainers()) {
       if (c instanceof JOGLArrayObject) {
         final JOGLArrayObject ao = (JOGLArrayObject) c;
         ao.setIndexBuffer(ib -> Optional.empty());
@@ -255,18 +255,18 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
     NullCheck.notNull(u, "Update");
-    final JCGLIndexBufferType ii = u.getBuffer();
+    final JCGLIndexBufferType ii = u.buffer();
     this.checkIndexBuffer(ii);
 
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
 
-    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.indexBufferBound();
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (Objects.equals(ii, current_ib)) {
-        final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
-        final ByteBuffer data = u.getData();
+        final UnsignedRangeInclusiveL r = u.dataUpdateRange();
+        final ByteBuffer data = u.data();
         data.rewind();
         this.gl.glBufferSubData(
           GL.GL_ELEMENT_ARRAY_BUFFER, r.getLower(), r.getInterval(), data);
@@ -287,18 +287,18 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
 
-    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.indexBufferBound();
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (Objects.equals(i, current_ib)) {
         if (LOG.isTraceEnabled()) {
-          final int id = current_ib.getGLName();
+          final int id = current_ib.glName();
           LOG.trace("reallocated {}", Integer.valueOf(id));
         }
 
-        final UnsignedRangeInclusiveL r = i.getRange();
+        final UnsignedRangeInclusiveL r = i.byteRange();
         final long size = r.getInterval();
-        final int usage = JOGLTypeConversions.usageHintToGL(i.getUsageHint());
+        final int usage = JOGLTypeConversions.usageHintToGL(i.usageHint());
         this.gl.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, size, null, usage);
         return;
       }
@@ -312,6 +312,6 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
   {
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
-    return ao.getIndexBufferBound().isPresent();
+    return ao.indexBufferBound().isPresent();
   }
 }

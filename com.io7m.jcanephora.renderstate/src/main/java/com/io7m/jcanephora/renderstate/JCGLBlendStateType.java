@@ -38,7 +38,7 @@ public interface JCGLBlendStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLBlendFunction getBlendFunctionSourceRGB()
+  default JCGLBlendFunction blendFunctionSourceRGB()
   {
     return JCGLBlendFunction.BLEND_ONE;
   }
@@ -51,7 +51,7 @@ public interface JCGLBlendStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLBlendFunction getBlendFunctionSourceAlpha()
+  default JCGLBlendFunction blendFunctionSourceAlpha()
   {
     return JCGLBlendFunction.BLEND_ONE;
   }
@@ -64,7 +64,7 @@ public interface JCGLBlendStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLBlendFunction getBlendFunctionTargetRGB()
+  default JCGLBlendFunction blendFunctionTargetRGB()
   {
     return JCGLBlendFunction.BLEND_ONE;
   }
@@ -77,7 +77,7 @@ public interface JCGLBlendStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLBlendFunction getBlendFunctionTargetAlpha()
+  default JCGLBlendFunction blendFunctionTargetAlpha()
   {
     return JCGLBlendFunction.BLEND_ONE;
   }
@@ -90,7 +90,7 @@ public interface JCGLBlendStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLBlendEquation getBlendEquationRGB()
+  default JCGLBlendEquation blendEquationRGB()
   {
     return JCGLBlendEquation.BLEND_EQUATION_ADD;
   }
@@ -103,7 +103,7 @@ public interface JCGLBlendStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLBlendEquation getBlendEquationAlpha()
+  default JCGLBlendEquation blendEquationAlpha()
   {
     return JCGLBlendEquation.BLEND_EQUATION_ADD;
   }

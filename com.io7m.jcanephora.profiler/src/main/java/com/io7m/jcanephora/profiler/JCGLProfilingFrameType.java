@@ -30,5 +30,5 @@ public interface JCGLProfilingFrameType
    * @return A (possibly new) child context
    */
 
-  JCGLProfilingContextType getChildContext(String name);
+  JCGLProfilingContextType childContext(String name);
 }

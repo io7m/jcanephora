@@ -27,7 +27,7 @@ public final class LWJGL3ColorBufferMaskingTestGL33 extends
   protected JCGLColorBufferMaskingType getColorMasking(final String name)
   {
     final JCGLContextType c = LWJGL3TestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getColorBufferMasking();
+    return c.contextGetGL33().colorBufferMasking();
   }
 
   @Override

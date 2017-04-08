@@ -42,7 +42,7 @@ public final class FakeTimersTest extends JCGLTimersContract
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-      return cg.getTimers();
+      return cg.timers();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant e) {
       throw new UnreachableCodeException(e);
     }

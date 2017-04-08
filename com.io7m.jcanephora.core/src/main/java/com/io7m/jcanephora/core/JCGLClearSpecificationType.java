@@ -38,7 +38,7 @@ public interface JCGLClearSpecificationType
    */
 
   @Value.Parameter
-  Optional<Vector4D> getColorBufferClear();
+  Optional<Vector4D> colorBufferClear();
 
   /**
    * @return The depth value to which the depth buffer will be cleared, if depth
@@ -46,7 +46,7 @@ public interface JCGLClearSpecificationType
    */
 
   @Value.Parameter
-  OptionalDouble getDepthBufferClear();
+  OptionalDouble depthBufferClear();
 
   /**
    * @return The stencil value to which the stencil buffer will be cleared, if
@@ -54,7 +54,7 @@ public interface JCGLClearSpecificationType
    */
 
   @Value.Parameter
-  OptionalInt getStencilBufferClear();
+  OptionalInt stencilBufferClear();
 
   /**
    * @return {@code true} if strict buffer checking is enabled
@@ -62,7 +62,7 @@ public interface JCGLClearSpecificationType
 
   @Value.Parameter
   @Value.Default
-  default boolean getStrictChecking()
+  default boolean strictChecking()
   {
     return false;
   }

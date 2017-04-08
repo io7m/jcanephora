@@ -74,7 +74,7 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
     this.checkArray(a);
 
     if (Objects.equals(a, this.bind)) {
-      final long size = a.getRange().getInterval();
+      final long size = a.byteRange().getInterval();
       final ByteBuffer b = f.apply(size);
       GL15.glGetBufferSubData(GL15.GL_ARRAY_BUFFER, 0L, b);
       return b;
@@ -124,9 +124,9 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
     this.checkArray(a);
 
     if (Objects.equals(a, this.bind)) {
-      final UnsignedRangeInclusiveL r = a.getRange();
+      final UnsignedRangeInclusiveL r = a.byteRange();
       final long size = r.getInterval();
-      final JCGLUsageHint usage = a.getUsageHint();
+      final JCGLUsageHint usage = a.usageHint();
 
       if (LOG.isTraceEnabled()) {
         LOG.trace(
@@ -149,7 +149,7 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
     }
 
     if (!Objects.equals(a, this.bind)) {
-      GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, a.getGLName());
+      GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, a.glName());
       this.bind = a;
     }
   }
@@ -217,10 +217,10 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
     this.checkArray(a);
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+      LOG.debug("delete {}", Integer.valueOf(a.glName()));
     }
 
-    GL15.glDeleteBuffers(a.getGLName());
+    GL15.glDeleteBuffers(a.glName());
     ((LWJGL3ArrayBuffer) a).setDeleted();
 
     if (Objects.equals(a, this.bind)) {
@@ -234,12 +234,12 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
     NullCheck.notNull(u, "Update");
-    final JCGLArrayBufferType a = u.getBuffer();
+    final JCGLArrayBufferType a = u.buffer();
     this.checkArray(a);
 
     if (Objects.equals(a, this.bind)) {
-      final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
-      final ByteBuffer data = u.getData();
+      final UnsignedRangeInclusiveL r = u.dataUpdateRange();
+      final ByteBuffer data = u.data();
       data.rewind();
 
       GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, r.getLower(), data);

@@ -36,7 +36,7 @@ public interface JCGLCullingStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLFaceSelection getFaceSelection()
+  default JCGLFaceSelection faceSelection()
   {
     return JCGLFaceSelection.FACE_BACK;
   }
@@ -47,7 +47,7 @@ public interface JCGLCullingStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLFaceWindingOrder getFaceWindingOrder()
+  default JCGLFaceWindingOrder faceWindingOrder()
   {
     return JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
   }

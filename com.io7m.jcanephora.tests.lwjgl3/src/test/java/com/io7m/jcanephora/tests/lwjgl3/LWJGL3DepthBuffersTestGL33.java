@@ -39,8 +39,8 @@ public final class LWJGL3DepthBuffersTestGL33 extends JCGLDepthBuffersContract
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     return new Interfaces(
       c,
-      cg.getFramebuffers(),
-      cg.getTextures(),
-      cg.getDepthBuffers());
+      cg.framebuffers(),
+      cg.textures(),
+      cg.depthBuffers());
   }
 }

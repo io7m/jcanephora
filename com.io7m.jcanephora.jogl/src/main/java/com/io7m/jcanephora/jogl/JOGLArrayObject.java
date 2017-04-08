@@ -45,7 +45,7 @@ final class JOGLArrayObject extends JOGLObjectUnshared
     this.attribs = NullCheck.notNull(in_attribs, "Attributes");
     this.index_buffer = Optional.empty();
     this.image = String.format(
-      "[ArrayObject %d]", Integer.valueOf(this.getGLName()));
+      "[ArrayObject %d]", Integer.valueOf(this.glName()));
 
     this.reference_container = new JOGLReferenceContainer(this, 8);
     for (int index = 0; index < in_attribs.length; ++index) {
@@ -81,19 +81,19 @@ final class JOGLArrayObject extends JOGLObjectUnshared
   }
 
   @Override
-  public Optional<JCGLArrayVertexAttributeType> getAttributeAt(final int index)
+  public Optional<JCGLArrayVertexAttributeType> attributeAt(final int index)
   {
     return Optional.ofNullable(this.attribs[index]);
   }
 
   @Override
-  public int getMaximumVertexAttributes()
+  public int attributeMaximumSupported()
   {
     return this.attribs.length;
   }
 
   @Override
-  public Optional<JCGLIndexBufferUsableType> getIndexBufferBound()
+  public Optional<JCGLIndexBufferUsableType> indexBufferBound()
   {
     synchronized (this.index_buffer) {
       return this.index_buffer;
@@ -115,9 +115,9 @@ final class JOGLArrayObject extends JOGLObjectUnshared
   }
 
   @Override
-  public Set<JCGLReferableType> getReferences()
+  public Set<JCGLReferableType> references()
   {
-    return this.reference_container.getReferences();
+    return this.reference_container.references();
   }
 
   JOGLIndexBuffer getIndexBufferUnsafe()

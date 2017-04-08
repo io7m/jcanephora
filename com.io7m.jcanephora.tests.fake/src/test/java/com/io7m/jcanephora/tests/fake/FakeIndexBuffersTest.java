@@ -45,7 +45,7 @@ public final class FakeIndexBuffersTest extends JCGLIndexBuffersContract
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type cg = c.contextGetGL33();
       return new Interfaces(
-        c, cg.getArrayBuffers(), cg.getIndexBuffers(), cg.getArrayObjects());
+        c, cg.arrayBuffers(), cg.indexBuffers(), cg.arrayObjects());
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
@@ -66,7 +66,7 @@ public final class FakeIndexBuffersTest extends JCGLIndexBuffersContract
       final JCGLInterfaceGL33Type g33_0 = c0.contextGetGL33();
       final JCGLInterfaceGL33Type g33_1 = c1.contextGetGL33();
       return new JCGLUnsharedContextPair<>(
-        g33_0.getIndexBuffers(), c0, g33_1.getIndexBuffers(), c1);
+        g33_0.indexBuffers(), c0, g33_1.indexBuffers(), c1);
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
@@ -88,7 +88,7 @@ public final class FakeIndexBuffersTest extends JCGLIndexBuffersContract
       final JCGLInterfaceGL33Type g1 = c1.contextGetGL33();
 
       return new JCGLSharedContextPair<>(
-        g0.getIndexBuffers(), c0, g1.getIndexBuffers(), c1);
+        g0.indexBuffers(), c0, g1.indexBuffers(), c1);
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

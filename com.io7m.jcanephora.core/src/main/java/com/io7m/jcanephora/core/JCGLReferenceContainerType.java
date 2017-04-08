@@ -45,5 +45,5 @@ public interface JCGLReferenceContainerType
    * references
    */
 
-  Set<JCGLReferableType> getReferences();
+  Set<JCGLReferableType> references();
 }

@@ -129,7 +129,7 @@ public final class JCGLProfiling implements JCGLProfilingType
    */
 
   @Override
-  public JCGLProfilingFrameMeasurementType getMostRecentlyMeasuredFrame()
+  public JCGLProfilingFrameMeasurementType mostRecentlyMeasuredFrame()
   {
     final int shift =
       this.frames.length - 1;
@@ -143,7 +143,7 @@ public final class JCGLProfiling implements JCGLProfilingType
   }
 
   @Override
-  public int getFrameDelay()
+  public int frameDelay()
   {
     return FRAME_DELAY;
   }
@@ -167,25 +167,25 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public String getName()
+    public String contextName()
     {
       return this.name;
     }
 
     @Override
-    public long getElapsedTime()
+    public long elapsedTime()
     {
       return this.elapsed;
     }
 
     @Override
-    public long getElapsedTimeTotal()
+    public long elapsedTimeTotal()
     {
       return this.elapsed_total;
     }
 
     @Override
-    public Map<String, JCGLProfilingFrameMeasurementType> getChildren()
+    public Map<String, JCGLProfilingFrameMeasurementType> children()
     {
       return this.children_ro;
     }
@@ -229,7 +229,7 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public JCGLTimerQueryUsableType getTimer()
+    public JCGLTimerQueryUsableType timer()
     {
       if (this.timer.isPresent()) {
         return this.timer.get();
@@ -241,7 +241,7 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public JCGLProfilingContextType getChildContext(
+    public JCGLProfilingContextType childContext(
       final String c_name)
     {
       NullCheck.notNull(c_name, "Name");
@@ -262,7 +262,7 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public JCGLTimersType getTimers()
+    public JCGLTimersType timers()
     {
       return JCGLProfiling.this.timers;
     }
@@ -350,7 +350,7 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public JCGLProfilingContextType getChildContext(final String c_name)
+    public JCGLProfilingContextType childContext(final String c_name)
     {
       NullCheck.notNull(c_name, "Name");
 
@@ -374,25 +374,25 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public String getName()
+    public String contextName()
     {
       return "root";
     }
 
     @Override
-    public long getElapsedTime()
+    public long elapsedTime()
     {
       return 0L;
     }
 
     @Override
-    public long getElapsedTimeTotal()
+    public long elapsedTimeTotal()
     {
       return this.elapsed_total;
     }
 
     @Override
-    public Map<String, JCGLProfilingFrameMeasurementType> getChildren()
+    public Map<String, JCGLProfilingFrameMeasurementType> children()
     {
       return this.children_ro;
     }

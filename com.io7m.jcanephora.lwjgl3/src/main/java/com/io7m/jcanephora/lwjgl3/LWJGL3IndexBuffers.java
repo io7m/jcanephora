@@ -98,11 +98,11 @@ final class LWJGL3IndexBuffers implements JCGLIndexBuffersType
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
 
-    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.indexBufferBound();
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (Objects.equals(i, current_ib)) {
-        final long size = i.getRange().getInterval();
+        final long size = i.byteRange().getInterval();
         final ByteBuffer b = f.apply(size);
         GL15.glGetBufferSubData(GL15.GL_ELEMENT_ARRAY_BUFFER, 0L, b);
         return b;
@@ -168,7 +168,7 @@ final class LWJGL3IndexBuffers implements JCGLIndexBuffersType
           }
         }
 
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ib.getGLName());
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ib.glName());
         return Optional.of(ib);
       });
   }
@@ -191,7 +191,7 @@ final class LWJGL3IndexBuffers implements JCGLIndexBuffersType
     throws JCGLException
   {
     return this.array_objects.arrayObjectGetCurrentlyBound()
-      .getIndexBufferBound();
+      .indexBufferBound();
   }
 
   @Override
@@ -224,10 +224,10 @@ final class LWJGL3IndexBuffers implements JCGLIndexBuffersType
   {
     final LWJGL3IndexBuffer i = this.checkIndexBuffer(ii);
 
-    GL15.glDeleteBuffers(i.getGLName());
+    GL15.glDeleteBuffers(i.glName());
     i.setDeleted();
 
-    for (final JCGLReferenceContainerType c : i.getReferringContainers()) {
+    for (final JCGLReferenceContainerType c : i.referringContainers()) {
       if (c instanceof LWJGL3ArrayObject) {
         final LWJGL3ArrayObject ao = (LWJGL3ArrayObject) c;
         ao.setIndexBuffer(ib -> Optional.empty());
@@ -241,18 +241,18 @@ final class LWJGL3IndexBuffers implements JCGLIndexBuffersType
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
     NullCheck.notNull(u, "Update");
-    final JCGLIndexBufferType ii = u.getBuffer();
+    final JCGLIndexBufferType ii = u.buffer();
     this.checkIndexBuffer(ii);
 
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
 
-    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.indexBufferBound();
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (Objects.equals(ii, current_ib)) {
-        final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
-        final ByteBuffer data = u.getData();
+        final UnsignedRangeInclusiveL r = u.dataUpdateRange();
+        final ByteBuffer data = u.data();
         data.rewind();
         GL15.glBufferSubData(
           GL15.GL_ELEMENT_ARRAY_BUFFER, r.getLower(), data);
@@ -273,18 +273,18 @@ final class LWJGL3IndexBuffers implements JCGLIndexBuffersType
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
 
-    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.indexBufferBound();
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (Objects.equals(i, current_ib)) {
         if (LOG.isTraceEnabled()) {
-          final int id = current_ib.getGLName();
+          final int id = current_ib.glName();
           LOG.trace("reallocated {}", Integer.valueOf(id));
         }
 
-        final UnsignedRangeInclusiveL r = i.getRange();
+        final UnsignedRangeInclusiveL r = i.byteRange();
         final long size = r.getInterval();
-        final int usage = LWJGL3TypeConversions.usageHintToGL(i.getUsageHint());
+        final int usage = LWJGL3TypeConversions.usageHintToGL(i.usageHint());
         GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, size, usage);
         return;
       }
@@ -298,6 +298,6 @@ final class LWJGL3IndexBuffers implements JCGLIndexBuffersType
   {
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
-    return ao.getIndexBufferBound().isPresent();
+    return ao.indexBufferBound().isPresent();
   }
 }

@@ -98,7 +98,7 @@ final class LWJGL3TextureUnit extends LWJGL3ObjectPseudoUnshared implements
   }
 
   @Override
-  public int unitGetIndex()
+  public int index()
   {
     return this.index;
   }
@@ -106,6 +106,6 @@ final class LWJGL3TextureUnit extends LWJGL3ObjectPseudoUnshared implements
   @Override
   public int compareTo(final JCGLTextureUnitType o)
   {
-    return Integer.compareUnsigned(this.index, o.unitGetIndex());
+    return Integer.compareUnsigned(this.index, o.index());
   }
 }

@@ -27,18 +27,18 @@ public interface JCGLProgramAttributeType extends JCGLNamedType
    * declared in the respective shading program.
    */
 
-  String getName();
+  String name();
 
   /**
    * @return A reference to the program that owns the attribute.
    */
 
-  JCGLProgramShaderUsableType getProgram();
+  JCGLProgramShaderUsableType program();
 
   /**
    * @return The OpenGL type of the attribute.
    */
 
-  JCGLType getType();
+  JCGLType type();
 
 }

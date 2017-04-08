@@ -46,7 +46,7 @@ public final class JOGLTexturesTestGL33 extends JCGLTexturesContract
   protected JCGLTexturesType getTextures(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getTextures();
+    return c.contextGetGL33().textures();
   }
 
   @Test

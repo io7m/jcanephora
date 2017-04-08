@@ -210,7 +210,7 @@ final class LWJGL3Textures implements JCGLTexturesType
   {
     final LWJGL3TextureUnit u =
       checkTextureUnit(this.context, unit);
-    final int index = u.unitGetIndex();
+    final int index = u.index();
 
     {
       final LWJGL3Texture2D t2d = u.getBind2D();
@@ -220,7 +220,7 @@ final class LWJGL3Textures implements JCGLTexturesType
         }
         GL13.glActiveTexture(GL13.GL_TEXTURE0 + index);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-        this.bindingRemoveTextureReference(t2d.getGLName(), index);
+        this.bindingRemoveTextureReference(t2d.glName(), index);
         u.setBind2D(null);
       }
     }
@@ -233,7 +233,7 @@ final class LWJGL3Textures implements JCGLTexturesType
         }
         GL13.glActiveTexture(GL13.GL_TEXTURE0 + index);
         GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, 0);
-        this.bindingRemoveTextureReference(tc.getGLName(), index);
+        this.bindingRemoveTextureReference(tc.glName(), index);
         u.setBindCube(null);
       }
     }
@@ -249,8 +249,8 @@ final class LWJGL3Textures implements JCGLTexturesType
       checkTexture2D(this.context, texture);
     final LWJGL3TextureUnit u =
       checkTextureUnit(this.context, unit);
-    final int index = unit.unitGetIndex();
-    final int texture_id = texture.getGLName();
+    final int index = unit.index();
+    final int texture_id = texture.glName();
 
     this.checkFeedback(texture);
 
@@ -312,13 +312,13 @@ final class LWJGL3Textures implements JCGLTexturesType
     checkTexture2D(this.context, texture);
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+      LOG.debug("delete {}", Integer.valueOf(texture.glName()));
     }
 
-    GL11.glDeleteTextures(texture.getGLName());
+    GL11.glDeleteTextures(texture.glName());
     ((LWJGL3Texture2D) texture).setDeleted();
 
-    this.unbindDeleted(texture.getGLName());
+    this.unbindDeleted(texture.glName());
   }
 
   private void unbindDeleted(final int texture_id)
@@ -350,7 +350,7 @@ final class LWJGL3Textures implements JCGLTexturesType
     throws JCGLException
   {
     checkTexture2D(this.context, texture);
-    final int texture_id = texture.getGLName();
+    final int texture_id = texture.glName();
     return this.texture_to_units.containsKey(texture_id);
   }
 
@@ -456,12 +456,12 @@ final class LWJGL3Textures implements JCGLTexturesType
     NullCheck.notNull(data, "Data");
     NullCheck.notNull(unit, "Unit");
 
-    final JCGLTexture2DUsableType texture = data.getTexture();
+    final JCGLTexture2DUsableType texture = data.texture();
     checkTextureUnit(this.context, unit);
     checkTexture2D(this.context, texture);
 
-    final AreaL update_area = data.getArea();
-    final AreaL texture_area = AreaSizesL.area(texture.textureGetSize());
+    final AreaL update_area = data.area();
+    final AreaL texture_area = AreaSizesL.area(texture.size());
 
     Preconditions.checkPrecondition(
       update_area,
@@ -473,9 +473,9 @@ final class LWJGL3Textures implements JCGLTexturesType
     final int width = Math.toIntExact(update_area.width());
     final int height = Math.toIntExact(update_area.height());
 
-    final JCGLTextureFormat format = texture.textureGetFormat();
+    final JCGLTextureFormat format = texture.format();
     final LWJGL3TextureSpec spec = LWJGL3TextureSpecs.getTextureSpec(format);
-    final ByteBuffer buffer = data.getData();
+    final ByteBuffer buffer = data.data();
 
     this.texture2DBind(unit, texture);
     GL11.glTexSubImage2D(
@@ -489,7 +489,7 @@ final class LWJGL3Textures implements JCGLTexturesType
       spec.getType(),
       buffer);
 
-    switch (texture.textureGetMinificationFilter()) {
+    switch (texture.minificationFilter()) {
       case TEXTURE_FILTER_LINEAR:
       case TEXTURE_FILTER_NEAREST:
         break;
@@ -515,10 +515,10 @@ final class LWJGL3Textures implements JCGLTexturesType
     checkTextureUnit(this.context, unit);
     checkTexture2D(this.context, texture);
 
-    final JCGLTextureFormat format = texture.textureGetFormat();
+    final JCGLTextureFormat format = texture.format();
     final LWJGL3TextureSpec spec = LWJGL3TextureSpecs.getTextureSpec(format);
 
-    final AreaL area = AreaSizesL.area(texture.textureGetSize());
+    final AreaL area = AreaSizesL.area(texture.size());
     final long width = area.width();
     final long height = area.height();
     final long data_size = width * height * (long) format.getBytesPerPixel();
@@ -548,7 +548,7 @@ final class LWJGL3Textures implements JCGLTexturesType
 
     if (b != null) {
       final JCGLTextureFilterMinification mag =
-        b.textureGetMinificationFilter();
+        b.minificationFilter();
       switch (mag) {
         case TEXTURE_FILTER_LINEAR:
         case TEXTURE_FILTER_NEAREST: {
@@ -558,7 +558,7 @@ final class LWJGL3Textures implements JCGLTexturesType
         case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
         case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
         case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR: {
-          GL13.glActiveTexture(GL13.GL_TEXTURE0 + u.unitGetIndex());
+          GL13.glActiveTexture(GL13.GL_TEXTURE0 + u.index());
           GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
           break;
         }
@@ -589,8 +589,8 @@ final class LWJGL3Textures implements JCGLTexturesType
       checkTextureCube(this.context, texture);
     final LWJGL3TextureUnit u =
       checkTextureUnit(this.context, unit);
-    final int index = unit.unitGetIndex();
-    final int texture_id = texture.getGLName();
+    final int index = unit.index();
+    final int texture_id = texture.glName();
 
     this.checkFeedback(texture);
 
@@ -620,7 +620,7 @@ final class LWJGL3Textures implements JCGLTexturesType
   {
     final LWJGL3Framebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
-      for (final JCGLReferableType r : fb.getReferences()) {
+      for (final JCGLReferableType r : fb.references()) {
         if (Objects.equals(texture, r)) {
           LWJGL3Framebuffers.onFeedbackLoop(fb, texture);
         }
@@ -637,12 +637,12 @@ final class LWJGL3Textures implements JCGLTexturesType
     if (LOG.isDebugEnabled()) {
       LOG.debug(
         "delete {}",
-        Integer.valueOf(texture.getGLName()));
+        Integer.valueOf(texture.glName()));
     }
 
-    GL11.glDeleteTextures(texture.getGLName());
+    GL11.glDeleteTextures(texture.glName());
     ((LWJGL3TextureCube) texture).setDeleted();
-    this.unbindDeleted(texture.getGLName());
+    this.unbindDeleted(texture.glName());
   }
 
   @Override
@@ -663,7 +663,7 @@ final class LWJGL3Textures implements JCGLTexturesType
     throws JCGLException
   {
     checkTextureCube(this.context, texture);
-    final int texture_id = texture.getGLName();
+    final int texture_id = texture.glName();
     return this.texture_to_units.containsKey(texture_id);
   }
 
@@ -677,12 +677,12 @@ final class LWJGL3Textures implements JCGLTexturesType
     NullCheck.notNull(data, "Data");
     NullCheck.notNull(unit, "Unit");
 
-    final JCGLTextureCubeUsableType texture = data.getTexture();
+    final JCGLTextureCubeUsableType texture = data.texture();
     checkTextureUnit(this.context, unit);
     checkTextureCube(this.context, texture);
 
-    final AreaL update_area = data.getArea();
-    final AreaL texture_area = AreaSizesL.area(texture.textureGetSize());
+    final AreaL update_area = data.area();
+    final AreaL texture_area = AreaSizesL.area(texture.size());
 
     Preconditions.checkPrecondition(
       update_area,
@@ -694,9 +694,9 @@ final class LWJGL3Textures implements JCGLTexturesType
     final int width = Math.toIntExact(update_area.width());
     final int height = Math.toIntExact(update_area.height());
 
-    final JCGLTextureFormat format = texture.textureGetFormat();
+    final JCGLTextureFormat format = texture.format();
     final LWJGL3TextureSpec spec = LWJGL3TextureSpecs.getTextureSpec(format);
-    final ByteBuffer buffer = data.getData();
+    final ByteBuffer buffer = data.data();
     final int gface = LWJGL3TypeConversions.cubeFaceToGL(face);
 
     this.textureCubeBind(unit, texture);
@@ -711,7 +711,7 @@ final class LWJGL3Textures implements JCGLTexturesType
       spec.getType(),
       buffer);
 
-    switch (texture.textureGetMinificationFilter()) {
+    switch (texture.minificationFilter()) {
       case TEXTURE_FILTER_LINEAR:
       case TEXTURE_FILTER_NEAREST:
         break;
@@ -841,10 +841,10 @@ final class LWJGL3Textures implements JCGLTexturesType
     checkTextureUnit(this.context, unit);
     checkTextureCube(this.context, texture);
 
-    final JCGLTextureFormat format = texture.textureGetFormat();
+    final JCGLTextureFormat format = texture.format();
     final LWJGL3TextureSpec spec = LWJGL3TextureSpecs.getTextureSpec(format);
 
-    final AreaL area = AreaSizesL.area(texture.textureGetSize());
+    final AreaL area = AreaSizesL.area(texture.size());
     final long width = area.width();
     final long height = area.height();
     final long size_butes = width * height * (long) format.getBytesPerPixel();
@@ -878,7 +878,7 @@ final class LWJGL3Textures implements JCGLTexturesType
 
     if (b != null) {
       final JCGLTextureFilterMinification mag =
-        b.textureGetMinificationFilter();
+        b.minificationFilter();
       switch (mag) {
         case TEXTURE_FILTER_LINEAR:
         case TEXTURE_FILTER_NEAREST: {
@@ -888,7 +888,7 @@ final class LWJGL3Textures implements JCGLTexturesType
         case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
         case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
         case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR: {
-          GL13.glActiveTexture(GL13.GL_TEXTURE0 + u.unitGetIndex());
+          GL13.glActiveTexture(GL13.GL_TEXTURE0 + u.index());
           GL30.glGenerateMipmap(GL13.GL_TEXTURE_CUBE_MAP);
           break;
         }

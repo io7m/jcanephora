@@ -26,11 +26,11 @@ public interface JCGLIndexBufferUsableType extends JCGLBufferUsableType
    * @return The number of indices in the buffer
    */
 
-  long getIndices();
+  long indices();
 
   /**
    * @return The type of indices in the buffer
    */
 
-  JCGLUnsignedType getType();
+  JCGLUnsignedType type();
 }

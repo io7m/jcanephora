@@ -52,11 +52,11 @@ public abstract class JCGLBufferUpdatesContract extends JCGLContract
 
     final JCGLBufferUpdateType<JCGLArrayBufferType> u =
       JCGLBufferUpdates.newUpdateReplacingAll(a);
-    Assert.assertSame(a, u.getBuffer());
+    Assert.assertSame(a, u.buffer());
 
-    final UnsignedRangeInclusiveL u_range = u.getDataUpdateRange();
-    final ByteBuffer u_data = u.getData();
-    Assert.assertEquals(a.getRange(), u_range);
+    final UnsignedRangeInclusiveL u_range = u.dataUpdateRange();
+    final ByteBuffer u_data = u.data();
+    Assert.assertEquals(a.byteRange(), u_range);
     Assert.assertEquals(u_range.getInterval(), (long) u_data.capacity());
   }
 

@@ -42,7 +42,7 @@ public interface JCGLDepthStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLDepthStrict getDepthStrict()
+  default JCGLDepthStrict depthStrict()
   {
     return JCGLDepthStrict.DEPTH_STRICT_DISABLED;
   }
@@ -52,7 +52,7 @@ public interface JCGLDepthStateType
    */
 
   @Value.Parameter
-  Optional<JCGLDepthFunction> getDepthTest();
+  Optional<JCGLDepthFunction> depthTest();
 
   /**
    * @return {@link JCGLDepthWriting#DEPTH_WRITE_ENABLED} if depth writing is
@@ -61,7 +61,7 @@ public interface JCGLDepthStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLDepthWriting getDepthWrite()
+  default JCGLDepthWriting depthWrite()
   {
     return JCGLDepthWriting.DEPTH_WRITE_DISABLED;
   }
@@ -73,7 +73,7 @@ public interface JCGLDepthStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLDepthClamping getDepthClamp()
+  default JCGLDepthClamping depthClamp()
   {
     return JCGLDepthClamping.DEPTH_CLAMP_DISABLED;
   }

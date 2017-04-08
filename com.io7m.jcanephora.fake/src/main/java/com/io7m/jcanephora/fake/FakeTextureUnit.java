@@ -82,7 +82,7 @@ final class FakeTextureUnit extends FakeObjectPseudoUnshared implements
   }
 
   @Override
-  public int unitGetIndex()
+  public int index()
   {
     return this.index;
   }
@@ -90,6 +90,6 @@ final class FakeTextureUnit extends FakeObjectPseudoUnshared implements
   @Override
   public int compareTo(final JCGLTextureUnitType o)
   {
-    return Integer.compareUnsigned(this.index, o.unitGetIndex());
+    return Integer.compareUnsigned(this.index, o.index());
   }
 }

@@ -28,25 +28,25 @@ public interface JCGLProfilingFrameMeasurementType
    * @return The name of the measured context
    */
 
-  String getName();
+  String contextName();
 
   /**
    * @return The time elapsed for this context
    */
 
-  long getElapsedTime();
+  long elapsedTime();
 
   /**
    * @return The time elapsed for this context, plus any children it may have
    */
 
-  long getElapsedTimeTotal();
+  long elapsedTimeTotal();
 
   /**
    * @return The children for this context
    */
 
-  Map<String, JCGLProfilingFrameMeasurementType> getChildren();
+  Map<String, JCGLProfilingFrameMeasurementType> children();
 
   /**
    * Iterate over this and all children of this context in depth-first order.

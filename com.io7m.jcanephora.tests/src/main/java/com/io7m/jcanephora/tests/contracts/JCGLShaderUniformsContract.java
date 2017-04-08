@@ -48,7 +48,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -83,7 +83,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -120,7 +120,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -159,7 +159,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -200,7 +200,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -238,7 +238,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -281,7 +281,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(

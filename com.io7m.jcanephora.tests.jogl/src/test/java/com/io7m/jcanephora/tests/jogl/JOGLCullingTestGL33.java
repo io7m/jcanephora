@@ -43,7 +43,7 @@ public final class JOGLCullingTestGL33 extends JCGLCullingContract
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-    return cg.getCulling();
+    return cg.culling();
   }
 
   @Test
@@ -96,7 +96,7 @@ public final class JOGLCullingTestGL33 extends JCGLCullingContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLCullingType g_c = g.getCulling();
+    final JCGLCullingType g_c = g.culling();
 
     Assert.assertEquals(0L, (long) culls.get());
     Assert.assertEquals(1L, (long) unculls.get());

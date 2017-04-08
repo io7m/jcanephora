@@ -68,9 +68,9 @@ public final class JCGLShadersTestUtilities
   static JCGLArrayObjectType newScreenQuad(
     final JCGLInterfaceGL33Type g)
   {
-    final JCGLArrayObjectsType g_ao = g.getArrayObjects();
-    final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
-    final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
+    final JCGLArrayObjectsType g_ao = g.arrayObjects();
+    final JCGLIndexBuffersType g_ib = g.indexBuffers();
+    final JCGLArrayBuffersType g_ab = g.arrayBuffers();
 
     final JCGLIndexBufferType ib =
       g_ib.indexBufferAllocate(
@@ -81,7 +81,7 @@ public final class JCGLShadersTestUtilities
     {
       final JCGLBufferUpdateType<JCGLIndexBufferType> u =
         JCGLBufferUpdates.newUpdateReplacingAll(ib);
-      final IntBuffer i = u.getData().asIntBuffer();
+      final IntBuffer i = u.data().asIntBuffer();
 
       i.put(0, 0);
       i.put(1, 1);
@@ -104,7 +104,7 @@ public final class JCGLShadersTestUtilities
       final JCGLBufferUpdateType<JCGLArrayBufferType> u =
         JCGLBufferUpdates.newUpdateReplacingAll(ab);
 
-      final ByteBuffer data = u.getData();
+      final ByteBuffer data = u.data();
 
       int base = 0;
       data.putFloat(base + 0, -1.0f);
@@ -168,8 +168,8 @@ public final class JCGLShadersTestUtilities
     final int w,
     final int h)
   {
-    final JCGLTexturesType gt = g.getTextures();
-    final JCGLFramebuffersType fb = g.getFramebuffers();
+    final JCGLTexturesType gt = g.textures();
+    final JCGLFramebuffersType fb = g.framebuffers();
     final JCGLFramebufferBuilderType fbb = fb.framebufferNewBuilder();
     final List<JCGLFramebufferColorAttachmentPointType> points =
       fb.framebufferGetColorAttachments();
@@ -191,7 +191,7 @@ public final class JCGLShadersTestUtilities
     final int h,
     final JCGLTextureUnitType u)
   {
-    final JCGLTexturesType gt = g.getTextures();
+    final JCGLTexturesType gt = g.textures();
     final JCGLTexture2DType t =
       gt.texture2DAllocate(
         u, (long) w, (long) h, f,
@@ -203,7 +203,7 @@ public final class JCGLShadersTestUtilities
     final JCGLTexture2DUpdateType up =
       JCGLTextureUpdates.newUpdateReplacingAll2D(t);
 
-    final ByteBuffer data = up.getData();
+    final ByteBuffer data = up.data();
     for (int index = 0; index < data.capacity(); ++index) {
       data.put(index, (byte) 0);
     }

@@ -109,7 +109,7 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type i = gg.contextGetGL33();
-    final JCGLFramebuffersType gf = i.getFramebuffers();
+    final JCGLFramebuffersType gf = i.framebuffers();
     Assert.assertEquals(1024L, (long) gf.framebufferGetDrawBuffers().size());
   }
 
@@ -141,7 +141,7 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type i = gg.contextGetGL33();
-    final JCGLFramebuffersType gf = i.getFramebuffers();
+    final JCGLFramebuffersType gf = i.framebuffers();
     Assert.assertEquals(
       1024L, (long) gf.framebufferGetColorAttachments().size());
   }
@@ -198,8 +198,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLFramebuffersType g_fb = g.getFramebuffers();
-    final JCGLTexturesType g_tx = g.getTextures();
+    final JCGLFramebuffersType g_fb = g.framebuffers();
+    final JCGLTexturesType g_tx = g.textures();
     final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
 
     final List<JCGLFramebufferColorAttachmentPointType> ps =
@@ -229,8 +229,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
     binds.set(0);
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
-    Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
-    Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
+    Assert.assertEquals(0L, (long) fb.framebufferStencilBits());
+    Assert.assertEquals(0L, (long) fb.framebufferDepthBits());
     Assert.assertEquals(1L, binds.get());
 
     g_fb.framebufferDrawUnbind();
@@ -275,8 +275,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLFramebuffersType g_fb = g.getFramebuffers();
-    final JCGLTexturesType g_tx = g.getTextures();
+    final JCGLFramebuffersType g_fb = g.framebuffers();
+    final JCGLTexturesType g_tx = g.textures();
     final JCGLFramebufferBuilderType fbb = g_fb.framebufferNewBuilder();
 
     final List<JCGLFramebufferColorAttachmentPointType> ps =
@@ -306,8 +306,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
     binds.set(0);
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
-    Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
-    Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
+    Assert.assertEquals(0L, (long) fb.framebufferStencilBits());
+    Assert.assertEquals(0L, (long) fb.framebufferDepthBits());
     Assert.assertEquals(1L, binds.get());
 
     g_fb.framebufferDrawBind(fb);
@@ -336,7 +336,7 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-    return new Interfaces(c, cg.getFramebuffers(), cg.getTextures());
+    return new Interfaces(c, cg.framebuffers(), cg.textures());
   }
 
   @Override

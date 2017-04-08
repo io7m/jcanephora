@@ -28,5 +28,5 @@ public interface JCGLResourceSizedType
    * @return The range of valid byte indices in the resource
    */
 
-  UnsignedRangeInclusiveL getRange();
+  UnsignedRangeInclusiveL byteRange();
 }

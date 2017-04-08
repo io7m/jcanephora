@@ -17,23 +17,29 @@
 package com.io7m.jcanephora.async;
 
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
+import com.io7m.jcanephora.core.JCGLImmutableStyleType;
 import com.io7m.jcanephora.core.JCGLIndexBufferType;
+import org.immutables.value.Value;
 
 /**
  * A pair consisting of an array buffer and an index buffer.
  */
 
+@JCGLImmutableStyleType
+@Value.Immutable
 public interface JCGLAsyncBufferPairType
 {
   /**
    * @return The array buffer
    */
 
-  JCGLArrayBufferType getArrayBuffer();
+  @Value.Parameter
+  JCGLArrayBufferType arrayBuffer();
 
   /**
    * @return The index buffer
    */
 
-  JCGLIndexBufferType getIndexBuffer();
+  @Value.Parameter
+  JCGLIndexBufferType indexBuffer();
 }

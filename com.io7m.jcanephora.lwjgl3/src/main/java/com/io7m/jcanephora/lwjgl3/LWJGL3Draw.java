@@ -86,8 +86,8 @@ final class LWJGL3Draw implements JCGLDrawType
     if (this.index_buffers.indexBufferIsBound()) {
       final LWJGL3IndexBuffer ib = this.array_objects.getCurrentIndexBuffer();
       final int pgl = LWJGL3TypeConversions.primitiveToGL(p);
-      final int type = LWJGL3TypeConversions.unsignedTypeToGL(ib.getType());
-      GL11.glDrawElements(pgl, (int) ib.getIndices(), type, 0L);
+      final int type = LWJGL3TypeConversions.unsignedTypeToGL(ib.type());
+      GL11.glDrawElements(pgl, (int) ib.indices(), type, 0L);
     } else {
       throw new JCGLExceptionBufferNotBound(
         "No index buffer is currently bound");
@@ -107,9 +107,9 @@ final class LWJGL3Draw implements JCGLDrawType
     if (this.index_buffers.indexBufferIsBound()) {
       final LWJGL3IndexBuffer ib = this.array_objects.getCurrentIndexBuffer();
       final int pgl = LWJGL3TypeConversions.primitiveToGL(p);
-      final int type = LWJGL3TypeConversions.unsignedTypeToGL(ib.getType());
+      final int type = LWJGL3TypeConversions.unsignedTypeToGL(ib.type());
       GL31.glDrawElementsInstanced(
-        pgl, (int) ib.getIndices(), type, 0L, instances);
+        pgl, (int) ib.indices(), type, 0L, instances);
     } else {
       throw new JCGLExceptionBufferNotBound(
         "No index buffer is currently bound");

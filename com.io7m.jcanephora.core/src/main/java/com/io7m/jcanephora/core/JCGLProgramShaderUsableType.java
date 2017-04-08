@@ -29,17 +29,17 @@ public interface JCGLProgramShaderUsableType
    * @return The name of the program
    */
 
-  String getName();
+  String name();
 
   /**
    * @return A read-only view of the program attributes
    */
 
-  Map<String, JCGLProgramAttributeType> getAttributes();
+  Map<String, JCGLProgramAttributeType> attributes();
 
   /**
    * @return A read-only view of the program uniforms
    */
 
-  Map<String, JCGLProgramUniformType> getUniforms();
+  Map<String, JCGLProgramUniformType> uniforms();
 }

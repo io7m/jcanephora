@@ -110,7 +110,7 @@ final class LWJGL3StencilBuffers implements JCGLStencilBuffersType
   {
     final LWJGL3Framebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
-      return fb.framebufferGetStencilBits();
+      return fb.framebufferStencilBits();
     }
 
     return GL11.glGetInteger(GL11.GL_STENCIL_BITS);

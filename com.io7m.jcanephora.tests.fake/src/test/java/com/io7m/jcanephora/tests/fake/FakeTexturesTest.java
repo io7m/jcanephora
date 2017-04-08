@@ -36,7 +36,7 @@ public final class FakeTexturesTest extends JCGLTexturesContract
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
-      return g33.getTextures();
+      return g33.textures();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

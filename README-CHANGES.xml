@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <c:changelog xmlns:c="http://schemas.io7m.com/changelog/2.0.0">
-  <c:project>io7m-jcanephora</c:project>
+  <c:project>com.io7m.jcanephora</c:project>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">
     <c:date>2017-04-03</c:date>
@@ -43,6 +43,20 @@
       <c:date>2017-02-23</c:date>
       <c:type-code-fix/>
       <c:summary>Use junsigned [1.0.0, 2.0.0).</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2017-04-08</c:date>
+      <c:type-code-change/>
+      <c:ticket>54</c:ticket>
+      <c:summary>Use jtensors [8.0.0, 9.0.0).</c:summary>
+    </c:item>
+
+    <c:item>
+      <c:date>2017-04-08</c:date>
+      <c:type-code-change/>
+      <c:ticket>55</c:ticket>
+      <c:summary>Use new jregions package.</c:summary>
     </c:item>
   </c:release>
 

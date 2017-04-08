@@ -49,7 +49,7 @@ public final class JCGLBufferUpdates
   newUpdateReplacingAll(final T buffer)
   {
     NullCheck.notNull(buffer, "Buffer");
-    return newUpdateReplacingRange(buffer, buffer.getRange());
+    return newUpdateReplacingRange(buffer, buffer.byteRange());
   }
 
   /**
@@ -75,7 +75,7 @@ public final class JCGLBufferUpdates
     NullCheck.notNull(buffer, "Buffer");
     NullCheck.notNull(range, "Range");
 
-    final UnsignedRangeInclusiveL buffer_range = buffer.getRange();
+    final UnsignedRangeInclusiveL buffer_range = buffer.byteRange();
     UnsignedRangeCheck.checkRangeIncludedInLong(
       range, "Update range", buffer_range, "Buffer range");
 
@@ -103,19 +103,19 @@ public final class JCGLBufferUpdates
     }
 
     @Override
-    public T getBuffer()
+    public T buffer()
     {
       return this.buffer;
     }
 
     @Override
-    public ByteBuffer getData()
+    public ByteBuffer data()
     {
       return this.data;
     }
 
     @Override
-    public UnsignedRangeInclusiveL getDataUpdateRange()
+    public UnsignedRangeInclusiveL dataUpdateRange()
     {
       return this.range;
     }

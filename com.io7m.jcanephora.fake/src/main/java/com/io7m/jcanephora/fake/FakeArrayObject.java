@@ -53,19 +53,19 @@ final class FakeArrayObject extends FakeObjectUnshared
   }
 
   @Override
-  public Optional<JCGLArrayVertexAttributeType> getAttributeAt(final int index)
+  public Optional<JCGLArrayVertexAttributeType> attributeAt(final int index)
   {
     return Optional.ofNullable(this.attribs[index]);
   }
 
   @Override
-  public int getMaximumVertexAttributes()
+  public int attributeMaximumSupported()
   {
     return this.attribs.length;
   }
 
   @Override
-  public Optional<JCGLIndexBufferUsableType> getIndexBufferBound()
+  public Optional<JCGLIndexBufferUsableType> indexBufferBound()
   {
     synchronized (this.index_buffer) {
       return this.index_buffer;
@@ -87,9 +87,9 @@ final class FakeArrayObject extends FakeObjectUnshared
   }
 
   @Override
-  public Set<JCGLReferableType> getReferences()
+  public Set<JCGLReferableType> references()
   {
-    return this.reference_container.getReferences();
+    return this.reference_container.references();
   }
 
   public FakeReferenceContainer getReferenceContainer()

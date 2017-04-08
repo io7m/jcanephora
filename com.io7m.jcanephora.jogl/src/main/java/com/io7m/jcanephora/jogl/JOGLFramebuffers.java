@@ -279,14 +279,14 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
             }
 
             JOGLTextures.checkTexture2D(c, t);
-            final JCGLTextureFormat f = t.textureGetFormat();
+            final JCGLTextureFormat f = t.format();
             JCGLTextureFormats.checkColorRenderableTexture2D(f);
 
             g3.glFramebufferTexture2D(
               GL3.GL_DRAW_FRAMEBUFFER,
               GL.GL_COLOR_ATTACHMENT0 + index,
               GL.GL_TEXTURE_2D,
-              t.getGLName(),
+              t.glName(),
               0);
             return Unit.unit();
           }
@@ -307,7 +307,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
             }
 
             JOGLTextures.checkTextureCube(c, t);
-            final JCGLTextureFormat f = t.textureGetFormat();
+            final JCGLTextureFormat f = t.format();
             JCGLTextureFormats.checkColorRenderableTexture2D(f);
 
             final int gface = JOGLTypeConversions.cubeFaceToGL(face);
@@ -315,7 +315,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
               GL3.GL_DRAW_FRAMEBUFFER,
               GL.GL_COLOR_ATTACHMENT0 + index,
               gface,
-              t.getGLName(),
+              t.glName(),
               0);
             return Unit.unit();
           }
@@ -352,19 +352,19 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
           }
 
           JOGLTextures.checkTexture2D(c, t);
-          final JCGLTextureFormat f = t.textureGetFormat();
+          final JCGLTextureFormat f = t.format();
           JCGLTextureFormats.checkDepthStencilRenderableTexture2D(f);
           g3.glFramebufferTexture2D(
             GL3.GL_DRAW_FRAMEBUFFER,
             GL3.GL_DEPTH_STENCIL_ATTACHMENT,
             GL.GL_TEXTURE_2D,
-            t.getGLName(),
+            t.glName(),
             0);
 
           fb.setDepthStencilAttachment(
             t,
-            JCGLTextureFormats.getDepthBits(f),
-            JCGLTextureFormats.getStencilBits(f));
+            JCGLTextureFormats.depthBits(f),
+            JCGLTextureFormats.stencilBits(f));
           return Unit.unit();
         }
       });
@@ -398,17 +398,17 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
               t);
           }
 
-          final JCGLTextureFormat f = t.textureGetFormat();
+          final JCGLTextureFormat f = t.format();
           JOGLTextures.checkTexture2D(c, t);
           JCGLTextureFormats.checkDepthOnlyRenderableTexture2D(f);
           g3.glFramebufferTexture2D(
             GL3.GL_DRAW_FRAMEBUFFER,
             GL.GL_DEPTH_ATTACHMENT,
             GL.GL_TEXTURE_2D,
-            t.getGLName(),
+            t.glName(),
             0);
 
-          fb.setDepthAttachment(t, JCGLTextureFormats.getDepthBits(f));
+          fb.setDepthAttachment(t, JCGLTextureFormats.depthBits(f));
           return Unit.unit();
         }
       });
@@ -526,11 +526,11 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
             "[{}] draw buffer {} -> color {}",
             Integer.valueOf(f_id),
             Integer.valueOf(index),
-            Integer.valueOf(attach.colorAttachmentPointGetIndex()));
+            Integer.valueOf(attach.colorAttachmentPointIndex()));
         }
         draw_buffer_mappings.put(
           index,
-          GL.GL_COLOR_ATTACHMENT0 + attach.colorAttachmentPointGetIndex());
+          GL.GL_COLOR_ATTACHMENT0 + attach.colorAttachmentPointIndex());
       } else {
         if (LOG.isDebugEnabled()) {
           LOG.debug(
@@ -555,7 +555,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       checkFramebuffer(this.context, framebuffer);
 
     this.int_cache.rewind();
-    this.int_cache.put(0, framebuffer.getGLName());
+    this.int_cache.put(0, framebuffer.glName());
     this.gl.glDeleteFramebuffers(1, this.int_cache);
 
     fb.setDeleted();
@@ -574,7 +574,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     }
 
     if (!Objects.equals(this.bind_draw, f)) {
-      for (final JCGLReferableType r : f.getReferences()) {
+      for (final JCGLReferableType r : f.references()) {
         if (r instanceof JCGLTexture2DUsableType) {
           final JCGLTexture2DUsableType t = (JCGLTexture2DUsableType) r;
           if (this.textures.texture2DIsBoundAnywhere(t)) {
@@ -583,7 +583,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
         }
       }
 
-      this.gl.glBindFramebuffer(GL.GL_DRAW_FRAMEBUFFER, f.getGLName());
+      this.gl.glBindFramebuffer(GL.GL_DRAW_FRAMEBUFFER, f.glName());
       this.bind_draw = f;
     } else {
       if (LOG.isTraceEnabled()) {
@@ -602,7 +602,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
     }
 
     if (!Objects.equals(this.bind_read, f)) {
-      this.gl.glBindFramebuffer(GL.GL_READ_FRAMEBUFFER, f.getGLName());
+      this.gl.glBindFramebuffer(GL.GL_READ_FRAMEBUFFER, f.glName());
       this.bind_read = f;
     } else {
       if (LOG.isTraceEnabled()) {
@@ -884,9 +884,9 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       checkDrawBuffer(c, buffer);
       JOGLTextures.checkTexture2D(c, texture);
       JCGLTextureFormats.checkColorRenderableTexture2D(
-        texture.textureGetFormat());
+        texture.format());
 
-      this.color_attaches.set(point.colorAttachmentPointGetIndex(), texture);
+      this.color_attaches.set(point.colorAttachmentPointIndex(), texture);
       this.draw_buffers.put(buffer, point);
     }
 
@@ -904,10 +904,10 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       checkDrawBuffer(c, buffer);
       JOGLTextures.checkTextureCube(c, texture);
       JCGLTextureFormats.checkColorRenderableTexture2D(
-        texture.textureGetFormat());
+        texture.format());
 
       this.color_attaches.set(
-        point.colorAttachmentPointGetIndex(),
+        point.colorAttachmentPointIndex(),
         new CubeAttachment(texture, face));
       this.draw_buffers.put(buffer, point);
     }
@@ -919,7 +919,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       final GLContext c = this.context.getContext();
       JOGLTextures.checkTexture2D(c, t);
       JCGLTextureFormats.checkDepthOnlyRenderableTexture2D(
-        t.textureGetFormat());
+        t.format());
       this.depth = t;
       this.depth_stencil = null;
     }
@@ -930,7 +930,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       final GLContext c = this.context.getContext();
       JOGLTextures.checkTexture2D(c, t);
       JCGLTextureFormats.checkDepthStencilRenderableTexture2D(
-        t.textureGetFormat());
+        t.format());
       this.depth = null;
       this.depth_stencil = t;
     }
@@ -950,7 +950,7 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       final GLContext c = this.context.getContext();
       checkColorAttachmentPoint(c, point);
 
-      final int index = point.colorAttachmentPointGetIndex();
+      final int index = point.colorAttachmentPointIndex();
       this.color_attaches.set(index, null);
       this.draw_buffers.values().remove(point);
     }
@@ -978,15 +978,15 @@ final class JOGLFramebuffers implements JCGLFramebuffersType
       }
 
       @Override
-      public Set<JCGLReferenceContainerType> getReferringContainers()
+      public Set<JCGLReferenceContainerType> referringContainers()
       {
         throw new UnreachableCodeException();
       }
 
       @Override
-      public int getGLName()
+      public int glName()
       {
-        return this.texture.getGLName();
+        return this.texture.glName();
       }
     }
   }

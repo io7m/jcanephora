@@ -43,7 +43,7 @@ public final class FakeColorBufferMaskingTest extends
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-      return cg.getColorBufferMasking();
+      return cg.colorBufferMasking();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

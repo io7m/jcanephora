@@ -27,24 +27,24 @@ public interface JCGLProgramUniformType extends JCGLNamedType
    * declared in the respective shading program.
    */
 
-  String getName();
+  String name();
 
   /**
    * @return A reference to the program that owns the uniform.
    */
 
-  JCGLProgramShaderUsableType getProgram();
+  JCGLProgramShaderUsableType program();
 
   /**
    * @return The OpenGL type of the uniform.
    */
 
-  JCGLType getType();
+  JCGLType type();
 
   /**
    * @return The size of the uniform (the number of elements of the array, if
    * the uniform is of an array type)
    */
 
-  int getSize();
+  int size();
 }

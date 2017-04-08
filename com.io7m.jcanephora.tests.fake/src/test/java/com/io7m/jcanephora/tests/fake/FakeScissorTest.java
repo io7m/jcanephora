@@ -42,7 +42,7 @@ public final class FakeScissorTest extends JCGLScissorContract
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-      return cg.getScissor();
+      return cg.scissor();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

@@ -42,7 +42,7 @@ public final class FakeBlendingTest extends JCGLBlendingContract
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
-      return g33.getBlending();
+      return g33.blending();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

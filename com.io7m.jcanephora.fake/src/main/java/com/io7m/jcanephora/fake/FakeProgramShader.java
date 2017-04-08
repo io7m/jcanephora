@@ -55,26 +55,26 @@ final class FakeProgramShader extends FakeObjectShared
   }
 
   @Override
-  public String getName()
+  public String name()
   {
     return this.name;
   }
 
   @Override
-  public Map<String, JCGLProgramAttributeType> getAttributes()
+  public Map<String, JCGLProgramAttributeType> attributes()
   {
     return this.attributes;
   }
 
   @Override
-  public Map<String, JCGLProgramUniformType> getUniforms()
+  public Map<String, JCGLProgramUniformType> uniforms()
   {
     return this.uniforms;
   }
 
   @Override
-  public Set<JCGLReferableType> getReferences()
+  public Set<JCGLReferableType> references()
   {
-    return this.references.getReferences();
+    return this.references.references();
   }
 }

@@ -42,9 +42,9 @@ final class LWJGL3Clear implements JCGLClearType
     NullCheck.notNull(c, "Clear");
 
     int buffers = 0;
-    final Optional<Vector4D> opt_color = c.getColorBufferClear();
-    final OptionalDouble opt_depth = c.getDepthBufferClear();
-    final OptionalInt opt_stencil = c.getStencilBufferClear();
+    final Optional<Vector4D> opt_color = c.colorBufferClear();
+    final OptionalDouble opt_depth = c.depthBufferClear();
+    final OptionalInt opt_stencil = c.stencilBufferClear();
 
     if (opt_color.isPresent()) {
       buffers |= GL11.GL_COLOR_BUFFER_BIT;

@@ -343,8 +343,8 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachDepthTexture2D(t);
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
-    Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
-    Assert.assertEquals(16L, (long) fb.framebufferGetDepthBits());
+    Assert.assertEquals(0L, (long) fb.framebufferStencilBits());
+    Assert.assertEquals(16L, (long) fb.framebufferDepthBits());
   }
 
   @Test
@@ -694,10 +694,10 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.attachDepthStencilTexture2D(t);
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
-    Assert.assertEquals(8L, (long) fb.framebufferGetStencilBits());
-    Assert.assertEquals(24L, (long) fb.framebufferGetDepthBits());
+    Assert.assertEquals(8L, (long) fb.framebufferStencilBits());
+    Assert.assertEquals(24L, (long) fb.framebufferDepthBits());
 
-    final Set<JCGLReferableType> refs = fb.getReferences();
+    final Set<JCGLReferableType> refs = fb.references();
     Assert.assertEquals(1L, (long) refs.size());
     Assert.assertTrue(refs.contains(t));
   }
@@ -746,10 +746,10 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.detachDepth();
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
-    Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
-    Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
+    Assert.assertEquals(0L, (long) fb.framebufferStencilBits());
+    Assert.assertEquals(0L, (long) fb.framebufferDepthBits());
 
-    final Set<JCGLReferableType> refs = fb.getReferences();
+    final Set<JCGLReferableType> refs = fb.references();
     Assert.assertEquals(1L, (long) refs.size());
     Assert.assertTrue(refs.contains(tc));
     Assert.assertFalse(refs.contains(td));
@@ -799,10 +799,10 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     fbb.detachDepth();
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
-    Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
-    Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
+    Assert.assertEquals(0L, (long) fb.framebufferStencilBits());
+    Assert.assertEquals(0L, (long) fb.framebufferDepthBits());
 
-    final Set<JCGLReferableType> refs = fb.getReferences();
+    final Set<JCGLReferableType> refs = fb.references();
     Assert.assertEquals(1L, (long) refs.size());
     Assert.assertTrue(refs.contains(tc));
     Assert.assertFalse(refs.contains(td));
@@ -842,10 +842,10 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     }
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
-    Assert.assertEquals(0L, (long) fb.framebufferGetStencilBits());
-    Assert.assertEquals(0L, (long) fb.framebufferGetDepthBits());
+    Assert.assertEquals(0L, (long) fb.framebufferStencilBits());
+    Assert.assertEquals(0L, (long) fb.framebufferDepthBits());
 
-    final Set<JCGLReferableType> refs = fb.getReferences();
+    final Set<JCGLReferableType> refs = fb.references();
     Assert.assertEquals((long) min, (long) refs.size());
 
     for (int index = 0; index < min; ++index) {
@@ -910,10 +910,10 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
     }
 
     final JCGLFramebufferType fb = g_fb.framebufferAllocate(fbb);
-    Assert.assertEquals(8L, (long) fb.framebufferGetStencilBits());
-    Assert.assertEquals(24L, (long) fb.framebufferGetDepthBits());
+    Assert.assertEquals(8L, (long) fb.framebufferStencilBits());
+    Assert.assertEquals(24L, (long) fb.framebufferDepthBits());
 
-    final Set<JCGLReferableType> refs = fb.getReferences();
+    final Set<JCGLReferableType> refs = fb.references();
     Assert.assertTrue(refs.contains(td));
     Assert.assertEquals(1L, (long) refs.size());
 
@@ -962,7 +962,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       g_tx.textureUnitUnbind(u0);
 
-      area = AreaSizesL.area(td.textureGetSize());
+      area = AreaSizesL.area(td.size());
       fbb.attachDepthTexture2D(td);
       fbb.attachColorTexture2DAt(points.get(0), buffers.get(0), tc);
       fb_draw = g_fb.framebufferAllocate(fbb);
@@ -1041,7 +1041,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       g_tx.textureUnitUnbind(u0);
 
-      area = AreaSizesL.area(t.textureGetSize());
+      area = AreaSizesL.area(t.size());
       fbb.attachDepthTexture2D(t);
       fb = g_fb.framebufferAllocate(fbb);
     }
@@ -1131,7 +1131,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       g_tx.textureUnitUnbind(u0);
 
-      area = AreaSizesL.area(t_draw_color.textureGetSize());
+      area = AreaSizesL.area(t_draw_color.size());
       fbb.attachColorTexture2DAt(points.get(0), buffers.get(0), t_draw_color);
       fbb.attachDepthTexture2D(t_draw_depth);
       fb_draw = g_fb.framebufferAllocate(fbb);
@@ -1160,7 +1160,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
 
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingAll2D(t_read_depth);
-      expected_contents = up.getData();
+      expected_contents = up.data();
       for (int index = 0; index < expected_contents.capacity(); ++index) {
         expected_contents.put(index, (byte) (Math.random() * 0xff));
       }
@@ -1234,7 +1234,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       g_tx.textureUnitUnbind(u0);
 
-      area = AreaSizesL.area(t.textureGetSize());
+      area = AreaSizesL.area(t.size());
       fbb.attachDepthStencilTexture2D(t);
       fb_draw = g_fb.framebufferAllocate(fbb);
     }
@@ -1298,7 +1298,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       g_tx.textureUnitUnbind(u0);
 
-      area = AreaSizesL.area(t.textureGetSize());
+      area = AreaSizesL.area(t.size());
       fbb.attachDepthStencilTexture2D(t);
       fb_draw = g_fb.framebufferAllocate(fbb);
     }
@@ -1363,7 +1363,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       g_tx.textureUnitUnbind(u0);
 
-      area = AreaSizesL.area(t.textureGetSize());
+      area = AreaSizesL.area(t.size());
       fbb.attachDepthTexture2D(t);
       fb_draw = g_fb.framebufferAllocate(fbb);
     }
@@ -1401,7 +1401,7 @@ public abstract class JCGLFramebuffersContract extends JCGLContract
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       g_tx.textureUnitUnbind(u0);
 
-      area = AreaSizesL.area(t.textureGetSize());
+      area = AreaSizesL.area(t.size());
       fbb.attachDepthTexture2D(t);
       fb_read = g_fb.framebufferAllocate(fbb);
     }

@@ -72,12 +72,12 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
     final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
     JCGLRenderStates.activate(g, r);
 
-    final JCGLBlendingType g_b = g.getBlending();
-    final JCGLCullingType g_c = g.getCulling();
-    final JCGLDepthBuffersType g_d = g.getDepthBuffers();
-    final JCGLColorBufferMaskingType g_cm = g.getColorBufferMasking();
-    final JCGLPolygonModesType g_p = g.getPolygonModes();
-    final JCGLScissorType g_s = g.getScissor();
+    final JCGLBlendingType g_b = g.blending();
+    final JCGLCullingType g_c = g.culling();
+    final JCGLDepthBuffersType g_d = g.depthBuffers();
+    final JCGLColorBufferMaskingType g_cm = g.colorBufferMasking();
+    final JCGLPolygonModesType g_p = g.polygonModes();
+    final JCGLScissorType g_s = g.scissor();
 
     Assert.assertFalse(g_b.blendingIsEnabled());
     Assert.assertFalse(g_c.cullingIsEnabled());
@@ -118,7 +118,7 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
 
     JCGLRenderStates.activate(g, r);
 
-    final JCGLStencilBuffersType g_s = g.getStencilBuffers();
+    final JCGLStencilBuffersType g_s = g.stencilBuffers();
 
     Assert.assertTrue(g_s.stencilBufferIsEnabled());
 
@@ -184,7 +184,7 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
 
     JCGLRenderStates.activate(g, r);
 
-    final JCGLStencilBuffersType g_s = g.getStencilBuffers();
+    final JCGLStencilBuffersType g_s = g.stencilBuffers();
 
     Assert.assertTrue(g_s.stencilBufferIsEnabled());
 
@@ -241,7 +241,7 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
 
     JCGLRenderStates.activate(g, r);
 
-    final JCGLBlendingType g_b = g.getBlending();
+    final JCGLBlendingType g_b = g.blending();
     Assert.assertTrue(g_b.blendingIsEnabled());
   }
 
@@ -258,7 +258,7 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
 
     JCGLRenderStates.activate(g, r);
 
-    final JCGLCullingType g_c = g.getCulling();
+    final JCGLCullingType g_c = g.culling();
     Assert.assertTrue(g_c.cullingIsEnabled());
   }
 
@@ -272,7 +272,7 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
 
     JCGLRenderStates.activate(g, r);
 
-    final JCGLPolygonModesType g_p = g.getPolygonModes();
+    final JCGLPolygonModesType g_p = g.polygonModes();
     Assert.assertEquals(JCGLPolygonMode.POLYGON_LINES, g_p.polygonGetMode());
   }
 
@@ -286,7 +286,7 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
 
     JCGLRenderStates.activate(g, r);
 
-    final JCGLScissorType g_s = g.getScissor();
+    final JCGLScissorType g_s = g.scissor();
     Assert.assertTrue(g_s.scissorIsEnabled());
   }
 
@@ -305,7 +305,7 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
 
     JCGLRenderStates.activate(g, r);
 
-    final JCGLDepthBuffersType g_d = g.getDepthBuffers();
+    final JCGLDepthBuffersType g_d = g.depthBuffers();
     Assert.assertTrue(g_d.depthBufferTestIsEnabled());
     Assert.assertTrue(g_d.depthBufferWriteIsEnabled());
     Assert.assertTrue(g_d.depthClampingIsEnabled());
@@ -326,7 +326,7 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
 
     JCGLRenderStates.activate(g, r);
 
-    final JCGLDepthBuffersType g_d = g.getDepthBuffers();
+    final JCGLDepthBuffersType g_d = g.depthBuffers();
     Assert.assertTrue(g_d.depthBufferTestIsEnabled());
     Assert.assertTrue(g_d.depthBufferWriteIsEnabled());
     Assert.assertTrue(g_d.depthClampingIsEnabled());

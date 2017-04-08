@@ -227,7 +227,7 @@ final class JOGLTextures implements JCGLTexturesType
   {
     final GLContext c = this.context.getContext();
     final JOGLTextureUnit u = checkTextureUnit(c, unit);
-    final int index = u.unitGetIndex();
+    final int index = u.index();
 
     {
       final JOGLTexture2D t2d = u.getBind2D();
@@ -237,7 +237,7 @@ final class JOGLTextures implements JCGLTexturesType
         }
         this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
         this.g3.glBindTexture(GL.GL_TEXTURE_2D, 0);
-        this.bindingRemoveTextureReference(t2d.getGLName(), index);
+        this.bindingRemoveTextureReference(t2d.glName(), index);
         u.setBind2D(null);
       }
     }
@@ -250,7 +250,7 @@ final class JOGLTextures implements JCGLTexturesType
         }
         this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
         this.g3.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
-        this.bindingRemoveTextureReference(tc.getGLName(), index);
+        this.bindingRemoveTextureReference(tc.glName(), index);
         u.setBindCube(null);
       }
     }
@@ -265,8 +265,8 @@ final class JOGLTextures implements JCGLTexturesType
     final GLContext c = this.context.getContext();
     final JOGLTexture2D t = checkTexture2D(c, texture);
     final JOGLTextureUnit u = checkTextureUnit(c, unit);
-    final int index = unit.unitGetIndex();
-    final int texture_id = texture.getGLName();
+    final int index = unit.index();
+    final int texture_id = texture.glName();
 
     this.checkFeedback(texture);
 
@@ -329,10 +329,10 @@ final class JOGLTextures implements JCGLTexturesType
     checkTexture2D(c, texture);
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+      LOG.debug("delete {}", Integer.valueOf(texture.glName()));
     }
 
-    final int texture_id = texture.getGLName();
+    final int texture_id = texture.glName();
     this.icache.rewind();
     this.icache.put(0, texture_id);
     this.g3.glDeleteTextures(1, this.icache);
@@ -371,7 +371,7 @@ final class JOGLTextures implements JCGLTexturesType
   {
     final GLContext c = this.context.getContext();
     checkTexture2D(c, texture);
-    final int texture_id = texture.getGLName();
+    final int texture_id = texture.glName();
     return this.texture_to_units.containsKey(texture_id);
   }
 
@@ -481,13 +481,13 @@ final class JOGLTextures implements JCGLTexturesType
     NullCheck.notNull(data, "Data");
     NullCheck.notNull(unit, "Unit");
 
-    final JCGLTexture2DUsableType texture = data.getTexture();
+    final JCGLTexture2DUsableType texture = data.texture();
     final GLContext c = this.context.getContext();
     checkTextureUnit(c, unit);
     checkTexture2D(c, texture);
 
-    final AreaL update_area = data.getArea();
-    final AreaL texture_area = AreaSizesL.area(texture.textureGetSize());
+    final AreaL update_area = data.area();
+    final AreaL texture_area = AreaSizesL.area(texture.size());
 
     Preconditions.checkPrecondition(
       update_area,
@@ -499,9 +499,9 @@ final class JOGLTextures implements JCGLTexturesType
     final int width = Math.toIntExact(update_area.width());
     final int height = Math.toIntExact(update_area.height());
 
-    final JCGLTextureFormat format = texture.textureGetFormat();
+    final JCGLTextureFormat format = texture.format();
     final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
-    final ByteBuffer buffer = data.getData();
+    final ByteBuffer buffer = data.data();
 
     this.texture2DBind(unit, texture);
     this.g3.glTexSubImage2D(
@@ -515,7 +515,7 @@ final class JOGLTextures implements JCGLTexturesType
       spec.getType(),
       buffer);
 
-    switch (texture.textureGetMinificationFilter()) {
+    switch (texture.minificationFilter()) {
       case TEXTURE_FILTER_LINEAR:
       case TEXTURE_FILTER_NEAREST:
         break;
@@ -542,10 +542,10 @@ final class JOGLTextures implements JCGLTexturesType
     checkTextureUnit(c, unit);
     checkTexture2D(c, texture);
 
-    final JCGLTextureFormat format = texture.textureGetFormat();
+    final JCGLTextureFormat format = texture.format();
     final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
 
-    final AreaSizeL area = texture.textureGetSize();
+    final AreaSizeL area = texture.size();
     final long width = area.width();
     final long height = area.height();
     final long size_bytes = width * height * (long) format.getBytesPerPixel();
@@ -577,7 +577,7 @@ final class JOGLTextures implements JCGLTexturesType
 
     if (b != null) {
       final JCGLTextureFilterMinification mag =
-        b.textureGetMinificationFilter();
+        b.minificationFilter();
       switch (mag) {
         case TEXTURE_FILTER_LINEAR:
         case TEXTURE_FILTER_NEAREST: {
@@ -587,7 +587,7 @@ final class JOGLTextures implements JCGLTexturesType
         case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
         case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
         case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR: {
-          this.g3.glActiveTexture(GL.GL_TEXTURE0 + u.unitGetIndex());
+          this.g3.glActiveTexture(GL.GL_TEXTURE0 + u.index());
           this.g3.glGenerateMipmap(GL.GL_TEXTURE_2D);
           break;
         }
@@ -617,8 +617,8 @@ final class JOGLTextures implements JCGLTexturesType
     final GLContext c = this.context.getContext();
     final JOGLTextureCube t = checkTextureCube(c, texture);
     final JOGLTextureUnit u = checkTextureUnit(c, unit);
-    final int index = unit.unitGetIndex();
-    final int texture_id = texture.getGLName();
+    final int index = unit.index();
+    final int texture_id = texture.glName();
 
     this.checkFeedback(texture);
 
@@ -648,7 +648,7 @@ final class JOGLTextures implements JCGLTexturesType
   {
     final JOGLFramebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
-      for (final JCGLReferableType r : fb.getReferences()) {
+      for (final JCGLReferableType r : fb.references()) {
         if (Objects.equals(texture, r)) {
           JOGLFramebuffers.onFeedbackLoop(fb, texture);
         }
@@ -664,10 +664,10 @@ final class JOGLTextures implements JCGLTexturesType
     checkTextureCube(c, texture);
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+      LOG.debug("delete {}", Integer.valueOf(texture.glName()));
     }
 
-    final int texture_id = texture.getGLName();
+    final int texture_id = texture.glName();
     this.icache.rewind();
     this.icache.put(0, texture_id);
     this.g3.glDeleteTextures(1, this.icache);
@@ -694,7 +694,7 @@ final class JOGLTextures implements JCGLTexturesType
   {
     final GLContext c = this.context.getContext();
     checkTextureCube(c, texture);
-    final int texture_id = texture.getGLName();
+    final int texture_id = texture.glName();
     return this.texture_to_units.containsKey(texture_id);
   }
 
@@ -708,13 +708,13 @@ final class JOGLTextures implements JCGLTexturesType
     NullCheck.notNull(data, "Data");
     NullCheck.notNull(unit, "Unit");
 
-    final JCGLTextureCubeUsableType texture = data.getTexture();
+    final JCGLTextureCubeUsableType texture = data.texture();
     final GLContext c = this.context.getContext();
     checkTextureUnit(c, unit);
     checkTextureCube(c, texture);
 
-    final AreaL update_area = data.getArea();
-    final AreaL texture_area = AreaSizesL.area(texture.textureGetSize());
+    final AreaL update_area = data.area();
+    final AreaL texture_area = AreaSizesL.area(texture.size());
 
     Preconditions.checkPrecondition(
       update_area,
@@ -726,9 +726,9 @@ final class JOGLTextures implements JCGLTexturesType
     final int width = Math.toIntExact(update_area.width());
     final int height = Math.toIntExact(update_area.height());
 
-    final JCGLTextureFormat format = texture.textureGetFormat();
+    final JCGLTextureFormat format = texture.format();
     final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
-    final ByteBuffer buffer = data.getData();
+    final ByteBuffer buffer = data.data();
     final int gface = JOGLTypeConversions.cubeFaceToGL(face);
 
     this.textureCubeBind(unit, texture);
@@ -743,7 +743,7 @@ final class JOGLTextures implements JCGLTexturesType
       spec.getType(),
       buffer);
 
-    switch (texture.textureGetMinificationFilter()) {
+    switch (texture.minificationFilter()) {
       case TEXTURE_FILTER_LINEAR:
       case TEXTURE_FILTER_NEAREST:
         break;
@@ -878,10 +878,10 @@ final class JOGLTextures implements JCGLTexturesType
     checkTextureUnit(c, unit);
     checkTextureCube(c, texture);
 
-    final JCGLTextureFormat format = texture.textureGetFormat();
+    final JCGLTextureFormat format = texture.format();
     final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
 
-    final AreaSizeL area = texture.textureGetSize();
+    final AreaSizeL area = texture.size();
     final long width = area.width();
     final long height = area.height();
     final long size_bytes = width * height * (long) format.getBytesPerPixel();
@@ -914,7 +914,7 @@ final class JOGLTextures implements JCGLTexturesType
 
     if (b != null) {
       final JCGLTextureFilterMinification mag =
-        b.textureGetMinificationFilter();
+        b.minificationFilter();
       switch (mag) {
         case TEXTURE_FILTER_LINEAR:
         case TEXTURE_FILTER_NEAREST: {
@@ -924,7 +924,7 @@ final class JOGLTextures implements JCGLTexturesType
         case TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
         case TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
         case TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR: {
-          this.g3.glActiveTexture(GL.GL_TEXTURE0 + u.unitGetIndex());
+          this.g3.glActiveTexture(GL.GL_TEXTURE0 + u.index());
           this.g3.glGenerateMipmap(GL.GL_TEXTURE_CUBE_MAP);
           break;
         }

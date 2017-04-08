@@ -87,10 +87,10 @@ public final class ExampleInstancedTrianglesView implements ExampleType
   @Override
   public void onInitialize(final JCGLInterfaceGL33Type g)
   {
-    final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
-    final JCGLArrayObjectsType g_ao = g.getArrayObjects();
-    final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
-    final JCGLShadersType g_sh = g.getShaders();
+    final JCGLArrayBuffersType g_ab = g.arrayBuffers();
+    final JCGLArrayObjectsType g_ao = g.arrayObjects();
+    final JCGLIndexBuffersType g_ib = g.indexBuffers();
+    final JCGLShadersType g_sh = g.shaders();
 
     /*
      * Allocate an index buffer.
@@ -112,7 +112,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
     {
       final JCGLBufferUpdateType<JCGLIndexBufferType> u =
         JCGLBufferUpdates.newUpdateReplacingAll(this.index_buffer);
-      final IntBuffer i = u.getData().asIntBuffer();
+      final IntBuffer i = u.data().asIntBuffer();
 
       i.put(0, 0);
       i.put(1, 1);
@@ -142,7 +142,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
     {
       final JCGLBufferUpdateType<JCGLArrayBufferType> u =
         JCGLBufferUpdates.newUpdateReplacingAll(this.array_buffer);
-      final FloatBuffer d = u.getData().asFloatBuffer();
+      final FloatBuffer d = u.data().asFloatBuffer();
 
       d.put(0, -0.5f);
       d.put(1, 0.5f);
@@ -172,7 +172,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
     {
       this.matrices_update =
         JCGLBufferUpdates.newUpdateReplacingAll(this.matrices_buffer);
-      final ByteBuffer data = this.matrices_update.getData();
+      final ByteBuffer data = this.matrices_update.data();
 
       final MutableLong offset = MutableLong.create();
       this.matrices_models =
@@ -338,10 +338,10 @@ public final class ExampleInstancedTrianglesView implements ExampleType
   @Override
   public void onRender(final JCGLInterfaceGL33Type g)
   {
-    final JCGLArrayObjectsType g_ao = g.getArrayObjects();
-    final JCGLClearType g_c = g.getClear();
-    final JCGLDrawType g_d = g.getDraw();
-    final JCGLShadersType g_sh = g.getShaders();
+    final JCGLArrayObjectsType g_ao = g.arrayObjects();
+    final JCGLClearType g_c = g.clearing();
+    final JCGLDrawType g_d = g.drawing();
+    final JCGLShadersType g_sh = g.shaders();
 
     /*
      * Clear the window.
@@ -361,7 +361,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
      * matrix.
      */
 
-    final Map<String, JCGLProgramUniformType> us = this.program.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = this.program.uniforms();
     final JCGLProgramUniformType u_view = us.get("m_view");
     final JCGLProgramUniformType u_projection = us.get("m_projection");
 
@@ -389,10 +389,10 @@ public final class ExampleInstancedTrianglesView implements ExampleType
   @Override
   public void onFinish(final JCGLInterfaceGL33Type g)
   {
-    final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
-    final JCGLArrayObjectsType g_ao = g.getArrayObjects();
-    final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
-    final JCGLShadersType g_sh = g.getShaders();
+    final JCGLArrayBuffersType g_ab = g.arrayBuffers();
+    final JCGLArrayObjectsType g_ao = g.arrayObjects();
+    final JCGLIndexBuffersType g_ib = g.indexBuffers();
+    final JCGLShadersType g_sh = g.shaders();
 
     /*
      * Delete everything.

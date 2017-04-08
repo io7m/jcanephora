@@ -29,5 +29,5 @@ public interface JCGLReferableType extends JCGLNamedType
    * @return A read-only view of the set of objects that refer to this object
    */
 
-  Set<JCGLReferenceContainerType> getReferringContainers();
+  Set<JCGLReferenceContainerType> referringContainers();
 }

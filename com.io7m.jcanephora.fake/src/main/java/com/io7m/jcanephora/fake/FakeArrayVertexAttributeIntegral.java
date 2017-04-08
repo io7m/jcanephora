@@ -57,31 +57,31 @@ final class FakeArrayVertexAttributeIntegral extends FakeObjectPseudoUnshared
   }
 
   @Override
-  public int getElements()
+  public int elements()
   {
     return this.elements;
   }
 
   @Override
-  public long getOffset()
+  public long offsetOctets()
   {
     return this.offset;
   }
 
   @Override
-  public int getStride()
+  public int strideOctets()
   {
     return this.stride;
   }
 
   @Override
-  public JCGLScalarIntegralType getType()
+  public JCGLScalarIntegralType type()
   {
     return this.type;
   }
 
   @Override
-  public int getIndex()
+  public int index()
   {
     return this.index;
   }
@@ -136,7 +136,7 @@ final class FakeArrayVertexAttributeIntegral extends FakeObjectPseudoUnshared
   }
 
   @Override
-  public int getDivisor()
+  public int divisor()
   {
     return this.divisor;
   }

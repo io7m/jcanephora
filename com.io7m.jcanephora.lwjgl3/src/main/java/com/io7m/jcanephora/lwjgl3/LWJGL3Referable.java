@@ -39,7 +39,7 @@ abstract class LWJGL3Referable extends LWJGL3ObjectShared
   }
 
   @Override
-  public final Set<JCGLReferenceContainerType> getReferringContainers()
+  public final Set<JCGLReferenceContainerType> referringContainers()
   {
     return this.references_view;
   }

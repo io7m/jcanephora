@@ -34,6 +34,6 @@ public final class LWJGL3CullingTestGL33 extends JCGLCullingContract
   {
     final JCGLContextType c = LWJGL3TestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-    return cg.getCulling();
+    return cg.culling();
   }
 }

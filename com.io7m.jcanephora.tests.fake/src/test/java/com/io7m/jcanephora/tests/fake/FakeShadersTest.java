@@ -386,7 +386,7 @@ public final class FakeShadersTest extends JCGLShadersContract
       final JCGLContextType c =
         i.newContext(name, new FakeShadersTestListener());
       final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
-      return new Interfaces(c, g33.getShaders(), g33.getTextures());
+      return new Interfaces(c, g33.shaders(), g33.textures());
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
@@ -400,7 +400,7 @@ public final class FakeShadersTest extends JCGLShadersContract
       final JCGLContextType c =
         i.newContext(name, new FakeShadersTestListener());
       final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
-      return g33.getShaders();
+      return g33.shaders();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
@@ -420,7 +420,7 @@ public final class FakeShadersTest extends JCGLShadersContract
       final JCGLInterfaceGL33Type g33_0 = c0.contextGetGL33();
       final JCGLInterfaceGL33Type g33_1 = c1.contextGetGL33();
       return new JCGLUnsharedContextPair<>(
-        g33_0.getShaders(), c0, g33_1.getShaders(), c1);
+        g33_0.shaders(), c0, g33_1.shaders(), c1);
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
@@ -441,7 +441,7 @@ public final class FakeShadersTest extends JCGLShadersContract
       final JCGLInterfaceGL33Type g1 = c1.contextGetGL33();
 
       return new JCGLSharedContextPair<>(
-        g0.getShaders(), c0, g1.getShaders(), c1);
+        g0.shaders(), c0, g1.shaders(), c1);
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

@@ -87,8 +87,8 @@ final class JOGLDraw implements JCGLDrawType
     if (this.index_buffers.indexBufferIsBound()) {
       final JOGLIndexBuffer ib = this.array_objects.getCurrentIndexBuffer();
       final int pgl = JOGLTypeConversions.primitiveToGL(p);
-      final int type = JOGLTypeConversions.unsignedTypeToGL(ib.getType());
-      this.g3.glDrawElements(pgl, (int) ib.getIndices(), type, 0L);
+      final int type = JOGLTypeConversions.unsignedTypeToGL(ib.type());
+      this.g3.glDrawElements(pgl, (int) ib.indices(), type, 0L);
     } else {
       throw new JCGLExceptionBufferNotBound(
         "No index buffer is currently bound");
@@ -108,9 +108,9 @@ final class JOGLDraw implements JCGLDrawType
     if (this.index_buffers.indexBufferIsBound()) {
       final JOGLIndexBuffer ib = this.array_objects.getCurrentIndexBuffer();
       final int pgl = JOGLTypeConversions.primitiveToGL(p);
-      final int type = JOGLTypeConversions.unsignedTypeToGL(ib.getType());
+      final int type = JOGLTypeConversions.unsignedTypeToGL(ib.type());
       this.g3.glDrawElementsInstanced(
-        pgl, (int) ib.getIndices(), type, 0L, instances);
+        pgl, (int) ib.indices(), type, 0L, instances);
     } else {
       throw new JCGLExceptionBufferNotBound(
         "No index buffer is currently bound");

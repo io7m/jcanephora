@@ -38,7 +38,7 @@ public interface JCGLTLTextureUpdateProviderType
    * @return A texture update
    */
 
-  JCGLTexture2DUpdateType getTextureUpdate2D(
+  JCGLTexture2DUpdateType createTextureUpdate2D(
     JCGLTexture2DUsableType t,
     JCGLTLTextureDataType data);
 
@@ -53,7 +53,7 @@ public interface JCGLTLTextureUpdateProviderType
    * @return A texture update
    */
 
-  JCGLTextureCubeUpdateType getTextureUpdateCube(
+  JCGLTextureCubeUpdateType createTextureUpdateCube(
     JCGLTextureCubeUsableType t,
     JCGLTLTextureDataType data);
 }

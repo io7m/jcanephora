@@ -36,7 +36,7 @@ public final class FakeBufferUpdatesTest extends JCGLBufferUpdatesContract
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
-      return g33.getArrayBuffers();
+      return g33.arrayBuffers();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

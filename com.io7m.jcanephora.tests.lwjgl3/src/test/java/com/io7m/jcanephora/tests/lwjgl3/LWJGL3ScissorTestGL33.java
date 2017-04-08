@@ -34,6 +34,6 @@ public final class LWJGL3ScissorTestGL33 extends JCGLScissorContract
   {
     final JCGLContextType c = LWJGL3TestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-    return cg.getScissor();
+    return cg.scissor();
   }
 }

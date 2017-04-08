@@ -93,7 +93,7 @@ public final class JCGLTLTextureUpdateProvider implements
       final int iy = (height - 1) - y;
       for (int x = 0; x < width; ++x) {
         cursor.setElementPosition(x, iy);
-        data.getPixel(x, y, v);
+        data.pixel(x, y, v);
         setter.set1d(v.x());
       }
     }
@@ -111,7 +111,7 @@ public final class JCGLTLTextureUpdateProvider implements
       final int iy = (height - 1) - y;
       for (int x = 0; x < width; ++x) {
         cursor.setElementPosition(x, iy);
-        data.getPixel(x, y, v);
+        data.pixel(x, y, v);
         setter.set2d(v.x(), v.y());
       }
     }
@@ -129,7 +129,7 @@ public final class JCGLTLTextureUpdateProvider implements
       final int iy = (height - 1) - y;
       for (int x = 0; x < width; ++x) {
         cursor.setElementPosition(x, iy);
-        data.getPixel(x, y, v);
+        data.pixel(x, y, v);
         setter.set3d(v.x(), v.y(), v.z());
       }
     }
@@ -147,7 +147,7 @@ public final class JCGLTLTextureUpdateProvider implements
       final int iy = (height - 1) - y;
       for (int x = 0; x < width; ++x) {
         cursor.setElementPosition(x, iy);
-        data.getPixel(x, y, v);
+        data.pixel(x, y, v);
         setter.set4d(v.x(), v.y(), v.z(), v.w());
       }
     }
@@ -422,42 +422,42 @@ public final class JCGLTLTextureUpdateProvider implements
   }
 
   @Override
-  public JCGLTexture2DUpdateType getTextureUpdate2D(
+  public JCGLTexture2DUpdateType createTextureUpdate2D(
     final JCGLTexture2DUsableType t,
     final JCGLTLTextureDataType data)
   {
     final JCGLTexture2DUpdateType u =
       JCGLTextureUpdates.newUpdateReplacingAll2D(t);
 
-    final int tw = (int) t.textureGetWidth();
-    final int th = (int) t.textureGetHeight();
-    final long dw = data.getWidth();
-    final long dh = data.getHeight();
+    final int tw = (int) t.width();
+    final int th = (int) t.height();
+    final long dw = data.width();
+    final long dh = data.height();
     RangeCheck.checkGreaterEqualLong(
       (long) tw, "Texture width", dw, "Data width");
     RangeCheck.checkGreaterEqualLong(
       (long) th, "Texture height", dh, "Data height");
 
     populate(
-      t.textureGetFormat(), data, u.getData(), tw, th);
+      t.format(), data, u.data(), tw, th);
     return u;
   }
 
   @Override
-  public JCGLTextureCubeUpdateType getTextureUpdateCube(
+  public JCGLTextureCubeUpdateType createTextureUpdateCube(
     final JCGLTextureCubeUsableType t,
     final JCGLTLTextureDataType data)
   {
     final JCGLTextureCubeUpdateType u =
       JCGLTextureUpdates.newUpdateReplacingAllCube(t);
 
-    final int tw = (int) t.textureGetWidth();
-    final long dw = data.getWidth();
+    final int tw = (int) t.width();
+    final long dw = data.width();
     RangeCheck.checkGreaterEqualLong(
       (long) tw, "Texture size", dw, "Data size");
 
     populate(
-      t.textureGetFormat(), data, u.getData(), tw, tw);
+      t.format(), data, u.data(), tw, tw);
     return u;
   }
 

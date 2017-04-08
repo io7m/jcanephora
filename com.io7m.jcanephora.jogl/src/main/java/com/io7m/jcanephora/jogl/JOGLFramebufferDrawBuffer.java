@@ -82,11 +82,11 @@ final class JOGLFramebufferDrawBuffer extends
   @Override
   public int compareTo(final JCGLFramebufferDrawBufferType o)
   {
-    return Integer.compare(this.index, o.drawBufferGetIndex());
+    return Integer.compare(this.index, o.drawBufferIndex());
   }
 
   @Override
-  public int drawBufferGetIndex()
+  public int drawBufferIndex()
   {
     return this.index;
   }

@@ -27,5 +27,5 @@ public interface JCGLGeometryShaderUsableType
    * @return The name of the shader
    */
 
-  String getName();
+  String name();
 }

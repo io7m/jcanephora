@@ -32,19 +32,19 @@ public interface JCGLArrayObjectUsableType
    * @return The attribute at the given index, if any
    */
 
-  Optional<JCGLArrayVertexAttributeType> getAttributeAt(int index);
+  Optional<JCGLArrayVertexAttributeType> attributeAt(int index);
 
   /**
    * @return The supported maximum number of vertex attributes. Must be {@code
    * >= 16}.
    */
 
-  int getMaximumVertexAttributes();
+  int attributeMaximumSupported();
 
   /**
    * @return The index buffer that is currently bound to this array object, if
    * any
    */
 
-  Optional<JCGLIndexBufferUsableType> getIndexBufferBound();
+  Optional<JCGLIndexBufferUsableType> indexBufferBound();
 }

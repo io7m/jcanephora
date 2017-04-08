@@ -114,7 +114,7 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
   {
     final JOGLFramebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
-      return fb.framebufferGetStencilBits();
+      return fb.framebufferStencilBits();
     }
 
     /*

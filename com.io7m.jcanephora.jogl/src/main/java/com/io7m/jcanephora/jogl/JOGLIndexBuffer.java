@@ -51,7 +51,7 @@ final class JOGLIndexBuffer extends JOGLBuffer implements JCGLIndexBufferType
   }
 
   @Override
-  public long getIndices()
+  public long indices()
   {
     return this.indices;
   }
@@ -63,7 +63,7 @@ final class JOGLIndexBuffer extends JOGLBuffer implements JCGLIndexBufferType
   }
 
   @Override
-  public JCGLUnsignedType getType()
+  public JCGLUnsignedType type()
   {
     return this.type;
   }
