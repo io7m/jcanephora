@@ -88,8 +88,8 @@ public final class JCGLBufferUpdates
   private static final class Update<T extends JCGLBufferWritableType>
     implements JCGLBufferUpdateType<T>
   {
-    private final T                       buffer;
-    private final ByteBuffer              data;
+    private final T buffer;
+    private final ByteBuffer data;
     private final UnsignedRangeInclusiveL range;
 
     Update(
@@ -102,17 +102,20 @@ public final class JCGLBufferUpdates
       this.range = NullCheck.notNull(in_range);
     }
 
-    @Override public T getBuffer()
+    @Override
+    public T getBuffer()
     {
       return this.buffer;
     }
 
-    @Override public ByteBuffer getData()
+    @Override
+    public ByteBuffer getData()
     {
       return this.data;
     }
 
-    @Override public UnsignedRangeInclusiveL getDataUpdateRange()
+    @Override
+    public UnsignedRangeInclusiveL getDataUpdateRange()
     {
       return this.range;
     }

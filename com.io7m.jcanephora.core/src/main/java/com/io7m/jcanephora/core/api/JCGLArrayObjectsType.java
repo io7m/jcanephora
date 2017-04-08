@@ -74,8 +74,7 @@ public interface JCGLArrayObjectsType
     throws JCGLException;
 
   /**
-   * @return The currently bound array object, or
-   * {@link #arrayObjectGetDefault()}
+   * @return The currently bound array object, or {@link #arrayObjectGetDefault()}
    * if the user has not bound an array object.
    *
    * @throws JCGLException Iff an OpenGL error occurs

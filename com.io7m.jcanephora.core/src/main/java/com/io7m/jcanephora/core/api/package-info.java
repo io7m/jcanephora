@@ -18,5 +18,6 @@
  * Type-safe OpenGL interfaces.
  */
 
-@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.core.api;
+@com.io7m.jnull.NonNullByDefault
+package com.io7m.jcanephora.core.api;
 

@@ -37,7 +37,8 @@ import java.util.Set;
  * {@code A} (destroying the container).</p>
  */
 
-@ThreadSafe public interface JCGLReferenceContainerType
+@ThreadSafe
+public interface JCGLReferenceContainerType
 {
   /**
    * @return A read-only view of the set of objects to which this container has

@@ -26,7 +26,7 @@ import com.io7m.jnull.Nullable;
 public final class JCGLVersion
 {
   private final JCGLVersionNumber number;
-  private final String            text;
+  private final String text;
 
   private JCGLVersion(
     final JCGLVersionNumber in_number,
@@ -55,7 +55,8 @@ public final class JCGLVersion
     return new JCGLVersion(number, text);
   }
 
-  @Override public boolean equals(
+  @Override
+  public boolean equals(
     final @Nullable Object obj)
   {
     if (this == obj) {
@@ -117,7 +118,8 @@ public final class JCGLVersion
     return this.number.getVersionMinor();
   }
 
-  @Override public int hashCode()
+  @Override
+  public int hashCode()
   {
     final int prime = 31;
     int result = 1;
@@ -126,7 +128,8 @@ public final class JCGLVersion
     return result;
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     final StringBuilder builder = new StringBuilder(16 + this.text.length());
     builder.append(this.getNumber());

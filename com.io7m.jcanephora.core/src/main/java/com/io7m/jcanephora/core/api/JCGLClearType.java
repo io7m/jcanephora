@@ -28,10 +28,9 @@ public interface JCGLClearType
   /**
    * Clear all buffers given by the specification.
    *
-   * @param c
-   *          The specification
-   * @throws JCGLException
-   *           If an error occurs
+   * @param c The specification
+   *
+   * @throws JCGLException If an error occurs
    */
 
   void clear(

@@ -58,9 +58,8 @@ public interface JCGLContextUsableType
   /**
    * Make this context current on the current thread.
    *
-   * @throws JCGLExceptionContextIsCurrent If a context (including this
-   *                                            one) is already current on this
-   *                                            thread
+   * @throws JCGLExceptionContextIsCurrent If a context (including this one) is
+   *                                       already current on this thread
    */
 
   void contextMakeCurrent()

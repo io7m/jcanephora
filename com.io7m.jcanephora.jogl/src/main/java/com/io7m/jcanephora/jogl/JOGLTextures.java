@@ -17,7 +17,6 @@
 package com.io7m.jcanephora.jogl;
 
 import com.io7m.jaffirm.core.Preconditions;
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionNonCompliant;
@@ -41,6 +40,10 @@ import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
+import com.io7m.jregions.core.unparameterized.areas.AreasL;
+import com.io7m.jregions.core.unparameterized.sizes.AreaSizeL;
+import com.io7m.jregions.core.unparameterized.sizes.AreaSizesL;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
@@ -78,14 +81,14 @@ final class JOGLTextures implements JCGLTexturesType
   JOGLTextures(final JOGLContext c)
     throws JCGLExceptionNonCompliant
   {
-    this.context = NullCheck.notNull(c);
+    this.context = NullCheck.notNull(c, "Context");
     this.g3 = c.getGL3();
     this.icache = Buffers.newDirectIntBuffer(1);
-    this.units = JOGLTextures.makeUnits(c, this.g3, this.icache);
-    this.size = JOGLTextures.makeSize(this.g3, this.icache);
+    this.units = makeUnits(c, this.g3, this.icache);
+    this.size = makeSize(this.g3, this.icache);
     this.texture_to_units = new Int2ObjectOpenHashMap<>(this.units.size());
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -108,8 +111,8 @@ final class JOGLTextures implements JCGLTexturesType
 
     final int max = in_cache.get(0);
 
-    if (JOGLTextures.LOG.isDebugEnabled()) {
-      JOGLTextures.LOG.debug(
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
         "implementation supports {} texture units",
         Integer.valueOf(max));
     }
@@ -118,14 +121,14 @@ final class JOGLTextures implements JCGLTexturesType
       final String message = String.format(
         "Reported number of texture units %d is less than the required %d",
         Integer.valueOf(max), Integer.valueOf(16));
-      JOGLTextures.LOG.error(message);
+      LOG.error(message);
       throw new JCGLExceptionNonCompliant(message);
     }
 
     final int clamped = Math.min(1024, max);
     if (clamped != max) {
-      if (JOGLTextures.LOG.isDebugEnabled()) {
-        JOGLTextures.LOG.debug(
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(
           "clamped unreasonable texture unit count {} to {}",
           Integer.valueOf(max),
           Integer.valueOf(clamped));
@@ -150,8 +153,8 @@ final class JOGLTextures implements JCGLTexturesType
 
     final int size = in_cache.get(0);
 
-    if (JOGLTextures.LOG.isDebugEnabled()) {
-      JOGLTextures.LOG.debug(
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
         "implementation reports maximum texture size {}",
         Integer.valueOf(size));
     }
@@ -160,7 +163,7 @@ final class JOGLTextures implements JCGLTexturesType
       final String message = String.format(
         "Reported maximum texture size %d is less than the required %d",
         Integer.valueOf(size), Integer.valueOf(1024));
-      JOGLTextures.LOG.error(message);
+      LOG.error(message);
       throw new JCGLExceptionNonCompliant(message);
     }
 
@@ -214,7 +217,7 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final JOGLTextureUnit u =
-      JOGLTextures.checkTextureUnit(this.context.getContext(), unit);
+      checkTextureUnit(this.context.getContext(), unit);
     return u.getBind2D() != null || u.getBindCube() != null;
   }
 
@@ -223,17 +226,14 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    final JOGLTextureUnit u = checkTextureUnit(c, unit);
     final int index = u.unitGetIndex();
 
     {
       final JOGLTexture2D t2d = u.getBind2D();
       if (t2d != null) {
-        if (JOGLTextures.LOG.isTraceEnabled()) {
-          JOGLTextures.LOG.trace(
-            "unbind 2D [{}]: {} -> none",
-            Integer.valueOf(index),
-            t2d);
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("unbind 2D [{}]: {} -> none", Integer.valueOf(index), t2d);
         }
         this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
         this.g3.glBindTexture(GL.GL_TEXTURE_2D, 0);
@@ -245,11 +245,8 @@ final class JOGLTextures implements JCGLTexturesType
     {
       final JOGLTextureCube tc = u.getBindCube();
       if (tc != null) {
-        if (JOGLTextures.LOG.isTraceEnabled()) {
-          JOGLTextures.LOG.trace(
-            "unbind cube [{}]: {} -> none",
-            Integer.valueOf(index),
-            tc);
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("unbind cube [{}]: {} -> none", Integer.valueOf(index), tc);
         }
         this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
         this.g3.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
@@ -266,33 +263,28 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    final JOGLTexture2D t = JOGLTextures.checkTexture2D(c, texture);
-    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    final JOGLTexture2D t = checkTexture2D(c, texture);
+    final JOGLTextureUnit u = checkTextureUnit(c, unit);
     final int index = unit.unitGetIndex();
     final int texture_id = texture.getGLName();
 
     this.checkFeedback(texture);
 
-    /**
+    /*
      * Do not re-bind already bound textures.
      */
 
     if (Objects.equals(u.getBind2D(), t)) {
-      if (JOGLTextures.LOG.isTraceEnabled()) {
-        JOGLTextures.LOG.trace(
-          "bind 2D [{}]: keep existing",
-          Integer.valueOf(index));
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("bind 2D [{}]: keep existing", Integer.valueOf(index));
       }
       return;
     }
 
     this.textureUnitUnbind(u);
 
-    if (JOGLTextures.LOG.isTraceEnabled()) {
-      JOGLTextures.LOG.trace(
-        "bind 2D [{}]: none -> {}",
-        Integer.valueOf(index),
-        texture);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("bind 2D [{}]: none -> {}", Integer.valueOf(index), texture);
     }
     this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
     this.g3.glBindTexture(GL.GL_TEXTURE_2D, texture_id);
@@ -334,10 +326,10 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTexture2D(c, texture);
+    checkTexture2D(c, texture);
 
-    if (JOGLTextures.LOG.isDebugEnabled()) {
-      JOGLTextures.LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
     }
 
     final int texture_id = texture.getGLName();
@@ -368,9 +360,9 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTexture2D(c, texture);
-    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
-    return texture.equals(u.getBind2D());
+    checkTexture2D(c, texture);
+    final JOGLTextureUnit u = checkTextureUnit(c, unit);
+    return Objects.equals(texture, u.getBind2D());
   }
 
   @Override
@@ -378,7 +370,7 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTexture2D(c, texture);
+    checkTexture2D(c, texture);
     final int texture_id = texture.getGLName();
     return this.texture_to_units.containsKey(texture_id);
   }
@@ -395,7 +387,7 @@ final class JOGLTextures implements JCGLTexturesType
     final JCGLTextureFilterMagnification mag_filter)
   {
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTextureUnit(c, unit);
+    checkTextureUnit(c, unit);
     NullCheck.notNull(format, "Texture format");
     NullCheck.notNull(wrap_s, "Wrap S mode");
     NullCheck.notNull(wrap_t, "Wrap T mode");
@@ -405,8 +397,8 @@ final class JOGLTextures implements JCGLTexturesType
     RangeCheck.checkGreaterEqualLong(height, "Height", 2L, "Valid heights");
 
     final long bytes = width * height * (long) format.getBytesPerPixel();
-    if (JOGLTextures.LOG.isDebugEnabled()) {
-      JOGLTextures.LOG.debug(
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
         "allocate {} {}x{} {} bytes",
         format,
         Long.valueOf(width),
@@ -454,8 +446,8 @@ final class JOGLTextures implements JCGLTexturesType
       GL.GL_TEXTURE_2D,
       0,
       spec.getInternalFormat(),
-      (int) width,
-      (int) height,
+      Math.toIntExact(width),
+      Math.toIntExact(height),
       0,
       spec.getFormat(),
       spec.getType(),
@@ -474,8 +466,8 @@ final class JOGLTextures implements JCGLTexturesType
       }
     }
 
-    if (JOGLTextures.LOG.isDebugEnabled()) {
-      JOGLTextures.LOG.debug("allocated {}", Integer.valueOf(texture_id));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("allocated {}", Integer.valueOf(texture_id));
     }
     return t;
   }
@@ -486,25 +478,27 @@ final class JOGLTextures implements JCGLTexturesType
     final JCGLTexture2DUpdateType data)
     throws JCGLException
   {
-    NullCheck.notNull(data);
-    NullCheck.notNull(unit);
+    NullCheck.notNull(data, "Data");
+    NullCheck.notNull(unit, "Unit");
 
     final JCGLTexture2DUsableType texture = data.getTexture();
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTextureUnit(c, unit);
-    JOGLTextures.checkTexture2D(c, texture);
+    checkTextureUnit(c, unit);
+    checkTexture2D(c, texture);
 
-    final AreaInclusiveUnsignedLType update_area = data.getArea();
+    final AreaL update_area = data.getArea();
+    final AreaL texture_area = AreaSizesL.area(texture.textureGetSize());
 
     Preconditions.checkPrecondition(
       update_area,
-      update_area.isIncludedIn(texture.textureGetArea()),
+      AreasL.contains(texture_area, update_area),
       ignored -> "Update area must be included in texture area");
 
-    final int x_offset = (int) update_area.getRangeX().getLower();
-    final int y_offset = (int) update_area.getRangeY().getLower();
-    final int width = (int) update_area.getRangeX().getInterval();
-    final int height = (int) update_area.getRangeY().getInterval();
+    final int x_offset = Math.toIntExact(update_area.minimumX());
+    final int y_offset = Math.toIntExact(update_area.minimumY());
+    final int width = Math.toIntExact(update_area.width());
+    final int height = Math.toIntExact(update_area.height());
+
     final JCGLTextureFormat format = texture.textureGetFormat();
     final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
     final ByteBuffer buffer = data.getData();
@@ -541,21 +535,23 @@ final class JOGLTextures implements JCGLTexturesType
     final JCGLTexture2DUsableType texture)
     throws JCGLException
   {
-    NullCheck.notNull(texture);
-    NullCheck.notNull(unit);
+    NullCheck.notNull(texture, "Texture");
+    NullCheck.notNull(unit, "Unit");
 
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTextureUnit(c, unit);
-    JOGLTextures.checkTexture2D(c, texture);
+    checkTextureUnit(c, unit);
+    checkTexture2D(c, texture);
 
     final JCGLTextureFormat format = texture.textureGetFormat();
     final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
 
-    final AreaInclusiveUnsignedLType area = texture.textureGetArea();
-    final long width = area.getRangeX().getInterval();
-    final long height = area.getRangeY().getInterval();
-    final ByteBuffer data = ByteBuffer.allocateDirect(
-      (int) (width * height * (long) format.getBytesPerPixel()));
+    final AreaSizeL area = texture.textureGetSize();
+    final long width = area.width();
+    final long height = area.height();
+    final long size_bytes = width * height * (long) format.getBytesPerPixel();
+
+    final ByteBuffer data =
+      ByteBuffer.allocateDirect(Math.toIntExact(size_bytes));
     data.order(ByteOrder.nativeOrder());
 
     this.texture2DBind(unit, texture);
@@ -573,10 +569,10 @@ final class JOGLTextures implements JCGLTexturesType
     final JCGLTextureUnitType unit)
     throws JCGLException
   {
-    NullCheck.notNull(unit);
+    NullCheck.notNull(unit, "Unit");
 
     final GLContext c = this.context.getContext();
-    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    final JOGLTextureUnit u = checkTextureUnit(c, unit);
     final JOGLTexture2D b = u.getBind2D();
 
     if (b != null) {
@@ -609,7 +605,7 @@ final class JOGLTextures implements JCGLTexturesType
 
   void setFramebuffers(final JOGLFramebuffers in_fb)
   {
-    this.framebuffers = NullCheck.notNull(in_fb);
+    this.framebuffers = NullCheck.notNull(in_fb, "Framebuffers");
   }
 
   @Override
@@ -619,33 +615,28 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    final JOGLTextureCube t = JOGLTextures.checkTextureCube(c, texture);
-    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    final JOGLTextureCube t = checkTextureCube(c, texture);
+    final JOGLTextureUnit u = checkTextureUnit(c, unit);
     final int index = unit.unitGetIndex();
     final int texture_id = texture.getGLName();
 
     this.checkFeedback(texture);
 
-    /**
+    /*
      * Do not re-bind already bound textures.
      */
 
     if (Objects.equals(u.getBindCube(), t)) {
-      if (JOGLTextures.LOG.isTraceEnabled()) {
-        JOGLTextures.LOG.trace(
-          "bind cube [{}]: keep existing",
-          Integer.valueOf(index));
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("bind cube [{}]: keep existing", Integer.valueOf(index));
       }
       return;
     }
 
     this.textureUnitUnbind(unit);
 
-    if (JOGLTextures.LOG.isTraceEnabled()) {
-      JOGLTextures.LOG.trace(
-        "bind cube [{}]: none -> {}",
-        Integer.valueOf(index),
-        texture);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("bind cube [{}]: none -> {}", Integer.valueOf(index), texture);
     }
     this.g3.glActiveTexture(GL.GL_TEXTURE0 + index);
     this.g3.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture_id);
@@ -658,7 +649,7 @@ final class JOGLTextures implements JCGLTexturesType
     final JOGLFramebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
       for (final JCGLReferableType r : fb.getReferences()) {
-        if (texture.equals(r)) {
+        if (Objects.equals(texture, r)) {
           JOGLFramebuffers.onFeedbackLoop(fb, texture);
         }
       }
@@ -670,10 +661,10 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTextureCube(c, texture);
+    checkTextureCube(c, texture);
 
-    if (JOGLTextures.LOG.isDebugEnabled()) {
-      JOGLTextures.LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
     }
 
     final int texture_id = texture.getGLName();
@@ -691,9 +682,9 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTextureCube(c, texture);
-    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
-    return texture.equals(u.getBindCube());
+    checkTextureCube(c, texture);
+    final JOGLTextureUnit u = checkTextureUnit(c, unit);
+    return Objects.equals(texture, u.getBindCube());
   }
 
   @Override
@@ -702,7 +693,7 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTextureCube(c, texture);
+    checkTextureCube(c, texture);
     final int texture_id = texture.getGLName();
     return this.texture_to_units.containsKey(texture_id);
   }
@@ -714,25 +705,27 @@ final class JOGLTextures implements JCGLTexturesType
     final JCGLTextureCubeUpdateType data)
     throws JCGLException
   {
-    NullCheck.notNull(data);
-    NullCheck.notNull(unit);
+    NullCheck.notNull(data, "Data");
+    NullCheck.notNull(unit, "Unit");
 
     final JCGLTextureCubeUsableType texture = data.getTexture();
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTextureUnit(c, unit);
-    JOGLTextures.checkTextureCube(c, texture);
+    checkTextureUnit(c, unit);
+    checkTextureCube(c, texture);
 
-    final AreaInclusiveUnsignedLType update_area = data.getArea();
+    final AreaL update_area = data.getArea();
+    final AreaL texture_area = AreaSizesL.area(texture.textureGetSize());
 
     Preconditions.checkPrecondition(
       update_area,
-      update_area.isIncludedIn(texture.textureGetArea()),
+      AreasL.contains(texture_area, update_area),
       ignored -> "Update area must be included in texture area");
 
-    final int x_offset = (int) update_area.getRangeX().getLower();
-    final int y_offset = (int) update_area.getRangeY().getLower();
-    final int width = (int) update_area.getRangeX().getInterval();
-    final int height = (int) update_area.getRangeY().getInterval();
+    final int x_offset = Math.toIntExact(update_area.minimumX());
+    final int y_offset = Math.toIntExact(update_area.minimumY());
+    final int width = Math.toIntExact(update_area.width());
+    final int height = Math.toIntExact(update_area.height());
+
     final JCGLTextureFormat format = texture.textureGetFormat();
     final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
     final ByteBuffer buffer = data.getData();
@@ -777,7 +770,7 @@ final class JOGLTextures implements JCGLTexturesType
     throws JCGLException
   {
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTextureUnit(c, unit);
+    checkTextureUnit(c, unit);
     NullCheck.notNull(format, "Texture format");
     NullCheck.notNull(wrap_r, "Wrap R mode");
     NullCheck.notNull(wrap_s, "Wrap S mode");
@@ -787,8 +780,8 @@ final class JOGLTextures implements JCGLTexturesType
     RangeCheck.checkGreaterEqualLong(in_size, "Size", 2L, "Valid sizes");
 
     final long bytes = (in_size * in_size) * 6L * format.getBytesPerPixel();
-    if (JOGLTextures.LOG.isDebugEnabled()) {
-      JOGLTextures.LOG.debug(
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
         "allocate {} {}x{}x6 {} bytes",
         format,
         Long.valueOf(in_size),
@@ -843,8 +836,8 @@ final class JOGLTextures implements JCGLTexturesType
         gface,
         0,
         spec.getInternalFormat(),
-        (int) in_size,
-        (int) in_size,
+        Math.toIntExact(in_size),
+        Math.toIntExact(in_size),
         0,
         spec.getFormat(),
         spec.getType(),
@@ -864,8 +857,8 @@ final class JOGLTextures implements JCGLTexturesType
       }
     }
 
-    if (JOGLTextures.LOG.isDebugEnabled()) {
-      JOGLTextures.LOG.debug("allocated {}", Integer.valueOf(texture_id));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("allocated {}", Integer.valueOf(texture_id));
     }
     return t;
   }
@@ -877,22 +870,23 @@ final class JOGLTextures implements JCGLTexturesType
     final JCGLTextureCubeUsableType texture)
     throws JCGLException
   {
-    NullCheck.notNull(texture);
-    NullCheck.notNull(face);
-    NullCheck.notNull(unit);
+    NullCheck.notNull(texture, "Texture");
+    NullCheck.notNull(face, "Face");
+    NullCheck.notNull(unit, "Unit");
 
     final GLContext c = this.context.getContext();
-    JOGLTextures.checkTextureUnit(c, unit);
-    JOGLTextures.checkTextureCube(c, texture);
+    checkTextureUnit(c, unit);
+    checkTextureCube(c, texture);
 
     final JCGLTextureFormat format = texture.textureGetFormat();
     final JOGLTextureSpec spec = JOGLTextureSpecs.getTextureSpec(format);
 
-    final AreaInclusiveUnsignedLType area = texture.textureGetArea();
-    final long width = area.getRangeX().getInterval();
-    final long height = area.getRangeY().getInterval();
-    final ByteBuffer data = ByteBuffer.allocateDirect(
-      (int) (width * height * (long) format.getBytesPerPixel()));
+    final AreaSizeL area = texture.textureGetSize();
+    final long width = area.width();
+    final long height = area.height();
+    final long size_bytes = width * height * (long) format.getBytesPerPixel();
+    final ByteBuffer data =
+      ByteBuffer.allocateDirect(Math.toIntExact(size_bytes));
     data.order(ByteOrder.nativeOrder());
 
     final int gface = JOGLTypeConversions.cubeFaceToGL(face);
@@ -912,10 +906,10 @@ final class JOGLTextures implements JCGLTexturesType
     final JCGLTextureUnitType unit)
     throws JCGLException
   {
-    NullCheck.notNull(unit);
+    NullCheck.notNull(unit, "Unit");
 
     final GLContext c = this.context.getContext();
-    final JOGLTextureUnit u = JOGLTextures.checkTextureUnit(c, unit);
+    final JOGLTextureUnit u = checkTextureUnit(c, unit);
     final JOGLTextureCube b = u.getBindCube();
 
     if (b != null) {

@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.core;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
+import com.io7m.jregions.core.unparameterized.sizes.AreaSizeL;
 
 /**
  * The type of usable cube textures.
@@ -25,10 +25,10 @@ import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 public interface JCGLTextureCubeUsableType extends JCGLTextureUsableType
 {
   /**
-   * @return The texture area
+   * @return The texture size
    */
 
-  AreaInclusiveUnsignedLType textureGetArea();
+  AreaSizeL textureGetSize();
 
   /**
    * @return The wrapping mode on the {@code R} axis

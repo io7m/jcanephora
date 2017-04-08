@@ -54,16 +54,12 @@
       <artifactId>com.io7m.jnull.core</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jareas</groupId>
-      <artifactId>com.io7m.jareas.core</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.io7m.jpra</groupId>
       <artifactId>com.io7m.jpra.runtime.java</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.io7m.junsigned</groupId>
-      <artifactId>com.io7m.junsigned.ranges</artifactId>
+      <groupId>com.io7m.jregions</groupId>
+      <artifactId>com.io7m.jregions.core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jtensors</groupId>

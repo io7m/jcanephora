@@ -70,8 +70,8 @@
       <artifactId>com.io7m.jnull.core</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jareas</groupId>
-      <artifactId>com.io7m.jareas.core</artifactId>
+      <groupId>com.io7m.jregions</groupId>
+      <artifactId>com.io7m.jregions.core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jequality</groupId>

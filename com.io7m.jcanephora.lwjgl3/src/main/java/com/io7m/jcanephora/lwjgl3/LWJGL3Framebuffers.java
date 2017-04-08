@@ -17,7 +17,6 @@
 package com.io7m.jcanephora.lwjgl3;
 
 import com.io7m.jaffirm.core.Preconditions;
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionFeedback;
@@ -51,8 +50,8 @@ import com.io7m.jcanephora.core.JCGLTextureUsableType;
 import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jfunctional.Unit;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 import com.io7m.junreachable.UnreachableCodeException;
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -90,14 +89,14 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     final LWJGL3Textures t)
     throws JCGLExceptionNonCompliant
   {
-    this.context = NullCheck.notNull(c);
-    this.textures = NullCheck.notNull(t);
+    this.context = NullCheck.notNull(c, "Context");
+    this.textures = NullCheck.notNull(t, "Textures");
 
-    this.color_points = LWJGL3Framebuffers.makeColorPoints(c);
-    this.draw_buffers = LWJGL3Framebuffers.makeDrawBuffers(c);
+    this.color_points = makeColorPoints(c);
+    this.draw_buffers = makeDrawBuffers(c);
     this.textures.setFramebuffers(this);
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -111,7 +110,7 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     throws JCGLExceptionNonCompliant
   {
     final int max = GL11.glGetInteger(GL20.GL_MAX_DRAW_BUFFERS);
-    LWJGL3Framebuffers.LOG.debug(
+    LOG.debug(
       "implementation supports {} draw buffers",
       Integer.valueOf(max));
 
@@ -119,13 +118,13 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
       final String message = String.format(
         "Reported number of draw buffers %d is less than the required %d",
         Integer.valueOf(max), Integer.valueOf(8));
-      LWJGL3Framebuffers.LOG.error(message);
+      LOG.error(message);
       throw new JCGLExceptionNonCompliant(message);
     }
 
     final int clamped = Math.min(1024, max);
     if (clamped != max) {
-      LWJGL3Framebuffers.LOG.debug(
+      LOG.debug(
         "clamped unreasonable draw buffer count {} to {}",
         Integer.valueOf(max),
         Integer.valueOf(clamped));
@@ -146,7 +145,7 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     throws JCGLExceptionNonCompliant
   {
     final int max = GL11.glGetInteger(GL30.GL_MAX_COLOR_ATTACHMENTS);
-    LWJGL3Framebuffers.LOG.debug(
+    LOG.debug(
       "implementation supports {} color attachment points",
       Integer.valueOf(max));
 
@@ -154,13 +153,13 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
       final String message = String.format(
         "Reported number of color attachments %d is less than the required %d",
         Integer.valueOf(max), Integer.valueOf(8));
-      LWJGL3Framebuffers.LOG.error(message);
+      LOG.error(message);
       throw new JCGLExceptionNonCompliant(message);
     }
 
     final int clamped = Math.min(1024, max);
     if (clamped != max) {
-      LWJGL3Framebuffers.LOG.debug(
+      LOG.debug(
         "clamped unreasonable color attachment count {} to {}",
         Integer.valueOf(max),
         Integer.valueOf(clamped));
@@ -182,7 +181,7 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     final LWJGL3Context c,
     final JCGLFramebufferColorAttachmentPointType point)
   {
-    NullCheck.notNull(point);
+    NullCheck.notNull(point, "Point");
     LWJGL3FramebufferColorAttachmentPoint.checkFramebufferColorAttachmentPoint(
       c,
       point);
@@ -192,7 +191,7 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     final LWJGL3Context c,
     final JCGLFramebufferDrawBufferType buffer)
   {
-    NullCheck.notNull(buffer);
+    NullCheck.notNull(buffer, "Buffer");
     LWJGL3FramebufferDrawBuffer.checkDrawBuffer(c, buffer);
   }
 
@@ -200,7 +199,7 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     final LWJGL3Context c,
     final JCGLFramebufferUsableType framebuffer)
   {
-    NullCheck.notNull(framebuffer);
+    NullCheck.notNull(framebuffer, "Framebuffer");
     LWJGL3Framebuffer.checkFramebuffer(c, framebuffer);
     JCGLResources.checkNotDeleted(framebuffer);
     return (LWJGL3Framebuffer) framebuffer;
@@ -227,8 +226,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     final LWJGL3Context context,
     final JCGLFramebufferBuilderType b)
   {
-    NullCheck.notNull(context);
-    NullCheck.notNull(b);
+    NullCheck.notNull(context, "Context");
+    NullCheck.notNull(b, "Builder");
     return (Builder) LWJGL3CompatibilityChecks.checkAny(context, b);
   }
 
@@ -249,8 +248,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
           public Unit onTexture2D(final JCGLTexture2DUsableType t)
             throws JCGLException
           {
-            if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-              LWJGL3Framebuffers.LOG.debug(
+            if (LOG.isDebugEnabled()) {
+              LOG.debug(
                 "[{}] attach color {} {}",
                 Integer.valueOf(f_id),
                 Integer.valueOf(index),
@@ -276,8 +275,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
             final JCGLCubeMapFaceLH face)
             throws JCGLException, UnreachableCodeException
           {
-            if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-              LWJGL3Framebuffers.LOG.debug(
+            if (LOG.isDebugEnabled()) {
+              LOG.debug(
                 "[{}] attach color {} {} (face {})",
                 Integer.valueOf(f_id),
                 Integer.valueOf(index),
@@ -322,8 +321,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
         public Unit onTexture2D(final JCGLTexture2DUsableType t)
           throws JCGLException
         {
-          if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-            LWJGL3Framebuffers.LOG.debug(
+          if (LOG.isDebugEnabled()) {
+            LOG.debug(
               "[{}] attach depth+stencil {}",
               Integer.valueOf(f_id),
               t);
@@ -368,8 +367,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
           final JCGLTexture2DUsableType t)
           throws JCGLException
         {
-          if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-            LWJGL3Framebuffers.LOG.debug(
+          if (LOG.isDebugEnabled()) {
+            LOG.debug(
               "[{}] attach depth {}",
               Integer.valueOf(f_id),
               t);
@@ -408,8 +407,10 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     final JCGLFramebufferBuilderType b)
     throws JCGLException
   {
+    NullCheck.notNull(b, "Builder");
+
     final LWJGL3Context c = this.context;
-    LWJGL3Framebuffers.checkFramebufferBuilder(c, b);
+    checkFramebufferBuilder(c, b);
 
     Preconditions.checkPrecondition(
       b,
@@ -418,51 +419,51 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     final Builder bb = (Builder) b;
 
     final int f_id = GL30.glGenFramebuffers();
-    if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-      LWJGL3Framebuffers.LOG.debug("allocate {}", Integer.valueOf(f_id));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("allocate {}", Integer.valueOf(f_id));
     }
 
     final LWJGL3Framebuffer fb = new LWJGL3Framebuffer(c, f_id);
     this.actualBindDraw(fb);
 
-    /**
+    /*
      * Configure depth/stencil attachments.
      */
 
     if (bb.depth != null) {
-      LWJGL3Framebuffers.framebufferAllocateConfigureDepth(
+      framebufferAllocateConfigureDepth(
         c, bb, f_id, fb);
     }
 
     if (bb.depth_stencil != null) {
-      LWJGL3Framebuffers.framebufferAllocateConfigureDepthStencil(
+      framebufferAllocateConfigureDepthStencil(
         c, bb, f_id, fb);
     }
 
-    /**
+    /*
      * Configure color attachments.
      */
 
     for (int index = 0; index < bb.color_attaches.size(); ++index) {
-      LWJGL3Framebuffers.framebufferAllocateConfigureColorAttachments(
+      framebufferAllocateConfigureColorAttachments(
         c, bb, f_id, fb, index);
     }
 
-    /**
+    /*
      * Configure draw buffer mappings.
      */
 
     this.framebufferAllocateConfigureDrawBuffers(bb, f_id);
 
-    /**
+    /*
      * Validate.
      */
 
     final JCGLFramebufferStatus status = this.framebufferDrawValidate();
     switch (status) {
       case FRAMEBUFFER_STATUS_COMPLETE: {
-        if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-          LWJGL3Framebuffers.LOG.debug("allocated {}", fb);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("allocated {}", fb);
         }
         return fb;
       }
@@ -492,8 +493,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
         final JCGLFramebufferColorAttachmentPointType attach =
           bb.draw_buffers.get(buffer);
 
-        if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-          LWJGL3Framebuffers.LOG.debug(
+        if (LOG.isDebugEnabled()) {
+          LOG.debug(
             "[{}] draw buffer {} -> color {}",
             Integer.valueOf(f_id),
             Integer.valueOf(index),
@@ -503,8 +504,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
           index,
           GL30.GL_COLOR_ATTACHMENT0 + attach.colorAttachmentPointGetIndex());
       } else {
-        if (LWJGL3Framebuffers.LOG.isDebugEnabled()) {
-          LWJGL3Framebuffers.LOG.debug(
+        if (LOG.isDebugEnabled()) {
+          LOG.debug(
             "[{}] draw buffer {} -> none",
             Integer.valueOf(f_id),
             Integer.valueOf(index));
@@ -523,23 +524,23 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     throws JCGLException
   {
     final LWJGL3Framebuffer fb =
-      LWJGL3Framebuffers.checkFramebuffer(this.context, framebuffer);
+      checkFramebuffer(this.context, framebuffer);
 
     GL30.glDeleteFramebuffers(framebuffer.getGLName());
 
     fb.setDeleted();
-    if (framebuffer.equals(this.bind_draw)) {
+    if (Objects.equals(framebuffer, this.bind_draw)) {
       this.actualUnbindDraw();
     }
-    if (framebuffer.equals(this.bind_read)) {
+    if (Objects.equals(framebuffer, this.bind_read)) {
       this.actualUnbindRead();
     }
   }
 
   private void actualBindDraw(final LWJGL3Framebuffer f)
   {
-    if (LWJGL3Framebuffers.LOG.isTraceEnabled()) {
-      LWJGL3Framebuffers.LOG.trace("bind draw {} -> {}", this.bind_draw, f);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("bind draw {} -> {}", this.bind_draw, f);
     }
 
     if (!Objects.equals(this.bind_draw, f)) {
@@ -547,7 +548,7 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
         if (r instanceof JCGLTexture2DUsableType) {
           final JCGLTexture2DUsableType t = (JCGLTexture2DUsableType) r;
           if (this.textures.texture2DIsBoundAnywhere(t)) {
-            LWJGL3Framebuffers.onFeedbackLoop(f, t);
+            onFeedbackLoop(f, t);
           }
         }
       }
@@ -555,8 +556,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
       GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, f.getGLName());
       this.bind_draw = f;
     } else {
-      if (LWJGL3Framebuffers.LOG.isTraceEnabled()) {
-        LWJGL3Framebuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "redundant bind draw ignored {} -> {}",
           this.bind_draw,
           f);
@@ -566,16 +567,16 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
 
   private void actualBindRead(final LWJGL3Framebuffer f)
   {
-    if (LWJGL3Framebuffers.LOG.isTraceEnabled()) {
-      LWJGL3Framebuffers.LOG.trace("bind read {} -> {}", this.bind_read, f);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("bind read {} -> {}", this.bind_read, f);
     }
 
     if (!Objects.equals(this.bind_read, f)) {
       GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, f.getGLName());
       this.bind_read = f;
     } else {
-      if (LWJGL3Framebuffers.LOG.isTraceEnabled()) {
-        LWJGL3Framebuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "redundant bind read ignored {} -> {}",
           this.bind_read,
           f);
@@ -585,16 +586,16 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
 
   private void actualUnbindDraw()
   {
-    if (LWJGL3Framebuffers.LOG.isTraceEnabled()) {
-      LWJGL3Framebuffers.LOG.trace("unbind draw {} -> none", this.bind_draw);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("unbind draw {} -> none", this.bind_draw);
     }
 
     if (this.bind_draw != null) {
       GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, 0);
       this.bind_draw = null;
     } else {
-      if (LWJGL3Framebuffers.LOG.isTraceEnabled()) {
-        LWJGL3Framebuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "redundant unbind draw ignored {} -> none",
           this.bind_draw);
       }
@@ -603,16 +604,16 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
 
   private void actualUnbindRead()
   {
-    if (LWJGL3Framebuffers.LOG.isTraceEnabled()) {
-      LWJGL3Framebuffers.LOG.trace("unbind read {} -> none", this.bind_read);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("unbind read {} -> none", this.bind_read);
     }
 
     if (this.bind_read != null) {
       GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, 0);
       this.bind_read = null;
     } else {
-      if (LWJGL3Framebuffers.LOG.isTraceEnabled()) {
-        LWJGL3Framebuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "redundant unbind read ignored {} -> none",
           this.bind_read);
       }
@@ -631,7 +632,7 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     final JCGLFramebufferUsableType framebuffer)
     throws JCGLException
   {
-    LWJGL3Framebuffers.checkFramebuffer(this.context, framebuffer);
+    checkFramebuffer(this.context, framebuffer);
     this.actualBindDraw((LWJGL3Framebuffer) framebuffer);
   }
 
@@ -647,8 +648,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     final JCGLFramebufferUsableType framebuffer)
     throws JCGLException
   {
-    LWJGL3Framebuffers.checkFramebuffer(this.context, framebuffer);
-    return framebuffer.equals(this.bind_draw);
+    checkFramebuffer(this.context, framebuffer);
+    return Objects.equals(framebuffer, this.bind_draw);
   }
 
   @Override
@@ -697,7 +698,7 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
   public void framebufferReadBind(final JCGLFramebufferUsableType framebuffer)
     throws JCGLException
   {
-    LWJGL3Framebuffers.checkFramebuffer(this.context, framebuffer);
+    checkFramebuffer(this.context, framebuffer);
     this.actualBindRead((LWJGL3Framebuffer) framebuffer);
   }
 
@@ -726,8 +727,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     final JCGLFramebufferUsableType framebuffer)
     throws JCGLException
   {
-    LWJGL3Framebuffers.checkFramebuffer(this.context, framebuffer);
-    return framebuffer.equals(this.bind_read);
+    checkFramebuffer(this.context, framebuffer);
+    return Objects.equals(framebuffer, this.bind_read);
   }
 
   @Override
@@ -739,16 +740,16 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
 
   @Override
   public void framebufferBlit(
-    final AreaInclusiveUnsignedLType source,
-    final AreaInclusiveUnsignedLType target,
+    final AreaL source,
+    final AreaL target,
     final Set<JCGLFramebufferBlitBuffer> buffers,
     final JCGLFramebufferBlitFilter filter)
     throws JCGLException
   {
-    NullCheck.notNull(source);
-    NullCheck.notNull(target);
-    NullCheck.notNull(buffers);
-    NullCheck.notNull(filter);
+    NullCheck.notNull(source, "Source");
+    NullCheck.notNull(target, "Target");
+    NullCheck.notNull(buffers, "Buffers");
+    NullCheck.notNull(filter, "Filter");
 
     if (Objects.equals(this.bind_draw, this.bind_read)) {
       throw new JCGLExceptionFramebufferReadDrawSame(
@@ -776,25 +777,20 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
       }
     }
 
-    final UnsignedRangeInclusiveL s_range_x = source.getRangeX();
-    final UnsignedRangeInclusiveL s_range_y = source.getRangeY();
-    final UnsignedRangeInclusiveL d_range_x = target.getRangeX();
-    final UnsignedRangeInclusiveL d_range_y = target.getRangeY();
-
-    /**
+    /*
      * Section 4.3.2 of the OpenGL 3.1 standard: "The lower bounds of the
      * rectangle are inclusive, while the upper bounds are exclusive".
      */
 
-    final int src_x0 = (int) s_range_x.getLower();
-    final int src_y0 = (int) s_range_y.getLower();
-    final int src_x1 = (int) s_range_x.getUpper() + 1;
-    final int src_y1 = (int) s_range_y.getUpper() + 1;
+    final int src_x0 = Math.toIntExact(source.minimumX());
+    final int src_y0 = Math.toIntExact(source.minimumY());
+    final int src_x1 = Math.toIntExact(source.maximumX());
+    final int src_y1 = Math.toIntExact(source.maximumY());
 
-    final int dst_x0 = (int) d_range_x.getLower();
-    final int dst_y0 = (int) d_range_y.getLower();
-    final int dst_x1 = (int) d_range_x.getUpper() + 1;
-    final int dst_y1 = (int) d_range_y.getUpper() + 1;
+    final int dst_x0 = Math.toIntExact(target.minimumX());
+    final int dst_y0 = Math.toIntExact(target.minimumY());
+    final int dst_x1 = Math.toIntExact(target.maximumX());
+    final int dst_y1 = Math.toIntExact(target.maximumY());
 
     final int mask =
       LWJGL3TypeConversions.framebufferBlitBufferSetToMask(buffers);
@@ -830,8 +826,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     {
       super(in_context);
 
-      this.color_points = NullCheck.notNull(in_color_points);
-      this.context = NullCheck.notNull(in_context);
+      this.color_points = NullCheck.notNull(in_color_points, "Color points");
+      this.context = NullCheck.notNull(in_context, "Context");
       this.color_attaches = new ArrayList<>(this.color_points.size());
       for (int index = 0; index < this.color_points.size(); ++index) {
         this.color_attaches.add(null);
@@ -845,9 +841,9 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
       final JCGLFramebufferDrawBufferType buffer,
       final JCGLTexture2DUsableType texture)
     {
-      NullCheck.notNull(point);
-      LWJGL3Framebuffers.checkColorAttachmentPoint(this.context, point);
-      LWJGL3Framebuffers.checkDrawBuffer(this.context, buffer);
+      NullCheck.notNull(point, "Point");
+      checkColorAttachmentPoint(this.context, point);
+      checkDrawBuffer(this.context, buffer);
       LWJGL3Textures.checkTexture2D(this.context, texture);
       JCGLTextureFormats.checkColorRenderableTexture2D(
         texture.textureGetFormat());
@@ -863,10 +859,10 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
       final JCGLTextureCubeUsableType texture,
       final JCGLCubeMapFaceLH face)
     {
-      NullCheck.notNull(point);
-      NullCheck.notNull(face);
-      LWJGL3Framebuffers.checkColorAttachmentPoint(this.context, point);
-      LWJGL3Framebuffers.checkDrawBuffer(this.context, buffer);
+      NullCheck.notNull(point, "Point");
+      NullCheck.notNull(face, "Face");
+      checkColorAttachmentPoint(this.context, point);
+      checkDrawBuffer(this.context, buffer);
       LWJGL3Textures.checkTextureCube(this.context, texture);
       JCGLTextureFormats.checkColorRenderableTexture2D(
         texture.textureGetFormat());
@@ -909,8 +905,8 @@ final class LWJGL3Framebuffers implements JCGLFramebuffersType
     public void detachColorAttachment(
       final JCGLFramebufferColorAttachmentPointType point)
     {
-      NullCheck.notNull(point);
-      LWJGL3Framebuffers.checkColorAttachmentPoint(this.context, point);
+      NullCheck.notNull(point, "Point");
+      checkColorAttachmentPoint(this.context, point);
 
       final int index = point.colorAttachmentPointGetIndex();
       this.color_attaches.set(index, null);

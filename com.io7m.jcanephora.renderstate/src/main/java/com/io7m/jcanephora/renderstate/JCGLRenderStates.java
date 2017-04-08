@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora.renderstate;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLDepthFunction;
 import com.io7m.jcanephora.core.JCGLFaceSelection;
 import com.io7m.jcanephora.core.api.JCGLBlendingType;
@@ -27,6 +26,7 @@ import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jcanephora.core.api.JCGLStencilBuffersType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 import com.io7m.junreachable.UnreachableCodeException;
 
 import java.util.Optional;
@@ -53,16 +53,16 @@ public final class JCGLRenderStates
     final JCGLInterfaceGL33Type g,
     final JCGLRenderStateType r)
   {
-    NullCheck.notNull(g);
-    NullCheck.notNull(r);
+    NullCheck.notNull(g, "GL interface");
+    NullCheck.notNull(r, "Render state");
 
-    JCGLRenderStates.configureBlending(g, r);
-    JCGLRenderStates.configureCulling(g, r);
-    JCGLRenderStates.configureColorBufferMasking(g, r);
-    JCGLRenderStates.configureDepth(g, r);
-    JCGLRenderStates.configurePolygonMode(g, r);
-    JCGLRenderStates.configureScissor(g, r);
-    JCGLRenderStates.configureStencil(g, r);
+    configureBlending(g, r);
+    configureCulling(g, r);
+    configureColorBufferMasking(g, r);
+    configureDepth(g, r);
+    configurePolygonMode(g, r);
+    configureScissor(g, r);
+    configureStencil(g, r);
   }
 
   private static void configurePolygonMode(
@@ -81,14 +81,14 @@ public final class JCGLRenderStates
     if (s.getStencilStrict()) {
       if (s.getStencilEnabled()) {
         g_s.stencilBufferEnable();
-        JCGLRenderStates.configureStencilActual(g_s, s);
+        configureStencilActual(g_s, s);
       } else {
         g_s.stencilBufferDisable();
       }
     } else {
       if (g_s.stencilBufferGetBits() > 0) {
         if (s.getStencilEnabled()) {
-          JCGLRenderStates.configureStencilActual(g_s, s);
+          configureStencilActual(g_s, s);
           g_s.stencilBufferEnable();
         } else {
           g_s.stencilBufferDisable();
@@ -154,9 +154,9 @@ public final class JCGLRenderStates
     final JCGLRenderStateType r)
   {
     final JCGLScissorType g_s = g.getScissor();
-    final Optional<AreaInclusiveUnsignedLType> scissor_opt = r.getScissor();
+    final Optional<AreaL> scissor_opt = r.getScissor();
     if (scissor_opt.isPresent()) {
-      final AreaInclusiveUnsignedLType area = scissor_opt.get();
+      final AreaL area = scissor_opt.get();
       g_s.scissorEnable(area);
     } else {
       g_s.scissorDisable();
@@ -195,16 +195,16 @@ public final class JCGLRenderStates
     final JCGLDepthBuffersType g_d = g.getDepthBuffers();
     final JCGLDepthStateType ds = r.getDepthState();
 
-    JCGLRenderStates.configureDepthWriting(g_d, ds);
-    JCGLRenderStates.configureDepthClamping(g_d, ds);
-    JCGLRenderStates.configureDepthTesting(g_d, ds);
+    configureDepthWriting(g_d, ds);
+    configureDepthClamping(g_d, ds);
+    configureDepthTesting(g_d, ds);
   }
 
   private static void configureDepthWriting(
     final JCGLDepthBuffersType g_d,
     final JCGLDepthStateType ds)
   {
-    /**
+    /*
      * If depth writing should be enabled, attempt to enable it.
      */
 
@@ -212,7 +212,7 @@ public final class JCGLRenderStates
       case DEPTH_WRITE_ENABLED:
         switch (ds.getDepthStrict()) {
 
-          /**
+          /*
            * If strict checking is required, enable without checking
            * that there is a depth buffer - the function will raise an exception
            * if there isn't.
@@ -222,7 +222,7 @@ public final class JCGLRenderStates
             g_d.depthBufferWriteEnable();
             break;
 
-          /**
+          /*
            * If strict checking is disabled, only enable writing if there
            * actually is a depth buffer.
            */
@@ -237,7 +237,7 @@ public final class JCGLRenderStates
 
       case DEPTH_WRITE_DISABLED:
 
-        /**
+        /*
          * Disabling depth writing when there is no depth buffer available,
          * even with strict checking enabled, is never an error.
          */
@@ -253,7 +253,7 @@ public final class JCGLRenderStates
     final JCGLDepthBuffersType g_d,
     final JCGLDepthStateType ds)
   {
-    /**
+    /*
      * If depth testing should be enabled, attempt to enable it.
      */
 
@@ -261,7 +261,7 @@ public final class JCGLRenderStates
     if (d_opt.isPresent()) {
       switch (ds.getDepthStrict()) {
 
-        /**
+        /*
          * If strict checking is required, enable without checking
          * that there is a depth buffer - the function will raise an exception
          * if there isn't.
@@ -271,7 +271,7 @@ public final class JCGLRenderStates
           g_d.depthBufferTestEnable(d_opt.get());
           break;
 
-        /**
+        /*
          * If strict checking is disabled, only enable testing if there
          * actually is a depth buffer.
          */
@@ -284,7 +284,7 @@ public final class JCGLRenderStates
       }
     } else {
 
-      /**
+      /*
        * Disabling depth testing when there is no depth buffer, even with
        * strict checking enabled, is never an error.
        */
@@ -299,7 +299,7 @@ public final class JCGLRenderStates
     final JCGLDepthBuffersType g_d,
     final JCGLDepthStateType ds)
   {
-    /**
+    /*
      * If depth clamping should be enabled, attempt to enable it.
      */
 
@@ -307,7 +307,7 @@ public final class JCGLRenderStates
       case DEPTH_CLAMP_ENABLED:
         switch (ds.getDepthStrict()) {
 
-          /**
+          /*
            * If strict checking is required, enable without checking
            * that there is a depth buffer - the function will raise an exception
            * if there isn't.
@@ -317,7 +317,7 @@ public final class JCGLRenderStates
             g_d.depthClampingEnable();
             break;
 
-          /**
+          /*
            * If strict checking is disabled, only enable clamping if there
            * actually is a depth buffer.
            */
@@ -332,7 +332,7 @@ public final class JCGLRenderStates
 
       case DEPTH_CLAMP_DISABLED:
 
-        /**
+        /*
          * Disabling depth clamping when there is no depth buffer, even with
          * strict checking enabled, is never an error.
          */

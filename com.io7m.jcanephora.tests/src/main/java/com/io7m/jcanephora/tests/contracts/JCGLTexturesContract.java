@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedL;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLExceptionTextureNotBound;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
@@ -33,6 +32,8 @@ import com.io7m.jcanephora.core.JCGLTextureWrapS;
 import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jranges.RangeCheckException;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
+import com.io7m.jregions.core.unparameterized.areas.AreasL;
 import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -400,9 +401,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     JCGLTextureUpdates.newUpdateReplacingArea2D(
       ta,
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(0L, 512L),
-        new UnsignedRangeInclusiveL(0L, 512L)));
+      AreasL.create(0L, 0L, 513L, 513L));
   }
 
   @Test
@@ -427,10 +426,9 @@ public abstract class JCGLTexturesContract extends JCGLContract
 
     Assert.assertEquals(ta, up.getTexture());
 
-    final AreaInclusiveUnsignedL expected_area =
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(0L, 127L),
-        new UnsignedRangeInclusiveL(0L, 255L));
+    final AreaL expected_area =
+      AreasL.create(0L, 0L, 128L, 256L);
+
     Assert.assertEquals(expected_area, up.getArea());
 
     final ByteBuffer data = up.getData();
@@ -458,10 +456,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
         JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
 
-    final AreaInclusiveUnsignedL expected_area =
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+    final AreaL expected_area =
+      AreasL.create(128L, 128L, 128L, 128L);
 
     final JCGLTexture2DUpdateType up =
       JCGLTextureUpdates.newUpdateReplacingArea2D(ta, expected_area);
@@ -652,9 +648,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
 
     {
-      final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+      final AreaL area =
+        AreasL.create(128L, 128L, 128L, 128L);
 
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingArea2D(ta, area);
@@ -712,9 +707,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
 
     {
-      final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+      final AreaL area =
+        AreasL.create(128L, 128L, 128L, 128L);
 
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingArea2D(ta, area);
@@ -792,9 +786,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
 
     {
-      final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+      final AreaL area =
+        AreasL.create(128L, 128L, 128L, 128L);
 
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingArea2D(ta, area);
@@ -867,9 +860,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
 
     {
-      final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+      final AreaL area =
+        AreasL.create(128L, 128L, 128L, 128L);
 
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingArea2D(ta, area);
@@ -1156,9 +1148,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     JCGLTextureUpdates.newUpdateReplacingAreaCube(
       ta,
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(0L, 512L),
-        new UnsignedRangeInclusiveL(0L, 512L)));
+      AreasL.create(0L, 0L, 513L, 513L));
   }
 
   @Test
@@ -1183,10 +1173,9 @@ public abstract class JCGLTexturesContract extends JCGLContract
 
     Assert.assertEquals(ta, up.getTexture());
 
-    final AreaInclusiveUnsignedL expected_area =
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(0L, 127L),
-        new UnsignedRangeInclusiveL(0L, 127L));
+    final AreaL expected_area =
+      AreasL.create(0L, 0L, 128L, 128L);
+
     Assert.assertEquals(expected_area, up.getArea());
 
     final ByteBuffer data = up.getData();
@@ -1214,10 +1203,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
         JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
 
-    final AreaInclusiveUnsignedL expected_area =
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+    final AreaL expected_area =
+      AreasL.create(128L, 128L, 128L, 128L);
 
     final JCGLTextureCubeUpdateType up =
       JCGLTextureUpdates.newUpdateReplacingAreaCube(ta, expected_area);
@@ -1417,9 +1404,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
       }
 
       {
-        final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-          new UnsignedRangeInclusiveL(128L, 255L),
-          new UnsignedRangeInclusiveL(128L, 255L));
+        final AreaL area =
+          AreasL.create(128L, 128L, 128L, 128L);
 
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAreaCube(ta, area);
@@ -1479,9 +1465,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
       }
 
       {
-        final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-          new UnsignedRangeInclusiveL(128L, 255L),
-          new UnsignedRangeInclusiveL(128L, 255L));
+        final AreaL area =
+          AreasL.create(128L, 128L, 128L, 128L);
 
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAreaCube(ta, area);
@@ -1561,9 +1546,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
       }
 
       {
-        final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-          new UnsignedRangeInclusiveL(128L, 255L),
-          new UnsignedRangeInclusiveL(128L, 255L));
+        final AreaL area =
+          AreasL.create(128L, 128L, 128L, 128L);
 
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAreaCube(ta, area);
@@ -1639,9 +1623,8 @@ public abstract class JCGLTexturesContract extends JCGLContract
       }
 
       {
-        final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-          new UnsignedRangeInclusiveL(128L, 255L),
-          new UnsignedRangeInclusiveL(128L, 255L));
+        final AreaL area =
+          AreasL.create(128L, 128L, 128L, 128L);
 
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAreaCube(ta, area);

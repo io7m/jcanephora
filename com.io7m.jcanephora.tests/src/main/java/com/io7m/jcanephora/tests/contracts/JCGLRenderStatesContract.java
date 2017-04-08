@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedL;
 import com.io7m.jcanephora.core.JCGLBlendEquation;
 import com.io7m.jcanephora.core.JCGLBlendFunction;
 import com.io7m.jcanephora.core.JCGLDepthFunction;
@@ -43,7 +42,7 @@ import com.io7m.jcanephora.renderstate.JCGLDepthWriting;
 import com.io7m.jcanephora.renderstate.JCGLRenderStateMutable;
 import com.io7m.jcanephora.renderstate.JCGLRenderStates;
 import com.io7m.jcanephora.renderstate.JCGLStencilStateMutable;
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.io7m.jregions.core.unparameterized.areas.AreasL;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -283,9 +282,7 @@ public abstract class JCGLRenderStatesContract extends JCGLContract
     final JCGLInterfaceGL33Type g = this.getGL33("main", 24, 8);
     final JCGLRenderStateMutable r = JCGLRenderStateMutable.create();
 
-    r.setScissor(Optional.of(AreaInclusiveUnsignedL.of(
-      new UnsignedRangeInclusiveL(0L, 99L),
-      new UnsignedRangeInclusiveL(0L, 99L))));
+    r.setScissor(AreasL.create(0L, 0L, 100L, 100L));
 
     JCGLRenderStates.activate(g, r);
 

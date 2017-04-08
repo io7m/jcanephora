@@ -49,7 +49,8 @@ public final class JCGLVersionNumber implements Comparable<JCGLVersionNumber>
     this.version_micro = in_version_micro;
   }
 
-  @Override public int compareTo(
+  @Override
+  public int compareTo(
     final @Nullable JCGLVersionNumber other)
   {
     final JCGLVersionNumber o = NullCheck.notNull(other, "Other");
@@ -80,7 +81,8 @@ public final class JCGLVersionNumber implements Comparable<JCGLVersionNumber>
     throw new UnreachableCodeException();
   }
 
-  @Override public boolean equals(
+  @Override
+  public boolean equals(
     final @Nullable Object obj)
   {
     if (this == obj) {
@@ -94,8 +96,8 @@ public final class JCGLVersionNumber implements Comparable<JCGLVersionNumber>
     }
     final JCGLVersionNumber other = (JCGLVersionNumber) obj;
     return this.version_major == other.version_major
-           && this.version_micro == other.version_micro
-           && this.version_minor == other.version_minor;
+      && this.version_micro == other.version_micro
+      && this.version_minor == other.version_minor;
   }
 
   /**
@@ -125,7 +127,8 @@ public final class JCGLVersionNumber implements Comparable<JCGLVersionNumber>
     return this.version_minor;
   }
 
-  @Override public int hashCode()
+  @Override
+  public int hashCode()
   {
     final int prime = 31;
     int result = 1;
@@ -135,7 +138,8 @@ public final class JCGLVersionNumber implements Comparable<JCGLVersionNumber>
     return result;
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     final StringBuilder builder = new StringBuilder(16);
     builder.append(this.version_major);

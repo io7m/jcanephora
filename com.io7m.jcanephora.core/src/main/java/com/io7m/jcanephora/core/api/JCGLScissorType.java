@@ -16,8 +16,8 @@
 
 package com.io7m.jcanephora.core.api;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 
 /**
  * OpenGL scissor test interface.
@@ -46,7 +46,7 @@ public interface JCGLScissorType
    */
 
   void scissorEnable(
-    final AreaInclusiveUnsignedLType area)
+    final AreaL area)
     throws JCGLException;
 
   /**

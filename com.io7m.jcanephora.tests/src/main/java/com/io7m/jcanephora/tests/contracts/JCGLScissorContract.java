@@ -16,9 +16,8 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedL;
 import com.io7m.jcanephora.core.api.JCGLScissorType;
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.io7m.jregions.core.unparameterized.areas.AreasL;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,13 +41,10 @@ public abstract class JCGLScissorContract extends JCGLContract
     final JCGLScissorType s = this.getScissor("main");
 
     Assert.assertFalse(s.scissorIsEnabled());
-    s.scissorEnable(AreaInclusiveUnsignedL.of(
-      new UnsignedRangeInclusiveL(0L, 63L),
-      new UnsignedRangeInclusiveL(0L, 63L)));
+    s.scissorEnable(AreasL.create(0L, 0L, 64L, 64L));
+
     Assert.assertTrue(s.scissorIsEnabled());
-    s.scissorEnable(AreaInclusiveUnsignedL.of(
-      new UnsignedRangeInclusiveL(0L, 63L),
-      new UnsignedRangeInclusiveL(0L, 63L)));
+    s.scissorEnable(AreasL.create(0L, 0L, 64L, 64L));
     Assert.assertTrue(s.scissorIsEnabled());
     s.scissorDisable();
     Assert.assertFalse(s.scissorIsEnabled());

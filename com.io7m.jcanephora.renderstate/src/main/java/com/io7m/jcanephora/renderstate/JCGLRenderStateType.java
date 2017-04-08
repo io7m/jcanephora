@@ -16,9 +16,9 @@
 
 package com.io7m.jcanephora.renderstate;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLImmutableStyleType;
 import com.io7m.jcanephora.core.JCGLPolygonMode;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 import org.immutables.value.Value;
 
 import java.util.Optional;
@@ -73,7 +73,7 @@ public interface JCGLRenderStateType
    */
 
   @Value.Parameter
-  Optional<AreaInclusiveUnsignedLType> getScissor();
+  Optional<AreaL> getScissor();
 
   /**
    * @return The depth buffer state

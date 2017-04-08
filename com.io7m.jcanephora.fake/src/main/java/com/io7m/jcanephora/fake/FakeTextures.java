@@ -17,7 +17,6 @@
 package com.io7m.jcanephora.fake;
 
 import com.io7m.jaffirm.core.Preconditions;
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionTextureNotBound;
@@ -40,7 +39,10 @@ import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
+import com.io7m.jregions.core.unparameterized.areas.AreasL;
+import com.io7m.jregions.core.unparameterized.sizes.AreaSizesL;
+import com.io7m.junreachable.UnreachableCodeException;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntIterator;
@@ -54,6 +56,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 final class FakeTextures implements JCGLTexturesType
 {
@@ -74,8 +77,8 @@ final class FakeTextures implements JCGLTexturesType
     final FakeContext c)
   {
     this.context = c;
-    this.units = FakeTextures.makeUnits(c);
-    this.size = FakeTextures.makeSize();
+    this.units = makeUnits(c);
+    this.size = makeSize();
     this.texture_to_units = new Int2ObjectOpenHashMap<>(this.units.size());
     this.temp_unbind = new boolean[this.units.size()];
   }
@@ -85,7 +88,7 @@ final class FakeTextures implements JCGLTexturesType
   {
     final int max = 16;
 
-    FakeTextures.LOG.debug(
+    LOG.debug(
       "implementation supports {} texture units",
       Integer.valueOf(max));
 
@@ -101,7 +104,7 @@ final class FakeTextures implements JCGLTexturesType
   {
     final int size = 1024;
 
-    FakeTextures.LOG.debug(
+    LOG.debug(
       "implementation reports maximum texture size {}",
       Integer.valueOf(size));
 
@@ -159,9 +162,9 @@ final class FakeTextures implements JCGLTexturesType
     for (long y = 0L; y < source_height; ++y) {
       for (long x = 0L; x < source_width; ++x) {
         final long source_offset =
-          FakeTextures.getByteOffset(source_width, bpp, x, y);
+          getByteOffset(source_width, bpp, x, y);
         final long target_offset =
-          FakeTextures.getByteOffset(
+          getByteOffset(
             target_width, bpp, source_min_x + x, source_min_y + y);
 
         switch (bpp) {
@@ -207,6 +210,8 @@ final class FakeTextures implements JCGLTexturesType
               source_data.get((int) (source_offset + 3L)));
             break;
           }
+          default:
+            throw new UnreachableCodeException();
         }
       }
     }
@@ -257,7 +262,7 @@ final class FakeTextures implements JCGLTexturesType
   public boolean textureUnitIsBound(final JCGLTextureUnitType unit)
     throws JCGLException
   {
-    final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
+    final FakeTextureUnit u = checkTextureUnit(this.context, unit);
     return u.getBind2D() != null || u.getBindCube() != null;
   }
 
@@ -265,16 +270,13 @@ final class FakeTextures implements JCGLTexturesType
   public void textureUnitUnbind(final JCGLTextureUnitType unit)
     throws JCGLException
   {
-    final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
+    final FakeTextureUnit u = checkTextureUnit(this.context, unit);
     final int index = u.unitGetIndex();
 
     {
       final FakeTexture2D t2d = u.getBind2D();
       if (t2d != null) {
-        FakeTextures.LOG.trace(
-          "unbind 2D [{}]: {} -> none",
-          Integer.valueOf(index),
-          t2d);
+        LOG.trace("unbind 2D [{}]: {} -> none", Integer.valueOf(index), t2d);
         this.bindingRemoveTextureReference(t2d.getGLName(), index);
         u.setBind2D(null);
       }
@@ -283,10 +285,7 @@ final class FakeTextures implements JCGLTexturesType
     {
       final FakeTextureCube tc = u.getBindCube();
       if (tc != null) {
-        FakeTextures.LOG.trace(
-          "unbind cube [{}]: {} -> none",
-          Integer.valueOf(index),
-          tc);
+        LOG.trace("unbind cube [{}]: {} -> none", Integer.valueOf(index), tc);
         this.bindingRemoveTextureReference(tc.getGLName(), index);
         u.setBindCube(null);
       }
@@ -299,8 +298,8 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTexture2DUsableType texture)
     throws JCGLException
   {
-    final FakeTexture2D t = FakeTextures.checkTexture2D(this.context, texture);
-    final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
+    final FakeTexture2D t = checkTexture2D(this.context, texture);
+    final FakeTextureUnit u = checkTextureUnit(this.context, unit);
 
     this.checkFeedback(texture);
 
@@ -308,7 +307,7 @@ final class FakeTextures implements JCGLTexturesType
     final int texture_id = texture.getGLName();
     this.textureUnitUnbind(unit);
 
-    FakeTextures.LOG.trace(
+    LOG.trace(
       "bind 2D [{}]: none -> {}",
       Integer.valueOf(index),
       texture);
@@ -321,8 +320,8 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTexture2DType texture)
     throws JCGLException
   {
-    FakeTextures.checkTexture2D(this.context, texture);
-    FakeTextures.LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+    checkTexture2D(this.context, texture);
+    LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
 
     final int texture_id = texture.getGLName();
     ((FakeTexture2D) texture).setDeleted();
@@ -357,17 +356,17 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTexture2DUsableType texture)
     throws JCGLException
   {
-    FakeTextures.checkTexture2D(this.context, texture);
-    FakeTextures.checkTextureUnit(this.context, unit);
-    final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
-    return texture.equals(u.getBind2D());
+    checkTexture2D(this.context, texture);
+    checkTextureUnit(this.context, unit);
+    final FakeTextureUnit u = checkTextureUnit(this.context, unit);
+    return Objects.equals(texture, u.getBind2D());
   }
 
   @Override
   public boolean texture2DIsBoundAnywhere(final JCGLTexture2DUsableType texture)
     throws JCGLException
   {
-    FakeTextures.checkTexture2D(this.context, texture);
+    checkTexture2D(this.context, texture);
     final int texture_id = texture.getGLName();
     return this.texture_to_units.containsKey(texture_id);
   }
@@ -383,7 +382,7 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTextureFilterMinification min_filter,
     final JCGLTextureFilterMagnification mag_filter)
   {
-    FakeTextures.checkTextureUnit(this.context, unit);
+    checkTextureUnit(this.context, unit);
     NullCheck.notNull(format, "Texture format");
     NullCheck.notNull(wrap_s, "Wrap S mode");
     NullCheck.notNull(wrap_t, "Wrap T mode");
@@ -393,7 +392,7 @@ final class FakeTextures implements JCGLTexturesType
     RangeCheck.checkGreaterEqualLong(height, "Height", 2L, "Valid heights");
 
     final long bytes = width * height * format.getBytesPerPixel();
-    FakeTextures.LOG.debug(
+    LOG.debug(
       "allocate {} {}x{} {} bytes",
       format,
       Long.valueOf(width),
@@ -413,7 +412,7 @@ final class FakeTextures implements JCGLTexturesType
       height);
     this.texture2DBind(unit, t);
 
-    FakeTextures.LOG.debug("allocated {}", Integer.valueOf(texture_id));
+    LOG.debug("allocated {}", Integer.valueOf(texture_id));
     return t;
   }
 
@@ -423,39 +422,36 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTexture2DUpdateType data)
     throws JCGLException
   {
-    NullCheck.notNull(data);
-    NullCheck.notNull(unit);
+    NullCheck.notNull(data, "Data");
+    NullCheck.notNull(unit, "Unit");
 
     final JCGLTexture2DUsableType texture = data.getTexture();
-    FakeTextures.checkTextureUnit(this.context, unit);
-    FakeTextures.checkTexture2D(this.context, texture);
+    checkTextureUnit(this.context, unit);
+    checkTexture2D(this.context, texture);
 
-    final AreaInclusiveUnsignedLType source_area = data.getArea();
-    final AreaInclusiveUnsignedLType texture_area = texture.textureGetArea();
+    final AreaL update_area = data.getArea();
+    final AreaL texture_area = AreaSizesL.area(texture.textureGetSize());
 
     Preconditions.checkPrecondition(
-      source_area,
-      source_area.isIncludedIn(texture_area),
-      ignored -> "Source area must be included in texture area");
+      update_area,
+      AreasL.contains(texture_area, update_area),
+      ignored -> "Update area must be included in texture area");
 
     this.texture2DBind(unit, texture);
 
     final FakeTexture2D ft = (FakeTexture2D) data.getTexture();
     final ByteBuffer target_data = ft.getData();
 
-    final UnsignedRangeInclusiveL source_range_x = source_area.getRangeX();
-    final UnsignedRangeInclusiveL source_range_y = source_area.getRangeY();
-    final long source_min_x = source_range_x.getLower();
-    final long source_width = source_range_x.getInterval();
-    final long source_min_y = source_range_y.getLower();
-    final long source_height = source_range_y.getInterval();
+    final long source_min_x = update_area.minimumX();
+    final long source_width = update_area.width();
+    final long source_min_y = update_area.minimumY();
+    final long source_height = update_area.height();
     final ByteBuffer source_data = data.getData();
 
-    final UnsignedRangeInclusiveL target_range_x = texture_area.getRangeX();
-    final long target_width = target_range_x.getInterval();
+    final long target_width = texture_area.width();
 
     final int bpp = texture.textureGetFormat().getBytesPerPixel();
-    FakeTextures.copyBytes(
+    copyBytes(
       bpp,
       source_min_x,
       source_width,
@@ -473,11 +469,11 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTexture2DUsableType texture)
     throws JCGLException
   {
-    NullCheck.notNull(texture);
-    NullCheck.notNull(unit);
+    NullCheck.notNull(texture, "Texture");
+    NullCheck.notNull(unit, "Unit");
 
-    FakeTextures.checkTextureUnit(this.context, unit);
-    FakeTextures.checkTexture2D(this.context, texture);
+    checkTextureUnit(this.context, unit);
+    checkTexture2D(this.context, texture);
 
     final FakeTexture2D ft = (FakeTexture2D) texture;
     this.texture2DBind(unit, texture);
@@ -490,9 +486,9 @@ final class FakeTextures implements JCGLTexturesType
   public void texture2DRegenerateMipmaps(final JCGLTextureUnitType unit)
     throws JCGLException
   {
-    NullCheck.notNull(unit);
+    NullCheck.notNull(unit, "Unit");
 
-    final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
+    final FakeTextureUnit u = checkTextureUnit(this.context, unit);
     final FakeTexture2D b = u.getBind2D();
 
     if (b != null) {
@@ -528,8 +524,8 @@ final class FakeTextures implements JCGLTexturesType
     throws JCGLException
   {
     final FakeTextureCube t =
-      FakeTextures.checkTextureCube(this.context, texture);
-    final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
+      checkTextureCube(this.context, texture);
+    final FakeTextureUnit u = checkTextureUnit(this.context, unit);
 
     this.checkFeedback(texture);
 
@@ -537,10 +533,7 @@ final class FakeTextures implements JCGLTexturesType
     final int texture_id = texture.getGLName();
     this.textureUnitUnbind(unit);
 
-    FakeTextures.LOG.trace(
-      "bind cube [{}]: none -> {}",
-      Integer.valueOf(index),
-      texture);
+    LOG.trace("bind cube [{}]: none -> {}", Integer.valueOf(index), texture);
     this.bindingAddTextureReference(texture_id, index);
     u.setBindCube(t);
   }
@@ -550,7 +543,7 @@ final class FakeTextures implements JCGLTexturesType
     final FakeFramebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
       for (final JCGLReferableType r : fb.getReferences()) {
-        if (texture.equals(r)) {
+        if (Objects.equals(texture, r)) {
           FakeFramebuffers.onFeedbackLoop(fb, texture);
         }
       }
@@ -561,8 +554,8 @@ final class FakeTextures implements JCGLTexturesType
   public void textureCubeDelete(final JCGLTextureCubeType texture)
     throws JCGLException
   {
-    FakeTextures.checkTextureCube(this.context, texture);
-    FakeTextures.LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+    checkTextureCube(this.context, texture);
+    LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
 
     final int texture_id = texture.getGLName();
     ((FakeTextureCube) texture).setDeleted();
@@ -575,9 +568,9 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTextureCubeUsableType texture)
     throws JCGLException
   {
-    FakeTextures.checkTextureCube(this.context, texture);
-    final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
-    return texture.equals(u.getBindCube());
+    checkTextureCube(this.context, texture);
+    final FakeTextureUnit u = checkTextureUnit(this.context, unit);
+    return Objects.equals(texture, u.getBindCube());
   }
 
   @Override
@@ -585,7 +578,7 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTextureCubeUsableType texture)
     throws JCGLException
   {
-    FakeTextures.checkTextureCube(this.context, texture);
+    checkTextureCube(this.context, texture);
     final int texture_id = texture.getGLName();
     return this.texture_to_units.containsKey(texture_id);
   }
@@ -597,39 +590,36 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTextureCubeUpdateType data)
     throws JCGLException
   {
-    NullCheck.notNull(data);
-    NullCheck.notNull(unit);
+    NullCheck.notNull(data, "Data");
+    NullCheck.notNull(unit, "Unit");
 
     final JCGLTextureCubeUsableType texture = data.getTexture();
-    FakeTextures.checkTextureUnit(this.context, unit);
-    FakeTextures.checkTextureCube(this.context, texture);
+    checkTextureUnit(this.context, unit);
+    checkTextureCube(this.context, texture);
 
-    final AreaInclusiveUnsignedLType source_area = data.getArea();
-    final AreaInclusiveUnsignedLType texture_area = texture.textureGetArea();
+    final AreaL update_area = data.getArea();
+    final AreaL texture_area = AreaSizesL.area(texture.textureGetSize());
 
     Preconditions.checkPrecondition(
-      source_area,
-      source_area.isIncludedIn(texture_area),
-      ignored -> "Source area must be included in texture area");
+      update_area,
+      AreasL.contains(texture_area, update_area),
+      ignored -> "Update area must be included in texture area");
 
     this.textureCubeBind(unit, texture);
 
     final FakeTextureCube ft = (FakeTextureCube) data.getTexture();
     final ByteBuffer target_data = ft.getData(face);
 
-    final UnsignedRangeInclusiveL source_range_x = source_area.getRangeX();
-    final UnsignedRangeInclusiveL source_range_y = source_area.getRangeY();
-    final long source_min_x = source_range_x.getLower();
-    final long source_width = source_range_x.getInterval();
-    final long source_min_y = source_range_y.getLower();
-    final long source_height = source_range_y.getInterval();
+    final long source_min_x = update_area.minimumX();
+    final long source_width = update_area.width();
+    final long source_min_y = update_area.minimumY();
+    final long source_height = update_area.height();
     final ByteBuffer source_data = data.getData();
 
-    final UnsignedRangeInclusiveL target_range_x = texture_area.getRangeX();
-    final long target_width = target_range_x.getInterval();
+    final long target_width = texture_area.width();
 
     final int bpp = texture.textureGetFormat().getBytesPerPixel();
-    FakeTextures.copyBytes(
+    copyBytes(
       bpp,
       source_min_x,
       source_width,
@@ -652,7 +642,7 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTextureFilterMagnification mag_filter)
     throws JCGLException
   {
-    FakeTextures.checkTextureUnit(this.context, unit);
+    checkTextureUnit(this.context, unit);
     NullCheck.notNull(format, "Texture format");
     NullCheck.notNull(wrap_r, "Wrap R mode");
     NullCheck.notNull(wrap_s, "Wrap S mode");
@@ -662,7 +652,7 @@ final class FakeTextures implements JCGLTexturesType
     RangeCheck.checkGreaterEqualLong(in_size, "Size", 2L, "Valid sizes");
 
     final long bytes = (in_size * in_size) * 6L * format.getBytesPerPixel();
-    FakeTextures.LOG.debug(
+    LOG.debug(
       "allocate {} {}x{}x6 {} bytes",
       format,
       Long.valueOf(in_size),
@@ -682,7 +672,7 @@ final class FakeTextures implements JCGLTexturesType
       in_size);
     this.textureCubeBind(unit, t);
 
-    FakeTextures.LOG.debug("allocated {}", Integer.valueOf(texture_id));
+    LOG.debug("allocated {}", Integer.valueOf(texture_id));
     return t;
   }
 
@@ -693,11 +683,11 @@ final class FakeTextures implements JCGLTexturesType
     final JCGLTextureCubeUsableType texture)
     throws JCGLException
   {
-    NullCheck.notNull(texture);
-    NullCheck.notNull(unit);
+    NullCheck.notNull(texture, "Texture");
+    NullCheck.notNull(unit, "Unit");
 
-    FakeTextures.checkTextureUnit(this.context, unit);
-    FakeTextures.checkTextureCube(this.context, texture);
+    checkTextureUnit(this.context, unit);
+    checkTextureCube(this.context, texture);
 
     final FakeTextureCube ft = (FakeTextureCube) texture;
     this.textureCubeBind(unit, texture);
@@ -710,9 +700,9 @@ final class FakeTextures implements JCGLTexturesType
   public void textureCubeRegenerateMipmaps(final JCGLTextureUnitType unit)
     throws JCGLException
   {
-    NullCheck.notNull(unit);
+    NullCheck.notNull(unit, "Unit");
 
-    final FakeTextureUnit u = FakeTextures.checkTextureUnit(this.context, unit);
+    final FakeTextureUnit u = checkTextureUnit(this.context, unit);
     final FakeTextureCube b = u.getBindCube();
 
     if (b != null) {
@@ -743,6 +733,6 @@ final class FakeTextures implements JCGLTexturesType
 
   void setFramebuffers(final FakeFramebuffers fb)
   {
-    this.framebuffers = NullCheck.notNull(fb);
+    this.framebuffers = NullCheck.notNull(fb, "Framebuffers");
   }
 }

@@ -387,8 +387,8 @@ public enum JCGLTextureFormat
     4,
     4);
 
-  private final int             bytes_per_pixel;
-  private final int             components;
+  private final int bytes_per_pixel;
+  private final int components;
   private final JCGLPixelFormat pixel_format;
 
   JCGLTextureFormat(

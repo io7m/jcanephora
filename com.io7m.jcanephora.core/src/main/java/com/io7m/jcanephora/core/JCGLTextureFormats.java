@@ -94,7 +94,7 @@ public final class JCGLTextureFormats
     if (JCGLTextureFormats.isStencilRenderable(t)) {
       final String m = String.format(
         "Format %s is stencil-renderable: Must be used as a depth+stencil "
-        + "attachment",
+          + "attachment",
         t);
       assert m != null;
       throw new JCGLExceptionFormatError(m);
@@ -115,7 +115,7 @@ public final class JCGLTextureFormats
     throws JCGLExceptionFormatError
   {
     if (JCGLTextureFormats.isDepthRenderable(t)
-        && JCGLTextureFormats.isStencilRenderable(t)) {
+      && JCGLTextureFormats.isStencilRenderable(t)) {
       return;
     }
 

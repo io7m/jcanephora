@@ -16,10 +16,10 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.api.JCGLViewportsType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 
 final class FakeViewports implements JCGLViewportsType
 {
@@ -28,8 +28,9 @@ final class FakeViewports implements JCGLViewportsType
 
   }
 
-  @Override public void viewportSet(
-    final AreaInclusiveUnsignedLType area)
+  @Override
+  public void viewportSet(
+    final AreaL area)
     throws JCGLException
   {
     NullCheck.notNull(area, "Viewport area");
