@@ -25,14 +25,14 @@ public final class JCGLVersionNumberTest
   @Test
   public void testCompareTo()
   {
-    final JCGLVersionNumber v0 = new JCGLVersionNumber(1, 0, 0);
-    final JCGLVersionNumber v1 = new JCGLVersionNumber(1, 0, 0);
-    final JCGLVersionNumber v2 = new JCGLVersionNumber(2, 0, 0);
-    final JCGLVersionNumber v3 = new JCGLVersionNumber(0, 0, 0);
-    final JCGLVersionNumber v4 = new JCGLVersionNumber(2, 1, 0);
-    final JCGLVersionNumber v5 = new JCGLVersionNumber(0, 1, 0);
-    final JCGLVersionNumber v6 = new JCGLVersionNumber(0, 0, 1);
-    final JCGLVersionNumber v7 = new JCGLVersionNumber(2, 1, 1);
+    final JCGLVersionNumber v0 = JCGLVersionNumber.of(1, 0, 0);
+    final JCGLVersionNumber v1 = JCGLVersionNumber.of(1, 0, 0);
+    final JCGLVersionNumber v2 = JCGLVersionNumber.of(2, 0, 0);
+    final JCGLVersionNumber v3 = JCGLVersionNumber.of(0, 0, 0);
+    final JCGLVersionNumber v4 = JCGLVersionNumber.of(2, 1, 0);
+    final JCGLVersionNumber v5 = JCGLVersionNumber.of(0, 1, 0);
+    final JCGLVersionNumber v6 = JCGLVersionNumber.of(0, 0, 1);
+    final JCGLVersionNumber v7 = JCGLVersionNumber.of(2, 1, 1);
 
     Assert.assertEquals((long) v0.compareTo(v1), 0L);
     Assert.assertTrue(v0.compareTo(v2) < 0);
@@ -102,10 +102,10 @@ public final class JCGLVersionNumberTest
   @Test
   public void testEquals()
   {
-    final JCGLVersionNumber v0 = new JCGLVersionNumber(1, 0, 0);
-    final JCGLVersionNumber v1 = new JCGLVersionNumber(1, 0, 0);
-    final JCGLVersionNumber v2 = new JCGLVersionNumber(1, 1, 0);
-    final JCGLVersionNumber v3 = new JCGLVersionNumber(1, 0, 1);
+    final JCGLVersionNumber v0 = JCGLVersionNumber.of(1, 0, 0);
+    final JCGLVersionNumber v1 = JCGLVersionNumber.of(1, 0, 0);
+    final JCGLVersionNumber v2 = JCGLVersionNumber.of(1, 1, 0);
+    final JCGLVersionNumber v3 = JCGLVersionNumber.of(1, 0, 1);
 
     Assert.assertEquals(v0, v0);
     Assert.assertNotEquals(v0, null);
@@ -118,10 +118,10 @@ public final class JCGLVersionNumberTest
   @Test
   public void testHashCode()
   {
-    final JCGLVersionNumber v0 = new JCGLVersionNumber(1, 0, 0);
-    final JCGLVersionNumber v1 = new JCGLVersionNumber(1, 0, 0);
-    final JCGLVersionNumber v2 = new JCGLVersionNumber(1, 1, 0);
-    final JCGLVersionNumber v3 = new JCGLVersionNumber(1, 0, 1);
+    final JCGLVersionNumber v0 = JCGLVersionNumber.of(1, 0, 0);
+    final JCGLVersionNumber v1 = JCGLVersionNumber.of(1, 0, 0);
+    final JCGLVersionNumber v2 = JCGLVersionNumber.of(1, 1, 0);
+    final JCGLVersionNumber v3 = JCGLVersionNumber.of(1, 0, 1);
 
     Assert.assertEquals((long) v0.hashCode(), (long) (v0.hashCode()));
     Assert.assertEquals((long) v0.hashCode(), (long) (v1.hashCode()));
@@ -132,20 +132,20 @@ public final class JCGLVersionNumberTest
   @Test
   public void testIdentities()
   {
-    final JCGLVersionNumber v0 = new JCGLVersionNumber(1, 0, 2);
+    final JCGLVersionNumber v0 = JCGLVersionNumber.of(1, 0, 2);
 
-    Assert.assertEquals(1L, (long) v0.getVersionMajor());
-    Assert.assertEquals(0L, (long) v0.getVersionMinor());
-    Assert.assertEquals(2L, (long) v0.getVersionMicro());
+    Assert.assertEquals(1L, (long) v0.major());
+    Assert.assertEquals(0L, (long) v0.minor());
+    Assert.assertEquals(2L, (long) v0.micro());
   }
 
   @Test
   public void testToString()
   {
-    final JCGLVersionNumber v0 = new JCGLVersionNumber(1, 0, 0);
-    final JCGLVersionNumber v1 = new JCGLVersionNumber(1, 0, 0);
-    final JCGLVersionNumber v2 = new JCGLVersionNumber(1, 1, 0);
-    final JCGLVersionNumber v3 = new JCGLVersionNumber(1, 0, 1);
+    final JCGLVersionNumber v0 = JCGLVersionNumber.of(1, 0, 0);
+    final JCGLVersionNumber v1 = JCGLVersionNumber.of(1, 0, 0);
+    final JCGLVersionNumber v2 = JCGLVersionNumber.of(1, 1, 0);
+    final JCGLVersionNumber v3 = JCGLVersionNumber.of(1, 0, 1);
 
     Assert.assertEquals(v0.toString(), v0.toString());
     Assert.assertEquals(v0.toString(), v1.toString());

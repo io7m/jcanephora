@@ -48,31 +48,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("2x2_rgb.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(2L, d.getWidth());
-    Assert.assertEquals(2L, d.getHeight());
+    Assert.assertEquals(2L, d.width());
+    Assert.assertEquals(2L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(1, 0, v);
+    d.pixel(1, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 1, v);
+    d.pixel(0, 1, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(1, 1, v);
+    d.pixel(1, 1, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
@@ -88,31 +88,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("2x2_grey.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(2L, d.getWidth());
-    Assert.assertEquals(2L, d.getHeight());
+    Assert.assertEquals(2L, d.width());
+    Assert.assertEquals(2L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(0.5, v.x(), 0.005);
     Assert.assertEquals(0.5, v.y(), 0.005);
     Assert.assertEquals(0.5, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(1, 0, v);
+    d.pixel(1, 0, v);
     Assert.assertEquals(0.75, v.x(), 0.005);
     Assert.assertEquals(0.75, v.y(), 0.005);
     Assert.assertEquals(0.75, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 1, v);
+    d.pixel(0, 1, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(1, 1, v);
+    d.pixel(1, 1, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
@@ -142,31 +142,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn0g01.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
@@ -182,31 +182,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn0g02.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.66666666, v.x(), 0.005);
     Assert.assertEquals(0.66666666, v.y(), 0.005);
     Assert.assertEquals(0.66666666, v.z(), 0.005);
@@ -222,31 +222,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn0g04.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(0.4666666666666667, v.x(), 0.005);
     Assert.assertEquals(0.4666666666666667, v.y(), 0.005);
     Assert.assertEquals(0.4666666666666667, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(0.4666666666666667, v.x(), 0.005);
     Assert.assertEquals(0.4666666666666667, v.y(), 0.005);
     Assert.assertEquals(0.4666666666666667, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.9333333333333333, v.x(), 0.005);
     Assert.assertEquals(0.9333333333333333, v.y(), 0.005);
     Assert.assertEquals(0.9333333333333333, v.z(), 0.005);
@@ -262,31 +262,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn0g08.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(0.12156862745098039, v.x(), 0.005);
     Assert.assertEquals(0.12156862745098039, v.y(), 0.005);
     Assert.assertEquals(0.12156862745098039, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(0.10980392156862745, v.x(), 0.005);
     Assert.assertEquals(0.10980392156862745, v.y(), 0.005);
     Assert.assertEquals(0.10980392156862745, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.011764705882352941, v.x(), 0.005);
     Assert.assertEquals(0.011764705882352941, v.y(), 0.005);
     Assert.assertEquals(0.011764705882352941, v.z(), 0.005);
@@ -302,31 +302,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn0g16.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(0.7294117647058823, v.x(), 0.005);
     Assert.assertEquals(0.7294117647058823, v.y(), 0.005);
     Assert.assertEquals(0.7294117647058823, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(0.24313725490196078, v.x(), 0.005);
     Assert.assertEquals(0.24313725490196078, v.y(), 0.005);
     Assert.assertEquals(0.24313725490196078, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
@@ -342,31 +342,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn2c08.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(0.8784313725490196, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(0.12156862745098039, v.x(), 0.005);
     Assert.assertEquals(0.12156862745098039, v.y(), 0.005);
     Assert.assertEquals(0.12156862745098039, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
@@ -382,31 +382,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn2c16.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
@@ -422,31 +422,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn4a08.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(0.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(0.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
@@ -462,31 +462,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn3p01.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(0.9333333333333333, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(0.13333333333333333, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(0.13333333333333333, v.x(), 0.005);
     Assert.assertEquals(0.4, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(0.13333333333333333, v.x(), 0.005);
     Assert.assertEquals(0.4, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.9333333333333333, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(0.13333333333333333, v.z(), 0.005);
@@ -502,31 +502,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn3p02.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
@@ -542,31 +542,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn3p04.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(0.6, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(0.6, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.7333333333333333, v.z(), 0.005);
@@ -582,37 +582,37 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn3p08.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 15, v);
+    d.pixel(0, 15, v);
     Assert.assertEquals(0.996078431372549, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(1.0, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
@@ -628,43 +628,43 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn4a16.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(0.0, v.w(), 0.005);
 
-    d.getPixel(0, 15, v);
+    d.pixel(0, 15, v);
     Assert.assertEquals(0.9677271686884871, v.x(), 0.005);
     Assert.assertEquals(0.9677271686884871, v.y(), 0.005);
     Assert.assertEquals(0.9677271686884871, v.z(), 0.005);
     Assert.assertEquals(0.0, v.w(), 0.005);
 
-    d.getPixel(15, 15, v);
+    d.pixel(15, 15, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(0.9677424277103838, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(0.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
     Assert.assertEquals(0.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.0, v.z(), 0.005);
@@ -680,31 +680,31 @@ public abstract class JCGLTLTextureDataProviderContract extends JCGLContract
     final InputStream s = c.getResourceAsStream("basn6a08.png");
     final JCGLTLTextureDataType d = p.loadFromStream(s);
 
-    Assert.assertEquals(32L, d.getWidth());
-    Assert.assertEquals(32L, d.getHeight());
+    Assert.assertEquals(32L, d.width());
+    Assert.assertEquals(32L, d.height());
     Assert.assertFalse(d.isPremultipliedAlpha());
 
     final VectorMutable4D v = new VectorMutable4D();
 
-    d.getPixel(0, 0, v);
+    d.pixel(0, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.03137254901960784, v.z(), 0.005);
     Assert.assertEquals(0.0, v.w(), 0.005);
 
-    d.getPixel(31, 0, v);
+    d.pixel(31, 0, v);
     Assert.assertEquals(1.0, v.x(), 0.005);
     Assert.assertEquals(0.0, v.y(), 0.005);
     Assert.assertEquals(0.03137254901960784, v.z(), 0.005);
     Assert.assertEquals(1.0, v.w(), 0.005);
 
-    d.getPixel(0, 31, v);
+    d.pixel(0, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.12549019607843137, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);
     Assert.assertEquals(0.0, v.w(), 0.005);
 
-    d.getPixel(31, 31, v);
+    d.pixel(31, 31, v);
     Assert.assertEquals(0.0, v.x(), 0.005);
     Assert.assertEquals(0.12549019607843137, v.y(), 0.005);
     Assert.assertEquals(1.0, v.z(), 0.005);

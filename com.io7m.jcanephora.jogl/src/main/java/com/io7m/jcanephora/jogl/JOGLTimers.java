@@ -69,7 +69,7 @@ final class JOGLTimers implements JCGLTimersType
       this.context.getContext(), id);
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("allocate {}", Integer.valueOf(t.getGLName()));
+      LOG.debug("allocate {}", Integer.valueOf(t.glName()));
     }
 
     this.timerQueryResultAvailability(t);
@@ -96,7 +96,7 @@ final class JOGLTimers implements JCGLTimersType
       throw new JCGLExceptionQueryAlreadyRunning(sb.toString());
     }
 
-    this.g3.glBeginQuery(GL3.GL_TIME_ELAPSED, tq.getGLName());
+    this.g3.glBeginQuery(GL3.GL_TIME_ELAPSED, tq.glName());
     tq.setExecuted(true);
     this.running = tq;
   }
@@ -144,7 +144,7 @@ final class JOGLTimers implements JCGLTimersType
 
     this.icache.rewind();
     this.g3.glGetQueryObjectiv(
-      tq.getGLName(), GL3.GL_QUERY_RESULT_AVAILABLE, this.icache);
+      tq.glName(), GL3.GL_QUERY_RESULT_AVAILABLE, this.icache);
     final boolean available = this.icache.get(0) == GL.GL_TRUE;
     if (available) {
       return JCGLQueryResultAvailability.QUERY_RESULT_AVAILABLE;
@@ -165,7 +165,7 @@ final class JOGLTimers implements JCGLTimersType
 
     this.lcache.rewind();
     this.g3.glGetQueryObjecti64v(
-      tq.getGLName(), GL3.GL_QUERY_RESULT, this.lcache);
+      tq.glName(), GL3.GL_QUERY_RESULT, this.lcache);
     return this.lcache.get(0);
   }
 
@@ -180,7 +180,7 @@ final class JOGLTimers implements JCGLTimersType
       JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
     JCGLResources.checkNotDeleted(q);
 
-    this.icache.put(0, tq.getGLName());
+    this.icache.put(0, tq.glName());
     this.g3.glDeleteQueries(1, this.icache);
     tq.setDeleted();
 
@@ -189,7 +189,7 @@ final class JOGLTimers implements JCGLTimersType
     }
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("delete {}", Integer.valueOf(tq.getGLName()));
+      LOG.debug("delete {}", Integer.valueOf(tq.glName()));
     }
   }
 }

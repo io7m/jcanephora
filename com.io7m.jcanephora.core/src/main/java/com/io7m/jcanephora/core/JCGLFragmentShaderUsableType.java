@@ -27,5 +27,5 @@ public interface JCGLFragmentShaderUsableType
    * @return The name of the shader
    */
 
-  String getName();
+  String name();
 }

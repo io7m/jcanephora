@@ -119,13 +119,13 @@ public final class JCGLAWTTextureDataProvider implements
     }
 
     @Override
-    public final long getWidth()
+    public final long width()
     {
       return this.image.getWidth();
     }
 
     @Override
-    public final long getHeight()
+    public final long height()
     {
       return this.image.getHeight();
     }
@@ -169,7 +169,7 @@ public final class JCGLAWTTextureDataProvider implements
     }
 
     @Override
-    public void getPixel(
+    public void pixel(
       final int x,
       final int y,
       final VectorMutable4D v)
@@ -220,7 +220,7 @@ public final class JCGLAWTTextureDataProvider implements
     }
 
     @Override
-    public void getPixel(
+    public void pixel(
       final int x,
       final int y,
       final VectorMutable4D v)
@@ -264,7 +264,7 @@ public final class JCGLAWTTextureDataProvider implements
     }
 
     @Override
-    public void getPixel(
+    public void pixel(
       final int x,
       final int y,
       final VectorMutable4D v)
@@ -325,7 +325,7 @@ public final class JCGLAWTTextureDataProvider implements
     }
 
     @Override
-    public void getPixel(
+    public void pixel(
       final int x,
       final int y,
       final VectorMutable4D v)

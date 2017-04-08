@@ -36,7 +36,7 @@ public final class FakeArrayObjectsTest extends JCGLArrayObjectsContract
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type cg = c.contextGetGL33();
       return new Interfaces(
-        c, cg.getArrayBuffers(), cg.getIndexBuffers(), cg.getArrayObjects());
+        c, cg.arrayBuffers(), cg.indexBuffers(), cg.arrayObjects());
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

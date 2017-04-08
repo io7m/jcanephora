@@ -45,7 +45,7 @@ final class LWJGL3FragmentShader extends LWJGL3Referable
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[FragmentShader ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(" ");
     sb.append(this.name);
     sb.append(']');
@@ -53,7 +53,7 @@ final class LWJGL3FragmentShader extends LWJGL3Referable
   }
 
   @Override
-  public String getName()
+  public String name()
   {
     return this.name;
   }

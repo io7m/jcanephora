@@ -93,11 +93,11 @@ public final class ExampleSingleTriangleGradient implements ExampleType
   @Override
   public void onInitialize(final JCGLInterfaceGL33Type g)
   {
-    final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
-    final JCGLArrayObjectsType g_ao = g.getArrayObjects();
-    final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
-    final JCGLShadersType g_sh = g.getShaders();
-    final JCGLTexturesType g_tex = g.getTextures();
+    final JCGLArrayBuffersType g_ab = g.arrayBuffers();
+    final JCGLArrayObjectsType g_ao = g.arrayObjects();
+    final JCGLIndexBuffersType g_ib = g.indexBuffers();
+    final JCGLShadersType g_sh = g.shaders();
+    final JCGLTexturesType g_tex = g.textures();
 
     /*
      * Allocate an index buffer.
@@ -119,7 +119,7 @@ public final class ExampleSingleTriangleGradient implements ExampleType
     {
       final JCGLBufferUpdateType<JCGLIndexBufferType> u =
         JCGLBufferUpdates.newUpdateReplacingAll(this.index_buffer);
-      final IntBuffer i = u.getData().asIntBuffer();
+      final IntBuffer i = u.data().asIntBuffer();
 
       i.put(0, 0);
       i.put(1, 1);
@@ -150,7 +150,7 @@ public final class ExampleSingleTriangleGradient implements ExampleType
     {
       final JCGLBufferUpdateType<JCGLArrayBufferType> u =
         JCGLBufferUpdates.newUpdateReplacingAll(this.array_buffer);
-      final FloatBuffer d = u.getData().asFloatBuffer();
+      final FloatBuffer d = u.data().asFloatBuffer();
 
       d.put(0, -0.5f);
       d.put(1, 0.5f);
@@ -268,7 +268,7 @@ public final class ExampleSingleTriangleGradient implements ExampleType
        */
 
       final Map<String, JCGLProgramUniformType> uniforms =
-        this.program.getUniforms();
+        this.program.uniforms();
 
       Postconditions.checkPostcondition(
         uniforms,
@@ -299,7 +299,7 @@ public final class ExampleSingleTriangleGradient implements ExampleType
       JCGLTextureUpdates.newUpdateReplacingAll2D(this.texture);
     this.texture_update_cursor =
       JPRACursor2DByteBufferedChecked.newCursor(
-        this.texture_update.getData(), 64, 64,
+        this.texture_update.data(), 64, 64,
         JCGLRGB8ByteBuffered::newValueWithOffset);
 
     /*
@@ -316,11 +316,11 @@ public final class ExampleSingleTriangleGradient implements ExampleType
   @Override
   public void onRender(final JCGLInterfaceGL33Type g)
   {
-    final JCGLArrayObjectsType g_ao = g.getArrayObjects();
-    final JCGLClearType g_c = g.getClear();
-    final JCGLDrawType g_d = g.getDraw();
-    final JCGLShadersType g_sh = g.getShaders();
-    final JCGLTexturesType g_tex = g.getTextures();
+    final JCGLArrayObjectsType g_ao = g.arrayObjects();
+    final JCGLClearType g_c = g.clearing();
+    final JCGLDrawType g_d = g.drawing();
+    final JCGLShadersType g_sh = g.shaders();
+    final JCGLTexturesType g_tex = g.textures();
 
     /*
      * Clear the window.
@@ -364,10 +364,10 @@ public final class ExampleSingleTriangleGradient implements ExampleType
   @Override
   public void onFinish(final JCGLInterfaceGL33Type g)
   {
-    final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
-    final JCGLArrayObjectsType g_ao = g.getArrayObjects();
-    final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
-    final JCGLShadersType g_sh = g.getShaders();
+    final JCGLArrayBuffersType g_ab = g.arrayBuffers();
+    final JCGLArrayObjectsType g_ao = g.arrayObjects();
+    final JCGLIndexBuffersType g_ib = g.indexBuffers();
+    final JCGLShadersType g_sh = g.shaders();
 
     /*
      * Delete everything.

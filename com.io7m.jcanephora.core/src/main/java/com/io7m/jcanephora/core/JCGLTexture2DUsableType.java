@@ -32,19 +32,19 @@ public interface JCGLTexture2DUsableType
    * @return The texture size
    */
 
-  AreaSizeL textureGetSize();
+  AreaSizeL size();
 
   /**
    * @return The wrapping mode on the {@code S} axis
    */
 
-  JCGLTextureWrapS textureGetWrapS();
+  JCGLTextureWrapS wrapS();
 
   /**
    * @return The wrapping mode on the {@code T} axis
    */
 
-  JCGLTextureWrapT textureGetWrapT();
+  JCGLTextureWrapT wrapT();
 
   @Override
   default <A, E extends Throwable> A matchColorAttachment(

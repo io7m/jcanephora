@@ -26,101 +26,101 @@ public interface JCGLInterfaceGL33Type
    * @return The array buffers interface
    */
 
-  JCGLArrayBuffersType getArrayBuffers();
+  JCGLArrayBuffersType arrayBuffers();
 
   /**
    * @return The array objects interface
    */
 
-  JCGLArrayObjectsType getArrayObjects();
+  JCGLArrayObjectsType arrayObjects();
 
   /**
    * @return The blending interface
    */
 
-  JCGLBlendingType getBlending();
+  JCGLBlendingType blending();
 
   /**
    * @return The depth buffers interface
    */
 
-  JCGLDepthBuffersType getDepthBuffers();
+  JCGLDepthBuffersType depthBuffers();
 
   /**
    * @return The shaders interface
    */
 
-  JCGLShadersType getShaders();
+  JCGLShadersType shaders();
 
   /**
    * @return The index buffers interface
    */
 
-  JCGLIndexBuffersType getIndexBuffers();
+  JCGLIndexBuffersType indexBuffers();
 
   /**
    * @return The drawing interface
    */
 
-  JCGLDrawType getDraw();
+  JCGLDrawType drawing();
 
   /**
    * @return The framebuffer clearing interface
    */
 
-  JCGLClearType getClear();
+  JCGLClearType clearing();
 
   /**
    * @return The texture interface
    */
 
-  JCGLTexturesType getTextures();
+  JCGLTexturesType textures();
 
   /**
    * @return The framebuffers interface
    */
 
-  JCGLFramebuffersType getFramebuffers();
+  JCGLFramebuffersType framebuffers();
 
   /**
    * @return The polygon modes interface
    */
 
-  JCGLPolygonModesType getPolygonModes();
+  JCGLPolygonModesType polygonModes();
 
   /**
    * @return The polygon culling interface
    */
 
-  JCGLCullingType getCulling();
+  JCGLCullingType culling();
 
   /**
    * @return The color buffer masking interface
    */
 
-  JCGLColorBufferMaskingType getColorBufferMasking();
+  JCGLColorBufferMaskingType colorBufferMasking();
 
   /**
    * @return The viewports interface
    */
 
-  JCGLViewportsType getViewports();
+  JCGLViewportsType viewports();
 
   /**
    * @return The scissor interface
    */
 
-  JCGLScissorType getScissor();
+  JCGLScissorType scissor();
 
   /**
    * @return The stencil buffers interface
    */
 
-  JCGLStencilBuffersType getStencilBuffers();
+  JCGLStencilBuffersType stencilBuffers();
 
   /**
    * @return The timers interface
    */
 
-  JCGLTimersType getTimers();
+  JCGLTimersType timers();
 }

@@ -63,7 +63,7 @@ final class LWJGL3ProgramShader extends LWJGL3ObjectShared
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[ProgramShader ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(" ");
     sb.append(this.name);
     sb.append(']');
@@ -71,13 +71,13 @@ final class LWJGL3ProgramShader extends LWJGL3ObjectShared
   }
 
   @Override
-  public String getName()
+  public String name()
   {
     return this.name;
   }
 
   @Override
-  public Map<String, JCGLProgramAttributeType> getAttributes()
+  public Map<String, JCGLProgramAttributeType> attributes()
   {
     return this.attributes;
   }
@@ -92,7 +92,7 @@ final class LWJGL3ProgramShader extends LWJGL3ObjectShared
   }
 
   @Override
-  public Map<String, JCGLProgramUniformType> getUniforms()
+  public Map<String, JCGLProgramUniformType> uniforms()
   {
     return this.uniforms;
   }
@@ -106,8 +106,8 @@ final class LWJGL3ProgramShader extends LWJGL3ObjectShared
   }
 
   @Override
-  public Set<JCGLReferableType> getReferences()
+  public Set<JCGLReferableType> references()
   {
-    return this.references.getReferences();
+    return this.references.references();
   }
 }

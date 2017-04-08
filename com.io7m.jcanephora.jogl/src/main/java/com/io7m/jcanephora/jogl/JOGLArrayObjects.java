@@ -195,23 +195,23 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         b.setAttributeFloatingPointWithDivisor(
           index,
           f.getArrayBuffer(),
-          f.getElements(),
-          f.getType(),
-          f.getStride(),
-          f.getOffset(),
+          f.elementCount(),
+          f.type(),
+          f.strideOctets(),
+          f.offsetOctets(),
           f.isNormalized(),
-          f.getDivisor());
+          f.divisor());
       } else if (a instanceof JCGLArrayVertexAttributeIntegralType) {
         final JCGLArrayVertexAttributeIntegralType i =
           (JCGLArrayVertexAttributeIntegralType) a;
         b.setAttributeIntegralWithDivisor(
           index,
           i.getArrayBuffer(),
-          i.getElements(),
-          i.getType(),
-          i.getStride(),
-          i.getOffset(),
-          i.getDivisor());
+          i.elements(),
+          i.type(),
+          i.strideOctets(),
+          i.offsetOctets(),
+          i.divisor());
       } else {
         throw new UnreachableCodeException();
       }
@@ -310,12 +310,12 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
           final JCGLArrayVertexAttributeFloatingPointType af)
           throws JCGLException
         {
-          final int e = af.getElements();
+          final int e = af.elementCount();
           final boolean n = af.isNormalized();
-          final long off = af.getOffset();
-          final int stride = af.getStride();
-          final JCGLScalarType t = af.getType();
-          final int divisor = af.getDivisor();
+          final long off = af.offsetOctets();
+          final int stride = af.strideOctets();
+          final JCGLScalarType t = af.type();
+          final int divisor = af.divisor();
 
           if (LOG.isTraceEnabled()) {
             LOG.trace(
@@ -346,11 +346,11 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
           final JCGLArrayVertexAttributeIntegralType ai)
           throws JCGLException
         {
-          final JCGLScalarIntegralType t = ai.getType();
-          final int e = ai.getElements();
-          final long offset = ai.getOffset();
-          final int stride = ai.getStride();
-          final int divisor = ai.getDivisor();
+          final JCGLScalarIntegralType t = ai.type();
+          final int e = ai.elements();
+          final long offset = ai.offsetOctets();
+          final int stride = ai.strideOctets();
+          final int divisor = ai.divisor();
 
           if (LOG.isTraceEnabled()) {
             LOG.trace(
@@ -382,8 +382,8 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       LOG.trace("bind {} -> {}", this.bind, a);
     }
 
-    if (this.bind.getGLName() != a.getGLName()) {
-      this.gl.glBindVertexArray(a.getGLName());
+    if (this.bind.glName() != a.glName()) {
+      this.gl.glBindVertexArray(a.glName());
       this.bind = a;
     }
   }
@@ -395,7 +395,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
         "unbind {} -> {}", this.bind, this.default_buffer);
     }
 
-    if (this.bind.getGLName() != this.default_buffer.getGLName()) {
+    if (this.bind.glName() != this.default_buffer.glName()) {
       this.gl.glBindVertexArray(0);
       this.bind = this.default_buffer;
     }
@@ -444,20 +444,20 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     }
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+      LOG.debug("delete {}", Integer.valueOf(a.glName()));
     }
 
     this.int_cache.rewind();
-    this.int_cache.put(0, a.getGLName());
+    this.int_cache.put(0, a.glName());
     this.gl.glDeleteVertexArrays(1, this.int_cache);
     a.setDeleted();
 
     final JOGLReferenceContainer rc = a.getReferenceContainer();
-    for (final JCGLReferableType r : a.getReferences()) {
+    for (final JCGLReferableType r : a.references()) {
       rc.referenceRemove((JOGLReferable) r);
     }
 
-    if (this.bind.getGLName() == a.getGLName()) {
+    if (this.bind.glName() == a.glName()) {
       this.actualUnbind();
     }
   }
@@ -546,7 +546,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       RangeCheck.checkIncludedInInteger(
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
       UnsignedRangeCheck.checkIncludedInLong(
-        offset, "Offset", a.getRange(), "Buffer range");
+        offset, "Offset", a.byteRange(), "Buffer range");
       RangeCheck.checkIncludedInInteger(
         divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
@@ -600,7 +600,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
       RangeCheck.checkIncludedInInteger(
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
       UnsignedRangeCheck.checkIncludedInLong(
-        offset, "Offset", a.getRange(), "Buffer range");
+        offset, "Offset", a.byteRange(), "Buffer range");
       RangeCheck.checkIncludedInInteger(
         divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
@@ -663,7 +663,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
               public Void matchFloatingPoint(
                 final JCGLArrayVertexAttributeFloatingPointType a)
               {
-                aa[a.getIndex()] = null;
+                aa[a.index()] = null;
                 return null;
               }
 
@@ -671,7 +671,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
               public Void matchIntegral(
                 final JCGLArrayVertexAttributeIntegralType a)
               {
-                aa[a.getIndex()] = null;
+                aa[a.index()] = null;
                 return null;
               }
             });

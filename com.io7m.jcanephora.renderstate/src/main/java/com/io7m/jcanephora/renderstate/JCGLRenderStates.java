@@ -69,17 +69,17 @@ public final class JCGLRenderStates
     final JCGLInterfaceGL33Type g,
     final JCGLRenderStateType r)
   {
-    g.getPolygonModes().polygonSetMode(r.getPolygonMode());
+    g.polygonModes().polygonSetMode(r.polygonMode());
   }
 
   private static void configureStencil(
     final JCGLInterfaceGL33Type g,
     final JCGLRenderStateType r)
   {
-    final JCGLStencilBuffersType g_s = g.getStencilBuffers();
-    final JCGLStencilStateType s = r.getStencilState();
-    if (s.getStencilStrict()) {
-      if (s.getStencilEnabled()) {
+    final JCGLStencilBuffersType g_s = g.stencilBuffers();
+    final JCGLStencilStateType s = r.stencilState();
+    if (s.stencilStrict()) {
+      if (s.stencilEnabled()) {
         g_s.stencilBufferEnable();
         configureStencilActual(g_s, s);
       } else {
@@ -87,7 +87,7 @@ public final class JCGLRenderStates
       }
     } else {
       if (g_s.stencilBufferGetBits() > 0) {
-        if (s.getStencilEnabled()) {
+        if (s.stencilEnabled()) {
           configureStencilActual(g_s, s);
           g_s.stencilBufferEnable();
         } else {
@@ -103,47 +103,47 @@ public final class JCGLRenderStates
   {
     g_s.stencilBufferOperation(
       JCGLFaceSelection.FACE_FRONT,
-      s.getOperationStencilFailFront(),
-      s.getOperationDepthFailFront(),
-      s.getOperationPassFront());
+      s.operationStencilFailFront(),
+      s.operationDepthFailFront(),
+      s.operationPassFront());
     g_s.stencilBufferOperation(
       JCGLFaceSelection.FACE_BACK,
-      s.getOperationStencilFailBack(),
-      s.getOperationDepthFailBack(),
-      s.getOperationPassBack());
+      s.operationStencilFailBack(),
+      s.operationDepthFailBack(),
+      s.operationPassBack());
 
     g_s.stencilBufferMask(
-      JCGLFaceSelection.FACE_FRONT, s.getWriteMaskFrontFaces());
+      JCGLFaceSelection.FACE_FRONT, s.writeMaskFrontFaces());
     g_s.stencilBufferMask(
-      JCGLFaceSelection.FACE_BACK, s.getWriteMaskBackFaces());
+      JCGLFaceSelection.FACE_BACK, s.writeMaskBackFaces());
 
     g_s.stencilBufferFunction(
       JCGLFaceSelection.FACE_FRONT,
-      s.getTestFunctionFront(),
-      s.getTestReferenceFront(),
-      s.getTestMaskFront());
+      s.testFunctionFront(),
+      s.testReferenceFront(),
+      s.testMaskFront());
     g_s.stencilBufferFunction(
       JCGLFaceSelection.FACE_BACK,
-      s.getTestFunctionBack(),
-      s.getTestReferenceBack(),
-      s.getTestMaskBack());
+      s.testFunctionBack(),
+      s.testReferenceBack(),
+      s.testMaskBack());
   }
 
   private static void configureBlending(
     final JCGLInterfaceGL33Type g,
     final JCGLRenderStateType r)
   {
-    final JCGLBlendingType g_b = g.getBlending();
-    final Optional<JCGLBlendStateType> blend_opt = r.getBlendState();
+    final JCGLBlendingType g_b = g.blending();
+    final Optional<JCGLBlendStateType> blend_opt = r.blendState();
     if (blend_opt.isPresent()) {
       final JCGLBlendStateType blend_state = blend_opt.get();
       g_b.blendingEnableSeparateWithEquationSeparate(
-        blend_state.getBlendFunctionSourceRGB(),
-        blend_state.getBlendFunctionSourceAlpha(),
-        blend_state.getBlendFunctionTargetRGB(),
-        blend_state.getBlendFunctionTargetAlpha(),
-        blend_state.getBlendEquationRGB(),
-        blend_state.getBlendEquationAlpha());
+        blend_state.blendFunctionSourceRGB(),
+        blend_state.blendFunctionSourceAlpha(),
+        blend_state.blendFunctionTargetRGB(),
+        blend_state.blendFunctionTargetAlpha(),
+        blend_state.blendEquationRGB(),
+        blend_state.blendEquationAlpha());
     } else {
       g_b.blendingDisable();
     }
@@ -153,8 +153,8 @@ public final class JCGLRenderStates
     final JCGLInterfaceGL33Type g,
     final JCGLRenderStateType r)
   {
-    final JCGLScissorType g_s = g.getScissor();
-    final Optional<AreaL> scissor_opt = r.getScissor();
+    final JCGLScissorType g_s = g.scissor();
+    final Optional<AreaL> scissor_opt = r.scissor();
     if (scissor_opt.isPresent()) {
       final AreaL area = scissor_opt.get();
       g_s.scissorEnable(area);
@@ -167,12 +167,12 @@ public final class JCGLRenderStates
     final JCGLInterfaceGL33Type g,
     final JCGLRenderStateType r)
   {
-    final JCGLCullingType g_c = g.getCulling();
-    final Optional<JCGLCullingStateType> cull_opt = r.getCullingState();
+    final JCGLCullingType g_c = g.culling();
+    final Optional<JCGLCullingStateType> cull_opt = r.cullingState();
     if (cull_opt.isPresent()) {
       final JCGLCullingStateType cull_state = cull_opt.get();
       g_c.cullingEnable(
-        cull_state.getFaceSelection(), cull_state.getFaceWindingOrder());
+        cull_state.faceSelection(), cull_state.faceWindingOrder());
     } else {
       g_c.cullingDisable();
     }
@@ -182,18 +182,18 @@ public final class JCGLRenderStates
     final JCGLInterfaceGL33Type g,
     final JCGLRenderStateType r)
   {
-    final JCGLColorBufferMaskingType g_c = g.getColorBufferMasking();
-    final JCGLColorBufferMaskingStateType gs = r.getColorBufferMaskingState();
+    final JCGLColorBufferMaskingType g_c = g.colorBufferMasking();
+    final JCGLColorBufferMaskingStateType gs = r.colorBufferMaskingState();
     g_c.colorBufferMask(
-      gs.getRed(), gs.getGreen(), gs.getBlue(), gs.getAlpha());
+      gs.red(), gs.green(), gs.blue(), gs.alpha());
   }
 
   private static void configureDepth(
     final JCGLInterfaceGL33Type g,
     final JCGLRenderStateType r)
   {
-    final JCGLDepthBuffersType g_d = g.getDepthBuffers();
-    final JCGLDepthStateType ds = r.getDepthState();
+    final JCGLDepthBuffersType g_d = g.depthBuffers();
+    final JCGLDepthStateType ds = r.depthState();
 
     configureDepthWriting(g_d, ds);
     configureDepthClamping(g_d, ds);
@@ -208,9 +208,9 @@ public final class JCGLRenderStates
      * If depth writing should be enabled, attempt to enable it.
      */
 
-    switch (ds.getDepthWrite()) {
+    switch (ds.depthWrite()) {
       case DEPTH_WRITE_ENABLED:
-        switch (ds.getDepthStrict()) {
+        switch (ds.depthStrict()) {
 
           /*
            * If strict checking is required, enable without checking
@@ -257,9 +257,9 @@ public final class JCGLRenderStates
      * If depth testing should be enabled, attempt to enable it.
      */
 
-    final Optional<JCGLDepthFunction> d_opt = ds.getDepthTest();
+    final Optional<JCGLDepthFunction> d_opt = ds.depthTest();
     if (d_opt.isPresent()) {
-      switch (ds.getDepthStrict()) {
+      switch (ds.depthStrict()) {
 
         /*
          * If strict checking is required, enable without checking
@@ -303,9 +303,9 @@ public final class JCGLRenderStates
      * If depth clamping should be enabled, attempt to enable it.
      */
 
-    switch (ds.getDepthClamp()) {
+    switch (ds.depthClamp()) {
       case DEPTH_CLAMP_ENABLED:
-        switch (ds.getDepthStrict()) {
+        switch (ds.depthStrict()) {
 
           /*
            * If strict checking is required, enable without checking

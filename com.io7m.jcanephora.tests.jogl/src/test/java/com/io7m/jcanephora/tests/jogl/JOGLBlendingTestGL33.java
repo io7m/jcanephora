@@ -35,7 +35,7 @@ public final class JOGLBlendingTestGL33 extends JCGLBlendingContract
   protected JCGLBlendingType getBlending(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getBlending();
+    return c.contextGetGL33().blending();
   }
 
   @Override
@@ -102,7 +102,7 @@ public final class JOGLBlendingTestGL33 extends JCGLBlendingContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLBlendingType g_b = g.getBlending();
+    final JCGLBlendingType g_b = g.blending();
 
     Assert.assertEquals(0L, (long) blends.get());
     Assert.assertEquals(0L, (long) unblends.get());

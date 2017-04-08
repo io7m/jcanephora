@@ -64,7 +64,7 @@ public final class JCGLExceptionProgramCompileError extends JCGLException
    * @return The program name
    */
 
-  public String getProgramName()
+  public String programName()
   {
     return this.name;
   }
@@ -73,7 +73,7 @@ public final class JCGLExceptionProgramCompileError extends JCGLException
    * @return The program compilation error
    */
 
-  public String getProgramCompilationError()
+  public String programCompilationError()
   {
     return this.message;
   }

@@ -46,7 +46,7 @@ final class JOGLTimerQuery extends JOGLObjectUnshared
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[TimerQuery ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(']');
     return sb.toString();
   }

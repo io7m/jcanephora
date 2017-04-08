@@ -40,7 +40,7 @@ abstract class JOGLBuffer extends JOGLReferable implements JCGLBufferUsableType
 
     {
       final StringBuilder sb = new StringBuilder("[Buffer ");
-      sb.append(super.getGLName());
+      sb.append(super.glName());
       sb.append(this.range);
       sb.append(" ");
       sb.append(this.usage);
@@ -56,13 +56,13 @@ abstract class JOGLBuffer extends JOGLReferable implements JCGLBufferUsableType
   }
 
   @Override
-  public final JCGLUsageHint getUsageHint()
+  public final JCGLUsageHint usageHint()
   {
     return this.usage;
   }
 
   @Override
-  public final UnsignedRangeInclusiveL getRange()
+  public final UnsignedRangeInclusiveL byteRange()
   {
     return this.range;
   }

@@ -28,23 +28,23 @@ public interface JCGLTextureCubeUsableType extends JCGLTextureUsableType
    * @return The texture size
    */
 
-  AreaSizeL textureGetSize();
+  AreaSizeL size();
 
   /**
    * @return The wrapping mode on the {@code R} axis
    */
 
-  JCGLTextureWrapR textureGetWrapR();
+  JCGLTextureWrapR wrapR();
 
   /**
    * @return The wrapping mode on the {@code S} axis
    */
 
-  JCGLTextureWrapS textureGetWrapS();
+  JCGLTextureWrapS wrapS();
 
   /**
    * @return The wrapping mode on the {@code T} axis
    */
 
-  JCGLTextureWrapT textureGetWrapT();
+  JCGLTextureWrapT wrapT();
 }

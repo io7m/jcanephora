@@ -28,7 +28,7 @@ public interface JCGLArrayVertexAttributeFloatingPointType
    * @return The number of elements in the attribute
    */
 
-  int getElements();
+  int elementCount();
 
   /**
    * @return {@code true} iff integral type values should be treated as
@@ -41,23 +41,23 @@ public interface JCGLArrayVertexAttributeFloatingPointType
    * @return The attribute offset in bytes
    */
 
-  long getOffset();
+  long offsetOctets();
 
   /**
    * @return The stride in bytes
    */
 
-  int getStride();
+  int strideOctets();
 
   /**
    * @return The element type
    */
 
-  JCGLScalarType getType();
+  JCGLScalarType type();
 
   /**
    * @return The attribute index
    */
 
-  int getIndex();
+  int index();
 }

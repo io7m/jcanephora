@@ -192,7 +192,7 @@ public final class JCGLTextureFormats
    * @return The number of depth bits specified by format {@code f}
    */
 
-  public static int getDepthBits(final JCGLTextureFormat f)
+  public static int depthBits(final JCGLTextureFormat f)
   {
     switch (f) {
       case TEXTURE_FORMAT_DEPTH_16_2BPP:
@@ -455,7 +455,7 @@ public final class JCGLTextureFormats
    * @return The number of stencil bits specified by format {@code f}
    */
 
-  public static int getStencilBits(final JCGLTextureFormat f)
+  public static int stencilBits(final JCGLTextureFormat f)
   {
     switch (f) {
       case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:

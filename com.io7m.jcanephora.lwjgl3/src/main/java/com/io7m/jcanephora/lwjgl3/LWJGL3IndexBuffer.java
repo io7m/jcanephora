@@ -51,7 +51,7 @@ final class LWJGL3IndexBuffer extends LWJGL3Buffer implements
   }
 
   @Override
-  public long getIndices()
+  public long indices()
   {
     return this.indices;
   }
@@ -63,7 +63,7 @@ final class LWJGL3IndexBuffer extends LWJGL3Buffer implements
   }
 
   @Override
-  public JCGLUnsignedType getType()
+  public JCGLUnsignedType type()
   {
     return this.type;
   }

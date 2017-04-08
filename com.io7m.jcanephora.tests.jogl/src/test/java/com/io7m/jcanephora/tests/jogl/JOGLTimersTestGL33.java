@@ -34,6 +34,6 @@ public final class JOGLTimersTestGL33 extends JCGLTimersContract
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-    return cg.getTimers();
+    return cg.timers();
   }
 }

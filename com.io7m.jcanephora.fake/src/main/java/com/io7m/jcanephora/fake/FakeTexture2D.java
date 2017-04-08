@@ -87,67 +87,67 @@ final class FakeTexture2D extends FakeReferable implements JCGLTexture2DType
   }
 
   @Override
-  public JCGLTextureFilterMagnification textureGetMagnificationFilter()
+  public JCGLTextureFilterMagnification magnificationFilter()
   {
     return this.filter_mag;
   }
 
   @Override
-  public JCGLTextureFilterMinification textureGetMinificationFilter()
+  public JCGLTextureFilterMinification minificationFilter()
   {
     return this.filter_min;
   }
 
   @Override
-  public UnsignedRangeInclusiveL textureGetRangeX()
+  public UnsignedRangeInclusiveL rangeX()
   {
     return this.range_x;
   }
 
   @Override
-  public UnsignedRangeInclusiveL textureGetRangeY()
+  public UnsignedRangeInclusiveL rangeY()
   {
     return this.range_y;
   }
 
   @Override
-  public long textureGetWidth()
+  public long width()
   {
     return this.width;
   }
 
   @Override
-  public long textureGetHeight()
+  public long height()
   {
     return this.height;
   }
 
   @Override
-  public JCGLTextureFormat textureGetFormat()
+  public JCGLTextureFormat format()
   {
     return this.format;
   }
 
   @Override
-  public UnsignedRangeInclusiveL getRange()
+  public UnsignedRangeInclusiveL byteRange()
   {
     return this.byte_range;
   }
 
   @Override
-  public AreaSizeL textureGetSize()
+  public AreaSizeL size()
   {
     return this.size;
   }
 
   @Override
-  public JCGLTextureWrapS textureGetWrapS()
+  public JCGLTextureWrapS wrapS()
   {
     return this.wrap_s;
   }
 
   @Override
-  public JCGLTextureWrapT textureGetWrapT()
+  public JCGLTextureWrapT wrapT()
   {
     return this.wrap_t;
   }
@@ -156,7 +156,7 @@ final class FakeTexture2D extends FakeReferable implements JCGLTexture2DType
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[Texture2D ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(" ");
     sb.append(this.width);
     sb.append("x");

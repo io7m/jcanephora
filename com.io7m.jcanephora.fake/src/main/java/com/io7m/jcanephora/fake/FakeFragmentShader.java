@@ -38,7 +38,7 @@ final class FakeFragmentShader extends FakeReferable
   }
 
   @Override
-  public String getName()
+  public String name()
   {
     return this.name;
   }

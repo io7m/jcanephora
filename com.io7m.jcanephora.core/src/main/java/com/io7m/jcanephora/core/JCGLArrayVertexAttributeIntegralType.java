@@ -28,29 +28,29 @@ public interface JCGLArrayVertexAttributeIntegralType
    * @return The number of elements in the attribute
    */
 
-  int getElements();
+  int elements();
 
   /**
    * @return The attribute offset in bytes
    */
 
-  long getOffset();
+  long offsetOctets();
 
   /**
    * @return The stride in bytes
    */
 
-  int getStride();
+  int strideOctets();
 
   /**
    * @return The element type
    */
 
-  JCGLScalarIntegralType getType();
+  JCGLScalarIntegralType type();
 
   /**
    * @return The attribute index
    */
 
-  int getIndex();
+  int index();
 }

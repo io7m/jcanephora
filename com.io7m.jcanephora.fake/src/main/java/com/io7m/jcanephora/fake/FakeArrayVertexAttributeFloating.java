@@ -60,7 +60,7 @@ final class FakeArrayVertexAttributeFloating extends FakeObjectPseudoUnshared
   }
 
   @Override
-  public int getElements()
+  public int elementCount()
   {
     return this.elements;
   }
@@ -72,25 +72,25 @@ final class FakeArrayVertexAttributeFloating extends FakeObjectPseudoUnshared
   }
 
   @Override
-  public long getOffset()
+  public long offsetOctets()
   {
     return this.offset;
   }
 
   @Override
-  public int getStride()
+  public int strideOctets()
   {
     return this.stride;
   }
 
   @Override
-  public JCGLScalarType getType()
+  public JCGLScalarType type()
   {
     return this.type;
   }
 
   @Override
-  public int getIndex()
+  public int index()
   {
     return this.index;
   }
@@ -147,7 +147,7 @@ final class FakeArrayVertexAttributeFloating extends FakeObjectPseudoUnshared
   }
 
   @Override
-  public int getDivisor()
+  public int divisor()
   {
     return this.divisor;
   }

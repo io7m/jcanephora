@@ -42,11 +42,11 @@ final class FakeIndexBuffer extends FakeBuffer implements JCGLIndexBufferType
     this.type = NullCheck.notNull(in_type, "Type");
 
     this.image = String.format(
-      "[JOGLIndexBuffer %d]", Integer.valueOf(this.getGLName()));
+      "[JOGLIndexBuffer %d]", Integer.valueOf(this.glName()));
   }
 
   @Override
-  public long getIndices()
+  public long indices()
   {
     return this.indices;
   }
@@ -58,7 +58,7 @@ final class FakeIndexBuffer extends FakeBuffer implements JCGLIndexBufferType
   }
 
   @Override
-  public JCGLUnsignedType getType()
+  public JCGLUnsignedType type()
   {
     return this.type;
   }

@@ -93,7 +93,7 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
   {
     final JOGLFramebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
-      return fb.framebufferGetDepthBits();
+      return fb.framebufferDepthBits();
     }
 
     /*

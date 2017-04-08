@@ -62,7 +62,7 @@ abstract class FakeObjectShared extends FakeObjectDeletable
   }
 
   @Override
-  public final int getGLName()
+  public final int glName()
   {
     return this.id;
   }

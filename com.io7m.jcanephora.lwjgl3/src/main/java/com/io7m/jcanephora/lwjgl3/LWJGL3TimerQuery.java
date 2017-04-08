@@ -45,7 +45,7 @@ final class LWJGL3TimerQuery extends LWJGL3ObjectUnshared
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[TimerQuery ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(']');
     return sb.toString();
   }

@@ -39,7 +39,7 @@ abstract class FakeReferable extends FakeObjectShared
   }
 
   @Override
-  public final Set<JCGLReferenceContainerType> getReferringContainers()
+  public final Set<JCGLReferenceContainerType> referringContainers()
   {
     return this.references_view;
   }

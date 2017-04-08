@@ -52,7 +52,7 @@ final class LWJGL3ReferenceContainer implements JCGLReferenceContainerType
   }
 
   @Override
-  public Set<JCGLReferableType> getReferences()
+  public Set<JCGLReferableType> references()
   {
     return this.references_view;
   }

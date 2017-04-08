@@ -26,7 +26,7 @@ public final class JOGLPolygonModesTest extends JCGLPolygonModesContract
   protected JCGLPolygonModesType getPolygonModes(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getPolygonModes();
+    return c.contextGetGL33().polygonModes();
   }
 
   @Override

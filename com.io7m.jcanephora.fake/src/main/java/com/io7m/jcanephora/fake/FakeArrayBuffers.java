@@ -81,7 +81,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     this.checkArray(a);
 
     if (Objects.equals(a, this.bind)) {
-      final UnsignedRangeInclusiveL r = a.getRange();
+      final UnsignedRangeInclusiveL r = a.byteRange();
       final long size = r.getInterval();
       final ByteBuffer b = f.apply(size);
       b.rewind();
@@ -132,9 +132,9 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     this.checkArray(a);
 
     if (Objects.equals(a, this.bind)) {
-      final UnsignedRangeInclusiveL r = a.getRange();
+      final UnsignedRangeInclusiveL r = a.byteRange();
       final long size = r.getInterval();
-      final JCGLUsageHint usage = a.getUsageHint();
+      final JCGLUsageHint usage = a.usageHint();
 
       if (LOG.isDebugEnabled()) {
         LOG.debug(
@@ -196,7 +196,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
   {
     this.checkArray(a);
 
-    LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+    LOG.debug("delete {}", Integer.valueOf(a.glName()));
 
     ((FakeArrayBuffer) a).setDeleted();
 
@@ -211,12 +211,12 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
     NullCheck.notNull(u, "Update");
-    final JCGLArrayBufferType a = u.getBuffer();
+    final JCGLArrayBufferType a = u.buffer();
     this.checkArray(a);
 
     if (Objects.equals(a, this.bind)) {
-      final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
-      final ByteBuffer data = u.getData();
+      final UnsignedRangeInclusiveL r = u.dataUpdateRange();
+      final ByteBuffer data = u.data();
       data.rewind();
       final FakeArrayBuffer fa = (FakeArrayBuffer) a;
       final ByteBuffer fa_data = fa.getData();

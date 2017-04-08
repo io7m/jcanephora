@@ -47,9 +47,9 @@ public final class JOGLDepthBuffersTestGL33 extends JCGLDepthBuffersContract
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     return new Interfaces(
       c,
-      cg.getFramebuffers(),
-      cg.getTextures(),
-      cg.getDepthBuffers());
+      cg.framebuffers(),
+      cg.textures(),
+      cg.depthBuffers());
   }
 
   @Test
@@ -118,7 +118,7 @@ public final class JOGLDepthBuffersTestGL33 extends JCGLDepthBuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLDepthBuffersType g_d = g.getDepthBuffers();
+    final JCGLDepthBuffersType g_d = g.depthBuffers();
 
     Assert.assertEquals(0L, (long) tests.get());
     Assert.assertEquals(1L, (long) untests.get());

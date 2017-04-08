@@ -89,7 +89,7 @@ final class LWJGL3DepthBuffers implements JCGLDepthBuffersType
   {
     final LWJGL3Framebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
-      return fb.framebufferGetDepthBits();
+      return fb.framebufferDepthBits();
     }
 
     return GL11.glGetInteger(GL11.GL_DEPTH_BITS);

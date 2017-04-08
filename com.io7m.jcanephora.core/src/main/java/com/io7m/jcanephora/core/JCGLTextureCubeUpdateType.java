@@ -31,11 +31,11 @@ public interface JCGLTextureCubeUpdateType
    * @return The area that will be updated
    */
 
-  AreaL getArea();
+  AreaL area();
 
   /**
    * @return The texture that will be updated
    */
 
-  JCGLTextureCubeUsableType getTexture();
+  JCGLTextureCubeUsableType texture();
 }

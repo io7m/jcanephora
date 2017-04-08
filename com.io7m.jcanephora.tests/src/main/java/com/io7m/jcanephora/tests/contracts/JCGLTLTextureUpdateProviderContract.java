@@ -81,7 +81,7 @@ public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
 
     this.expected.expect(RangeCheckException.class);
     this.expected.expectMessage(new StringContains("Texture width"));
-    up.getTextureUpdate2D(tt, data);
+    up.createTextureUpdate2D(tt, data);
   }
 
   @Test
@@ -108,7 +108,7 @@ public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
 
     this.expected.expect(RangeCheckException.class);
     this.expected.expectMessage(new StringContains("Texture height"));
-    up.getTextureUpdate2D(tt, data);
+    up.createTextureUpdate2D(tt, data);
   }
 
   @Test
@@ -183,8 +183,8 @@ public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
             JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
             JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
-          final JCGLTexture2DUpdateType u = up.getTextureUpdate2D(tt, data);
-          Assert.assertEquals(tt, u.getTexture());
+          final JCGLTexture2DUpdateType u = up.createTextureUpdate2D(tt, data);
+          Assert.assertEquals(tt, u.texture());
 
           t.texture2DUpdate(units.get(0), u);
           break;
@@ -219,7 +219,7 @@ public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
 
     this.expected.expect(RangeCheckException.class);
     this.expected.expectMessage(new StringContains("Texture size"));
-    up.getTextureUpdateCube(tt, data);
+    up.createTextureUpdateCube(tt, data);
   }
 
   @Test
@@ -297,8 +297,8 @@ public abstract class JCGLTLTextureUpdateProviderContract extends JCGLContract
             JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
             JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
-          final JCGLTextureCubeUpdateType u = up.getTextureUpdateCube(tt, data);
-          Assert.assertEquals(tt, u.getTexture());
+          final JCGLTextureCubeUpdateType u = up.createTextureUpdateCube(tt, data);
+          Assert.assertEquals(tt, u.texture());
 
           for (final JCGLCubeMapFaceRH face : JCGLCubeMapFaceRH.values()) {
             t.textureCubeUpdateRH(units.get(0), face, u);

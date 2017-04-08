@@ -36,7 +36,7 @@ public final class JOGLProfilingTestGL33 extends JCGLProfilingContract
   @Override
   protected JCGLProfilingType newProfiling(final JCGLInterfaceGL33Type g)
   {
-    return JCGLProfiling.newProfiling(g.getTimers());
+    return JCGLProfiling.newProfiling(g.timers());
   }
 
   @Override

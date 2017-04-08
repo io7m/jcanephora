@@ -54,7 +54,7 @@ final class LWJGL3Framebuffer extends LWJGL3ObjectUnshared implements
 
     {
       final StringBuilder sb = new StringBuilder("[Framebuffer ");
-      sb.append(super.getGLName());
+      sb.append(super.glName());
       sb.append(']');
       this.image = sb.toString();
     }
@@ -84,13 +84,13 @@ final class LWJGL3Framebuffer extends LWJGL3ObjectUnshared implements
   }
 
   @Override
-  public int framebufferGetDepthBits()
+  public int framebufferDepthBits()
   {
     return this.depth_bits;
   }
 
   @Override
-  public int framebufferGetStencilBits()
+  public int framebufferStencilBits()
   {
     return this.stencil_bits;
   }
@@ -104,9 +104,9 @@ final class LWJGL3Framebuffer extends LWJGL3ObjectUnshared implements
   }
 
   @Override
-  public Set<JCGLReferableType> getReferences()
+  public Set<JCGLReferableType> references()
   {
-    return this.refs.getReferences();
+    return this.refs.references();
   }
 
   void setDepthAttachment(

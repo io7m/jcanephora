@@ -258,7 +258,7 @@ final class FakeFramebuffers implements JCGLFramebuffersType
           "[{}] draw buffer {} -> color {}",
           Integer.valueOf(f_id),
           Integer.valueOf(index),
-          Integer.valueOf(attach.colorAttachmentPointGetIndex()));
+          Integer.valueOf(attach.colorAttachmentPointIndex()));
       } else {
         LOG.debug(
           "[{}] draw buffer {} -> none",
@@ -291,7 +291,7 @@ final class FakeFramebuffers implements JCGLFramebuffersType
               Integer.valueOf(index));
 
             FakeTextures.checkTexture2D(FakeFramebuffers.this.context, t);
-            final JCGLTextureFormat f = t.textureGetFormat();
+            final JCGLTextureFormat f = t.format();
             JCGLTextureFormats.checkColorRenderableTexture2D(f);
             return Unit.unit();
           }
@@ -310,7 +310,7 @@ final class FakeFramebuffers implements JCGLFramebuffersType
               Integer.valueOf(index));
 
             FakeTextures.checkTextureCube(FakeFramebuffers.this.context, t);
-            final JCGLTextureFormat f = t.textureGetFormat();
+            final JCGLTextureFormat f = t.format();
             JCGLTextureFormats.checkColorRenderableTexture2D(f);
             return Unit.unit();
           }
@@ -343,12 +343,12 @@ final class FakeFramebuffers implements JCGLFramebuffersType
             t);
 
           FakeTextures.checkTexture2D(FakeFramebuffers.this.context, t);
-          final JCGLTextureFormat f = t.textureGetFormat();
+          final JCGLTextureFormat f = t.format();
           JCGLTextureFormats.checkDepthStencilRenderableTexture2D(f);
           fb.setDepthStencilAttachment(
             t,
-            JCGLTextureFormats.getDepthBits(f),
-            JCGLTextureFormats.getStencilBits(f));
+            JCGLTextureFormats.depthBits(f),
+            JCGLTextureFormats.stencilBits(f));
           return Unit.unit();
         }
       });
@@ -378,10 +378,10 @@ final class FakeFramebuffers implements JCGLFramebuffersType
             Integer.valueOf(f_id),
             t);
 
-          final JCGLTextureFormat f = t.textureGetFormat();
+          final JCGLTextureFormat f = t.format();
           FakeTextures.checkTexture2D(FakeFramebuffers.this.context, t);
           JCGLTextureFormats.checkDepthOnlyRenderableTexture2D(f);
-          fb.setDepthAttachment(t, JCGLTextureFormats.getDepthBits(f));
+          fb.setDepthAttachment(t, JCGLTextureFormats.depthBits(f));
           return Unit.unit();
         }
       });
@@ -408,7 +408,7 @@ final class FakeFramebuffers implements JCGLFramebuffersType
   {
     LOG.trace("bind draw {} -> {}", this.bind_draw, f);
 
-    for (final JCGLReferableType r : f.getReferences()) {
+    for (final JCGLReferableType r : f.references()) {
       if (r instanceof JCGLTexture2DUsableType) {
         final JCGLTexture2DUsableType t = (JCGLTexture2DUsableType) r;
         if (this.textures.texture2DIsBoundAnywhere(t)) {
@@ -486,7 +486,7 @@ final class FakeFramebuffers implements JCGLFramebuffersType
         "No draw framebuffer is bound");
     }
 
-    if (this.bind_draw.getReferences().isEmpty()) {
+    if (this.bind_draw.references().isEmpty()) {
       return JCGLFramebufferStatus
         .FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT;
     }
@@ -540,7 +540,7 @@ final class FakeFramebuffers implements JCGLFramebuffersType
         "No read framebuffer is bound");
     }
 
-    if (this.bind_draw.getReferences().isEmpty()) {
+    if (this.bind_draw.references().isEmpty()) {
       return JCGLFramebufferStatus
         .FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT;
     }
@@ -641,9 +641,9 @@ final class FakeFramebuffers implements JCGLFramebuffersType
       checkDrawBuffer(this.context, buffer);
       FakeTextures.checkTexture2D(this.context, texture);
       JCGLTextureFormats.checkColorRenderableTexture2D(
-        texture.textureGetFormat());
+        texture.format());
 
-      this.color_attaches.set(point.colorAttachmentPointGetIndex(), texture);
+      this.color_attaches.set(point.colorAttachmentPointIndex(), texture);
       this.draw_buffers.put(buffer, point);
     }
 
@@ -661,10 +661,10 @@ final class FakeFramebuffers implements JCGLFramebuffersType
       checkDrawBuffer(this.context, buffer);
       FakeTextures.checkTextureCube(this.context, texture);
       JCGLTextureFormats.checkColorRenderableTexture2D(
-        texture.textureGetFormat());
+        texture.format());
 
       this.color_attaches.set(
-        point.colorAttachmentPointGetIndex(),
+        point.colorAttachmentPointIndex(),
         new CubeAttachment(texture, face));
       this.draw_buffers.put(buffer, point);
     }
@@ -675,7 +675,7 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     {
       FakeTextures.checkTexture2D(this.context, t);
       JCGLTextureFormats.checkDepthOnlyRenderableTexture2D(
-        t.textureGetFormat());
+        t.format());
       this.depth = t;
       this.depth_stencil = null;
     }
@@ -685,7 +685,7 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     {
       FakeTextures.checkTexture2D(this.context, t);
       JCGLTextureFormats.checkDepthStencilRenderableTexture2D(
-        t.textureGetFormat());
+        t.format());
       this.depth = null;
       this.depth_stencil = t;
     }
@@ -704,7 +704,7 @@ final class FakeFramebuffers implements JCGLFramebuffersType
       NullCheck.notNull(point, "Point");
       checkColorAttachmentPoint(this.context, point);
 
-      final int index = point.colorAttachmentPointGetIndex();
+      final int index = point.colorAttachmentPointIndex();
       this.color_attaches.set(index, null);
     }
 
@@ -731,15 +731,15 @@ final class FakeFramebuffers implements JCGLFramebuffersType
       }
 
       @Override
-      public Set<JCGLReferenceContainerType> getReferringContainers()
+      public Set<JCGLReferenceContainerType> referringContainers()
       {
         throw new UnreachableCodeException();
       }
 
       @Override
-      public int getGLName()
+      public int glName()
       {
-        return this.texture.getGLName();
+        return this.texture.glName();
       }
     }
   }

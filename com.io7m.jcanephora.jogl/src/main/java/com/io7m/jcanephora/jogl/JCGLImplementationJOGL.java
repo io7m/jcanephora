@@ -58,9 +58,10 @@ public final class JCGLImplementationJOGL implements JCGLImplementationJOGLType
     final int maj = v.getMajor();
     final int min = v.getMinor();
     if (maj != 3 || min != 3) {
-      final JCGLVersionNumber v_exp = new JCGLVersionNumber(3, 3, 0);
+      final JCGLVersionNumber v_exp =
+        JCGLVersionNumber.of(3, 3, 0);
       final JCGLVersionNumber v_got =
-        new JCGLVersionNumber(v.getMajor(), v.getMinor(), v.getSub());
+        JCGLVersionNumber.of(v.getMajor(), v.getMinor(), v.getSub());
       throw new JCGLExceptionUnsupported(v_exp, v_got);
     }
   }

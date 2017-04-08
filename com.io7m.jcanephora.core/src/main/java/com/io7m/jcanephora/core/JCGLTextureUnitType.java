@@ -28,5 +28,5 @@ public interface JCGLTextureUnitType extends Comparable<JCGLTextureUnitType>
    * current implementations).
    */
 
-  int unitGetIndex();
+  int index();
 }

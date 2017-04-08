@@ -40,8 +40,8 @@ public final class LWJGL3StencilBuffersTestGL33 extends
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     return new Interfaces(
       c,
-      cg.getFramebuffers(),
-      cg.getTextures(),
-      cg.getStencilBuffers());
+      cg.framebuffers(),
+      cg.textures(),
+      cg.stencilBuffers());
   }
 }

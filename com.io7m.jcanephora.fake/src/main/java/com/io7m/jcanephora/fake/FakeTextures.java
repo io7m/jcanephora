@@ -271,13 +271,13 @@ final class FakeTextures implements JCGLTexturesType
     throws JCGLException
   {
     final FakeTextureUnit u = checkTextureUnit(this.context, unit);
-    final int index = u.unitGetIndex();
+    final int index = u.index();
 
     {
       final FakeTexture2D t2d = u.getBind2D();
       if (t2d != null) {
         LOG.trace("unbind 2D [{}]: {} -> none", Integer.valueOf(index), t2d);
-        this.bindingRemoveTextureReference(t2d.getGLName(), index);
+        this.bindingRemoveTextureReference(t2d.glName(), index);
         u.setBind2D(null);
       }
     }
@@ -286,7 +286,7 @@ final class FakeTextures implements JCGLTexturesType
       final FakeTextureCube tc = u.getBindCube();
       if (tc != null) {
         LOG.trace("unbind cube [{}]: {} -> none", Integer.valueOf(index), tc);
-        this.bindingRemoveTextureReference(tc.getGLName(), index);
+        this.bindingRemoveTextureReference(tc.glName(), index);
         u.setBindCube(null);
       }
     }
@@ -303,8 +303,8 @@ final class FakeTextures implements JCGLTexturesType
 
     this.checkFeedback(texture);
 
-    final int index = unit.unitGetIndex();
-    final int texture_id = texture.getGLName();
+    final int index = unit.index();
+    final int texture_id = texture.glName();
     this.textureUnitUnbind(unit);
 
     LOG.trace(
@@ -321,9 +321,9 @@ final class FakeTextures implements JCGLTexturesType
     throws JCGLException
   {
     checkTexture2D(this.context, texture);
-    LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+    LOG.debug("delete {}", Integer.valueOf(texture.glName()));
 
-    final int texture_id = texture.getGLName();
+    final int texture_id = texture.glName();
     ((FakeTexture2D) texture).setDeleted();
     this.unbindDeleted(texture_id);
   }
@@ -367,7 +367,7 @@ final class FakeTextures implements JCGLTexturesType
     throws JCGLException
   {
     checkTexture2D(this.context, texture);
-    final int texture_id = texture.getGLName();
+    final int texture_id = texture.glName();
     return this.texture_to_units.containsKey(texture_id);
   }
 
@@ -425,12 +425,12 @@ final class FakeTextures implements JCGLTexturesType
     NullCheck.notNull(data, "Data");
     NullCheck.notNull(unit, "Unit");
 
-    final JCGLTexture2DUsableType texture = data.getTexture();
+    final JCGLTexture2DUsableType texture = data.texture();
     checkTextureUnit(this.context, unit);
     checkTexture2D(this.context, texture);
 
-    final AreaL update_area = data.getArea();
-    final AreaL texture_area = AreaSizesL.area(texture.textureGetSize());
+    final AreaL update_area = data.area();
+    final AreaL texture_area = AreaSizesL.area(texture.size());
 
     Preconditions.checkPrecondition(
       update_area,
@@ -439,18 +439,18 @@ final class FakeTextures implements JCGLTexturesType
 
     this.texture2DBind(unit, texture);
 
-    final FakeTexture2D ft = (FakeTexture2D) data.getTexture();
+    final FakeTexture2D ft = (FakeTexture2D) data.texture();
     final ByteBuffer target_data = ft.getData();
 
     final long source_min_x = update_area.minimumX();
     final long source_width = update_area.width();
     final long source_min_y = update_area.minimumY();
     final long source_height = update_area.height();
-    final ByteBuffer source_data = data.getData();
+    final ByteBuffer source_data = data.data();
 
     final long target_width = texture_area.width();
 
-    final int bpp = texture.textureGetFormat().getBytesPerPixel();
+    final int bpp = texture.format().getBytesPerPixel();
     copyBytes(
       bpp,
       source_min_x,
@@ -493,7 +493,7 @@ final class FakeTextures implements JCGLTexturesType
 
     if (b != null) {
       final JCGLTextureFilterMinification mag =
-        b.textureGetMinificationFilter();
+        b.minificationFilter();
       switch (mag) {
         case TEXTURE_FILTER_LINEAR:
         case TEXTURE_FILTER_NEAREST: {
@@ -529,8 +529,8 @@ final class FakeTextures implements JCGLTexturesType
 
     this.checkFeedback(texture);
 
-    final int index = unit.unitGetIndex();
-    final int texture_id = texture.getGLName();
+    final int index = unit.index();
+    final int texture_id = texture.glName();
     this.textureUnitUnbind(unit);
 
     LOG.trace("bind cube [{}]: none -> {}", Integer.valueOf(index), texture);
@@ -542,7 +542,7 @@ final class FakeTextures implements JCGLTexturesType
   {
     final FakeFramebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
-      for (final JCGLReferableType r : fb.getReferences()) {
+      for (final JCGLReferableType r : fb.references()) {
         if (Objects.equals(texture, r)) {
           FakeFramebuffers.onFeedbackLoop(fb, texture);
         }
@@ -555,9 +555,9 @@ final class FakeTextures implements JCGLTexturesType
     throws JCGLException
   {
     checkTextureCube(this.context, texture);
-    LOG.debug("delete {}", Integer.valueOf(texture.getGLName()));
+    LOG.debug("delete {}", Integer.valueOf(texture.glName()));
 
-    final int texture_id = texture.getGLName();
+    final int texture_id = texture.glName();
     ((FakeTextureCube) texture).setDeleted();
     this.unbindDeleted(texture_id);
   }
@@ -579,7 +579,7 @@ final class FakeTextures implements JCGLTexturesType
     throws JCGLException
   {
     checkTextureCube(this.context, texture);
-    final int texture_id = texture.getGLName();
+    final int texture_id = texture.glName();
     return this.texture_to_units.containsKey(texture_id);
   }
 
@@ -593,12 +593,12 @@ final class FakeTextures implements JCGLTexturesType
     NullCheck.notNull(data, "Data");
     NullCheck.notNull(unit, "Unit");
 
-    final JCGLTextureCubeUsableType texture = data.getTexture();
+    final JCGLTextureCubeUsableType texture = data.texture();
     checkTextureUnit(this.context, unit);
     checkTextureCube(this.context, texture);
 
-    final AreaL update_area = data.getArea();
-    final AreaL texture_area = AreaSizesL.area(texture.textureGetSize());
+    final AreaL update_area = data.area();
+    final AreaL texture_area = AreaSizesL.area(texture.size());
 
     Preconditions.checkPrecondition(
       update_area,
@@ -607,18 +607,18 @@ final class FakeTextures implements JCGLTexturesType
 
     this.textureCubeBind(unit, texture);
 
-    final FakeTextureCube ft = (FakeTextureCube) data.getTexture();
+    final FakeTextureCube ft = (FakeTextureCube) data.texture();
     final ByteBuffer target_data = ft.getData(face);
 
     final long source_min_x = update_area.minimumX();
     final long source_width = update_area.width();
     final long source_min_y = update_area.minimumY();
     final long source_height = update_area.height();
-    final ByteBuffer source_data = data.getData();
+    final ByteBuffer source_data = data.data();
 
     final long target_width = texture_area.width();
 
-    final int bpp = texture.textureGetFormat().getBytesPerPixel();
+    final int bpp = texture.format().getBytesPerPixel();
     copyBytes(
       bpp,
       source_min_x,
@@ -707,7 +707,7 @@ final class FakeTextures implements JCGLTexturesType
 
     if (b != null) {
       final JCGLTextureFilterMinification mag =
-        b.textureGetMinificationFilter();
+        b.minificationFilter();
       switch (mag) {
         case TEXTURE_FILTER_LINEAR:
         case TEXTURE_FILTER_NEAREST: {

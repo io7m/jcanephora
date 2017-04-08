@@ -51,7 +51,7 @@ public final class JCGLTextureUpdates
     final JCGLTextureCubeUsableType t)
   {
     NullCheck.notNull(t, "Texture");
-    return newUpdateReplacingAreaCube(t, AreaSizesL.area(t.textureGetSize()));
+    return newUpdateReplacingAreaCube(t, AreaSizesL.area(t.size()));
   }
 
   /**
@@ -74,13 +74,13 @@ public final class JCGLTextureUpdates
     NullCheck.notNull(t, "Texture");
     NullCheck.notNull(update_area, "Area");
 
-    final AreaL texture_area = AreaSizesL.area(t.textureGetSize());
+    final AreaL texture_area = AreaSizesL.area(t.size());
     if (!AreasL.contains(texture_area, update_area)) {
       final StringBuilder sb = new StringBuilder(128);
       sb.append("Target area is not contained within the texture's area.");
       sb.append(System.lineSeparator());
       sb.append("  Texture area: ");
-      sb.append(t.textureGetSize());
+      sb.append(t.size());
       sb.append(System.lineSeparator());
       sb.append("  Target area:  ");
       sb.append(update_area);
@@ -90,7 +90,7 @@ public final class JCGLTextureUpdates
 
     final long width = update_area.width();
     final long height = update_area.height();
-    final int bpp = t.textureGetFormat().getBytesPerPixel();
+    final int bpp = t.format().getBytesPerPixel();
     final long size = width * height * (long) bpp;
 
     final ByteBuffer data = ByteBuffer.allocateDirect(Math.toIntExact(size));
@@ -110,7 +110,7 @@ public final class JCGLTextureUpdates
     final JCGLTexture2DUsableType t)
   {
     NullCheck.notNull(t, "Texture");
-    return newUpdateReplacingArea2D(t, AreaSizesL.area(t.textureGetSize()));
+    return newUpdateReplacingArea2D(t, AreaSizesL.area(t.size()));
   }
 
   /**
@@ -133,13 +133,13 @@ public final class JCGLTextureUpdates
     NullCheck.notNull(t, "Texture");
     NullCheck.notNull(update_area, "Area");
 
-    final AreaL texture_area = AreaSizesL.area(t.textureGetSize());
+    final AreaL texture_area = AreaSizesL.area(t.size());
     if (!AreasL.contains(texture_area, update_area)) {
       final StringBuilder sb = new StringBuilder(128);
       sb.append("Target area is not contained within the texture's area.");
       sb.append(System.lineSeparator());
       sb.append("  Texture area: ");
-      sb.append(t.textureGetSize());
+      sb.append(t.size());
       sb.append(System.lineSeparator());
       sb.append("  Target area:  ");
       sb.append(update_area);
@@ -149,7 +149,7 @@ public final class JCGLTextureUpdates
 
     final long width = update_area.width();
     final long height = update_area.height();
-    final int bpp = t.textureGetFormat().getBytesPerPixel();
+    final int bpp = t.format().getBytesPerPixel();
     final long size = width * height * (long) bpp;
 
     final ByteBuffer data = ByteBuffer.allocateDirect(Math.toIntExact(size));
@@ -178,25 +178,25 @@ public final class JCGLTextureUpdates
     }
 
     @Override
-    public AreaL getArea()
+    public AreaL area()
     {
       return this.area;
     }
 
     @Override
-    public JCGLTexture2DUsableType getTexture()
+    public JCGLTexture2DUsableType texture()
     {
       return this.texture;
     }
 
     @Override
-    public ByteBuffer getData()
+    public ByteBuffer data()
     {
       return this.data;
     }
 
     @Override
-    public UnsignedRangeInclusiveL getDataUpdateRange()
+    public UnsignedRangeInclusiveL dataUpdateRange()
     {
       return this.range;
     }
@@ -223,25 +223,25 @@ public final class JCGLTextureUpdates
     }
 
     @Override
-    public AreaL getArea()
+    public AreaL area()
     {
       return this.area;
     }
 
     @Override
-    public JCGLTextureCubeUsableType getTexture()
+    public JCGLTextureCubeUsableType texture()
     {
       return this.texture;
     }
 
     @Override
-    public ByteBuffer getData()
+    public ByteBuffer data()
     {
       return this.data;
     }
 
     @Override
-    public UnsignedRangeInclusiveL getDataUpdateRange()
+    public UnsignedRangeInclusiveL dataUpdateRange()
     {
       return this.range;
     }

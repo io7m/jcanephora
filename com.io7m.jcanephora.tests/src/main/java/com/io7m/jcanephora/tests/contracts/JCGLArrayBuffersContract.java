@@ -74,10 +74,10 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
-    final UnsignedRangeInclusiveL r = a.getRange();
+    final UnsignedRangeInclusiveL r = a.byteRange();
     Assert.assertEquals(0L, r.getLower());
     Assert.assertEquals(99L, r.getUpper());
-    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.getUsageHint());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.usageHint());
     Assert.assertFalse(a.isDeleted());
   }
 
@@ -88,16 +88,16 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
-    final UnsignedRangeInclusiveL r = a.getRange();
+    final UnsignedRangeInclusiveL r = a.byteRange();
     Assert.assertEquals(0L, r.getLower());
     Assert.assertEquals(99L, r.getUpper());
-    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.getUsageHint());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.usageHint());
     Assert.assertFalse(a.isDeleted());
 
     ga.arrayBufferReallocate(a);
     Assert.assertEquals(0L, r.getLower());
     Assert.assertEquals(99L, r.getUpper());
-    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.getUsageHint());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.usageHint());
     Assert.assertFalse(a.isDeleted());
   }
 
@@ -412,7 +412,7 @@ public abstract class JCGLArrayBuffersContract extends JCGLContract
 
     final JCGLBufferUpdateType<JCGLArrayBufferType> u =
       JCGLBufferUpdates.newUpdateReplacingAll(a);
-    final ByteBuffer b = u.getData();
+    final ByteBuffer b = u.data();
     for (int index = 0; index < 100; ++index) {
       b.put(index, (byte) 0x50);
     }

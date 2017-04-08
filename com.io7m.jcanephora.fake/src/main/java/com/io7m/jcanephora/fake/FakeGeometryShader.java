@@ -39,7 +39,7 @@ final class FakeGeometryShader extends FakeReferable
   }
 
   @Override
-  public String getName()
+  public String name()
   {
     return this.name;
   }

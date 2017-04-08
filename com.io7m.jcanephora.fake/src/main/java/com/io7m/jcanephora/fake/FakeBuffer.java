@@ -43,13 +43,13 @@ abstract class FakeBuffer extends FakeReferable implements JCGLBufferUsableType
   }
 
   @Override
-  public final JCGLUsageHint getUsageHint()
+  public final JCGLUsageHint usageHint()
   {
     return this.usage;
   }
 
   @Override
-  public final UnsignedRangeInclusiveL getRange()
+  public final UnsignedRangeInclusiveL byteRange()
   {
     return this.range;
   }

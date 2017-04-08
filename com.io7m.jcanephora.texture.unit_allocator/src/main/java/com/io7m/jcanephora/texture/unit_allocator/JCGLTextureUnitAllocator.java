@@ -102,7 +102,7 @@ public final class JCGLTextureUnitAllocator implements
   }
 
   @Override
-  public JCGLTextureUnitContextParentType getRootContext()
+  public JCGLTextureUnitContextParentType rootContext()
   {
     return this.root;
   }
@@ -222,7 +222,7 @@ public final class JCGLTextureUnitAllocator implements
           if (LOG.isTraceEnabled()) {
             LOG.trace(
               "[{}]: set unbound",
-              Integer.valueOf(this.unit.unitGetIndex()));
+              Integer.valueOf(this.unit.index()));
           }
           g.textureUnitUnbind(this.unit);
         } else {
@@ -230,7 +230,7 @@ public final class JCGLTextureUnitAllocator implements
             if (LOG.isTraceEnabled()) {
               LOG.trace(
                 "[{}]: set unbound (deleted)",
-                Integer.valueOf(this.unit.unitGetIndex()));
+                Integer.valueOf(this.unit.index()));
             }
             g.textureUnitUnbind(this.unit);
             this.bindings[index] = null;

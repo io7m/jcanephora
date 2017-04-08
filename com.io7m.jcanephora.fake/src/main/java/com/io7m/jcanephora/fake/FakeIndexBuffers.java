@@ -90,11 +90,11 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
 
-    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.indexBufferBound();
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (Objects.equals(i, current_ib)) {
-        final UnsignedRangeInclusiveL r = i.getRange();
+        final UnsignedRangeInclusiveL r = i.byteRange();
         final long size = r.getInterval();
         final ByteBuffer b = f.apply(size);
         b.rewind();
@@ -159,7 +159,7 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
 
-    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.indexBufferBound();
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (Objects.equals(i, current_ib)) {
@@ -170,7 +170,7 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
          * XXX: Clearly overflowing integers.
          */
 
-        final UnsignedRangeInclusiveL r = i.getRange();
+        final UnsignedRangeInclusiveL r = i.byteRange();
         final long lo = r.getLower();
         final long hi = r.getUpper();
         for (long index = lo; Long.compareUnsigned(index, hi) <= 0; ++index) {
@@ -221,7 +221,7 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     throws JCGLException
   {
     return this.array_objects.arrayObjectGetCurrentlyBound()
-      .getIndexBufferBound();
+      .indexBufferBound();
   }
 
   @Override
@@ -255,7 +255,7 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     final FakeIndexBuffer i = this.checkIndexBuffer(ii);
     i.setDeleted();
 
-    for (final JCGLReferenceContainerType c : i.getReferringContainers()) {
+    for (final JCGLReferenceContainerType c : i.referringContainers()) {
       if (c instanceof FakeArrayObject) {
         final FakeArrayObject ao = (FakeArrayObject) c;
         ao.setIndexBuffer(ib -> Optional.empty());
@@ -269,18 +269,18 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
     NullCheck.notNull(u, "Update");
-    final JCGLIndexBufferType ii = u.getBuffer();
+    final JCGLIndexBufferType ii = u.buffer();
     this.checkIndexBuffer(ii);
 
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
 
-    final Optional<JCGLIndexBufferUsableType> i_opt = ao.getIndexBufferBound();
+    final Optional<JCGLIndexBufferUsableType> i_opt = ao.indexBufferBound();
     if (i_opt.isPresent()) {
       final JCGLIndexBufferUsableType current_ib = i_opt.get();
       if (Objects.equals(ii, current_ib)) {
-        final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
-        final ByteBuffer data = u.getData();
+        final UnsignedRangeInclusiveL r = u.dataUpdateRange();
+        final ByteBuffer data = u.data();
         data.rewind();
         final FakeIndexBuffer fa = (FakeIndexBuffer) ii;
         final ByteBuffer fa_data = fa.getData();
@@ -307,6 +307,6 @@ final class FakeIndexBuffers implements JCGLIndexBuffersType
   {
     final JCGLArrayObjectUsableType ao =
       this.array_objects.arrayObjectGetCurrentlyBound();
-    return ao.getIndexBufferBound().isPresent();
+    return ao.indexBufferBound().isPresent();
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,17 +16,35 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.jnull.Nullable;
+import org.immutables.value.Value;
+
 /**
- * A color attachment point on a framebuffer.
+ * A structure representing the version of the current OpenGL implementation.
  */
 
-public interface JCGLFramebufferColorAttachmentPointType
-  extends Comparable<JCGLFramebufferColorAttachmentPointType>
+@JCGLImmutableStyleType
+@Value.Immutable
+public interface JCGLVersionType extends Comparable<JCGLVersionType>
 {
   /**
-   * @return The index of the attachment point. This value will be between 0 and
-   * some implementation-defined exclusive upper limit (at least 8).
+   * @return The version number
    */
 
-  int colorAttachmentPointIndex();
+  @Value.Parameter(order = 0)
+  JCGLVersionNumber number();
+
+  /**
+   * @return The version text
+   */
+
+  @Value.Parameter(order = 1)
+  String text();
+
+  @Override
+  default int compareTo(
+    final @Nullable JCGLVersionType other)
+  {
+    return this.number().compareTo(other.number());
+  }
 }

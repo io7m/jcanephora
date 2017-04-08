@@ -101,7 +101,7 @@ final class FakeShaders implements JCGLShadersType
     sb.append("Uniform type error.");
     sb.append(System.lineSeparator());
     sb.append("Expected: ");
-    sb.append(u.getType());
+    sb.append(u.type());
     sb.append(System.lineSeparator());
     sb.append("Actual: ");
     sb.append(t);
@@ -117,7 +117,7 @@ final class FakeShaders implements JCGLShadersType
     FakeCompatibilityChecks.checkProgramShader(this.context, p);
     JCGLResources.checkNotDeleted(p);
 
-    LOG.debug("delete program shader {}", p.getName());
+    LOG.debug("delete program shader {}", p.name());
     ((FakeObjectDeletable) p).setDeleted();
 
     if (Objects.equals(p, this.current)) {
@@ -253,10 +253,10 @@ final class FakeShaders implements JCGLShadersType
       });
 
     LOG.debug("link program {}", name);
-    LOG.debug("[{}] vertex {}", name, v.getName());
+    LOG.debug("[{}] vertex {}", name, v.name());
     g.ifPresent(
-      gg -> LOG.debug("[{}] geometry {}", name, gg.getName()));
-    LOG.debug("[{}] fragment {}", name, f.getName());
+      gg -> LOG.debug("[{}] geometry {}", name, gg.name()));
+    LOG.debug("[{}] fragment {}", name, f.name());
 
     final Map<String, JCGLProgramAttributeType> attributes = new HashMap<>();
     final Map<String, JCGLProgramUniformType> uniforms = new HashMap<>();
@@ -279,9 +279,9 @@ final class FakeShaders implements JCGLShadersType
       LOG.trace(
         "[{}] attribute {} {} {}",
         name,
-        a.getName(),
-        Integer.valueOf(a.getGLName()),
-        a.getType());
+        a.name(),
+        Integer.valueOf(a.glName()),
+        a.type());
     }
 
     for (final String k : uniforms.keySet()) {
@@ -289,9 +289,9 @@ final class FakeShaders implements JCGLShadersType
       LOG.trace(
         "[{}] uniform {} {} {}",
         name,
-        a.getName(),
-        Integer.valueOf(a.getGLName()),
-        a.getType());
+        a.name(),
+        Integer.valueOf(a.glName()),
+        a.type());
     }
 
     return p;
@@ -303,7 +303,7 @@ final class FakeShaders implements JCGLShadersType
   {
     NullCheck.notNull(p, "Shader");
 
-    LOG.trace("activate {}", p.getName());
+    LOG.trace("activate {}", p.name());
     FakeCompatibilityChecks.checkProgramShader(this.context, p);
     JCGLResources.checkNotDeleted(p);
     this.current = p;
@@ -382,7 +382,7 @@ final class FakeShaders implements JCGLShadersType
     this.checkIsFloatingPoint(u);
 
     final int available = value.capacity() / 4;
-    final JCGLType type = u.getType();
+    final JCGLType type = u.type();
     final int required = type.getElementCount();
     if (available < required) {
       final StringBuilder sb = new StringBuilder(128);
@@ -558,7 +558,7 @@ final class FakeShaders implements JCGLShadersType
   private void checkIsFloatingPoint(final JCGLProgramUniformType u)
   {
     if (this.check_type) {
-      final JCGLType type_uniform = u.getType();
+      final JCGLType type_uniform = u.type();
       if (!type_uniform.isFloatingPointType()) {
         final StringBuilder sb = new StringBuilder(128);
         sb.append("Uniform type error.");
@@ -585,7 +585,7 @@ final class FakeShaders implements JCGLShadersType
     final JCGLType t)
   {
     if (this.check_type) {
-      if (!Objects.equals(u.getType(), t)) {
+      if (!Objects.equals(u.type(), t)) {
         throw errorWrongType(u, t);
       }
     }
@@ -593,7 +593,7 @@ final class FakeShaders implements JCGLShadersType
 
   private void checkActive(final JCGLProgramUniformType u)
   {
-    final JCGLProgramShaderUsableType u_program = u.getProgram();
+    final JCGLProgramShaderUsableType u_program = u.program();
     if (this.check_active) {
       if (!Objects.equals(u_program, this.current)) {
         throw this.errorNotActive(u_program);

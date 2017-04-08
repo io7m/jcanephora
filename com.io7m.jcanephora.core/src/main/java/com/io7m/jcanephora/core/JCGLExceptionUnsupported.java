@@ -49,7 +49,7 @@ public final class JCGLExceptionUnsupported extends JCGLExceptionChecked
    * @return The expected (required) OpenGL version
    */
 
-  public JCGLVersionNumber getExpected()
+  public JCGLVersionNumber versionExpected()
   {
     return this.expected;
   }
@@ -58,7 +58,7 @@ public final class JCGLExceptionUnsupported extends JCGLExceptionChecked
    * @return The received OpenGL version
    */
 
-  public JCGLVersionNumber getReceived()
+  public JCGLVersionNumber versionReceived()
   {
     return this.received;
   }
