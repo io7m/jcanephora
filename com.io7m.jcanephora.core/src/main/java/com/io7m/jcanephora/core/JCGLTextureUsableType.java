@@ -22,7 +22,7 @@ import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
  * The type of usable textures.
  */
 
-public interface JCGLTextureUsableType extends JCGLNamedType,
+public interface JCGLTextureUsableType extends
   JCGLResourceUsableType,
   JCGLReferableType,
   JCGLResourceSizedType

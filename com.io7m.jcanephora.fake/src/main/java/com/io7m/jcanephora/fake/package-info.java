@@ -19,5 +19,6 @@
  * testing code without access to a GPU.
  */
 
-@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.fake;
+@com.io7m.jnull.NonNullByDefault
+package com.io7m.jcanephora.fake;
 

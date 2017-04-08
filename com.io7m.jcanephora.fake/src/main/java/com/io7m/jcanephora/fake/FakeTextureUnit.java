@@ -24,8 +24,8 @@ import com.io7m.jranges.Ranges;
 final class FakeTextureUnit extends FakeObjectPseudoUnshared implements
   JCGLTextureUnitType
 {
-  private final     int             index;
-  private @Nullable FakeTexture2D   bind_2d;
+  private final int index;
+  private @Nullable FakeTexture2D bind_2d;
   private @Nullable FakeTextureCube bind_cube;
 
   FakeTextureUnit(
@@ -61,7 +61,8 @@ final class FakeTextureUnit extends FakeObjectPseudoUnshared implements
     this.bind_cube = t;
   }
 
-  @Override public boolean equals(final Object o)
+  @Override
+  public boolean equals(final Object o)
   {
     if (this == o) {
       return true;
@@ -74,17 +75,20 @@ final class FakeTextureUnit extends FakeObjectPseudoUnshared implements
     return this.index == that.index;
   }
 
-  @Override public int hashCode()
+  @Override
+  public int hashCode()
   {
     return this.index;
   }
 
-  @Override public int unitGetIndex()
+  @Override
+  public int unitGetIndex()
   {
     return this.index;
   }
 
-  @Override public int compareTo(final JCGLTextureUnitType o)
+  @Override
+  public int compareTo(final JCGLTextureUnitType o)
   {
     return Integer.compareUnsigned(this.index, o.unitGetIndex());
   }

@@ -21,6 +21,7 @@ import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureDataProviderType;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureDataType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.storage.heap.VectorMutable4D;
+import com.io7m.junreachable.UnreachableCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +52,7 @@ public final class JCGLAWTTextureDataProvider implements
 
   private JCGLAWTTextureDataProvider()
   {
-    JCGLAWTTextureDataProvider.LOG.debug("enumerating supported image formats");
+    LOG.debug("enumerating supported image formats");
     final String[] readers = ImageIO.getReaderFormatNames();
     final Set<String> supported = new HashSet<>();
 
@@ -60,7 +61,7 @@ public final class JCGLAWTTextureDataProvider implements
     }
 
     for (final String s : supported) {
-      JCGLAWTTextureDataProvider.LOG.debug("supported: {}", s);
+      LOG.debug("supported: {}", s);
     }
   }
 
@@ -77,7 +78,7 @@ public final class JCGLAWTTextureDataProvider implements
   public JCGLTLTextureDataType loadFromStream(final InputStream is)
     throws IOException
   {
-    NullCheck.notNull(is);
+    NullCheck.notNull(is, "Input stream");
 
     final BufferedImage ib = ImageIO.read(is);
     if (ib == null) {
@@ -108,7 +109,7 @@ public final class JCGLAWTTextureDataProvider implements
     private TextureDataAbstract(
       final BufferedImage in_image)
     {
-      this.image = NullCheck.notNull(in_image);
+      this.image = NullCheck.notNull(in_image, "Image");
     }
 
     @Override
@@ -144,7 +145,7 @@ public final class JCGLAWTTextureDataProvider implements
       final BufferedImage in_image)
     {
       super(in_image);
-      this.image = NullCheck.notNull(in_image);
+      this.image = NullCheck.notNull(in_image, "Image");
       this.raster = this.image.getRaster();
       this.sample_model = this.raster.getSampleModel();
       this.sample_sizes = this.sample_model.getSampleSize();
@@ -163,7 +164,7 @@ public final class JCGLAWTTextureDataProvider implements
       this.div = new double[2];
 
       for (int index = 0; index < this.sample_sizes.length; ++index) {
-        this.div[index] = Math.pow(2.0, this.sample_sizes[index]) - 1.0;
+        this.div[index] = StrictMath.pow(2.0, this.sample_sizes[index]) - 1.0;
       }
     }
 
@@ -198,7 +199,7 @@ public final class JCGLAWTTextureDataProvider implements
       final BufferedImage in_image)
     {
       super(in_image);
-      this.image = NullCheck.notNull(in_image);
+      this.image = NullCheck.notNull(in_image, "Image");
       this.raster = this.image.getRaster();
       this.sample_model = this.raster.getSampleModel();
       this.sample_sizes = this.sample_model.getSampleSize();
@@ -215,7 +216,7 @@ public final class JCGLAWTTextureDataProvider implements
 
       this.pixel = new double[1];
       this.div = new double[1];
-      this.div[0] = Math.pow(2.0, this.sample_sizes[0]) - 1.0;
+      this.div[0] = StrictMath.pow(2.0, this.sample_sizes[0]) - 1.0;
     }
 
     @Override
@@ -248,7 +249,7 @@ public final class JCGLAWTTextureDataProvider implements
       final BufferedImage in_image)
     {
       super(in_image);
-      this.image = NullCheck.notNull(in_image);
+      this.image = NullCheck.notNull(in_image, "Image");
       this.raster = this.image.getRaster();
 
       this.sample_model = this.raster.getSampleModel();
@@ -258,7 +259,7 @@ public final class JCGLAWTTextureDataProvider implements
       this.div = new double[4];
 
       for (int index = 0; index < this.sample_sizes.length; ++index) {
-        this.div[index] = Math.pow(2.0, this.sample_sizes[index]) - 1.0;
+        this.div[index] = StrictMath.pow(2.0, this.sample_sizes[index]) - 1.0;
       }
     }
 
@@ -299,6 +300,8 @@ public final class JCGLAWTTextureDataProvider implements
           this.pixel[3] = 1.0;
           break;
         }
+        default:
+          throw new UnreachableCodeException();
       }
 
       v.setXYZW(
@@ -318,7 +321,7 @@ public final class JCGLAWTTextureDataProvider implements
       final BufferedImage in_image)
     {
       super(in_image);
-      this.image = NullCheck.notNull(in_image);
+      this.image = NullCheck.notNull(in_image, "Image");
     }
 
     @Override

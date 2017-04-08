@@ -24,7 +24,8 @@ import org.junit.Test;
 
 public final class JOGLUnsignedTypeTest
 {
-  @Test public void testUnsignedBijection()
+  @Test
+  public void testUnsignedBijection()
   {
     for (final JCGLUnsignedType u : JCGLUnsignedType.values()) {
       Assert.assertEquals(

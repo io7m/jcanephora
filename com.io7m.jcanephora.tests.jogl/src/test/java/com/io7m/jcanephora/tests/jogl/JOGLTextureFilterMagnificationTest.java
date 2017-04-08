@@ -18,18 +18,19 @@ package com.io7m.jcanephora.tests.jogl;
 
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
 import com.io7m.jcanephora.jogl.JOGLTypeConversions;
-import com.io7m.jcanephora.tests.contracts
-  .JCGLTextureFilterMagnificationContract;
+import com.io7m.jcanephora.tests.contracts.JCGLTextureFilterMagnificationContract;
 
 public final class JOGLTextureFilterMagnificationTest extends
   JCGLTextureFilterMagnificationContract
 {
-  @Override protected int toInt(final JCGLTextureFilterMagnification c)
+  @Override
+  protected int toInt(final JCGLTextureFilterMagnification c)
   {
     return JOGLTypeConversions.textureFilterMagToGL(c);
   }
 
-  @Override protected JCGLTextureFilterMagnification fromInt(final int c)
+  @Override
+  protected JCGLTextureFilterMagnification fromInt(final int c)
   {
     return JOGLTypeConversions.textureFilterMagFromGL(c);
   }

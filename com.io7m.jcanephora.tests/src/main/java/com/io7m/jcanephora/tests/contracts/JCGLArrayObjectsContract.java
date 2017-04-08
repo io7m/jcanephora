@@ -955,10 +955,10 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       final JCGLIndexBuffersType in_index_buffers,
       final JCGLArrayObjectsType in_array_objects)
     {
-      this.context = NullCheck.notNull(in_context);
-      this.array_buffers = NullCheck.notNull(in_array_buffers);
-      this.array_objects = NullCheck.notNull(in_array_objects);
-      this.index_buffers = NullCheck.notNull(in_index_buffers);
+      this.context = NullCheck.notNull(in_context, "Context");
+      this.array_buffers = NullCheck.notNull(in_array_buffers, "Array buffers");
+      this.array_objects = NullCheck.notNull(in_array_objects, "Array objects");
+      this.index_buffers = NullCheck.notNull(in_index_buffers, "Index buffers");
     }
 
     public JCGLContextType getContext()

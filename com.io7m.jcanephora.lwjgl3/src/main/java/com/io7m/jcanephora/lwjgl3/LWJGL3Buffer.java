@@ -35,7 +35,7 @@ abstract class LWJGL3Buffer extends LWJGL3Referable implements
     final JCGLUsageHint in_usage)
   {
     super(in_context, in_id);
-    this.usage = NullCheck.notNull(in_usage);
+    this.usage = NullCheck.notNull(in_usage, "Usage");
     this.range = new UnsignedRangeInclusiveL(0L, in_size - 1L);
 
     {

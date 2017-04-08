@@ -527,29 +527,29 @@ public abstract class JCGLShadersContract extends JCGLContract
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(p, a, "f", JCGLType.TYPE_FLOAT);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(p, a, "f", JCGLType.TYPE_FLOAT);
+    checkAttribute(
       p, a, "fv2", JCGLType.TYPE_FLOAT_VECTOR_2);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "fv3", JCGLType.TYPE_FLOAT_VECTOR_3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "fv4", JCGLType.TYPE_FLOAT_VECTOR_4);
 
-    JCGLShadersContract.checkAttribute(p, a, "i", JCGLType.TYPE_INTEGER);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(p, a, "i", JCGLType.TYPE_INTEGER);
+    checkAttribute(
       p, a, "iv2", JCGLType.TYPE_INTEGER_VECTOR_2);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "iv3", JCGLType.TYPE_INTEGER_VECTOR_3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "iv4", JCGLType.TYPE_INTEGER_VECTOR_4);
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "u", JCGLType.TYPE_UNSIGNED_INTEGER);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "uv2", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "uv3", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "uv4", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4);
   }
 
@@ -580,11 +580,11 @@ public abstract class JCGLShadersContract extends JCGLContract
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_4);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m3", JCGLType.TYPE_FLOAT_MATRIX_3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_2);
   }
 
@@ -615,11 +615,11 @@ public abstract class JCGLShadersContract extends JCGLContract
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_4);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m3", JCGLType.TYPE_FLOAT_MATRIX_4x3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_4x2);
   }
 
@@ -650,11 +650,11 @@ public abstract class JCGLShadersContract extends JCGLContract
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_4);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m3", JCGLType.TYPE_FLOAT_MATRIX_4x3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_4x2);
   }
 
@@ -685,11 +685,11 @@ public abstract class JCGLShadersContract extends JCGLContract
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_3x4);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m3", JCGLType.TYPE_FLOAT_MATRIX_3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_3x2);
   }
 
@@ -720,11 +720,11 @@ public abstract class JCGLShadersContract extends JCGLContract
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_2x4);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m3", JCGLType.TYPE_FLOAT_MATRIX_2x3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_2);
   }
 
@@ -755,39 +755,39 @@ public abstract class JCGLShadersContract extends JCGLContract
       locations.add(id);
     }
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "f", JCGLType.TYPE_FLOAT, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fv2", JCGLType.TYPE_FLOAT_VECTOR_2, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fv3", JCGLType.TYPE_FLOAT_VECTOR_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fv4", JCGLType.TYPE_FLOAT_VECTOR_4, 1);
 
-    JCGLShadersContract.checkUniform(p, u, "i", JCGLType.TYPE_INTEGER, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(p, u, "i", JCGLType.TYPE_INTEGER, 1);
+    checkUniform(
       p, u, "iv2", JCGLType.TYPE_INTEGER_VECTOR_2, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "iv3", JCGLType.TYPE_INTEGER_VECTOR_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "iv4", JCGLType.TYPE_INTEGER_VECTOR_4, 1);
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "u", JCGLType.TYPE_UNSIGNED_INTEGER, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "uv2", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "uv3", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "uv4", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, 1);
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "b", JCGLType.TYPE_BOOLEAN, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "bv2", JCGLType.TYPE_BOOLEAN_VECTOR_2, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "bv3", JCGLType.TYPE_BOOLEAN_VECTOR_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "bv4", JCGLType.TYPE_BOOLEAN_VECTOR_4, 1);
   }
 
@@ -818,31 +818,31 @@ public abstract class JCGLShadersContract extends JCGLContract
       locations.add(id);
     }
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm4", JCGLType.TYPE_FLOAT_MATRIX_4, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm4x4", JCGLType.TYPE_FLOAT_MATRIX_4, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm4x3", JCGLType.TYPE_FLOAT_MATRIX_4x3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm4x2", JCGLType.TYPE_FLOAT_MATRIX_4x2, 1);
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm3", JCGLType.TYPE_FLOAT_MATRIX_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm3x4", JCGLType.TYPE_FLOAT_MATRIX_3x4, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm3x3", JCGLType.TYPE_FLOAT_MATRIX_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm3x2", JCGLType.TYPE_FLOAT_MATRIX_3x2, 1);
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm2", JCGLType.TYPE_FLOAT_MATRIX_2, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm2x4", JCGLType.TYPE_FLOAT_MATRIX_2x4, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm2x3", JCGLType.TYPE_FLOAT_MATRIX_2x3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm2x2", JCGLType.TYPE_FLOAT_MATRIX_2, 1);
   }
 
@@ -873,11 +873,11 @@ public abstract class JCGLShadersContract extends JCGLContract
       locations.add(id);
     }
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "s2", JCGLType.TYPE_SAMPLER_2D, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "s3", JCGLType.TYPE_SAMPLER_3D, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "sc", JCGLType.TYPE_SAMPLER_CUBE, 1);
   }
 
@@ -910,7 +910,7 @@ public abstract class JCGLShadersContract extends JCGLContract
       locations.add(id);
     }
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "big_array[0]", JCGLType.TYPE_FLOAT_VECTOR_4, 16);
   }
 
@@ -2394,9 +2394,9 @@ public abstract class JCGLShadersContract extends JCGLContract
       final JCGLShadersType in_shaders,
       final JCGLTexturesType in_textures)
     {
-      this.context = NullCheck.notNull(in_context);
-      this.shaders = NullCheck.notNull(in_shaders);
-      this.textures = NullCheck.notNull(in_textures);
+      this.context = NullCheck.notNull(in_context, "Context");
+      this.shaders = NullCheck.notNull(in_shaders, "Shaders");
+      this.textures = NullCheck.notNull(in_textures, "Textures");
     }
 
     public JCGLContextType getContext()

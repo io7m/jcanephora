@@ -18,46 +18,34 @@ package com.io7m.jcanephora.tests.jogl;
 
 import com.io7m.jcanephora.core.JCGLBlendEquation;
 import com.io7m.jcanephora.core.JCGLBlendFunction;
-import com.io7m.jcanephora.core.JCGLFramebufferBuilderType;
-import com.io7m.jcanephora.core.JCGLFramebufferColorAttachmentPointType;
-import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
-import com.io7m.jcanephora.core.JCGLFramebufferType;
-import com.io7m.jcanephora.core.JCGLTexture2DType;
-import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
-import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
-import com.io7m.jcanephora.core.JCGLTextureFormat;
-import com.io7m.jcanephora.core.JCGLTextureUnitType;
-import com.io7m.jcanephora.core.JCGLTextureWrapS;
-import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLBlendingType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.core.api.JCGLFramebuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
-import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jcanephora.tests.contracts.JCGLBlendingContract;
 import com.jogamp.opengl.DebugGL3;
 import com.jogamp.opengl.GL3;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class JOGLBlendingTestGL33 extends JCGLBlendingContract
 {
-  @Override protected JCGLBlendingType getBlending(final String name)
+  @Override
+  protected JCGLBlendingType getBlending(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     return c.contextGetGL33().getBlending();
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Test public void testRedundantEnableDisable()
+  @Test
+  public void testRedundantEnableDisable()
     throws Exception
   {
     final AtomicInteger blends = new AtomicInteger(0);

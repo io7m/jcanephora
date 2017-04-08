@@ -45,7 +45,8 @@ class FakeDefaultShaderListener implements FakeShaderListenerType
 
   }
 
-  @Override public void onCompileFragmentShaderStart(
+  @Override
+  public void onCompileFragmentShaderStart(
     final FakeContext context,
     final String name,
     final List<String> sources)
@@ -55,7 +56,8 @@ class FakeDefaultShaderListener implements FakeShaderListenerType
       "onCompileFragmentShaderStart: {}", name);
   }
 
-  @Override public void onCompileVertexShaderStart(
+  @Override
+  public void onCompileVertexShaderStart(
     final FakeContext context,
     final String name,
     final List<String> sources)
@@ -65,7 +67,8 @@ class FakeDefaultShaderListener implements FakeShaderListenerType
       "onCompileVertexShaderStart: {}", name);
   }
 
-  @Override public void onCompileGeometryShaderStart(
+  @Override
+  public void onCompileGeometryShaderStart(
     final FakeContext context,
     final String name,
     final List<String> sources)
@@ -75,7 +78,8 @@ class FakeDefaultShaderListener implements FakeShaderListenerType
       "onCompileGeometryShaderStart: {}", name);
   }
 
-  @Override public void onLinkProgram(
+  @Override
+  public void onLinkProgram(
     final FakeContext context,
     final JCGLProgramShaderUsableType p,
     final String name,

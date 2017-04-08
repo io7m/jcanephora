@@ -18,4 +18,5 @@
  * Cursors for addressing packed records.
  */
 
-@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.cursors;
+@com.io7m.jnull.NonNullByDefault
+package com.io7m.jcanephora.cursors;

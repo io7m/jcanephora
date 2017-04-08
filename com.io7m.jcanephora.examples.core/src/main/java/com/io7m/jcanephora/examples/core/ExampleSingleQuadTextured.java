@@ -102,7 +102,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
     final JCGLShadersType g_sh = g.getShaders();
     final JCGLTexturesType g_tex = g.getTextures();
 
-    /**
+    /*
      * Allocate an index buffer.
      *
      * Note that the index buffer remains bound to the current array object
@@ -115,7 +115,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
         JCGLUnsignedType.TYPE_UNSIGNED_INT,
         JCGLUsageHint.USAGE_STATIC_DRAW);
 
-    /**
+    /*
      * Populate the index buffer.
      */
 
@@ -136,7 +136,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
       g_ib.indexBufferUnbind();
     }
 
-    /**
+    /*
      * Allocate an array buffer to hold three vertices. Each vertex has
      * a single vec3 value representing the position, and a vec2 value holding
      * UV coordinates.
@@ -150,7 +150,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
       g_ab.arrayBufferAllocate(
         vertex_size * 4L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
-    /**
+    /*
      * Populate the array buffer with three triangle vertices.
      */
 
@@ -191,7 +191,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
       g_ab.arrayBufferUnbind();
     }
 
-    /**
+    /*
      * Create a new array object builder. Bind the index buffer to it,
      * and associate vertex attributes 0 and 1 with the created array buffer.
      */
@@ -215,20 +215,20 @@ public final class ExampleSingleQuadTextured implements ExampleType
       3L * 4L,
       false);
 
-    /**
+    /*
      * Create the immutable array object.
      */
 
     this.array_object = g_ao.arrayObjectAllocate(aob);
     g_ao.arrayObjectUnbind();
 
-    /**
+    /*
      * Compile a trivial GLSL shader that will display the given triangle.
      */
 
     try {
 
-      /**
+      /*
        * Compile a vertex shader. Line separators are required by GLSL
        * and so are manually inserted into the lines of GLSL source code.
        */
@@ -243,7 +243,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
       final JCGLVertexShaderType v =
         g_sh.shaderCompileVertex("basic_uv.vert", vv_lines);
 
-      /**
+      /*
        * Compile a fragment shader.
        */
 
@@ -257,14 +257,14 @@ public final class ExampleSingleQuadTextured implements ExampleType
       final JCGLFragmentShaderType f =
         g_sh.shaderCompileFragment("texture.frag", ff_lines);
 
-      /**
+      /*
        * Link the shaders into a program.
        */
 
       this.program =
         g_sh.shaderLinkProgram("simple", v, Optional.empty(), f);
 
-      /**
+      /*
        * The individual shaders can (and should) be deleted, because
        * they are now attached to the linked program. This has the effect
        * that when the linked program is deleted, the shaders are deleted
@@ -274,7 +274,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
       g_sh.shaderDeleteFragment(f);
       g_sh.shaderDeleteVertex(v);
 
-      /**
+      /*
        * Fetch the uniform for the texture parameter.
        */
 
@@ -292,7 +292,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
       throw new UncheckedIOException(e);
     }
 
-    /**
+    /*
      * Load an image resource, upload the contents to a texture.
      */
 
@@ -319,7 +319,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
       throw new UncheckedIOException(e);
     }
 
-    /**
+    /*
      * Configure a clearing specification that will clear the color
      * buffer to a dark grey.
      */
@@ -339,13 +339,13 @@ public final class ExampleSingleQuadTextured implements ExampleType
     final JCGLShadersType g_sh = g.getShaders();
     final JCGLTexturesType g_tex = g.getTextures();
 
-    /**
+    /*
      * Clear the window.
      */
 
     g_c.clear(this.clear);
 
-    /**
+    /*
      * Activate the program, bind the created array object, draw a triangle.
      */
 
@@ -369,7 +369,7 @@ public final class ExampleSingleQuadTextured implements ExampleType
     final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
     final JCGLShadersType g_sh = g.getShaders();
 
-    /**
+    /*
      * Delete everything.
      */
 

@@ -96,7 +96,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
     final JCGLShadersType g_sh = g.getShaders();
     final JCGLTexturesType g_tex = g.getTextures();
 
-    /**
+    /*
      * Allocate an index buffer.
      *
      * Note that the index buffer remains bound to the current array object
@@ -109,7 +109,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
         JCGLUnsignedType.TYPE_UNSIGNED_INT,
         JCGLUsageHint.USAGE_STATIC_DRAW);
 
-    /**
+    /*
      * Populate the index buffer.
      */
 
@@ -126,7 +126,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
       g_ib.indexBufferUnbind();
     }
 
-    /**
+    /*
      * Allocate an array buffer to hold three vertices. Each vertex has
      * a single vec3 value representing the position, and a vec2 value holding
      * UV coordinates.
@@ -140,7 +140,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
       g_ab.arrayBufferAllocate(
         vertex_size * 3L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
-    /**
+    /*
      * Populate the array buffer with three triangle vertices.
      */
 
@@ -174,7 +174,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
       g_ab.arrayBufferUnbind();
     }
 
-    /**
+    /*
      * Create a new array object builder. Bind the index buffer to it,
      * and associate vertex attributes 0 and 1 with the created array buffer.
      */
@@ -198,20 +198,20 @@ public final class ExampleSingleTriangleNoise implements ExampleType
       3L * 4L,
       false);
 
-    /**
+    /*
      * Create the immutable array object.
      */
 
     this.array_object = g_ao.arrayObjectAllocate(aob);
     g_ao.arrayObjectUnbind();
 
-    /**
+    /*
      * Compile a trivial GLSL shader that will display the given triangle.
      */
 
     try {
 
-      /**
+      /*
        * Compile a vertex shader. Line separators are required by GLSL
        * and so are manually inserted into the lines of GLSL source code.
        */
@@ -226,7 +226,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
       final JCGLVertexShaderType v =
         g_sh.shaderCompileVertex("basic_uv.vert", vv_lines);
 
-      /**
+      /*
        * Compile a fragment shader.
        */
 
@@ -240,14 +240,14 @@ public final class ExampleSingleTriangleNoise implements ExampleType
       final JCGLFragmentShaderType f =
         g_sh.shaderCompileFragment("texture.frag", ff_lines);
 
-      /**
+      /*
        * Link the shaders into a program.
        */
 
       this.program =
         g_sh.shaderLinkProgram("simple", v, Optional.empty(), f);
 
-      /**
+      /*
        * The individual shaders can (and should) be deleted, because
        * they are now attached to the linked program. This has the effect
        * that when the linked program is deleted, the shaders are deleted
@@ -257,7 +257,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
       g_sh.shaderDeleteFragment(f);
       g_sh.shaderDeleteVertex(v);
 
-      /**
+      /*
        * Fetch the uniform for the texture parameter.
        */
 
@@ -275,7 +275,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
       throw new UncheckedIOException(e);
     }
 
-    /**
+    /*
      * Allocate a texture and an update that can be reused repeatedly.
      */
 
@@ -292,7 +292,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
     this.texture_update =
       JCGLTextureUpdates.newUpdateReplacingAll2D(this.texture);
 
-    /**
+    /*
      * Configure a clearing specification that will clear the color
      * buffer to a dark grey.
      */
@@ -312,13 +312,13 @@ public final class ExampleSingleTriangleNoise implements ExampleType
     final JCGLShadersType g_sh = g.getShaders();
     final JCGLTexturesType g_tex = g.getTextures();
 
-    /**
+    /*
      * Clear the window.
      */
 
     g_c.clear(this.clear);
 
-    /**
+    /*
      * Update the texture with random data.
      */
 
@@ -334,7 +334,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
       g_tex.texture2DUpdate(u0, this.texture_update);
     }
 
-    /**
+    /*
      * Activate the program, bind the created array object, draw a triangle.
      */
 
@@ -354,7 +354,7 @@ public final class ExampleSingleTriangleNoise implements ExampleType
     final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
     final JCGLShadersType g_sh = g.getShaders();
 
-    /**
+    /*
      * Delete everything.
      */
 

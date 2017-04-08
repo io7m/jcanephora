@@ -22,13 +22,15 @@ import com.io7m.jcanephora.tests.contracts.JCGLPolygonModesContract;
 
 public final class JOGLPolygonModesTest extends JCGLPolygonModesContract
 {
-  @Override protected JCGLPolygonModesType getPolygonModes(final String name)
+  @Override
+  protected JCGLPolygonModesType getPolygonModes(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     return c.contextGetGL33().getPolygonModes();
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

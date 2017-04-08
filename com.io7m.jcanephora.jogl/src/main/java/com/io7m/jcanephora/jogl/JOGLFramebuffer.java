@@ -65,8 +65,8 @@ final class JOGLFramebuffer extends JOGLObjectUnshared implements
     final GLContext c,
     final JCGLFramebufferUsableType buffer)
   {
-    NullCheck.notNull(c);
-    NullCheck.notNull(buffer);
+    NullCheck.notNull(c, "Context");
+    NullCheck.notNull(buffer, "Framebuffer");
     return (JOGLFramebuffer) JOGLCompatibilityChecks.checkAny(c, buffer);
   }
 

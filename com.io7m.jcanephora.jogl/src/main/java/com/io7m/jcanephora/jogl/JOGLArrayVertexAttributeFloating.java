@@ -23,6 +23,8 @@ import com.io7m.jcanephora.core.JCGLScalarType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
+import java.util.Objects;
+
 final class JOGLArrayVertexAttributeFloating extends JOGLObjectPseudoUnshared
   implements JCGLArrayVertexAttributeFloatingPointType
 {
@@ -49,8 +51,8 @@ final class JOGLArrayVertexAttributeFloating extends JOGLObjectPseudoUnshared
     super(in_context);
 
     this.index = in_index;
-    this.array = NullCheck.notNull(in_a);
-    this.type = NullCheck.notNull(in_type);
+    this.array = NullCheck.notNull(in_a, "Array buffer");
+    this.type = NullCheck.notNull(in_type, "Type");
     this.elements = in_elements;
     this.stride = in_stride;
     this.offset = in_offset;
@@ -77,7 +79,7 @@ final class JOGLArrayVertexAttributeFloating extends JOGLObjectPseudoUnshared
       && this.elements == that.elements
       && this.normalized == that.normalized
       && this.divisor == that.divisor
-      && this.array.equals(that.array)
+      && Objects.equals(this.array, that.array)
       && this.type == that.type;
   }
 

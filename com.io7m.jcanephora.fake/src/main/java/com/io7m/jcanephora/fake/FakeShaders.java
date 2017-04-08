@@ -51,6 +51,7 @@ import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -72,8 +73,8 @@ final class FakeShaders implements JCGLShadersType
 
   FakeShaders(final FakeContext c)
   {
-    this.context = NullCheck.notNull(c);
-    this.listener = NullCheck.notNull(c.getShaderListener());
+    this.context = NullCheck.notNull(c, "Context");
+    this.listener = NullCheck.notNull(c.getShaderListener(), "Shader listener");
     this.check_active = true;
     this.check_type = true;
   }
@@ -84,7 +85,7 @@ final class FakeShaders implements JCGLShadersType
 
     for (final String line : lines) {
       NullCheck.notNull(line, "Line");
-      if (!FakeShaders.NON_EMPTY.matcher(line).matches()) {
+      if (!NON_EMPTY.matcher(line).matches()) {
         return false;
       }
     }
@@ -111,15 +112,15 @@ final class FakeShaders implements JCGLShadersType
   public void shaderDeleteProgram(final JCGLProgramShaderType p)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Shader");
 
     FakeCompatibilityChecks.checkProgramShader(this.context, p);
     JCGLResources.checkNotDeleted(p);
 
-    FakeShaders.LOG.debug("delete program shader {}", p.getName());
+    LOG.debug("delete program shader {}", p.getName());
     ((FakeObjectDeletable) p).setDeleted();
 
-    if (p.equals(this.current)) {
+    if (Objects.equals(p, this.current)) {
       this.current = null;
     }
   }
@@ -128,7 +129,7 @@ final class FakeShaders implements JCGLShadersType
   public void shaderDeleteVertex(final JCGLVertexShaderType v)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(v);
+    NullCheck.notNull(v, "Shader");
     FakeCompatibilityChecks.checkVertexShader(this.context, v);
     JCGLResources.checkNotDeleted(v);
 
@@ -139,7 +140,7 @@ final class FakeShaders implements JCGLShadersType
   public void shaderDeleteFragment(final JCGLFragmentShaderType f)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(f);
+    NullCheck.notNull(f, "Shader");
     FakeCompatibilityChecks.checkFragmentShader(this.context, f);
     JCGLResources.checkNotDeleted(f);
 
@@ -150,7 +151,7 @@ final class FakeShaders implements JCGLShadersType
   public void shaderDeleteGeometry(final JCGLGeometryShaderType g)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(g);
+    NullCheck.notNull(g, "Shader");
     FakeCompatibilityChecks.checkGeometryShader(this.context, g);
     JCGLResources.checkNotDeleted(g);
 
@@ -167,10 +168,10 @@ final class FakeShaders implements JCGLShadersType
     NullCheck.notNullAll(lines, "Lines");
 
     final int size = lines.size();
-    FakeShaders.LOG.debug(
+    LOG.debug(
       "compile vertex shader {} ({} lines)", name, Integer.valueOf(size));
 
-    if (FakeShaders.isEmpty(lines)) {
+    if (isEmpty(lines)) {
       throw new JCGLExceptionProgramCompileError(name, "Empty program");
     }
 
@@ -189,10 +190,10 @@ final class FakeShaders implements JCGLShadersType
     NullCheck.notNullAll(lines, "Lines");
 
     final int size = lines.size();
-    FakeShaders.LOG.debug(
+    LOG.debug(
       "compile fragment shader {} ({} lines)", name, Integer.valueOf(size));
 
-    if (FakeShaders.isEmpty(lines)) {
+    if (isEmpty(lines)) {
       throw new JCGLExceptionProgramCompileError(name, "Empty program");
     }
 
@@ -211,10 +212,10 @@ final class FakeShaders implements JCGLShadersType
     NullCheck.notNullAll(lines, "Lines");
 
     final int size = lines.size();
-    FakeShaders.LOG.debug(
+    LOG.debug(
       "compile geometry shader {} ({} lines)", name, Integer.valueOf(size));
 
-    if (FakeShaders.isEmpty(lines)) {
+    if (isEmpty(lines)) {
       throw new JCGLExceptionProgramCompileError(name, "Empty program");
     }
 
@@ -251,11 +252,11 @@ final class FakeShaders implements JCGLShadersType
         return k;
       });
 
-    FakeShaders.LOG.debug("link program {}", name);
-    FakeShaders.LOG.debug("[{}] vertex {}", name, v.getName());
+    LOG.debug("link program {}", name);
+    LOG.debug("[{}] vertex {}", name, v.getName());
     g.ifPresent(
-      gg -> FakeShaders.LOG.debug("[{}] geometry {}", name, gg.getName()));
-    FakeShaders.LOG.debug("[{}] fragment {}", name, f.getName());
+      gg -> LOG.debug("[{}] geometry {}", name, gg.getName()));
+    LOG.debug("[{}] fragment {}", name, f.getName());
 
     final Map<String, JCGLProgramAttributeType> attributes = new HashMap<>();
     final Map<String, JCGLProgramUniformType> uniforms = new HashMap<>();
@@ -275,7 +276,7 @@ final class FakeShaders implements JCGLShadersType
 
     for (final String k : attributes.keySet()) {
       final JCGLProgramAttributeType a = attributes.get(k);
-      FakeShaders.LOG.trace(
+      LOG.trace(
         "[{}] attribute {} {} {}",
         name,
         a.getName(),
@@ -285,7 +286,7 @@ final class FakeShaders implements JCGLShadersType
 
     for (final String k : uniforms.keySet()) {
       final JCGLProgramUniformType a = uniforms.get(k);
-      FakeShaders.LOG.trace(
+      LOG.trace(
         "[{}] uniform {} {} {}",
         name,
         a.getName(),
@@ -300,9 +301,9 @@ final class FakeShaders implements JCGLShadersType
   public void shaderActivateProgram(final JCGLProgramShaderUsableType p)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Shader");
 
-    FakeShaders.LOG.trace("activate {}", p.getName());
+    LOG.trace("activate {}", p.getName());
     FakeCompatibilityChecks.checkProgramShader(this.context, p);
     JCGLResources.checkNotDeleted(p);
     this.current = p;
@@ -312,7 +313,7 @@ final class FakeShaders implements JCGLShadersType
   public void shaderDeactivateProgram()
     throws JCGLException
   {
-    FakeShaders.LOG.trace("deactivate");
+    LOG.trace("deactivate");
     this.current = null;
   }
 
@@ -584,8 +585,8 @@ final class FakeShaders implements JCGLShadersType
     final JCGLType t)
   {
     if (this.check_type) {
-      if (!u.getType().equals(t)) {
-        throw FakeShaders.errorWrongType(u, t);
+      if (!Objects.equals(u.getType(), t)) {
+        throw errorWrongType(u, t);
       }
     }
   }
@@ -594,7 +595,7 @@ final class FakeShaders implements JCGLShadersType
   {
     final JCGLProgramShaderUsableType u_program = u.getProgram();
     if (this.check_active) {
-      if (!u_program.equals(this.current)) {
+      if (!Objects.equals(u_program, this.current)) {
         throw this.errorNotActive(u_program);
       }
     }

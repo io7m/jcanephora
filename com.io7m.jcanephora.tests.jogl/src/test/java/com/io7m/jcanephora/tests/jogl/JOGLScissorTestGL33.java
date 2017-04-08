@@ -23,12 +23,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLScissorContract;
 
 public final class JOGLScissorTestGL33 extends JCGLScissorContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected JCGLScissorType getScissor(final String name)
+  @Override
+  protected JCGLScissorType getScissor(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();

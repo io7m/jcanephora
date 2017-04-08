@@ -236,10 +236,10 @@ public enum JCGLScalarType
     switch (this) {
       case TYPE_HALF_FLOAT:
       case TYPE_FLOAT: {
-        return JCGLScalarType.shaderTypeConvertibleFloat(elements, type);
+        return shaderTypeConvertibleFloat(elements, type);
       }
       case TYPE_INT: {
-        return JCGLScalarType.shaderTypeConvertibleInt(elements, type);
+        return shaderTypeConvertibleInt(elements, type);
       }
       case TYPE_BYTE:
       case TYPE_SHORT:

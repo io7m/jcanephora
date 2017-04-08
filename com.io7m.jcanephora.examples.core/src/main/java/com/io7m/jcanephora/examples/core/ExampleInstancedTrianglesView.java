@@ -92,7 +92,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
     final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
     final JCGLShadersType g_sh = g.getShaders();
 
-    /**
+    /*
      * Allocate an index buffer.
      *
      * Note that the index buffer remains bound to the current array object
@@ -105,7 +105,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
         JCGLUnsignedType.TYPE_UNSIGNED_INT,
         JCGLUsageHint.USAGE_STATIC_DRAW);
 
-    /**
+    /*
      * Populate the index buffer.
      */
 
@@ -122,7 +122,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
       g_ib.indexBufferUnbind();
     }
 
-    /**
+    /*
      * Allocate an array buffer to hold three vertices. Each vertex has
      * a single vec3 value representing the position.
      *
@@ -135,7 +135,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
       g_ab.arrayBufferAllocate(
         (long) vertex_size * 3L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
-    /**
+    /*
      * Populate the array buffer with three triangle vertices.
      */
 
@@ -160,7 +160,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
       g_ab.arrayBufferUnbind();
     }
 
-    /**
+    /*
      * Allocate an array buffer to hold three 4x4 matrices.
      */
 
@@ -178,7 +178,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
       this.matrices_models =
         MatrixByteBuffered4x4s32.createWithBase(data, offset, 0);
 
-      /**
+      /*
        * Populate the matrices, positioning the three triangles in a
        * horizontal line.
        */
@@ -198,7 +198,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
       g_ab.arrayBufferUnbind();
     }
 
-    /**
+    /*
      * Create a new array object builder. Bind the index buffer to it,
      * and associate vertex attribute 0 with the created array buffer.
      */
@@ -214,7 +214,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
       0L,
       false);
 
-    /**
+    /*
      * Associate attributes [1, 2, 3, 4] with the created matrix buffer.
      * Matrices are delivered to shaders as four four-element column vectors.
      *
@@ -260,20 +260,20 @@ public final class ExampleInstancedTrianglesView implements ExampleType
       false,
       1);
 
-    /**
+    /*
      * Create the immutable array object.
      */
 
     this.array_object = g_ao.arrayObjectAllocate(aob);
     g_ao.arrayObjectUnbind();
 
-    /**
+    /*
      * Compile a trivial GLSL shader that will display the given triangle.
      */
 
     try {
 
-      /**
+      /*
        * Compile a vertex shader. Line separators are required by GLSL
        * and so are manually inserted into the lines of GLSL source code.
        */
@@ -289,7 +289,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
       final JCGLVertexShaderType v =
         g_sh.shaderCompileVertex("eye_instanced.vert", vv_lines);
 
-      /**
+      /*
        * Compile a fragment shader.
        */
 
@@ -303,14 +303,14 @@ public final class ExampleInstancedTrianglesView implements ExampleType
       final JCGLFragmentShaderType f =
         g_sh.shaderCompileFragment("red.frag", ff_lines);
 
-      /**
+      /*
        * Link the shaders into a program.
        */
 
       this.program =
         g_sh.shaderLinkProgram("simple", v, Optional.empty(), f);
 
-      /**
+      /*
        * The individual shaders can (and should) be deleted, because
        * they are now attached to the linked program. This has the effect
        * that when the linked program is deleted, the shaders are deleted
@@ -324,7 +324,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
       throw new UncheckedIOException(e);
     }
 
-    /**
+    /*
      * Configure a clearing specification that will clear the color
      * buffer to a dark grey.
      */
@@ -343,20 +343,20 @@ public final class ExampleInstancedTrianglesView implements ExampleType
     final JCGLDrawType g_d = g.getDraw();
     final JCGLShadersType g_sh = g.getShaders();
 
-    /**
+    /*
      * Clear the window.
      */
 
     g_c.clear(this.clear);
 
-    /**
+    /*
      * Activate the program, bind the created array object, draw a triangle.
      */
 
     g_sh.shaderActivateProgram(this.program);
     g_ao.arrayObjectBind(this.array_object);
 
-    /**
+    /*
      * Construct the view and projection matrices, and use an identity model
      * matrix.
      */
@@ -394,7 +394,7 @@ public final class ExampleInstancedTrianglesView implements ExampleType
     final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
     final JCGLShadersType g_sh = g.getShaders();
 
-    /**
+    /*
      * Delete everything.
      */
 

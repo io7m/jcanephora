@@ -32,7 +32,8 @@ public final class JOGLImplementationTest extends JCGLContract
 {
   @Rule public final ExpectedException expected = ExpectedException.none();
 
-  @Test public void testTooOld()
+  @Test
+  public void testTooOld()
     throws Exception
   {
     /**
@@ -51,7 +52,8 @@ public final class JOGLImplementationTest extends JCGLContract
     i.newContextFrom(c, "main");
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

@@ -29,19 +29,17 @@ import java.util.OptionalInt;
 
 final class LWJGL3Clear implements JCGLClearType
 {
-  private final LWJGL3Context context;
-
   LWJGL3Clear(
     final LWJGL3Context in_context)
   {
-    this.context = NullCheck.notNull(in_context);
+    NullCheck.notNull(in_context, "Context");
   }
 
   @Override
   public void clear(final JCGLClearSpecificationType c)
     throws JCGLException
   {
-    NullCheck.notNull(c);
+    NullCheck.notNull(c, "Clear");
 
     int buffers = 0;
     final Optional<Vector4D> opt_color = c.getColorBufferClear();

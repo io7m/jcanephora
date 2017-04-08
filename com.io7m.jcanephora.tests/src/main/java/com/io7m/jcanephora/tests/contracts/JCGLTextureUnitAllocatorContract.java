@@ -99,7 +99,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -138,7 +138,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -177,7 +177,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -216,7 +216,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -255,7 +255,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTexture2DType rt0 = t0;
@@ -288,7 +288,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTexture2DType rt0 = t0;
@@ -321,7 +321,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTextureCubeType rt0 = t0;
@@ -354,7 +354,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTextureCubeType rt0 = t0;
@@ -387,9 +387,9 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     final JCGLTexture2DType t1 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTexture2DType rt0 = t0;
@@ -442,9 +442,9 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     final JCGLTextureCubeType t1 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTextureCubeType rt0 = t0;
@@ -497,9 +497,9 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     final JCGLTexture2DType t1 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -562,9 +562,9 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     final JCGLTextureCubeType t1 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -676,7 +676,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     c_0.unitContextFinish(g_tx);
@@ -698,7 +698,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     c_0.unitContextFinish(g_tx);

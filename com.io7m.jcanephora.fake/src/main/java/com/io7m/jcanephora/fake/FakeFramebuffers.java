@@ -84,8 +84,8 @@ final class FakeFramebuffers implements JCGLFramebuffersType
     final FakeTextures t)
     throws JCGLExceptionNonCompliant
   {
-    this.context = NullCheck.notNull(c);
-    this.textures = NullCheck.notNull(t);
+    this.context = NullCheck.notNull(c, "Context");
+    this.textures = NullCheck.notNull(t, "Textures");
 
     this.color_points = makeColorPoints(c);
     this.draw_buffers = makeDrawBuffers(c);

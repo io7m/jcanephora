@@ -26,15 +26,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 final class FakeReferenceContainer implements JCGLReferenceContainerType
 {
-  private final Set<JCGLReferableType>     references_view;
-  private final Set<JCGLReferableType>     references;
+  private final Set<JCGLReferableType> references_view;
+  private final Set<JCGLReferableType> references;
   private final JCGLReferenceContainerType owner;
 
   FakeReferenceContainer(
     final JCGLReferenceContainerType in_owner,
     final int size)
   {
-    this.owner = NullCheck.notNull(in_owner);
+    this.owner = NullCheck.notNull(in_owner, "Owner");
     this.references = Collections.newSetFromMap(new ConcurrentHashMap<>(size));
     this.references_view = Collections.unmodifiableSet(this.references);
   }
@@ -51,7 +51,8 @@ final class FakeReferenceContainer implements JCGLReferenceContainerType
     i.containerReferenceRemove(this.owner);
   }
 
-  @Override public Set<JCGLReferableType> getReferences()
+  @Override
+  public Set<JCGLReferableType> getReferences()
   {
     return this.references_view;
   }

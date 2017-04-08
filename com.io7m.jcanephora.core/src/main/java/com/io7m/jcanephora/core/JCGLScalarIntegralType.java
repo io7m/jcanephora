@@ -83,17 +83,17 @@ public enum JCGLScalarIntegralType
         throw new IllegalArgumentException(
           "Cannot convert " + s + " to an integral type");
       case TYPE_BYTE:
-        return JCGLScalarIntegralType.TYPE_BYTE;
+        return TYPE_BYTE;
       case TYPE_INT:
-        return JCGLScalarIntegralType.TYPE_INT;
+        return TYPE_INT;
       case TYPE_SHORT:
-        return JCGLScalarIntegralType.TYPE_SHORT;
+        return TYPE_SHORT;
       case TYPE_UNSIGNED_BYTE:
-        return JCGLScalarIntegralType.TYPE_UNSIGNED_BYTE;
+        return TYPE_UNSIGNED_BYTE;
       case TYPE_UNSIGNED_INT:
-        return JCGLScalarIntegralType.TYPE_UNSIGNED_INT;
+        return TYPE_UNSIGNED_INT;
       case TYPE_UNSIGNED_SHORT:
-        return JCGLScalarIntegralType.TYPE_UNSIGNED_SHORT;
+        return TYPE_UNSIGNED_SHORT;
     }
 
     throw new UnreachableCodeException();
@@ -115,11 +115,11 @@ public enum JCGLScalarIntegralType
     NullCheck.notNull(s, "Type");
     switch (s) {
       case TYPE_UNSIGNED_BYTE:
-        return JCGLScalarIntegralType.TYPE_UNSIGNED_BYTE;
+        return TYPE_UNSIGNED_BYTE;
       case TYPE_UNSIGNED_INT:
-        return JCGLScalarIntegralType.TYPE_UNSIGNED_INT;
+        return TYPE_UNSIGNED_INT;
       case TYPE_UNSIGNED_SHORT:
-        return JCGLScalarIntegralType.TYPE_UNSIGNED_SHORT;
+        return TYPE_UNSIGNED_SHORT;
     }
 
     throw new UnreachableCodeException();

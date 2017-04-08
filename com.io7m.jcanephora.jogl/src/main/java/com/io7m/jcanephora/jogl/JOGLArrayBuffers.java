@@ -57,11 +57,11 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
   JOGLArrayBuffers(
     final JOGLContext c)
   {
-    NullCheck.notNull(c);
+    NullCheck.notNull(c, "Context");
     this.gl = c.getGL3();
     this.int_cache = Buffers.newDirectIntBuffer(1);
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -75,11 +75,11 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     final JCGLByteBufferProducerType f)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(a);
-    NullCheck.notNull(f);
+    NullCheck.notNull(a, "Array buffer");
+    NullCheck.notNull(f, "Producer");
     this.checkArray(a);
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       final long size = a.getRange().getInterval();
       final ByteBuffer b = f.apply(size);
       this.gl.glGetBufferSubData(GL.GL_ARRAY_BUFFER, 0L, size, b);
@@ -95,12 +95,12 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     final JCGLUsageHint usage)
     throws JCGLException
   {
-    NullCheck.notNull(usage);
+    NullCheck.notNull(usage, "Usage");
     RangeCheck.checkIncludedInLong(
       size, "Size", Ranges.NATURAL_LONG, "Valid size range");
 
-    if (JOGLArrayBuffers.LOG.isDebugEnabled()) {
-      JOGLArrayBuffers.LOG.debug(
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
         "allocate ({} bytes, {})", Long.valueOf(size), usage);
     }
 
@@ -108,8 +108,8 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     this.gl.glGenBuffers(1, this.int_cache);
     final int id = this.int_cache.get(0);
 
-    if (JOGLArrayBuffers.LOG.isDebugEnabled()) {
-      JOGLArrayBuffers.LOG.debug("allocated {}", Integer.valueOf(id));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("allocated {}", Integer.valueOf(id));
     }
 
     final JOGLArrayBuffer a =
@@ -129,13 +129,13 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
   {
     this.checkArray(a);
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       final UnsignedRangeInclusiveL r = a.getRange();
       final long size = r.getInterval();
       final JCGLUsageHint usage = a.getUsageHint();
 
-      if (JOGLArrayBuffers.LOG.isTraceEnabled()) {
-        JOGLArrayBuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "reallocate ({} bytes, {})", Long.valueOf(size), usage);
       }
 
@@ -151,11 +151,11 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
 
   private void actualBind(final JOGLArrayBuffer a)
   {
-    if (JOGLArrayBuffers.LOG.isTraceEnabled()) {
-      JOGLArrayBuffers.LOG.trace("bind {} -> {}", this.bind, a);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("bind {} -> {}", this.bind, a);
     }
 
-    if (!a.equals(this.bind)) {
+    if (!Objects.equals(a, this.bind)) {
       this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, a.getGLName());
       this.bind = a;
     }
@@ -163,8 +163,8 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
 
   private void actualUnbind()
   {
-    if (JOGLArrayBuffers.LOG.isTraceEnabled()) {
-      JOGLArrayBuffers.LOG.trace("unbind {} -> {}", this.bind, null);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("unbind {} -> {}", this.bind, null);
     }
 
     if (this.bind != null) {
@@ -223,8 +223,8 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
   {
     this.checkArray(a);
 
-    if (JOGLArrayBuffers.LOG.isDebugEnabled()) {
-      JOGLArrayBuffers.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
     }
 
     this.int_cache.rewind();
@@ -232,7 +232,7 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     this.gl.glDeleteBuffers(1, this.int_cache);
     ((JOGLArrayBuffer) a).setDeleted();
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       this.actualUnbind();
     }
   }
@@ -242,11 +242,11 @@ final class JOGLArrayBuffers implements JCGLArrayBuffersType
     final JCGLBufferUpdateType<JCGLArrayBufferType> u)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(u);
+    NullCheck.notNull(u, "Update");
     final JCGLArrayBufferType a = u.getBuffer();
     this.checkArray(a);
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
       final ByteBuffer data = u.getData();
       data.rewind();

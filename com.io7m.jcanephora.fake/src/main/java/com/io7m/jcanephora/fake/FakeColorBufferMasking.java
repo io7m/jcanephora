@@ -34,7 +34,8 @@ final class FakeColorBufferMasking implements JCGLColorBufferMaskingType
     this.current_a = true;
   }
 
-  @Override public void colorBufferMask(
+  @Override
+  public void colorBufferMask(
     final boolean r,
     final boolean g,
     final boolean b,
@@ -47,25 +48,29 @@ final class FakeColorBufferMasking implements JCGLColorBufferMaskingType
     this.current_a = a;
   }
 
-  @Override public boolean colorBufferMaskStatusAlpha()
+  @Override
+  public boolean colorBufferMaskStatusAlpha()
     throws JCGLException
   {
     return this.current_a;
   }
 
-  @Override public boolean colorBufferMaskStatusBlue()
+  @Override
+  public boolean colorBufferMaskStatusBlue()
     throws JCGLException
   {
     return this.current_b;
   }
 
-  @Override public boolean colorBufferMaskStatusGreen()
+  @Override
+  public boolean colorBufferMaskStatusGreen()
     throws JCGLException
   {
     return this.current_g;
   }
 
-  @Override public boolean colorBufferMaskStatusRed()
+  @Override
+  public boolean colorBufferMaskStatusRed()
     throws JCGLException
   {
     return this.current_r;

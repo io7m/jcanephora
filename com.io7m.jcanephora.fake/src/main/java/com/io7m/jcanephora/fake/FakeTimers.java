@@ -44,7 +44,7 @@ final class FakeTimers implements JCGLTimersType
 
   FakeTimers(final FakeContext c)
   {
-    this.context = NullCheck.notNull(c);
+    this.context = NullCheck.notNull(c, "Context");
   }
 
   @Override
@@ -58,7 +58,7 @@ final class FakeTimers implements JCGLTimersType
   public void timerQueryBegin(final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Timer query");
 
     final FakeTimerQuery tq =
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);
@@ -83,7 +83,7 @@ final class FakeTimers implements JCGLTimersType
   public void timerQueryFinish(final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Timer query");
 
     final FakeTimerQuery tq =
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);
@@ -110,7 +110,7 @@ final class FakeTimers implements JCGLTimersType
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Timer query");
 
     final FakeTimerQuery tq =
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);
@@ -128,7 +128,7 @@ final class FakeTimers implements JCGLTimersType
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Timer query");
 
     final FakeTimerQuery tq =
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);
@@ -142,7 +142,7 @@ final class FakeTimers implements JCGLTimersType
     final JCGLTimerQueryType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Timer query");
 
     final FakeTimerQuery tq =
       FakeCompatibilityChecks.checkTimerQuery(this.context, q);

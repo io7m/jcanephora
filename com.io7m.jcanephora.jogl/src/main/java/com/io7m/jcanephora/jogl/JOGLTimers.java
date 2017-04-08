@@ -52,7 +52,7 @@ final class JOGLTimers implements JCGLTimersType
 
   JOGLTimers(final JOGLContext c)
   {
-    this.context = NullCheck.notNull(c);
+    this.context = NullCheck.notNull(c, "Context");
     this.g3 = c.getGL3();
     this.icache = Buffers.newDirectIntBuffer(1);
     this.lcache = Buffers.newDirectLongBuffer(1);
@@ -68,8 +68,8 @@ final class JOGLTimers implements JCGLTimersType
     final JOGLTimerQuery t = new JOGLTimerQuery(
       this.context.getContext(), id);
 
-    if (JOGLTimers.LOG.isDebugEnabled()) {
-      JOGLTimers.LOG.debug("allocate {}", Integer.valueOf(t.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("allocate {}", Integer.valueOf(t.getGLName()));
     }
 
     this.timerQueryResultAvailability(t);
@@ -80,7 +80,7 @@ final class JOGLTimers implements JCGLTimersType
   public void timerQueryBegin(final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final JOGLTimerQuery tq =
       JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
@@ -105,7 +105,7 @@ final class JOGLTimers implements JCGLTimersType
   public void timerQueryFinish(final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final JOGLTimerQuery tq =
       JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
@@ -132,7 +132,7 @@ final class JOGLTimers implements JCGLTimersType
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final JOGLTimerQuery tq =
       JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
@@ -157,7 +157,7 @@ final class JOGLTimers implements JCGLTimersType
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final JOGLTimerQuery tq =
       JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
@@ -174,7 +174,7 @@ final class JOGLTimers implements JCGLTimersType
     final JCGLTimerQueryType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final JOGLTimerQuery tq =
       JOGLTimerQuery.checkTimerQuery(this.context.getContext(), q);
@@ -188,8 +188,8 @@ final class JOGLTimers implements JCGLTimersType
       this.running = null;
     }
 
-    if (JOGLTimers.LOG.isDebugEnabled()) {
-      JOGLTimers.LOG.debug("delete {}", Integer.valueOf(tq.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete {}", Integer.valueOf(tq.getGLName()));
     }
   }
 }

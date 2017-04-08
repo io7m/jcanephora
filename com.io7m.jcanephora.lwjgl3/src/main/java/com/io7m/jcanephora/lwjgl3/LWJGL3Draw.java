@@ -30,16 +30,15 @@ final class LWJGL3Draw implements JCGLDrawType
 {
   private final LWJGL3ArrayObjects array_objects;
   private final LWJGL3IndexBuffers index_buffers;
-  private final LWJGL3Context context;
 
   LWJGL3Draw(
     final LWJGL3Context in_context,
     final LWJGL3ArrayObjects in_array_objects,
     final LWJGL3IndexBuffers in_index_buffers)
   {
-    this.context = NullCheck.notNull(in_context);
-    this.array_objects = NullCheck.notNull(in_array_objects);
-    this.index_buffers = NullCheck.notNull(in_index_buffers);
+    NullCheck.notNull(in_context, "Context");
+    this.array_objects = NullCheck.notNull(in_array_objects, "Array objects");
+    this.index_buffers = NullCheck.notNull(in_index_buffers, "Index buffers");
   }
 
   @Override
@@ -49,7 +48,7 @@ final class LWJGL3Draw implements JCGLDrawType
     final int count)
     throws JCGLException
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
     RangeCheck.checkIncludedInInteger(
       first, "First", Ranges.NATURAL_INTEGER, "Valid index");
     RangeCheck.checkIncludedInInteger(
@@ -66,7 +65,7 @@ final class LWJGL3Draw implements JCGLDrawType
     final int instances)
     throws JCGLException
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
     RangeCheck.checkIncludedInInteger(
       first, "First", Ranges.NATURAL_INTEGER, "Valid index");
     RangeCheck.checkIncludedInInteger(
@@ -82,7 +81,7 @@ final class LWJGL3Draw implements JCGLDrawType
   public void drawElements(final JCGLPrimitives p)
     throws JCGLException, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
 
     if (this.index_buffers.indexBufferIsBound()) {
       final LWJGL3IndexBuffer ib = this.array_objects.getCurrentIndexBuffer();
@@ -101,7 +100,7 @@ final class LWJGL3Draw implements JCGLDrawType
     final int instances)
     throws JCGLException, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
     RangeCheck.checkIncludedInInteger(
       instances, "Instances", Ranges.NATURAL_INTEGER, "Valid instances");
 

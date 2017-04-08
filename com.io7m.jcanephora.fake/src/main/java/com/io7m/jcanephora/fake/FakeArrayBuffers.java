@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.util.Objects;
 import java.util.Optional;
 
 final class FakeArrayBuffers implements JCGLArrayBuffersType
@@ -45,25 +46,25 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     LOG = LoggerFactory.getLogger(FakeArrayBuffers.class);
   }
 
-  private final     FakeContext     context;
+  private final FakeContext context;
   private @Nullable FakeArrayBuffer bind;
 
   FakeArrayBuffers(final FakeContext c)
   {
-    this.context = NullCheck.notNull(c);
+    this.context = NullCheck.notNull(c, "Context");
   }
 
   private void actualBind(final FakeArrayBuffer a)
   {
-    FakeArrayBuffers.LOG.trace("bind {} -> {}", this.bind, a);
-    if (!a.equals(this.bind)) {
+    LOG.trace("bind {} -> {}", this.bind, a);
+    if (!Objects.equals(a, this.bind)) {
       this.bind = a;
     }
   }
 
   private void actualUnbind()
   {
-    FakeArrayBuffers.LOG.trace(
+    LOG.trace(
       "unbind {} -> {}", this.bind, null);
     if (this.bind != null) {
       this.bind = null;
@@ -76,10 +77,10 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     final JCGLByteBufferProducerType f)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(a);
+    NullCheck.notNull(a, "Array");
     this.checkArray(a);
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       final UnsignedRangeInclusiveL r = a.getRange();
       final long size = r.getInterval();
       final ByteBuffer b = f.apply(size);
@@ -87,7 +88,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
       final FakeArrayBuffer fa = (FakeArrayBuffer) a;
       final ByteBuffer fa_data = fa.getData();
 
-      /**
+      /*
        * XXX: Clearly overflowing integers.
        */
 
@@ -113,7 +114,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     RangeCheck.checkIncludedInLong(
       size, "Size", Ranges.NATURAL_LONG, "Valid size range");
 
-    FakeArrayBuffers.LOG.debug(
+    LOG.debug(
       "allocate ({} bytes, {})", Long.valueOf(size), usage);
 
     final ByteBuffer data = ByteBuffer.allocate((int) size);
@@ -130,13 +131,13 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
   {
     this.checkArray(a);
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       final UnsignedRangeInclusiveL r = a.getRange();
       final long size = r.getInterval();
       final JCGLUsageHint usage = a.getUsageHint();
 
-      if (FakeArrayBuffers.LOG.isDebugEnabled()) {
-        FakeArrayBuffers.LOG.debug(
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(
           "reallocate ({} bytes, {})", Long.valueOf(size), usage);
       }
 
@@ -165,7 +166,7 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     throws JCGLException
   {
     this.checkArray(a);
-    return a.equals(this.bind);
+    return Objects.equals(a, this.bind);
   }
 
   @Override
@@ -195,11 +196,11 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
   {
     this.checkArray(a);
 
-    FakeArrayBuffers.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+    LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
 
     ((FakeArrayBuffer) a).setDeleted();
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       this.actualUnbind();
     }
   }
@@ -209,18 +210,18 @@ final class FakeArrayBuffers implements JCGLArrayBuffersType
     final JCGLBufferUpdateType<JCGLArrayBufferType> u)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(u);
+    NullCheck.notNull(u, "Update");
     final JCGLArrayBufferType a = u.getBuffer();
     this.checkArray(a);
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
       final ByteBuffer data = u.getData();
       data.rewind();
       final FakeArrayBuffer fa = (FakeArrayBuffer) a;
       final ByteBuffer fa_data = fa.getData();
 
-      /**
+      /*
        * XXX: Clearly overflowing integers.
        */
 

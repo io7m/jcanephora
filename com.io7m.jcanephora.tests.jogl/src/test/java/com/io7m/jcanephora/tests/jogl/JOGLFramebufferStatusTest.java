@@ -23,12 +23,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLFramebufferStatusContract;
 public final class JOGLFramebufferStatusTest extends
   JCGLFramebufferStatusContract
 {
-  @Override protected int toInt(final JCGLFramebufferStatus c)
+  @Override
+  protected int toInt(final JCGLFramebufferStatus c)
   {
     return JOGLTypeConversions.framebufferStatusToGL(c);
   }
 
-  @Override protected JCGLFramebufferStatus fromInt(final int c)
+  @Override
+  protected JCGLFramebufferStatus fromInt(final int c)
   {
     return JOGLTypeConversions.framebufferStatusFromGL(c);
   }

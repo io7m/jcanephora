@@ -27,7 +27,8 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeArrayObjectsTest extends JCGLArrayObjectsContract
 {
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override
+  protected Interfaces getInterfaces(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
@@ -41,7 +42,8 @@ public final class FakeArrayObjectsTest extends JCGLArrayObjectsContract
     }
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }

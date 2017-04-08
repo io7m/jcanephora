@@ -39,17 +39,17 @@ public final class JCGLExceptionProgramCompileError extends JCGLException
     final String in_name,
     final String in_message)
   {
-    super(JCGLExceptionProgramCompileError.makeMessage(in_name, in_message));
-    this.name = NullCheck.notNull(in_name);
-    this.message = NullCheck.notNull(in_message);
+    super(makeMessage(in_name, in_message));
+    this.name = NullCheck.notNull(in_name, "Name");
+    this.message = NullCheck.notNull(in_message, "Message");
   }
 
   private static String makeMessage(
     final String file,
     final String message)
   {
-    NullCheck.notNull(file);
-    NullCheck.notNull(message);
+    NullCheck.notNull(file, "File");
+    NullCheck.notNull(message, "Message");
 
     final StringBuilder builder = new StringBuilder(128);
     builder.append("Compilation error: ");

@@ -36,7 +36,6 @@ final class LWJGL3Blending implements JCGLBlendingType
     LOG = LoggerFactory.getLogger(LWJGL3Blending.class);
   }
 
-  private final LWJGL3Context context;
   private boolean blend;
   private JCGLBlendEquation equation_rgb;
   private JCGLBlendEquation equation_alpha;
@@ -47,7 +46,7 @@ final class LWJGL3Blending implements JCGLBlendingType
 
   LWJGL3Blending(final LWJGL3Context c)
   {
-    this.context = NullCheck.notNull(c);
+    NullCheck.notNull(c, "Context");
     this.blend = GL11.glIsEnabled(GL11.GL_BLEND);
     LWJGL3ErrorChecking.checkErrors();
   }
@@ -60,7 +59,7 @@ final class LWJGL3Blending implements JCGLBlendingType
       GL11.glDisable(GL11.GL_BLEND);
       this.blend = false;
     } else {
-      LWJGL3Blending.LOG.trace("redundant blend disable ignored");
+      LOG.trace("redundant blend disable ignored");
     }
   }
 
@@ -103,7 +102,7 @@ final class LWJGL3Blending implements JCGLBlendingType
       GL11.glEnable(GL11.GL_BLEND);
       this.blend = true;
     } else {
-      LWJGL3Blending.LOG.trace("redundant blend enable ignored");
+      LOG.trace("redundant blend enable ignored");
     }
 
     if (this.equation_rgb != in_equation_rgb
@@ -114,7 +113,7 @@ final class LWJGL3Blending implements JCGLBlendingType
       this.equation_rgb = in_equation_rgb;
       this.equation_alpha = in_equation_alpha;
     } else {
-      LWJGL3Blending.LOG.trace("redundant blend equation change ignored");
+      LOG.trace("redundant blend equation change ignored");
     }
 
     if (this.source_rgb_factor != in_source_rgb_factor
@@ -131,7 +130,7 @@ final class LWJGL3Blending implements JCGLBlendingType
       this.destination_rgb_factor = in_destination_rgb_factor;
       this.destination_alpha_factor = in_destination_alpha_factor;
     } else {
-      LWJGL3Blending.LOG.trace("redundant blend function change ignored");
+      LOG.trace("redundant blend function change ignored");
     }
   }
 }

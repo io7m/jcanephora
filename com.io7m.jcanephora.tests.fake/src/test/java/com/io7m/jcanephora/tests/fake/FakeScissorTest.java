@@ -28,12 +28,14 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeScissorTest extends JCGLScissorContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
 
-  @Override protected JCGLScissorType getScissor(final String name)
+  @Override
+  protected JCGLScissorType getScissor(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();

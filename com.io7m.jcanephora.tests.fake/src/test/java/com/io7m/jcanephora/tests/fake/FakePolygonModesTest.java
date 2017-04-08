@@ -28,12 +28,14 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakePolygonModesTest extends JCGLPolygonModesContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
 
-  @Override protected JCGLPolygonModesType getPolygonModes(final String name)
+  @Override
+  protected JCGLPolygonModesType getPolygonModes(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();

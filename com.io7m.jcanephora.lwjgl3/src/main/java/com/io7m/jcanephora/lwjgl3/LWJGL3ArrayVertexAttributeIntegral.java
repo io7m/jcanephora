@@ -22,6 +22,8 @@ import com.io7m.jcanephora.core.JCGLArrayVertexAttributeMatcherType;
 import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jnull.NullCheck;
 
+import java.util.Objects;
+
 final class LWJGL3ArrayVertexAttributeIntegral extends
   LWJGL3ObjectPseudoUnshared
   implements JCGLArrayVertexAttributeIntegralType
@@ -47,8 +49,8 @@ final class LWJGL3ArrayVertexAttributeIntegral extends
     super(in_context);
 
     this.index = in_index;
-    this.array = NullCheck.notNull(in_a);
-    this.type = NullCheck.notNull(in_type);
+    this.array = NullCheck.notNull(in_a, "Array");
+    this.type = NullCheck.notNull(in_type, "Type");
     this.elements = in_elements;
     this.stride = in_stride;
     this.offset = in_offset;
@@ -73,7 +75,7 @@ final class LWJGL3ArrayVertexAttributeIntegral extends
       && this.offset == that.offset
       && this.elements == that.elements
       && this.divisor == that.divisor
-      && this.array.equals(that.array)
+      && Objects.equals(this.array, that.array)
       && this.type == that.type;
   }
 

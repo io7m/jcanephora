@@ -16,12 +16,10 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import com.io7m.jcanephora.core.JCGLDepthFunction;
 import com.io7m.jcanephora.core.JCGLFaceSelection;
 import com.io7m.jcanephora.core.JCGLFaceWindingOrder;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLCullingType;
-import com.io7m.jcanephora.core.api.JCGLDepthBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.tests.contracts.JCGLCullingContract;
 import com.jogamp.opengl.DebugGL3;
@@ -34,12 +32,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class JOGLCullingTestGL33 extends JCGLCullingContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected JCGLCullingType getCulling(final String name)
+  @Override
+  protected JCGLCullingType getCulling(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();

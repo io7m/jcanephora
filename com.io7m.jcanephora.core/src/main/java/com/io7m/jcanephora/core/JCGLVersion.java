@@ -19,6 +19,8 @@ package com.io7m.jcanephora.core;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 
+import java.util.Objects;
+
 /**
  * A structure representing the version of the current OpenGL implementation.
  */
@@ -69,7 +71,9 @@ public final class JCGLVersion
       return false;
     }
     final JCGLVersion other = (JCGLVersion) obj;
-    return this.number.equals(other.number) && this.text.equals(other.text);
+    return Objects.equals(this.number, other.number) && Objects.equals(
+      this.text,
+      other.text);
   }
 
   /**

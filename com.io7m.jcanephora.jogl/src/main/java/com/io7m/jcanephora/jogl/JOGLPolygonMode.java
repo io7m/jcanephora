@@ -30,11 +30,11 @@ final class JOGLPolygonMode implements JCGLPolygonModesType
 
   JOGLPolygonMode(final JOGLContext c)
   {
-    final JOGLContext context = NullCheck.notNull(c);
+    final JOGLContext context = NullCheck.notNull(c, "Context");
     this.gl = context.getGL3();
     this.mode = JCGLPolygonMode.POLYGON_FILL;
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -55,7 +55,7 @@ final class JOGLPolygonMode implements JCGLPolygonModesType
     final JCGLPolygonMode m)
     throws JCGLException
   {
-    NullCheck.notNull(m);
+    NullCheck.notNull(m, "Mode");
 
     final int im = JOGLTypeConversions.polygonModeToGL(m);
     this.gl.glPolygonMode(GL.GL_FRONT_AND_BACK, im);

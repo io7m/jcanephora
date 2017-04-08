@@ -28,10 +28,10 @@ final class LWJGL3PolygonMode implements JCGLPolygonModesType
 
   LWJGL3PolygonMode(final LWJGL3Context c)
   {
-    final LWJGL3Context context = NullCheck.notNull(c);
+    final LWJGL3Context context = NullCheck.notNull(c, "Context");
     this.mode = JCGLPolygonMode.POLYGON_FILL;
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -52,7 +52,7 @@ final class LWJGL3PolygonMode implements JCGLPolygonModesType
     final JCGLPolygonMode m)
     throws JCGLException
   {
-    NullCheck.notNull(m);
+    NullCheck.notNull(m, "Mode");
 
     final int im = LWJGL3TypeConversions.polygonModeToGL(m);
     GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, im);

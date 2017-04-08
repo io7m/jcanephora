@@ -76,7 +76,7 @@ final class LWJGL3Context implements JCGLContextType
     this.shares = new ArrayList<>(1);
     this.shares_view = Collections.unmodifiableList(this.shares);
 
-    LWJGL3Context.LOG.debug("created context {}", this.name);
+    LOG.debug("created context {}", this.name);
   }
 
   static JCGLContextType createUnshared(
@@ -178,13 +178,13 @@ final class LWJGL3Context implements JCGLContextType
   {
     this.checkNotDestroyed();
 
-    if (LWJGL3Context.LOG.isTraceEnabled()) {
+    if (LOG.isTraceEnabled()) {
       final Thread t = Thread.currentThread();
-      LWJGL3Context.LOG.trace(
+      LOG.trace(
         "make current (thread {} {})", Long.valueOf(t.getId()), t.getName());
     }
 
-    /**
+    /*
      * If no context is current on this thread, make the context current.
      */
 
@@ -192,7 +192,7 @@ final class LWJGL3Context implements JCGLContextType
     if (actual_current == MemoryUtil.NULL) {
       GLFW.glfwMakeContextCurrent(this.context);
 
-      /**
+      /*
        * LWJGL requires a call to {@link GL#setCapabilities(GLCapabilities)}
        * each time a context is made current.
        */
@@ -205,7 +205,7 @@ final class LWJGL3Context implements JCGLContextType
 
     } else {
 
-      /**
+      /*
        * Any other situation is an error.
        */
 
@@ -226,7 +226,7 @@ final class LWJGL3Context implements JCGLContextType
       sb.append(Thread.currentThread());
       sb.append(System.lineSeparator());
       final String m = sb.toString();
-      LWJGL3Context.LOG.error(m);
+      LOG.error(m);
       throw new JCGLExceptionContextIsCurrent(m);
     }
   }
@@ -236,9 +236,9 @@ final class LWJGL3Context implements JCGLContextType
   {
     this.checkNotDestroyed();
 
-    if (LWJGL3Context.LOG.isTraceEnabled()) {
+    if (LOG.isTraceEnabled()) {
       final Thread t = Thread.currentThread();
-      LWJGL3Context.LOG.trace(
+      LOG.trace(
         "release current (thread {} {})", Long.valueOf(t.getId()), t.getName());
     }
 
@@ -259,7 +259,7 @@ final class LWJGL3Context implements JCGLContextType
       sb.append(Thread.currentThread());
       sb.append(System.lineSeparator());
       final String m = sb.toString();
-      LWJGL3Context.LOG.error(m);
+      LOG.error(m);
       throw new JCGLExceptionContextNotCurrent(m);
     }
   }
@@ -296,7 +296,7 @@ final class LWJGL3Context implements JCGLContextType
       sb.append(Thread.currentThread());
       sb.append(System.lineSeparator());
       final String m = sb.toString();
-      LWJGL3Context.LOG.error(m);
+      LOG.error(m);
       throw new JCGLExceptionContextIsCurrent(m);
     }
 

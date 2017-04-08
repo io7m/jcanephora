@@ -27,12 +27,14 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeDrawTest extends JCGLDrawContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
 
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override
+  protected Interfaces getInterfaces(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();

@@ -36,18 +36,21 @@ public final class JOGLTexturesTestGL33 extends JCGLTexturesContract
     LOG = LoggerFactory.getLogger(JOGLTexturesTestGL33.class);
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected JCGLTexturesType getTextures(final String name)
+  @Override
+  protected JCGLTexturesType getTextures(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     return c.contextGetGL33().getTextures();
   }
 
-  @Test public void testNonCompliantTextureSize()
+  @Test
+  public void testNonCompliantTextureSize()
     throws Exception
   {
     this.expected.expect(JCGLExceptionNonCompliant.class);
@@ -56,7 +59,8 @@ public final class JOGLTexturesTestGL33 extends JCGLTexturesContract
         final GL3 base = c.getGL().getGL3();
         return new DebugGL3(base)
         {
-          @Override public void glGetIntegerv(
+          @Override
+          public void glGetIntegerv(
             final int name,
             final IntBuffer buffer)
           {
@@ -73,7 +77,8 @@ public final class JOGLTexturesTestGL33 extends JCGLTexturesContract
       }, 24, 8);
   }
 
-  @Test public void testNonCompliantTextureUnits()
+  @Test
+  public void testNonCompliantTextureUnits()
     throws Exception
   {
     this.expected.expect(JCGLExceptionNonCompliant.class);
@@ -82,7 +87,8 @@ public final class JOGLTexturesTestGL33 extends JCGLTexturesContract
         final GL3 base = c.getGL().getGL3();
         return new DebugGL3(base)
         {
-          @Override public void glGetIntegerv(
+          @Override
+          public void glGetIntegerv(
             final int name,
             final IntBuffer buffer)
           {

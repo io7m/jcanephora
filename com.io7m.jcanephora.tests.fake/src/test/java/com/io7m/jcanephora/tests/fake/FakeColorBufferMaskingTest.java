@@ -29,7 +29,8 @@ import com.io7m.junreachable.UnreachableCodeException;
 public final class FakeColorBufferMaskingTest extends
   JCGLColorBufferMaskingContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }

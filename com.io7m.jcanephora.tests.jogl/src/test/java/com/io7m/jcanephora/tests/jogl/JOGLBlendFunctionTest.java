@@ -22,12 +22,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLBlendFunctionContract;
 
 public final class JOGLBlendFunctionTest extends JCGLBlendFunctionContract
 {
-  @Override protected int toInt(final JCGLBlendFunction d)
+  @Override
+  protected int toInt(final JCGLBlendFunction d)
   {
     return JOGLTypeConversions.blendFunctionToGL(d);
   }
 
-  @Override protected JCGLBlendFunction fromInt(final int c)
+  @Override
+  protected JCGLBlendFunction fromInt(final int c)
   {
     return JOGLTypeConversions.blendFunctionFromGL(c);
   }

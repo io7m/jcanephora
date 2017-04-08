@@ -33,6 +33,7 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -236,7 +237,7 @@ public abstract class JCGLProfilingContract extends JCGLContract
     fm.iterate(ai, (ii, depth, cx) -> {
       ii.incrementAndGet();
 
-      if ("c1".equals(cx.getName())) {
+      if (Objects.equals("c1", cx.getName())) {
         return JCGLProfilingIteration.STOP;
       }
 
@@ -264,7 +265,7 @@ public abstract class JCGLProfilingContract extends JCGLContract
     final IdentityHashMap<JCGLProfilingContextType, Unit> seen =
       new IdentityHashMap<>();
 
-    /**
+    /*
      * Make sure there are a decent number of cached contexts.
      */
 
@@ -298,7 +299,7 @@ public abstract class JCGLProfilingContract extends JCGLContract
       seen.put(c3, Unit.unit());
     }
 
-    /**
+    /*
      * Check that contexts are reused by default.
      */
 
@@ -319,7 +320,7 @@ public abstract class JCGLProfilingContract extends JCGLContract
       Assert.assertTrue(seen.containsKey(c3));
     }
 
-    /**
+    /*
      * Check that trimming forces the creation of new contexts.
      */
 

@@ -32,7 +32,7 @@ final class JOGLGeometryShader extends JOGLReferable
     final String in_name)
   {
     super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
+    this.name = NullCheck.notNull(in_name, "Name");
   }
 
   static JOGLGeometryShader checkGeometryShader(

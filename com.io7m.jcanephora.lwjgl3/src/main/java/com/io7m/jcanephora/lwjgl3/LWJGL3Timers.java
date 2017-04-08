@@ -47,7 +47,7 @@ final class LWJGL3Timers implements JCGLTimersType
 
   LWJGL3Timers(final LWJGL3Context c)
   {
-    this.context = NullCheck.notNull(c);
+    this.context = NullCheck.notNull(c, "Context");
   }
 
   @Override
@@ -57,8 +57,8 @@ final class LWJGL3Timers implements JCGLTimersType
     final int id = GL15.glGenQueries();
     final LWJGL3TimerQuery t = new LWJGL3TimerQuery(this.context, id);
 
-    if (LWJGL3Timers.LOG.isDebugEnabled()) {
-      LWJGL3Timers.LOG.debug("allocate {}", Integer.valueOf(t.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("allocate {}", Integer.valueOf(t.getGLName()));
     }
 
     this.timerQueryResultAvailability(t);
@@ -69,7 +69,7 @@ final class LWJGL3Timers implements JCGLTimersType
   public void timerQueryBegin(final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final LWJGL3TimerQuery tq =
       LWJGL3TimerQuery.checkTimerQuery(this.context, q);
@@ -94,7 +94,7 @@ final class LWJGL3Timers implements JCGLTimersType
   public void timerQueryFinish(final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final LWJGL3TimerQuery tq =
       LWJGL3TimerQuery.checkTimerQuery(this.context, q);
@@ -121,7 +121,7 @@ final class LWJGL3Timers implements JCGLTimersType
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final LWJGL3TimerQuery tq =
       LWJGL3TimerQuery.checkTimerQuery(this.context, q);
@@ -145,7 +145,7 @@ final class LWJGL3Timers implements JCGLTimersType
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final LWJGL3TimerQuery tq =
       LWJGL3TimerQuery.checkTimerQuery(this.context, q);
@@ -159,7 +159,7 @@ final class LWJGL3Timers implements JCGLTimersType
     final JCGLTimerQueryType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final LWJGL3TimerQuery tq =
       LWJGL3TimerQuery.checkTimerQuery(this.context, q);
@@ -172,8 +172,8 @@ final class LWJGL3Timers implements JCGLTimersType
       this.running = null;
     }
 
-    if (LWJGL3Timers.LOG.isDebugEnabled()) {
-      LWJGL3Timers.LOG.debug("delete {}", Integer.valueOf(tq.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete {}", Integer.valueOf(tq.getGLName()));
     }
   }
 }

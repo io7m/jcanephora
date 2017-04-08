@@ -22,12 +22,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLStencilFunctionContract;
 
 public final class JOGLStencilFunctionTest extends JCGLStencilFunctionContract
 {
-  @Override protected int toInt(final JCGLStencilFunction d)
+  @Override
+  protected int toInt(final JCGLStencilFunction d)
   {
     return JOGLTypeConversions.stencilFunctionToGL(d);
   }
 
-  @Override protected JCGLStencilFunction fromInt(final int c)
+  @Override
+  protected JCGLStencilFunction fromInt(final int c)
   {
     return JOGLTypeConversions.stencilFunctionFromGL(c);
   }

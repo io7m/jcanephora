@@ -53,9 +53,9 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
   LWJGL3ArrayBuffers(
     final LWJGL3Context c)
   {
-    this.context = NullCheck.notNull(c);
+    this.context = NullCheck.notNull(c, "Context");
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -69,11 +69,11 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
     final JCGLByteBufferProducerType f)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(a);
-    NullCheck.notNull(f);
+    NullCheck.notNull(a, "Array buffer");
+    NullCheck.notNull(f, "Buffer producer");
     this.checkArray(a);
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       final long size = a.getRange().getInterval();
       final ByteBuffer b = f.apply(size);
       GL15.glGetBufferSubData(GL15.GL_ARRAY_BUFFER, 0L, b);
@@ -89,19 +89,19 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
     final JCGLUsageHint usage)
     throws JCGLException
   {
-    NullCheck.notNull(usage);
+    NullCheck.notNull(usage, "Usage");
     RangeCheck.checkIncludedInLong(
       size, "Size", Ranges.NATURAL_LONG, "Valid size range");
 
-    if (LWJGL3ArrayBuffers.LOG.isDebugEnabled()) {
-      LWJGL3ArrayBuffers.LOG.debug(
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
         "allocate ({} bytes, {})", Long.valueOf(size), usage);
     }
 
     final int id = GL15.glGenBuffers();
 
-    if (LWJGL3ArrayBuffers.LOG.isDebugEnabled()) {
-      LWJGL3ArrayBuffers.LOG.debug("allocated {}", Integer.valueOf(id));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("allocated {}", Integer.valueOf(id));
     }
 
     final LWJGL3ArrayBuffer a =
@@ -123,13 +123,13 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
   {
     this.checkArray(a);
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       final UnsignedRangeInclusiveL r = a.getRange();
       final long size = r.getInterval();
       final JCGLUsageHint usage = a.getUsageHint();
 
-      if (LWJGL3ArrayBuffers.LOG.isTraceEnabled()) {
-        LWJGL3ArrayBuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "reallocate ({} bytes, {})", Long.valueOf(size), usage);
       }
 
@@ -144,11 +144,11 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
 
   private void actualBind(final LWJGL3ArrayBuffer a)
   {
-    if (LWJGL3ArrayBuffers.LOG.isTraceEnabled()) {
-      LWJGL3ArrayBuffers.LOG.trace("bind {} -> {}", this.bind, a);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("bind {} -> {}", this.bind, a);
     }
 
-    if (!a.equals(this.bind)) {
+    if (!Objects.equals(a, this.bind)) {
       GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, a.getGLName());
       this.bind = a;
     }
@@ -156,8 +156,8 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
 
   private void actualUnbind()
   {
-    if (LWJGL3ArrayBuffers.LOG.isTraceEnabled()) {
-      LWJGL3ArrayBuffers.LOG.trace("unbind {} -> {}", this.bind, null);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("unbind {} -> {}", this.bind, null);
     }
 
     if (this.bind != null) {
@@ -216,14 +216,14 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
   {
     this.checkArray(a);
 
-    if (LWJGL3ArrayBuffers.LOG.isDebugEnabled()) {
-      LWJGL3ArrayBuffers.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
     }
 
     GL15.glDeleteBuffers(a.getGLName());
     ((LWJGL3ArrayBuffer) a).setDeleted();
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       this.actualUnbind();
     }
   }
@@ -233,11 +233,11 @@ final class LWJGL3ArrayBuffers implements JCGLArrayBuffersType
     final JCGLBufferUpdateType<JCGLArrayBufferType> u)
     throws JCGLException, JCGLExceptionDeleted, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(u);
+    NullCheck.notNull(u, "Update");
     final JCGLArrayBufferType a = u.getBuffer();
     this.checkArray(a);
 
-    if (a.equals(this.bind)) {
+    if (Objects.equals(a, this.bind)) {
       final UnsignedRangeInclusiveL r = u.getDataUpdateRange();
       final ByteBuffer data = u.getData();
       data.rewind();

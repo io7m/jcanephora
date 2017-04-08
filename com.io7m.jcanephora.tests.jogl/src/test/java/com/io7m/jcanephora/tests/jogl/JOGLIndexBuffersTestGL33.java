@@ -27,12 +27,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLUnsharedContextPair;
 
 public final class JOGLIndexBuffersTestGL33 extends JCGLIndexBuffersContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected Interfaces getIndexBuffers(final String name)
+  @Override
+  protected Interfaces getIndexBuffers(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();

@@ -45,7 +45,7 @@ final class LWJGL3ProgramShader extends LWJGL3ObjectShared
     final LWJGL3FragmentShader fs)
   {
     super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
+    this.name = NullCheck.notNull(in_name, "Name");
     this.references = new LWJGL3ReferenceContainer(this, 3);
     this.references.referenceAdd(vs);
     gs.ifPresent(this.references::referenceAdd);
@@ -86,7 +86,9 @@ final class LWJGL3ProgramShader extends LWJGL3ObjectShared
     final Map<String, JCGLProgramAttributeType> in_attributes)
   {
     this.attributes =
-      Collections.unmodifiableMap(NullCheck.notNull(in_attributes));
+      Collections.unmodifiableMap(NullCheck.notNull(
+        in_attributes,
+        "Attributes"));
   }
 
   @Override
@@ -98,7 +100,9 @@ final class LWJGL3ProgramShader extends LWJGL3ObjectShared
   void setUniforms(
     final Map<String, JCGLProgramUniformType> in_uniforms)
   {
-    this.uniforms = Collections.unmodifiableMap(NullCheck.notNull(in_uniforms));
+    this.uniforms = Collections.unmodifiableMap(NullCheck.notNull(
+      in_uniforms,
+      "Uniforms"));
   }
 
   @Override

@@ -28,12 +28,14 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeBlendingTest extends JCGLBlendingContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
 
-  @Override protected JCGLBlendingType getBlending(final String name)
+  @Override
+  protected JCGLBlendingType getBlending(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();

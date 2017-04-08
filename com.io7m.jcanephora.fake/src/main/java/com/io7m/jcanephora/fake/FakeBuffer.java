@@ -25,9 +25,9 @@ import java.nio.ByteBuffer;
 
 abstract class FakeBuffer extends FakeReferable implements JCGLBufferUsableType
 {
-  private final JCGLUsageHint           usage;
+  private final JCGLUsageHint usage;
   private final UnsignedRangeInclusiveL range;
-  private final ByteBuffer              data;
+  private final ByteBuffer data;
 
   FakeBuffer(
     final FakeContext in_context,
@@ -36,18 +36,20 @@ abstract class FakeBuffer extends FakeReferable implements JCGLBufferUsableType
     final JCGLUsageHint in_usage)
   {
     super(in_context, in_id);
-    this.usage = NullCheck.notNull(in_usage);
-    this.data = NullCheck.notNull(in_data);
+    this.usage = NullCheck.notNull(in_usage, "Usage");
+    this.data = NullCheck.notNull(in_data, "Data");
     this.range =
       new UnsignedRangeInclusiveL(0L, (long) in_data.capacity() - 1L);
   }
 
-  @Override public final JCGLUsageHint getUsageHint()
+  @Override
+  public final JCGLUsageHint getUsageHint()
   {
     return this.usage;
   }
 
-  @Override public final UnsignedRangeInclusiveL getRange()
+  @Override
+  public final UnsignedRangeInclusiveL getRange()
   {
     return this.range;
   }

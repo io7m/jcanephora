@@ -53,7 +53,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
     LOG = LoggerFactory.getLogger(JOGLFramebuffersTestGL33.class);
   }
 
-  @Test public void testNonCompliantColorAttachments()
+  @Test
+  public void testNonCompliantColorAttachments()
     throws Exception
   {
     this.expected.expect(JCGLExceptionNonCompliant.class);
@@ -62,7 +63,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
         final GL3 base = c.getGL().getGL3();
         return new DebugGL3(base)
         {
-          @Override public void glGetIntegerv(
+          @Override
+          public void glGetIntegerv(
             final int name,
             final IntBuffer buffer)
           {
@@ -79,7 +81,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
       }, 24, 8);
   }
 
-  @Test public void testClampedDrawBuffers()
+  @Test
+  public void testClampedDrawBuffers()
     throws Exception
   {
     final JCGLContextType gg =
@@ -88,7 +91,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
           final GL3 base = c.getGL().getGL3();
           return new DebugGL3(base)
           {
-            @Override public void glGetIntegerv(
+            @Override
+            public void glGetIntegerv(
               final int name,
               final IntBuffer buffer)
             {
@@ -109,7 +113,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
     Assert.assertEquals(1024L, (long) gf.framebufferGetDrawBuffers().size());
   }
 
-  @Test public void testClampedColorAttachments()
+  @Test
+  public void testClampedColorAttachments()
     throws Exception
   {
     final JCGLContextType gg =
@@ -118,7 +123,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
           final GL3 base = c.getGL().getGL3();
           return new DebugGL3(base)
           {
-            @Override public void glGetIntegerv(
+            @Override
+            public void glGetIntegerv(
               final int name,
               final IntBuffer buffer)
             {
@@ -140,7 +146,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
       1024L, (long) gf.framebufferGetColorAttachments().size());
   }
 
-  @Test public void testNonCompliantDrawBuffers()
+  @Test
+  public void testNonCompliantDrawBuffers()
     throws Exception
   {
     this.expected.expect(JCGLExceptionNonCompliant.class);
@@ -149,7 +156,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
         final GL3 base = c.getGL().getGL3();
         return new DebugGL3(base)
         {
-          @Override public void glGetIntegerv(
+          @Override
+          public void glGetIntegerv(
             final int name,
             final IntBuffer buffer)
           {
@@ -166,7 +174,8 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
       }, 24, 8);
   }
 
-  @Test public void testRedundantReadBind()
+  @Test
+  public void testRedundantReadBind()
     throws Exception
   {
     final AtomicInteger binds = new AtomicInteger(0);
@@ -242,27 +251,28 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
     Assert.assertEquals(4L, binds.get());
   }
 
-  @Test public void testRedundantDrawBind()
+  @Test
+  public void testRedundantDrawBind()
     throws Exception
   {
     final AtomicInteger binds = new AtomicInteger(0);
 
     final JCGLContextType c =
       JOGLTestContexts.newGL33ContextWithSupplierAndErrors(
-      "main", ctx -> {
-        final GL3 base = ctx.getGL().getGL3();
-        return new DebugGL3(base)
-        {
-          @Override
-          public void glBindFramebuffer(
-            final int arg0,
-            final int arg1)
+        "main", ctx -> {
+          final GL3 base = ctx.getGL().getGL3();
+          return new DebugGL3(base)
           {
-            binds.incrementAndGet();
-            super.glBindFramebuffer(arg0, arg1);
-          }
-        };
-      }, 24, 8);
+            @Override
+            public void glBindFramebuffer(
+              final int arg0,
+              final int arg1)
+            {
+              binds.incrementAndGet();
+              super.glBindFramebuffer(arg0, arg1);
+            }
+          };
+        }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
     final JCGLFramebuffersType g_fb = g.getFramebuffers();
@@ -315,19 +325,22 @@ public final class JOGLFramebuffersTestGL33 extends JCGLFramebuffersContract
     Assert.assertEquals(2L, binds.get());
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override
+  protected Interfaces getInterfaces(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     return new Interfaces(c, cg.getFramebuffers(), cg.getTextures());
   }
 
-  @Override protected boolean hasRealBlitting()
+  @Override
+  protected boolean hasRealBlitting()
   {
     return true;
   }

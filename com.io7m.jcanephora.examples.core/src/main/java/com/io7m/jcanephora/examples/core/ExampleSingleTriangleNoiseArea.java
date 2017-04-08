@@ -355,7 +355,7 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
       g_tex.texture2DUpdate(u0, this.texture_update);
     }
 
-    /**
+    /*
      * Activate the program, bind the created array object, draw a triangle.
      */
 
@@ -375,7 +375,7 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
     final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
     final JCGLShadersType g_sh = g.getShaders();
 
-    /**
+    /*
      * Delete everything.
      */
 

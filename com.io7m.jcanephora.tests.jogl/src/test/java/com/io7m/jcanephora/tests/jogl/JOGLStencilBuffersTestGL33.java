@@ -16,12 +16,10 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import com.io7m.jcanephora.core.JCGLDepthFunction;
 import com.io7m.jcanephora.core.JCGLFaceSelection;
 import com.io7m.jcanephora.core.JCGLStencilFunction;
 import com.io7m.jcanephora.core.JCGLStencilOperation;
 import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.core.api.JCGLDepthBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLStencilBuffersType;
 import com.io7m.jcanephora.tests.contracts.JCGLStencilBuffersContract;
@@ -34,12 +32,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class JOGLStencilBuffersTestGL33 extends JCGLStencilBuffersContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected Interfaces getInterfaces(
+  @Override
+  protected Interfaces getInterfaces(
     final String name,
     final int depth,
     final int stencil)

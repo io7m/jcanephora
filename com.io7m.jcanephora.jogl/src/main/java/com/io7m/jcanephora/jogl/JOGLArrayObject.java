@@ -42,7 +42,7 @@ final class JOGLArrayObject extends JOGLObjectUnshared
     final JCGLArrayVertexAttributeType[] in_attribs)
   {
     super(in_context, in_id);
-    this.attribs = NullCheck.notNull(in_attribs);
+    this.attribs = NullCheck.notNull(in_attribs, "Attributes");
     this.index_buffer = Optional.empty();
     this.image = String.format(
       "[ArrayObject %d]", Integer.valueOf(this.getGLName()));

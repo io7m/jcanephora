@@ -47,11 +47,11 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
     final JOGLContext c,
     final JOGLFramebuffers f)
   {
-    NullCheck.notNull(c);
-    this.framebuffers = NullCheck.notNull(f);
+    NullCheck.notNull(c, "Context");
+    this.framebuffers = NullCheck.notNull(f, "Framebuffers");
     this.gl = c.getGL3();
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -96,7 +96,7 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
       return fb.framebufferGetDepthBits();
     }
 
-    /**
+    /*
      * Check the capabilities of the OpenGL context for the capabilities
      * of the default framebuffer.
      */
@@ -116,7 +116,7 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
       this.gl.glDisable(GL.GL_DEPTH_TEST);
       this.enable_test = false;
     } else {
-      JOGLDepthBuffers.LOG.trace("redundant depth test disable ignored");
+      LOG.trace("redundant depth test disable ignored");
     }
   }
 
@@ -132,7 +132,7 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
       this.gl.glEnable(GL.GL_DEPTH_TEST);
       this.enable_test = true;
     } else {
-      JOGLDepthBuffers.LOG.trace("redundant depth test enable ignored");
+      LOG.trace("redundant depth test enable ignored");
     }
 
     if (this.func != in_func) {
@@ -140,7 +140,7 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
       this.gl.glDepthFunc(d);
       this.func = in_func;
     } else {
-      JOGLDepthBuffers.LOG.trace("redundant depth function change ignored");
+      LOG.trace("redundant depth function change ignored");
     }
   }
 
@@ -162,7 +162,7 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
       this.gl.glDepthMask(false);
       this.enable_write = false;
     } else {
-      JOGLDepthBuffers.LOG.trace("redundant depth write disable ignored");
+      LOG.trace("redundant depth write disable ignored");
     }
   }
 
@@ -176,7 +176,7 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
       this.gl.glDepthMask(true);
       this.enable_write = true;
     } else {
-      JOGLDepthBuffers.LOG.trace("redundant depth write enable ignored");
+      LOG.trace("redundant depth write enable ignored");
     }
   }
 
@@ -198,7 +198,7 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
       this.gl.glDisable(GL3.GL_DEPTH_CLAMP);
       this.clamp = false;
     } else {
-      JOGLDepthBuffers.LOG.trace("redundant depth clamp disable ignored");
+      LOG.trace("redundant depth clamp disable ignored");
     }
   }
 
@@ -212,7 +212,7 @@ final class JOGLDepthBuffers implements JCGLDepthBuffersType
       this.gl.glEnable(GL3.GL_DEPTH_CLAMP);
       this.clamp = true;
     } else {
-      JOGLDepthBuffers.LOG.trace("redundant depth clamp enable ignored");
+      LOG.trace("redundant depth clamp enable ignored");
     }
   }
 

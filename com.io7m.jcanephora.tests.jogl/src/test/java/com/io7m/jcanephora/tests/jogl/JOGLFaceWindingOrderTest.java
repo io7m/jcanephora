@@ -22,12 +22,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLFaceWindingOrderContract;
 
 public final class JOGLFaceWindingOrderTest extends JCGLFaceWindingOrderContract
 {
-  @Override protected int toInt(final JCGLFaceWindingOrder d)
+  @Override
+  protected int toInt(final JCGLFaceWindingOrder d)
   {
     return JOGLTypeConversions.faceWindingOrderToGL(d);
   }
 
-  @Override protected JCGLFaceWindingOrder fromInt(final int c)
+  @Override
+  protected JCGLFaceWindingOrder fromInt(final int c)
   {
     return JOGLTypeConversions.faceWindingOrderFromGL(c);
   }

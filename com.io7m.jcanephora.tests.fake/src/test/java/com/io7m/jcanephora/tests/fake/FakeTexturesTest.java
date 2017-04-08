@@ -28,7 +28,8 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeTexturesTest extends JCGLTexturesContract
 {
-  @Override protected JCGLTexturesType getTextures(final String name)
+  @Override
+  protected JCGLTexturesType getTextures(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
@@ -41,7 +42,8 @@ public final class FakeTexturesTest extends JCGLTexturesContract
     }
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }

@@ -44,26 +44,26 @@ import java.util.function.Supplier;
 public final class JCGLAsyncInterfaceGL33 implements JCGLAsyncInterfaceGL33Type
 {
   private static final AtomicInteger ID_POOL;
-  private static final Logger        LOG;
+  private static final Logger LOG;
 
   static {
     ID_POOL = new AtomicInteger(0);
     LOG = LoggerFactory.getLogger(JCGLAsyncInterfaceGL33.class);
   }
 
-  private final JCGLContextType       context;
+  private final JCGLContextType context;
   private final JCGLInterfaceGL33Type g33;
-  private final ExecutorService       exec;
-  private final AtomicBoolean         closing;
+  private final ExecutorService exec;
+  private final AtomicBoolean closing;
 
   private JCGLAsyncInterfaceGL33(
     final JCGLContextType in_context,
     final JCGLInterfaceGL33Type in_g33,
     final ExecutorService in_exec)
   {
-    this.context = NullCheck.notNull(in_context);
-    this.g33 = NullCheck.notNull(in_g33);
-    this.exec = NullCheck.notNull(in_exec);
+    this.context = NullCheck.notNull(in_context, "Context");
+    this.g33 = NullCheck.notNull(in_g33, "G33");
+    this.exec = NullCheck.notNull(in_exec, "Executor");
     this.closing = new AtomicBoolean(false);
   }
 
@@ -82,10 +82,10 @@ public final class JCGLAsyncInterfaceGL33 implements JCGLAsyncInterfaceGL33Type
     final Supplier<JCGLContextType> c)
   {
     try {
-      NullCheck.notNull(c);
+      NullCheck.notNull(c, "Supplier");
 
       final ThreadFactory tf = r -> {
-        final int id = JCGLAsyncInterfaceGL33.ID_POOL.getAndIncrement();
+        final int id = ID_POOL.getAndIncrement();
         final Thread t = new Thread(r);
         t.setDaemon(false);
         t.setName("jcgl-async-gl-" + id);
@@ -125,22 +125,22 @@ public final class JCGLAsyncInterfaceGL33 implements JCGLAsyncInterfaceGL33Type
     throws JCGLException
   {
     if (this.closing.compareAndSet(false, true)) {
-      JCGLAsyncInterfaceGL33.LOG.debug("scheduling shutdown");
+      LOG.debug("scheduling shutdown");
       return CompletableFuture.runAsync(
         () -> {
-          JCGLAsyncInterfaceGL33.LOG.debug(
+          LOG.debug(
             "attempting to release context");
           this.context.contextReleaseCurrent();
         }, this.exec)
         .handle((v, ex) -> {
-          JCGLAsyncInterfaceGL33.LOG.debug(
+          LOG.debug(
             "attempting to shut down executor");
           this.exec.shutdown();
           return v;
         });
     }
 
-    throw JCGLAsyncInterfaceGL33.alreadyClosing();
+    throw alreadyClosing();
   }
 
   @Override
@@ -154,7 +154,7 @@ public final class JCGLAsyncInterfaceGL33 implements JCGLAsyncInterfaceGL33Type
     final A c,
     final BiFunction<JCGLInterfaceGL33Type, A, B> f)
   {
-    NullCheck.notNull(f);
+    NullCheck.notNull(f, "Function");
 
     if (!this.closing.get()) {
       return CompletableFuture.supplyAsync(
@@ -162,10 +162,10 @@ public final class JCGLAsyncInterfaceGL33 implements JCGLAsyncInterfaceGL33Type
           if (!this.closing.get()) {
             return f.apply(this.g33, c);
           }
-          throw JCGLAsyncInterfaceGL33.alreadyClosing();
+          throw alreadyClosing();
         }, this.exec);
     }
 
-    throw JCGLAsyncInterfaceGL33.alreadyClosing();
+    throw alreadyClosing();
   }
 }

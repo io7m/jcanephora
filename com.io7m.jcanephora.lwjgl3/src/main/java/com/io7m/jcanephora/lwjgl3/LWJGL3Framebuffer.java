@@ -64,8 +64,8 @@ final class LWJGL3Framebuffer extends LWJGL3ObjectUnshared implements
     final LWJGL3Context c,
     final JCGLFramebufferUsableType buffer)
   {
-    NullCheck.notNull(c);
-    NullCheck.notNull(buffer);
+    NullCheck.notNull(c, "Context");
+    NullCheck.notNull(buffer, "Framebuffer");
     return (LWJGL3Framebuffer) LWJGL3CompatibilityChecks.checkAny(c, buffer);
   }
 

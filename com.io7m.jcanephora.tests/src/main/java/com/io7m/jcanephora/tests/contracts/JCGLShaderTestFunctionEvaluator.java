@@ -63,7 +63,7 @@ public final class JCGLShaderTestFunctionEvaluator
     this.program = p;
     this.quad =
       JCGLShadersTestUtilities.newScreenQuad(gg);
-    this.gl = NullCheck.notNull(gg);
+    this.gl = NullCheck.notNull(gg, "G33");
   }
 
   @Override
@@ -77,7 +77,7 @@ public final class JCGLShaderTestFunctionEvaluator
     final JCGLFramebuffersType gf = this.gl.getFramebuffers();
 
     final JCGLProgramUniformType u_data =
-      NullCheck.notNull(this.program.getUniforms().get("data"));
+      NullCheck.notNull(this.program.getUniforms().get("data"), "Uniform");
 
     gf.framebufferDrawBind(this.framebuffer);
     gs.shaderActivateProgram(this.program);
@@ -123,7 +123,7 @@ public final class JCGLShaderTestFunctionEvaluator
     final JCGLFramebuffersType gf = this.gl.getFramebuffers();
 
     final JCGLProgramUniformType u_data =
-      NullCheck.notNull(this.program.getUniforms().get("data[0]"));
+      NullCheck.notNull(this.program.getUniforms().get("data[0]"), "Uniform");
 
     gf.framebufferDrawBind(this.framebuffer);
     gs.shaderActivateProgram(this.program);

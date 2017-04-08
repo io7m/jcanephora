@@ -29,9 +29,9 @@ import java.util.function.Function;
 final class FakeArrayObject extends FakeObjectUnshared
   implements JCGLArrayObjectType
 {
-  private final JCGLArrayVertexAttributeType[]      attribs;
-  private final FakeReferenceContainer              reference_container;
-  private       Optional<JCGLIndexBufferUsableType> index_buffer;
+  private final JCGLArrayVertexAttributeType[] attribs;
+  private final FakeReferenceContainer reference_container;
+  private Optional<JCGLIndexBufferUsableType> index_buffer;
 
   FakeArrayObject(
     final FakeContext in_context,
@@ -39,7 +39,7 @@ final class FakeArrayObject extends FakeObjectUnshared
     final JCGLArrayVertexAttributeType[] in_attribs)
   {
     super(in_context, in_id);
-    this.attribs = NullCheck.notNull(in_attribs);
+    this.attribs = NullCheck.notNull(in_attribs, "Attributes");
     this.index_buffer = Optional.empty();
 
     this.reference_container = new FakeReferenceContainer(this, 8);

@@ -28,7 +28,8 @@ public final class JOGLScalarTypeTest
    * ∀t. scalarTypeFromGL(scalarTypeToGL(t)) = t.
    */
 
-  @Test public void testScalarBijection()
+  @Test
+  public void testScalarBijection()
   {
     for (final JCGLScalarType t : JCGLScalarType.values()) {
       Assert.assertEquals(

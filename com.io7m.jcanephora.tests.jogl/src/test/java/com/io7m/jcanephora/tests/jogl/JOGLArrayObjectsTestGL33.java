@@ -39,7 +39,8 @@ public final class JOGLArrayObjectsTestGL33 extends JCGLArrayObjectsContract
     LOG = LoggerFactory.getLogger(JOGLArrayObjectsTestGL33.class);
   }
 
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override
+  protected Interfaces getInterfaces(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
@@ -49,7 +50,8 @@ public final class JOGLArrayObjectsTestGL33 extends JCGLArrayObjectsContract
     return new Interfaces(c, ga, gi, go);
   }
 
-  @Test public void testNonCompliantArrayBuffers()
+  @Test
+  public void testNonCompliantArrayBuffers()
     throws Exception
   {
     this.expected.expect(JCGLExceptionNonCompliant.class);
@@ -58,7 +60,8 @@ public final class JOGLArrayObjectsTestGL33 extends JCGLArrayObjectsContract
         final GL3 base = c.getGL().getGL3();
         return new DebugGL3(base)
         {
-          @Override public void glGetIntegerv(
+          @Override
+          public void glGetIntegerv(
             final int name,
             final IntBuffer buffer)
           {
@@ -75,7 +78,8 @@ public final class JOGLArrayObjectsTestGL33 extends JCGLArrayObjectsContract
       }, 24, 8);
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

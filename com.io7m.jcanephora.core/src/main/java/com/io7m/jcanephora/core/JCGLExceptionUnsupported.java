@@ -41,8 +41,8 @@ public final class JCGLExceptionUnsupported extends JCGLExceptionChecked
     final JCGLVersionNumber v_got)
   {
     super("Unsupported OpenGL version");
-    this.expected = NullCheck.notNull(v_exp);
-    this.received = NullCheck.notNull(v_got);
+    this.expected = NullCheck.notNull(v_exp, "Expected");
+    this.received = NullCheck.notNull(v_got, "Got");
   }
 
   /**

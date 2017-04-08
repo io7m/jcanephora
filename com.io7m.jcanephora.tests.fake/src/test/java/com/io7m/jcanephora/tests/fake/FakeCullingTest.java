@@ -28,12 +28,14 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeCullingTest extends JCGLCullingContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
 
-  @Override protected JCGLCullingType getCulling(final String name)
+  @Override
+  protected JCGLCullingType getCulling(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();

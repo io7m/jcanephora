@@ -30,7 +30,8 @@ public final class JOGLColorBufferMaskingTestGL33 extends
     return c.contextGetGL33().getColorBufferMasking();
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

@@ -61,7 +61,7 @@ final class LWJGL3InterfaceGL33 implements JCGLInterfaceGL33Type
     final LWJGL3Context c)
     throws JCGLExceptionNonCompliant
   {
-    NullCheck.notNull(c);
+    NullCheck.notNull(c, "Context");
 
     this.array_buffers = new LWJGL3ArrayBuffers(c);
     this.index_buffers = new LWJGL3IndexBuffers(c);

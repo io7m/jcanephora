@@ -67,11 +67,11 @@ public final class ExampleSingleRunnerMain
     throws Exception
   {
     if (args.length < 1) {
-      ExampleSingleRunnerMain.LOG.info("usage: example-class");
+      LOG.info("usage: example-class");
       System.exit(1);
     }
 
-    final ExampleType ex = ExampleSingleRunnerMain.lookupExample(args[0]);
+    final ExampleType ex = lookupExample(args[0]);
 
     final GLProfile pro = GLProfile.get(GLProfile.GL3);
     final GLCapabilities caps = new GLCapabilities(pro);
@@ -85,18 +85,19 @@ public final class ExampleSingleRunnerMain
 
     final Animator anim = new Animator(window);
 
-    /**
+    /*
      * Close the program when the window closes.
      */
 
     window.addWindowListener(new WindowAdapter()
     {
-      @Override public void windowDestroyed(
+      @Override
+      public void windowDestroyed(
         final WindowEvent e)
       {
-        ExampleSingleRunnerMain.LOG.debug("Stopping animator");
+        LOG.debug("Stopping animator");
         anim.stop();
-        ExampleSingleRunnerMain.LOG.debug("Exiting");
+        LOG.debug("Exiting");
         System.exit(0);
       }
     });
@@ -110,36 +111,39 @@ public final class ExampleSingleRunnerMain
     InstantiationException,
     IllegalAccessException
   {
-    ExampleSingleRunnerMain.LOG.debug("looking up class {}", name);
+    LOG.debug("looking up class {}", name);
     final Class<?> c = Class.forName(name);
     return (ExampleType) c.newInstance();
   }
 
   private static final class ExampleEventListener implements GLEventListener
   {
-    private final ExampleType     example;
-    private       JCGLContextType context;
-    private       int             frame;
+    private final ExampleType example;
+    private JCGLContextType context;
+    private int frame;
 
     ExampleEventListener(
       final ExampleType in_example)
     {
-      this.example = NullCheck.notNull(in_example);
+      this.example = NullCheck.notNull(in_example, "Example");
     }
 
-    @Override public void init(
+    @Override
+    public void init(
       final GLAutoDrawable drawable)
     {
 
     }
 
-    @Override public void dispose(
+    @Override
+    public void dispose(
       final GLAutoDrawable drawable)
     {
       this.example.onFinish(this.context.contextGetGL33());
     }
 
-    @Override public void display(
+    @Override
+    public void display(
       final GLAutoDrawable drawable)
     {
       try {
@@ -148,8 +152,8 @@ public final class ExampleSingleRunnerMain
           gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
           gl.glClear(
             GL.GL_COLOR_BUFFER_BIT
-            | GL.GL_DEPTH_BUFFER_BIT
-            | GL.GL_STENCIL_BUFFER_BIT);
+              | GL.GL_DEPTH_BUFFER_BIT
+              | GL.GL_STENCIL_BUFFER_BIT);
           return;
         }
 
@@ -168,15 +172,16 @@ public final class ExampleSingleRunnerMain
 
         this.example.onRender(this.context.contextGetGL33());
       } catch (final JCGLExceptionUnsupported x) {
-        ExampleSingleRunnerMain.LOG.error("unsupported: ", x);
+        LOG.error("unsupported: ", x);
       } catch (final JCGLExceptionNonCompliant x) {
-        ExampleSingleRunnerMain.LOG.error("non compliant: ", x);
+        LOG.error("non compliant: ", x);
       } finally {
         ++this.frame;
       }
     }
 
-    @Override public void reshape(
+    @Override
+    public void reshape(
       final GLAutoDrawable drawable,
       final int x,
       final int y,

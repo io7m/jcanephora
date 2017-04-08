@@ -29,7 +29,6 @@ final class JOGLDraw implements JCGLDrawType
 {
   private final JOGLArrayObjects array_objects;
   private final JOGLIndexBuffers index_buffers;
-  private final JOGLContext context;
   private final GL3 g3;
 
   JOGLDraw(
@@ -37,10 +36,10 @@ final class JOGLDraw implements JCGLDrawType
     final JOGLArrayObjects in_array_objects,
     final JOGLIndexBuffers in_index_buffers)
   {
-    this.context = NullCheck.notNull(in_context);
-    this.array_objects = NullCheck.notNull(in_array_objects);
-    this.index_buffers = NullCheck.notNull(in_index_buffers);
-    this.g3 = this.context.getGL3();
+    final JOGLContext context = NullCheck.notNull(in_context, "Context");
+    this.array_objects = NullCheck.notNull(in_array_objects, "Array objects");
+    this.index_buffers = NullCheck.notNull(in_index_buffers, "Index buffers");
+    this.g3 = context.getGL3();
   }
 
   @Override
@@ -50,7 +49,7 @@ final class JOGLDraw implements JCGLDrawType
     final int count)
     throws JCGLException
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
     RangeCheck.checkIncludedInInteger(
       first, "First", Ranges.NATURAL_INTEGER, "Valid index");
     RangeCheck.checkIncludedInInteger(
@@ -67,7 +66,7 @@ final class JOGLDraw implements JCGLDrawType
     final int instances)
     throws JCGLException
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
     RangeCheck.checkIncludedInInteger(
       first, "First", Ranges.NATURAL_INTEGER, "Valid index");
     RangeCheck.checkIncludedInInteger(
@@ -83,7 +82,7 @@ final class JOGLDraw implements JCGLDrawType
   public void drawElements(final JCGLPrimitives p)
     throws JCGLException, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
 
     if (this.index_buffers.indexBufferIsBound()) {
       final JOGLIndexBuffer ib = this.array_objects.getCurrentIndexBuffer();
@@ -102,7 +101,7 @@ final class JOGLDraw implements JCGLDrawType
     final int instances)
     throws JCGLException, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
     RangeCheck.checkIncludedInInteger(
       instances, "Instances", Ranges.NATURAL_INTEGER, "Valid instances");
 

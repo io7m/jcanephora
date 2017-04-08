@@ -27,7 +27,8 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeFramebuffersTest extends JCGLFramebuffersContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
@@ -46,7 +47,8 @@ public final class FakeFramebuffersTest extends JCGLFramebuffersContract
     }
   }
 
-  @Override protected boolean hasRealBlitting()
+  @Override
+  protected boolean hasRealBlitting()
   {
     return false;
   }

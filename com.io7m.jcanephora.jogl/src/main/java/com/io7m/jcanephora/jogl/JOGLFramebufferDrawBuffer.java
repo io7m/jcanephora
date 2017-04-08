@@ -44,8 +44,8 @@ final class JOGLFramebufferDrawBuffer extends
     final GLContext c,
     final JCGLFramebufferDrawBufferType buffer)
   {
-    NullCheck.notNull(c);
-    NullCheck.notNull(buffer);
+    NullCheck.notNull(c, "Context");
+    NullCheck.notNull(buffer, "Framebuffer");
     return (JOGLFramebufferDrawBuffer)
       JOGLCompatibilityChecks.checkAny(c, buffer);
   }

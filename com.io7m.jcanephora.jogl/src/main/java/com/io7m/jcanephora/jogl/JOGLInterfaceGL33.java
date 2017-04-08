@@ -61,7 +61,7 @@ final class JOGLInterfaceGL33 implements JCGLInterfaceGL33Type
     final JOGLContext c)
     throws JCGLExceptionNonCompliant
   {
-    NullCheck.notNull(c);
+    NullCheck.notNull(c, "Context");
 
     this.array_buffers = new JOGLArrayBuffers(c);
     this.index_buffers = new JOGLIndexBuffers(c);

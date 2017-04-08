@@ -34,7 +34,7 @@ final class JOGLReferenceContainer implements JCGLReferenceContainerType
     final JCGLReferenceContainerType in_owner,
     final int size)
   {
-    this.owner = NullCheck.notNull(in_owner);
+    this.owner = NullCheck.notNull(in_owner, "Owner");
     this.references = Collections.newSetFromMap(new ConcurrentHashMap<>(size));
     this.references_view = Collections.unmodifiableSet(this.references);
   }

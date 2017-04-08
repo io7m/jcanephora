@@ -24,8 +24,7 @@ import java.util.List;
 final class FakeFragmentShader extends FakeReferable
   implements JCGLFragmentShaderType
 {
-  private final String       name;
-  private final List<String> lines;
+  private final String name;
 
   FakeFragmentShader(
     final FakeContext in_context,
@@ -34,11 +33,12 @@ final class FakeFragmentShader extends FakeReferable
     final List<String> in_lines)
   {
     super(in_context, in_id);
-    this.name = NullCheck.notNull(in_name);
-    this.lines = NullCheck.notNull(in_lines);
+    this.name = NullCheck.notNull(in_name, "Name");
+    NullCheck.notNull(in_lines, "Lines");
   }
 
-  @Override public String getName()
+  @Override
+  public String getName()
   {
     return this.name;
   }

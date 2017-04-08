@@ -28,7 +28,8 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeTimersTest extends JCGLTimersContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }

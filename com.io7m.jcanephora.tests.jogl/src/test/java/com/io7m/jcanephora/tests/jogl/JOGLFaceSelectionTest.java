@@ -22,12 +22,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLFaceSelectionContract;
 
 public final class JOGLFaceSelectionTest extends JCGLFaceSelectionContract
 {
-  @Override protected int toInt(final JCGLFaceSelection d)
+  @Override
+  protected int toInt(final JCGLFaceSelection d)
   {
     return JOGLTypeConversions.faceSelectionToGL(d);
   }
 
-  @Override protected JCGLFaceSelection fromInt(final int c)
+  @Override
+  protected JCGLFaceSelection fromInt(final int c)
   {
     return JOGLTypeConversions.faceSelectionFromGL(c);
   }

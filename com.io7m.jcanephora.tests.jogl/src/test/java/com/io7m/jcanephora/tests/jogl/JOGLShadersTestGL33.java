@@ -33,14 +33,16 @@ import java.util.List;
 
 public final class JOGLShadersTestGL33 extends JCGLShadersContract
 {
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override
+  protected Interfaces getInterfaces(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type i = c.contextGetGL33();
     return new Interfaces(c, i.getShaders(), i.getTextures());
   }
 
-  @Override protected JCGLShadersType getShaders(final String name)
+  @Override
+  protected JCGLShadersType getShaders(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context("main", 24, 8);
     return c.contextGetGL33().getShaders();
@@ -78,7 +80,8 @@ public final class JOGLShadersTestGL33 extends JCGLShadersContract
       sc);
   }
 
-  @Override protected List<String> getShaderLines(final String name)
+  @Override
+  protected List<String> getShaderLines(final String name)
   {
     final Class<JCGLShadersContract> c = JCGLShadersContract.class;
     final List<String> lines = new ArrayList<>(32);
@@ -98,7 +101,8 @@ public final class JOGLShadersTestGL33 extends JCGLShadersContract
     }
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

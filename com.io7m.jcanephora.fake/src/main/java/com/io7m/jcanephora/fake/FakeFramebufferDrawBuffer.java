@@ -38,7 +38,8 @@ final class FakeFramebufferDrawBuffer extends
         "Valid draw buffers");
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[FramebufferDrawBuffer ");
     sb.append(this.index);
@@ -46,7 +47,8 @@ final class FakeFramebufferDrawBuffer extends
     return sb.toString();
   }
 
-  @Override public boolean equals(final Object o)
+  @Override
+  public boolean equals(final Object o)
   {
     if (this == o) {
       return true;
@@ -59,7 +61,8 @@ final class FakeFramebufferDrawBuffer extends
     return this.index == that.index;
   }
 
-  @Override public int hashCode()
+  @Override
+  public int hashCode()
   {
     return this.index;
   }
@@ -70,7 +73,8 @@ final class FakeFramebufferDrawBuffer extends
     return Integer.compare(this.index, o.drawBufferGetIndex());
   }
 
-  @Override public int drawBufferGetIndex()
+  @Override
+  public int drawBufferGetIndex()
   {
     return this.index;
   }

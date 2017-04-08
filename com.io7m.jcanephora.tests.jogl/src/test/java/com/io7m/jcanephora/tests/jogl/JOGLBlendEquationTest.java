@@ -22,12 +22,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLBlendEquationContract;
 
 public final class JOGLBlendEquationTest extends JCGLBlendEquationContract
 {
-  @Override protected int toInt(final JCGLBlendEquation d)
+  @Override
+  protected int toInt(final JCGLBlendEquation d)
   {
     return JOGLTypeConversions.blendEquationToGL(d);
   }
 
-  @Override protected JCGLBlendEquation fromInt(final int c)
+  @Override
+  protected JCGLBlendEquation fromInt(final int c)
   {
     return JOGLTypeConversions.blendEquationFromGL(c);
   }

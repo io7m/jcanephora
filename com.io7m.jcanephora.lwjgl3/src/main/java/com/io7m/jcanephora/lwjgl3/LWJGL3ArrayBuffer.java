@@ -42,7 +42,7 @@ final class LWJGL3ArrayBuffer extends LWJGL3Buffer implements
     final JCGLArrayBufferUsableType x)
     throws JCGLExceptionWrongContext
   {
-    NullCheck.notNull(x);
+    NullCheck.notNull(x, "Context");
     return (LWJGL3ArrayBuffer) LWJGL3CompatibilityChecks.checkAny(current, x);
   }
 

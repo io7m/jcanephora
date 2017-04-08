@@ -28,7 +28,8 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeBufferUpdatesTest extends JCGLBufferUpdatesContract
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
+  @Override
+  protected JCGLArrayBuffersType getArrayBuffers(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
@@ -41,7 +42,8 @@ public final class FakeBufferUpdatesTest extends JCGLBufferUpdatesContract
     }
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }

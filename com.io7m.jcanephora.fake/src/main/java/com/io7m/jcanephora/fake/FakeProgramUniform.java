@@ -30,11 +30,11 @@ import com.io7m.jranges.Ranges;
 public final class FakeProgramUniform extends FakeObjectPseudoShared
   implements JCGLProgramUniformType
 {
-  private final int                         location;
-  private final String                      name;
+  private final int location;
+  private final String name;
   private final JCGLProgramShaderUsableType program;
-  private final JCGLType                    type;
-  private final int                         size;
+  private final JCGLType type;
+  private final int size;
 
   /**
    * Construct a uniform.

@@ -21,7 +21,7 @@ package com.io7m.jcanephora.core;
  */
 
 public interface JCGLFragmentShaderUsableType
-  extends JCGLResourceUsableType, JCGLNamedType, JCGLReferableType
+  extends JCGLResourceUsableType, JCGLReferableType
 {
   /**
    * @return The name of the shader

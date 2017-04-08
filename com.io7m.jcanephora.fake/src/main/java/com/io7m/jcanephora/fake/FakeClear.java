@@ -24,17 +24,16 @@ import com.io7m.junreachable.UnimplementedCodeException;
 
 final class FakeClear implements JCGLClearType
 {
-  private final FakeContext context;
-
   FakeClear(final FakeContext c)
   {
-    this.context = NullCheck.notNull(c);
+    NullCheck.notNull(c, "Context");
   }
 
-  @Override public void clear(final JCGLClearSpecificationType c)
+  @Override
+  public void clear(final JCGLClearSpecificationType c)
     throws JCGLException
   {
-    NullCheck.notNull(c);
+    NullCheck.notNull(c, "Clear");
 
     // TODO: Generated method stub!
     throw new UnimplementedCodeException();

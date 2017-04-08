@@ -28,7 +28,8 @@ public final class JOGLTypeTest
    * ∀t. typeFromGL(typeToGL(t)) = t.
    */
 
-  @Test public void testTypeBijection()
+  @Test
+  public void testTypeBijection()
   {
     for (final JCGLType u : JCGLType.values()) {
       Assert.assertEquals(
@@ -36,7 +37,8 @@ public final class JOGLTypeTest
     }
   }
 
-  @Test(expected = UnreachableCodeException.class) public void testTypeFailure()
+  @Test(expected = UnreachableCodeException.class)
+  public void testTypeFailure()
   {
     JOGLTypeConversions.typeFromGL(-1);
   }

@@ -22,12 +22,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLPolygonModeContract;
 
 public final class JOGLPolygonModeTest extends JCGLPolygonModeContract
 {
-  @Override protected int toInt(final JCGLPolygonMode d)
+  @Override
+  protected int toInt(final JCGLPolygonMode d)
   {
     return JOGLTypeConversions.polygonModeToGL(d);
   }
 
-  @Override protected JCGLPolygonMode fromInt(final int c)
+  @Override
+  protected JCGLPolygonMode fromInt(final int c)
   {
     return JOGLTypeConversions.polygonModeFromGL(c);
   }

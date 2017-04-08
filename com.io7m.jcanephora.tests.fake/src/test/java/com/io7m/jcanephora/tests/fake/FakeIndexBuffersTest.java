@@ -30,12 +30,14 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeIndexBuffersTest extends JCGLIndexBuffersContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
 
-  @Override protected Interfaces getIndexBuffers(final String name)
+  @Override
+  protected Interfaces getIndexBuffers(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();

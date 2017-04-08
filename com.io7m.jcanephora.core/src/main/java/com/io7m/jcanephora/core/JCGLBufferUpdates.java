@@ -48,8 +48,8 @@ public final class JCGLBufferUpdates
   public static <T extends JCGLBufferWritableType> JCGLBufferUpdateType<T>
   newUpdateReplacingAll(final T buffer)
   {
-    NullCheck.notNull(buffer);
-    return JCGLBufferUpdates.newUpdateReplacingRange(buffer, buffer.getRange());
+    NullCheck.notNull(buffer, "Buffer");
+    return newUpdateReplacingRange(buffer, buffer.getRange());
   }
 
   /**
@@ -72,8 +72,8 @@ public final class JCGLBufferUpdates
     final UnsignedRangeInclusiveL range)
     throws RangeCheckException
   {
-    NullCheck.notNull(buffer);
-    NullCheck.notNull(range);
+    NullCheck.notNull(buffer, "Buffer");
+    NullCheck.notNull(range, "Range");
 
     final UnsignedRangeInclusiveL buffer_range = buffer.getRange();
     UnsignedRangeCheck.checkRangeIncludedInLong(
@@ -97,9 +97,9 @@ public final class JCGLBufferUpdates
       final ByteBuffer in_data,
       final UnsignedRangeInclusiveL in_range)
     {
-      this.buffer = NullCheck.notNull(in_buffer);
-      this.data = NullCheck.notNull(in_data);
-      this.range = NullCheck.notNull(in_range);
+      this.buffer = NullCheck.notNull(in_buffer, "Buffer");
+      this.data = NullCheck.notNull(in_data, "Data");
+      this.range = NullCheck.notNull(in_range, "Range");
     }
 
     @Override

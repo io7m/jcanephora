@@ -171,7 +171,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLDepthBuffersType g_dep = i.getDepthBuffers();
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, i.getTextures());
+      depthlessFramebuffer(g_fb, i.getTextures());
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
     Assert.assertEquals(0L, (long) g_dep.depthBufferGetBits());
   }
@@ -284,7 +284,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, g_tex);
+      depthlessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -299,7 +299,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, g_tex);
+      depthlessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -314,7 +314,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, g_tex);
+      depthlessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -329,7 +329,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, g_tex);
+      depthlessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -344,7 +344,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, g_tex);
+      depthlessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -359,7 +359,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, g_tex);
+      depthlessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -374,7 +374,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, g_tex);
+      depthlessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -389,7 +389,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, g_tex);
+      depthlessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -404,7 +404,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, g_tex);
+      depthlessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -419,7 +419,7 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLDepthBuffersContract.depthlessFramebuffer(g_fb, g_tex);
+      depthlessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoDepthBuffer.class);
@@ -439,10 +439,10 @@ public abstract class JCGLDepthBuffersContract extends JCGLContract
       final JCGLTexturesType in_textures,
       final JCGLDepthBuffersType in_depth_buffers)
     {
-      this.context = NullCheck.notNull(in_context);
-      this.framebuffers = NullCheck.notNull(in_framebuffers);
-      this.textures = NullCheck.notNull(in_textures);
-      this.depth_buffers = NullCheck.notNull(in_depth_buffers);
+      this.context = NullCheck.notNull(in_context, "Context");
+      this.framebuffers = NullCheck.notNull(in_framebuffers, "Framebuffers");
+      this.textures = NullCheck.notNull(in_textures, "Textures");
+      this.depth_buffers = NullCheck.notNull(in_depth_buffers, "Depth buffers");
     }
 
     public JCGLDepthBuffersType getDepthBuffers()

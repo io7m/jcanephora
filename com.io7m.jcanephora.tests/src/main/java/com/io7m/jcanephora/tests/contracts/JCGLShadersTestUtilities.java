@@ -178,7 +178,7 @@ public final class JCGLShadersTestUtilities
     final List<JCGLTextureUnitType> units = gt.textureGetUnits();
     final JCGLTextureUnitType u = units.get(0);
     final JCGLTexture2DType t =
-      JCGLShadersTestUtilities.newTexture2D(g, f, w, h, u);
+      newTexture2D(g, f, w, h, u);
 
     fbb.attachColorTexture2DAt(points.get(0), buffers.get(0), t);
     return fb.framebufferAllocate(fbb);

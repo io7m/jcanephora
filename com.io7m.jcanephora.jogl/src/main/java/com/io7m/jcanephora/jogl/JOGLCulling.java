@@ -41,13 +41,13 @@ final class JOGLCulling implements JCGLCullingType
 
   JOGLCulling(final JOGLContext c)
   {
-    final JOGLContext context = NullCheck.notNull(c);
+    final JOGLContext context = NullCheck.notNull(c, "Context");
     this.gl = context.getGL3();
     this.enabled = false;
     this.current_faces = JCGLFaceSelection.FACE_BACK;
     this.current_order = JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -67,7 +67,7 @@ final class JOGLCulling implements JCGLCullingType
       this.gl.glDisable(GL.GL_CULL_FACE);
       this.enabled = false;
     } else {
-      JOGLCulling.LOG.trace("redundant culling disable ignored");
+      LOG.trace("redundant culling disable ignored");
     }
   }
 
@@ -87,19 +87,19 @@ final class JOGLCulling implements JCGLCullingType
       this.gl.glEnable(GL.GL_CULL_FACE);
       this.enabled = true;
     } else {
-      JOGLCulling.LOG.trace("redundant culling enable ignored");
+      LOG.trace("redundant culling enable ignored");
     }
     if (this.current_faces != faces) {
       this.gl.glCullFace(fi);
       this.current_faces = faces;
     } else {
-      JOGLCulling.LOG.trace("redundant culling face selection ignored");
+      LOG.trace("redundant culling face selection ignored");
     }
     if (this.current_order != order) {
       this.gl.glFrontFace(oi);
       this.current_order = order;
     } else {
-      JOGLCulling.LOG.trace("redundant culling face order ignored");
+      LOG.trace("redundant culling face order ignored");
     }
   }
 

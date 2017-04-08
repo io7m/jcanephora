@@ -30,21 +30,20 @@ import java.util.OptionalInt;
 
 final class JOGLClear implements JCGLClearType
 {
-  private final JOGLContext context;
   private final GL3 g3;
 
   JOGLClear(
     final JOGLContext in_context)
   {
-    this.context = NullCheck.notNull(in_context);
-    this.g3 = this.context.getGL3();
+    final JOGLContext context = NullCheck.notNull(in_context, "Context");
+    this.g3 = context.getGL3();
   }
 
   @Override
   public void clear(final JCGLClearSpecificationType c)
     throws JCGLException
   {
-    NullCheck.notNull(c);
+    NullCheck.notNull(c, "Clear");
 
     int buffers = 0;
     final Optional<Vector4D> opt_color = c.getColorBufferClear();

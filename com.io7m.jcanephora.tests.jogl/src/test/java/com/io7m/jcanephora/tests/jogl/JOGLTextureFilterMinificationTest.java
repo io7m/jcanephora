@@ -18,18 +18,19 @@ package com.io7m.jcanephora.tests.jogl;
 
 import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
 import com.io7m.jcanephora.jogl.JOGLTypeConversions;
-import com.io7m.jcanephora.tests.contracts
-  .JCGLTextureFilterMinificationContract;
+import com.io7m.jcanephora.tests.contracts.JCGLTextureFilterMinificationContract;
 
 public final class JOGLTextureFilterMinificationTest extends
   JCGLTextureFilterMinificationContract
 {
-  @Override protected int toInt(final JCGLTextureFilterMinification c)
+  @Override
+  protected int toInt(final JCGLTextureFilterMinification c)
   {
     return JOGLTypeConversions.textureFilterMinToGL(c);
   }
 
-  @Override protected JCGLTextureFilterMinification fromInt(final int c)
+  @Override
+  protected JCGLTextureFilterMinification fromInt(final int c)
   {
     return JOGLTypeConversions.textureFilterMinFromGL(c);
   }

@@ -46,8 +46,8 @@ public final class JCGLProfiling implements JCGLProfilingType
   private JCGLProfiling(
     final JCGLTimersType in_timers)
   {
-    this.timers = NullCheck.notNull(in_timers);
-    this.frames = new Frame[JCGLProfiling.FRAME_DELAY];
+    this.timers = NullCheck.notNull(in_timers, "Timers");
+    this.frames = new Frame[FRAME_DELAY];
 
     for (int index = 0; index < this.frames.length; ++index) {
       this.frames[index] = new Frame();
@@ -145,7 +145,7 @@ public final class JCGLProfiling implements JCGLProfilingType
   @Override
   public int getFrameDelay()
   {
-    return JCGLProfiling.FRAME_DELAY;
+    return FRAME_DELAY;
   }
 
   private final class Context implements JCGLProfilingContextType,
@@ -160,7 +160,7 @@ public final class JCGLProfiling implements JCGLProfilingType
 
     Context(final String in_name)
     {
-      this.name = NullCheck.notNull(in_name);
+      this.name = NullCheck.notNull(in_name, "Name");
       this.timer = Optional.empty();
       this.children = new Object2ReferenceLinkedOpenHashMap<>();
       this.children_ro = Collections.unmodifiableMap(this.children);
@@ -244,7 +244,7 @@ public final class JCGLProfiling implements JCGLProfilingType
     public JCGLProfilingContextType getChildContext(
       final String c_name)
     {
-      NullCheck.notNull(c_name);
+      NullCheck.notNull(c_name, "Name");
 
       if (this.children.containsKey(c_name)) {
         return this.children.get(c_name);
@@ -321,9 +321,7 @@ public final class JCGLProfiling implements JCGLProfilingType
       this.elapsed_total = 0L;
 
       if (this.hasTimer()) {
-        final long r =
-          JCGLProfiling.this.timers.timerQueryResultGet(this.timer.get());
-        this.elapsed = r;
+        this.elapsed = JCGLProfiling.this.timers.timerQueryResultGet(this.timer.get());
         this.elapsed_total = this.elapsed;
       }
 
@@ -354,7 +352,7 @@ public final class JCGLProfiling implements JCGLProfilingType
     @Override
     public JCGLProfilingContextType getChildContext(final String c_name)
     {
-      NullCheck.notNull(c_name);
+      NullCheck.notNull(c_name, "Name");
 
       if (this.children.containsKey(c_name)) {
         return this.children.get(c_name);

@@ -33,7 +33,7 @@ final class LWJGL3TextureSpecs
   private static final Map<JCGLTextureFormat, LWJGL3TextureSpec> SPECS;
 
   static {
-    SPECS = LWJGL3TextureSpecs.makeTextureSpecs();
+    SPECS = makeTextureSpecs();
   }
 
   private LWJGL3TextureSpecs()
@@ -49,7 +49,7 @@ final class LWJGL3TextureSpecs
     final JCGLTextureFormat[] values = JCGLTextureFormat.values();
     for (int index = 0; index < values.length; ++index) {
       final JCGLTextureFormat format = values[index];
-      final LWJGL3TextureSpec spec = LWJGL3TextureSpecs.makeTextureSpec(format);
+      final LWJGL3TextureSpec spec = makeTextureSpec(format);
 
       Preconditions.checkPrecondition(
         format,
@@ -69,7 +69,7 @@ final class LWJGL3TextureSpecs
     switch (ct) {
       case PIXEL_PACKED_UNSIGNED_INT_1010102:
 
-        /**
+        /*
          * 1010102 has to be re-mapped to unsigned bytes on GL3.
          */
 
@@ -94,7 +94,7 @@ final class LWJGL3TextureSpecs
     int gl_format = -1;
     int gl_internalformat = -1;
 
-    /**
+    /*
      * OpenGL 3.0 doesn't give a table of the valid combinations of texture
      * formats.
      */
@@ -350,13 +350,13 @@ final class LWJGL3TextureSpecs
   public static LWJGL3TextureSpec getTextureSpec(
     final JCGLTextureFormat format)
   {
-    NullCheck.notNull(format);
+    NullCheck.notNull(format, "Format");
 
     Preconditions.checkPrecondition(
       format,
-      LWJGL3TextureSpecs.SPECS.containsKey(format),
+      SPECS.containsKey(format),
       ignored -> "Format specification must be known");
 
-    return LWJGL3TextureSpecs.SPECS.get(format);
+    return SPECS.get(format);
   }
 }

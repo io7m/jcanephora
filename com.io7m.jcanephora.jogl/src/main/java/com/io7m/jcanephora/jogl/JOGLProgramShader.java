@@ -46,7 +46,7 @@ final class JOGLProgramShader extends JOGLObjectShared
     final JOGLFragmentShader fs)
   {
     super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
+    this.name = NullCheck.notNull(in_name, "Name");
     this.references = new JOGLReferenceContainer(this, 3);
     this.references.referenceAdd(vs);
     gs.ifPresent(this.references::referenceAdd);
@@ -87,7 +87,9 @@ final class JOGLProgramShader extends JOGLObjectShared
     final Map<String, JCGLProgramAttributeType> in_attributes)
   {
     this.attributes =
-      Collections.unmodifiableMap(NullCheck.notNull(in_attributes));
+      Collections.unmodifiableMap(NullCheck.notNull(
+        in_attributes,
+        "Attributes"));
   }
 
   @Override
@@ -99,7 +101,9 @@ final class JOGLProgramShader extends JOGLObjectShared
   void setUniforms(
     final Map<String, JCGLProgramUniformType> in_uniforms)
   {
-    this.uniforms = Collections.unmodifiableMap(NullCheck.notNull(in_uniforms));
+    this.uniforms = Collections.unmodifiableMap(NullCheck.notNull(
+      in_uniforms,
+      "Uniforms"));
   }
 
   @Override

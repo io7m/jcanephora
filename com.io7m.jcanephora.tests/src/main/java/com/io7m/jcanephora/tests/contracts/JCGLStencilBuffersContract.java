@@ -378,7 +378,7 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     final JCGLStencilBuffersType g_stencil = i.getStencilBuffers();
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLFramebufferType fb =
-      JCGLStencilBuffersContract.stencillessFramebuffer(g_fb, i.getTextures());
+      stencillessFramebuffer(g_fb, i.getTextures());
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
     Assert.assertEquals(0L, (long) g_stencil.stencilBufferGetBits());
   }
@@ -467,7 +467,7 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLStencilBuffersContract.stencillessFramebuffer(g_fb, g_tex);
+      stencillessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoStencilBuffer.class);
@@ -482,7 +482,7 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLStencilBuffersContract.stencillessFramebuffer(g_fb, g_tex);
+      stencillessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoStencilBuffer.class);
@@ -497,7 +497,7 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLStencilBuffersContract.stencillessFramebuffer(g_fb, g_tex);
+      stencillessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoStencilBuffer.class);
@@ -516,7 +516,7 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLStencilBuffersContract.stencillessFramebuffer(g_fb, g_tex);
+      stencillessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoStencilBuffer.class);
@@ -535,7 +535,7 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLStencilBuffersContract.stencillessFramebuffer(g_fb, g_tex);
+      stencillessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoStencilBuffer.class);
@@ -550,7 +550,7 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLStencilBuffersContract.stencillessFramebuffer(g_fb, g_tex);
+      stencillessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoStencilBuffer.class);
@@ -565,7 +565,7 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
     final JCGLFramebuffersType g_fb = i.getFramebuffers();
     final JCGLTexturesType g_tex = i.getTextures();
     final JCGLFramebufferType fb =
-      JCGLStencilBuffersContract.stencillessFramebuffer(g_fb, g_tex);
+      stencillessFramebuffer(g_fb, g_tex);
     Assert.assertTrue(g_fb.framebufferDrawIsBound(fb));
 
     this.expected.expect(JCGLExceptionNoStencilBuffer.class);
@@ -585,10 +585,12 @@ public abstract class JCGLStencilBuffersContract extends JCGLContract
       final JCGLTexturesType in_textures,
       final JCGLStencilBuffersType in_stencil_buffers)
     {
-      this.context = NullCheck.notNull(in_context);
-      this.framebuffers = NullCheck.notNull(in_framebuffers);
-      this.textures = NullCheck.notNull(in_textures);
-      this.stencil_buffers = NullCheck.notNull(in_stencil_buffers);
+      this.context = NullCheck.notNull(in_context, "Context");
+      this.framebuffers = NullCheck.notNull(in_framebuffers, "Framebuffers");
+      this.textures = NullCheck.notNull(in_textures, "Textures");
+      this.stencil_buffers = NullCheck.notNull(
+        in_stencil_buffers,
+        "Stencil buffers");
     }
 
     public JCGLStencilBuffersType getStencilBuffers()

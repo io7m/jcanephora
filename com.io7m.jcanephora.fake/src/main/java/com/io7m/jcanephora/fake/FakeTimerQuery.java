@@ -61,13 +61,13 @@ final class FakeTimerQuery extends FakeObjectUnshared
     return sb.toString();
   }
 
-  void setStarted(final boolean s)
-  {
-    this.started = s;
-  }
-
   boolean isStarted()
   {
     return this.started;
+  }
+
+  void setStarted(final boolean s)
+  {
+    this.started = s;
   }
 }

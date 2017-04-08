@@ -24,7 +24,8 @@ import com.io7m.jcanephora.tests.contracts.JCGLUnsharedContextPair;
 
 public final class JOGLArrayBuffersTestGL33 extends JCGLArrayBuffersContract
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
+  @Override
+  protected JCGLArrayBuffersType getArrayBuffers(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     return c.contextGetGL33().getArrayBuffers();
@@ -64,7 +65,8 @@ public final class JOGLArrayBuffersTestGL33 extends JCGLArrayBuffersContract
       sc);
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

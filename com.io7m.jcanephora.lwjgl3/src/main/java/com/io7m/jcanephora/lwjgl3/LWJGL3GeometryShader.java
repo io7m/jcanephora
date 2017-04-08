@@ -31,7 +31,7 @@ final class LWJGL3GeometryShader extends LWJGL3Referable
     final String in_name)
   {
     super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
+    this.name = NullCheck.notNull(in_name, "Name");
   }
 
   static LWJGL3GeometryShader checkGeometryShader(
