@@ -18,5 +18,6 @@
  * JOGL frontend to test suite.
  */
 
-@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.tests.jogl;
+@com.io7m.jnull.NonNullByDefault
+package com.io7m.jcanephora.tests.jogl;
 

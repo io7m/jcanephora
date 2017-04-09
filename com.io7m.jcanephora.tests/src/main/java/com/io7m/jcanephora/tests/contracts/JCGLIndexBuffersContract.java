@@ -88,9 +88,9 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
       JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
       JCGLUsageHint.USAGE_STATIC_DRAW);
 
-    Assert.assertEquals(1000L, i0.getIndices());
-    Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i0.getType());
-    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, i0.getUsageHint());
+    Assert.assertEquals(1000L, i0.indices());
+    Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i0.type());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, i0.usageHint());
     Assert.assertFalse(i0.isDeleted());
   }
 
@@ -105,16 +105,16 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
       JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
       JCGLUsageHint.USAGE_STATIC_DRAW);
 
-    Assert.assertEquals(1000L, i0.getIndices());
-    Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i0.getType());
-    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, i0.getUsageHint());
+    Assert.assertEquals(1000L, i0.indices());
+    Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i0.type());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, i0.usageHint());
     Assert.assertFalse(i0.isDeleted());
 
     gi.indexBufferReallocate(i0);
 
-    Assert.assertEquals(1000L, i0.getIndices());
-    Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i0.getType());
-    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, i0.getUsageHint());
+    Assert.assertEquals(1000L, i0.indices());
+    Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i0.type());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, i0.usageHint());
     Assert.assertFalse(i0.isDeleted());
   }
 
@@ -127,21 +127,21 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
 
     final JCGLArrayObjectType a0 =
       ga.arrayObjectAllocate(ga.arrayObjectNewBuilder());
-    final Set<JCGLReferableType> a0_refs = a0.getReferences();
+    final Set<JCGLReferableType> a0_refs = a0.references();
 
     final JCGLArrayObjectType a1 =
       ga.arrayObjectAllocate(ga.arrayObjectNewBuilder());
-    final Set<JCGLReferableType> a1_refs = a1.getReferences();
+    final Set<JCGLReferableType> a1_refs = a1.references();
 
     final JCGLIndexBufferType i0 = gi.indexBufferAllocate(
       1000L,
       JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
       JCGLUsageHint.USAGE_STATIC_DRAW);
-    final Set<JCGLReferenceContainerType> i0_refs = i0.getReferringContainers();
+    final Set<JCGLReferenceContainerType> i0_refs = i0.referringContainers();
 
     Assert.assertEquals(a1, ga.arrayObjectGetCurrentlyBound());
     Assert.assertEquals(Optional.of(i0), gi.indexBufferGetCurrentlyBound());
-    Assert.assertEquals(Optional.of(i0), a1.getIndexBufferBound());
+    Assert.assertEquals(Optional.of(i0), a1.indexBufferBound());
     Assert.assertEquals(0L, (long) a0_refs.size());
     Assert.assertEquals(1L, (long) a1_refs.size());
     Assert.assertTrue(a1_refs.contains(i0));
@@ -152,7 +152,7 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
 
     Assert.assertEquals(a1, ga.arrayObjectGetCurrentlyBound());
     Assert.assertEquals(Optional.empty(), gi.indexBufferGetCurrentlyBound());
-    Assert.assertEquals(Optional.empty(), a1.getIndexBufferBound());
+    Assert.assertEquals(Optional.empty(), a1.indexBufferBound());
     Assert.assertEquals(0L, (long) a0_refs.size());
     Assert.assertEquals(0L, (long) a1_refs.size());
     Assert.assertEquals(0L, (long) i0_refs.size());
@@ -279,7 +279,7 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
 
     final JCGLBufferUpdateType<JCGLIndexBufferType> u =
       JCGLBufferUpdates.newUpdateReplacingAll(i);
-    final ByteBuffer b = u.getData();
+    final ByteBuffer b = u.data();
     for (int index = 0; index < 100; ++index) {
       b.put(index, (byte) 0x50);
     }
@@ -341,10 +341,10 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
       final JCGLIndexBuffersType in_index_buffers,
       final JCGLArrayObjectsType in_array_objects)
     {
-      this.context = NullCheck.notNull(in_context);
-      this.array_buffers = NullCheck.notNull(in_array_buffers);
-      this.array_objects = NullCheck.notNull(in_array_objects);
-      this.index_buffers = NullCheck.notNull(in_index_buffers);
+      this.context = NullCheck.notNull(in_context, "Context");
+      this.array_buffers = NullCheck.notNull(in_array_buffers, "Array buffers");
+      this.array_objects = NullCheck.notNull(in_array_objects, "Array objects");
+      this.index_buffers = NullCheck.notNull(in_index_buffers, "Index objects");
     }
 
     public JCGLContextType getContext()

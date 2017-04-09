@@ -26,7 +26,8 @@ import java.util.Set;
 
 public final class JOGLUsageHintTest
 {
-  @Test public void testWrapBijection()
+  @Test
+  public void testWrapBijection()
   {
     for (final JCGLUsageHint h : JCGLUsageHint.values()) {
       Assert.assertEquals(
@@ -35,7 +36,8 @@ public final class JOGLUsageHintTest
     }
   }
 
-  @Test public void testDistinct()
+  @Test
+  public void testDistinct()
   {
     final Set<Integer> values = new HashSet<>(JCGLUsageHint.values().length);
 

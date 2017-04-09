@@ -39,12 +39,12 @@ final class LWJGL3Culling implements JCGLCullingType
 
   LWJGL3Culling(final LWJGL3Context c)
   {
-    final LWJGL3Context context = NullCheck.notNull(c);
+    final LWJGL3Context context = NullCheck.notNull(c, "Context");
     this.enabled = false;
     this.current_faces = JCGLFaceSelection.FACE_BACK;
     this.current_order = JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -64,7 +64,7 @@ final class LWJGL3Culling implements JCGLCullingType
       GL11.glDisable(GL11.GL_CULL_FACE);
       this.enabled = false;
     } else {
-      LWJGL3Culling.LOG.trace("redundant culling disable ignored");
+      LOG.trace("redundant culling disable ignored");
     }
   }
 
@@ -84,19 +84,19 @@ final class LWJGL3Culling implements JCGLCullingType
       GL11.glEnable(GL11.GL_CULL_FACE);
       this.enabled = true;
     } else {
-      LWJGL3Culling.LOG.trace("redundant culling enable ignored");
+      LOG.trace("redundant culling enable ignored");
     }
     if (this.current_faces != faces) {
       GL11.glCullFace(fi);
       this.current_faces = faces;
     } else {
-      LWJGL3Culling.LOG.trace("redundant culling face selection ignored");
+      LOG.trace("redundant culling face selection ignored");
     }
     if (this.current_order != order) {
       GL11.glFrontFace(oi);
       this.current_order = order;
     } else {
-      LWJGL3Culling.LOG.trace("redundant culling face order ignored");
+      LOG.trace("redundant culling face order ignored");
     }
   }
 

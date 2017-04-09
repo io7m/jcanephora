@@ -34,7 +34,7 @@ public interface JCGLColorBufferMaskingStateType
 
   @Value.Parameter
   @Value.Default
-  default boolean getRed()
+  default boolean red()
   {
     return true;
   }
@@ -45,7 +45,7 @@ public interface JCGLColorBufferMaskingStateType
 
   @Value.Parameter
   @Value.Default
-  default boolean getGreen()
+  default boolean green()
   {
     return true;
   }
@@ -56,7 +56,7 @@ public interface JCGLColorBufferMaskingStateType
 
   @Value.Parameter
   @Value.Default
-  default boolean getBlue()
+  default boolean blue()
   {
     return true;
   }
@@ -67,7 +67,7 @@ public interface JCGLColorBufferMaskingStateType
 
   @Value.Parameter
   @Value.Default
-  default boolean getAlpha()
+  default boolean alpha()
   {
     return true;
   }

@@ -25,28 +25,30 @@ import com.io7m.jnull.NullCheck;
 
 final class FakeBlending implements JCGLBlendingType
 {
-  private final FakeContext context;
-  private       boolean     blend;
+  private boolean blend;
 
   FakeBlending(final FakeContext c)
   {
-    this.context = NullCheck.notNull(c);
+    NullCheck.notNull(c, "Context");
     this.blend = false;
   }
 
-  @Override public void blendingDisable()
+  @Override
+  public void blendingDisable()
     throws JCGLException
   {
     this.blend = false;
   }
 
-  @Override public boolean blendingIsEnabled()
+  @Override
+  public boolean blendingIsEnabled()
     throws JCGLException
   {
     return this.blend;
   }
 
-  @Override public void blendingEnableSeparateWithEquationSeparate(
+  @Override
+  public void blendingEnableSeparateWithEquationSeparate(
     final JCGLBlendFunction source_rgb_factor,
     final JCGLBlendFunction source_alpha_factor,
     final JCGLBlendFunction destination_rgb_factor,
@@ -63,12 +65,12 @@ final class FakeBlending implements JCGLBlendingType
     NullCheck.notNull(equation_alpha, "Equation alpha");
 
     if (destination_rgb_factor
-        == JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
+      == JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
       throw new JCGLExceptionBlendingMisconfigured(
         "Destination RGB factor not SOURCE_ALPHA_SATURATE");
     }
     if (destination_alpha_factor
-        == JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
+      == JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE) {
       throw new JCGLExceptionBlendingMisconfigured(
         "Destination alpha factor not SOURCE_ALPHA_SATURATE");
     }

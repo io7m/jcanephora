@@ -16,12 +16,10 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import com.io7m.jcanephora.core.JCGLDepthFunction;
 import com.io7m.jcanephora.core.JCGLFaceSelection;
 import com.io7m.jcanephora.core.JCGLStencilFunction;
 import com.io7m.jcanephora.core.JCGLStencilOperation;
 import com.io7m.jcanephora.core.api.JCGLContextType;
-import com.io7m.jcanephora.core.api.JCGLDepthBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLStencilBuffersType;
 import com.io7m.jcanephora.tests.contracts.JCGLStencilBuffersContract;
@@ -34,12 +32,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class JOGLStencilBuffersTestGL33 extends JCGLStencilBuffersContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected Interfaces getInterfaces(
+  @Override
+  protected Interfaces getInterfaces(
     final String name,
     final int depth,
     final int stencil)
@@ -49,9 +49,9 @@ public final class JOGLStencilBuffersTestGL33 extends JCGLStencilBuffersContract
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     return new Interfaces(
       c,
-      cg.getFramebuffers(),
-      cg.getTextures(),
-      cg.getStencilBuffers());
+      cg.framebuffers(),
+      cg.textures(),
+      cg.stencilBuffers());
   }
 
   @Test
@@ -80,7 +80,7 @@ public final class JOGLStencilBuffersTestGL33 extends JCGLStencilBuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLStencilBuffersType g_s = g.getStencilBuffers();
+    final JCGLStencilBuffersType g_s = g.stencilBuffers();
 
     Assert.assertEquals(1L, (long) funcs.get());
 
@@ -163,7 +163,7 @@ public final class JOGLStencilBuffersTestGL33 extends JCGLStencilBuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLStencilBuffersType g_s = g.getStencilBuffers();
+    final JCGLStencilBuffersType g_s = g.stencilBuffers();
 
     Assert.assertEquals(0L, (long) tests.get());
     Assert.assertEquals(1L, (long) untests.get());
@@ -209,7 +209,7 @@ public final class JOGLStencilBuffersTestGL33 extends JCGLStencilBuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLStencilBuffersType g_s = g.getStencilBuffers();
+    final JCGLStencilBuffersType g_s = g.stencilBuffers();
 
     Assert.assertEquals(1L, (long) masks.get());
 
@@ -276,7 +276,7 @@ public final class JOGLStencilBuffersTestGL33 extends JCGLStencilBuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLStencilBuffersType g_s = g.getStencilBuffers();
+    final JCGLStencilBuffersType g_s = g.stencilBuffers();
 
     g_s.stencilBufferOperation(
       JCGLFaceSelection.FACE_FRONT,
@@ -369,7 +369,7 @@ public final class JOGLStencilBuffersTestGL33 extends JCGLStencilBuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLStencilBuffersType g_s = g.getStencilBuffers();
+    final JCGLStencilBuffersType g_s = g.stencilBuffers();
 
     g_s.stencilBufferOperation(
       JCGLFaceSelection.FACE_BACK,
@@ -462,7 +462,7 @@ public final class JOGLStencilBuffersTestGL33 extends JCGLStencilBuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLStencilBuffersType g_s = g.getStencilBuffers();
+    final JCGLStencilBuffersType g_s = g.stencilBuffers();
 
     g_s.stencilBufferOperation(
       JCGLFaceSelection.FACE_FRONT_AND_BACK,

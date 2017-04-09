@@ -22,7 +22,7 @@ import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
  * The type of usable textures.
  */
 
-public interface JCGLTextureUsableType extends JCGLNamedType,
+public interface JCGLTextureUsableType extends
   JCGLResourceUsableType,
   JCGLReferableType,
   JCGLResourceSizedType
@@ -31,41 +31,41 @@ public interface JCGLTextureUsableType extends JCGLNamedType,
    * @return The texture magnification filter
    */
 
-  JCGLTextureFilterMagnification textureGetMagnificationFilter();
+  JCGLTextureFilterMagnification magnificationFilter();
 
   /**
    * @return The texture minification filter
    */
 
-  JCGLTextureFilterMinification textureGetMinificationFilter();
+  JCGLTextureFilterMinification minificationFilter();
 
   /**
    * @return The texture {@code x} axis range
    */
 
-  UnsignedRangeInclusiveL textureGetRangeX();
+  UnsignedRangeInclusiveL rangeX();
 
   /**
    * @return The texture {@code y} axis range
    */
 
-  UnsignedRangeInclusiveL textureGetRangeY();
+  UnsignedRangeInclusiveL rangeY();
 
   /**
    * @return The width of the texture
    */
 
-  long textureGetWidth();
+  long width();
 
   /**
    * @return The height of the texture
    */
 
-  long textureGetHeight();
+  long height();
 
   /**
    * @return The texture format
    */
 
-  JCGLTextureFormat textureGetFormat();
+  JCGLTextureFormat format();
 }

@@ -48,6 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 final class FakeArrayObjects implements JCGLArrayObjectsType
@@ -86,9 +87,9 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     final FakeIndexBuffers gi)
     throws JCGLExceptionNonCompliant
   {
-    this.context = NullCheck.notNull(c);
-    this.array_buffers = NullCheck.notNull(ga);
-    this.index_buffers = NullCheck.notNull(gi);
+    this.context = NullCheck.notNull(c, "Context");
+    this.array_buffers = NullCheck.notNull(ga, "Array buffers");
+    this.index_buffers = NullCheck.notNull(gi, "Index buffers");
     this.index_buffers.setArrayObjects(this);
 
     this.max_attribs = 16;
@@ -131,7 +132,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     }
 
     final Integer array_id = Integer.valueOf(this.context.getFreshID());
-    FakeArrayObjects.LOG.debug("allocated {}", array_id);
+    LOG.debug("allocated {}", array_id);
 
     final JCGLArrayVertexAttributeType[] write_attribs =
       Arrays.copyOf(bb.attribs, bb.attribs.length);
@@ -166,8 +167,8 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
   {
     final Integer box_index = Integer.valueOf(attrib_index);
     if (attrib == null) {
-      FakeArrayObjects.LOG.trace(
-        FakeArrayObjects.ATTR_DISABLED_TRACE_FORMAT,
+      LOG.trace(
+        ATTR_DISABLED_TRACE_FORMAT,
         array_id,
         box_index);
       return;
@@ -182,15 +183,15 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
           final JCGLArrayVertexAttributeFloatingPointType af)
           throws JCGLException
         {
-          final int e = af.getElements();
+          final int e = af.elementCount();
           final boolean n = af.isNormalized();
-          final long off = af.getOffset();
-          final int stride = af.getStride();
-          final JCGLScalarType t = af.getType();
-          final int divisor = af.getDivisor();
+          final long off = af.offsetOctets();
+          final int stride = af.strideOctets();
+          final JCGLScalarType t = af.type();
+          final int divisor = af.divisor();
 
-          FakeArrayObjects.LOG.trace(
-            FakeArrayObjects.ATTR_FLOAT_TRACE_FORMAT,
+          LOG.trace(
+            ATTR_FLOAT_TRACE_FORMAT,
             array_id,
             box_index,
             t,
@@ -207,14 +208,14 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
           final JCGLArrayVertexAttributeIntegralType ai)
           throws JCGLException
         {
-          final JCGLScalarIntegralType t = ai.getType();
-          final int e = ai.getElements();
-          final long offset = ai.getOffset();
-          final int stride = ai.getStride();
-          final int divisor = ai.getDivisor();
+          final JCGLScalarIntegralType t = ai.type();
+          final int e = ai.elements();
+          final long offset = ai.offsetOctets();
+          final int stride = ai.strideOctets();
+          final int divisor = ai.divisor();
 
-          FakeArrayObjects.LOG.trace(
-            FakeArrayObjects.ATTR_INTEGRAL_TRACE_FORMAT,
+          LOG.trace(
+            ATTR_INTEGRAL_TRACE_FORMAT,
             array_id,
             box_index,
             t,
@@ -258,23 +259,23 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
         b.setAttributeFloatingPointWithDivisor(
           index,
           f.getArrayBuffer(),
-          f.getElements(),
-          f.getType(),
-          f.getStride(),
-          f.getOffset(),
+          f.elementCount(),
+          f.type(),
+          f.strideOctets(),
+          f.offsetOctets(),
           f.isNormalized(),
-          f.getDivisor());
+          f.divisor());
       } else if (a instanceof JCGLArrayVertexAttributeIntegralType) {
         final JCGLArrayVertexAttributeIntegralType i =
           (JCGLArrayVertexAttributeIntegralType) a;
         b.setAttributeIntegralWithDivisor(
           index,
           i.getArrayBuffer(),
-          i.getElements(),
-          i.getType(),
-          i.getStride(),
-          i.getOffset(),
-          i.getDivisor());
+          i.elements(),
+          i.type(),
+          i.strideOctets(),
+          i.offsetOctets(),
+          i.divisor());
       } else {
         throw new UnreachableCodeException();
       }
@@ -285,17 +286,17 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
 
   private void actualBind(final FakeArrayObject a)
   {
-    FakeArrayObjects.LOG.trace("bind {} -> {}", this.bind, a);
-    if (this.bind.getGLName() != a.getGLName()) {
+    LOG.trace("bind {} -> {}", this.bind, a);
+    if (this.bind.glName() != a.glName()) {
       this.bind = a;
     }
   }
 
   private void actualUnbind()
   {
-    FakeArrayObjects.LOG.trace(
+    LOG.trace(
       "unbind {} -> {}", this.bind, this.default_buffer);
-    if (this.bind.getGLName() != this.default_buffer.getGLName()) {
+    if (this.bind.glName() != this.default_buffer.glName()) {
       this.bind = this.default_buffer;
     }
   }
@@ -317,7 +318,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
 
   private FakeArrayObject checkArrayObject(final JCGLArrayObjectUsableType a)
   {
-    NullCheck.notNull(a);
+    NullCheck.notNull(a, "Array");
     FakeCompatibilityChecks.checkArrayObject(this.context, a);
     JCGLResources.checkNotDeleted(a);
     return (FakeArrayObject) a;
@@ -337,21 +338,21 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
   {
     final FakeArrayObject a = this.checkArrayObject(ai);
 
-    if (this.default_buffer.equals(a)) {
+    if (Objects.equals(this.default_buffer, a)) {
       throw new JCGLExceptionObjectNotDeletable(
         "Cannot delete the default array object");
     }
 
-    FakeArrayObjects.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+    LOG.debug("delete {}", Integer.valueOf(a.glName()));
 
     a.setDeleted();
 
     final FakeReferenceContainer rc = a.getReferenceContainer();
-    for (final JCGLReferableType r : a.getReferences()) {
+    for (final JCGLReferableType r : a.references()) {
       rc.referenceRemove((FakeReferable) r);
     }
 
-    if (this.bind.getGLName() == a.getGLName()) {
+    if (this.bind.glName() == a.glName()) {
       this.actualUnbind();
     }
   }
@@ -370,7 +371,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
 
   private FakeIndexBuffer checkIndexBuffer(final JCGLIndexBufferUsableType i)
   {
-    NullCheck.notNull(i);
+    NullCheck.notNull(i, "Index buffer");
     FakeCompatibilityChecks.checkIndexBuffer(this.context, i);
     JCGLResources.checkNotDeleted(i);
     return (FakeIndexBuffer) i;
@@ -421,7 +422,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       final int divisor)
     {
       FakeArrayObjects.this.checkArrayBuffer(a);
-      NullCheck.notNull(type);
+      NullCheck.notNull(type, "Type");
       RangeCheck.checkIncludedInInteger(
         index,
         "Attribute index_buffer",
@@ -430,12 +431,12 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       RangeCheck.checkIncludedInInteger(
         elements,
         "Element count",
-        FakeArrayObjects.VALID_ELEMENT_COUNT,
+        VALID_ELEMENT_COUNT,
         "Valid element counts");
       RangeCheck.checkIncludedInInteger(
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
       UnsignedRangeCheck.checkIncludedInLong(
-        offset, "Offset", a.getRange(), "Buffer range");
+        offset, "Offset", a.byteRange(), "Buffer range");
       RangeCheck.checkIncludedInInteger(
         divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
@@ -475,7 +476,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       final int divisor)
     {
       FakeArrayObjects.this.checkArrayBuffer(a);
-      NullCheck.notNull(type);
+      NullCheck.notNull(type, "Type");
       RangeCheck.checkIncludedInInteger(
         index,
         "Attribute index_buffer",
@@ -484,12 +485,12 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
       RangeCheck.checkIncludedInInteger(
         elements,
         "Element count",
-        FakeArrayObjects.VALID_ELEMENT_COUNT,
+        VALID_ELEMENT_COUNT,
         "Valid element counts");
       RangeCheck.checkIncludedInInteger(
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
       UnsignedRangeCheck.checkIncludedInLong(
-        offset, "Offset", a.getRange(), "Buffer range");
+        offset, "Offset", a.byteRange(), "Buffer range");
       RangeCheck.checkIncludedInInteger(
         divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
@@ -552,7 +553,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
               public Void matchFloatingPoint(
                 final JCGLArrayVertexAttributeFloatingPointType a)
               {
-                aa[a.getIndex()] = null;
+                aa[a.index()] = null;
                 return null;
               }
 
@@ -560,7 +561,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
               public Void matchIntegral(
                 final JCGLArrayVertexAttributeIntegralType a)
               {
-                aa[a.getIndex()] = null;
+                aa[a.index()] = null;
                 return null;
               }
             });

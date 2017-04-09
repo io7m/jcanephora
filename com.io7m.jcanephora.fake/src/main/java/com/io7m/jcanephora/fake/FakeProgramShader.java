@@ -29,10 +29,10 @@ import java.util.Set;
 final class FakeProgramShader extends FakeObjectShared
   implements JCGLProgramShaderType
 {
-  private final String                                name;
+  private final String name;
   private final Map<String, JCGLProgramAttributeType> attributes;
-  private final Map<String, JCGLProgramUniformType>   uniforms;
-  private final FakeReferenceContainer                references;
+  private final Map<String, JCGLProgramUniformType> uniforms;
+  private final FakeReferenceContainer references;
 
   FakeProgramShader(
     final FakeContext ctx,
@@ -45,32 +45,36 @@ final class FakeProgramShader extends FakeObjectShared
     final Map<String, JCGLProgramUniformType> in_uniforms)
   {
     super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
-    this.attributes = NullCheck.notNull(in_attributes);
-    this.uniforms = NullCheck.notNull(in_uniforms);
+    this.name = NullCheck.notNull(in_name, "Name");
+    this.attributes = NullCheck.notNull(in_attributes, "Attributes");
+    this.uniforms = NullCheck.notNull(in_uniforms, "Uniforms");
     this.references = new FakeReferenceContainer(this, 3);
     this.references.referenceAdd(vs);
     this.references.referenceAdd(fs);
     gs.ifPresent(this.references::referenceAdd);
   }
 
-  @Override public String getName()
+  @Override
+  public String name()
   {
     return this.name;
   }
 
-  @Override public Map<String, JCGLProgramAttributeType> getAttributes()
+  @Override
+  public Map<String, JCGLProgramAttributeType> attributes()
   {
     return this.attributes;
   }
 
-  @Override public Map<String, JCGLProgramUniformType> getUniforms()
+  @Override
+  public Map<String, JCGLProgramUniformType> uniforms()
   {
     return this.uniforms;
   }
 
-  @Override public Set<JCGLReferableType> getReferences()
+  @Override
+  public Set<JCGLReferableType> references()
   {
-    return this.references.getReferences();
+    return this.references.references();
   }
 }

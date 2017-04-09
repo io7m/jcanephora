@@ -27,7 +27,8 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeContextsTest extends JCGLContextContract
 {
-  @Override protected JCGLContextType newContext(final String name)
+  @Override
+  protected JCGLContextType newContext(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
@@ -37,7 +38,8 @@ public final class FakeContextsTest extends JCGLContextContract
     }
   }
 
-  @Override protected JCGLSharedContextPair<JCGLContextType> newSharedContext(
+  @Override
+  protected JCGLSharedContextPair<JCGLContextType> newSharedContext(
     final String name,
     final String shared)
   {
@@ -53,7 +55,8 @@ public final class FakeContextsTest extends JCGLContextContract
     }
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }

@@ -23,12 +23,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLPixelTypeContract;
 public final class JOGLPixelTypeTest extends
   JCGLPixelTypeContract
 {
-  @Override protected int toInt(final JCGLPixelFormat c)
+  @Override
+  protected int toInt(final JCGLPixelFormat c)
   {
     return JOGLTypeConversions.pixelTypeToGL(c);
   }
 
-  @Override protected JCGLPixelFormat fromInt(final int c)
+  @Override
+  protected JCGLPixelFormat fromInt(final int c)
   {
     return JOGLTypeConversions.pixelTypeFromGL(c);
   }

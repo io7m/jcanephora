@@ -33,17 +33,19 @@ import java.util.List;
 
 public final class JOGLShadersTestGL33 extends JCGLShadersContract
 {
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override
+  protected Interfaces getInterfaces(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type i = c.contextGetGL33();
-    return new Interfaces(c, i.getShaders(), i.getTextures());
+    return new Interfaces(c, i.shaders(), i.textures());
   }
 
-  @Override protected JCGLShadersType getShaders(final String name)
+  @Override
+  protected JCGLShadersType getShaders(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context("main", 24, 8);
-    return c.contextGetGL33().getShaders();
+    return c.contextGetGL33().shaders();
   }
 
   @Override
@@ -54,9 +56,9 @@ public final class JOGLShadersTestGL33 extends JCGLShadersContract
     final JCGLContextType c0 = JOGLTestContexts.newGL33Context(main, 24, 8);
     final JCGLContextType c1 = JOGLTestContexts.newGL33Context(alt, 24, 8);
     return new JCGLUnsharedContextPair<>(
-      c0.contextGetGL33().getShaders(),
+      c0.contextGetGL33().shaders(),
       c0,
-      c1.contextGetGL33().getShaders(),
+      c1.contextGetGL33().shaders(),
       c1);
   }
 
@@ -72,13 +74,14 @@ public final class JOGLShadersTestGL33 extends JCGLShadersContract
     final JCGLContextType mc = p.getMasterContext();
     final JCGLContextType sc = p.getSlaveContext();
     return new JCGLSharedContextPair<>(
-      mc.contextGetGL33().getShaders(),
+      mc.contextGetGL33().shaders(),
       mc,
-      sc.contextGetGL33().getShaders(),
+      sc.contextGetGL33().shaders(),
       sc);
   }
 
-  @Override protected List<String> getShaderLines(final String name)
+  @Override
+  protected List<String> getShaderLines(final String name)
   {
     final Class<JCGLShadersContract> c = JCGLShadersContract.class;
     final List<String> lines = new ArrayList<>(32);
@@ -98,7 +101,8 @@ public final class JOGLShadersTestGL33 extends JCGLShadersContract
     }
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

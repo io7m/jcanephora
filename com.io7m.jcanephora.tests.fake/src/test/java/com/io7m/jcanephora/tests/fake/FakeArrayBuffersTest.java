@@ -30,14 +30,15 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeArrayBuffersTest extends JCGLArrayBuffersContract
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
+  @Override
+  protected JCGLArrayBuffersType getArrayBuffers(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
-      return g33.getArrayBuffers();
+      return g33.arrayBuffers();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
@@ -58,7 +59,7 @@ public final class FakeArrayBuffersTest extends JCGLArrayBuffersContract
       final JCGLInterfaceGL33Type g33_0 = c0.contextGetGL33();
       final JCGLInterfaceGL33Type g33_1 = c1.contextGetGL33();
       return new JCGLUnsharedContextPair<>(
-        g33_0.getArrayBuffers(), c0, g33_1.getArrayBuffers(), c1);
+        g33_0.arrayBuffers(), c0, g33_1.arrayBuffers(), c1);
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
@@ -80,13 +81,14 @@ public final class FakeArrayBuffersTest extends JCGLArrayBuffersContract
       final JCGLInterfaceGL33Type g1 = c1.contextGetGL33();
 
       return new JCGLSharedContextPair<>(
-        g0.getArrayBuffers(), c0, g1.getArrayBuffers(), c1);
+        g0.arrayBuffers(), c0, g1.arrayBuffers(), c1);
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }

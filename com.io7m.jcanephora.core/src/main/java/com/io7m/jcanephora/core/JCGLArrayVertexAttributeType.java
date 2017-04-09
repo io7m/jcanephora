@@ -48,5 +48,5 @@ public interface JCGLArrayVertexAttributeType
    * @return The divisor for the attribute
    */
 
-  int getDivisor();
+  int divisor();
 }

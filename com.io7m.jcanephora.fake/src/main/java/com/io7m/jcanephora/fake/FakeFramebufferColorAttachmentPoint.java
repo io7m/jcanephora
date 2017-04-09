@@ -38,7 +38,8 @@ final class FakeFramebufferColorAttachmentPoint extends
         "Valid attachment points");
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     final StringBuilder sb =
       new StringBuilder("[FramebufferColorAttachmentPoint ");
@@ -47,7 +48,8 @@ final class FakeFramebufferColorAttachmentPoint extends
     return sb.toString();
   }
 
-  @Override public boolean equals(final Object o)
+  @Override
+  public boolean equals(final Object o)
   {
     if (this == o) {
       return true;
@@ -61,12 +63,14 @@ final class FakeFramebufferColorAttachmentPoint extends
     return this.index == that.index;
   }
 
-  @Override public int hashCode()
+  @Override
+  public int hashCode()
   {
     return this.index;
   }
 
-  @Override public int colorAttachmentPointGetIndex()
+  @Override
+  public int colorAttachmentPointIndex()
   {
     return this.index;
   }
@@ -74,6 +78,6 @@ final class FakeFramebufferColorAttachmentPoint extends
   @Override
   public int compareTo(final JCGLFramebufferColorAttachmentPointType o)
   {
-    return Integer.compare(this.index, o.colorAttachmentPointGetIndex());
+    return Integer.compare(this.index, o.colorAttachmentPointIndex());
   }
 }

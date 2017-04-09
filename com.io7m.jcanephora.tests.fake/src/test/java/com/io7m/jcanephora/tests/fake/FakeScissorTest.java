@@ -28,19 +28,21 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeScissorTest extends JCGLScissorContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
 
-  @Override protected JCGLScissorType getScissor(final String name)
+  @Override
+  protected JCGLScissorType getScissor(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-      return cg.getScissor();
+      return cg.scissor();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

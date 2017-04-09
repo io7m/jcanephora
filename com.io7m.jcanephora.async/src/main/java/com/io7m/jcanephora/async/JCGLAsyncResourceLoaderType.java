@@ -117,7 +117,7 @@ public interface JCGLAsyncResourceLoaderType
    * @return A future representing the loading in progress
    */
 
-  <T> CompletableFuture<JCGLAsyncBufferPairType>
+  <T> CompletableFuture<JCGLAsyncBufferPair>
   loadArrayIndexBuffers(
     Supplier<T> on_data,
     Function<T, Long> on_array_size,

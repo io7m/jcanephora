@@ -32,7 +32,7 @@ final class JOGLColorBufferMasking implements JCGLColorBufferMaskingType
 
   JOGLColorBufferMasking(final JOGLContext c)
   {
-    final JOGLContext context = NullCheck.notNull(c);
+    final JOGLContext context = NullCheck.notNull(c, "Context");
     this.gl = context.getGL3();
     this.cache = ByteBuffer.allocateDirect(4 * 4);
     this.cache.order(ByteOrder.nativeOrder());
@@ -61,7 +61,7 @@ final class JOGLColorBufferMasking implements JCGLColorBufferMaskingType
   public boolean colorBufferMaskStatusAlpha()
     throws JCGLException
   {
-    return JOGLColorBufferMasking.colorBufferMaskStatus(
+    return colorBufferMaskStatus(
       this.gl, this.cache).get(3) != 0;
   }
 
@@ -69,7 +69,7 @@ final class JOGLColorBufferMasking implements JCGLColorBufferMaskingType
   public boolean colorBufferMaskStatusBlue()
     throws JCGLException
   {
-    return JOGLColorBufferMasking.colorBufferMaskStatus(
+    return colorBufferMaskStatus(
       this.gl, this.cache).get(2) != 0;
   }
 
@@ -77,7 +77,7 @@ final class JOGLColorBufferMasking implements JCGLColorBufferMaskingType
   public boolean colorBufferMaskStatusGreen()
     throws JCGLException
   {
-    return JOGLColorBufferMasking.colorBufferMaskStatus(
+    return colorBufferMaskStatus(
       this.gl, this.cache).get(1) != 0;
   }
 
@@ -85,7 +85,7 @@ final class JOGLColorBufferMasking implements JCGLColorBufferMaskingType
   public boolean colorBufferMaskStatusRed()
     throws JCGLException
   {
-    return JOGLColorBufferMasking.colorBufferMaskStatus(
+    return colorBufferMaskStatus(
       this.gl, this.cache).get(0) != 0;
   }
 }

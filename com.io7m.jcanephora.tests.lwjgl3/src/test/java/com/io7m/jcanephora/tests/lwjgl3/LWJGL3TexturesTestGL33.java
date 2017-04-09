@@ -40,6 +40,6 @@ public final class LWJGL3TexturesTestGL33 extends JCGLTexturesContract
   protected JCGLTexturesType getTextures(final String name)
   {
     final JCGLContextType c = LWJGL3TestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getTextures();
+    return c.contextGetGL33().textures();
   }
 }

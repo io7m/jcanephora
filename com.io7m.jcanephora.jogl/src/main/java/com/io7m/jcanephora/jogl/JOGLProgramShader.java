@@ -46,7 +46,7 @@ final class JOGLProgramShader extends JOGLObjectShared
     final JOGLFragmentShader fs)
   {
     super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
+    this.name = NullCheck.notNull(in_name, "Name");
     this.references = new JOGLReferenceContainer(this, 3);
     this.references.referenceAdd(vs);
     gs.ifPresent(this.references::referenceAdd);
@@ -64,7 +64,7 @@ final class JOGLProgramShader extends JOGLObjectShared
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[ProgramShader ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(" ");
     sb.append(this.name);
     sb.append(']');
@@ -72,13 +72,13 @@ final class JOGLProgramShader extends JOGLObjectShared
   }
 
   @Override
-  public String getName()
+  public String name()
   {
     return this.name;
   }
 
   @Override
-  public Map<String, JCGLProgramAttributeType> getAttributes()
+  public Map<String, JCGLProgramAttributeType> attributes()
   {
     return this.attributes;
   }
@@ -87,11 +87,13 @@ final class JOGLProgramShader extends JOGLObjectShared
     final Map<String, JCGLProgramAttributeType> in_attributes)
   {
     this.attributes =
-      Collections.unmodifiableMap(NullCheck.notNull(in_attributes));
+      Collections.unmodifiableMap(NullCheck.notNull(
+        in_attributes,
+        "Attributes"));
   }
 
   @Override
-  public Map<String, JCGLProgramUniformType> getUniforms()
+  public Map<String, JCGLProgramUniformType> uniforms()
   {
     return this.uniforms;
   }
@@ -99,12 +101,14 @@ final class JOGLProgramShader extends JOGLObjectShared
   void setUniforms(
     final Map<String, JCGLProgramUniformType> in_uniforms)
   {
-    this.uniforms = Collections.unmodifiableMap(NullCheck.notNull(in_uniforms));
+    this.uniforms = Collections.unmodifiableMap(NullCheck.notNull(
+      in_uniforms,
+      "Uniforms"));
   }
 
   @Override
-  public Set<JCGLReferableType> getReferences()
+  public Set<JCGLReferableType> references()
   {
-    return this.references.getReferences();
+    return this.references.references();
   }
 }

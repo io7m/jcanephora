@@ -22,13 +22,15 @@ import com.io7m.jcanephora.tests.contracts.JCGLBufferUpdatesContract;
 
 public final class JOGLBufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
+  @Override
+  protected JCGLArrayBuffersType getArrayBuffers(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getArrayBuffers();
+    return c.contextGetGL33().arrayBuffers();
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

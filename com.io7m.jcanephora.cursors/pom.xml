@@ -26,24 +26,27 @@
   <dependencies>
     <dependency>
       <groupId>com.io7m.jnull</groupId>
-      <artifactId>io7m-jnull-core</artifactId>
+      <artifactId>com.io7m.jnull.core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.junreachable</groupId>
-      <artifactId>io7m-junreachable-core</artifactId>
+      <artifactId>com.io7m.junreachable.core</artifactId>
     </dependency>
-
     <dependency>
       <groupId>com.io7m.jpra</groupId>
-      <artifactId>io7m-jpra-runtime-java</artifactId>
+      <artifactId>com.io7m.jpra.runtime.java</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jnfp</groupId>
-      <artifactId>io7m-jnfp-core</artifactId>
+      <artifactId>com.io7m.jnfp.core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.ieee754b16</groupId>
-      <artifactId>io7m-ieee754b16-core</artifactId>
+      <artifactId>com.io7m.ieee754b16.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.mutable.numbers</groupId>
+      <artifactId>com.io7m.mutable.numbers.core</artifactId>
     </dependency>
   </dependencies>
 
@@ -61,7 +64,7 @@
       <!-- Generate cursors -->
       <plugin>
         <groupId>com.io7m.jpra</groupId>
-        <artifactId>io7m-jpra-maven-plugin</artifactId>
+        <artifactId>com.io7m.jpra.maven.plugin</artifactId>
         <executions>
           <execution>
             <goals>

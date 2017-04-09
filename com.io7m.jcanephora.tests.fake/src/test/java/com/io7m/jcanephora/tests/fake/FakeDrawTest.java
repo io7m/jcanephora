@@ -27,12 +27,14 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeDrawTest extends JCGLDrawContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
 
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override
+  protected Interfaces getInterfaces(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
@@ -41,11 +43,11 @@ public final class FakeDrawTest extends JCGLDrawContract
       final JCGLInterfaceGL33Type cg = c.contextGetGL33();
       return new Interfaces(
         c,
-        cg.getArrayBuffers(),
-        cg.getIndexBuffers(),
-        cg.getArrayObjects(),
-        cg.getShaders(),
-        cg.getDraw());
+        cg.arrayBuffers(),
+        cg.indexBuffers(),
+        cg.arrayObjects(),
+        cg.shaders(),
+        cg.drawing());
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

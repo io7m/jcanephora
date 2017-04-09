@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
+import com.io7m.jcanephora.async.JCGLAsyncBufferPair;
 import com.io7m.jcanephora.async.JCGLAsyncBufferPairType;
 import com.io7m.jcanephora.async.JCGLAsyncResourceLoaderType;
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
@@ -33,7 +34,7 @@ import com.io7m.jcanephora.core.JCGLUsageHint;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureDataProviderType;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureDataType;
 import com.io7m.jcanephora.texture.loader.core.JCGLTLTextureUpdateProviderType;
-import com.io7m.jtensors.VectorWritable4DType;
+import com.io7m.jtensors.storage.heap.VectorMutable4D;
 import com.io7m.junreachable.UnreachableCodeException;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -68,7 +69,7 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
   {
     final JCGLAsyncResourceLoaderType loader = this.getLoader("main");
 
-    final CompletableFuture<JCGLAsyncBufferPairType> f =
+    final CompletableFuture<JCGLAsyncBufferPair> f =
       loader.loadArrayIndexBuffers(
         () -> "Data",
         (data) -> Long.valueOf(200L),
@@ -81,15 +82,15 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
       );
 
     final JCGLAsyncBufferPairType p = f.get(30L, TimeUnit.SECONDS);
-    final JCGLArrayBufferType a = p.getArrayBuffer();
-    final JCGLIndexBufferType i = p.getIndexBuffer();
+    final JCGLArrayBufferType a = p.arrayBuffer();
+    final JCGLIndexBufferType i = p.indexBuffer();
 
-    Assert.assertEquals(200L, a.getRange().getInterval());
-    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.getUsageHint());
+    Assert.assertEquals(200L, a.byteRange().getInterval());
+    Assert.assertEquals(JCGLUsageHint.USAGE_STATIC_DRAW, a.usageHint());
 
-    Assert.assertEquals(100L, i.getRange().getInterval());
-    Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i.getType());
-    Assert.assertEquals(JCGLUsageHint.USAGE_DYNAMIC_DRAW, i.getUsageHint());
+    Assert.assertEquals(100L, i.byteRange().getInterval());
+    Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i.type());
+    Assert.assertEquals(JCGLUsageHint.USAGE_DYNAMIC_DRAW, i.usageHint());
   }
 
   @Test
@@ -98,7 +99,7 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
   {
     final JCGLAsyncResourceLoaderType loader = this.getLoader("main");
 
-    final CompletableFuture<JCGLAsyncBufferPairType> f =
+    final CompletableFuture<JCGLAsyncBufferPair> f =
       loader.loadArrayIndexBuffers(
         () -> {
           throw new UncheckedIOException(new IOException("IO failure"));
@@ -123,7 +124,7 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
   {
     final JCGLAsyncResourceLoaderType loader = this.getLoader("main");
 
-    final CompletableFuture<JCGLAsyncBufferPairType> f =
+    final CompletableFuture<JCGLAsyncBufferPair> f =
       loader.loadArrayIndexBuffers(
         () -> "Hello",
         (data) -> {
@@ -148,7 +149,7 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
   {
     final JCGLAsyncResourceLoaderType loader = this.getLoader("main");
 
-    final CompletableFuture<JCGLAsyncBufferPairType> f =
+    final CompletableFuture<JCGLAsyncBufferPair> f =
       loader.loadArrayIndexBuffers(
         () -> "Hello",
         (data) -> Long.valueOf(42L),
@@ -173,7 +174,7 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
   {
     final JCGLAsyncResourceLoaderType loader = this.getLoader("main");
 
-    final CompletableFuture<JCGLAsyncBufferPairType> f =
+    final CompletableFuture<JCGLAsyncBufferPair> f =
       loader.loadArrayIndexBuffers(
         () -> "Hello",
         (data) -> Long.valueOf(42L),
@@ -198,7 +199,7 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
   {
     final JCGLAsyncResourceLoaderType loader = this.getLoader("main");
 
-    final CompletableFuture<JCGLAsyncBufferPairType> f =
+    final CompletableFuture<JCGLAsyncBufferPair> f =
       loader.loadArrayIndexBuffers(
         () -> "Hello",
         (data) -> Long.valueOf(42L),
@@ -258,24 +259,24 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
           }
 
           @Override
-          public long getWidth()
+          public long width()
           {
             return 32L;
           }
 
           @Override
-          public long getHeight()
+          public long height()
           {
             return 64L;
           }
 
           @Override
-          public void getPixel(
+          public void pixel(
             final int x,
             final int y,
-            final VectorWritable4DType v)
+            final VectorMutable4D v)
           {
-            v.set4D(0.0, 0.0, 0.0, 1.0);
+            v.setXYZW(0.0, 0.0, 0.0, 1.0);
           }
         },
         JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
@@ -284,23 +285,23 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         (tex, data) -> {
-          Assert.assertEquals(32L, tex.textureGetWidth());
-          Assert.assertEquals(64L, tex.textureGetHeight());
+          Assert.assertEquals(32L, tex.width());
+          Assert.assertEquals(64L, tex.height());
           Assert.assertEquals(
             JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
-            tex.textureGetFormat());
+            tex.format());
           Assert.assertEquals(
             JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
-            tex.textureGetWrapS());
+            tex.wrapS());
           Assert.assertEquals(
             JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
-            tex.textureGetWrapT());
+            tex.wrapT());
           Assert.assertEquals(
             JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
-            tex.textureGetMinificationFilter());
+            tex.minificationFilter());
           Assert.assertEquals(
             JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-            tex.textureGetMagnificationFilter());
+            tex.magnificationFilter());
           throw new UncheckedIOException(new IOException("IO failure"));
         }
       );
@@ -339,27 +340,27 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-        (tex, data) -> update_prov.getTextureUpdate2D(tex, data)
+        update_prov::createTextureUpdate2D
       );
 
     final JCGLTexture2DType tex = f.get(30L, TimeUnit.SECONDS);
-    Assert.assertEquals(32L, tex.textureGetWidth());
-    Assert.assertEquals(32L, tex.textureGetHeight());
+    Assert.assertEquals(32L, tex.width());
+    Assert.assertEquals(32L, tex.height());
     Assert.assertEquals(
       JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
-      tex.textureGetFormat());
+      tex.format());
     Assert.assertEquals(
       JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
-      tex.textureGetWrapS());
+      tex.wrapS());
     Assert.assertEquals(
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
-      tex.textureGetWrapT());
+      tex.wrapT());
     Assert.assertEquals(
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
-      tex.textureGetMinificationFilter());
+      tex.minificationFilter());
     Assert.assertEquals(
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-      tex.textureGetMagnificationFilter());
+      tex.magnificationFilter());
   }
 
   @Test
@@ -386,7 +387,7 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-        (tex, data) -> update_prov.getTextureUpdate2D(tex, data)
+        update_prov::createTextureUpdate2D
       );
 
     try {
@@ -410,26 +411,26 @@ public abstract class JCGLAsyncResourceLoaderContract extends JCGLContract
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
         JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-        (tex, data) -> update_prov.getTextureUpdate2D(tex, data)
+        update_prov::createTextureUpdate2D
       );
 
     final JCGLTexture2DType tex = f1.get(30L, TimeUnit.SECONDS);
-    Assert.assertEquals(32L, tex.textureGetWidth());
-    Assert.assertEquals(32L, tex.textureGetHeight());
+    Assert.assertEquals(32L, tex.width());
+    Assert.assertEquals(32L, tex.height());
     Assert.assertEquals(
       JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
-      tex.textureGetFormat());
+      tex.format());
     Assert.assertEquals(
       JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
-      tex.textureGetWrapS());
+      tex.wrapS());
     Assert.assertEquals(
       JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
-      tex.textureGetWrapT());
+      tex.wrapT());
     Assert.assertEquals(
       JCGLTextureFilterMinification.TEXTURE_FILTER_NEAREST,
-      tex.textureGetMinificationFilter());
+      tex.minificationFilter());
     Assert.assertEquals(
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-      tex.textureGetMagnificationFilter());
+      tex.magnificationFilter());
   }
 }

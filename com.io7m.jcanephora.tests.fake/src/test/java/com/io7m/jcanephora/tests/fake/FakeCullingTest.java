@@ -28,19 +28,21 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeCullingTest extends JCGLCullingContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
 
-  @Override protected JCGLCullingType getCulling(final String name)
+  @Override
+  protected JCGLCullingType getCulling(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type g33 = c.contextGetGL33();
-      return g33.getCulling();
+      return g33.culling();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

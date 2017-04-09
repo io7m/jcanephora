@@ -42,7 +42,7 @@ final class JOGLArrayBuffer extends JOGLBuffer implements JCGLArrayBufferType
     final JCGLArrayBufferUsableType x)
     throws JCGLExceptionWrongContext
   {
-    NullCheck.notNull(x);
+    NullCheck.notNull(x, "Array buffers");
     return (JOGLArrayBuffer) JOGLCompatibilityChecks.checkAny(current, x);
   }
 

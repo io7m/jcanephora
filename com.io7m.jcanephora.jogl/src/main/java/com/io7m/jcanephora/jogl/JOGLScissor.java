@@ -16,11 +16,10 @@
 
 package com.io7m.jcanephora.jogl;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
 import org.slf4j.Logger;
@@ -39,7 +38,7 @@ final class JOGLScissor implements JCGLScissorType
 
   JOGLScissor(final JOGLContext c)
   {
-    final JOGLContext context = NullCheck.notNull(c);
+    final JOGLContext context = NullCheck.notNull(c, "Context");
     this.gl = context.getGL3();
     this.gl.glDisable(GL.GL_SCISSOR_TEST);
     this.enabled = false;
@@ -53,30 +52,27 @@ final class JOGLScissor implements JCGLScissorType
       this.gl.glDisable(GL.GL_SCISSOR_TEST);
       this.enabled = false;
     } else {
-      JOGLScissor.LOG.trace("redundant scissor disable ignored");
+      LOG.trace("redundant scissor disable ignored");
     }
   }
 
   @Override
   public void scissorEnable(
-    final AreaInclusiveUnsignedLType area)
+    final AreaL area)
     throws JCGLException
   {
-    NullCheck.notNull(area);
-
-    final UnsignedRangeInclusiveL range_x = area.getRangeX();
-    final UnsignedRangeInclusiveL range_y = area.getRangeY();
+    NullCheck.notNull(area, "Area");
 
     if (!this.enabled) {
       this.gl.glEnable(GL.GL_SCISSOR_TEST);
       this.enabled = true;
       this.gl.glScissor(
-        (int) range_x.getLower(),
-        (int) range_y.getLower(),
-        (int) range_x.getInterval(),
-        (int) range_y.getInterval());
+        Math.toIntExact(area.minimumX()),
+        Math.toIntExact(area.minimumY()),
+        Math.toIntExact(area.width()),
+        Math.toIntExact(area.height()));
     } else {
-      JOGLScissor.LOG.trace("redundant scissor enable ignored");
+      LOG.trace("redundant scissor enable ignored");
     }
   }
 

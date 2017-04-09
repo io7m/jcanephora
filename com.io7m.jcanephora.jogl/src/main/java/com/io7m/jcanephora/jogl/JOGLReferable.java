@@ -40,7 +40,7 @@ abstract class JOGLReferable extends JOGLObjectShared
   }
 
   @Override
-  public final Set<JCGLReferenceContainerType> getReferringContainers()
+  public final Set<JCGLReferenceContainerType> referringContainers()
   {
     return this.references_view;
   }

@@ -72,7 +72,7 @@ public final class JCGLTextureUnitAllocator implements
       1,
       "Minimum stack depth");
 
-    this.units = NullCheck.notNullAll(in_units);
+    this.units = NullCheck.notNullAll(in_units, "Units");
     this.contexts_active = new ArrayDeque<>(stack_depth);
     this.contexts_free = new ArrayDeque<>(stack_depth);
     this.root = new Context();
@@ -102,7 +102,7 @@ public final class JCGLTextureUnitAllocator implements
   }
 
   @Override
-  public JCGLTextureUnitContextParentType getRootContext()
+  public JCGLTextureUnitContextParentType rootContext()
   {
     return this.root;
   }
@@ -128,8 +128,8 @@ public final class JCGLTextureUnitAllocator implements
     final JCGLTexturesType g,
     final Context c)
   {
-    NullCheck.notNull(g);
-    NullCheck.notNull(c);
+    NullCheck.notNull(g, "Textures");
+    NullCheck.notNull(c, "Context");
 
     final Context c_this = JCGLTextureUnitAllocator.this.contexts_active.pop();
 
@@ -174,7 +174,7 @@ public final class JCGLTextureUnitAllocator implements
           "Context not current");
       }
 
-      JCGLTextureUnitAllocator.LOG.trace("new context");
+      LOG.trace("new context");
       final Context c = JCGLTextureUnitAllocator.this.contextFresh();
       c.copyFrom(this);
       return c;
@@ -211,7 +211,7 @@ public final class JCGLTextureUnitAllocator implements
     {
       NullCheck.notNull(g);
 
-      JCGLTextureUnitAllocator.LOG.trace("make current");
+      LOG.trace("make current");
 
       final List<JCGLTextureUnitType> us = JCGLTextureUnitAllocator.this.units;
       this.g3 = g;
@@ -219,18 +219,18 @@ public final class JCGLTextureUnitAllocator implements
         this.unit = us.get(index);
         final JCGLTextureUsableType t = this.bindings[index];
         if (t == null) {
-          if (JCGLTextureUnitAllocator.LOG.isTraceEnabled()) {
-            JCGLTextureUnitAllocator.LOG.trace(
+          if (LOG.isTraceEnabled()) {
+            LOG.trace(
               "[{}]: set unbound",
-              Integer.valueOf(this.unit.unitGetIndex()));
+              Integer.valueOf(this.unit.index()));
           }
           g.textureUnitUnbind(this.unit);
         } else {
           if (t.isDeleted()) {
-            if (JCGLTextureUnitAllocator.LOG.isTraceEnabled()) {
-              JCGLTextureUnitAllocator.LOG.trace(
+            if (LOG.isTraceEnabled()) {
+              LOG.trace(
                 "[{}]: set unbound (deleted)",
-                Integer.valueOf(this.unit.unitGetIndex()));
+                Integer.valueOf(this.unit.index()));
             }
             g.textureUnitUnbind(this.unit);
             this.bindings[index] = null;
@@ -264,8 +264,8 @@ public final class JCGLTextureUnitAllocator implements
 
       this.checkTextureUnitsRequired(this.next + 1);
 
-      if (JCGLTextureUnitAllocator.LOG.isTraceEnabled()) {
-        JCGLTextureUnitAllocator.LOG.trace("bind {}", t);
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("bind {}", t);
       }
 
       final List<JCGLTextureUnitType> us = JCGLTextureUnitAllocator.this.units;
@@ -281,8 +281,8 @@ public final class JCGLTextureUnitAllocator implements
       final JCGLTexturesType g,
       final JCGLTextureCubeUsableType t)
     {
-      NullCheck.notNull(g);
-      NullCheck.notNull(t);
+      NullCheck.notNull(g, "Textures");
+      NullCheck.notNull(t, "Texture");
 
       if (!this.isCurrent()) {
         throw new JCGLExceptionTextureUnitContextNotActive(
@@ -291,8 +291,8 @@ public final class JCGLTextureUnitAllocator implements
 
       this.checkTextureUnitsRequired(this.next + 1);
 
-      if (JCGLTextureUnitAllocator.LOG.isTraceEnabled()) {
-        JCGLTextureUnitAllocator.LOG.trace("bind {}", t);
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("bind {}", t);
       }
 
       final List<JCGLTextureUnitType> us = JCGLTextureUnitAllocator.this.units;
@@ -315,12 +315,12 @@ public final class JCGLTextureUnitAllocator implements
       final JCGLTextureFilterMinification min_filter,
       final JCGLTextureFilterMagnification mag_filter)
     {
-      NullCheck.notNull(g);
-      NullCheck.notNull(format);
-      NullCheck.notNull(wrap_s);
-      NullCheck.notNull(wrap_t);
-      NullCheck.notNull(min_filter);
-      NullCheck.notNull(mag_filter);
+      NullCheck.notNull(g, "Textures");
+      NullCheck.notNull(format, "Format");
+      NullCheck.notNull(wrap_s, "Wrapping S mode");
+      NullCheck.notNull(wrap_t, "Wrapping T mode");
+      NullCheck.notNull(min_filter, "Magnification filter");
+      NullCheck.notNull(mag_filter, "Minification filter");
 
       if (!this.isCurrent()) {
         throw new JCGLExceptionTextureUnitContextNotActive(
@@ -329,8 +329,8 @@ public final class JCGLTextureUnitAllocator implements
 
       this.checkTextureUnitsRequired(this.next + 1);
 
-      if (JCGLTextureUnitAllocator.LOG.isTraceEnabled()) {
-        JCGLTextureUnitAllocator.LOG.trace("allocate 2d");
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("allocate 2d");
       }
 
       final List<JCGLTextureUnitType> us = JCGLTextureUnitAllocator.this.units;
@@ -356,13 +356,13 @@ public final class JCGLTextureUnitAllocator implements
       final JCGLTextureFilterMinification min_filter,
       final JCGLTextureFilterMagnification mag_filter)
     {
-      NullCheck.notNull(g);
-      NullCheck.notNull(format);
-      NullCheck.notNull(wrap_r);
-      NullCheck.notNull(wrap_s);
-      NullCheck.notNull(wrap_t);
-      NullCheck.notNull(min_filter);
-      NullCheck.notNull(mag_filter);
+      NullCheck.notNull(g, "Textures");
+      NullCheck.notNull(format, "Format");
+      NullCheck.notNull(wrap_r, "Wrapping R mode");
+      NullCheck.notNull(wrap_s, "Wrapping S mode");
+      NullCheck.notNull(wrap_t, "Wrapping T mode");
+      NullCheck.notNull(min_filter, "Magnification filter");
+      NullCheck.notNull(mag_filter, "Minification filter");
 
       if (!this.isCurrent()) {
         throw new JCGLExceptionTextureUnitContextNotActive(
@@ -371,8 +371,8 @@ public final class JCGLTextureUnitAllocator implements
 
       this.checkTextureUnitsRequired(this.next + 1);
 
-      if (JCGLTextureUnitAllocator.LOG.isTraceEnabled()) {
-        JCGLTextureUnitAllocator.LOG.trace("allocate cube");
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("allocate cube");
       }
 
       final List<JCGLTextureUnitType> us = JCGLTextureUnitAllocator.this.units;
@@ -395,7 +395,7 @@ public final class JCGLTextureUnitAllocator implements
           "Context not current");
       }
 
-      JCGLTextureUnitAllocator.LOG.trace("finish");
+      LOG.trace("finish");
       JCGLTextureUnitAllocator.this.contextPop(g, this);
     }
   }

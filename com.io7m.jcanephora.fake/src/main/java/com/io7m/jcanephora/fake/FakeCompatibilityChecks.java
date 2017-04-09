@@ -37,6 +37,8 @@ import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
 
+import java.util.Objects;
+
 // @formatter:off
 
 /**
@@ -71,17 +73,17 @@ final class FakeCompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     if (x instanceof FakeObjectShared) {
-      return (A) FakeCompatibilityChecks.checkObjectShared(
+      return (A) checkObjectShared(
         current, (FakeObjectShared) x);
     }
 
     if (x instanceof FakeObjectUnshared) {
-      return (A) FakeCompatibilityChecks.checkObjectUnshared(
+      return (A) checkObjectUnshared(
         current, (FakeObjectUnshared) x);
     }
 
     if (x instanceof FakeObjectPseudoUnshared) {
-      return (A) FakeCompatibilityChecks.checkObjectPseudoUnshared(
+      return (A) checkObjectPseudoUnshared(
         current, (FakeObjectPseudoUnshared) x);
     }
 
@@ -99,7 +101,7 @@ final class FakeCompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     final FakeContext target = x.getContext();
-    if (current.equals(target)) {
+    if (Objects.equals(current, target)) {
       return x;
     }
 
@@ -114,8 +116,8 @@ final class FakeCompatibilityChecks
     final JCGLArrayBufferUsableType x)
     throws JCGLExceptionWrongContext
   {
-    NullCheck.notNull(x);
-    FakeCompatibilityChecks.checkAny(current, x);
+    NullCheck.notNull(x, "Array");
+    checkAny(current, x);
   }
 
   public static void checkIndexBuffer(
@@ -123,8 +125,8 @@ final class FakeCompatibilityChecks
     final JCGLIndexBufferUsableType x)
     throws JCGLExceptionWrongContext
   {
-    NullCheck.notNull(x);
-    FakeCompatibilityChecks.checkAny(current, x);
+    NullCheck.notNull(x, "Array");
+    checkAny(current, x);
   }
 
   public static void checkArrayObjectBuilder(
@@ -132,8 +134,8 @@ final class FakeCompatibilityChecks
     final JCGLArrayObjectBuilderType x)
     throws JCGLExceptionWrongContext
   {
-    NullCheck.notNull(x);
-    FakeCompatibilityChecks.checkAny(current, x);
+    NullCheck.notNull(x, "Array");
+    checkAny(current, x);
   }
 
   private static <A extends FakeObjectShared> A checkObjectShared(
@@ -142,11 +144,11 @@ final class FakeCompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     final FakeContext target = x.getContext();
-    if (current.equals(target)) {
+    if (Objects.equals(current, target)) {
       return x;
     }
 
-    /**
+    /*
      * Sharing is symmetric.
      */
 
@@ -166,7 +168,7 @@ final class FakeCompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     final FakeContext target = x.getContext();
-    if (current.equals(target)) {
+    if (Objects.equals(current, target)) {
       return x;
     }
 
@@ -180,97 +182,97 @@ final class FakeCompatibilityChecks
     final FakeContext c,
     final JCGLArrayVertexAttributeType attrib)
   {
-    FakeCompatibilityChecks.checkAny(c, attrib);
+    checkAny(c, attrib);
   }
 
   public static void checkArrayObject(
     final FakeContext context,
     final JCGLArrayObjectUsableType a)
   {
-    FakeCompatibilityChecks.checkAny(context, a);
+    checkAny(context, a);
   }
 
   public static FakeVertexShader checkVertexShader(
     final FakeContext c,
     final JCGLVertexShaderUsableType v)
   {
-    return (FakeVertexShader) FakeCompatibilityChecks.checkAny(c, v);
+    return (FakeVertexShader) checkAny(c, v);
   }
 
   public static FakeFragmentShader checkFragmentShader(
     final FakeContext c,
     final JCGLFragmentShaderUsableType f)
   {
-    return (FakeFragmentShader) FakeCompatibilityChecks.checkAny(c, f);
+    return (FakeFragmentShader) checkAny(c, f);
   }
 
   public static FakeGeometryShader checkGeometryShader(
     final FakeContext c,
     final JCGLGeometryShaderUsableType g)
   {
-    return (FakeGeometryShader) FakeCompatibilityChecks.checkAny(c, g);
+    return (FakeGeometryShader) checkAny(c, g);
   }
 
   public static FakeProgramShader checkProgramShader(
     final FakeContext c,
     final JCGLProgramShaderUsableType p)
   {
-    return (FakeProgramShader) FakeCompatibilityChecks.checkAny(c, p);
+    return (FakeProgramShader) checkAny(c, p);
   }
 
   public static FakeTextureUnit checkTextureUnit(
     final FakeContext c,
     final JCGLTextureUnitType u)
   {
-    return (FakeTextureUnit) FakeCompatibilityChecks.checkAny(c, u);
+    return (FakeTextureUnit) checkAny(c, u);
   }
 
   public static FakeTexture2D checkTexture2D(
     final FakeContext c,
     final JCGLTexture2DUsableType t)
   {
-    return (FakeTexture2D) FakeCompatibilityChecks.checkAny(c, t);
+    return (FakeTexture2D) checkAny(c, t);
   }
 
   public static FakeTextureCube checkTextureCube(
     final FakeContext c,
     final JCGLTextureCubeUsableType t)
   {
-    return (FakeTextureCube) FakeCompatibilityChecks.checkAny(c, t);
+    return (FakeTextureCube) checkAny(c, t);
   }
 
   public static void checkFramebufferBuilder(
     final FakeContext c,
     final JCGLFramebufferBuilderType b)
   {
-    FakeCompatibilityChecks.checkAny(c, b);
+    checkAny(c, b);
   }
 
   public static void checkFramebufferColorAttachmentPoint(
     final FakeContext c,
     final JCGLFramebufferColorAttachmentPointType p)
   {
-    FakeCompatibilityChecks.checkAny(c, p);
+    checkAny(c, p);
   }
 
   public static void checkDrawBuffer(
     final FakeContext c,
     final JCGLFramebufferDrawBufferType b)
   {
-    FakeCompatibilityChecks.checkAny(c, b);
+    checkAny(c, b);
   }
 
   public static void checkFramebuffer(
     final FakeContext c,
     final JCGLFramebufferUsableType fb)
   {
-    FakeCompatibilityChecks.checkAny(c, fb);
+    checkAny(c, fb);
   }
 
   public static FakeTimerQuery checkTimerQuery(
     final FakeContext c,
     final JCGLTimerQueryUsableType q)
   {
-    return (FakeTimerQuery) FakeCompatibilityChecks.checkAny(c, q);
+    return (FakeTimerQuery) checkAny(c, q);
   }
 }

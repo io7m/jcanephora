@@ -51,14 +51,14 @@ public final class JCGLAsyncResourceLoader implements
   JCGLAsyncResourceLoaderType
 {
   private final JCGLAsyncInterfaceUsableGL33Type g;
-  private final Executor                         exec_io;
+  private final Executor exec_io;
 
   private JCGLAsyncResourceLoader(
     final Executor in_exec_io,
     final JCGLAsyncInterfaceUsableGL33Type in_g)
   {
-    this.exec_io = NullCheck.notNull(in_exec_io);
-    this.g = NullCheck.notNull(in_g);
+    this.exec_io = NullCheck.notNull(in_exec_io, "IO executor");
+    this.g = NullCheck.notNull(in_g, "G33");
   }
 
   /**
@@ -88,12 +88,12 @@ public final class JCGLAsyncResourceLoader implements
     final BiFunction<JCGLTexture2DType, JCGLTLTextureDataType,
       JCGLTexture2DUpdateType> on_populate)
   {
-    NullCheck.notNull(on_data);
-    NullCheck.notNull(format);
-    NullCheck.notNull(wrap_s);
-    NullCheck.notNull(wrap_t);
-    NullCheck.notNull(min_filter);
-    NullCheck.notNull(mag_filter);
+    NullCheck.notNull(on_data, "On data");
+    NullCheck.notNull(format, "Format");
+    NullCheck.notNull(wrap_s, "Wrapping S mode");
+    NullCheck.notNull(wrap_t, "Wrapping T mode");
+    NullCheck.notNull(min_filter, "Magnification filter");
+    NullCheck.notNull(mag_filter, "Minification filter");
 
     final CompletableFuture<JCGLTLTextureDataType> f_data =
       CompletableFuture.supplyAsync(on_data, this.exec_io);
@@ -101,11 +101,11 @@ public final class JCGLAsyncResourceLoader implements
     final CompletableFuture<JCGLTexture2DType> f_alloc =
       f_data.thenCompose(
         td -> this.g.evaluate((g33, unused) -> {
-          final JCGLTexturesType gt = g33.getTextures();
+          final JCGLTexturesType gt = g33.textures();
           final List<JCGLTextureUnitType> us = gt.textureGetUnits();
           final JCGLTextureUnitType u0 = us.get(0);
-          final long w = td.getWidth();
-          final long h = td.getHeight();
+          final long w = td.width();
+          final long h = td.height();
           return gt.texture2DAllocate(
             u0, w, h, format, wrap_s, wrap_t, min_filter, mag_filter);
         }));
@@ -114,17 +114,17 @@ public final class JCGLAsyncResourceLoader implements
       f_alloc.thenCombine(f_data, on_populate);
 
     return f_pop.thenCompose(up -> this.g.evaluate((g33, unused) -> {
-      final JCGLTexturesType gt = g33.getTextures();
+      final JCGLTexturesType gt = g33.textures();
       final List<JCGLTextureUnitType> us = gt.textureGetUnits();
       final JCGLTextureUnitType u0 = us.get(0);
-      gt.texture2DBind(u0, up.getTexture());
+      gt.texture2DBind(u0, up.texture());
       gt.texture2DUpdate(u0, up);
-      return (JCGLTexture2DType) up.getTexture();
+      return (JCGLTexture2DType) up.texture();
     }));
   }
 
   @Override
-  public <T> CompletableFuture<JCGLAsyncBufferPairType> loadArrayIndexBuffers(
+  public <T> CompletableFuture<JCGLAsyncBufferPair> loadArrayIndexBuffers(
     final Supplier<T> on_data,
     final Function<T, Long> on_array_size,
     final JCGLUsageHint array_usage,
@@ -136,14 +136,14 @@ public final class JCGLAsyncResourceLoader implements
     final BiFunction<T, JCGLIndexBufferType,
       JCGLBufferUpdateType<JCGLIndexBufferType>> on_populate_index)
   {
-    NullCheck.notNull(on_data);
-    NullCheck.notNull(on_array_size);
-    NullCheck.notNull(array_usage);
-    NullCheck.notNull(on_index_size);
-    NullCheck.notNull(index_type);
-    NullCheck.notNull(index_usage);
-    NullCheck.notNull(on_populate_array);
-    NullCheck.notNull(on_populate_index);
+    NullCheck.notNull(on_data, "On data");
+    NullCheck.notNull(on_array_size, "Array size");
+    NullCheck.notNull(array_usage, "Array usage");
+    NullCheck.notNull(on_index_size, "Index size");
+    NullCheck.notNull(index_type, "Index type");
+    NullCheck.notNull(index_usage, "Index usage");
+    NullCheck.notNull(on_populate_array, "On populate array");
+    NullCheck.notNull(on_populate_index, "On populate index");
 
     final CompletableFuture<T> f_data =
       CompletableFuture.supplyAsync(on_data, this.exec_io);
@@ -155,17 +155,17 @@ public final class JCGLAsyncResourceLoader implements
     final CompletableFuture<JCGLArrayBufferType> f_array_alloc =
       f_array_size.thenCompose(
         size -> this.g.evaluate((g33, unused) -> {
-          final long sz = size.longValue();
-          final JCGLArrayBuffersType ga = g33.getArrayBuffers();
+          final JCGLArrayBuffersType ga = g33.arrayBuffers();
           ga.arrayBufferUnbind();
+          final long sz = size.longValue();
           return ga.arrayBufferAllocate(sz, array_usage);
         }));
     final CompletableFuture<JCGLIndexBufferType> f_index_alloc =
       f_index_size.thenCompose(
         size -> this.g.evaluate((g33, unused) -> {
-          final long sz = size.longValue();
-          final JCGLIndexBuffersType gi = g33.getIndexBuffers();
+          final JCGLIndexBuffersType gi = g33.indexBuffers();
           gi.indexBufferUnbind();
+          final long sz = size.longValue();
           return gi.indexBufferAllocate(sz, index_type, index_usage);
         }));
 
@@ -179,49 +179,23 @@ public final class JCGLAsyncResourceLoader implements
     final CompletableFuture<JCGLArrayBufferType> f_array_upload =
       f_array_get_update.thenCompose(
         up -> this.g.evaluate((g33, unused) -> {
-          final JCGLArrayBuffersType ga = g33.getArrayBuffers();
-          ga.arrayBufferBind(up.getBuffer());
+          final JCGLArrayBuffersType ga = g33.arrayBuffers();
+          ga.arrayBufferBind(up.buffer());
           ga.arrayBufferUpdate(up);
           ga.arrayBufferUnbind();
-          return up.getBuffer();
+          return up.buffer();
         }));
 
     final CompletableFuture<JCGLIndexBufferType> f_index_upload =
       f_index_get_update.thenCompose(
         up -> this.g.evaluate((g33, unused) -> {
-          final JCGLIndexBuffersType gi = g33.getIndexBuffers();
-          gi.indexBufferBind(up.getBuffer());
+          final JCGLIndexBuffersType gi = g33.indexBuffers();
+          gi.indexBufferBind(up.buffer());
           gi.indexBufferUpdate(up);
           gi.indexBufferUnbind();
-          return up.getBuffer();
+          return up.buffer();
         }));
 
-    return f_array_upload.thenCombine(f_index_upload, BufferPair::new);
-  }
-
-  private static final class BufferPair implements JCGLAsyncBufferPairType
-  {
-    private final JCGLArrayBufferType array;
-    private final JCGLIndexBufferType index;
-
-    BufferPair(
-      final JCGLArrayBufferType in_array,
-      final JCGLIndexBufferType in_index)
-    {
-      this.array = NullCheck.notNull(in_array);
-      this.index = NullCheck.notNull(in_index);
-    }
-
-    @Override
-    public JCGLArrayBufferType getArrayBuffer()
-    {
-      return this.array;
-    }
-
-    @Override
-    public JCGLIndexBufferType getIndexBuffer()
-    {
-      return this.index;
-    }
+    return f_array_upload.thenCombine(f_index_upload, JCGLAsyncBufferPair::of);
   }
 }

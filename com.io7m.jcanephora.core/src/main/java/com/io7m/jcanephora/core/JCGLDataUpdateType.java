@@ -32,11 +32,11 @@ public interface JCGLDataUpdateType<T>
    * @return The {@link ByteBuffer} that will be used to update the buffer
    */
 
-  ByteBuffer getData();
+  ByteBuffer data();
 
   /**
    * @return The byte range of data that will be updated in the buffer
    */
 
-  UnsignedRangeInclusiveL getDataUpdateRange();
+  UnsignedRangeInclusiveL dataUpdateRange();
 }

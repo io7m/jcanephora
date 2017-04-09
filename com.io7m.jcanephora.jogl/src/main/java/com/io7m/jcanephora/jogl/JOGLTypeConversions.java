@@ -105,9 +105,9 @@ public final class JOGLTypeConversions
         return JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE;
       case GL.GL_ZERO:
         return JCGLBlendFunction.BLEND_ZERO;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -175,9 +175,9 @@ public final class JOGLTypeConversions
         return JCGLPolygonMode.POLYGON_LINES;
       case GL2GL3.GL_POINT:
         return JCGLPolygonMode.POLYGON_POINTS;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -225,9 +225,9 @@ public final class JOGLTypeConversions
         return JCGLBlendEquation.BLEND_EQUATION_REVERSE_SUBTRACT;
       case GL.GL_FUNC_SUBTRACT:
         return JCGLBlendEquation.BLEND_EQUATION_SUBTRACT;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -285,9 +285,9 @@ public final class JOGLTypeConversions
         return JCGLDepthFunction.DEPTH_NEVER;
       case GL.GL_NOTEQUAL:
         return JCGLDepthFunction.DEPTH_NOT_EQUAL;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -341,9 +341,9 @@ public final class JOGLTypeConversions
         return JCGLUnsignedType.TYPE_UNSIGNED_SHORT;
       case GL.GL_UNSIGNED_INT:
         return JCGLUnsignedType.TYPE_UNSIGNED_INT;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -399,9 +399,9 @@ public final class JOGLTypeConversions
         return JCGLUsageHint.USAGE_STREAM_DRAW;
       case GL2ES3.GL_STREAM_READ:
         return JCGLUsageHint.USAGE_STREAM_READ;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -467,9 +467,9 @@ public final class JOGLTypeConversions
         return JCGLScalarType.TYPE_UNSIGNED_INT;
       case GL.GL_FLOAT:
         return JCGLScalarType.TYPE_FLOAT;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -557,9 +557,9 @@ public final class JOGLTypeConversions
         return JCGLScalarIntegralType.TYPE_INT;
       case GL.GL_UNSIGNED_INT:
         return JCGLScalarIntegralType.TYPE_UNSIGNED_INT;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -718,9 +718,9 @@ public final class JOGLTypeConversions
         return JCGLType.TYPE_SAMPLER_3D;
       case GL2ES2.GL_SAMPLER_CUBE:
         return JCGLType.TYPE_SAMPLER_CUBE;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -745,9 +745,9 @@ public final class JOGLTypeConversions
         return JCGLPrimitives.PRIMITIVE_TRIANGLES;
       case GL.GL_TRIANGLE_STRIP:
         return JCGLPrimitives.PRIMITIVE_TRIANGLE_STRIP;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -793,9 +793,9 @@ public final class JOGLTypeConversions
         return JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR;
       case GL.GL_NEAREST:
         return JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -847,9 +847,9 @@ public final class JOGLTypeConversions
       case GL.GL_NEAREST_MIPMAP_NEAREST:
         return JCGLTextureFilterMinification
           .TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -899,9 +899,9 @@ public final class JOGLTypeConversions
         return JCGLTextureWrapR.TEXTURE_WRAP_REPEAT;
       case GL.GL_MIRRORED_REPEAT:
         return JCGLTextureWrapR.TEXTURE_WRAP_REPEAT_MIRRORED;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -945,9 +945,9 @@ public final class JOGLTypeConversions
         return JCGLTextureWrapS.TEXTURE_WRAP_REPEAT;
       case GL.GL_MIRRORED_REPEAT:
         return JCGLTextureWrapS.TEXTURE_WRAP_REPEAT_MIRRORED;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -991,9 +991,9 @@ public final class JOGLTypeConversions
         return JCGLTextureWrapT.TEXTURE_WRAP_REPEAT;
       case GL.GL_MIRRORED_REPEAT:
         return JCGLTextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1057,9 +1057,9 @@ public final class JOGLTypeConversions
         return JCGLPixelFormat.PIXEL_COMPONENT_BYTE;
       case GL.GL_HALF_FLOAT:
         return JCGLPixelFormat.PIXEL_COMPONENT_HALF_FLOAT;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1126,9 +1126,9 @@ public final class JOGLTypeConversions
       case GL.GL_STENCIL_BUFFER_BIT: {
         return JCGLFramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_STENCIL;
       }
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1145,7 +1145,7 @@ public final class JOGLTypeConversions
     int mask = 0;
     for (final JCGLFramebufferBlitBuffer b : buffers) {
       assert b != null;
-      mask |= JOGLTypeConversions.framebufferBlitBufferToGL(b);
+      mask |= framebufferBlitBufferToGL(b);
     }
     return mask;
   }
@@ -1194,9 +1194,9 @@ public final class JOGLTypeConversions
       case GL.GL_NEAREST: {
         return JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST;
       }
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1250,9 +1250,9 @@ public final class JOGLTypeConversions
           .FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER;
       case GL.GL_FRAMEBUFFER_UNSUPPORTED:
         return JCGLFramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED;
+      default:
+        return JCGLFramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
     }
-
-    return JCGLFramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
   }
 
   /**
@@ -1304,9 +1304,9 @@ public final class JOGLTypeConversions
         return JCGLFaceSelection.FACE_FRONT;
       case GL.GL_FRONT_AND_BACK:
         return JCGLFaceSelection.FACE_FRONT_AND_BACK;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1348,9 +1348,9 @@ public final class JOGLTypeConversions
         return JCGLFaceWindingOrder.FRONT_FACE_CLOCKWISE;
       case GL.GL_CCW:
         return JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1435,9 +1435,9 @@ public final class JOGLTypeConversions
         return JCGLStencilFunction.STENCIL_NEVER;
       case GL.GL_NOTEQUAL:
         return JCGLStencilFunction.STENCIL_NOT_EQUAL;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1501,9 +1501,9 @@ public final class JOGLTypeConversions
         return JCGLStencilOperation.STENCIL_OP_REPLACE;
       case GL.GL_ZERO:
         return JCGLStencilOperation.STENCIL_OP_ZERO;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1532,9 +1532,10 @@ public final class JOGLTypeConversions
         return JCGLCubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Z;
       case GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
         return JCGLCubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Z;
-    }
 
-    throw new UnreachableCodeException();
+      default:
+        throw new UnreachableCodeException();
+    }
   }
 
   /**

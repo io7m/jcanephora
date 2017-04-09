@@ -16,9 +16,9 @@
 
 package com.io7m.jcanephora.renderstate;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLImmutableStyleType;
 import com.io7m.jcanephora.core.JCGLPolygonMode;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 import org.immutables.value.Value;
 
 import java.util.Optional;
@@ -37,14 +37,14 @@ public interface JCGLRenderStateType
    */
 
   @Value.Parameter
-  Optional<JCGLBlendStateType> getBlendState();
+  Optional<JCGLBlendStateType> blendState();
 
   /**
    * @return The culling state, if culling is enabled
    */
 
   @Value.Parameter
-  Optional<JCGLCullingStateType> getCullingState();
+  Optional<JCGLCullingStateType> cullingState();
 
   /**
    * @return The color buffer masking state
@@ -52,7 +52,7 @@ public interface JCGLRenderStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLColorBufferMaskingStateType getColorBufferMaskingState()
+  default JCGLColorBufferMaskingStateType colorBufferMaskingState()
   {
     return JCGLColorBufferMaskingStateMutable.create(true, true, true, true);
   }
@@ -63,7 +63,7 @@ public interface JCGLRenderStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLPolygonMode getPolygonMode()
+  default JCGLPolygonMode polygonMode()
   {
     return JCGLPolygonMode.POLYGON_FILL;
   }
@@ -73,7 +73,7 @@ public interface JCGLRenderStateType
    */
 
   @Value.Parameter
-  Optional<AreaInclusiveUnsignedLType> getScissor();
+  Optional<AreaL> scissor();
 
   /**
    * @return The depth buffer state
@@ -81,7 +81,7 @@ public interface JCGLRenderStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLDepthStateType getDepthState()
+  default JCGLDepthStateType depthState()
   {
     return JCGLDepthStateMutable.create();
   }
@@ -92,7 +92,7 @@ public interface JCGLRenderStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLStencilStateType getStencilState()
+  default JCGLStencilStateType stencilState()
   {
     return JCGLStencilStateMutable.create();
   }

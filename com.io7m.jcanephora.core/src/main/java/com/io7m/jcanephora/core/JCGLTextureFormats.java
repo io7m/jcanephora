@@ -42,7 +42,7 @@ public final class JCGLTextureFormats
     final JCGLTextureFormat t)
     throws JCGLExceptionFormatError
   {
-    if (!JCGLTextureFormats.isColorRenderable2D(t)) {
+    if (!isColorRenderable2D(t)) {
       final String m = String.format(
         "Format %s is not color-renderable for 2D textures", t);
       assert m != null;
@@ -63,7 +63,7 @@ public final class JCGLTextureFormats
     final JCGLTextureFormat t)
     throws JCGLExceptionFormatError
   {
-    if (!JCGLTextureFormats.isDepthRenderable(t)) {
+    if (!isDepthRenderable(t)) {
       final String m = String.format(
         "Format %s is not depth-renderable for 2D textures", t);
       assert m != null;
@@ -84,17 +84,17 @@ public final class JCGLTextureFormats
     final JCGLTextureFormat t)
     throws JCGLExceptionFormatError
   {
-    if (!JCGLTextureFormats.isDepthRenderable(t)) {
+    if (!isDepthRenderable(t)) {
       final String m =
         String.format("Format %s is not depth-renderable", t);
       assert m != null;
       throw new JCGLExceptionFormatError(m);
     }
 
-    if (JCGLTextureFormats.isStencilRenderable(t)) {
+    if (isStencilRenderable(t)) {
       final String m = String.format(
         "Format %s is stencil-renderable: Must be used as a depth+stencil "
-        + "attachment",
+          + "attachment",
         t);
       assert m != null;
       throw new JCGLExceptionFormatError(m);
@@ -114,8 +114,8 @@ public final class JCGLTextureFormats
     final JCGLTextureFormat t)
     throws JCGLExceptionFormatError
   {
-    if (JCGLTextureFormats.isDepthRenderable(t)
-        && JCGLTextureFormats.isStencilRenderable(t)) {
+    if (isDepthRenderable(t)
+      && isStencilRenderable(t)) {
       return;
     }
 
@@ -192,7 +192,7 @@ public final class JCGLTextureFormats
    * @return The number of depth bits specified by format {@code f}
    */
 
-  public static int getDepthBits(final JCGLTextureFormat f)
+  public static int depthBits(final JCGLTextureFormat f)
   {
     switch (f) {
       case TEXTURE_FORMAT_DEPTH_16_2BPP:
@@ -292,7 +292,7 @@ public final class JCGLTextureFormats
         return true;
       }
 
-      /**
+      /*
        * This is not actually required by OpenGL 3.*, but in practice, it's
        * color-renderable everywhere.
        */
@@ -455,7 +455,7 @@ public final class JCGLTextureFormats
    * @return The number of stencil bits specified by format {@code f}
    */
 
-  public static int getStencilBits(final JCGLTextureFormat f)
+  public static int stencilBits(final JCGLTextureFormat f)
   {
     switch (f) {
       case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:

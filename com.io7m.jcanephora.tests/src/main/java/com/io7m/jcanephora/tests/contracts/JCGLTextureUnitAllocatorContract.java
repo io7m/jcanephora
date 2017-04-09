@@ -90,7 +90,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -99,7 +99,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -107,7 +107,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     }
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -129,7 +129,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -138,7 +138,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -146,7 +146,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     }
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -168,7 +168,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -177,7 +177,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -185,7 +185,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     }
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNewWithReserved(16);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -207,7 +207,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -216,7 +216,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -224,7 +224,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     }
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNewWithReserved(16);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -246,7 +246,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -255,13 +255,13 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTexture2DType rt0 = t0;
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -279,7 +279,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -288,13 +288,13 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTexture2DType rt0 = t0;
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -312,7 +312,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -321,13 +321,13 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTextureCubeType rt0 = t0;
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -345,7 +345,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -354,13 +354,13 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTextureCubeType rt0 = t0;
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -378,7 +378,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -387,9 +387,9 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     final JCGLTexture2DType t1 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTexture2DType rt0 = t0;
@@ -400,7 +400,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     }
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(3, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     for (int index = 0; index < 4; ++index) {
@@ -433,7 +433,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -442,9 +442,9 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     final JCGLTextureCubeType t1 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     final JCGLTextureCubeType rt0 = t0;
@@ -455,7 +455,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     }
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(3, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     for (int index = 0; index < 4; ++index) {
@@ -488,7 +488,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -497,9 +497,9 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     final JCGLTexture2DType t1 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -507,7 +507,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     }
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(3, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     final JCGLTexture2DType rt0 = t0;
@@ -553,7 +553,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     for (int index = 0; index < us.size(); ++index) {
@@ -562,9 +562,9 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     final JCGLTextureCubeType t1 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     for (int index = 0; index < us.size(); ++index) {
@@ -572,7 +572,7 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
     }
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(3, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     final JCGLTextureCubeType rt0 = t0;
@@ -618,11 +618,11 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(10, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
     final JCGLTextureUnitContextType c_1 = c_0.unitContextNew();
     final JCGLTextureUnitContextType c_2 = c_1.unitContextNew();
@@ -649,11 +649,11 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(4, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
     final JCGLTextureUnitContextType c_1 = c_0.unitContextNew();
     final JCGLTextureUnitContextType c_2 = c_1.unitContextNew();
@@ -667,16 +667,16 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTexture2DType t0 =
-      JCGLTextureUnitAllocatorContract.newTexture(g_tx, u0);
+      newTexture(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     c_0.unitContextFinish(g_tx);
@@ -689,16 +689,16 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     final JCGLTextureUnitType u0 = us.get(0);
     final JCGLTextureCubeType t0 =
-      JCGLTextureUnitAllocatorContract.newTextureCube(g_tx, u0);
+      newTextureCube(g_tx, u0);
     g_tx.textureUnitUnbind(u0);
 
     c_0.unitContextFinish(g_tx);
@@ -711,11 +711,11 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     this.expected.expect(JCGLExceptionTextureUnitContextNotActive.class);
@@ -727,11 +727,11 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(3, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
     final JCGLTextureUnitContextType c_1 = c_0.unitContextNew();
 
@@ -744,11 +744,11 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
     c_0.unitContextFinish(g_tx);
 
@@ -761,11 +761,11 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     final Pair<JCGLTextureUnitType, JCGLTexture2DType> p =
@@ -781,21 +781,21 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTexture2DType t = p.getRight();
     Assert.assertEquals(
-      128L, t.textureGetRangeX().getInterval());
+      128L, t.rangeX().getInterval());
     Assert.assertEquals(
-      256L, t.textureGetRangeY().getInterval());
+      256L, t.rangeY().getInterval());
     Assert.assertEquals(
-      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP, t.textureGetFormat());
+      JCGLTextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP, t.format());
     Assert.assertEquals(
-      JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE, t.textureGetWrapS());
+      JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE, t.wrapS());
     Assert.assertEquals(
-      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT, t.textureGetWrapT());
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT, t.wrapT());
     Assert.assertEquals(
       JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
-      t.textureGetMinificationFilter());
+      t.minificationFilter());
     Assert.assertEquals(
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-      t.textureGetMagnificationFilter());
+      t.magnificationFilter());
   }
 
   @Test
@@ -803,11 +803,11 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(2, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
 
     final Pair<JCGLTextureUnitType, JCGLTextureCubeType> p =
@@ -823,23 +823,23 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
 
     final JCGLTextureCubeType t = p.getRight();
     Assert.assertEquals(
-      128L, t.textureGetRangeX().getInterval());
+      128L, t.rangeX().getInterval());
     Assert.assertEquals(
-      128L, t.textureGetRangeY().getInterval());
+      128L, t.rangeY().getInterval());
     Assert.assertEquals(
-      JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP, t.textureGetFormat());
+      JCGLTextureFormat.TEXTURE_FORMAT_RGB_8_3BPP, t.format());
     Assert.assertEquals(
-      JCGLTextureWrapR.TEXTURE_WRAP_REPEAT, t.textureGetWrapR());
+      JCGLTextureWrapR.TEXTURE_WRAP_REPEAT, t.wrapR());
     Assert.assertEquals(
-      JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE, t.textureGetWrapS());
+      JCGLTextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE, t.wrapS());
     Assert.assertEquals(
-      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT, t.textureGetWrapT());
+      JCGLTextureWrapT.TEXTURE_WRAP_REPEAT, t.wrapT());
     Assert.assertEquals(
       JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
-      t.textureGetMinificationFilter());
+      t.minificationFilter());
     Assert.assertEquals(
       JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-      t.textureGetMagnificationFilter());
+      t.magnificationFilter());
   }
 
   @Test
@@ -847,11 +847,11 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(4, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
     final JCGLTextureUnitContextType c_1 = c_0.unitContextNew();
 
@@ -872,11 +872,11 @@ public abstract class JCGLTextureUnitAllocatorContract extends JCGLContract
   {
     final JCGLContextType gc = this.newGL33Context("main", 24, 8);
     final JCGLInterfaceGL33Type g33 = gc.contextGetGL33();
-    final JCGLTexturesType g_tx = g33.getTextures();
+    final JCGLTexturesType g_tx = g33.textures();
     final List<JCGLTextureUnitType> us = g_tx.textureGetUnits();
 
     final JCGLTextureUnitAllocatorType alloc = this.newAllocator(4, us);
-    final JCGLTextureUnitContextParentType c_root = alloc.getRootContext();
+    final JCGLTextureUnitContextParentType c_root = alloc.rootContext();
     final JCGLTextureUnitContextType c_0 = c_root.unitContextNew();
     final JCGLTextureUnitContextType c_1 = c_0.unitContextNew();
 

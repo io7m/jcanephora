@@ -28,5 +28,5 @@ public interface JCGLFramebufferColorAttachmentPointType
    * some implementation-defined exclusive upper limit (at least 8).
    */
 
-  int colorAttachmentPointGetIndex();
+  int colorAttachmentPointIndex();
 }

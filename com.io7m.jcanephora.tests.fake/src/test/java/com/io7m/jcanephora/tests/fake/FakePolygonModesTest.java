@@ -28,19 +28,21 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakePolygonModesTest extends JCGLPolygonModesContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }
 
-  @Override protected JCGLPolygonModesType getPolygonModes(final String name)
+  @Override
+  protected JCGLPolygonModesType getPolygonModes(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
       final JCGLContextType c =
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-      return cg.getPolygonModes();
+      return cg.polygonModes();
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }

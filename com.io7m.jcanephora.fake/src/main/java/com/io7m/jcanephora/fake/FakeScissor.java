@@ -16,10 +16,10 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.api.JCGLScissorType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 
 final class FakeScissor implements JCGLScissorType
 {
@@ -30,7 +30,8 @@ final class FakeScissor implements JCGLScissorType
     this.enabled = false;
   }
 
-  @Override public void scissorDisable()
+  @Override
+  public void scissorDisable()
     throws JCGLException
   {
     if (this.enabled) {
@@ -38,15 +39,17 @@ final class FakeScissor implements JCGLScissorType
     }
   }
 
-  @Override public void scissorEnable(
-    final AreaInclusiveUnsignedLType area)
+  @Override
+  public void scissorEnable(
+    final AreaL area)
     throws JCGLException
   {
-    NullCheck.notNull(area);
+    NullCheck.notNull(area, "Area");
     this.enabled = true;
   }
 
-  @Override public boolean scissorIsEnabled()
+  @Override
+  public boolean scissorIsEnabled()
     throws JCGLException
   {
     return this.enabled;

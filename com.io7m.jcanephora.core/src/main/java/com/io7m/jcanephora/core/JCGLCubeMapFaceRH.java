@@ -79,19 +79,19 @@ public enum JCGLCubeMapFaceRH
 
     switch (face) {
       case CUBE_MAP_LH_NEGATIVE_X:
-        return JCGLCubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_X;
+        return CUBE_MAP_RH_NEGATIVE_X;
       case CUBE_MAP_LH_POSITIVE_X:
-        return JCGLCubeMapFaceRH.CUBE_MAP_RH_POSITIVE_X;
+        return CUBE_MAP_RH_POSITIVE_X;
 
       case CUBE_MAP_LH_NEGATIVE_Y:
-        return JCGLCubeMapFaceRH.CUBE_MAP_RH_POSITIVE_Y;
+        return CUBE_MAP_RH_POSITIVE_Y;
       case CUBE_MAP_LH_POSITIVE_Y:
-        return JCGLCubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_Y;
+        return CUBE_MAP_RH_NEGATIVE_Y;
 
       case CUBE_MAP_LH_NEGATIVE_Z:
-        return JCGLCubeMapFaceRH.CUBE_MAP_RH_POSITIVE_Z;
+        return CUBE_MAP_RH_POSITIVE_Z;
       case CUBE_MAP_LH_POSITIVE_Z:
-        return JCGLCubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_Z;
+        return CUBE_MAP_RH_NEGATIVE_Z;
     }
 
     throw new UnreachableCodeException();

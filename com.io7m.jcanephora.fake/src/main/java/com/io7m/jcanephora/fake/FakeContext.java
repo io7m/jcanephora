@@ -41,7 +41,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class FakeContext implements JCGLContextType
 {
-  private static final Logger                   LOG;
+  private static final Logger LOG;
   private static final ThreadLocal<FakeContext> CURRENT;
 
   static {
@@ -49,13 +49,13 @@ public final class FakeContext implements JCGLContextType
     CURRENT = new ThreadLocal<>();
   }
 
-  private final    FakeInterfaceGL33      gl33;
-  private final    Set<FakeContext>       shared_with;
-  private final    JCGLImplementationFake implementation;
-  private final    String                 name;
-  private final    AtomicInteger          next_id;
-  private final    FakeShaderListenerType shader_listener;
-  private volatile boolean                destroyed;
+  private final FakeInterfaceGL33 gl33;
+  private final Set<FakeContext> shared_with;
+  private final JCGLImplementationFake implementation;
+  private final String name;
+  private final AtomicInteger next_id;
+  private final FakeShaderListenerType shader_listener;
+  private volatile boolean destroyed;
 
   /**
    * Construct a context.
@@ -74,12 +74,12 @@ public final class FakeContext implements JCGLContextType
     throws JCGLExceptionNonCompliant
   {
     this.next_id = new AtomicInteger(1);
-    this.shader_listener = NullCheck.notNull(in_listener);
+    this.shader_listener = NullCheck.notNull(in_listener, "Listener");
     this.gl33 = new FakeInterfaceGL33(this);
     this.destroyed = false;
     this.shared_with = new HashSet<>(8);
     this.implementation = i;
-    this.name = NullCheck.notNull(in_name);
+    this.name = NullCheck.notNull(in_name, "Name");
   }
 
   static FakeContext getCurrentContext()
@@ -94,22 +94,25 @@ public final class FakeContext implements JCGLContextType
 
   void setSharedWith(final FakeContext other)
   {
-    FakeContext.LOG.debug("sharing context {} with {}", this, other);
+    LOG.debug("sharing context {} with {}", this, other);
     this.shared_with.add(other);
     other.shared_with.add(this);
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     return String.format("[FakeContext %s]", this.name);
   }
 
-  @Override public String contextGetName()
+  @Override
+  public String contextGetName()
   {
     return this.name;
   }
 
-  @Override public List<JCGLContextUsableType> contextGetShares()
+  @Override
+  public List<JCGLContextUsableType> contextGetShares()
   {
     this.checkNotDestroyed();
 
@@ -127,7 +130,8 @@ public final class FakeContext implements JCGLContextType
     }
   }
 
-  @Override public boolean contextIsSharedWith(final JCGLContextUsableType c)
+  @Override
+  public boolean contextIsSharedWith(final JCGLContextUsableType c)
   {
     this.checkNotDestroyed();
 
@@ -140,18 +144,20 @@ public final class FakeContext implements JCGLContextType
     return false;
   }
 
-  @Override public boolean contextIsCurrent()
+  @Override
+  public boolean contextIsCurrent()
   {
     this.checkNotDestroyed();
     return Objects.equals(CURRENT.get(), this);
   }
 
-  @Override public void contextMakeCurrent()
+  @Override
+  public void contextMakeCurrent()
   {
     this.checkNotDestroyed();
-    FakeContext.LOG.trace("make current");
+    LOG.trace("make current");
 
-    /**
+    /*
      * If no context is current on this thread, make the context current.
      */
 
@@ -160,7 +166,7 @@ public final class FakeContext implements JCGLContextType
       CURRENT.set(this);
     } else {
 
-      /**
+      /*
        * Any other situation is an error.
        */
 
@@ -181,15 +187,16 @@ public final class FakeContext implements JCGLContextType
       sb.append(Thread.currentThread());
       sb.append(System.lineSeparator());
       final String m = sb.toString();
-      FakeContext.LOG.error(m);
+      LOG.error(m);
       throw new JCGLExceptionContextIsCurrent(m);
     }
   }
 
-  @Override public void contextReleaseCurrent()
+  @Override
+  public void contextReleaseCurrent()
   {
     this.checkNotDestroyed();
-    FakeContext.LOG.trace("release current");
+    LOG.trace("release current");
     if (this.contextIsCurrent()) {
       CURRENT.set(null);
     } else {
@@ -206,24 +213,27 @@ public final class FakeContext implements JCGLContextType
       sb.append(Thread.currentThread());
       sb.append(System.lineSeparator());
       final String m = sb.toString();
-      FakeContext.LOG.error(m);
+      LOG.error(m);
       throw new JCGLExceptionContextNotCurrent(m);
     }
   }
 
-  @Override public JCGLInterfaceGL33Type contextGetGL33()
+  @Override
+  public JCGLInterfaceGL33Type contextGetGL33()
   {
     this.checkNotDestroyed();
     return this.gl33;
   }
 
-  @Override public JCGLImplementationType contextGetImplementation()
+  @Override
+  public JCGLImplementationType contextGetImplementation()
   {
     this.checkNotDestroyed();
     return this.implementation;
   }
 
-  @Override public void contextDestroy()
+  @Override
+  public void contextDestroy()
     throws JCGLExceptionDeleted
   {
     this.checkNotDestroyed();
@@ -239,14 +249,15 @@ public final class FakeContext implements JCGLContextType
       sb.append(Thread.currentThread());
       sb.append(System.lineSeparator());
       final String m = sb.toString();
-      FakeContext.LOG.error(m);
+      LOG.error(m);
       throw new JCGLExceptionContextIsCurrent(m);
     }
 
     this.destroyed = true;
   }
 
-  @Override public boolean isDeleted()
+  @Override
+  public boolean isDeleted()
   {
     return this.destroyed;
   }

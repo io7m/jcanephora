@@ -55,7 +55,7 @@ public interface JCGLAsyncInterfaceUsableGL33Type
    */
 
   default <B> CompletableFuture<B> evaluate(
-    BiFunction<JCGLInterfaceGL33Type, Unit, B> f)
+    final BiFunction<JCGLInterfaceGL33Type, Unit, B> f)
   {
     return this.evaluateWith(Unit.unit(), f);
   }

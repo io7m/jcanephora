@@ -20,7 +20,7 @@ import com.io7m.jcanephora.core.JCGLClearSpecificationType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.api.JCGLClearType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jtensors.VectorReadable4FType;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
 
@@ -30,31 +30,34 @@ import java.util.OptionalInt;
 
 final class JOGLClear implements JCGLClearType
 {
-  private final JOGLContext context;
   private final GL3 g3;
 
   JOGLClear(
     final JOGLContext in_context)
   {
-    this.context = NullCheck.notNull(in_context);
-    this.g3 = this.context.getGL3();
+    final JOGLContext context = NullCheck.notNull(in_context, "Context");
+    this.g3 = context.getGL3();
   }
 
   @Override
   public void clear(final JCGLClearSpecificationType c)
     throws JCGLException
   {
-    NullCheck.notNull(c);
+    NullCheck.notNull(c, "Clear");
 
     int buffers = 0;
-    final Optional<VectorReadable4FType> opt_color = c.getColorBufferClear();
-    final OptionalDouble opt_depth = c.getDepthBufferClear();
-    final OptionalInt opt_stencil = c.getStencilBufferClear();
+    final Optional<Vector4D> opt_color = c.colorBufferClear();
+    final OptionalDouble opt_depth = c.depthBufferClear();
+    final OptionalInt opt_stencil = c.stencilBufferClear();
 
     if (opt_color.isPresent()) {
       buffers |= GL.GL_COLOR_BUFFER_BIT;
-      final VectorReadable4FType cc = opt_color.get();
-      this.g3.glClearColor(cc.getXF(), cc.getYF(), cc.getZF(), cc.getWF());
+      final Vector4D cc = opt_color.get();
+      this.g3.glClearColor(
+        (float) cc.x(),
+        (float) cc.y(),
+        (float) cc.z(),
+        (float) cc.w());
     }
 
     if (opt_depth.isPresent()) {

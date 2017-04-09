@@ -35,14 +35,14 @@ import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jtensors.MatrixDirectM3x3F;
-import com.io7m.jtensors.MatrixDirectM4x4F;
-import com.io7m.jtensors.VectorI2F;
-import com.io7m.jtensors.VectorI2I;
-import com.io7m.jtensors.VectorI3F;
-import com.io7m.jtensors.VectorI3I;
-import com.io7m.jtensors.VectorI4F;
-import com.io7m.jtensors.VectorI4I;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrices3x3D;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrices4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors2D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors2I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors3D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors3I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vectors4I;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -76,10 +76,10 @@ public abstract class JCGLShadersContract extends JCGLContract
   {
     Assert.assertTrue(a.containsKey(f));
     final JCGLProgramAttributeType v = a.get(f);
-    Assert.assertTrue(v.getGLName() >= 0);
-    Assert.assertEquals(f, v.getName());
-    Assert.assertEquals(t, v.getType());
-    Assert.assertEquals(p, v.getProgram());
+    Assert.assertTrue(v.glName() >= 0);
+    Assert.assertEquals(f, v.name());
+    Assert.assertEquals(t, v.type());
+    Assert.assertEquals(p, v.program());
   }
 
   private static void checkUniform(
@@ -91,11 +91,11 @@ public abstract class JCGLShadersContract extends JCGLContract
   {
     Assert.assertTrue(u.containsKey(f));
     final JCGLProgramUniformType v = u.get(f);
-    Assert.assertTrue(v.getGLName() >= 0);
-    Assert.assertEquals(f, v.getName());
-    Assert.assertEquals(t, v.getType());
-    Assert.assertEquals(p, v.getProgram());
-    Assert.assertEquals(size, v.getSize());
+    Assert.assertTrue(v.glName() >= 0);
+    Assert.assertEquals(f, v.name());
+    Assert.assertEquals(t, v.type());
+    Assert.assertEquals(p, v.program());
+    Assert.assertEquals(size, v.size());
   }
 
   protected abstract Interfaces getInterfaces(String name);
@@ -153,9 +153,9 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex("valid0", this.getShaderLines("valid0.vert"));
-    Assert.assertEquals("valid0", v.getName());
+    Assert.assertEquals("valid0", v.name());
     Assert.assertFalse(v.isDeleted());
-    Assert.assertTrue(v.getGLName() > 0);
+    Assert.assertTrue(v.glName() > 0);
   }
 
   @Test
@@ -268,9 +268,9 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     final JCGLFragmentShaderType f =
       s.shaderCompileFragment("valid0", this.getShaderLines("valid0.frag"));
-    Assert.assertEquals("valid0", f.getName());
+    Assert.assertEquals("valid0", f.name());
     Assert.assertFalse(f.isDeleted());
-    Assert.assertTrue(f.getGLName() > 0);
+    Assert.assertTrue(f.glName() > 0);
   }
 
   @Test
@@ -456,9 +456,9 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     final JCGLGeometryShaderType g =
       s.shaderCompileGeometry("valid0", this.getShaderLines("valid0.geom"));
-    Assert.assertEquals("valid0", g.getName());
+    Assert.assertEquals("valid0", g.name());
     Assert.assertFalse(g.isDeleted());
-    Assert.assertTrue(g.getGLName() > 0);
+    Assert.assertTrue(g.glName() > 0);
   }
 
   @Test
@@ -475,28 +475,28 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("valid0", v, Optional.of(g), f);
 
-    Assert.assertEquals("valid0", p.getName());
+    Assert.assertEquals("valid0", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Set<JCGLReferableType> p_refs = p.getReferences();
+    final Set<JCGLReferableType> p_refs = p.references();
     Assert.assertEquals(3L, (long) p_refs.size());
     Assert.assertTrue(p_refs.contains(f));
     Assert.assertTrue(p_refs.contains(v));
     Assert.assertTrue(p_refs.contains(g));
 
-    final Set<JCGLReferenceContainerType> v_refs = v.getReferringContainers();
+    final Set<JCGLReferenceContainerType> v_refs = v.referringContainers();
     Assert.assertEquals(1L, (long) v_refs.size());
     Assert.assertTrue(v_refs.contains(p));
 
-    final Set<JCGLReferenceContainerType> f_refs = f.getReferringContainers();
+    final Set<JCGLReferenceContainerType> f_refs = f.referringContainers();
     Assert.assertEquals(1L, (long) f_refs.size());
     Assert.assertTrue(f_refs.contains(p));
 
-    final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
+    final Map<String, JCGLProgramAttributeType> a = p.attributes();
     Assert.assertEquals(1L, (long) a.size());
 
-    final Map<String, JCGLProgramUniformType> u = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> u = p.uniforms();
     Assert.assertEquals(0L, (long) u.size());
   }
 
@@ -512,44 +512,44 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("attributes0", v, Optional.empty(), f);
 
-    Assert.assertEquals("attributes0", p.getName());
+    Assert.assertEquals("attributes0", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
+    final Map<String, JCGLProgramAttributeType> a = p.attributes();
     Assert.assertEquals(12L, (long) a.size());
 
     final Set<Integer> locations = new HashSet<>(a.values().size());
     for (final JCGLProgramAttributeType attr : a.values()) {
-      final Integer id = Integer.valueOf(attr.getGLName());
+      final Integer id = Integer.valueOf(attr.glName());
       Assert.assertTrue(id.intValue() >= 0);
       Assert.assertFalse(locations.contains(id));
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(p, a, "f", JCGLType.TYPE_FLOAT);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(p, a, "f", JCGLType.TYPE_FLOAT);
+    checkAttribute(
       p, a, "fv2", JCGLType.TYPE_FLOAT_VECTOR_2);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "fv3", JCGLType.TYPE_FLOAT_VECTOR_3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "fv4", JCGLType.TYPE_FLOAT_VECTOR_4);
 
-    JCGLShadersContract.checkAttribute(p, a, "i", JCGLType.TYPE_INTEGER);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(p, a, "i", JCGLType.TYPE_INTEGER);
+    checkAttribute(
       p, a, "iv2", JCGLType.TYPE_INTEGER_VECTOR_2);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "iv3", JCGLType.TYPE_INTEGER_VECTOR_3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "iv4", JCGLType.TYPE_INTEGER_VECTOR_4);
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "u", JCGLType.TYPE_UNSIGNED_INTEGER);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "uv2", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "uv3", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "uv4", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4);
   }
 
@@ -565,26 +565,26 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("attributes1", v, Optional.empty(), f);
 
-    Assert.assertEquals("attributes1", p.getName());
+    Assert.assertEquals("attributes1", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
+    final Map<String, JCGLProgramAttributeType> a = p.attributes();
     Assert.assertEquals(3L, (long) a.size());
 
     final Set<Integer> locations = new HashSet<>(a.values().size());
     for (final JCGLProgramAttributeType attr : a.values()) {
-      final Integer id = Integer.valueOf(attr.getGLName());
+      final Integer id = Integer.valueOf(attr.glName());
       Assert.assertTrue(id.intValue() >= 0);
       Assert.assertFalse(locations.contains(id));
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_4);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m3", JCGLType.TYPE_FLOAT_MATRIX_3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_2);
   }
 
@@ -600,26 +600,26 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("attributes2", v, Optional.empty(), f);
 
-    Assert.assertEquals("attributes2", p.getName());
+    Assert.assertEquals("attributes2", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
+    final Map<String, JCGLProgramAttributeType> a = p.attributes();
     Assert.assertEquals(3L, (long) a.size());
 
     final Set<Integer> locations = new HashSet<>(a.values().size());
     for (final JCGLProgramAttributeType attr : a.values()) {
-      final Integer id = Integer.valueOf(attr.getGLName());
+      final Integer id = Integer.valueOf(attr.glName());
       Assert.assertTrue(id.intValue() >= 0);
       Assert.assertFalse(locations.contains(id));
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_4);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m3", JCGLType.TYPE_FLOAT_MATRIX_4x3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_4x2);
   }
 
@@ -635,26 +635,26 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("attributes2", v, Optional.empty(), f);
 
-    Assert.assertEquals("attributes2", p.getName());
+    Assert.assertEquals("attributes2", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
+    final Map<String, JCGLProgramAttributeType> a = p.attributes();
     Assert.assertEquals(3L, (long) a.size());
 
     final Set<Integer> locations = new HashSet<>(a.values().size());
     for (final JCGLProgramAttributeType attr : a.values()) {
-      final Integer id = Integer.valueOf(attr.getGLName());
+      final Integer id = Integer.valueOf(attr.glName());
       Assert.assertTrue(id.intValue() >= 0);
       Assert.assertFalse(locations.contains(id));
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_4);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m3", JCGLType.TYPE_FLOAT_MATRIX_4x3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_4x2);
   }
 
@@ -670,26 +670,26 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("attributes3", v, Optional.empty(), f);
 
-    Assert.assertEquals("attributes3", p.getName());
+    Assert.assertEquals("attributes3", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
+    final Map<String, JCGLProgramAttributeType> a = p.attributes();
     Assert.assertEquals(3L, (long) a.size());
 
     final Set<Integer> locations = new HashSet<>(a.values().size());
     for (final JCGLProgramAttributeType attr : a.values()) {
-      final Integer id = Integer.valueOf(attr.getGLName());
+      final Integer id = Integer.valueOf(attr.glName());
       Assert.assertTrue(id.intValue() >= 0);
       Assert.assertFalse(locations.contains(id));
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_3x4);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m3", JCGLType.TYPE_FLOAT_MATRIX_3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_3x2);
   }
 
@@ -705,26 +705,26 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("attributes4", v, Optional.empty(), f);
 
-    Assert.assertEquals("attributes4", p.getName());
+    Assert.assertEquals("attributes4", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Map<String, JCGLProgramAttributeType> a = p.getAttributes();
+    final Map<String, JCGLProgramAttributeType> a = p.attributes();
     Assert.assertEquals(3L, (long) a.size());
 
     final Set<Integer> locations = new HashSet<>(a.values().size());
     for (final JCGLProgramAttributeType attr : a.values()) {
-      final Integer id = Integer.valueOf(attr.getGLName());
+      final Integer id = Integer.valueOf(attr.glName());
       Assert.assertTrue(id.intValue() >= 0);
       Assert.assertFalse(locations.contains(id));
       locations.add(id);
     }
 
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m4", JCGLType.TYPE_FLOAT_MATRIX_2x4);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m3", JCGLType.TYPE_FLOAT_MATRIX_2x3);
-    JCGLShadersContract.checkAttribute(
+    checkAttribute(
       p, a, "m2", JCGLType.TYPE_FLOAT_MATRIX_2);
   }
 
@@ -740,54 +740,54 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    Assert.assertEquals("uniforms0", p.getName());
+    Assert.assertEquals("uniforms0", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Map<String, JCGLProgramUniformType> u = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> u = p.uniforms();
     Assert.assertEquals(16L, (long) u.size());
 
     final Set<Integer> locations = new HashSet<>(u.values().size());
     for (final JCGLProgramUniformType uni : u.values()) {
-      final Integer id = Integer.valueOf(uni.getGLName());
+      final Integer id = Integer.valueOf(uni.glName());
       Assert.assertTrue(id.intValue() >= 0);
       Assert.assertFalse(locations.contains(id));
       locations.add(id);
     }
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "f", JCGLType.TYPE_FLOAT, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fv2", JCGLType.TYPE_FLOAT_VECTOR_2, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fv3", JCGLType.TYPE_FLOAT_VECTOR_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fv4", JCGLType.TYPE_FLOAT_VECTOR_4, 1);
 
-    JCGLShadersContract.checkUniform(p, u, "i", JCGLType.TYPE_INTEGER, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(p, u, "i", JCGLType.TYPE_INTEGER, 1);
+    checkUniform(
       p, u, "iv2", JCGLType.TYPE_INTEGER_VECTOR_2, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "iv3", JCGLType.TYPE_INTEGER_VECTOR_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "iv4", JCGLType.TYPE_INTEGER_VECTOR_4, 1);
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "u", JCGLType.TYPE_UNSIGNED_INTEGER, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "uv2", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "uv3", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "uv4", JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, 1);
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "b", JCGLType.TYPE_BOOLEAN, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "bv2", JCGLType.TYPE_BOOLEAN_VECTOR_2, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "bv3", JCGLType.TYPE_BOOLEAN_VECTOR_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "bv4", JCGLType.TYPE_BOOLEAN_VECTOR_4, 1);
   }
 
@@ -803,46 +803,46 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms1", v, Optional.empty(), f);
 
-    Assert.assertEquals("uniforms1", p.getName());
+    Assert.assertEquals("uniforms1", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Map<String, JCGLProgramUniformType> u = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> u = p.uniforms();
     Assert.assertEquals(12L, (long) u.size());
 
     final Set<Integer> locations = new HashSet<>(u.values().size());
     for (final JCGLProgramUniformType uni : u.values()) {
-      final Integer id = Integer.valueOf(uni.getGLName());
+      final Integer id = Integer.valueOf(uni.glName());
       Assert.assertTrue(id.intValue() >= 0);
       Assert.assertFalse(locations.contains(id));
       locations.add(id);
     }
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm4", JCGLType.TYPE_FLOAT_MATRIX_4, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm4x4", JCGLType.TYPE_FLOAT_MATRIX_4, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm4x3", JCGLType.TYPE_FLOAT_MATRIX_4x3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm4x2", JCGLType.TYPE_FLOAT_MATRIX_4x2, 1);
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm3", JCGLType.TYPE_FLOAT_MATRIX_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm3x4", JCGLType.TYPE_FLOAT_MATRIX_3x4, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm3x3", JCGLType.TYPE_FLOAT_MATRIX_3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm3x2", JCGLType.TYPE_FLOAT_MATRIX_3x2, 1);
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm2", JCGLType.TYPE_FLOAT_MATRIX_2, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm2x4", JCGLType.TYPE_FLOAT_MATRIX_2x4, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm2x3", JCGLType.TYPE_FLOAT_MATRIX_2x3, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "fm2x2", JCGLType.TYPE_FLOAT_MATRIX_2, 1);
   }
 
@@ -858,26 +858,26 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms2", v, Optional.empty(), f);
 
-    Assert.assertEquals("uniforms2", p.getName());
+    Assert.assertEquals("uniforms2", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Map<String, JCGLProgramUniformType> u = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> u = p.uniforms();
     Assert.assertEquals(3L, (long) u.size());
 
     final Set<Integer> locations = new HashSet<>(u.values().size());
     for (final JCGLProgramUniformType uni : u.values()) {
-      final Integer id = Integer.valueOf(uni.getGLName());
+      final Integer id = Integer.valueOf(uni.glName());
       Assert.assertTrue(id.intValue() >= 0);
       Assert.assertFalse(locations.contains(id));
       locations.add(id);
     }
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "s2", JCGLType.TYPE_SAMPLER_2D, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "s3", JCGLType.TYPE_SAMPLER_3D, 1);
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "sc", JCGLType.TYPE_SAMPLER_CUBE, 1);
   }
 
@@ -895,22 +895,22 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("validarray0", v, Optional.empty(), f);
 
-    Assert.assertEquals("validarray0", p.getName());
+    Assert.assertEquals("validarray0", p.name());
     Assert.assertFalse(p.isDeleted());
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
 
-    final Map<String, JCGLProgramUniformType> u = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> u = p.uniforms();
     Assert.assertEquals(1L, (long) u.size());
 
     final Set<Integer> locations = new HashSet<>(u.values().size());
     for (final JCGLProgramUniformType uni : u.values()) {
-      final Integer id = Integer.valueOf(uni.getGLName());
+      final Integer id = Integer.valueOf(uni.glName());
       Assert.assertTrue(id.intValue() >= 0);
       Assert.assertFalse(locations.contains(id));
       locations.add(id);
     }
 
-    JCGLShadersContract.checkUniform(
+    checkUniform(
       p, u, "big_array[0]", JCGLType.TYPE_FLOAT_VECTOR_4, 16);
   }
 
@@ -1082,7 +1082,7 @@ public abstract class JCGLShadersContract extends JCGLContract
     c1.contextMakeCurrent();
     final JCGLProgramShaderType p =
       s1.shaderLinkProgram("valid0", v, Optional.of(g), f);
-    Assert.assertTrue(p.getGLName() > 0);
+    Assert.assertTrue(p.glName() > 0);
   }
 
   @Test
@@ -1302,10 +1302,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("f"));
     final JCGLProgramUniformType u = us.get("f");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT, u.type());
 
     s.shaderActivateProgram(p);
     s.shaderUniformPutFloat(u, 1.0f);
@@ -1323,10 +1323,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
@@ -1345,10 +1345,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("f"));
     final JCGLProgramUniformType u = us.get("f");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
@@ -1367,10 +1367,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderUniformSetTypeCheckingEnabled(false);
     s.shaderActivateProgram(p);
@@ -1389,10 +1389,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("i"));
     final JCGLProgramUniformType u = us.get("i");
-    Assert.assertEquals(JCGLType.TYPE_INTEGER, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_INTEGER, u.type());
 
     s.shaderActivateProgram(p);
     s.shaderUniformPutInteger(u, 1);
@@ -1410,10 +1410,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
@@ -1432,10 +1432,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("i"));
     final JCGLProgramUniformType u = us.get("i");
-    Assert.assertEquals(JCGLType.TYPE_INTEGER, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_INTEGER, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
@@ -1454,10 +1454,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderUniformSetTypeCheckingEnabled(false);
     s.shaderActivateProgram(p);
@@ -1476,10 +1476,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("u"));
     final JCGLProgramUniformType u = us.get("u");
-    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER, u.type());
 
     s.shaderActivateProgram(p);
     s.shaderUniformPutUnsignedInteger(u, 1);
@@ -1497,10 +1497,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
@@ -1519,10 +1519,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("u"));
     final JCGLProgramUniformType u = us.get("u");
-    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
@@ -1541,10 +1541,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderUniformSetTypeCheckingEnabled(false);
     s.shaderActivateProgram(p);
@@ -1563,13 +1563,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("fv2"));
     final JCGLProgramUniformType u = us.get("fv2");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_2, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_2, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
+    s.shaderUniformPutVector2f(u, Vectors2D.zero());
   }
 
   @Test
@@ -1584,14 +1584,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
+    s.shaderUniformPutVector2f(u, Vectors2D.zero());
   }
 
   @Test
@@ -1606,14 +1606,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("fv2"));
     final JCGLProgramUniformType u = us.get("fv2");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_2, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_2, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector2f(u, VectorI2F.ZERO);
+    s.shaderUniformPutVector2f(u, Vectors2D.zero());
   }
 
   @Test
@@ -1628,13 +1628,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("fv3"));
     final JCGLProgramUniformType u = us.get("fv3");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_3, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_3, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
+    s.shaderUniformPutVector3f(u, Vectors3D.zero());
   }
 
   @Test
@@ -1649,14 +1649,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
+    s.shaderUniformPutVector3f(u, Vectors3D.zero());
   }
 
   @Test
@@ -1671,14 +1671,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("fv3"));
     final JCGLProgramUniformType u = us.get("fv3");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_3, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_3, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector3f(u, VectorI3F.ZERO);
+    s.shaderUniformPutVector3f(u, Vectors3D.zero());
   }
 
   @Test
@@ -1693,13 +1693,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("fv4"));
     final JCGLProgramUniformType u = us.get("fv4");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
+    s.shaderUniformPutVector4f(u, Vectors4D.zero());
   }
 
   @Test
@@ -1714,14 +1714,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
+    s.shaderUniformPutVector4f(u, Vectors4D.zero());
   }
 
   @Test
@@ -1736,14 +1736,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("fv4"));
     final JCGLProgramUniformType u = us.get("fv4");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector4f(u, VectorI4F.ZERO);
+    s.shaderUniformPutVector4f(u, Vectors4D.zero());
   }
 
   @Test
@@ -1758,13 +1758,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("iv2"));
     final JCGLProgramUniformType u = us.get("iv2");
-    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_2, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_2, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2i(u, Vectors2I.zero());
   }
 
   @Test
@@ -1779,14 +1779,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2i(u, Vectors2I.zero());
   }
 
   @Test
@@ -1801,14 +1801,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("iv2"));
     final JCGLProgramUniformType u = us.get("iv2");
-    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_2, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_2, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector2i(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2i(u, Vectors2I.zero());
   }
 
   @Test
@@ -1823,13 +1823,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("iv3"));
     final JCGLProgramUniformType u = us.get("iv3");
-    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_3, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_3, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3i(u, Vectors3I.zero());
   }
 
   @Test
@@ -1844,14 +1844,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3i(u, Vectors3I.zero());
   }
 
   @Test
@@ -1866,14 +1866,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("iv3"));
     final JCGLProgramUniformType u = us.get("iv3");
-    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_3, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_3, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector3i(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3i(u, Vectors3I.zero());
   }
 
   @Test
@@ -1888,13 +1888,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("iv4"));
     final JCGLProgramUniformType u = us.get("iv4");
-    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_4, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_4, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4i(u, Vectors4I.zero());
   }
 
   @Test
@@ -1909,14 +1909,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4i(u, Vectors4I.zero());
   }
 
   @Test
@@ -1931,14 +1931,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("iv4"));
     final JCGLProgramUniformType u = us.get("iv4");
-    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_4, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_4, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector4i(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4i(u, Vectors4I.zero());
   }
 
   @Test
@@ -1953,13 +1953,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("uv2"));
     final JCGLProgramUniformType u = us.get("uv2");
-    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2ui(u, Vectors2I.zero());
   }
 
   @Test
@@ -1974,14 +1974,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2ui(u, Vectors2I.zero());
   }
 
   @Test
@@ -1996,14 +1996,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("uv2"));
     final JCGLProgramUniformType u = us.get("uv2");
-    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector2ui(u, VectorI2I.ZERO);
+    s.shaderUniformPutVector2ui(u, Vectors2I.zero());
   }
 
   @Test
@@ -2018,13 +2018,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("uv3"));
     final JCGLProgramUniformType u = us.get("uv3");
-    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3ui(u, Vectors3I.zero());
   }
 
   @Test
@@ -2039,14 +2039,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3ui(u, Vectors3I.zero());
   }
 
   @Test
@@ -2061,14 +2061,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("uv3"));
     final JCGLProgramUniformType u = us.get("uv3");
-    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector3ui(u, VectorI3I.ZERO);
+    s.shaderUniformPutVector3ui(u, Vectors3I.zero());
   }
 
   @Test
@@ -2083,13 +2083,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("uv4"));
     final JCGLProgramUniformType u = us.get("uv4");
-    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4ui(u, Vectors4I.zero());
   }
 
   @Test
@@ -2104,14 +2104,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4ui(u, Vectors4I.zero());
   }
 
   @Test
@@ -2126,14 +2126,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("uv4"));
     final JCGLProgramUniformType u = us.get("uv4");
-    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutVector4ui(u, VectorI4I.ZERO);
+    s.shaderUniformPutVector4ui(u, Vectors4I.zero());
   }
 
   @Test
@@ -2148,13 +2148,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms1", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("fm4"));
     final JCGLProgramUniformType u = us.get("fm4");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_4, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_4, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
+    s.shaderUniformPutMatrix4x4f(u, Matrices4x4D.identity());
   }
 
   @Test
@@ -2169,14 +2169,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
+    s.shaderUniformPutMatrix4x4f(u, Matrices4x4D.identity());
   }
 
   @Test
@@ -2191,14 +2191,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms1", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("fm4"));
     final JCGLProgramUniformType u = us.get("fm4");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_4, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_4, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutMatrix4x4f(u, MatrixDirectM4x4F.newMatrix());
+    s.shaderUniformPutMatrix4x4f(u, Matrices4x4D.identity());
   }
 
   @Test
@@ -2213,13 +2213,13 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms1", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("fm3"));
     final JCGLProgramUniformType u = us.get("fm3");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_3, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_3, u.type());
 
     s.shaderActivateProgram(p);
-    s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
+    s.shaderUniformPutMatrix3x3f(u, Matrices3x3D.identity());
   }
 
   @Test
@@ -2234,14 +2234,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms0", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("b"));
     final JCGLProgramUniformType u = us.get("b");
-    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_BOOLEAN, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
-    s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
+    s.shaderUniformPutMatrix3x3f(u, Matrices3x3D.identity());
   }
 
   @Test
@@ -2256,14 +2256,14 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms1", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("fm3"));
     final JCGLProgramUniformType u = us.get("fm3");
-    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_3, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_3, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
-    s.shaderUniformPutMatrix3x3f(u, MatrixDirectM3x3F.newMatrix());
+    s.shaderUniformPutMatrix3x3f(u, Matrices3x3D.identity());
   }
 
   @Test
@@ -2280,10 +2280,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms2", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("s2"));
     final JCGLProgramUniformType u = us.get("s2");
-    Assert.assertEquals(JCGLType.TYPE_SAMPLER_2D, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_SAMPLER_2D, u.type());
 
     s.shaderActivateProgram(p);
     s.shaderUniformPutTexture2DUnit(u, t.textureGetUnits().get(0));
@@ -2303,10 +2303,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms2", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("s3"));
     final JCGLProgramUniformType u = us.get("s3");
-    Assert.assertEquals(JCGLType.TYPE_SAMPLER_3D, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_SAMPLER_3D, u.type());
 
     s.shaderActivateProgram(p);
     this.expected.expect(JCGLExceptionProgramTypeError.class);
@@ -2327,10 +2327,10 @@ public abstract class JCGLShadersContract extends JCGLContract
     final JCGLProgramShaderType p =
       s.shaderLinkProgram("uniforms2", v, Optional.empty(), f);
 
-    final Map<String, JCGLProgramUniformType> us = p.getUniforms();
+    final Map<String, JCGLProgramUniformType> us = p.uniforms();
     Assert.assertTrue(us.containsKey("s2"));
     final JCGLProgramUniformType u = us.get("s2");
-    Assert.assertEquals(JCGLType.TYPE_SAMPLER_2D, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_SAMPLER_2D, u.type());
 
     s.shaderDeactivateProgram();
     this.expected.expect(JCGLExceptionProgramNotActive.class);
@@ -2355,7 +2355,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
 
-    final JCGLProgramUniformType u = p.getUniforms().get("u");
+    final JCGLProgramUniformType u = p.uniforms().get("u");
     this.expected.expect(JCGLExceptionProgramTypeError.class);
     s.shaderUniformPutVectorf(u, buf);
   }
@@ -2378,7 +2378,7 @@ public abstract class JCGLShadersContract extends JCGLContract
 
     s.shaderActivateProgram(p);
 
-    final JCGLProgramUniformType u = p.getUniforms().get("fv4");
+    final JCGLProgramUniformType u = p.uniforms().get("fv4");
     this.expected.expect(JCGLExceptionProgramTypeError.class);
     s.shaderUniformPutVectorf(u, buf);
   }
@@ -2394,9 +2394,9 @@ public abstract class JCGLShadersContract extends JCGLContract
       final JCGLShadersType in_shaders,
       final JCGLTexturesType in_textures)
     {
-      this.context = NullCheck.notNull(in_context);
-      this.shaders = NullCheck.notNull(in_shaders);
-      this.textures = NullCheck.notNull(in_textures);
+      this.context = NullCheck.notNull(in_context, "Context");
+      this.shaders = NullCheck.notNull(in_shaders, "Shaders");
+      this.textures = NullCheck.notNull(in_textures, "Textures");
     }
 
     public JCGLContextType getContext()

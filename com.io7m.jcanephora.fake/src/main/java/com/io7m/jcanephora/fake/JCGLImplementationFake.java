@@ -43,16 +43,17 @@ public final class JCGLImplementationFake implements JCGLImplementationFakeType
 
   public static JCGLImplementationFakeType getInstance()
   {
-    return JCGLImplementationFake.INSTANCE;
+    return INSTANCE;
   }
 
-  @Override public JCGLContextType newContext(
+  @Override
+  public JCGLContextType newContext(
     final String name,
     final FakeShaderListenerType in_listener)
     throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant
   {
-    NullCheck.notNull(name);
-    NullCheck.notNull(in_listener);
+    NullCheck.notNull(name, "Name");
+    NullCheck.notNull(in_listener, "Listener");
 
     final FakeContext ac = FakeContext.getCurrentContext();
     if (ac != null) {
@@ -64,15 +65,16 @@ public final class JCGLImplementationFake implements JCGLImplementationFakeType
     return c;
   }
 
-  @Override public JCGLContextType newContextSharedWith(
+  @Override
+  public JCGLContextType newContextSharedWith(
     final JCGLContextType c,
     final String name,
     final FakeShaderListenerType in_listener)
     throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant
   {
-    NullCheck.notNull(c);
-    NullCheck.notNull(name);
-    NullCheck.notNull(in_listener);
+    NullCheck.notNull(c, "Context");
+    NullCheck.notNull(name, "Name");
+    NullCheck.notNull(in_listener, "Listener");
 
     if (c instanceof FakeContext) {
       final FakeContext c_orig = (FakeContext) c;

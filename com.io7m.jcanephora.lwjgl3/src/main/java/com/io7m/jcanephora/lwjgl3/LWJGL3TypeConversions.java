@@ -109,9 +109,9 @@ public final class LWJGL3TypeConversions
         return JCGLBlendFunction.BLEND_SOURCE_ALPHA_SATURATE;
       case GL11.GL_ZERO:
         return JCGLBlendFunction.BLEND_ZERO;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -179,9 +179,9 @@ public final class LWJGL3TypeConversions
         return JCGLPolygonMode.POLYGON_LINES;
       case GL11.GL_POINT:
         return JCGLPolygonMode.POLYGON_POINTS;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -229,9 +229,9 @@ public final class LWJGL3TypeConversions
         return JCGLBlendEquation.BLEND_EQUATION_REVERSE_SUBTRACT;
       case GL14.GL_FUNC_SUBTRACT:
         return JCGLBlendEquation.BLEND_EQUATION_SUBTRACT;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -289,9 +289,9 @@ public final class LWJGL3TypeConversions
         return JCGLDepthFunction.DEPTH_NEVER;
       case GL11.GL_NOTEQUAL:
         return JCGLDepthFunction.DEPTH_NOT_EQUAL;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -345,9 +345,9 @@ public final class LWJGL3TypeConversions
         return JCGLUnsignedType.TYPE_UNSIGNED_SHORT;
       case GL11.GL_UNSIGNED_INT:
         return JCGLUnsignedType.TYPE_UNSIGNED_INT;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -403,9 +403,9 @@ public final class LWJGL3TypeConversions
         return JCGLUsageHint.USAGE_STREAM_DRAW;
       case GL15.GL_STREAM_READ:
         return JCGLUsageHint.USAGE_STREAM_READ;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -471,9 +471,9 @@ public final class LWJGL3TypeConversions
         return JCGLScalarType.TYPE_UNSIGNED_INT;
       case GL11.GL_FLOAT:
         return JCGLScalarType.TYPE_FLOAT;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -561,9 +561,9 @@ public final class LWJGL3TypeConversions
         return JCGLScalarIntegralType.TYPE_INT;
       case GL11.GL_UNSIGNED_INT:
         return JCGLScalarIntegralType.TYPE_UNSIGNED_INT;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -722,9 +722,9 @@ public final class LWJGL3TypeConversions
         return JCGLType.TYPE_SAMPLER_3D;
       case GL20.GL_SAMPLER_CUBE:
         return JCGLType.TYPE_SAMPLER_CUBE;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -749,9 +749,9 @@ public final class LWJGL3TypeConversions
         return JCGLPrimitives.PRIMITIVE_TRIANGLES;
       case GL11.GL_TRIANGLE_STRIP:
         return JCGLPrimitives.PRIMITIVE_TRIANGLE_STRIP;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -797,9 +797,9 @@ public final class LWJGL3TypeConversions
         return JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR;
       case GL11.GL_NEAREST:
         return JCGLTextureFilterMagnification.TEXTURE_FILTER_NEAREST;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -851,9 +851,9 @@ public final class LWJGL3TypeConversions
       case GL11.GL_NEAREST_MIPMAP_NEAREST:
         return JCGLTextureFilterMinification
           .TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -903,9 +903,9 @@ public final class LWJGL3TypeConversions
         return JCGLTextureWrapR.TEXTURE_WRAP_REPEAT;
       case GL14.GL_MIRRORED_REPEAT:
         return JCGLTextureWrapR.TEXTURE_WRAP_REPEAT_MIRRORED;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -949,9 +949,9 @@ public final class LWJGL3TypeConversions
         return JCGLTextureWrapS.TEXTURE_WRAP_REPEAT;
       case GL14.GL_MIRRORED_REPEAT:
         return JCGLTextureWrapS.TEXTURE_WRAP_REPEAT_MIRRORED;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -995,9 +995,9 @@ public final class LWJGL3TypeConversions
         return JCGLTextureWrapT.TEXTURE_WRAP_REPEAT;
       case GL14.GL_MIRRORED_REPEAT:
         return JCGLTextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1061,9 +1061,9 @@ public final class LWJGL3TypeConversions
         return JCGLPixelFormat.PIXEL_COMPONENT_BYTE;
       case GL30.GL_HALF_FLOAT:
         return JCGLPixelFormat.PIXEL_COMPONENT_HALF_FLOAT;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1130,9 +1130,9 @@ public final class LWJGL3TypeConversions
       case GL11.GL_STENCIL_BUFFER_BIT: {
         return JCGLFramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_STENCIL;
       }
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1149,7 +1149,7 @@ public final class LWJGL3TypeConversions
     int mask = 0;
     for (final JCGLFramebufferBlitBuffer b : buffers) {
       assert b != null;
-      mask |= LWJGL3TypeConversions.framebufferBlitBufferToGL(b);
+      mask |= framebufferBlitBufferToGL(b);
     }
     return mask;
   }
@@ -1198,9 +1198,9 @@ public final class LWJGL3TypeConversions
       case GL11.GL_NEAREST: {
         return JCGLFramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST;
       }
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1254,9 +1254,9 @@ public final class LWJGL3TypeConversions
           .FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER;
       case GL30.GL_FRAMEBUFFER_UNSUPPORTED:
         return JCGLFramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED;
+      default:
+        return JCGLFramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
     }
-
-    return JCGLFramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
   }
 
   /**
@@ -1308,9 +1308,9 @@ public final class LWJGL3TypeConversions
         return JCGLFaceSelection.FACE_FRONT;
       case GL11.GL_FRONT_AND_BACK:
         return JCGLFaceSelection.FACE_FRONT_AND_BACK;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1352,9 +1352,9 @@ public final class LWJGL3TypeConversions
         return JCGLFaceWindingOrder.FRONT_FACE_CLOCKWISE;
       case GL11.GL_CCW:
         return JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1439,9 +1439,9 @@ public final class LWJGL3TypeConversions
         return JCGLStencilFunction.STENCIL_NEVER;
       case GL11.GL_NOTEQUAL:
         return JCGLStencilFunction.STENCIL_NOT_EQUAL;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1505,9 +1505,9 @@ public final class LWJGL3TypeConversions
         return JCGLStencilOperation.STENCIL_OP_REPLACE;
       case GL11.GL_ZERO:
         return JCGLStencilOperation.STENCIL_OP_ZERO;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**
@@ -1536,9 +1536,9 @@ public final class LWJGL3TypeConversions
         return JCGLCubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Z;
       case GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
         return JCGLCubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Z;
+      default:
+        throw new UnreachableCodeException();
     }
-
-    throw new UnreachableCodeException();
   }
 
   /**

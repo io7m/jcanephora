@@ -53,6 +53,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
@@ -88,15 +89,15 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
     final LWJGL3IndexBuffers gi)
     throws JCGLExceptionNonCompliant
   {
-    this.context = NullCheck.notNull(c);
-    this.array_buffers = NullCheck.notNull(ga);
-    this.index_buffers = NullCheck.notNull(gi);
+    this.context = NullCheck.notNull(c, "Context");
+    this.array_buffers = NullCheck.notNull(ga, "Array buffers");
+    this.index_buffers = NullCheck.notNull(gi, "Index buffers");
     this.index_buffers.setArrayObjects(this);
 
     final int max = GL11.glGetInteger(GL20.GL_MAX_VERTEX_ATTRIBS);
 
-    if (LWJGL3ArrayObjects.LOG.isDebugEnabled()) {
-      LWJGL3ArrayObjects.LOG.debug(
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
         "reported maximum supported vertex attributes: {}",
         Integer.valueOf(max));
     }
@@ -110,7 +111,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
       sb.append("  Implementation supports (GL_MAX_VERTEX_ATTRIBS): ");
       sb.append(max);
       final String message = sb.toString();
-      LWJGL3ArrayObjects.LOG.error(message);
+      LOG.error(message);
       throw new JCGLExceptionNonCompliant(message);
     }
 
@@ -123,7 +124,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
       this.context, vao_id, new JCGLArrayVertexAttributeType[0]);
     this.bind = this.default_buffer;
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -136,8 +137,8 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
     final JCGLArrayObjectBuilderType b)
     throws JCGLExceptionWrongContext
   {
-    NullCheck.notNull(context);
-    NullCheck.notNull(b);
+    NullCheck.notNull(context, "Context");
+    NullCheck.notNull(b, "Builder");
     return (Builder) LWJGL3CompatibilityChecks.checkAny(context, b);
   }
 
@@ -174,23 +175,23 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
         b.setAttributeFloatingPointWithDivisor(
           index,
           f.getArrayBuffer(),
-          f.getElements(),
-          f.getType(),
-          f.getStride(),
-          f.getOffset(),
+          f.elementCount(),
+          f.type(),
+          f.strideOctets(),
+          f.offsetOctets(),
           f.isNormalized(),
-          f.getDivisor());
+          f.divisor());
       } else if (a instanceof JCGLArrayVertexAttributeIntegralType) {
         final JCGLArrayVertexAttributeIntegralType i =
           (JCGLArrayVertexAttributeIntegralType) a;
         b.setAttributeIntegralWithDivisor(
           index,
           i.getArrayBuffer(),
-          i.getElements(),
-          i.getType(),
-          i.getStride(),
-          i.getOffset(),
-          i.getDivisor());
+          i.elements(),
+          i.type(),
+          i.strideOctets(),
+          i.offsetOctets(),
+          i.divisor());
       } else {
         throw new UnreachableCodeException();
       }
@@ -204,7 +205,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
     final JCGLArrayObjectBuilderType b)
     throws JCGLException
   {
-    LWJGL3ArrayObjects.checkArrayObjectBuilder(this.context, b);
+    checkArrayObjectBuilder(this.context, b);
 
     Preconditions.checkPrecondition(
       b,
@@ -223,8 +224,8 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
     }
 
     final int array_id = GL30.glGenVertexArrays();
-    if (LWJGL3ArrayObjects.LOG.isDebugEnabled()) {
-      LWJGL3ArrayObjects.LOG.debug("allocated {}", Integer.valueOf(array_id));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("allocated {}", Integer.valueOf(array_id));
     }
 
     final JCGLArrayVertexAttributeType[] write_attribs =
@@ -260,9 +261,9 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
   {
     final Integer box_index = Integer.valueOf(attrib_index);
     if (attrib == null) {
-      if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
-        LWJGL3ArrayObjects.LOG.trace(
-          LWJGL3ArrayObjects.ATTR_DISABLED_TRACE_FORMAT,
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
+          ATTR_DISABLED_TRACE_FORMAT,
           Integer.valueOf(array_id),
           box_index);
       }
@@ -285,16 +286,16 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
           final JCGLArrayVertexAttributeFloatingPointType af)
           throws JCGLException
         {
-          final int e = af.getElements();
+          final int e = af.elementCount();
           final boolean n = af.isNormalized();
-          final long off = af.getOffset();
-          final int stride = af.getStride();
-          final JCGLScalarType t = af.getType();
-          final int divisor = af.getDivisor();
+          final long off = af.offsetOctets();
+          final int stride = af.strideOctets();
+          final JCGLScalarType t = af.type();
+          final int divisor = af.divisor();
 
-          if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
-            LWJGL3ArrayObjects.LOG.trace(
-              LWJGL3ArrayObjects.ATTR_FLOAT_TRACE_FORMAT,
+          if (LOG.isTraceEnabled()) {
+            LOG.trace(
+              ATTR_FLOAT_TRACE_FORMAT,
               Integer.valueOf(array_id),
               box_index,
               t,
@@ -321,15 +322,15 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
           final JCGLArrayVertexAttributeIntegralType ai)
           throws JCGLException
         {
-          final JCGLScalarIntegralType t = ai.getType();
-          final int e = ai.getElements();
-          final long offset = ai.getOffset();
-          final int stride = ai.getStride();
-          final int divisor = ai.getDivisor();
+          final JCGLScalarIntegralType t = ai.type();
+          final int e = ai.elements();
+          final long offset = ai.offsetOctets();
+          final int stride = ai.strideOctets();
+          final int divisor = ai.divisor();
 
-          if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
-            LWJGL3ArrayObjects.LOG.trace(
-              LWJGL3ArrayObjects.ATTR_INTEGRAL_TRACE_FORMAT,
+          if (LOG.isTraceEnabled()) {
+            LOG.trace(
+              ATTR_INTEGRAL_TRACE_FORMAT,
               Integer.valueOf(array_id),
               box_index,
               t,
@@ -357,31 +358,31 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
   {
     for (int index = 0; index < max; ++index) {
       if (bb.attribs[index] != null) {
-        LWJGL3ArrayObjects.checkArrayAttribute(this.context, bb.attribs[index]);
+        checkArrayAttribute(this.context, bb.attribs[index]);
       }
     }
   }
 
   private void actualBind(final LWJGL3ArrayObject a)
   {
-    if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
-      LWJGL3ArrayObjects.LOG.trace("bind {} -> {}", this.bind, a);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("bind {} -> {}", this.bind, a);
     }
 
-    if (this.bind.getGLName() != a.getGLName()) {
-      GL30.glBindVertexArray(a.getGLName());
+    if (this.bind.glName() != a.glName()) {
+      GL30.glBindVertexArray(a.glName());
       this.bind = a;
     }
   }
 
   private void actualUnbind()
   {
-    if (LWJGL3ArrayObjects.LOG.isTraceEnabled()) {
-      LWJGL3ArrayObjects.LOG.trace(
+    if (LOG.isTraceEnabled()) {
+      LOG.trace(
         "unbind {} -> {}", this.bind, this.default_buffer);
     }
 
-    if (this.bind.getGLName() != this.default_buffer.getGLName()) {
+    if (this.bind.glName() != this.default_buffer.glName()) {
       GL30.glBindVertexArray(0);
       this.bind = this.default_buffer;
     }
@@ -404,7 +405,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
 
   private LWJGL3ArrayObject checkArrayObject(final JCGLArrayObjectUsableType a)
   {
-    NullCheck.notNull(a);
+    NullCheck.notNull(a, "Array object");
     LWJGL3ArrayObject.checkArrayObject(this.context, a);
     JCGLResources.checkNotDeleted(a);
     return (LWJGL3ArrayObject) a;
@@ -424,24 +425,24 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
   {
     final LWJGL3ArrayObject a = this.checkArrayObject(ai);
 
-    if (this.default_buffer.equals(a)) {
+    if (Objects.equals(this.default_buffer, a)) {
       throw new JCGLExceptionObjectNotDeletable(
         "Cannot delete the default array object");
     }
 
-    if (LWJGL3ArrayObjects.LOG.isDebugEnabled()) {
-      LWJGL3ArrayObjects.LOG.debug("delete {}", Integer.valueOf(a.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete {}", Integer.valueOf(a.glName()));
     }
 
-    GL30.glDeleteVertexArrays(a.getGLName());
+    GL30.glDeleteVertexArrays(a.glName());
     a.setDeleted();
 
     final LWJGL3ReferenceContainer rc = a.getReferenceContainer();
-    for (final JCGLReferableType r : a.getReferences()) {
+    for (final JCGLReferableType r : a.references()) {
       rc.referenceRemove((LWJGL3Referable) r);
     }
 
-    if (this.bind.getGLName() == a.getGLName()) {
+    if (this.bind.glName() == a.glName()) {
       this.actualUnbind();
     }
   }
@@ -460,7 +461,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
 
   private LWJGL3IndexBuffer checkIndexBuffer(final JCGLIndexBufferUsableType i)
   {
-    NullCheck.notNull(i);
+    NullCheck.notNull(i, "Index buffer");
     LWJGL3IndexBuffer.checkIndexBuffer(this.context, i);
     JCGLResources.checkNotDeleted(i);
     return (LWJGL3IndexBuffer) i;
@@ -516,7 +517,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
       final int divisor)
     {
       LWJGL3ArrayObjects.this.checkArrayBuffer(a);
-      NullCheck.notNull(type);
+      NullCheck.notNull(type, "Type");
       RangeCheck.checkIncludedInInteger(
         index,
         "Attribute index_buffer",
@@ -525,12 +526,12 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
       RangeCheck.checkIncludedInInteger(
         elements,
         "Element count",
-        LWJGL3ArrayObjects.VALID_ELEMENT_COUNT,
+        VALID_ELEMENT_COUNT,
         "Valid element counts");
       RangeCheck.checkIncludedInInteger(
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
       UnsignedRangeCheck.checkIncludedInLong(
-        offset, "Offset", a.getRange(), "Buffer range");
+        offset, "Offset", a.byteRange(), "Buffer range");
       RangeCheck.checkIncludedInInteger(
         divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
@@ -570,7 +571,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
       final int divisor)
     {
       LWJGL3ArrayObjects.this.checkArrayBuffer(a);
-      NullCheck.notNull(type);
+      NullCheck.notNull(type, "Type");
       RangeCheck.checkIncludedInInteger(
         index,
         "Attribute index_buffer",
@@ -579,12 +580,12 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
       RangeCheck.checkIncludedInInteger(
         elements,
         "Element count",
-        LWJGL3ArrayObjects.VALID_ELEMENT_COUNT,
+        VALID_ELEMENT_COUNT,
         "Valid element counts");
       RangeCheck.checkIncludedInInteger(
         stride, "Stride", Ranges.NATURAL_INTEGER, "Valid strides");
       UnsignedRangeCheck.checkIncludedInLong(
-        offset, "Offset", a.getRange(), "Buffer range");
+        offset, "Offset", a.byteRange(), "Buffer range");
       RangeCheck.checkIncludedInInteger(
         divisor, "Divisor", Ranges.NATURAL_INTEGER, "Valid divisors");
 
@@ -647,7 +648,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
               public Void matchFloatingPoint(
                 final JCGLArrayVertexAttributeFloatingPointType a)
               {
-                aa[a.getIndex()] = null;
+                aa[a.index()] = null;
                 return null;
               }
 
@@ -655,7 +656,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
               public Void matchIntegral(
                 final JCGLArrayVertexAttributeIntegralType a)
               {
-                aa[a.getIndex()] = null;
+                aa[a.index()] = null;
                 return null;
               }
             });

@@ -58,18 +58,20 @@ final class JOGLContext implements JCGLContextType
     final String in_name)
     throws JCGLExceptionNonCompliant
   {
-    this.context = NullCheck.notNull(c);
-    this.name = NullCheck.notNull(in_name);
-    this.gl3 = NullCheck.notNull(NullCheck.notNull(gl_supplier).apply(c));
+    this.context = NullCheck.notNull(c, "Context");
+    this.name = NullCheck.notNull(in_name, "Name");
+    this.gl3 = NullCheck.notNull(NullCheck.notNull(
+      gl_supplier,
+      "Supplier").apply(c), "GL3");
     this.gl33 = new JOGLInterfaceGL33(this);
     this.destroyed = false;
     this.implementation = i;
     this.context.attachObject("JCGLContextType", this);
-    JOGLContext.LOG.debug("created context {}", this.name);
-    JOGLContext.LOG.trace("context:  {}", c);
-    JOGLContext.LOG.trace("vendor:   {}", this.gl3.glGetString(GL.GL_VENDOR));
-    JOGLContext.LOG.trace("version:  {}", this.gl3.glGetString(GL.GL_VERSION));
-    JOGLContext.LOG.trace("renderer: {}", this.gl3.glGetString(GL.GL_RENDERER));
+    LOG.debug("created context {}", this.name);
+    LOG.trace("context:  {}", c);
+    LOG.trace("vendor:   {}", this.gl3.glGetString(GL.GL_VENDOR));
+    LOG.trace("version:  {}", this.gl3.glGetString(GL.GL_VERSION));
+    LOG.trace("renderer: {}", this.gl3.glGetString(GL.GL_RENDERER));
   }
 
   GLContext getContext()
@@ -97,7 +99,7 @@ final class JOGLContext implements JCGLContextType
         if (o instanceof JCGLContextType) {
           xs.add((JCGLContextType) o);
         } else {
-          JOGLContext.LOG.warn(
+          LOG.warn(
             "object on context {} has key '{}' but is of type '{}'",
             c,
             "JCGLContextType",
@@ -145,13 +147,13 @@ final class JOGLContext implements JCGLContextType
   {
     this.checkNotDestroyed();
 
-    if (JOGLContext.LOG.isTraceEnabled()) {
+    if (LOG.isTraceEnabled()) {
       final Thread t = Thread.currentThread();
-      JOGLContext.LOG.trace(
+      LOG.trace(
         "make current (thread {} {})", Long.valueOf(t.getId()), t.getName());
     }
 
-    /**
+    /*
      * If no context is current on this thread, make the context current.
      */
 
@@ -160,7 +162,7 @@ final class JOGLContext implements JCGLContextType
       this.context.makeCurrent();
     } else {
 
-      /**
+      /*
        * Any other situation is an error.
        */
 
@@ -181,7 +183,7 @@ final class JOGLContext implements JCGLContextType
       sb.append(Thread.currentThread());
       sb.append(System.lineSeparator());
       final String m = sb.toString();
-      JOGLContext.LOG.error(m);
+      LOG.error(m);
       throw new JCGLExceptionContextIsCurrent(m);
     }
   }
@@ -191,9 +193,9 @@ final class JOGLContext implements JCGLContextType
   {
     this.checkNotDestroyed();
 
-    if (JOGLContext.LOG.isTraceEnabled()) {
+    if (LOG.isTraceEnabled()) {
       final Thread t = Thread.currentThread();
-      JOGLContext.LOG.trace(
+      LOG.trace(
         "release current (thread {} {})", Long.valueOf(t.getId()), t.getName());
     }
 
@@ -213,7 +215,7 @@ final class JOGLContext implements JCGLContextType
       sb.append(Thread.currentThread());
       sb.append(System.lineSeparator());
       final String m = sb.toString();
-      JOGLContext.LOG.error(m);
+      LOG.error(m);
       throw new JCGLExceptionContextNotCurrent(m);
     }
   }
@@ -249,7 +251,7 @@ final class JOGLContext implements JCGLContextType
       sb.append(Thread.currentThread());
       sb.append(System.lineSeparator());
       final String m = sb.toString();
-      JOGLContext.LOG.error(m);
+      LOG.error(m);
       throw new JCGLExceptionContextIsCurrent(m);
     }
 

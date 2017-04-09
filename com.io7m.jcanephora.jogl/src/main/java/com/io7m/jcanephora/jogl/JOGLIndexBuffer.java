@@ -39,7 +39,7 @@ final class JOGLIndexBuffer extends JOGLBuffer implements JCGLIndexBufferType
   {
     super(in_context, in_id, in_size, in_usage);
     this.indices = in_indices;
-    this.type = NullCheck.notNull(in_type);
+    this.type = NullCheck.notNull(in_type, "Type");
     this.image = String.format("[IndexBuffer %s]", super.toString());
   }
 
@@ -51,7 +51,7 @@ final class JOGLIndexBuffer extends JOGLBuffer implements JCGLIndexBufferType
   }
 
   @Override
-  public long getIndices()
+  public long indices()
   {
     return this.indices;
   }
@@ -63,7 +63,7 @@ final class JOGLIndexBuffer extends JOGLBuffer implements JCGLIndexBufferType
   }
 
   @Override
-  public JCGLUnsignedType getType()
+  public JCGLUnsignedType type()
   {
     return this.type;
   }

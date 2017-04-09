@@ -36,7 +36,7 @@ import com.io7m.jcanephora.cursors.JCGLRGBA32FType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jpra.runtime.java.JPRACursor2DByteBufferedChecked;
 import com.io7m.jpra.runtime.java.JPRACursor2DType;
-import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -56,13 +56,6 @@ public final class JCGLShaderTestFunctionEvaluator
     final JCGLProgramShaderType p)
     throws IOException
   {
-    final JCGLShadersType gs = gg.getShaders();
-    final JCGLTexturesType gt = gg.getTextures();
-    final JCGLArrayObjectsType ga = gg.getArrayObjects();
-    final JCGLDrawType gd = gg.getDraw();
-    final JCGLFramebuffersType gf = gg.getFramebuffers();
-    final List<JCGLTextureUnitType> units = gt.textureGetUnits();
-
     final JCGLTextureFormat fmt =
       JCGLTextureFormat.TEXTURE_FORMAT_RGBA_32F_16BPP;
     this.framebuffer =
@@ -70,20 +63,21 @@ public final class JCGLShaderTestFunctionEvaluator
     this.program = p;
     this.quad =
       JCGLShadersTestUtilities.newScreenQuad(gg);
-    this.gl = NullCheck.notNull(gg);
+    this.gl = NullCheck.notNull(gg, "G33");
   }
 
   @Override
-  public VectorI4F evaluate4f(final VectorI4F x)
+  public Vector4D evaluate4f(
+    final Vector4D x)
   {
-    final JCGLShadersType gs = this.gl.getShaders();
-    final JCGLTexturesType gt = this.gl.getTextures();
-    final JCGLArrayObjectsType ga = this.gl.getArrayObjects();
-    final JCGLDrawType gd = this.gl.getDraw();
-    final JCGLFramebuffersType gf = this.gl.getFramebuffers();
+    final JCGLShadersType gs = this.gl.shaders();
+    final JCGLTexturesType gt = this.gl.textures();
+    final JCGLArrayObjectsType ga = this.gl.arrayObjects();
+    final JCGLDrawType gd = this.gl.drawing();
+    final JCGLFramebuffersType gf = this.gl.framebuffers();
 
     final JCGLProgramUniformType u_data =
-      NullCheck.notNull(this.program.getUniforms().get("data"));
+      NullCheck.notNull(this.program.uniforms().get("data"), "Uniform");
 
     gf.framebufferDrawBind(this.framebuffer);
     gs.shaderActivateProgram(this.program);
@@ -111,20 +105,25 @@ public final class JCGLShaderTestFunctionEvaluator
     final JCGLRGBA32FType v = c.getElementView();
 
     c.setElementPosition(0, 0);
-    return new VectorI4F(v.getR(), v.getG(), v.getB(), v.getA());
+    return Vector4D.of(
+      (double) v.getR(),
+      (double) v.getG(),
+      (double) v.getB(),
+      (double) v.getA());
   }
 
   @Override
-  public VectorI4F evaluateArrayF(final FloatBuffer x)
+  public Vector4D evaluateArrayF(
+    final FloatBuffer x)
   {
-    final JCGLShadersType gs = this.gl.getShaders();
-    final JCGLTexturesType gt = this.gl.getTextures();
-    final JCGLArrayObjectsType ga = this.gl.getArrayObjects();
-    final JCGLDrawType gd = this.gl.getDraw();
-    final JCGLFramebuffersType gf = this.gl.getFramebuffers();
+    final JCGLShadersType gs = this.gl.shaders();
+    final JCGLTexturesType gt = this.gl.textures();
+    final JCGLArrayObjectsType ga = this.gl.arrayObjects();
+    final JCGLDrawType gd = this.gl.drawing();
+    final JCGLFramebuffersType gf = this.gl.framebuffers();
 
     final JCGLProgramUniformType u_data =
-      NullCheck.notNull(this.program.getUniforms().get("data[0]"));
+      NullCheck.notNull(this.program.uniforms().get("data[0]"), "Uniform");
 
     gf.framebufferDrawBind(this.framebuffer);
     gs.shaderActivateProgram(this.program);
@@ -152,6 +151,10 @@ public final class JCGLShaderTestFunctionEvaluator
     final JCGLRGBA32FType v = c.getElementView();
 
     c.setElementPosition(0, 0);
-    return new VectorI4F(v.getR(), v.getG(), v.getB(), v.getA());
+    return Vector4D.of(
+      (double) v.getR(),
+      (double) v.getG(),
+      (double) v.getB(),
+      (double) v.getA());
   }
 }

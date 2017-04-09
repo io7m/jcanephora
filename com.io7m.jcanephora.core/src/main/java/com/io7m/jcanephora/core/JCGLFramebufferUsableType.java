@@ -41,11 +41,11 @@ public interface JCGLFramebufferUsableType extends
    * @return The number of depth bits in the framebuffer
    */
 
-  int framebufferGetDepthBits();
+  int framebufferDepthBits();
 
   /**
    * @return The number of stencil bits in the framebuffer
    */
 
-  int framebufferGetStencilBits();
+  int framebufferStencilBits();
 }

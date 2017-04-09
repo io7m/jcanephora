@@ -35,12 +35,12 @@ abstract class LWJGL3Buffer extends LWJGL3Referable implements
     final JCGLUsageHint in_usage)
   {
     super(in_context, in_id);
-    this.usage = NullCheck.notNull(in_usage);
+    this.usage = NullCheck.notNull(in_usage, "Usage");
     this.range = new UnsignedRangeInclusiveL(0L, in_size - 1L);
 
     {
       final StringBuilder sb = new StringBuilder("[Buffer ");
-      sb.append(super.getGLName());
+      sb.append(super.glName());
       sb.append(this.range);
       sb.append(" ");
       sb.append(this.usage);
@@ -56,13 +56,13 @@ abstract class LWJGL3Buffer extends LWJGL3Referable implements
   }
 
   @Override
-  public final JCGLUsageHint getUsageHint()
+  public final JCGLUsageHint usageHint()
   {
     return this.usage;
   }
 
   @Override
-  public final UnsignedRangeInclusiveL getRange()
+  public final UnsignedRangeInclusiveL byteRange()
   {
     return this.range;
   }

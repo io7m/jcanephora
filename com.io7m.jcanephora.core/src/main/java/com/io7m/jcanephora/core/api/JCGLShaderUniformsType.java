@@ -21,14 +21,14 @@ import com.io7m.jcanephora.core.JCGLExceptionProgramNotActive;
 import com.io7m.jcanephora.core.JCGLExceptionProgramTypeError;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
-import com.io7m.jtensors.MatrixDirectReadable3x3FType;
-import com.io7m.jtensors.MatrixDirectReadable4x4FType;
-import com.io7m.jtensors.VectorReadable2FType;
-import com.io7m.jtensors.VectorReadable2IType;
-import com.io7m.jtensors.VectorReadable3FType;
-import com.io7m.jtensors.VectorReadable3IType;
-import com.io7m.jtensors.VectorReadable4FType;
-import com.io7m.jtensors.VectorReadable4IType;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix3x3D;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector2D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector2I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4I;
 
 import java.nio.FloatBuffer;
 
@@ -181,7 +181,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutVector2f(
     JCGLProgramUniformType u,
-    VectorReadable2FType value)
+    Vector2D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -206,7 +206,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutVector3f(
     JCGLProgramUniformType u,
-    VectorReadable3FType value)
+    Vector3D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -231,7 +231,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutVector4f(
     JCGLProgramUniformType u,
-    VectorReadable4FType value)
+    Vector4D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -256,7 +256,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutVector2i(
     JCGLProgramUniformType u,
-    VectorReadable2IType value)
+    Vector2I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -281,7 +281,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutVector3i(
     JCGLProgramUniformType u,
-    VectorReadable3IType value)
+    Vector3I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -306,7 +306,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutVector4i(
     JCGLProgramUniformType u,
-    VectorReadable4IType value)
+    Vector4I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -331,7 +331,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutVector2ui(
     JCGLProgramUniformType u,
-    VectorReadable2IType value)
+    Vector2I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -356,7 +356,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutVector3ui(
     JCGLProgramUniformType u,
-    VectorReadable3IType value)
+    Vector3I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -381,7 +381,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutVector4ui(
     JCGLProgramUniformType u,
-    VectorReadable4IType value)
+    Vector4I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -406,7 +406,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutMatrix3x3f(
     JCGLProgramUniformType u,
-    MatrixDirectReadable3x3FType value)
+    Matrix3x3D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -431,7 +431,7 @@ public interface JCGLShaderUniformsType
 
   void shaderUniformPutMatrix4x4f(
     JCGLProgramUniformType u,
-    MatrixDirectReadable4x4FType value)
+    Matrix4x4D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,

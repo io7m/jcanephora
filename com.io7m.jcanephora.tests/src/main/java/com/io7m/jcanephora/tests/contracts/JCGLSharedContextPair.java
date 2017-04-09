@@ -47,10 +47,12 @@ public final class JCGLSharedContextPair<T>
     final T in_slave,
     final JCGLContextType in_slave_context)
   {
-    this.master = NullCheck.notNull(in_master);
-    this.master_context = NullCheck.notNull(in_master_context);
-    this.slave = NullCheck.notNull(in_slave);
-    this.slave_context = NullCheck.notNull(in_slave_context);
+    this.master = NullCheck.notNull(in_master, "Master");
+    this.master_context = NullCheck.notNull(
+      in_master_context,
+      "Master context");
+    this.slave = NullCheck.notNull(in_slave, "Slave");
+    this.slave_context = NullCheck.notNull(in_slave_context, "Slave context");
   }
 
   /**

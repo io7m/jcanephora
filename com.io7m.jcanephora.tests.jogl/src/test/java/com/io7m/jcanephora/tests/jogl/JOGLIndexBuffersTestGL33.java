@@ -27,18 +27,20 @@ import com.io7m.jcanephora.tests.contracts.JCGLUnsharedContextPair;
 
 public final class JOGLIndexBuffersTestGL33 extends JCGLIndexBuffersContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected Interfaces getIndexBuffers(final String name)
+  @Override
+  protected Interfaces getIndexBuffers(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-    final JCGLArrayBuffersType ga = cg.getArrayBuffers();
-    final JCGLIndexBuffersType gi = cg.getIndexBuffers();
-    final JCGLArrayObjectsType go = cg.getArrayObjects();
+    final JCGLArrayBuffersType ga = cg.arrayBuffers();
+    final JCGLIndexBuffersType gi = cg.indexBuffers();
+    final JCGLArrayObjectsType go = cg.arrayObjects();
     return new Interfaces(c, ga, gi, go);
   }
 
@@ -51,9 +53,9 @@ public final class JOGLIndexBuffersTestGL33 extends JCGLIndexBuffersContract
     final JCGLContextType c0 = JOGLTestContexts.newGL33Context(main, 24, 8);
     final JCGLContextType c1 = JOGLTestContexts.newGL33Context(alt, 24, 8);
     return new JCGLUnsharedContextPair<>(
-      c0.contextGetGL33().getIndexBuffers(),
+      c0.contextGetGL33().indexBuffers(),
       c0,
-      c1.contextGetGL33().getIndexBuffers(),
+      c1.contextGetGL33().indexBuffers(),
       c1);
   }
 
@@ -70,9 +72,9 @@ public final class JOGLIndexBuffersTestGL33 extends JCGLIndexBuffersContract
     final JCGLContextType mc = p.getMasterContext();
     final JCGLContextType sc = p.getSlaveContext();
     return new JCGLSharedContextPair<>(
-      mc.contextGetGL33().getIndexBuffers(),
+      mc.contextGetGL33().indexBuffers(),
       mc,
-      sc.contextGetGL33().getIndexBuffers(),
+      sc.contextGetGL33().indexBuffers(),
       sc);
   }
 }

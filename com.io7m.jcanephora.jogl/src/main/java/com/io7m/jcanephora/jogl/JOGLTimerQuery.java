@@ -37,8 +37,8 @@ final class JOGLTimerQuery extends JOGLObjectUnshared
     final GLContext c,
     final JCGLTimerQueryUsableType q)
   {
-    NullCheck.notNull(c);
-    NullCheck.notNull(q);
+    NullCheck.notNull(c, "Context");
+    NullCheck.notNull(q, "Query");
     return (JOGLTimerQuery) JOGLCompatibilityChecks.checkAny(c, q);
   }
 
@@ -46,7 +46,7 @@ final class JOGLTimerQuery extends JOGLObjectUnshared
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[TimerQuery ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(']');
     return sb.toString();
   }

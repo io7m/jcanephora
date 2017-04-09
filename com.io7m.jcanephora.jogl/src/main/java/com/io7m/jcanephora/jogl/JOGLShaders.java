@@ -38,15 +38,20 @@ import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
-import com.io7m.jtensors.MatrixDirectReadable3x3FType;
-import com.io7m.jtensors.MatrixDirectReadable4x4FType;
-import com.io7m.jtensors.VectorReadable2FType;
-import com.io7m.jtensors.VectorReadable2IType;
-import com.io7m.jtensors.VectorReadable3FType;
-import com.io7m.jtensors.VectorReadable3IType;
-import com.io7m.jtensors.VectorReadable4FType;
-import com.io7m.jtensors.VectorReadable4IType;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix3x3D;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector2D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector2I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3I;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4I;
+import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered3x3Type;
+import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered3x3s32;
+import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered4x4Type;
+import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered4x4s32;
 import com.io7m.junreachable.UnreachableCodeException;
+import com.io7m.mutable.numbers.core.MutableLong;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GL3;
@@ -56,12 +61,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -78,24 +85,44 @@ final class JOGLShaders implements JCGLShadersType
   private final JOGLContext context;
   private final GL3 g3;
   private final IntBuffer icache;
+  private final MatrixByteBuffered3x3Type m3x3;
+  private final MatrixByteBuffered4x4Type m4x4;
+  private final FloatBuffer m3x3_buffer_view;
+  private final FloatBuffer m4x4_buffer_view;
   private @Nullable JCGLProgramShaderUsableType current;
   private boolean check_type;
   private boolean check_active;
 
   JOGLShaders(final JOGLContext c)
   {
-    this.context = NullCheck.notNull(c);
+    this.context = NullCheck.notNull(c, "Context");
     this.g3 = c.getGL3();
     this.icache = Buffers.newDirectIntBuffer(1);
     this.check_active = true;
     this.check_type = true;
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
     this.g3.glUseProgram(0);
     JOGLErrorChecking.checkErrors(this.g3);
+
+    final ByteBuffer m3x3_buffer =
+      ByteBuffer.allocateDirect(3 * 3 * 4).order(ByteOrder.nativeOrder());
+    this.m3x3_buffer_view =
+      m3x3_buffer.asFloatBuffer();
+    this.m3x3 =
+      MatrixByteBuffered3x3s32.createWithBase(
+        m3x3_buffer, MutableLong.create(), 0);
+
+    final ByteBuffer m4x4_buffer =
+      ByteBuffer.allocateDirect(4 * 4 * 4).order(ByteOrder.nativeOrder());
+    this.m4x4_buffer_view =
+      m4x4_buffer.asFloatBuffer();
+    this.m4x4 =
+      MatrixByteBuffered4x4s32.createWithBase(
+        m4x4_buffer, MutableLong.create(), 0);
   }
 
   private static boolean isEmpty(final List<String> lines)
@@ -104,7 +131,7 @@ final class JOGLShaders implements JCGLShadersType
 
     for (final String line : lines) {
       NullCheck.notNull(line, "Line");
-      if (!JOGLShaders.NON_EMPTY.matcher(line).matches()) {
+      if (!NON_EMPTY.matcher(line).matches()) {
         return false;
       }
     }
@@ -163,7 +190,7 @@ final class JOGLShaders implements JCGLShadersType
     sb.append("Uniform type error.");
     sb.append(System.lineSeparator());
     sb.append("Expected: ");
-    sb.append(u.getType());
+    sb.append(u.type());
     sb.append(System.lineSeparator());
     sb.append("Actual: ");
     sb.append(t);
@@ -174,20 +201,20 @@ final class JOGLShaders implements JCGLShadersType
   public void shaderDeleteProgram(final JCGLProgramShaderType p)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Shader");
 
     final GLContext c = this.context.getContext();
     JOGLProgramShader.checkProgramShader(c, p);
     JCGLResources.checkNotDeleted(p);
 
-    if (JOGLShaders.LOG.isDebugEnabled()) {
-      JOGLShaders.LOG.debug("delete program shader {}", p.getName());
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete program shader {}", p.name());
     }
 
-    this.g3.glDeleteProgram(p.getGLName());
+    this.g3.glDeleteProgram(p.glName());
     ((JOGLObjectDeletable) p).setDeleted();
 
-    if (p.equals(this.current)) {
+    if (Objects.equals(p, this.current)) {
       this.current = null;
     }
   }
@@ -196,17 +223,17 @@ final class JOGLShaders implements JCGLShadersType
   public void shaderDeleteVertex(final JCGLVertexShaderType v)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(v);
+    NullCheck.notNull(v, "Shader");
 
     final GLContext c = this.context.getContext();
     JOGLVertexShader.checkVertexShader(c, v);
     JCGLResources.checkNotDeleted(v);
 
-    if (JOGLShaders.LOG.isDebugEnabled()) {
-      JOGLShaders.LOG.debug("delete vertex shader {}", v.getName());
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete vertex shader {}", v.name());
     }
 
-    this.g3.glDeleteShader(v.getGLName());
+    this.g3.glDeleteShader(v.glName());
     ((JOGLObjectDeletable) v).setDeleted();
   }
 
@@ -214,17 +241,17 @@ final class JOGLShaders implements JCGLShadersType
   public void shaderDeleteFragment(final JCGLFragmentShaderType f)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(f);
+    NullCheck.notNull(f, "Shader");
 
     final GLContext c = this.context.getContext();
     JOGLFragmentShader.checkFragmentShader(c, f);
     JCGLResources.checkNotDeleted(f);
 
-    if (JOGLShaders.LOG.isDebugEnabled()) {
-      JOGLShaders.LOG.debug("delete fragment shader {}", f.getName());
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete fragment shader {}", f.name());
     }
 
-    this.g3.glDeleteShader(f.getGLName());
+    this.g3.glDeleteShader(f.glName());
     ((JOGLObjectDeletable) f).setDeleted();
   }
 
@@ -232,17 +259,17 @@ final class JOGLShaders implements JCGLShadersType
   public void shaderDeleteGeometry(final JCGLGeometryShaderType g)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(g);
+    NullCheck.notNull(g, "Shader");
 
     final GLContext c = this.context.getContext();
     JOGLGeometryShader.checkGeometryShader(c, g);
     JCGLResources.checkNotDeleted(g);
 
-    if (JOGLShaders.LOG.isDebugEnabled()) {
-      JOGLShaders.LOG.debug("delete geometry shader {}", g.getName());
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete geometry shader {}", g.name());
     }
 
-    this.g3.glDeleteShader(g.getGLName());
+    this.g3.glDeleteShader(g.glName());
     ((JOGLObjectDeletable) g).setDeleted();
   }
 
@@ -257,12 +284,12 @@ final class JOGLShaders implements JCGLShadersType
 
     final int size = lines.size();
 
-    if (JOGLShaders.LOG.isDebugEnabled()) {
-      JOGLShaders.LOG.debug(
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
         "compile vertex shader {} ({} lines)", name, Integer.valueOf(size));
     }
 
-    if (JOGLShaders.isEmpty(lines)) {
+    if (isEmpty(lines)) {
       throw new JCGLExceptionProgramCompileError(name, "Empty program");
     }
 
@@ -272,13 +299,13 @@ final class JOGLShaders implements JCGLShadersType
 
     try {
       this.compileSources(name, lines, size, id);
-      if (JOGLShaders.LOG.isDebugEnabled()) {
-        JOGLShaders.LOG.debug(
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(
           "compiled vertex shader {} ⇒ {}", name, Integer.valueOf(id));
       }
     } catch (final GLException | JCGLException e) {
-      if (JOGLShaders.LOG.isDebugEnabled()) {
-        JOGLShaders.LOG.debug(
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(
           "delete vertex shader {} ⇒ {}", name, Integer.valueOf(id));
       }
       this.g3.glDeleteShader(id);
@@ -286,7 +313,7 @@ final class JOGLShaders implements JCGLShadersType
     }
 
     return new JOGLVertexShader(
-      NullCheck.notNull(this.g3.getContext()), id, name);
+      NullCheck.notNull(this.g3.getContext(), "Context"), id, name);
   }
 
   private void compileSources(
@@ -297,7 +324,7 @@ final class JOGLShaders implements JCGLShadersType
   {
     final IntBuffer line_lengths = Buffers.newDirectIntBuffer(size);
     final String[] line_array = new String[size];
-    JOGLShaders.measureLines(lines, size, line_array, line_lengths);
+    measureLines(lines, size, line_array, line_lengths);
 
     this.g3.glShaderSource(id, line_array.length, line_array, line_lengths);
     this.g3.glCompileShader(id);
@@ -306,7 +333,7 @@ final class JOGLShaders implements JCGLShadersType
     this.g3.glGetShaderiv(id, GL3.GL_COMPILE_STATUS, this.icache);
     final int status = this.icache.get(0);
     if (status == 0) {
-      throw JOGLShaders.getCompilationError(this.g3, name, id);
+      throw getCompilationError(this.g3, name, id);
     }
   }
 
@@ -321,12 +348,12 @@ final class JOGLShaders implements JCGLShadersType
 
     final int size = lines.size();
 
-    if (JOGLShaders.LOG.isDebugEnabled()) {
-      JOGLShaders.LOG.debug(
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
         "compile fragment shader {} ({} lines)", name, Integer.valueOf(size));
     }
 
-    if (JOGLShaders.isEmpty(lines)) {
+    if (isEmpty(lines)) {
       throw new JCGLExceptionProgramCompileError(name, "Empty program");
     }
 
@@ -336,13 +363,13 @@ final class JOGLShaders implements JCGLShadersType
 
     try {
       this.compileSources(name, lines, size, id);
-      if (JOGLShaders.LOG.isDebugEnabled()) {
-        JOGLShaders.LOG.debug(
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(
           "compiled fragment shader {} ⇒ {}", name, Integer.valueOf(id));
       }
     } catch (final GLException | JCGLException e) {
-      if (JOGLShaders.LOG.isDebugEnabled()) {
-        JOGLShaders.LOG.debug(
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(
           "delete fragment shader {} ⇒ {}", name, Integer.valueOf(id));
       }
       this.g3.glDeleteShader(id);
@@ -350,7 +377,7 @@ final class JOGLShaders implements JCGLShadersType
     }
 
     return new JOGLFragmentShader(
-      NullCheck.notNull(this.g3.getContext()), id, name);
+      NullCheck.notNull(this.g3.getContext(), "Context"), id, name);
   }
 
   @Override
@@ -363,12 +390,12 @@ final class JOGLShaders implements JCGLShadersType
     NullCheck.notNullAll(lines, "Lines");
 
     final int size = lines.size();
-    if (JOGLShaders.LOG.isDebugEnabled()) {
-      JOGLShaders.LOG.debug(
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
         "compile geometry shader {} ({} lines)", name, Integer.valueOf(size));
     }
 
-    if (JOGLShaders.isEmpty(lines)) {
+    if (isEmpty(lines)) {
       throw new JCGLExceptionProgramCompileError(name, "Empty program");
     }
 
@@ -378,13 +405,13 @@ final class JOGLShaders implements JCGLShadersType
 
     try {
       this.compileSources(name, lines, size, id);
-      if (JOGLShaders.LOG.isDebugEnabled()) {
-        JOGLShaders.LOG.debug(
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(
           "compiled geometry shader {} ⇒ {}", name, Integer.valueOf(id));
       }
     } catch (final GLException | JCGLException e) {
-      if (JOGLShaders.LOG.isDebugEnabled()) {
-        JOGLShaders.LOG.debug(
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(
           "delete geometry shader {} ⇒ {}", name, Integer.valueOf(id));
       }
       this.g3.glDeleteShader(id);
@@ -392,7 +419,7 @@ final class JOGLShaders implements JCGLShadersType
     }
 
     return new JOGLGeometryShader(
-      NullCheck.notNull(this.g3.getContext()), id, name);
+      NullCheck.notNull(this.g3.getContext(), "Context"), id, name);
   }
 
   @Override
@@ -423,28 +450,28 @@ final class JOGLShaders implements JCGLShadersType
         return rg;
       });
 
-    if (JOGLShaders.LOG.isDebugEnabled()) {
-      JOGLShaders.LOG.debug("link program {}", name);
-      JOGLShaders.LOG.debug("[{}] vertex {}", name, v.getName());
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("link program {}", name);
+      LOG.debug("[{}] vertex {}", name, v.name());
       jg.ifPresent(
-        gg -> JOGLShaders.LOG.debug("[{}] geometry {}", name, gg.getName()));
-      JOGLShaders.LOG.debug("[{}] fragment {}", name, f.getName());
+        gg -> LOG.debug("[{}] geometry {}", name, gg.name()));
+      LOG.debug("[{}] fragment {}", name, f.name());
     }
 
     final int pid = this.g3.glCreateProgram();
     Preconditions.checkPreconditionI(
       pid, pid > 0, ignored -> "Generated program ID must be positive");
 
-    this.g3.glAttachShader(pid, v.getGLName());
-    this.g3.glAttachShader(pid, f.getGLName());
-    jg.ifPresent(gg -> this.g3.glAttachShader(pid, gg.getGLName()));
+    this.g3.glAttachShader(pid, v.glName());
+    this.g3.glAttachShader(pid, f.glName());
+    jg.ifPresent(gg -> this.g3.glAttachShader(pid, gg.glName()));
     this.g3.glLinkProgram(pid);
 
     this.icache.rewind();
     this.g3.glGetProgramiv(pid, GL3.GL_LINK_STATUS, this.icache);
     final int status = this.icache.get(0);
     if (status == 0) {
-      throw JOGLShaders.getLinkError(this.g3, name, pid);
+      throw getLinkError(this.g3, name, pid);
     }
 
     final Map<String, JCGLProgramAttributeType> attributes = new HashMap<>(16);
@@ -466,17 +493,17 @@ final class JOGLShaders implements JCGLShadersType
     final JCGLProgramShaderUsableType p)
     throws JCGLException, JCGLExceptionDeleted
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Shader");
 
-    if (JOGLShaders.LOG.isTraceEnabled()) {
-      JOGLShaders.LOG.trace("activate {}", p.getName());
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("activate {}", p.name());
     }
 
     final GLContext c = this.context.getContext();
     JOGLProgramShader.checkProgramShader(c, p);
     JCGLResources.checkNotDeleted(p);
 
-    this.g3.glUseProgram(p.getGLName());
+    this.g3.glUseProgram(p.glName());
     this.current = p;
   }
 
@@ -484,7 +511,7 @@ final class JOGLShaders implements JCGLShadersType
   public void shaderDeactivateProgram()
     throws JCGLException
   {
-    JOGLShaders.LOG.trace("deactivate");
+    LOG.trace("deactivate");
 
     this.g3.glUseProgram(0);
     this.current = null;
@@ -504,7 +531,7 @@ final class JOGLShaders implements JCGLShadersType
   {
     final GLContext c = this.context.getContext();
 
-    final int id = program.getGLName();
+    final int id = program.glName();
     this.g3.glGetProgramiv(id, GL3.GL_ACTIVE_ATTRIBUTES, this.icache);
     final int max = this.icache.get(0);
     this.g3.glGetProgramiv(id, GL3.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, this.icache);
@@ -545,17 +572,17 @@ final class JOGLShaders implements JCGLShadersType
 
       final int location = this.g3.glGetAttribLocation(id, name);
       if (location == -1) {
-        if (JOGLShaders.LOG.isTraceEnabled()) {
-          JOGLShaders.LOG.trace(
+        if (LOG.isTraceEnabled()) {
+          LOG.trace(
             "ignoring active attribute '{}' with location -1", name);
         }
         continue;
       }
 
-      if (JOGLShaders.LOG.isTraceEnabled()) {
-        JOGLShaders.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "[{}] attribute {} {} {} {}",
-          program.getName(),
+          program.name(),
           Integer.valueOf(index),
           name,
           Integer.valueOf(location),
@@ -580,7 +607,7 @@ final class JOGLShaders implements JCGLShadersType
   {
     final GLContext c = this.context.getContext();
 
-    final int id = program.getGLName();
+    final int id = program.glName();
     this.g3.glGetProgramiv(id, GL3.GL_ACTIVE_UNIFORMS, this.icache);
     final int max = this.icache.get(0);
     this.g3.glGetProgramiv(id, GL3.GL_ACTIVE_UNIFORM_MAX_LENGTH, this.icache);
@@ -618,17 +645,17 @@ final class JOGLShaders implements JCGLShadersType
 
       final int location = this.g3.glGetUniformLocation(id, name);
       if (location == -1) {
-        if (JOGLShaders.LOG.isTraceEnabled()) {
-          JOGLShaders.LOG.trace(
+        if (LOG.isTraceEnabled()) {
+          LOG.trace(
             "ignoring active uniform '{}' with location -1", name);
         }
         continue;
       }
 
-      if (JOGLShaders.LOG.isTraceEnabled()) {
-        JOGLShaders.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "[{}] uniform {} {} {} {} (size {})",
-          program.getName(),
+          program.name(),
           Integer.valueOf(index),
           name,
           Integer.valueOf(location),
@@ -669,7 +696,7 @@ final class JOGLShaders implements JCGLShadersType
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT);
-    this.g3.glUniform1f(u.getGLName(), value);
+    this.g3.glUniform1f(u.glName(), value);
   }
 
   @Override
@@ -682,7 +709,7 @@ final class JOGLShaders implements JCGLShadersType
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER);
-    this.g3.glUniform1i(u.getGLName(), value);
+    this.g3.glUniform1i(u.glName(), value);
   }
 
   @Override
@@ -695,7 +722,7 @@ final class JOGLShaders implements JCGLShadersType
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER);
-    this.g3.glUniform1ui(u.getGLName(), value);
+    this.g3.glUniform1ui(u.glName(), value);
   }
 
   @Override
@@ -711,7 +738,7 @@ final class JOGLShaders implements JCGLShadersType
     this.checkIsFloatingPoint(u);
 
     final int available = value.capacity();
-    final JCGLType type = u.getType();
+    final JCGLType type = u.type();
     final int required = type.getElementCount();
     if (available < required) {
       final StringBuilder sb = new StringBuilder(128);
@@ -727,8 +754,8 @@ final class JOGLShaders implements JCGLShadersType
       throw new JCGLExceptionProgramTypeError(sb.toString());
     }
 
-    final int location = u.getGLName();
-    final int elements = u.getSize();
+    final int location = u.glName();
+    final int elements = u.size();
     switch (type) {
       case TYPE_BOOLEAN:
       case TYPE_BOOLEAN_VECTOR_2:
@@ -791,20 +818,23 @@ final class JOGLShaders implements JCGLShadersType
   @Override
   public void shaderUniformPutVector2f(
     final JCGLProgramUniformType u,
-    final VectorReadable2FType value)
+    final Vector2D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_2);
-    this.g3.glUniform2f(u.getGLName(), value.getXF(), value.getYF());
+    this.g3.glUniform2f(
+      u.glName(),
+      (float) value.x(),
+      (float) value.y());
   }
 
   @Override
   public void shaderUniformPutVector3f(
     final JCGLProgramUniformType u,
-    final VectorReadable3FType value)
+    final Vector3D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -812,13 +842,16 @@ final class JOGLShaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_3);
     this.g3.glUniform3f(
-      u.getGLName(), value.getXF(), value.getYF(), value.getZF());
+      u.glName(),
+      (float) value.x(),
+      (float) value.y(),
+      (float) value.z());
   }
 
   @Override
   public void shaderUniformPutVector4f(
     final JCGLProgramUniformType u,
-    final VectorReadable4FType value)
+    final Vector4D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -826,17 +859,17 @@ final class JOGLShaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_4);
     this.g3.glUniform4f(
-      u.getGLName(),
-      value.getXF(),
-      value.getYF(),
-      value.getZF(),
-      value.getWF());
+      u.glName(),
+      (float) value.x(),
+      (float) value.y(),
+      (float) value.z(),
+      (float) value.w());
   }
 
   @Override
   public void shaderUniformPutVector2i(
     final JCGLProgramUniformType u,
-    final VectorReadable2IType value)
+    final Vector2I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -844,13 +877,13 @@ final class JOGLShaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_2);
     this.g3.glUniform2i(
-      u.getGLName(), value.getXI(), value.getYI());
+      u.glName(), value.x(), value.y());
   }
 
   @Override
   public void shaderUniformPutVector3i(
     final JCGLProgramUniformType u,
-    final VectorReadable3IType value)
+    final Vector3I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -858,13 +891,13 @@ final class JOGLShaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_3);
     this.g3.glUniform3i(
-      u.getGLName(), value.getXI(), value.getYI(), value.getZI());
+      u.glName(), value.x(), value.y(), value.z());
   }
 
   @Override
   public void shaderUniformPutVector4i(
     final JCGLProgramUniformType u,
-    final VectorReadable4IType value)
+    final Vector4I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -872,17 +905,17 @@ final class JOGLShaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_4);
     this.g3.glUniform4i(
-      u.getGLName(),
-      value.getXI(),
-      value.getYI(),
-      value.getZI(),
-      value.getWI());
+      u.glName(),
+      value.x(),
+      value.y(),
+      value.z(),
+      value.w());
   }
 
   @Override
   public void shaderUniformPutVector2ui(
     final JCGLProgramUniformType u,
-    final VectorReadable2IType value)
+    final Vector2I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -890,13 +923,13 @@ final class JOGLShaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2);
     this.g3.glUniform2ui(
-      u.getGLName(), value.getXI(), value.getYI());
+      u.glName(), value.x(), value.y());
   }
 
   @Override
   public void shaderUniformPutVector3ui(
     final JCGLProgramUniformType u,
-    final VectorReadable3IType value)
+    final Vector3I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -904,13 +937,13 @@ final class JOGLShaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3);
     this.g3.glUniform3ui(
-      u.getGLName(), value.getXI(), value.getYI(), value.getZI());
+      u.glName(), value.x(), value.y(), value.z());
   }
 
   @Override
   public void shaderUniformPutVector4ui(
     final JCGLProgramUniformType u,
-    final VectorReadable4IType value)
+    final Vector4I value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
@@ -918,39 +951,43 @@ final class JOGLShaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4);
     this.g3.glUniform4ui(
-      u.getGLName(),
-      value.getXI(),
-      value.getYI(),
-      value.getZI(),
-      value.getWI());
+      u.glName(),
+      value.x(),
+      value.y(),
+      value.z(),
+      value.w());
   }
 
   @Override
   public void shaderUniformPutMatrix3x3f(
     final JCGLProgramUniformType u,
-    final MatrixDirectReadable3x3FType value)
+    final Matrix3x3D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_3);
+
+    this.m3x3.setMatrix3x3D(value);
     this.g3.glUniformMatrix3fv(
-      u.getGLName(), 1, false, value.getDirectFloatBuffer());
+      u.glName(), 1, false, this.m3x3_buffer_view);
   }
 
   @Override
   public void shaderUniformPutMatrix4x4f(
     final JCGLProgramUniformType u,
-    final MatrixDirectReadable4x4FType value)
+    final Matrix4x4D value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_4);
+
+    this.m4x4.setMatrix4x4D(value);
     this.g3.glUniformMatrix4fv(
-      u.getGLName(), 1, false, value.getDirectFloatBuffer());
+      u.glName(), 1, false, this.m4x4_buffer_view);
   }
 
   @Override
@@ -963,7 +1000,7 @@ final class JOGLShaders implements JCGLShadersType
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_SAMPLER_2D);
-    this.g3.glUniform1i(u.getGLName(), value.unitGetIndex());
+    this.g3.glUniform1i(u.glName(), value.index());
   }
 
   @Override
@@ -976,7 +1013,7 @@ final class JOGLShaders implements JCGLShadersType
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_SAMPLER_CUBE);
-    this.g3.glUniform1i(u.getGLName(), value.unitGetIndex());
+    this.g3.glUniform1i(u.glName(), value.index());
   }
 
   private void checkActiveAndType(
@@ -992,9 +1029,9 @@ final class JOGLShaders implements JCGLShadersType
     final JCGLType type_given)
   {
     if (this.check_type) {
-      final JCGLType type_uniform = u.getType();
-      if (!type_uniform.equals(type_given)) {
-        throw JOGLShaders.errorWrongType(u, type_given);
+      final JCGLType type_uniform = u.type();
+      if (!Objects.equals(type_uniform, type_given)) {
+        throw errorWrongType(u, type_given);
       }
     }
   }
@@ -1002,7 +1039,7 @@ final class JOGLShaders implements JCGLShadersType
   private void checkIsFloatingPoint(final JCGLProgramUniformType u)
   {
     if (this.check_type) {
-      final JCGLType type_uniform = u.getType();
+      final JCGLType type_uniform = u.type();
       if (!type_uniform.isFloatingPointType()) {
         final StringBuilder sb = new StringBuilder(128);
         sb.append("Uniform type error.");
@@ -1018,9 +1055,9 @@ final class JOGLShaders implements JCGLShadersType
 
   private void checkActive(final JCGLProgramUniformType u)
   {
-    final JCGLProgramShaderUsableType u_program = u.getProgram();
+    final JCGLProgramShaderUsableType u_program = u.program();
     if (this.check_active) {
-      if (!u_program.equals(this.current)) {
+      if (!Objects.equals(u_program, this.current)) {
         throw this.errorNotActive(u_program);
       }
     }

@@ -63,7 +63,7 @@ abstract class JOGLObjectShared extends JOGLObjectDeletable
   }
 
   @Override
-  public final int getGLName()
+  public final int glName()
   {
     return this.id;
   }

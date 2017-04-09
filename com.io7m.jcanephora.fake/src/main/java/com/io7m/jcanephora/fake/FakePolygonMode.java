@@ -30,17 +30,19 @@ final class FakePolygonMode implements JCGLPolygonModesType
     this.mode = JCGLPolygonMode.POLYGON_FILL;
   }
 
-  @Override public JCGLPolygonMode polygonGetMode()
+  @Override
+  public JCGLPolygonMode polygonGetMode()
     throws JCGLException
   {
     return this.mode;
   }
 
-  @Override public void polygonSetMode(
+  @Override
+  public void polygonSetMode(
     final JCGLPolygonMode m)
     throws JCGLException
   {
-    NullCheck.notNull(m);
+    NullCheck.notNull(m, "Polygon mode");
     this.mode = m;
   }
 }

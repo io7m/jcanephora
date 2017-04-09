@@ -22,12 +22,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLSharedContextPair;
 
 public final class JOGLContextsTestGL33 extends JCGLContextContract
 {
-  @Override protected JCGLContextType newContext(final String name)
+  @Override
+  protected JCGLContextType newContext(final String name)
   {
     return JOGLTestContexts.newGL33Context(name, 24, 8);
   }
 
-  @Override protected JCGLSharedContextPair<JCGLContextType> newSharedContext(
+  @Override
+  protected JCGLSharedContextPair<JCGLContextType> newSharedContext(
     final String name,
     final String shared)
   {
@@ -40,7 +42,8 @@ public final class JOGLContextsTestGL33 extends JCGLContextContract
     return new JCGLSharedContextPair<>(mc, mc, sc, sc);
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

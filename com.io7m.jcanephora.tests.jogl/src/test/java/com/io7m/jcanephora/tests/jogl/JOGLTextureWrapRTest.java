@@ -23,12 +23,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLTextureWrapRContract;
 public final class JOGLTextureWrapRTest extends
   JCGLTextureWrapRContract
 {
-  @Override protected int toInt(final JCGLTextureWrapR c)
+  @Override
+  protected int toInt(final JCGLTextureWrapR c)
   {
     return JOGLTypeConversions.textureWrapRToGL(c);
   }
 
-  @Override protected JCGLTextureWrapR fromInt(final int c)
+  @Override
+  protected JCGLTextureWrapR fromInt(final int c)
   {
     return JOGLTypeConversions.textureWrapRFromGL(c);
   }

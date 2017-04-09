@@ -36,7 +36,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default boolean getStencilEnabled()
+  default boolean stencilEnabled()
   {
     return false;
   }
@@ -51,7 +51,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default boolean getStencilStrict()
+  default boolean stencilStrict()
   {
     return false;
   }
@@ -62,7 +62,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLStencilFunction getTestFunctionFront()
+  default JCGLStencilFunction testFunctionFront()
   {
     return JCGLStencilFunction.STENCIL_ALWAYS;
   }
@@ -73,7 +73,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLStencilFunction getTestFunctionBack()
+  default JCGLStencilFunction testFunctionBack()
   {
     return JCGLStencilFunction.STENCIL_ALWAYS;
   }
@@ -84,7 +84,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default int getTestMaskBack()
+  default int testMaskBack()
   {
     return 0b11111111_11111111_11111111_11111111;
   }
@@ -95,7 +95,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default int getTestMaskFront()
+  default int testMaskFront()
   {
     return 0b11111111_11111111_11111111_11111111;
   }
@@ -106,7 +106,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default int getTestReferenceBack()
+  default int testReferenceBack()
   {
     return 0;
   }
@@ -117,7 +117,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default int getTestReferenceFront()
+  default int testReferenceFront()
   {
     return 0;
   }
@@ -128,7 +128,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLStencilOperation getOperationStencilFailBack()
+  default JCGLStencilOperation operationStencilFailBack()
   {
     return JCGLStencilOperation.STENCIL_OP_KEEP;
   }
@@ -139,7 +139,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLStencilOperation getOperationDepthFailBack()
+  default JCGLStencilOperation operationDepthFailBack()
   {
     return JCGLStencilOperation.STENCIL_OP_KEEP;
   }
@@ -150,7 +150,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLStencilOperation getOperationPassBack()
+  default JCGLStencilOperation operationPassBack()
   {
     return JCGLStencilOperation.STENCIL_OP_KEEP;
   }
@@ -161,7 +161,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLStencilOperation getOperationStencilFailFront()
+  default JCGLStencilOperation operationStencilFailFront()
   {
     return JCGLStencilOperation.STENCIL_OP_KEEP;
   }
@@ -172,7 +172,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLStencilOperation getOperationDepthFailFront()
+  default JCGLStencilOperation operationDepthFailFront()
   {
     return JCGLStencilOperation.STENCIL_OP_KEEP;
   }
@@ -183,7 +183,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default JCGLStencilOperation getOperationPassFront()
+  default JCGLStencilOperation operationPassFront()
   {
     return JCGLStencilOperation.STENCIL_OP_KEEP;
   }
@@ -194,7 +194,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default int getWriteMaskFrontFaces()
+  default int writeMaskFrontFaces()
   {
     return 0b11111111_11111111_11111111_11111111;
   }
@@ -205,7 +205,7 @@ public interface JCGLStencilStateType
 
   @Value.Parameter
   @Value.Default
-  default int getWriteMaskBackFaces()
+  default int writeMaskBackFaces()
   {
     return 0b11111111_11111111_11111111_11111111;
   }

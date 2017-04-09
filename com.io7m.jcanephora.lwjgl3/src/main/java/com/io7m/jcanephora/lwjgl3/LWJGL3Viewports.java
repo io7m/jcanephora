@@ -16,34 +16,31 @@
 
 package com.io7m.jcanephora.lwjgl3;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.api.JCGLViewportsType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 import org.lwjgl.opengl.GL11;
 
 final class LWJGL3Viewports implements JCGLViewportsType
 {
   LWJGL3Viewports(final LWJGL3Context c)
   {
-    final LWJGL3Context context = NullCheck.notNull(c);
+    NullCheck.notNull(c, "Context");
     LWJGL3ErrorChecking.checkErrors();
   }
 
   @Override
   public void viewportSet(
-    final AreaInclusiveUnsignedLType area)
+    final AreaL area)
     throws JCGLException
   {
     NullCheck.notNull(area, "Viewport area");
 
-    final UnsignedRangeInclusiveL range_x = area.getRangeX();
-    final UnsignedRangeInclusiveL range_y = area.getRangeY();
     GL11.glViewport(
-      (int) range_x.getLower(),
-      (int) range_y.getLower(),
-      (int) range_x.getInterval(),
-      (int) range_y.getInterval());
+      Math.toIntExact(area.minimumX()),
+      Math.toIntExact(area.minimumY()),
+      Math.toIntExact(area.width()),
+      Math.toIntExact(area.height()));
   }
 }

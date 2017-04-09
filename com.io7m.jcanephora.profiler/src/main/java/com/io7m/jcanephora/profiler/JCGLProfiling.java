@@ -46,8 +46,8 @@ public final class JCGLProfiling implements JCGLProfilingType
   private JCGLProfiling(
     final JCGLTimersType in_timers)
   {
-    this.timers = NullCheck.notNull(in_timers);
-    this.frames = new Frame[JCGLProfiling.FRAME_DELAY];
+    this.timers = NullCheck.notNull(in_timers, "Timers");
+    this.frames = new Frame[FRAME_DELAY];
 
     for (int index = 0; index < this.frames.length; ++index) {
       this.frames[index] = new Frame();
@@ -129,7 +129,7 @@ public final class JCGLProfiling implements JCGLProfilingType
    */
 
   @Override
-  public JCGLProfilingFrameMeasurementType getMostRecentlyMeasuredFrame()
+  public JCGLProfilingFrameMeasurementType mostRecentlyMeasuredFrame()
   {
     final int shift =
       this.frames.length - 1;
@@ -143,9 +143,9 @@ public final class JCGLProfiling implements JCGLProfilingType
   }
 
   @Override
-  public int getFrameDelay()
+  public int frameDelay()
   {
-    return JCGLProfiling.FRAME_DELAY;
+    return FRAME_DELAY;
   }
 
   private final class Context implements JCGLProfilingContextType,
@@ -160,32 +160,32 @@ public final class JCGLProfiling implements JCGLProfilingType
 
     Context(final String in_name)
     {
-      this.name = NullCheck.notNull(in_name);
+      this.name = NullCheck.notNull(in_name, "Name");
       this.timer = Optional.empty();
       this.children = new Object2ReferenceLinkedOpenHashMap<>();
       this.children_ro = Collections.unmodifiableMap(this.children);
     }
 
     @Override
-    public String getName()
+    public String contextName()
     {
       return this.name;
     }
 
     @Override
-    public long getElapsedTime()
+    public long elapsedTime()
     {
       return this.elapsed;
     }
 
     @Override
-    public long getElapsedTimeTotal()
+    public long elapsedTimeTotal()
     {
       return this.elapsed_total;
     }
 
     @Override
-    public Map<String, JCGLProfilingFrameMeasurementType> getChildren()
+    public Map<String, JCGLProfilingFrameMeasurementType> children()
     {
       return this.children_ro;
     }
@@ -229,7 +229,7 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public JCGLTimerQueryUsableType getTimer()
+    public JCGLTimerQueryUsableType timer()
     {
       if (this.timer.isPresent()) {
         return this.timer.get();
@@ -241,10 +241,10 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public JCGLProfilingContextType getChildContext(
+    public JCGLProfilingContextType childContext(
       final String c_name)
     {
-      NullCheck.notNull(c_name);
+      NullCheck.notNull(c_name, "Name");
 
       if (this.children.containsKey(c_name)) {
         return this.children.get(c_name);
@@ -262,7 +262,7 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public JCGLTimersType getTimers()
+    public JCGLTimersType timers()
     {
       return JCGLProfiling.this.timers;
     }
@@ -321,9 +321,7 @@ public final class JCGLProfiling implements JCGLProfilingType
       this.elapsed_total = 0L;
 
       if (this.hasTimer()) {
-        final long r =
-          JCGLProfiling.this.timers.timerQueryResultGet(this.timer.get());
-        this.elapsed = r;
+        this.elapsed = JCGLProfiling.this.timers.timerQueryResultGet(this.timer.get());
         this.elapsed_total = this.elapsed;
       }
 
@@ -352,9 +350,9 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public JCGLProfilingContextType getChildContext(final String c_name)
+    public JCGLProfilingContextType childContext(final String c_name)
     {
-      NullCheck.notNull(c_name);
+      NullCheck.notNull(c_name, "Name");
 
       if (this.children.containsKey(c_name)) {
         return this.children.get(c_name);
@@ -376,25 +374,25 @@ public final class JCGLProfiling implements JCGLProfilingType
     }
 
     @Override
-    public String getName()
+    public String contextName()
     {
       return "root";
     }
 
     @Override
-    public long getElapsedTime()
+    public long elapsedTime()
     {
       return 0L;
     }
 
     @Override
-    public long getElapsedTimeTotal()
+    public long elapsedTimeTotal()
     {
       return this.elapsed_total;
     }
 
     @Override
-    public Map<String, JCGLProfilingFrameMeasurementType> getChildren()
+    public Map<String, JCGLProfilingFrameMeasurementType> children()
     {
       return this.children_ro;
     }

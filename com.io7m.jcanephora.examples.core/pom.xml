@@ -47,31 +47,31 @@
 
     <dependency>
       <groupId>com.io7m.jaffirm</groupId>
-      <artifactId>io7m-jaffirm-core</artifactId>
+      <artifactId>com.io7m.jaffirm.core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jnull</groupId>
-      <artifactId>io7m-jnull-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jareas</groupId>
-      <artifactId>io7m-jareas-core</artifactId>
+      <artifactId>com.io7m.jnull.core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jpra</groupId>
-      <artifactId>io7m-jpra-runtime-java</artifactId>
+      <artifactId>com.io7m.jpra.runtime.java</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.io7m.junsigned</groupId>
-      <artifactId>io7m-junsigned-ranges</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jtensors</groupId>
-      <artifactId>io7m-jtensors-core</artifactId>
+      <groupId>com.io7m.jregions</groupId>
+      <artifactId>com.io7m.jregions.core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jtensors</groupId>
-      <artifactId>io7m-jtensors-bytebuffered</artifactId>
+      <artifactId>com.io7m.jtensors.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jtensors</groupId>
+      <artifactId>com.io7m.jtensors.storage.bytebuffered</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.mutable.numbers</groupId>
+      <artifactId>com.io7m.mutable.numbers.core</artifactId>
     </dependency>
 
     <dependency>

@@ -17,7 +17,6 @@
 package com.io7m.jcanephora.examples.core;
 
 import com.io7m.jaffirm.core.Postconditions;
-import com.io7m.jareas.core.AreaInclusiveUnsignedL;
 import com.io7m.jcanephora.core.JCGLArrayBufferType;
 import com.io7m.jcanephora.core.JCGLArrayObjectBuilderType;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
@@ -50,8 +49,8 @@ import com.io7m.jcanephora.core.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
-import com.io7m.jtensors.VectorI4F;
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -92,13 +91,13 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
   @Override
   public void onInitialize(final JCGLInterfaceGL33Type g)
   {
-    final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
-    final JCGLArrayObjectsType g_ao = g.getArrayObjects();
-    final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
-    final JCGLShadersType g_sh = g.getShaders();
-    final JCGLTexturesType g_tex = g.getTextures();
+    final JCGLArrayBuffersType g_ab = g.arrayBuffers();
+    final JCGLArrayObjectsType g_ao = g.arrayObjects();
+    final JCGLIndexBuffersType g_ib = g.indexBuffers();
+    final JCGLShadersType g_sh = g.shaders();
+    final JCGLTexturesType g_tex = g.textures();
 
-    /**
+    /*
      * Allocate an index buffer.
      *
      * Note that the index buffer remains bound to the current array object
@@ -111,14 +110,14 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
         JCGLUnsignedType.TYPE_UNSIGNED_INT,
         JCGLUsageHint.USAGE_STATIC_DRAW);
 
-    /**
+    /*
      * Populate the index buffer.
      */
 
     {
       final JCGLBufferUpdateType<JCGLIndexBufferType> u =
         JCGLBufferUpdates.newUpdateReplacingAll(this.index_buffer);
-      final IntBuffer i = u.getData().asIntBuffer();
+      final IntBuffer i = u.data().asIntBuffer();
 
       i.put(0, 0);
       i.put(1, 1);
@@ -128,7 +127,7 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
       g_ib.indexBufferUnbind();
     }
 
-    /**
+    /*
      * Allocate an array buffer to hold three vertices. Each vertex has
      * a single vec3 value representing the position, and a vec2 value holding
      * UV coordinates.
@@ -142,14 +141,14 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
       g_ab.arrayBufferAllocate(
         vertex_size * 3L, JCGLUsageHint.USAGE_STATIC_DRAW);
 
-    /**
+    /*
      * Populate the array buffer with three triangle vertices.
      */
 
     {
       final JCGLBufferUpdateType<JCGLArrayBufferType> u =
         JCGLBufferUpdates.newUpdateReplacingAll(this.array_buffer);
-      final FloatBuffer d = u.getData().asFloatBuffer();
+      final FloatBuffer d = u.data().asFloatBuffer();
 
       d.put(0, -0.5f);
       d.put(1, 0.5f);
@@ -176,7 +175,7 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
       g_ab.arrayBufferUnbind();
     }
 
-    /**
+    /*
      * Create a new array object builder. Bind the index buffer to it,
      * and associate vertex attributes 0 and 1 with the created array buffer.
      */
@@ -200,20 +199,20 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
       3L * 4L,
       false);
 
-    /**
+    /*
      * Create the immutable array object.
      */
 
     this.array_object = g_ao.arrayObjectAllocate(aob);
     g_ao.arrayObjectUnbind();
 
-    /**
+    /*
      * Compile a trivial GLSL shader that will display the given triangle.
      */
 
     try {
 
-      /**
+      /*
        * Compile a vertex shader. Line separators are required by GLSL
        * and so are manually inserted into the lines of GLSL source code.
        */
@@ -229,7 +228,7 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
       final JCGLVertexShaderType v =
         g_sh.shaderCompileVertex("basic_uv.vert", vv_lines);
 
-      /**
+      /*
        * Compile a fragment shader.
        */
 
@@ -244,14 +243,14 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
       final JCGLFragmentShaderType f =
         g_sh.shaderCompileFragment("texture.frag", ff_lines);
 
-      /**
+      /*
        * Link the shaders into a program.
        */
 
       this.program =
         g_sh.shaderLinkProgram("simple", v, Optional.empty(), f);
 
-      /**
+      /*
        * The individual shaders can (and should) be deleted, because
        * they are now attached to the linked program. This has the effect
        * that when the linked program is deleted, the shaders are deleted
@@ -261,12 +260,12 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
       g_sh.shaderDeleteFragment(f);
       g_sh.shaderDeleteVertex(v);
 
-      /**
+      /*
        * Fetch the uniform for the texture parameter.
        */
 
       final Map<String, JCGLProgramUniformType> uniforms =
-        this.program.getUniforms();
+        this.program.uniforms();
 
       Postconditions.checkPostcondition(
         uniforms,
@@ -279,7 +278,7 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
       throw new UncheckedIOException(e);
     }
 
-    /**
+    /*
      * Allocate a texture and initialize it to {@code 0xff}.
      */
 
@@ -297,14 +296,14 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
     {
       final JCGLTexture2DUpdateType all =
         JCGLTextureUpdates.newUpdateReplacingAll2D(this.texture);
-      final ByteBuffer data = all.getData();
+      final ByteBuffer data = all.data();
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0xff);
       }
       g_tex.texture2DUpdate(u0, all);
     }
 
-    /**
+    /*
      * Allocate an update that will affect a small area in the middle of
      * the texture.
      */
@@ -312,37 +311,35 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
     this.texture_update =
       JCGLTextureUpdates.newUpdateReplacingArea2D(
         this.texture,
-        AreaInclusiveUnsignedL.of(
-          new UnsignedRangeInclusiveL(16L, 31L),
-          new UnsignedRangeInclusiveL(16L, 31L)));
+        AreaL.of(16L, 32L, 16L, 32L));
 
-    /**
+    /*
      * Configure a clearing specification that will clear the color
      * buffer to a dark grey.
      */
 
     final JCGLClearSpecification.Builder cb =
       JCGLClearSpecification.builder();
-    cb.setColorBufferClear(new VectorI4F(0.1f, 0.1f, 0.1f, 1.0f));
+    cb.setColorBufferClear(Vector4D.of(0.1, 0.1, 0.1, 1.0));
     this.clear = cb.build();
   }
 
   @Override
   public void onRender(final JCGLInterfaceGL33Type g)
   {
-    final JCGLArrayObjectsType g_ao = g.getArrayObjects();
-    final JCGLClearType g_c = g.getClear();
-    final JCGLDrawType g_d = g.getDraw();
-    final JCGLShadersType g_sh = g.getShaders();
-    final JCGLTexturesType g_tex = g.getTextures();
+    final JCGLArrayObjectsType g_ao = g.arrayObjects();
+    final JCGLClearType g_c = g.clearing();
+    final JCGLDrawType g_d = g.drawing();
+    final JCGLShadersType g_sh = g.shaders();
+    final JCGLTexturesType g_tex = g.textures();
 
-    /**
+    /*
      * Clear the window.
      */
 
     g_c.clear(this.clear);
 
-    /**
+    /*
      * Update the texture with random data.
      */
 
@@ -351,14 +348,14 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
 
     {
       final Random random = new Random();
-      final ByteBuffer data = this.texture_update.getData();
+      final ByteBuffer data = this.texture_update.data();
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) random.nextInt(0xff));
       }
       g_tex.texture2DUpdate(u0, this.texture_update);
     }
 
-    /**
+    /*
      * Activate the program, bind the created array object, draw a triangle.
      */
 
@@ -373,12 +370,12 @@ public final class ExampleSingleTriangleNoiseArea implements ExampleType
   @Override
   public void onFinish(final JCGLInterfaceGL33Type g)
   {
-    final JCGLArrayBuffersType g_ab = g.getArrayBuffers();
-    final JCGLArrayObjectsType g_ao = g.getArrayObjects();
-    final JCGLIndexBuffersType g_ib = g.getIndexBuffers();
-    final JCGLShadersType g_sh = g.getShaders();
+    final JCGLArrayBuffersType g_ab = g.arrayBuffers();
+    final JCGLArrayObjectsType g_ao = g.arrayObjects();
+    final JCGLIndexBuffersType g_ib = g.indexBuffers();
+    final JCGLShadersType g_sh = g.shaders();
 
-    /**
+    /*
      * Delete everything.
      */
 

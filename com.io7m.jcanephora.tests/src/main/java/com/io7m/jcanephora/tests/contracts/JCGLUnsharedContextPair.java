@@ -47,10 +47,10 @@ public final class JCGLUnsharedContextPair<T>
     final T in_value_b,
     final JCGLContextType in_context_b)
   {
-    this.value_a = NullCheck.notNull(in_value_a);
-    this.context_a = NullCheck.notNull(in_context_a);
-    this.value_b = NullCheck.notNull(in_value_b);
-    this.context_b = NullCheck.notNull(in_context_b);
+    this.value_a = NullCheck.notNull(in_value_a, "Value A");
+    this.context_a = NullCheck.notNull(in_context_a, "Context A");
+    this.value_b = NullCheck.notNull(in_value_b, "Value B");
+    this.context_b = NullCheck.notNull(in_context_b, "Context B");
   }
 
   /**

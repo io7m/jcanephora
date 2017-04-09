@@ -30,5 +30,5 @@ public interface JCGLNamedType
    * @return The raw OpenGL 'name' of the object.
    */
 
-  int getGLName();
+  int glName();
 }

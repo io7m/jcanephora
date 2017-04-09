@@ -31,7 +31,7 @@ final class LWJGL3FragmentShader extends LWJGL3Referable
     final String in_name)
   {
     super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
+    this.name = NullCheck.notNull(in_name, "Name");
   }
 
   static LWJGL3FragmentShader checkFragmentShader(
@@ -45,7 +45,7 @@ final class LWJGL3FragmentShader extends LWJGL3Referable
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[FragmentShader ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(" ");
     sb.append(this.name);
     sb.append(']');
@@ -53,7 +53,7 @@ final class LWJGL3FragmentShader extends LWJGL3Referable
   }
 
   @Override
-  public String getName()
+  public String name()
   {
     return this.name;
   }

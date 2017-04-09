@@ -22,21 +22,23 @@ import com.io7m.jcanephora.tests.contracts.JCGLDrawContract;
 
 public final class JOGLDrawTestGL33 extends JCGLDrawContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override
+  protected Interfaces getInterfaces(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     return new Interfaces(
       c,
-      cg.getArrayBuffers(),
-      cg.getIndexBuffers(),
-      cg.getArrayObjects(),
-      cg.getShaders(),
-      cg.getDraw());
+      cg.arrayBuffers(),
+      cg.indexBuffers(),
+      cg.arrayObjects(),
+      cg.shaders(),
+      cg.drawing());
   }
 }

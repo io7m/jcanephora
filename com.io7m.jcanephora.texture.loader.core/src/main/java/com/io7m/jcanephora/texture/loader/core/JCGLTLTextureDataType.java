@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.texture.loader.core;
 
-import com.io7m.jtensors.VectorWritable4DType;
+import com.io7m.jtensors.storage.heap.VectorMutable4D;
 
 /**
  * <p>The type of loaded texture data.</p>
@@ -47,13 +47,13 @@ public interface JCGLTLTextureDataType
    * @return The width of the texture in pixels
    */
 
-  long getWidth();
+  long width();
 
   /**
    * @return The height of the texture in pixels
    */
 
-  long getHeight();
+  long height();
 
   /**
    * Retrieve the pixel at {@code (x, y)}, writing the color data to {@code v}.
@@ -63,8 +63,8 @@ public interface JCGLTLTextureDataType
    * @param v The output vector
    */
 
-  void getPixel(
+  void pixel(
     int x,
     int y,
-    VectorWritable4DType v);
+    VectorMutable4D v);
 }

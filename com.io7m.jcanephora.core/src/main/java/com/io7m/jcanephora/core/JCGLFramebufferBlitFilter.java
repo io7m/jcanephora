@@ -34,5 +34,5 @@ public enum JCGLFramebufferBlitFilter
    * framebuffer during blitting.
    */
 
-  FRAMEBUFFER_BLIT_FILTER_NEAREST;
+  FRAMEBUFFER_BLIT_FILTER_NEAREST
 }

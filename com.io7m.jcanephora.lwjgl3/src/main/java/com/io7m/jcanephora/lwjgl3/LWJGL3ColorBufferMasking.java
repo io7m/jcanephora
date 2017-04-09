@@ -30,7 +30,7 @@ final class LWJGL3ColorBufferMasking implements JCGLColorBufferMaskingType
 
   LWJGL3ColorBufferMasking(final LWJGL3Context c)
   {
-    final LWJGL3Context context = NullCheck.notNull(c);
+    final LWJGL3Context context = NullCheck.notNull(c, "Context");
     this.cache = ByteBuffer.allocateDirect(4 * 4);
     this.cache.order(ByteOrder.nativeOrder());
   }
@@ -58,7 +58,7 @@ final class LWJGL3ColorBufferMasking implements JCGLColorBufferMaskingType
     throws JCGLException
   {
     return
-      LWJGL3ColorBufferMasking.colorBufferMaskStatus(this.cache).get(3) != 0;
+      colorBufferMaskStatus(this.cache).get(3) != 0;
   }
 
   @Override
@@ -66,7 +66,7 @@ final class LWJGL3ColorBufferMasking implements JCGLColorBufferMaskingType
     throws JCGLException
   {
     return
-      LWJGL3ColorBufferMasking.colorBufferMaskStatus(this.cache).get(2) != 0;
+      colorBufferMaskStatus(this.cache).get(2) != 0;
   }
 
   @Override
@@ -74,7 +74,7 @@ final class LWJGL3ColorBufferMasking implements JCGLColorBufferMaskingType
     throws JCGLException
   {
     return
-      LWJGL3ColorBufferMasking.colorBufferMaskStatus(this.cache).get(1) != 0;
+      colorBufferMaskStatus(this.cache).get(1) != 0;
   }
 
   @Override
@@ -82,6 +82,6 @@ final class LWJGL3ColorBufferMasking implements JCGLColorBufferMaskingType
     throws JCGLException
   {
     return
-      LWJGL3ColorBufferMasking.colorBufferMaskStatus(this.cache).get(0) != 0;
+      colorBufferMaskStatus(this.cache).get(0) != 0;
   }
 }

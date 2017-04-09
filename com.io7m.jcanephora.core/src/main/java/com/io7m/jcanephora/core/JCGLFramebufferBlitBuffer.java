@@ -38,5 +38,5 @@ public enum JCGLFramebufferBlitBuffer
    * Include the stencil buffer in framebuffer blit operations.
    */
 
-  FRAMEBUFFER_BLIT_BUFFER_STENCIL;
+  FRAMEBUFFER_BLIT_BUFFER_STENCIL
 }

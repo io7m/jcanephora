@@ -27,10 +27,11 @@ public final class JOGLColorBufferMaskingTestGL33 extends
   protected JCGLColorBufferMaskingType getColorMasking(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getColorBufferMasking();
+    return c.contextGetGL33().colorBufferMasking();
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

@@ -69,31 +69,31 @@ final class JOGLProgramUniform extends JOGLObjectPseudoShared
   }
 
   @Override
-  public String getName()
+  public String name()
   {
     return this.name;
   }
 
   @Override
-  public JCGLProgramShaderUsableType getProgram()
+  public JCGLProgramShaderUsableType program()
   {
     return this.program;
   }
 
   @Override
-  public JCGLType getType()
+  public JCGLType type()
   {
     return this.type;
   }
 
   @Override
-  public int getSize()
+  public int size()
   {
     return this.size;
   }
 
   @Override
-  public int getGLName()
+  public int glName()
   {
     return this.location;
   }

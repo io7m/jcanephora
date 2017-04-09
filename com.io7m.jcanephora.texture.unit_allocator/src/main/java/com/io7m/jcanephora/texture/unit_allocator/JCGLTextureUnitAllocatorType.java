@@ -26,5 +26,5 @@ public interface JCGLTextureUnitAllocatorType
    * @return The root texture unit context, which always has no textures bound
    */
 
-  JCGLTextureUnitContextParentType getRootContext();
+  JCGLTextureUnitContextParentType rootContext();
 }

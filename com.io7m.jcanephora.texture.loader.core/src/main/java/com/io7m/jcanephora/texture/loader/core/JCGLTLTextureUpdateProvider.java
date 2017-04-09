@@ -63,7 +63,7 @@ import com.io7m.jcanephora.cursors.JCGLRGBA8Type;
 import com.io7m.jpra.runtime.java.JPRACursor2DByteBufferedChecked;
 import com.io7m.jpra.runtime.java.JPRACursor2DType;
 import com.io7m.jranges.RangeCheck;
-import com.io7m.jtensors.VectorM4D;
+import com.io7m.jtensors.storage.heap.VectorMutable4D;
 import com.io7m.junreachable.UnimplementedCodeException;
 
 import java.nio.ByteBuffer;
@@ -88,13 +88,13 @@ public final class JCGLTLTextureUpdateProvider implements
     final int width,
     final int height)
   {
-    final VectorM4D v = new VectorM4D();
+    final VectorMutable4D v = new VectorMutable4D();
     for (int y = 0; y < height; ++y) {
       final int iy = (height - 1) - y;
       for (int x = 0; x < width; ++x) {
         cursor.setElementPosition(x, iy);
-        data.getPixel(x, y, v);
-        setter.set1d(v.getXD());
+        data.pixel(x, y, v);
+        setter.set1d(v.x());
       }
     }
   }
@@ -106,13 +106,13 @@ public final class JCGLTLTextureUpdateProvider implements
     final int width,
     final int height)
   {
-    final VectorM4D v = new VectorM4D();
+    final VectorMutable4D v = new VectorMutable4D();
     for (int y = 0; y < height; ++y) {
       final int iy = (height - 1) - y;
       for (int x = 0; x < width; ++x) {
         cursor.setElementPosition(x, iy);
-        data.getPixel(x, y, v);
-        setter.set2d(v.getXD(), v.getYD());
+        data.pixel(x, y, v);
+        setter.set2d(v.x(), v.y());
       }
     }
   }
@@ -124,13 +124,13 @@ public final class JCGLTLTextureUpdateProvider implements
     final int width,
     final int height)
   {
-    final VectorM4D v = new VectorM4D();
+    final VectorMutable4D v = new VectorMutable4D();
     for (int y = 0; y < height; ++y) {
       final int iy = (height - 1) - y;
       for (int x = 0; x < width; ++x) {
         cursor.setElementPosition(x, iy);
-        data.getPixel(x, y, v);
-        setter.set3d(v.getXD(), v.getYD(), v.getZD());
+        data.pixel(x, y, v);
+        setter.set3d(v.x(), v.y(), v.z());
       }
     }
   }
@@ -142,13 +142,13 @@ public final class JCGLTLTextureUpdateProvider implements
     final int width,
     final int height)
   {
-    final VectorM4D v = new VectorM4D();
+    final VectorMutable4D v = new VectorMutable4D();
     for (int y = 0; y < height; ++y) {
       final int iy = (height - 1) - y;
       for (int x = 0; x < width; ++x) {
         cursor.setElementPosition(x, iy);
-        data.getPixel(x, y, v);
-        setter.set3d(v.getXD(), v.getYD(), v.getZD(), v.getWD());
+        data.pixel(x, y, v);
+        setter.set4d(v.x(), v.y(), v.z(), v.w());
       }
     }
   }
@@ -175,7 +175,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLDepth16ByteBuffered::newValueWithOffset);
         final JCGLDepth16Type view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyR(data, c, view::set, tw, th);
+        copyR(data, c, view::set, tw, th);
         break;
       }
 
@@ -184,7 +184,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLDepth24S8ByteBuffered::newValueWithOffset);
         final JCGLDepth24S8Type view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyR(data, c, view::set, tw, th);
+        copyR(data, c, view::set, tw, th);
         break;
       }
 
@@ -193,8 +193,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLDepth32FByteBuffered::newValueWithOffset);
         final JCGLDepth32FType view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyR(
-          data, c, (r) -> view.setDepth((float) r), tw, th);
+        copyR(data, c, (r) -> view.setDepth((float) r), tw, th);
         break;
       }
 
@@ -203,7 +202,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLR16ByteBuffered::newValueWithOffset);
         final JCGLR16Type view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyR(data, c, view::setR, tw, th);
+        copyR(data, c, view::setR, tw, th);
         break;
       }
 
@@ -212,7 +211,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLR16FByteBuffered::newValueWithOffset);
         final JCGLR16FType view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyR(data, c, view::setR, tw, th);
+        copyR(data, c, view::setR, tw, th);
         break;
       }
 
@@ -221,7 +220,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLR32FByteBuffered::newValueWithOffset);
         final JCGLR32FType view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyR(
+        copyR(
           data, c, (r) -> view.setR((float) r), tw, th);
         break;
       }
@@ -231,7 +230,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLR8ByteBuffered::newValueWithOffset);
         final JCGLR8Type view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyR(data, c, view::setR, tw, th);
+        copyR(data, c, view::setR, tw, th);
         break;
       }
 
@@ -240,7 +239,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRG16ByteBuffered::newValueWithOffset);
         final JCGLRG16Type view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRG(data, c, (r, g) -> {
+        copyRG(data, c, (r, g) -> {
           view.setR(r);
           view.setG(g);
         }, tw, th);
@@ -252,7 +251,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRG16FByteBuffered::newValueWithOffset);
         final JCGLRG16FType view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRG(data, c, (r, g) -> {
+        copyRG(data, c, (r, g) -> {
           view.setR(r);
           view.setG(g);
         }, tw, th);
@@ -264,7 +263,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRG32FByteBuffered::newValueWithOffset);
         final JCGLRG32FType view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRG(data, c, (r, g) -> {
+        copyRG(data, c, (r, g) -> {
           view.setR((float) r);
           view.setG((float) g);
         }, tw, th);
@@ -276,7 +275,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRG8ByteBuffered::newValueWithOffset);
         final JCGLRG8Type view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRG(data, c, (r, g) -> {
+        copyRG(data, c, (r, g) -> {
           view.setR(r);
           view.setG(g);
         }, tw, th);
@@ -288,7 +287,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRGB16ByteBuffered::newValueWithOffset);
         final JCGLRGB16Type view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRGB(data, c, (r, g, b) -> {
+        copyRGB(data, c, (r, g, b) -> {
           view.setR(r);
           view.setG(g);
           view.setB(b);
@@ -301,7 +300,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRGB16FByteBuffered::newValueWithOffset);
         final JCGLRGB16FType view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRGB(data, c, (r, g, b) -> {
+        copyRGB(data, c, (r, g, b) -> {
           view.setR(r);
           view.setG(g);
           view.setB(b);
@@ -314,7 +313,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRGB32FByteBuffered::newValueWithOffset);
         final JCGLRGB32FType view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRGB(data, c, (r, g, b) -> {
+        copyRGB(data, c, (r, g, b) -> {
           view.setR((float) r);
           view.setG((float) g);
           view.setB((float) b);
@@ -327,7 +326,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRGB8ByteBuffered::newValueWithOffset);
         final JCGLRGB8Type view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRGB(data, c, (r, g, b) -> {
+        copyRGB(data, c, (r, g, b) -> {
           view.setR(r);
           view.setG(g);
           view.setB(b);
@@ -340,7 +339,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRGBA16ByteBuffered::newValueWithOffset);
         final JCGLRGBA16Type view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRGBA(data, c, (r, g, b, a) -> {
+        copyRGBA(data, c, (r, g, b, a) -> {
           view.setR(r);
           view.setG(g);
           view.setB(b);
@@ -354,7 +353,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRGBA16FByteBuffered::newValueWithOffset);
         final JCGLRGBA16FType view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRGBA(data, c, (r, g, b, a) -> {
+        copyRGBA(data, c, (r, g, b, a) -> {
           view.setR(r);
           view.setG(g);
           view.setB(b);
@@ -368,7 +367,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRGBA32FByteBuffered::newValueWithOffset);
         final JCGLRGBA32FType view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRGBA(data, c, (r, g, b, a) -> {
+        copyRGBA(data, c, (r, g, b, a) -> {
           view.setR((float) r);
           view.setG((float) g);
           view.setB((float) b);
@@ -382,7 +381,7 @@ public final class JCGLTLTextureUpdateProvider implements
           JPRACursor2DByteBufferedChecked.newCursor(
             d, tw, th, JCGLRGBA8ByteBuffered::newValueWithOffset);
         final JCGLRGBA8Type view = c.getElementView();
-        JCGLTLTextureUpdateProvider.copyRGBA(data, c, (r, g, b, a) -> {
+        copyRGBA(data, c, (r, g, b, a) -> {
           view.setR(r);
           view.setG(g);
           view.setB(b);
@@ -423,42 +422,42 @@ public final class JCGLTLTextureUpdateProvider implements
   }
 
   @Override
-  public JCGLTexture2DUpdateType getTextureUpdate2D(
+  public JCGLTexture2DUpdateType createTextureUpdate2D(
     final JCGLTexture2DUsableType t,
     final JCGLTLTextureDataType data)
   {
     final JCGLTexture2DUpdateType u =
       JCGLTextureUpdates.newUpdateReplacingAll2D(t);
 
-    final int tw = (int) t.textureGetWidth();
-    final int th = (int) t.textureGetHeight();
-    final long dw = data.getWidth();
-    final long dh = data.getHeight();
+    final int tw = (int) t.width();
+    final int th = (int) t.height();
+    final long dw = data.width();
+    final long dh = data.height();
     RangeCheck.checkGreaterEqualLong(
       (long) tw, "Texture width", dw, "Data width");
     RangeCheck.checkGreaterEqualLong(
       (long) th, "Texture height", dh, "Data height");
 
-    JCGLTLTextureUpdateProvider.populate(
-      t.textureGetFormat(), data, u.getData(), tw, th);
+    populate(
+      t.format(), data, u.data(), tw, th);
     return u;
   }
 
   @Override
-  public JCGLTextureCubeUpdateType getTextureUpdateCube(
+  public JCGLTextureCubeUpdateType createTextureUpdateCube(
     final JCGLTextureCubeUsableType t,
     final JCGLTLTextureDataType data)
   {
     final JCGLTextureCubeUpdateType u =
       JCGLTextureUpdates.newUpdateReplacingAllCube(t);
 
-    final int tw = (int) t.textureGetWidth();
-    final long dw = data.getWidth();
+    final int tw = (int) t.width();
+    final long dw = data.width();
     RangeCheck.checkGreaterEqualLong(
       (long) tw, "Texture size", dw, "Data size");
 
-    JCGLTLTextureUpdateProvider.populate(
-      t.textureGetFormat(), data, u.getData(), tw, tw);
+    populate(
+      t.format(), data, u.data(), tw, tw);
     return u;
   }
 
@@ -484,7 +483,7 @@ public final class JCGLTLTextureUpdateProvider implements
 
   private interface Consumer4DType
   {
-    void set3d(
+    void set4d(
       double r,
       double g,
       double b,

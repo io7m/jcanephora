@@ -43,8 +43,8 @@ final class LWJGL3FramebufferDrawBuffer extends
     final LWJGL3Context c,
     final JCGLFramebufferDrawBufferType buffer)
   {
-    NullCheck.notNull(c);
-    NullCheck.notNull(buffer);
+    NullCheck.notNull(c, "Context");
+    NullCheck.notNull(buffer, "Framebuffer");
     return (LWJGL3FramebufferDrawBuffer)
       LWJGL3CompatibilityChecks.checkAny(c, buffer);
   }
@@ -81,11 +81,11 @@ final class LWJGL3FramebufferDrawBuffer extends
   @Override
   public int compareTo(final JCGLFramebufferDrawBufferType o)
   {
-    return Integer.compare(this.index, o.drawBufferGetIndex());
+    return Integer.compare(this.index, o.drawBufferIndex());
   }
 
   @Override
-  public int drawBufferGetIndex()
+  public int drawBufferIndex()
   {
     return this.index;
   }

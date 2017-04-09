@@ -16,11 +16,10 @@
 
 package com.io7m.jcanephora.jogl;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.api.JCGLViewportsType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 import com.jogamp.opengl.GL3;
 
 final class JOGLViewports implements JCGLViewportsType
@@ -29,24 +28,22 @@ final class JOGLViewports implements JCGLViewportsType
 
   JOGLViewports(final JOGLContext c)
   {
-    final JOGLContext context = NullCheck.notNull(c);
+    final JOGLContext context = NullCheck.notNull(c, "Context");
     this.gl = context.getGL3();
     JOGLErrorChecking.checkErrors(this.gl);
   }
 
   @Override
   public void viewportSet(
-    final AreaInclusiveUnsignedLType area)
+    final AreaL area)
     throws JCGLException
   {
     NullCheck.notNull(area, "Viewport area");
 
-    final UnsignedRangeInclusiveL range_x = area.getRangeX();
-    final UnsignedRangeInclusiveL range_y = area.getRangeY();
     this.gl.glViewport(
-      (int) range_x.getLower(),
-      (int) range_y.getLower(),
-      (int) range_x.getInterval(),
-      (int) range_y.getInterval());
+      Math.toIntExact(area.minimumX()),
+      Math.toIntExact(area.minimumY()),
+      Math.toIntExact(area.width()),
+      Math.toIntExact(area.height()));
   }
 }

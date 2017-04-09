@@ -23,12 +23,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLFramebufferBlitBufferContract;
 public final class JOGLFramebufferBlitBufferTest extends
   JCGLFramebufferBlitBufferContract
 {
-  @Override protected int toInt(final JCGLFramebufferBlitBuffer c)
+  @Override
+  protected int toInt(final JCGLFramebufferBlitBuffer c)
   {
     return JOGLTypeConversions.framebufferBlitBufferToGL(c);
   }
 
-  @Override protected JCGLFramebufferBlitBuffer fromInt(final int c)
+  @Override
+  protected JCGLFramebufferBlitBuffer fromInt(final int c)
   {
     return JOGLTypeConversions.framebufferBlitBufferFromGL(c);
   }

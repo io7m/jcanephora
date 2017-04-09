@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.core;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
+import com.io7m.jregions.core.unparameterized.sizes.AreaSizeL;
 
 /**
  * The type of usable 2D textures.
@@ -29,22 +29,22 @@ public interface JCGLTexture2DUsableType
   JCGLFramebufferDepthStencilAttachmentType
 {
   /**
-   * @return The texture area
+   * @return The texture size
    */
 
-  AreaInclusiveUnsignedLType textureGetArea();
+  AreaSizeL size();
 
   /**
    * @return The wrapping mode on the {@code S} axis
    */
 
-  JCGLTextureWrapS textureGetWrapS();
+  JCGLTextureWrapS wrapS();
 
   /**
    * @return The wrapping mode on the {@code T} axis
    */
 
-  JCGLTextureWrapT textureGetWrapT();
+  JCGLTextureWrapT wrapT();
 
   @Override
   default <A, E extends Throwable> A matchColorAttachment(

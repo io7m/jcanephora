@@ -24,19 +24,20 @@ import com.io7m.jnull.NullCheck;
 
 final class FakeCulling implements JCGLCullingType
 {
-  private boolean              enabled;
-  private JCGLFaceSelection    current_faces;
+  private boolean enabled;
+  private JCGLFaceSelection current_faces;
   private JCGLFaceWindingOrder current_order;
 
   FakeCulling(final FakeContext c)
   {
-    final FakeContext context = NullCheck.notNull(c);
+    final FakeContext context = NullCheck.notNull(c, "Context");
     this.enabled = false;
     this.current_faces = JCGLFaceSelection.FACE_BACK;
     this.current_order = JCGLFaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
   }
 
-  @Override public void cullingDisable()
+  @Override
+  public void cullingDisable()
     throws JCGLException
   {
     if (this.enabled) {
@@ -44,7 +45,8 @@ final class FakeCulling implements JCGLCullingType
     }
   }
 
-  @Override public void cullingEnable(
+  @Override
+  public void cullingEnable(
     final JCGLFaceSelection faces,
     final JCGLFaceWindingOrder order)
     throws JCGLException
@@ -63,7 +65,8 @@ final class FakeCulling implements JCGLCullingType
     }
   }
 
-  @Override public boolean cullingIsEnabled()
+  @Override
+  public boolean cullingIsEnabled()
     throws JCGLException
   {
     return this.enabled;

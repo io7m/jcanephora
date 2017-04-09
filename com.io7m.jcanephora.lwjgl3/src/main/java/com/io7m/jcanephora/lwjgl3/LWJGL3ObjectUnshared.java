@@ -65,7 +65,7 @@ abstract class LWJGL3ObjectUnshared extends LWJGL3ObjectDeletable
   }
 
   @Override
-  public final int getGLName()
+  public final int glName()
   {
     return this.id;
   }

@@ -28,11 +28,11 @@ public interface JCGLProfilingContextType
   /**
    * @return The name of the context
    *
-   * @see JCGLProfilingFrameType#getChildContext(String)
-   * @see #getChildContext(String)
+   * @see JCGLProfilingFrameType#childContext(String)
+   * @see #childContext(String)
    */
 
-  String getName();
+  String contextName();
 
   /**
    * Create a new timer, or return the existing timer if this method has already
@@ -41,7 +41,7 @@ public interface JCGLProfilingContextType
    * @return The OpenGL timer associated with the context
    */
 
-  JCGLTimerQueryUsableType getTimer();
+  JCGLTimerQueryUsableType timer();
 
   /**
    * Create or return an existing child context with the given name.
@@ -51,7 +51,7 @@ public interface JCGLProfilingContextType
    * @return A (possibly new) child context
    */
 
-  JCGLProfilingContextType getChildContext(String name);
+  JCGLProfilingContextType childContext(String name);
 
   /**
    * @return {@code true} iff profiling is enabled
@@ -66,10 +66,10 @@ public interface JCGLProfilingContextType
    * @return Access to the GL timers interface
    */
 
-  JCGLTimersType getTimers();
+  JCGLTimersType timers();
 
   /**
-   * @return {@code true} iff {@link #getTimer()} has ever been called for this
+   * @return {@code true} iff {@link #timer()} has ever been called for this
    * context
    */
 
@@ -84,8 +84,8 @@ public interface JCGLProfilingContextType
     // Checkstyle doesn't seem to understand "final" in interfaces
     // CHECKSTYLE:OFF
     if (this.isEnabled()) {
-      final JCGLTimerQueryUsableType timer = this.getTimer();
-      this.getTimers().timerQueryBegin(timer);
+      final JCGLTimerQueryUsableType timer = this.timer();
+      this.timers().timerQueryBegin(timer);
     }
     // CHECKSTYLE:ON
   }
@@ -99,8 +99,8 @@ public interface JCGLProfilingContextType
     // Checkstyle doesn't seem to understand "final" in interfaces
     // CHECKSTYLE:OFF
     if (this.isEnabled()) {
-      final JCGLTimerQueryUsableType timer = this.getTimer();
-      this.getTimers().timerQueryFinish(timer);
+      final JCGLTimerQueryUsableType timer = this.timer();
+      this.timers().timerQueryFinish(timer);
     }
     // CHECKSTYLE:ON
   }

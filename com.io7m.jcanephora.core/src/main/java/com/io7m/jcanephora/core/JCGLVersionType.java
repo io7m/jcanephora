@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,28 +14,37 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.contracts;
+package com.io7m.jcanephora.core;
 
-import com.io7m.jcanephora.core.JCGLProjectionMatrices;
-import com.io7m.jcanephora.core.JCGLProjectionMatricesType;
+import com.io7m.jnull.Nullable;
+import org.immutables.value.Value;
 
 /**
- * Projection matrix test.
+ * A structure representing the version of the current OpenGL implementation.
  */
 
-// CHECKSTYLE_JAVADOC:OFF
-
-public final class JCGLProjectionMatricesTest extends
-  JCGLProjectionMatricesContract
+@JCGLImmutableStyleType
+@Value.Immutable
+public interface JCGLVersionType extends Comparable<JCGLVersionType>
 {
-  public JCGLProjectionMatricesTest()
-  {
+  /**
+   * @return The version number
+   */
 
-  }
+  @Value.Parameter(order = 0)
+  JCGLVersionNumber number();
+
+  /**
+   * @return The version text
+   */
+
+  @Value.Parameter(order = 1)
+  String text();
 
   @Override
-  protected JCGLProjectionMatricesType newProjectionMatrices()
+  default int compareTo(
+    final @Nullable JCGLVersionType other)
   {
-    return JCGLProjectionMatrices.newMatrices();
+    return this.number().compareTo(other.number());
   }
 }

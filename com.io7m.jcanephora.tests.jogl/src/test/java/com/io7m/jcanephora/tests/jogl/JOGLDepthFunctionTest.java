@@ -22,12 +22,14 @@ import com.io7m.jcanephora.tests.contracts.JCGLDepthFunctionContract;
 
 public final class JOGLDepthFunctionTest extends JCGLDepthFunctionContract
 {
-  @Override protected int toInt(final JCGLDepthFunction d)
+  @Override
+  protected int toInt(final JCGLDepthFunction d)
   {
     return JOGLTypeConversions.depthFunctionToGL(d);
   }
 
-  @Override protected JCGLDepthFunction fromInt(final int c)
+  @Override
+  protected JCGLDepthFunction fromInt(final int c)
   {
     return JOGLTypeConversions.depthFunctionFromGL(c);
   }

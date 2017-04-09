@@ -24,10 +24,11 @@ import com.io7m.jcanephora.tests.contracts.JCGLUnsharedContextPair;
 
 public final class JOGLArrayBuffersTestGL33 extends JCGLArrayBuffersContract
 {
-  @Override protected JCGLArrayBuffersType getArrayBuffers(final String name)
+  @Override
+  protected JCGLArrayBuffersType getArrayBuffers(final String name)
   {
     final JCGLContextType c = JOGLTestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getArrayBuffers();
+    return c.contextGetGL33().arrayBuffers();
   }
 
   @Override
@@ -39,9 +40,9 @@ public final class JOGLArrayBuffersTestGL33 extends JCGLArrayBuffersContract
     final JCGLContextType c0 = JOGLTestContexts.newGL33Context(main, 24, 8);
     final JCGLContextType c1 = JOGLTestContexts.newGL33Context(alt, 24, 8);
     return new JCGLUnsharedContextPair<>(
-      c0.contextGetGL33().getArrayBuffers(),
+      c0.contextGetGL33().arrayBuffers(),
       c0,
-      c1.contextGetGL33().getArrayBuffers(),
+      c1.contextGetGL33().arrayBuffers(),
       c1);
   }
 
@@ -58,13 +59,14 @@ public final class JOGLArrayBuffersTestGL33 extends JCGLArrayBuffersContract
     final JCGLContextType mc = p.getMasterContext();
     final JCGLContextType sc = p.getSlaveContext();
     return new JCGLSharedContextPair<>(
-      mc.contextGetGL33().getArrayBuffers(),
+      mc.contextGetGL33().arrayBuffers(),
       mc,
-      sc.contextGetGL33().getArrayBuffers(),
+      sc.contextGetGL33().arrayBuffers(),
       sc);
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }

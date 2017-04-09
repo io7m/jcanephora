@@ -32,5 +32,5 @@ public interface JCGLFramebufferDrawBufferType
    * implementation-defined exclusive upper limit (at least 8).
    */
 
-  int drawBufferGetIndex();
+  int drawBufferIndex();
 }

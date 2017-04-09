@@ -14,10 +14,12 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.contracts;
+package com.io7m.jcanephora.tests.core;
 
 import com.io7m.jcanephora.core.JCGLViewMatrices;
-import com.io7m.jcanephora.core.JCGLViewMatricesType;
+import com.io7m.jcanephora.tests.contracts.JCGLViewMatricesContract;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
 
 /**
  * View matrix test.
@@ -33,8 +35,11 @@ public final class JCGLViewMatricesTest extends JCGLViewMatricesContract
   }
 
   @Override
-  protected JCGLViewMatricesType newViewMatrices()
+  protected Matrix4x4D lookAtRH(
+    final Vector3D camera,
+    final Vector3D target,
+    final Vector3D up)
   {
-    return JCGLViewMatrices.newMatrices();
+    return JCGLViewMatrices.lookAtRH(camera, target, up);
   }
 }

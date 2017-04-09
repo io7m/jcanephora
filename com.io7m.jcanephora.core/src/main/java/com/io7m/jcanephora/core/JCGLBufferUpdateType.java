@@ -31,5 +31,5 @@ public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
    * @return The buffer that will be updated
    */
 
-  T getBuffer();
+  T buffer();
 }

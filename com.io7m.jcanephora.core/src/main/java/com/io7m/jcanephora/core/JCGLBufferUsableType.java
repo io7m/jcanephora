@@ -21,7 +21,6 @@ package com.io7m.jcanephora.core;
  */
 
 public interface JCGLBufferUsableType extends JCGLResourceSizedType,
-  JCGLNamedType,
   JCGLResourceUsableType,
   JCGLReferableType
 {
@@ -29,5 +28,5 @@ public interface JCGLBufferUsableType extends JCGLResourceSizedType,
    * @return The usage hint specified for the buffer.
    */
 
-  JCGLUsageHint getUsageHint();
+  JCGLUsageHint usageHint();
 }

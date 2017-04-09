@@ -25,9 +25,9 @@ import java.nio.ByteBuffer;
 
 final class FakeIndexBuffer extends FakeBuffer implements JCGLIndexBufferType
 {
-  private final long             indices;
+  private final long indices;
   private final JCGLUnsignedType type;
-  private final String           image;
+  private final String image;
 
   FakeIndexBuffer(
     final FakeContext in_context,
@@ -39,23 +39,26 @@ final class FakeIndexBuffer extends FakeBuffer implements JCGLIndexBufferType
   {
     super(in_context, in_id, in_data, in_usage);
     this.indices = in_indices;
-    this.type = NullCheck.notNull(in_type);
+    this.type = NullCheck.notNull(in_type, "Type");
 
     this.image = String.format(
-      "[JOGLIndexBuffer %d]", Integer.valueOf(this.getGLName()));
+      "[JOGLIndexBuffer %d]", Integer.valueOf(this.glName()));
   }
 
-  @Override public long getIndices()
+  @Override
+  public long indices()
   {
     return this.indices;
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     return this.image;
   }
 
-  @Override public JCGLUnsignedType getType()
+  @Override
+  public JCGLUnsignedType type()
   {
     return this.type;
   }

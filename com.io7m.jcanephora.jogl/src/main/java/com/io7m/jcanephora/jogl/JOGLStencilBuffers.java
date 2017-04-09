@@ -62,8 +62,8 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     final JOGLContext c,
     final JOGLFramebuffers f)
   {
-    NullCheck.notNull(c);
-    this.framebuffers = NullCheck.notNull(f);
+    NullCheck.notNull(c, "Context");
+    this.framebuffers = NullCheck.notNull(f, "Framebuffers");
     this.gl = c.getGL3();
     this.enabled = false;
 
@@ -83,7 +83,7 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     this.front_func_mask = 0b11111111_11111111_11111111_11111111;
     this.front_func_ref = 0;
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -114,10 +114,10 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
   {
     final JOGLFramebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
-      return fb.framebufferGetStencilBits();
+      return fb.framebufferStencilBits();
     }
 
-    /**
+    /*
      * Check the capabilities of the OpenGL context for the capabilities
      * of the default framebuffer.
      */
@@ -145,7 +145,7 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
       this.gl.glDisable(GL.GL_STENCIL_TEST);
       this.enabled = false;
     } else {
-      JOGLStencilBuffers.LOG.trace("redundant stencil test disable ignored");
+      LOG.trace("redundant stencil test disable ignored");
     }
   }
 
@@ -158,7 +158,7 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
       this.gl.glEnable(GL.GL_STENCIL_TEST);
       this.enabled = true;
     } else {
-      JOGLStencilBuffers.LOG.trace("redundant stencil test enable ignored");
+      LOG.trace("redundant stencil test enable ignored");
     }
   }
 
@@ -221,8 +221,8 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
         }
       }
     } else {
-      if (JOGLStencilBuffers.LOG.isTraceEnabled()) {
-        JOGLStencilBuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "redundant stencil func change ignored (faces {}, func {}, ref {}, mask {})",
           faces,
           function,
@@ -273,7 +273,7 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
     final int mask)
     throws JCGLException, JCGLExceptionNoStencilBuffer
   {
-    NullCheck.notNull(faces);
+    NullCheck.notNull(faces, "Faces");
 
     this.checkStencilBits();
 
@@ -313,8 +313,8 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
         }
       }
     } else {
-      if (JOGLStencilBuffers.LOG.isTraceEnabled()) {
-        JOGLStencilBuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "redundant stencil mask change ignored (faces {}, mask {})",
           faces,
           Integer.valueOf(mask));
@@ -386,8 +386,8 @@ final class JOGLStencilBuffers implements JCGLStencilBuffersType
         }
       }
     } else {
-      if (JOGLStencilBuffers.LOG.isTraceEnabled()) {
-        JOGLStencilBuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "redundant stencil op change ignored (faces {}, stencil fail {}, depth fail {}, pass {})",
           faces,
           stencil_fail,

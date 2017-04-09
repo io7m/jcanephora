@@ -41,7 +41,7 @@ public final class LWJGL3FramebuffersTestGL33 extends JCGLFramebuffersContract
   {
     final JCGLContextType c = LWJGL3TestContexts.newGL33Context(name, 24, 8);
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
-    return new Interfaces(c, cg.getFramebuffers(), cg.getTextures());
+    return new Interfaces(c, cg.framebuffers(), cg.textures());
   }
 
   @Override

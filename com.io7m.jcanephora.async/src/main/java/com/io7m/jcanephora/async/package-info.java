@@ -18,5 +18,6 @@
  * Asynchronous resource loading.
  */
 
-@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.async;
+@com.io7m.jnull.NonNullByDefault
+package com.io7m.jcanephora.async;
 

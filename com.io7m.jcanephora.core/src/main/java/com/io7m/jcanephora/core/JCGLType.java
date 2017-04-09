@@ -197,13 +197,13 @@ public enum JCGLType
 
   TYPE_FLOAT_MATRIX_2x3("mat2x3");
 
-  private static final Map<String, JCGLType> NAMES = JCGLType.getNames();
+  private static final Map<String, JCGLType> NAMES = getNames();
   private final String name;
 
   JCGLType(
     final String in_name)
   {
-    this.name = NullCheck.notNull(in_name);
+    this.name = NullCheck.notNull(in_name, "Name");
   }
 
   /**
@@ -219,7 +219,7 @@ public enum JCGLType
     final String name)
     throws NoSuchElementException
   {
-    final JCGLType r = JCGLType.NAMES.get(NullCheck.notNull(name, "Name"));
+    final JCGLType r = NAMES.get(NullCheck.notNull(name, "Name"));
     if (r == null) {
       throw new NoSuchElementException(
         String.format("Unknown type '%s'", name));

@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora.core.api;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitBuffer;
 import com.io7m.jcanephora.core.JCGLFramebufferBlitFilter;
@@ -26,6 +25,7 @@ import com.io7m.jcanephora.core.JCGLFramebufferDrawBufferType;
 import com.io7m.jcanephora.core.JCGLFramebufferStatus;
 import com.io7m.jcanephora.core.JCGLFramebufferType;
 import com.io7m.jcanephora.core.JCGLFramebufferUsableType;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 
 import java.util.List;
 import java.util.Optional;
@@ -245,8 +245,8 @@ public interface JCGLFramebuffersType
    */
 
   void framebufferBlit(
-    final AreaInclusiveUnsignedLType source,
-    final AreaInclusiveUnsignedLType target,
+    final AreaL source,
+    final AreaL target,
     final Set<JCGLFramebufferBlitBuffer> buffers,
     final JCGLFramebufferBlitFilter filter)
     throws JCGLException;

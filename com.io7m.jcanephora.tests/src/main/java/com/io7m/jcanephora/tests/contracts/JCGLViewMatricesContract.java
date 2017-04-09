@@ -16,12 +16,11 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import com.io7m.jcanephora.core.JCGLViewMatricesType;
-import com.io7m.jtensors.Matrix4x4FType;
-import com.io7m.jtensors.MatrixHeapArrayM4x4F;
-import com.io7m.jtensors.VectorM3F;
-import org.junit.Assert;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
 import org.junit.Test;
+
+import static com.io7m.jcanephora.tests.contracts.JCGLTestUtilities.checkAlmostEquals;
 
 /**
  * View matrix contract.
@@ -31,38 +30,37 @@ import org.junit.Test;
 
 public abstract class JCGLViewMatricesContract
 {
-  protected abstract JCGLViewMatricesType newViewMatrices();
+  protected abstract Matrix4x4D lookAtRH(
+    final Vector3D camera,
+    final Vector3D target,
+    final Vector3D up);
 
   @Test
   public final void testLookAt()
   {
-    final JCGLViewMatricesType vm = this.newViewMatrices();
+    final Vector3D vc = Vector3D.of(10.0, 10.0, -10.0);
+    final Vector3D vt = Vector3D.of(10.0, 10.0, 0.0);
+    final Vector3D vu = Vector3D.of(0.0, 1.0, 0.0);
+    final Matrix4x4D m = this.lookAtRH(vc, vt, vu);
 
-    final Matrix4x4FType m = MatrixHeapArrayM4x4F.newMatrix();
-    final VectorM3F vc = new VectorM3F(10.0f, 10.0f, -10.0f);
-    final VectorM3F vt = new VectorM3F(10.0f, 10.0f, 0.0f);
-    final VectorM3F vu = new VectorM3F(0.0f, 1.0f, 0.0f);
+    checkAlmostEquals(-1.0, m.rowColumn(0, 0));
+    checkAlmostEquals(0.0, m.rowColumn(0, 1));
+    checkAlmostEquals(0.0, m.rowColumn(0, 2));
+    checkAlmostEquals(10.0, m.rowColumn(0, 3));
 
-    vm.lookAt(m, vc, vt, vu);
+    checkAlmostEquals(0.0, m.rowColumn(1, 0));
+    checkAlmostEquals(1.0, m.rowColumn(1, 1));
+    checkAlmostEquals(0.0, m.rowColumn(1, 2));
+    checkAlmostEquals(-10.0, m.rowColumn(1, 3));
 
-    Assert.assertEquals(-1.0, (double) m.getRowColumnF(0, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 1), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 2), 0.0);
-    Assert.assertEquals(10.0, (double) m.getRowColumnF(0, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(2, 0));
+    checkAlmostEquals(0.0, m.rowColumn(2, 1));
+    checkAlmostEquals(-1.0, m.rowColumn(2, 2));
+    checkAlmostEquals(-10.0, m.rowColumn(2, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 0), 0.0);
-    Assert.assertEquals(1.0, (double) m.getRowColumnF(1, 1), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 2), 0.0);
-    Assert.assertEquals(-10.0, (double) m.getRowColumnF(1, 3), 0.0);
-
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 1), 0.0);
-    Assert.assertEquals(-1.0, (double) m.getRowColumnF(2, 2), 0.0);
-    Assert.assertEquals(-10.0, (double) m.getRowColumnF(2, 3), 0.0);
-
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 1), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 2), 0.0);
-    Assert.assertEquals(1.0, (double) m.getRowColumnF(3, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(3, 0));
+    checkAlmostEquals(0.0, m.rowColumn(3, 1));
+    checkAlmostEquals(0.0, m.rowColumn(3, 2));
+    checkAlmostEquals(1.0, m.rowColumn(3, 3));
   }
 }

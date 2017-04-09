@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedL;
 import com.io7m.jcanephora.core.JCGLCubeMapFaceLH;
 import com.io7m.jcanephora.core.JCGLExceptionTextureNotBound;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
@@ -33,6 +32,8 @@ import com.io7m.jcanephora.core.JCGLTextureWrapS;
 import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jcanephora.core.api.JCGLTexturesType;
 import com.io7m.jranges.RangeCheckException;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
+import com.io7m.jregions.core.unparameterized.areas.AreasL;
 import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -71,7 +72,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
 
     for (int index = 0; index < 16; ++index) {
       final JCGLTextureUnitType u = us.get(index);
-      Assert.assertEquals((long) index, (long) u.unitGetIndex());
+      Assert.assertEquals((long) index, (long) u.index());
     }
   }
 
@@ -324,21 +325,21 @@ public abstract class JCGLTexturesContract extends JCGLContract
       Assert.assertTrue(t.textureUnitIsBound(u));
       Assert.assertTrue(t.texture2DIsBound(u, ta));
 
-      Assert.assertEquals(128L, ta.textureGetWidth());
-      Assert.assertEquals(256L, ta.textureGetHeight());
-      Assert.assertEquals(v, ta.textureGetFormat());
+      Assert.assertEquals(128L, ta.width());
+      Assert.assertEquals(256L, ta.height());
+      Assert.assertEquals(v, ta.format());
       Assert.assertEquals(
         JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
-        ta.textureGetWrapS());
+        ta.wrapS());
       Assert.assertEquals(
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
-        ta.textureGetWrapT());
+        ta.wrapT());
       Assert.assertEquals(
         JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
-        ta.textureGetMinificationFilter());
+        ta.minificationFilter());
       Assert.assertEquals(
         JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR,
-        ta.textureGetMagnificationFilter());
+        ta.magnificationFilter());
 
       Assert.assertFalse(ta.isDeleted());
       t.texture2DDelete(ta);
@@ -400,9 +401,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     JCGLTextureUpdates.newUpdateReplacingArea2D(
       ta,
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(0L, 512L),
-        new UnsignedRangeInclusiveL(0L, 512L)));
+      AreasL.create(0L, 0L, 513L, 513L));
   }
 
   @Test
@@ -425,20 +424,19 @@ public abstract class JCGLTexturesContract extends JCGLContract
     final JCGLTexture2DUpdateType up =
       JCGLTextureUpdates.newUpdateReplacingAll2D(ta);
 
-    Assert.assertEquals(ta, up.getTexture());
+    Assert.assertEquals(ta, up.texture());
 
-    final AreaInclusiveUnsignedL expected_area =
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(0L, 127L),
-        new UnsignedRangeInclusiveL(0L, 255L));
-    Assert.assertEquals(expected_area, up.getArea());
+    final AreaL expected_area =
+      AreasL.create(0L, 0L, 128L, 256L);
 
-    final ByteBuffer data = up.getData();
+    Assert.assertEquals(expected_area, up.area());
+
+    final ByteBuffer data = up.data();
     final long expected_size = 128L * 256L * 4L;
     Assert.assertEquals(expected_size, (long) data.capacity());
     final UnsignedRangeInclusiveL expected_range =
       new UnsignedRangeInclusiveL(0L, expected_size - 1L);
-    Assert.assertEquals(expected_range, up.getDataUpdateRange());
+    Assert.assertEquals(expected_range, up.dataUpdateRange());
   }
 
   @Test
@@ -458,23 +456,21 @@ public abstract class JCGLTexturesContract extends JCGLContract
         JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
 
-    final AreaInclusiveUnsignedL expected_area =
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+    final AreaL expected_area =
+      AreasL.create(128L, 128L, 128L, 128L);
 
     final JCGLTexture2DUpdateType up =
       JCGLTextureUpdates.newUpdateReplacingArea2D(ta, expected_area);
 
-    Assert.assertEquals(ta, up.getTexture());
-    Assert.assertEquals(expected_area, up.getArea());
+    Assert.assertEquals(ta, up.texture());
+    Assert.assertEquals(expected_area, up.area());
 
-    final ByteBuffer data = up.getData();
+    final ByteBuffer data = up.data();
     final long expected_size = 128L * 128L;
     Assert.assertEquals(expected_size, (long) data.capacity());
     final UnsignedRangeInclusiveL expected_range =
       new UnsignedRangeInclusiveL(0L, expected_size - 1L);
-    Assert.assertEquals(expected_range, up.getDataUpdateRange());
+    Assert.assertEquals(expected_range, up.dataUpdateRange());
   }
 
   @Test
@@ -497,7 +493,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     {
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingAll2D(ta);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0xff);
       }
@@ -533,7 +529,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     {
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingAll2D(ta);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       Assert.assertEquals(512L * 512L * 4L, (long) data.capacity());
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0xff);
@@ -570,7 +566,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     {
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingAll2D(ta);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       Assert.assertEquals(512L * 512L * 3L, (long) data.capacity());
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0xff);
@@ -607,7 +603,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     {
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingAll2D(ta);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       Assert.assertEquals(512L * 512L * 2L, (long) data.capacity());
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0xff);
@@ -644,7 +640,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     {
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingAll2D(ta);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0);
       }
@@ -652,13 +648,12 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
 
     {
-      final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+      final AreaL area =
+        AreasL.create(128L, 128L, 128L, 128L);
 
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingArea2D(ta, area);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0xff);
       }
@@ -703,7 +698,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     {
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingAll2D(ta);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       Assert.assertEquals(512L * 512L * 4L, (long) data.capacity());
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0);
@@ -712,13 +707,12 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
 
     {
-      final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+      final AreaL area =
+        AreasL.create(128L, 128L, 128L, 128L);
 
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingArea2D(ta, area);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       Assert.assertEquals(128L * 128L * 4L, (long) data.capacity());
       for (int index = 0; index < data.capacity(); index += 4) {
         data.put(index + 0, (byte) 0x01);
@@ -783,7 +777,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     {
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingAll2D(ta);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       Assert.assertEquals(512L * 512L * 3L, (long) data.capacity());
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0);
@@ -792,13 +786,12 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
 
     {
-      final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+      final AreaL area =
+        AreasL.create(128L, 128L, 128L, 128L);
 
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingArea2D(ta, area);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       Assert.assertEquals(128L * 128L * 3L, (long) data.capacity());
       for (int index = 0; index < data.capacity(); index += 3) {
         data.put(index + 0, (byte) 0x01);
@@ -858,7 +851,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     {
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingAll2D(ta);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       Assert.assertEquals(512L * 512L * 2L, (long) data.capacity());
       for (int index = 0; index < data.capacity(); ++index) {
         data.put(index, (byte) 0);
@@ -867,13 +860,12 @@ public abstract class JCGLTexturesContract extends JCGLContract
     }
 
     {
-      final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+      final AreaL area =
+        AreasL.create(128L, 128L, 128L, 128L);
 
       final JCGLTexture2DUpdateType up =
         JCGLTextureUpdates.newUpdateReplacingArea2D(ta, area);
-      final ByteBuffer data = up.getData();
+      final ByteBuffer data = up.data();
       Assert.assertEquals(128L * 128L * 2L, (long) data.capacity());
       for (int index = 0; index < data.capacity(); index += 2) {
         data.put(index + 0, (byte) 0x01);
@@ -1078,21 +1070,21 @@ public abstract class JCGLTexturesContract extends JCGLContract
       Assert.assertTrue(t.textureUnitIsBound(u));
       Assert.assertTrue(t.textureCubeIsBound(u, ta));
 
-      Assert.assertEquals(128L, ta.textureGetWidth());
-      Assert.assertEquals(128L, ta.textureGetHeight());
-      Assert.assertEquals(v, ta.textureGetFormat());
+      Assert.assertEquals(128L, ta.width());
+      Assert.assertEquals(128L, ta.height());
+      Assert.assertEquals(v, ta.format());
       Assert.assertEquals(
         JCGLTextureWrapS.TEXTURE_WRAP_REPEAT,
-        ta.textureGetWrapS());
+        ta.wrapS());
       Assert.assertEquals(
         JCGLTextureWrapT.TEXTURE_WRAP_REPEAT,
-        ta.textureGetWrapT());
+        ta.wrapT());
       Assert.assertEquals(
         JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
-        ta.textureGetMinificationFilter());
+        ta.minificationFilter());
       Assert.assertEquals(
         JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR,
-        ta.textureGetMagnificationFilter());
+        ta.magnificationFilter());
 
       Assert.assertFalse(ta.isDeleted());
       t.textureCubeDelete(ta);
@@ -1156,9 +1148,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
     this.expected.expect(RangeCheckException.class);
     JCGLTextureUpdates.newUpdateReplacingAreaCube(
       ta,
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(0L, 512L),
-        new UnsignedRangeInclusiveL(0L, 512L)));
+      AreasL.create(0L, 0L, 513L, 513L));
   }
 
   @Test
@@ -1181,20 +1171,19 @@ public abstract class JCGLTexturesContract extends JCGLContract
     final JCGLTextureCubeUpdateType up =
       JCGLTextureUpdates.newUpdateReplacingAllCube(ta);
 
-    Assert.assertEquals(ta, up.getTexture());
+    Assert.assertEquals(ta, up.texture());
 
-    final AreaInclusiveUnsignedL expected_area =
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(0L, 127L),
-        new UnsignedRangeInclusiveL(0L, 127L));
-    Assert.assertEquals(expected_area, up.getArea());
+    final AreaL expected_area =
+      AreasL.create(0L, 0L, 128L, 128L);
 
-    final ByteBuffer data = up.getData();
+    Assert.assertEquals(expected_area, up.area());
+
+    final ByteBuffer data = up.data();
     final long expected_size = 128L * 128L * 4L;
     Assert.assertEquals(expected_size, (long) data.capacity());
     final UnsignedRangeInclusiveL expected_range =
       new UnsignedRangeInclusiveL(0L, expected_size - 1L);
-    Assert.assertEquals(expected_range, up.getDataUpdateRange());
+    Assert.assertEquals(expected_range, up.dataUpdateRange());
   }
 
   @Test
@@ -1214,23 +1203,21 @@ public abstract class JCGLTexturesContract extends JCGLContract
         JCGLTextureFilterMinification.TEXTURE_FILTER_LINEAR,
         JCGLTextureFilterMagnification.TEXTURE_FILTER_LINEAR);
 
-    final AreaInclusiveUnsignedL expected_area =
-      AreaInclusiveUnsignedL.of(
-        new UnsignedRangeInclusiveL(128L, 255L),
-        new UnsignedRangeInclusiveL(128L, 255L));
+    final AreaL expected_area =
+      AreasL.create(128L, 128L, 128L, 128L);
 
     final JCGLTextureCubeUpdateType up =
       JCGLTextureUpdates.newUpdateReplacingAreaCube(ta, expected_area);
 
-    Assert.assertEquals(ta, up.getTexture());
-    Assert.assertEquals(expected_area, up.getArea());
+    Assert.assertEquals(ta, up.texture());
+    Assert.assertEquals(expected_area, up.area());
 
-    final ByteBuffer data = up.getData();
+    final ByteBuffer data = up.data();
     final long expected_size = 128L * 128L;
     Assert.assertEquals(expected_size, (long) data.capacity());
     final UnsignedRangeInclusiveL expected_range =
       new UnsignedRangeInclusiveL(0L, expected_size - 1L);
-    Assert.assertEquals(expected_range, up.getDataUpdateRange());
+    Assert.assertEquals(expected_range, up.dataUpdateRange());
   }
 
   @Test
@@ -1254,7 +1241,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
       {
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAllCube(ta);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         for (int index = 0; index < data.capacity(); ++index) {
           data.put(index, (byte) 0xff);
         }
@@ -1292,7 +1279,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
       {
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAllCube(ta);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         Assert.assertEquals(512L * 512L * 4L, (long) data.capacity());
         for (int index = 0; index < data.capacity(); ++index) {
           data.put(index, (byte) 0xff);
@@ -1331,7 +1318,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
       {
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAllCube(ta);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         Assert.assertEquals(512L * 512L * 3L, (long) data.capacity());
         for (int index = 0; index < data.capacity(); ++index) {
           data.put(index, (byte) 0xff);
@@ -1370,7 +1357,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
       {
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAllCube(ta);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         Assert.assertEquals(512L * 512L * 2L, (long) data.capacity());
         for (int index = 0; index < data.capacity(); ++index) {
           data.put(index, (byte) 0xff);
@@ -1409,7 +1396,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
       {
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAllCube(ta);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         for (int index = 0; index < data.capacity(); ++index) {
           data.put(index, (byte) 0);
         }
@@ -1417,13 +1404,12 @@ public abstract class JCGLTexturesContract extends JCGLContract
       }
 
       {
-        final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-          new UnsignedRangeInclusiveL(128L, 255L),
-          new UnsignedRangeInclusiveL(128L, 255L));
+        final AreaL area =
+          AreasL.create(128L, 128L, 128L, 128L);
 
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAreaCube(ta, area);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         for (int index = 0; index < data.capacity(); ++index) {
           data.put(index, (byte) 0xff);
         }
@@ -1470,7 +1456,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
       {
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAllCube(ta);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         Assert.assertEquals(512L * 512L * 4L, (long) data.capacity());
         for (int index = 0; index < data.capacity(); ++index) {
           data.put(index, (byte) 0);
@@ -1479,13 +1465,12 @@ public abstract class JCGLTexturesContract extends JCGLContract
       }
 
       {
-        final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-          new UnsignedRangeInclusiveL(128L, 255L),
-          new UnsignedRangeInclusiveL(128L, 255L));
+        final AreaL area =
+          AreasL.create(128L, 128L, 128L, 128L);
 
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAreaCube(ta, area);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         Assert.assertEquals(128L * 128L * 4L, (long) data.capacity());
         for (int index = 0; index < data.capacity(); index += 4) {
           data.put(index + 0, (byte) 0x01);
@@ -1552,7 +1537,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
       {
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAllCube(ta);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         Assert.assertEquals(512L * 512L * 3L, (long) data.capacity());
         for (int index = 0; index < data.capacity(); ++index) {
           data.put(index, (byte) 0);
@@ -1561,13 +1546,12 @@ public abstract class JCGLTexturesContract extends JCGLContract
       }
 
       {
-        final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-          new UnsignedRangeInclusiveL(128L, 255L),
-          new UnsignedRangeInclusiveL(128L, 255L));
+        final AreaL area =
+          AreasL.create(128L, 128L, 128L, 128L);
 
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAreaCube(ta, area);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         Assert.assertEquals(128L * 128L * 3L, (long) data.capacity());
         for (int index = 0; index < data.capacity(); index += 3) {
           data.put(index + 0, (byte) 0x01);
@@ -1630,7 +1614,7 @@ public abstract class JCGLTexturesContract extends JCGLContract
       {
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAllCube(ta);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         Assert.assertEquals(512L * 512L * 2L, (long) data.capacity());
         for (int index = 0; index < data.capacity(); ++index) {
           data.put(index, (byte) 0);
@@ -1639,13 +1623,12 @@ public abstract class JCGLTexturesContract extends JCGLContract
       }
 
       {
-        final AreaInclusiveUnsignedL area = AreaInclusiveUnsignedL.of(
-          new UnsignedRangeInclusiveL(128L, 255L),
-          new UnsignedRangeInclusiveL(128L, 255L));
+        final AreaL area =
+          AreasL.create(128L, 128L, 128L, 128L);
 
         final JCGLTextureCubeUpdateType up =
           JCGLTextureUpdates.newUpdateReplacingAreaCube(ta, area);
-        final ByteBuffer data = up.getData();
+        final ByteBuffer data = up.data();
         Assert.assertEquals(128L * 128L * 2L, (long) data.capacity());
         for (int index = 0; index < data.capacity(); index += 2) {
           data.put(index + 0, (byte) 0x01);

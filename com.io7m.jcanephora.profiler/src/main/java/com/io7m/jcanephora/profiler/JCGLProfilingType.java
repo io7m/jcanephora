@@ -22,7 +22,7 @@ package com.io7m.jcanephora.profiler;
  *
  * <p> Profiling proceeds by having the user first start a new frame with {@link
  * #startFrame()}. Then, the user typically creates a root context for the frame
- * with {@link JCGLProfilingFrameType#getChildContext(String)}. Then, the
+ * with {@link JCGLProfilingFrameType#childContext(String)}. Then, the
  * created context is passed to the various renderers and filters that the user
  * is using to render. The renderers and filters create new named child contexts
  * which are then used to record timing information.</p>
@@ -68,7 +68,7 @@ public interface JCGLProfilingType
    * @return The elapsed time of the most recently measured frame
    */
 
-  JCGLProfilingFrameMeasurementType getMostRecentlyMeasuredFrame();
+  JCGLProfilingFrameMeasurementType mostRecentlyMeasuredFrame();
 
   /**
    * As polling profiling timers every frame would cause excessive GPU/CPU
@@ -79,5 +79,5 @@ public interface JCGLProfilingType
    * @return The number of frames behind that profiling data typically lags
    */
 
-  int getFrameDelay();
+  int frameDelay();
 }

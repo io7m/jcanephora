@@ -27,7 +27,8 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class FakeArrayObjectsTest extends JCGLArrayObjectsContract
 {
-  @Override protected Interfaces getInterfaces(final String name)
+  @Override
+  protected Interfaces getInterfaces(final String name)
   {
     try {
       final JCGLImplementationFakeType i = JCGLImplementationFake.getInstance();
@@ -35,13 +36,14 @@ public final class FakeArrayObjectsTest extends JCGLArrayObjectsContract
         i.newContext(name, new FakeDefaultShaderListener());
       final JCGLInterfaceGL33Type cg = c.contextGetGL33();
       return new Interfaces(
-        c, cg.getArrayBuffers(), cg.getIndexBuffers(), cg.getArrayObjects());
+        c, cg.arrayBuffers(), cg.indexBuffers(), cg.arrayObjects());
     } catch (final JCGLExceptionUnsupported | JCGLExceptionNonCompliant x) {
       throw new UnreachableCodeException(x);
     }
   }
 
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
 
   }

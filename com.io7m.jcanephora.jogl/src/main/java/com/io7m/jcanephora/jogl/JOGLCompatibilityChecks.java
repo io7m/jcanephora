@@ -20,6 +20,8 @@ import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.junreachable.UnreachableCodeException;
 import com.jogamp.opengl.GLContext;
 
+import java.util.Objects;
+
 // @formatter:off
 
 /**
@@ -64,17 +66,17 @@ final class JOGLCompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     if (x instanceof JOGLObjectShared) {
-      return (A) JOGLCompatibilityChecks.checkObjectShared(
+      return (A) checkObjectShared(
         current, (JOGLObjectShared) x);
     }
 
     if (x instanceof JOGLObjectUnshared) {
-      return (A) JOGLCompatibilityChecks.checkObjectUnshared(
+      return (A) checkObjectUnshared(
         current, (JOGLObjectUnshared) x);
     }
 
     if (x instanceof JOGLObjectPseudoUnshared) {
-      return (A) JOGLCompatibilityChecks.checkObjectPseudoUnshared(
+      return (A) checkObjectPseudoUnshared(
         current, (JOGLObjectPseudoUnshared) x);
     }
 
@@ -92,7 +94,7 @@ final class JOGLCompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     final GLContext target = x.getContext();
-    if (current.equals(target)) {
+    if (Objects.equals(current, target)) {
       return x;
     }
 
@@ -108,11 +110,11 @@ final class JOGLCompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     final GLContext target = x.getContext();
-    if (current.equals(target)) {
+    if (Objects.equals(current, target)) {
       return x;
     }
 
-    /**
+    /*
      * Sharing is symmetric.
      */
 
@@ -140,7 +142,7 @@ final class JOGLCompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     final GLContext target = x.getContext();
-    if (current.equals(target)) {
+    if (Objects.equals(current, target)) {
       return x;
     }
 

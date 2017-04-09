@@ -19,6 +19,8 @@ package com.io7m.jcanephora.lwjgl3;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.junreachable.UnreachableCodeException;
 
+import java.util.Objects;
+
 // @formatter:off
 
 /**
@@ -63,17 +65,17 @@ final class LWJGL3CompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     if (x instanceof LWJGL3ObjectShared) {
-      return (A) LWJGL3CompatibilityChecks.checkObjectShared(
+      return (A) checkObjectShared(
         current, (LWJGL3ObjectShared) x);
     }
 
     if (x instanceof LWJGL3ObjectUnshared) {
-      return (A) LWJGL3CompatibilityChecks.checkObjectUnshared(
+      return (A) checkObjectUnshared(
         current, (LWJGL3ObjectUnshared) x);
     }
 
     if (x instanceof LWJGL3ObjectPseudoUnshared) {
-      return (A) LWJGL3CompatibilityChecks.checkObjectPseudoUnshared(
+      return (A) checkObjectPseudoUnshared(
         current, (LWJGL3ObjectPseudoUnshared) x);
     }
 
@@ -91,7 +93,7 @@ final class LWJGL3CompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     final LWJGL3Context target = x.getContext();
-    if (current.equals(target)) {
+    if (Objects.equals(current, target)) {
       return x;
     }
 
@@ -107,11 +109,11 @@ final class LWJGL3CompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     final LWJGL3Context target = x.getContext();
-    if (current.equals(target)) {
+    if (Objects.equals(current, target)) {
       return x;
     }
 
-    /**
+    /*
      * Sharing is symmetric.
      */
 
@@ -139,7 +141,7 @@ final class LWJGL3CompatibilityChecks
     throws JCGLExceptionWrongContext
   {
     final LWJGL3Context target = x.getContext();
-    if (current.equals(target)) {
+    if (Objects.equals(current, target)) {
       return x;
     }
 

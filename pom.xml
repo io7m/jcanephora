@@ -43,15 +43,13 @@
   </modules>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <siteReposDirectory>com/io7m/jcanephora</siteReposDirectory>
     <siteDocumentationDirectory>com/io7m/jcanephora/com.io7m.jcanephora.documentation</siteDocumentationDirectory>
     <com.io7m.jcanephora.jogl.version>2.3.2</com.io7m.jcanephora.jogl.version>
     <com.io7m.jcanephora.lwjgl.version>3.1.0</com.io7m.jcanephora.lwjgl.version>
     <io7m.checkstyle.artifact>com.io7m.jcanephora.checkstyle</io7m.checkstyle.artifact>
     <io7m.checkstyle.path>/com/io7m/jcanephora/checkstyle/checkstyle.xml</io7m.checkstyle.path>
-    <io7m.api.previousVersion>0.53.1</io7m.api.previousVersion>
+    <io7m.api.previousVersion>0.60.0-SNAPSHOT</io7m.api.previousVersion>
   </properties>
 
   <licenses>
@@ -91,6 +89,10 @@
       <id>sonatype-nexus-staging</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <ciManagement>
@@ -106,32 +108,37 @@
     <dependencies>
       <dependency>
         <groupId>com.io7m.jnull</groupId>
-        <artifactId>io7m-jnull-core</artifactId>
+        <artifactId>com.io7m.jnull.core</artifactId>
+        <version>[1.0.0, 2.0.0)</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jequality</groupId>
+        <artifactId>com.io7m.jequality.core</artifactId>
         <version>[1.0.0, 2.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.junreachable</groupId>
-        <artifactId>io7m-junreachable-core</artifactId>
+        <artifactId>com.io7m.junreachable.core</artifactId>
         <version>[1.0.0, 2.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jranges</groupId>
-        <artifactId>io7m-jranges-core</artifactId>
+        <artifactId>com.io7m.jranges.core</artifactId>
         <version>[2.0.0, 3.0.0)</version>
       </dependency>
       <dependency>
-        <groupId>com.io7m.jareas</groupId>
-        <artifactId>io7m-jareas-core</artifactId>
-        <version>0.2.1</version>
+        <groupId>com.io7m.jregions</groupId>
+        <artifactId>com.io7m.jregions.core</artifactId>
+        <version>0.0.6</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.junsigned</groupId>
-        <artifactId>io7m-junsigned-core</artifactId>
+        <artifactId>com.io7m.junsigned.core</artifactId>
         <version>[1.0.0, 2.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jfunctional</groupId>
-        <artifactId>io7m-jfunctional-core</artifactId>
+        <artifactId>com.io7m.jfunctional.core</artifactId>
         <version>[1.3.0, 2.0.0)</version>
       </dependency>
       <dependency>
@@ -141,38 +148,53 @@
       </dependency>
       <dependency>
         <groupId>com.io7m.junsigned</groupId>
-        <artifactId>io7m-junsigned-ranges</artifactId>
+        <artifactId>com.io7m.junsigned.ranges</artifactId>
         <version>[1.0.0, 2.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
-        <artifactId>io7m-jtensors-core</artifactId>
-        <version>[7.0.0, 8.0.0)</version>
+        <artifactId>com.io7m.jtensors.core</artifactId>
+        <version>8.0.0-beta0001</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
-        <artifactId>io7m-jtensors-bytebuffered</artifactId>
-        <version>[7.0.0, 8.0.0)</version>
+        <artifactId>com.io7m.jtensors.storage.api</artifactId>
+        <version>8.0.0-beta0001</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jtensors</groupId>
+        <artifactId>com.io7m.jtensors.storage.bytebuffered</artifactId>
+        <version>8.0.0-beta0001</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jtensors</groupId>
+        <artifactId>com.io7m.jtensors.storage.heap</artifactId>
+        <version>8.0.0-beta0001</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jpra</groupId>
-        <artifactId>io7m-jpra-runtime-java</artifactId>
-        <version>0.5.0</version>
+        <artifactId>com.io7m.jpra.runtime.java</artifactId>
+        <version>0.6.0</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jnfp</groupId>
-        <artifactId>io7m-jnfp-core</artifactId>
-        <version>0.1.1</version>
+        <artifactId>com.io7m.jnfp.core</artifactId>
+        <version>0.1.2</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.ieee754b16</groupId>
-        <artifactId>io7m-ieee754b16-core</artifactId>
+        <artifactId>com.io7m.ieee754b16.core</artifactId>
         <version>[1.0.0, 2.0.0)</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jaffirm</groupId>
-        <artifactId>io7m-jaffirm-core</artifactId>
+        <artifactId>com.io7m.jaffirm.core</artifactId>
         <version>[1.0.0, 2.0.0)</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.mutable.numbers</groupId>
+        <artifactId>com.io7m.mutable.numbers.core</artifactId>
+        <version>0.0.2</version>
       </dependency>
 
       <dependency>
@@ -302,8 +324,8 @@
         <!-- JPRA plugin for generating cursors. -->
         <plugin>
           <groupId>com.io7m.jpra</groupId>
-          <artifactId>io7m-jpra-maven-plugin</artifactId>
-          <version>0.5.0</version>
+          <artifactId>com.io7m.jpra.maven.plugin</artifactId>
+          <version>0.6.0</version>
         </plugin>
 
         <!-- jstructural plugin for generating documentation. -->

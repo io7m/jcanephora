@@ -47,7 +47,7 @@ final class LWJGL3Timers implements JCGLTimersType
 
   LWJGL3Timers(final LWJGL3Context c)
   {
-    this.context = NullCheck.notNull(c);
+    this.context = NullCheck.notNull(c, "Context");
   }
 
   @Override
@@ -57,8 +57,8 @@ final class LWJGL3Timers implements JCGLTimersType
     final int id = GL15.glGenQueries();
     final LWJGL3TimerQuery t = new LWJGL3TimerQuery(this.context, id);
 
-    if (LWJGL3Timers.LOG.isDebugEnabled()) {
-      LWJGL3Timers.LOG.debug("allocate {}", Integer.valueOf(t.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("allocate {}", Integer.valueOf(t.glName()));
     }
 
     this.timerQueryResultAvailability(t);
@@ -69,7 +69,7 @@ final class LWJGL3Timers implements JCGLTimersType
   public void timerQueryBegin(final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final LWJGL3TimerQuery tq =
       LWJGL3TimerQuery.checkTimerQuery(this.context, q);
@@ -85,7 +85,7 @@ final class LWJGL3Timers implements JCGLTimersType
       throw new JCGLExceptionQueryAlreadyRunning(sb.toString());
     }
 
-    GL15.glBeginQuery(GL33.GL_TIME_ELAPSED, tq.getGLName());
+    GL15.glBeginQuery(GL33.GL_TIME_ELAPSED, tq.glName());
     tq.setExecuted(true);
     this.running = tq;
   }
@@ -94,7 +94,7 @@ final class LWJGL3Timers implements JCGLTimersType
   public void timerQueryFinish(final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final LWJGL3TimerQuery tq =
       LWJGL3TimerQuery.checkTimerQuery(this.context, q);
@@ -121,7 +121,7 @@ final class LWJGL3Timers implements JCGLTimersType
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final LWJGL3TimerQuery tq =
       LWJGL3TimerQuery.checkTimerQuery(this.context, q);
@@ -132,7 +132,7 @@ final class LWJGL3Timers implements JCGLTimersType
     }
 
     final int r =
-      GL15.glGetQueryObjecti(tq.getGLName(), GL15.GL_QUERY_RESULT_AVAILABLE);
+      GL15.glGetQueryObjecti(tq.glName(), GL15.GL_QUERY_RESULT_AVAILABLE);
     final boolean available = r == GL11.GL_TRUE;
     if (available) {
       return JCGLQueryResultAvailability.QUERY_RESULT_AVAILABLE;
@@ -145,13 +145,13 @@ final class LWJGL3Timers implements JCGLTimersType
     final JCGLTimerQueryUsableType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final LWJGL3TimerQuery tq =
       LWJGL3TimerQuery.checkTimerQuery(this.context, q);
     JCGLResources.checkNotDeleted(q);
 
-    return GL33.glGetQueryObjecti64(tq.getGLName(), GL15.GL_QUERY_RESULT);
+    return GL33.glGetQueryObjecti64(tq.glName(), GL15.GL_QUERY_RESULT);
   }
 
   @Override
@@ -159,21 +159,21 @@ final class LWJGL3Timers implements JCGLTimersType
     final JCGLTimerQueryType q)
     throws JCGLException
   {
-    NullCheck.notNull(q);
+    NullCheck.notNull(q, "Query");
 
     final LWJGL3TimerQuery tq =
       LWJGL3TimerQuery.checkTimerQuery(this.context, q);
     JCGLResources.checkNotDeleted(q);
 
-    GL15.glDeleteQueries(tq.getGLName());
+    GL15.glDeleteQueries(tq.glName());
     tq.setDeleted();
 
     if (Objects.equals(this.running, q)) {
       this.running = null;
     }
 
-    if (LWJGL3Timers.LOG.isDebugEnabled()) {
-      LWJGL3Timers.LOG.debug("delete {}", Integer.valueOf(tq.getGLName()));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("delete {}", Integer.valueOf(tq.glName()));
     }
   }
 }

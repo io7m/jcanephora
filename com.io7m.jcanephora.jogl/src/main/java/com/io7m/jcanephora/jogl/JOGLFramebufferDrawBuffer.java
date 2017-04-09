@@ -44,8 +44,8 @@ final class JOGLFramebufferDrawBuffer extends
     final GLContext c,
     final JCGLFramebufferDrawBufferType buffer)
   {
-    NullCheck.notNull(c);
-    NullCheck.notNull(buffer);
+    NullCheck.notNull(c, "Context");
+    NullCheck.notNull(buffer, "Framebuffer");
     return (JOGLFramebufferDrawBuffer)
       JOGLCompatibilityChecks.checkAny(c, buffer);
   }
@@ -82,11 +82,11 @@ final class JOGLFramebufferDrawBuffer extends
   @Override
   public int compareTo(final JCGLFramebufferDrawBufferType o)
   {
-    return Integer.compare(this.index, o.drawBufferGetIndex());
+    return Integer.compare(this.index, o.drawBufferIndex());
   }
 
   @Override
-  public int drawBufferGetIndex()
+  public int drawBufferIndex()
   {
     return this.index;
   }

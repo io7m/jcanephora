@@ -56,18 +56,18 @@ final class FakeTimerQuery extends FakeObjectUnshared
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[TimerQuery ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(']');
     return sb.toString();
-  }
-
-  void setStarted(final boolean s)
-  {
-    this.started = s;
   }
 
   boolean isStarted()
   {
     return this.started;
+  }
+
+  void setStarted(final boolean s)
+  {
+    this.started = s;
   }
 }

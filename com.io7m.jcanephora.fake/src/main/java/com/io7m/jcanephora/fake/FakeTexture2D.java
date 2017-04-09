@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.fake;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedL;
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
 import com.io7m.jcanephora.core.JCGLTexture2DType;
 import com.io7m.jcanephora.core.JCGLTextureFilterMagnification;
 import com.io7m.jcanephora.core.JCGLTextureFilterMinification;
@@ -25,25 +23,25 @@ import com.io7m.jcanephora.core.JCGLTextureFormat;
 import com.io7m.jcanephora.core.JCGLTextureWrapS;
 import com.io7m.jcanephora.core.JCGLTextureWrapT;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jregions.core.unparameterized.sizes.AreaSizeL;
 import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
 
 import java.nio.ByteBuffer;
 
-final class FakeTexture2D extends FakeReferable
-  implements JCGLTexture2DType
+final class FakeTexture2D extends FakeReferable implements JCGLTexture2DType
 {
   private final JCGLTextureFilterMagnification filter_mag;
-  private final JCGLTextureFilterMinification  filter_min;
-  private final UnsignedRangeInclusiveL        range_x;
-  private final UnsignedRangeInclusiveL        range_y;
-  private final long                           width;
-  private final long                           height;
-  private final JCGLTextureFormat              format;
-  private final UnsignedRangeInclusiveL        byte_range;
-  private final JCGLTextureWrapS               wrap_s;
-  private final JCGLTextureWrapT               wrap_t;
-  private final AreaInclusiveUnsignedL         area;
-  private final ByteBuffer                     data;
+  private final JCGLTextureFilterMinification filter_min;
+  private final UnsignedRangeInclusiveL range_x;
+  private final UnsignedRangeInclusiveL range_y;
+  private final long width;
+  private final long height;
+  private final JCGLTextureFormat format;
+  private final UnsignedRangeInclusiveL byte_range;
+  private final JCGLTextureWrapS wrap_s;
+  private final JCGLTextureWrapT wrap_t;
+  private final ByteBuffer data;
+  private final AreaSizeL size;
 
   FakeTexture2D(
     final FakeContext in_context,
@@ -58,23 +56,29 @@ final class FakeTexture2D extends FakeReferable
   {
     super(in_context, in_id);
 
-    this.filter_mag = NullCheck.notNull(in_filter_mag);
-    this.filter_min = NullCheck.notNull(in_filter_min);
-    this.format = NullCheck.notNull(in_format);
-    this.wrap_s = NullCheck.notNull(in_wrap_s);
-    this.wrap_t = NullCheck.notNull(in_wrap_t);
+    this.filter_mag =
+      NullCheck.notNull(in_filter_mag, "Magnification filter");
+    this.filter_min =
+      NullCheck.notNull(in_filter_min, "Minification filter");
+    this.format =
+      NullCheck.notNull(in_format, "Format");
+    this.wrap_s =
+      NullCheck.notNull(in_wrap_s, "Wrapping S mode");
+    this.wrap_t =
+      NullCheck.notNull(in_wrap_t, "Wrapping T mode");
 
+    this.size = AreaSizeL.of(in_width, in_height);
     this.width = in_width;
     this.height = in_height;
     this.range_x = new UnsignedRangeInclusiveL(0L, in_width - 1L);
     this.range_y = new UnsignedRangeInclusiveL(0L, in_height - 1L);
-    this.area = AreaInclusiveUnsignedL.of(this.range_x, this.range_y);
 
-    final long size =
+    final long byte_size =
       this.width * this.height * (long) this.format.getBytesPerPixel();
-    this.byte_range = new UnsignedRangeInclusiveL(0L, size - 1L);
+    this.byte_range =
+      new UnsignedRangeInclusiveL(0L, byte_size - 1L);
 
-    this.data = ByteBuffer.allocate((int) size);
+    this.data = ByteBuffer.allocate(Math.toIntExact(byte_size));
   }
 
   ByteBuffer getData()
@@ -83,65 +87,76 @@ final class FakeTexture2D extends FakeReferable
   }
 
   @Override
-  public JCGLTextureFilterMagnification textureGetMagnificationFilter()
+  public JCGLTextureFilterMagnification magnificationFilter()
   {
     return this.filter_mag;
   }
 
-  @Override public JCGLTextureFilterMinification textureGetMinificationFilter()
+  @Override
+  public JCGLTextureFilterMinification minificationFilter()
   {
     return this.filter_min;
   }
 
-  @Override public UnsignedRangeInclusiveL textureGetRangeX()
+  @Override
+  public UnsignedRangeInclusiveL rangeX()
   {
     return this.range_x;
   }
 
-  @Override public UnsignedRangeInclusiveL textureGetRangeY()
+  @Override
+  public UnsignedRangeInclusiveL rangeY()
   {
     return this.range_y;
   }
 
-  @Override public long textureGetWidth()
+  @Override
+  public long width()
   {
     return this.width;
   }
 
-  @Override public long textureGetHeight()
+  @Override
+  public long height()
   {
     return this.height;
   }
 
-  @Override public JCGLTextureFormat textureGetFormat()
+  @Override
+  public JCGLTextureFormat format()
   {
     return this.format;
   }
 
-  @Override public UnsignedRangeInclusiveL getRange()
+  @Override
+  public UnsignedRangeInclusiveL byteRange()
   {
     return this.byte_range;
   }
 
-  @Override public AreaInclusiveUnsignedLType textureGetArea()
+  @Override
+  public AreaSizeL size()
   {
-    return this.area;
+    return this.size;
   }
 
-  @Override public JCGLTextureWrapS textureGetWrapS()
+  @Override
+  public JCGLTextureWrapS wrapS()
   {
     return this.wrap_s;
   }
 
-  @Override public JCGLTextureWrapT textureGetWrapT()
+  @Override
+  public JCGLTextureWrapT wrapT()
   {
     return this.wrap_t;
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     final StringBuilder sb = new StringBuilder("[Texture2D ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(" ");
     sb.append(this.width);
     sb.append("x");

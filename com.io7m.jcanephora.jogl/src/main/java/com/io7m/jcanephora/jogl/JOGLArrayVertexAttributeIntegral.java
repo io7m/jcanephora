@@ -23,6 +23,8 @@ import com.io7m.jcanephora.core.JCGLScalarIntegralType;
 import com.io7m.jnull.NullCheck;
 import com.jogamp.opengl.GLContext;
 
+import java.util.Objects;
+
 final class JOGLArrayVertexAttributeIntegral extends JOGLObjectPseudoUnshared
   implements JCGLArrayVertexAttributeIntegralType
 {
@@ -47,8 +49,8 @@ final class JOGLArrayVertexAttributeIntegral extends JOGLObjectPseudoUnshared
     super(in_context);
 
     this.index = in_index;
-    this.array = NullCheck.notNull(in_a);
-    this.type = NullCheck.notNull(in_type);
+    this.array = NullCheck.notNull(in_a, "Array buffer");
+    this.type = NullCheck.notNull(in_type, "Type");
     this.elements = in_elements;
     this.stride = in_stride;
     this.offset = in_offset;
@@ -73,7 +75,7 @@ final class JOGLArrayVertexAttributeIntegral extends JOGLObjectPseudoUnshared
       && this.offset == that.offset
       && this.elements == that.elements
       && this.divisor == that.divisor
-      && this.array.equals(that.array)
+      && Objects.equals(this.array, that.array)
       && this.type == that.type;
   }
 
@@ -106,31 +108,31 @@ final class JOGLArrayVertexAttributeIntegral extends JOGLObjectPseudoUnshared
   }
 
   @Override
-  public int getElements()
+  public int elements()
   {
     return this.elements;
   }
 
   @Override
-  public long getOffset()
+  public long offsetOctets()
   {
     return this.offset;
   }
 
   @Override
-  public int getStride()
+  public int strideOctets()
   {
     return this.stride;
   }
 
   @Override
-  public JCGLScalarIntegralType getType()
+  public JCGLScalarIntegralType type()
   {
     return this.type;
   }
 
   @Override
-  public int getIndex()
+  public int index()
   {
     return this.index;
   }
@@ -150,7 +152,7 @@ final class JOGLArrayVertexAttributeIntegral extends JOGLObjectPseudoUnshared
   }
 
   @Override
-  public int getDivisor()
+  public int divisor()
   {
     return this.divisor;
   }

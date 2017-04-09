@@ -36,8 +36,8 @@ final class LWJGL3TimerQuery extends LWJGL3ObjectUnshared
     final LWJGL3Context c,
     final JCGLTimerQueryUsableType q)
   {
-    NullCheck.notNull(c);
-    NullCheck.notNull(q);
+    NullCheck.notNull(c, "Context");
+    NullCheck.notNull(q, "Query");
     return (LWJGL3TimerQuery) LWJGL3CompatibilityChecks.checkAny(c, q);
   }
 
@@ -45,7 +45,7 @@ final class LWJGL3TimerQuery extends LWJGL3ObjectUnshared
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[TimerQuery ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(']');
     return sb.toString();
   }

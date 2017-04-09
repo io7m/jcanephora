@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.core;
 
-import com.io7m.jtensors.VectorReadable4FType;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 import org.immutables.value.Value;
 
 import java.util.Optional;
@@ -27,7 +27,9 @@ import java.util.OptionalInt;
  * The type of buffer clearing specifications.
  */
 
-@Value.Immutable @Value.Modifiable @JCGLImmutableStyleType
+@Value.Immutable
+@Value.Modifiable
+@JCGLImmutableStyleType
 public interface JCGLClearSpecificationType
 {
   /**
@@ -35,27 +37,32 @@ public interface JCGLClearSpecificationType
    * buffer clearing is enabled
    */
 
-  @Value.Parameter Optional<VectorReadable4FType> getColorBufferClear();
+  @Value.Parameter
+  Optional<Vector4D> colorBufferClear();
 
   /**
    * @return The depth value to which the depth buffer will be cleared, if depth
    * buffer clearing is enabled
    */
 
-  @Value.Parameter OptionalDouble getDepthBufferClear();
+  @Value.Parameter
+  OptionalDouble depthBufferClear();
 
   /**
    * @return The stencil value to which the stencil buffer will be cleared, if
    * stencil buffer clearing is enabled
    */
 
-  @Value.Parameter OptionalInt getStencilBufferClear();
+  @Value.Parameter
+  OptionalInt stencilBufferClear();
 
   /**
    * @return {@code true} if strict buffer checking is enabled
    */
 
-  @Value.Parameter @Value.Default default boolean getStrictChecking()
+  @Value.Parameter
+  @Value.Default
+  default boolean strictChecking()
   {
     return false;
   }

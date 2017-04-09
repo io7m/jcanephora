@@ -159,70 +159,6 @@ public enum JCGLScalarType
   }
 
   /**
-   * @param elements The number of elements.
-   * @param type     The GLSL type.
-   *
-   * @return {@code true} iff the type described by {@code elements} elements of
-   * this type are convertible to the GLSL type {@code type}. As an example,
-   * {@code 4} elements of type {@code float} are convertible to the GLSL type
-   * {@code vec4}, or {@code TYPE_FLOAT_VECTOR_4}. Most combinations are not
-   * convertible to any GLSL type.
-   */
-
-  public boolean shaderTypeConvertible(
-    final int elements,
-    final JCGLType type)
-  {
-    switch (this) {
-      case TYPE_HALF_FLOAT:
-      case TYPE_FLOAT: {
-        return JCGLScalarType.shaderTypeConvertibleFloat(elements, type);
-      }
-      case TYPE_INT: {
-        return JCGLScalarType.shaderTypeConvertibleInt(elements, type);
-      }
-      case TYPE_BYTE:
-      case TYPE_SHORT:
-      case TYPE_UNSIGNED_BYTE:
-      case TYPE_UNSIGNED_INT:
-      case TYPE_UNSIGNED_SHORT:
-        return false;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  /**
-   * @return The size in bytes of values of the current type.
-   *
-   * @since 0.53.0
-   */
-
-  public int getSizeBytes()
-  {
-    switch (this) {
-      case TYPE_BYTE:
-        return 1;
-      case TYPE_HALF_FLOAT:
-        return 2;
-      case TYPE_FLOAT:
-        return 4;
-      case TYPE_INT:
-        return 4;
-      case TYPE_SHORT:
-        return 2;
-      case TYPE_UNSIGNED_BYTE:
-        return 1;
-      case TYPE_UNSIGNED_INT:
-        return 4;
-      case TYPE_UNSIGNED_SHORT:
-        return 2;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  /**
    * Convert the given scalar integral type to a scalar type.
    *
    * @param s The scalar integral type
@@ -277,6 +213,70 @@ public enum JCGLScalarType
         return TYPE_UNSIGNED_INT;
       case TYPE_UNSIGNED_SHORT:
         return TYPE_UNSIGNED_SHORT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * @param elements The number of elements.
+   * @param type     The GLSL type.
+   *
+   * @return {@code true} iff the type described by {@code elements} elements of
+   * this type are convertible to the GLSL type {@code type}. As an example,
+   * {@code 4} elements of type {@code float} are convertible to the GLSL type
+   * {@code vec4}, or {@code TYPE_FLOAT_VECTOR_4}. Most combinations are not
+   * convertible to any GLSL type.
+   */
+
+  public boolean shaderTypeConvertible(
+    final int elements,
+    final JCGLType type)
+  {
+    switch (this) {
+      case TYPE_HALF_FLOAT:
+      case TYPE_FLOAT: {
+        return shaderTypeConvertibleFloat(elements, type);
+      }
+      case TYPE_INT: {
+        return shaderTypeConvertibleInt(elements, type);
+      }
+      case TYPE_BYTE:
+      case TYPE_SHORT:
+      case TYPE_UNSIGNED_BYTE:
+      case TYPE_UNSIGNED_INT:
+      case TYPE_UNSIGNED_SHORT:
+        return false;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * @return The size in bytes of values of the current type.
+   *
+   * @since 0.53.0
+   */
+
+  public int getSizeBytes()
+  {
+    switch (this) {
+      case TYPE_BYTE:
+        return 1;
+      case TYPE_HALF_FLOAT:
+        return 2;
+      case TYPE_FLOAT:
+        return 4;
+      case TYPE_INT:
+        return 4;
+      case TYPE_SHORT:
+        return 2;
+      case TYPE_UNSIGNED_BYTE:
+        return 1;
+      case TYPE_UNSIGNED_INT:
+        return 4;
+      case TYPE_UNSIGNED_SHORT:
+        return 2;
     }
 
     throw new UnreachableCodeException();

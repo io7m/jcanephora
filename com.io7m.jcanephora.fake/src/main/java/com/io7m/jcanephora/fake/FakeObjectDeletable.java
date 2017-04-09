@@ -26,7 +26,8 @@ abstract class FakeObjectDeletable implements JCGLResourceUsableType
 {
   private volatile boolean deleted;
 
-  @Override public final boolean isDeleted()
+  @Override
+  public final boolean isDeleted()
   {
     return this.deleted;
   }

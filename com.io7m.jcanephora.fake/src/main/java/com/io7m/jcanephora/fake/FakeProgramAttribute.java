@@ -30,10 +30,10 @@ import com.io7m.jranges.Ranges;
 public final class FakeProgramAttribute extends FakeObjectPseudoShared
   implements JCGLProgramAttributeType
 {
-  private final int                         location;
-  private final String                      name;
+  private final int location;
+  private final String name;
   private final JCGLProgramShaderUsableType program;
-  private final JCGLType                    type;
+  private final JCGLType type;
 
   /**
    * Construct an attribute.
@@ -64,22 +64,26 @@ public final class FakeProgramAttribute extends FakeObjectPseudoShared
     this.name = NullCheck.notNull(in_name, "Attribute name");
   }
 
-  @Override public String getName()
+  @Override
+  public String name()
   {
     return this.name;
   }
 
-  @Override public JCGLProgramShaderUsableType getProgram()
+  @Override
+  public JCGLProgramShaderUsableType program()
   {
     return this.program;
   }
 
-  @Override public JCGLType getType()
+  @Override
+  public JCGLType type()
   {
     return this.type;
   }
 
-  @Override public int getGLName()
+  @Override
+  public int glName()
   {
     return this.location;
   }

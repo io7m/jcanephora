@@ -96,7 +96,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       final JCGLArrayVertexAttributeFloatingPointType at =
         (JCGLArrayVertexAttributeFloatingPointType) at_raw;
 
-      Assert.assertEquals(0L, (long) at.getIndex());
+      Assert.assertEquals(0L, (long) at.index());
     }
 
     for (int index = 1; index < b.getMaximumVertexAttributes(); ++index) {
@@ -117,7 +117,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       final JCGLArrayVertexAttributeIntegralType at =
         (JCGLArrayVertexAttributeIntegralType) at_raw;
 
-      Assert.assertEquals(0L, (long) at.getIndex());
+      Assert.assertEquals(0L, (long) at.index());
     }
 
     for (int index = 1; index < b.getMaximumVertexAttributes(); ++index) {
@@ -150,7 +150,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       final JCGLArrayVertexAttributeIntegralType at =
         (JCGLArrayVertexAttributeIntegralType) at_raw;
 
-      Assert.assertEquals(0L, (long) at.getIndex());
+      Assert.assertEquals(0L, (long) at.index());
     }
 
     for (int index = 1; index < b.getMaximumVertexAttributes(); ++index) {
@@ -171,7 +171,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       final JCGLArrayVertexAttributeFloatingPointType at =
         (JCGLArrayVertexAttributeFloatingPointType) at_raw;
 
-      Assert.assertEquals(0L, (long) at.getIndex());
+      Assert.assertEquals(0L, (long) at.index());
     }
 
     for (int index = 1; index < b.getMaximumVertexAttributes(); ++index) {
@@ -209,8 +209,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       final JCGLArrayVertexAttributeFloatingPointType at =
         (JCGLArrayVertexAttributeFloatingPointType) at_raw;
 
-      Assert.assertEquals(0L, (long) at.getIndex());
-      Assert.assertEquals(23L, (long) at.getDivisor());
+      Assert.assertEquals(0L, (long) at.index());
+      Assert.assertEquals(23L, (long) at.divisor());
     }
 
     {
@@ -222,8 +222,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       final JCGLArrayVertexAttributeFloatingPointType at =
         (JCGLArrayVertexAttributeFloatingPointType) at_raw;
 
-      Assert.assertEquals(1L, (long) at.getIndex());
-      Assert.assertEquals(0L, (long) at.getDivisor());
+      Assert.assertEquals(1L, (long) at.index());
+      Assert.assertEquals(0L, (long) at.divisor());
     }
 
     {
@@ -235,8 +235,8 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       final JCGLArrayVertexAttributeIntegralType at =
         (JCGLArrayVertexAttributeIntegralType) at_raw;
 
-      Assert.assertEquals(2L, (long) at.getIndex());
-      Assert.assertEquals(0L, (long) at.getDivisor());
+      Assert.assertEquals(2L, (long) at.index());
+      Assert.assertEquals(0L, (long) at.divisor());
     }
 
     {
@@ -672,25 +672,25 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     Assert.assertFalse(ai.isDeleted());
     Assert.assertEquals(
       (long) b.getMaximumVertexAttributes(),
-      (long) ai.getMaximumVertexAttributes());
+      (long) ai.attributeMaximumSupported());
 
-    for (int index = 0; index < ai.getMaximumVertexAttributes(); ++index) {
-      Assert.assertEquals(b.getAttributeAt(index), ai.getAttributeAt(index));
+    for (int index = 0; index < ai.attributeMaximumSupported(); ++index) {
+      Assert.assertEquals(b.getAttributeAt(index), ai.attributeAt(index));
     }
 
     Assert.assertEquals(Optional.of(i), gi.indexBufferGetCurrentlyBound());
-    Assert.assertEquals(Optional.of(i), ai.getIndexBufferBound());
+    Assert.assertEquals(Optional.of(i), ai.indexBufferBound());
 
-    final Set<JCGLReferableType> ai_refs = ai.getReferences();
+    final Set<JCGLReferableType> ai_refs = ai.references();
     Assert.assertEquals(2L, (long) ai_refs.size());
     Assert.assertTrue(ai_refs.contains(a));
     Assert.assertTrue(ai_refs.contains(i));
 
-    final Set<JCGLReferenceContainerType> a_refs = a.getReferringContainers();
+    final Set<JCGLReferenceContainerType> a_refs = a.referringContainers();
     Assert.assertEquals(1L, (long) a_refs.size());
     Assert.assertTrue(a_refs.contains(ai));
 
-    final Set<JCGLReferenceContainerType> i_refs = i.getReferringContainers();
+    final Set<JCGLReferenceContainerType> i_refs = i.referringContainers();
     Assert.assertEquals(2L, (long) i_refs.size());
     Assert.assertTrue(i_refs.contains(ai));
     Assert.assertTrue(i_refs.contains(go.arrayObjectGetDefault()));
@@ -818,10 +818,10 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     go.arrayObjectDelete(ai);
     Assert.assertTrue(ai.isDeleted());
 
-    final Set<JCGLReferableType> ai_refs = ai.getReferences();
+    final Set<JCGLReferableType> ai_refs = ai.references();
     Assert.assertEquals(0L, (long) ai_refs.size());
 
-    final Set<JCGLReferenceContainerType> a_refs = a.getReferringContainers();
+    final Set<JCGLReferenceContainerType> a_refs = a.referringContainers();
     Assert.assertEquals(0L, (long) a_refs.size());
   }
 
@@ -884,7 +884,7 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     ga.arrayBufferDelete(a);
     go.arrayObjectBind(ao);
 
-    final Set<JCGLReferableType> refs = ao.getReferences();
+    final Set<JCGLReferableType> refs = ao.references();
     Assert.assertEquals(1L, (long) refs.size());
     Assert.assertTrue(refs.contains(a));
   }
@@ -911,15 +911,15 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     final JCGLArrayObjectType ai_2 = go.arrayObjectAllocate(b);
 
     Assert.assertEquals(go.arrayObjectGetCurrentlyBound(), ai_2);
-    Assert.assertEquals(Optional.of(ib), ai_0.getIndexBufferBound());
-    Assert.assertEquals(Optional.of(ib), ai_1.getIndexBufferBound());
-    Assert.assertEquals(Optional.of(ib), ai_2.getIndexBufferBound());
+    Assert.assertEquals(Optional.of(ib), ai_0.indexBufferBound());
+    Assert.assertEquals(Optional.of(ib), ai_1.indexBufferBound());
+    Assert.assertEquals(Optional.of(ib), ai_2.indexBufferBound());
     Assert.assertEquals(Optional.of(ib), gi.indexBufferGetCurrentlyBound());
 
-    final Set<JCGLReferenceContainerType> ib_refs = ib.getReferringContainers();
-    final Set<JCGLReferableType> ai0_refs = ai_0.getReferences();
-    final Set<JCGLReferableType> ai1_refs = ai_1.getReferences();
-    final Set<JCGLReferableType> ai2_refs = ai_2.getReferences();
+    final Set<JCGLReferenceContainerType> ib_refs = ib.referringContainers();
+    final Set<JCGLReferableType> ai0_refs = ai_0.references();
+    final Set<JCGLReferableType> ai1_refs = ai_1.references();
+    final Set<JCGLReferableType> ai2_refs = ai_2.references();
 
     Assert.assertEquals(4L, (long) ib_refs.size());
     Assert.assertTrue(ib_refs.contains(go.arrayObjectGetDefault()));
@@ -955,10 +955,10 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
       final JCGLIndexBuffersType in_index_buffers,
       final JCGLArrayObjectsType in_array_objects)
     {
-      this.context = NullCheck.notNull(in_context);
-      this.array_buffers = NullCheck.notNull(in_array_buffers);
-      this.array_objects = NullCheck.notNull(in_array_objects);
-      this.index_buffers = NullCheck.notNull(in_index_buffers);
+      this.context = NullCheck.notNull(in_context, "Context");
+      this.array_buffers = NullCheck.notNull(in_array_buffers, "Array buffers");
+      this.array_objects = NullCheck.notNull(in_array_objects, "Array objects");
+      this.index_buffers = NullCheck.notNull(in_index_buffers, "Index buffers");
     }
 
     public JCGLContextType getContext()

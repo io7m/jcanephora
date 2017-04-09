@@ -30,11 +30,11 @@ import com.io7m.jranges.Ranges;
 public final class FakeProgramUniform extends FakeObjectPseudoShared
   implements JCGLProgramUniformType
 {
-  private final int                         location;
-  private final String                      name;
+  private final int location;
+  private final String name;
   private final JCGLProgramShaderUsableType program;
-  private final JCGLType                    type;
-  private final int                         size;
+  private final JCGLType type;
+  private final int size;
 
   /**
    * Construct a uniform.
@@ -70,31 +70,31 @@ public final class FakeProgramUniform extends FakeObjectPseudoShared
   }
 
   @Override
-  public String getName()
+  public String name()
   {
     return this.name;
   }
 
   @Override
-  public JCGLProgramShaderUsableType getProgram()
+  public JCGLProgramShaderUsableType program()
   {
     return this.program;
   }
 
   @Override
-  public JCGLType getType()
+  public JCGLType type()
   {
     return this.type;
   }
 
   @Override
-  public int getSize()
+  public int size()
   {
     return this.size;
   }
 
   @Override
-  public int getGLName()
+  public int glName()
   {
     return this.location;
   }

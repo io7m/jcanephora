@@ -64,11 +64,11 @@ final class JOGLErrorChecking
       if (ex == null) {
         ex = new JCGLException(
           String.format(
-            "%s: %0x", JOGLErrorChecking.errorString(e), Integer.valueOf(e)));
+            "%s: %0x", errorString(e), Integer.valueOf(e)));
       } else {
         ex.addSuppressed(new JCGLException(
           String.format(
-            "%s: %0x", JOGLErrorChecking.errorString(e), Integer.valueOf(e))));
+            "%s: %0x", errorString(e), Integer.valueOf(e))));
       }
     }
   }

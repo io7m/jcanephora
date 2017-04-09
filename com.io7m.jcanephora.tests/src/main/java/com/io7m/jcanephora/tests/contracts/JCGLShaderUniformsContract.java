@@ -21,7 +21,7 @@ import com.io7m.jcanephora.core.JCGLProgramShaderType;
 import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
-import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,7 +48,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -72,10 +72,10 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
       fb.put(index, 1.0f);
     }
 
-    final VectorI4F r = eval.evaluateArrayF(fb);
+    final Vector4D r = eval.evaluateArrayF(fb);
 
     System.out.println(r);
-    Assert.assertEquals(8.0f, r.getXF(), 0.0f);
+    Assert.assertEquals(8.0, r.x(), 0.0);
   }
 
   @Test
@@ -83,7 +83,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -108,11 +108,11 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
       fb.put((index * 2) + 1, 2.0f);
     }
 
-    final VectorI4F r = eval.evaluateArrayF(fb);
+    final Vector4D r = eval.evaluateArrayF(fb);
 
     System.out.println(r);
-    Assert.assertEquals(8.0f, r.getXF(), 0.0f);
-    Assert.assertEquals(16.0f, r.getYF(), 0.0f);
+    Assert.assertEquals(8.0, r.x(), 0.0);
+    Assert.assertEquals(16.0, r.y(), 0.0);
   }
 
   @Test
@@ -120,7 +120,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -146,12 +146,12 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
       fb.put((index * 3) + 2, 3.0f);
     }
 
-    final VectorI4F r = eval.evaluateArrayF(fb);
+    final Vector4D r = eval.evaluateArrayF(fb);
 
     System.out.println(r);
-    Assert.assertEquals(8.0f, r.getXF(), 0.0f);
-    Assert.assertEquals(16.0f, r.getYF(), 0.0f);
-    Assert.assertEquals(24.0f, r.getZF(), 0.0f);
+    Assert.assertEquals(8.0, r.x(), 0.0);
+    Assert.assertEquals(16.0, r.y(), 0.0);
+    Assert.assertEquals(24.0, r.z(), 0.0);
   }
 
   @Test
@@ -159,7 +159,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -186,13 +186,13 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
       fb.put((index * 4) + 3, 4.0f);
     }
 
-    final VectorI4F r = eval.evaluateArrayF(fb);
+    final Vector4D r = eval.evaluateArrayF(fb);
 
     System.out.println(r);
-    Assert.assertEquals(8.0f, r.getXF(), 0.0f);
-    Assert.assertEquals(16.0f, r.getYF(), 0.0f);
-    Assert.assertEquals(24.0f, r.getZF(), 0.0f);
-    Assert.assertEquals(32.0f, r.getWF(), 0.0f);
+    Assert.assertEquals(8.0, r.x(), 0.0);
+    Assert.assertEquals(16.0, r.y(), 0.0);
+    Assert.assertEquals(24.0, r.z(), 0.0);
+    Assert.assertEquals(32.0, r.w(), 0.0);
   }
 
   @Test
@@ -200,7 +200,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -227,10 +227,10 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
       fb.put((index * (2 * 2)) + 3, 4.0f);
     }
 
-    final VectorI4F r = eval.evaluateArrayF(fb);
+    final Vector4D r = eval.evaluateArrayF(fb);
 
     System.out.println(r);
-    Assert.assertEquals(80.0f, r.getXF(), 0.0f);
+    Assert.assertEquals(80.0, r.x(), 0.0);
   }
 
   @Test
@@ -238,7 +238,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -270,10 +270,10 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
       fb.put((index * (3 * 3)) + 8, 9.0f);
     }
 
-    final VectorI4F r = eval.evaluateArrayF(fb);
+    final Vector4D r = eval.evaluateArrayF(fb);
 
     System.out.println(r);
-    Assert.assertEquals(360.0f, r.getXF(), 0.0f);
+    Assert.assertEquals(360.0, r.x(), 0.0);
   }
 
   @Test
@@ -281,7 +281,7 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
     throws Exception
   {
     final JCGLInterfaceGL33Type g3 = this.getGL33();
-    final JCGLShadersType s = g3.getShaders();
+    final JCGLShadersType s = g3.shaders();
 
     final JCGLVertexShaderType v =
       s.shaderCompileVertex(
@@ -320,9 +320,9 @@ public abstract class JCGLShaderUniformsContract extends JCGLContract
       fb.put((index * (4 * 4)) + 15, 16.0f);
     }
 
-    final VectorI4F r = eval.evaluateArrayF(fb);
+    final Vector4D r = eval.evaluateArrayF(fb);
 
     System.out.println(r);
-    Assert.assertEquals(1088.0f, r.getXF(), 0.0f);
+    Assert.assertEquals(1088.0, r.x(), 0.0);
   }
 }

@@ -44,7 +44,7 @@ public final class JCGLImplementationLWJGL3 implements
 
   public static JCGLImplementationLWJGL3Type getInstance()
   {
-    return JCGLImplementationLWJGL3.INSTANCE;
+    return INSTANCE;
   }
 
   @Override

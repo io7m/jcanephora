@@ -24,7 +24,7 @@ import java.util.List;
 final class FakeGeometryShader extends FakeReferable
   implements JCGLGeometryShaderType
 {
-  private final String       name;
+  private final String name;
   private final List<String> lines;
 
   FakeGeometryShader(
@@ -34,11 +34,12 @@ final class FakeGeometryShader extends FakeReferable
     final List<String> in_lines)
   {
     super(in_context, in_id);
-    this.name = NullCheck.notNull(in_name);
-    this.lines = NullCheck.notNull(in_lines);
+    this.name = NullCheck.notNull(in_name, "Name");
+    this.lines = NullCheck.notNull(in_lines, "Lines");
   }
 
-  @Override public String getName()
+  @Override
+  public String name()
   {
     return this.name;
   }

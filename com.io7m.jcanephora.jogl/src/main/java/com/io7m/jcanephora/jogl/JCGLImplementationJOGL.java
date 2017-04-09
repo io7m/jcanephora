@@ -49,7 +49,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationJOGLType
 
   public static JCGLImplementationJOGLType getInstance()
   {
-    return JCGLImplementationJOGL.INSTANCE;
+    return INSTANCE;
   }
 
   private static void checkVersion(final VersionNumber v)
@@ -58,9 +58,10 @@ public final class JCGLImplementationJOGL implements JCGLImplementationJOGLType
     final int maj = v.getMajor();
     final int min = v.getMinor();
     if (maj != 3 || min != 3) {
-      final JCGLVersionNumber v_exp = new JCGLVersionNumber(3, 3, 0);
+      final JCGLVersionNumber v_exp =
+        JCGLVersionNumber.of(3, 3, 0);
       final JCGLVersionNumber v_got =
-        new JCGLVersionNumber(v.getMajor(), v.getMinor(), v.getSub());
+        JCGLVersionNumber.of(v.getMajor(), v.getMinor(), v.getSub());
       throw new JCGLExceptionUnsupported(v_exp, v_got);
     }
   }
@@ -81,9 +82,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementationJOGLType
     final String name)
     throws JCGLException, JCGLExceptionUnsupported, JCGLExceptionNonCompliant
   {
-    NullCheck.notNull(c);
-    NullCheck.notNull(gl_supplier);
-    NullCheck.notNull(name);
+    NullCheck.notNull(c, "Context");
+    NullCheck.notNull(gl_supplier, "GL supplier");
+    NullCheck.notNull(name, "Name");
 
     if (!c.isCurrent()) {
       throw new JCGLExceptionContextNotCurrent(
@@ -91,7 +92,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationJOGLType
     }
 
     final VersionNumber v = c.getGLVersionNumber();
-    JCGLImplementationJOGL.checkVersion(v);
+    checkVersion(v);
     return new JOGLContext(this, c, gl_supplier, name);
   }
 }

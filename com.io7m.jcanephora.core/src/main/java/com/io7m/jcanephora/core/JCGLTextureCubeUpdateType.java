@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.core;
 
-import com.io7m.jareas.core.AreaInclusiveUnsignedLType;
+import com.io7m.jregions.core.unparameterized.areas.AreaL;
 
 /**
  * The type of updates for cube textures.
@@ -31,11 +31,11 @@ public interface JCGLTextureCubeUpdateType
    * @return The area that will be updated
    */
 
-  AreaInclusiveUnsignedLType getArea();
+  AreaL area();
 
   /**
    * @return The texture that will be updated
    */
 
-  JCGLTextureCubeUsableType getTexture();
+  JCGLTextureCubeUsableType texture();
 }

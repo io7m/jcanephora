@@ -34,8 +34,6 @@ final class FakeDraw implements JCGLDrawType
     LOG = LoggerFactory.getLogger(FakeDraw.class);
   }
 
-  private final FakeContext      context;
-  private final FakeShaders      shaders;
   private final FakeIndexBuffers index_buffers;
 
   FakeDraw(
@@ -43,9 +41,9 @@ final class FakeDraw implements JCGLDrawType
     final FakeShaders in_shaders,
     final FakeIndexBuffers in_index_buffers)
   {
-    this.context = NullCheck.notNull(in_c);
-    this.shaders = NullCheck.notNull(in_shaders);
-    this.index_buffers = NullCheck.notNull(in_index_buffers);
+    NullCheck.notNull(in_c, "Context");
+    NullCheck.notNull(in_shaders, "Shaders");
+    this.index_buffers = NullCheck.notNull(in_index_buffers, "Index buffers");
   }
 
   @Override
@@ -55,13 +53,13 @@ final class FakeDraw implements JCGLDrawType
     final int count)
     throws JCGLException
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
     RangeCheck.checkIncludedInInteger(
       first, "First", Ranges.NATURAL_INTEGER, "Valid index");
     RangeCheck.checkIncludedInInteger(
       count, "Count", Ranges.NATURAL_INTEGER, "Valid count");
 
-    FakeDraw.LOG.trace(
+    LOG.trace(
       "draw: count {} of {} from {}",
       Integer.valueOf(count),
       p,
@@ -76,7 +74,7 @@ final class FakeDraw implements JCGLDrawType
     final int instances)
     throws JCGLException
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
     RangeCheck.checkIncludedInInteger(
       first, "First", Ranges.NATURAL_INTEGER, "Valid index");
     RangeCheck.checkIncludedInInteger(
@@ -84,7 +82,7 @@ final class FakeDraw implements JCGLDrawType
     RangeCheck.checkIncludedInInteger(
       instances, "Instances", Ranges.NATURAL_INTEGER, "Valid instances");
 
-    FakeDraw.LOG.trace(
+    LOG.trace(
       "draw: count {} of {} from {}, {} instances",
       Integer.valueOf(count),
       p,
@@ -96,10 +94,10 @@ final class FakeDraw implements JCGLDrawType
   public void drawElements(final JCGLPrimitives p)
     throws JCGLException, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
 
     if (this.index_buffers.indexBufferIsBound()) {
-      FakeDraw.LOG.trace("drawElements: {}", p);
+      LOG.trace("drawElements: {}", p);
     } else {
       throw new JCGLExceptionBufferNotBound("No index buffer is bound");
     }
@@ -111,12 +109,12 @@ final class FakeDraw implements JCGLDrawType
     final int instances)
     throws JCGLException, JCGLExceptionBufferNotBound
   {
-    NullCheck.notNull(p);
+    NullCheck.notNull(p, "Primitives");
     RangeCheck.checkIncludedInInteger(
       instances, "Instances", Ranges.NATURAL_INTEGER, "Valid instances");
 
     if (this.index_buffers.indexBufferIsBound()) {
-      FakeDraw.LOG.trace("drawElementsInstanced: {}", p);
+      LOG.trace("drawElementsInstanced: {}", p);
     } else {
       throw new JCGLExceptionBufferNotBound(
         "No index buffer is currently bound");

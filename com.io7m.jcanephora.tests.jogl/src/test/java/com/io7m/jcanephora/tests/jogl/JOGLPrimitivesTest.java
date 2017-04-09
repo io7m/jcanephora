@@ -24,7 +24,8 @@ import org.junit.Test;
 
 public final class JOGLPrimitivesTest
 {
-  @Test public void testModeBijection()
+  @Test
+  public void testModeBijection()
   {
     for (final JCGLPrimitives p : JCGLPrimitives.values()) {
       Assert.assertEquals(
@@ -33,7 +34,8 @@ public final class JOGLPrimitivesTest
     }
   }
 
-  @Test(expected = UnreachableCodeException.class) public void testNonsense()
+  @Test(expected = UnreachableCodeException.class)
+  public void testNonsense()
   {
     JOGLTypeConversions.primitiveFromGL(-1);
   }

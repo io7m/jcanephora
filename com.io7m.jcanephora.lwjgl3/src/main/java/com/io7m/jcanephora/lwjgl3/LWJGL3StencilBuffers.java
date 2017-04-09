@@ -59,8 +59,8 @@ final class LWJGL3StencilBuffers implements JCGLStencilBuffersType
     final LWJGL3Context c,
     final LWJGL3Framebuffers f)
   {
-    NullCheck.notNull(c);
-    this.framebuffers = NullCheck.notNull(f);
+    NullCheck.notNull(c, "Context");
+    this.framebuffers = NullCheck.notNull(f, "Framebuffers");
     this.enabled = false;
 
     this.back_mask = 0b11111111_11111111_11111111_11111111;
@@ -79,7 +79,7 @@ final class LWJGL3StencilBuffers implements JCGLStencilBuffersType
     this.front_func_mask = 0b11111111_11111111_11111111_11111111;
     this.front_func_ref = 0;
 
-    /**
+    /*
      * Configure baseline defaults.
      */
 
@@ -110,7 +110,7 @@ final class LWJGL3StencilBuffers implements JCGLStencilBuffersType
   {
     final LWJGL3Framebuffer fb = this.framebuffers.getBindDraw();
     if (fb != null) {
-      return fb.framebufferGetStencilBits();
+      return fb.framebufferStencilBits();
     }
 
     return GL11.glGetInteger(GL11.GL_STENCIL_BITS);
@@ -134,7 +134,7 @@ final class LWJGL3StencilBuffers implements JCGLStencilBuffersType
       GL11.glDisable(GL11.GL_STENCIL_TEST);
       this.enabled = false;
     } else {
-      LWJGL3StencilBuffers.LOG.trace("redundant stencil test disable ignored");
+      LOG.trace("redundant stencil test disable ignored");
     }
   }
 
@@ -147,7 +147,7 @@ final class LWJGL3StencilBuffers implements JCGLStencilBuffersType
       GL11.glEnable(GL11.GL_STENCIL_TEST);
       this.enabled = true;
     } else {
-      LWJGL3StencilBuffers.LOG.trace("redundant stencil test enable ignored");
+      LOG.trace("redundant stencil test enable ignored");
     }
   }
 
@@ -210,8 +210,8 @@ final class LWJGL3StencilBuffers implements JCGLStencilBuffersType
         }
       }
     } else {
-      if (LWJGL3StencilBuffers.LOG.isTraceEnabled()) {
-        LWJGL3StencilBuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "redundant stencil func change ignored (faces {}, func {}, ref {}, mask {})",
           faces,
           function,
@@ -262,7 +262,7 @@ final class LWJGL3StencilBuffers implements JCGLStencilBuffersType
     final int mask)
     throws JCGLException, JCGLExceptionNoStencilBuffer
   {
-    NullCheck.notNull(faces);
+    NullCheck.notNull(faces, "Faces");
 
     this.checkStencilBits();
 
@@ -302,8 +302,8 @@ final class LWJGL3StencilBuffers implements JCGLStencilBuffersType
         }
       }
     } else {
-      if (LWJGL3StencilBuffers.LOG.isTraceEnabled()) {
-        LWJGL3StencilBuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "redundant stencil mask change ignored (faces {}, mask {})",
           faces,
           Integer.valueOf(mask));
@@ -375,8 +375,8 @@ final class LWJGL3StencilBuffers implements JCGLStencilBuffersType
         }
       }
     } else {
-      if (LWJGL3StencilBuffers.LOG.isTraceEnabled()) {
-        LWJGL3StencilBuffers.LOG.trace(
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(
           "redundant stencil op change ignored (faces {}, stencil fail {}, depth fail {}, pass {})",
           faces,
           stencil_fail,

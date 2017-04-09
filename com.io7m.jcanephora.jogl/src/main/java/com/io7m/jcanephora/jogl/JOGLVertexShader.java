@@ -32,7 +32,7 @@ final class JOGLVertexShader extends JOGLReferable
     final String in_name)
   {
     super(ctx, id);
-    this.name = NullCheck.notNull(in_name);
+    this.name = NullCheck.notNull(in_name, "Name");
   }
 
   static JOGLVertexShader checkVertexShader(
@@ -46,7 +46,7 @@ final class JOGLVertexShader extends JOGLReferable
   public String toString()
   {
     final StringBuilder sb = new StringBuilder("[VertexShader ");
-    sb.append(super.getGLName());
+    sb.append(super.glName());
     sb.append(" ");
     sb.append(this.name);
     sb.append(']');
@@ -54,7 +54,7 @@ final class JOGLVertexShader extends JOGLReferable
   }
 
   @Override
-  public String getName()
+  public String name()
   {
     return this.name;
   }

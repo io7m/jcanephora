@@ -16,10 +16,7 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import com.io7m.jcanephora.core.JCGLBlendEquation;
-import com.io7m.jcanephora.core.JCGLBlendFunction;
 import com.io7m.jcanephora.core.JCGLDepthFunction;
-import com.io7m.jcanephora.core.api.JCGLBlendingType;
 import com.io7m.jcanephora.core.api.JCGLContextType;
 import com.io7m.jcanephora.core.api.JCGLDepthBuffersType;
 import com.io7m.jcanephora.core.api.JCGLInterfaceGL33Type;
@@ -33,12 +30,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class JOGLDepthBuffersTestGL33 extends JCGLDepthBuffersContract
 {
-  @Override public void onTestCompleted()
+  @Override
+  public void onTestCompleted()
   {
     JOGLTestContexts.closeAllContexts();
   }
 
-  @Override protected Interfaces getInterfaces(
+  @Override
+  protected Interfaces getInterfaces(
     final String name,
     final int depth,
     final int stencil)
@@ -48,9 +47,9 @@ public final class JOGLDepthBuffersTestGL33 extends JCGLDepthBuffersContract
     final JCGLInterfaceGL33Type cg = c.contextGetGL33();
     return new Interfaces(
       c,
-      cg.getFramebuffers(),
-      cg.getTextures(),
-      cg.getDepthBuffers());
+      cg.framebuffers(),
+      cg.textures(),
+      cg.depthBuffers());
   }
 
   @Test
@@ -119,7 +118,7 @@ public final class JOGLDepthBuffersTestGL33 extends JCGLDepthBuffersContract
         }, 24, 8);
 
     final JCGLInterfaceGL33Type g = c.contextGetGL33();
-    final JCGLDepthBuffersType g_d = g.getDepthBuffers();
+    final JCGLDepthBuffersType g_d = g.depthBuffers();
 
     Assert.assertEquals(0L, (long) tests.get());
     Assert.assertEquals(1L, (long) untests.get());

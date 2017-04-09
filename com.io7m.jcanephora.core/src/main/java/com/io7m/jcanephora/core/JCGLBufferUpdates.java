@@ -48,8 +48,8 @@ public final class JCGLBufferUpdates
   public static <T extends JCGLBufferWritableType> JCGLBufferUpdateType<T>
   newUpdateReplacingAll(final T buffer)
   {
-    NullCheck.notNull(buffer);
-    return JCGLBufferUpdates.newUpdateReplacingRange(buffer, buffer.getRange());
+    NullCheck.notNull(buffer, "Buffer");
+    return newUpdateReplacingRange(buffer, buffer.byteRange());
   }
 
   /**
@@ -72,10 +72,10 @@ public final class JCGLBufferUpdates
     final UnsignedRangeInclusiveL range)
     throws RangeCheckException
   {
-    NullCheck.notNull(buffer);
-    NullCheck.notNull(range);
+    NullCheck.notNull(buffer, "Buffer");
+    NullCheck.notNull(range, "Range");
 
-    final UnsignedRangeInclusiveL buffer_range = buffer.getRange();
+    final UnsignedRangeInclusiveL buffer_range = buffer.byteRange();
     UnsignedRangeCheck.checkRangeIncludedInLong(
       range, "Update range", buffer_range, "Buffer range");
 
@@ -88,8 +88,8 @@ public final class JCGLBufferUpdates
   private static final class Update<T extends JCGLBufferWritableType>
     implements JCGLBufferUpdateType<T>
   {
-    private final T                       buffer;
-    private final ByteBuffer              data;
+    private final T buffer;
+    private final ByteBuffer data;
     private final UnsignedRangeInclusiveL range;
 
     Update(
@@ -97,22 +97,25 @@ public final class JCGLBufferUpdates
       final ByteBuffer in_data,
       final UnsignedRangeInclusiveL in_range)
     {
-      this.buffer = NullCheck.notNull(in_buffer);
-      this.data = NullCheck.notNull(in_data);
-      this.range = NullCheck.notNull(in_range);
+      this.buffer = NullCheck.notNull(in_buffer, "Buffer");
+      this.data = NullCheck.notNull(in_data, "Data");
+      this.range = NullCheck.notNull(in_range, "Range");
     }
 
-    @Override public T getBuffer()
+    @Override
+    public T buffer()
     {
       return this.buffer;
     }
 
-    @Override public ByteBuffer getData()
+    @Override
+    public ByteBuffer data()
     {
       return this.data;
     }
 
-    @Override public UnsignedRangeInclusiveL getDataUpdateRange()
+    @Override
+    public UnsignedRangeInclusiveL dataUpdateRange()
     {
       return this.range;
     }

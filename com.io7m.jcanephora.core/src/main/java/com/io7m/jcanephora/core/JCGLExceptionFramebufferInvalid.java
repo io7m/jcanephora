@@ -36,7 +36,7 @@ public final class JCGLExceptionFramebufferInvalid extends JCGLException
   public JCGLExceptionFramebufferInvalid(
     final JCGLFramebufferStatus s)
   {
-    super(JCGLExceptionFramebufferInvalid.makeMessage(s));
+    super(makeMessage(s));
     this.status = NullCheck.notNull(s, "Status");
   }
 

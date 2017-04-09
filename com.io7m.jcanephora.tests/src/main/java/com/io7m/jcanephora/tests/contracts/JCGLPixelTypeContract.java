@@ -46,7 +46,7 @@ public abstract class JCGLPixelTypeContract
     final JCGLPixelFormat[] vs = JCGLPixelFormat.values();
     for (int index = 0; index < vs.length; ++index) {
       final JCGLPixelFormat expected = vs[index];
-      JCGLPixelTypeContract.LOG.debug("pixel type: {}", expected);
+      LOG.debug("pixel type: {}", expected);
       final int i = this.toInt(expected);
       final JCGLPixelFormat got = this.fromInt(i);
       Assert.assertEquals(expected, got);

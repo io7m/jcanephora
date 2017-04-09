@@ -18,5 +18,6 @@
  * Documentation.
  */
 
-@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.documentation;
+@com.io7m.jnull.NonNullByDefault
+package com.io7m.jcanephora.documentation;
 

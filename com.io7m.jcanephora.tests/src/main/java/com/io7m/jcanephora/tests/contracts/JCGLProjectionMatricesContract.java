@@ -16,12 +16,11 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import com.io7m.jcanephora.core.JCGLProjectionMatricesType;
 import com.io7m.jranges.RangeCheckException;
-import com.io7m.jtensors.Matrix4x4FType;
-import com.io7m.jtensors.MatrixHeapArrayM4x4F;
-import org.junit.Assert;
+import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import org.junit.Test;
+
+import static com.io7m.jcanephora.tests.contracts.JCGLTestUtilities.checkAlmostEquals;
 
 /**
  * Projection matrix contract.
@@ -31,194 +30,182 @@ import org.junit.Test;
 
 public abstract class JCGLProjectionMatricesContract
 {
-  protected abstract JCGLProjectionMatricesType newProjectionMatrices();
+
+
+  protected abstract Matrix4x4D frustumProjectionRH(
+    final double x_min,
+    final double x_max,
+    final double y_min,
+    final double y_max,
+    final double z_near,
+    final double z_far);
+
+  protected abstract Matrix4x4D orthographicProjectionRH(
+    final double x_min,
+    final double x_max,
+    final double y_min,
+    final double y_max,
+    final double z_near,
+    final double z_far);
+
+  protected abstract Matrix4x4D perspectiveProjectionRH(
+    final double z_near,
+    final double z_far,
+    final double aspect,
+    final double horizontal_fov);
 
   @Test(expected = RangeCheckException.class)
   public final void testFrustumFarLessThanNear()
   {
-    final JCGLProjectionMatricesType pm = this.newProjectionMatrices();
-    final Matrix4x4FType m = MatrixHeapArrayM4x4F.newMatrix();
-    pm.makeFrustumProjection(m, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0);
+    this.frustumProjectionRH(-1.0, 1.0, -1.0, 1.0, 1.0, -1.0);
   }
 
   @Test(expected = RangeCheckException.class)
   public final void testFrustumNearFarSame()
   {
-    final JCGLProjectionMatricesType pm = this.newProjectionMatrices();
-    final Matrix4x4FType m = MatrixHeapArrayM4x4F.newMatrix();
-    pm.makeFrustumProjection(m, -1.0, 1.0, -1.0, 1.0, 1.0, 1.0);
+    this.frustumProjectionRH(-1.0, 1.0, -1.0, 1.0, 1.0, 1.0);
   }
 
   @Test(expected = RangeCheckException.class)
   public final void testFrustumNearNegative()
   {
-    final JCGLProjectionMatricesType pm = this.newProjectionMatrices();
-    final Matrix4x4FType m = MatrixHeapArrayM4x4F.newMatrix();
-    pm.makeFrustumProjection(m, -1.0, 1.0, -1.0, 1.0, -0.001, 100.0);
+    this.frustumProjectionRH(-1.0, 1.0, -1.0, 1.0, -0.001, 100.0);
   }
 
   @Test
   public final void testFrustumSimple()
   {
-    final JCGLProjectionMatricesType pm = this.newProjectionMatrices();
-    final Matrix4x4FType m = MatrixHeapArrayM4x4F.newMatrix();
-    pm.makeFrustumProjection(
-      m,
-      -1.0,
-      1.0,
-      -1.0,
-      1.0,
-      5.0,
-      100.0);
+    final Matrix4x4D m =
+      this.frustumProjectionRH(
+        -1.0,
+        1.0,
+        -1.0,
+        1.0,
+        5.0,
+        100.0);
 
     System.out.println(m);
 
-    Assert.assertEquals(5.0, (double) m.getRowColumnF(0, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 1), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 2), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 3), 0.0);
+    checkAlmostEquals(5.0, m.rowColumn(0, 0));
+    checkAlmostEquals(0.0, m.rowColumn(0, 1));
+    checkAlmostEquals(0.0, m.rowColumn(0, 2));
+    checkAlmostEquals(0.0, m.rowColumn(0, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 0), 0.0);
-    Assert.assertEquals(5.0, (double) m.getRowColumnF(1, 1), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 2), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(1, 0));
+    checkAlmostEquals(5.0, m.rowColumn(1, 1));
+    checkAlmostEquals(0.0, m.rowColumn(1, 2));
+    checkAlmostEquals(0.0, m.rowColumn(1, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 1), 0.0);
-    Assert.assertEquals(
-      -1.105263113975525,
-      (double) m.getRowColumnF(2, 2),
-      0.0);
-    Assert.assertEquals(
-      -10.526315689086914,
-      (double) m.getRowColumnF(2, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(2, 0));
+    checkAlmostEquals(0.0, m.rowColumn(2, 1));
+    checkAlmostEquals(-1.105263113975525, m.rowColumn(2, 2));
+    checkAlmostEquals(-10.526315689086914, m.rowColumn(2, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 1), 0.0);
-    Assert.assertEquals(-1.0, (double) m.getRowColumnF(3, 2), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(3, 0));
+    checkAlmostEquals(0.0, m.rowColumn(3, 1));
+    checkAlmostEquals(-1.0, m.rowColumn(3, 2));
+    checkAlmostEquals(0.0, m.rowColumn(3, 3));
   }
 
 
   @Test
   public final void testOrthographic()
   {
-    final JCGLProjectionMatricesType pm = this.newProjectionMatrices();
-    final Matrix4x4FType m = MatrixHeapArrayM4x4F.newMatrix();
-    pm.makeOrthographicProjection(
-      m,
-      0.0,
-      10.0,
-      0.0,
-      10.0,
-      1.0,
-      10.0);
+    final Matrix4x4D m =
+      this.orthographicProjectionRH(
+        0.0,
+        10.0,
+        0.0,
+        10.0,
+        1.0,
+        10.0);
 
-    Assert.assertEquals(0.2, (double) m.getRowColumnF(0, 0), 0.00000001);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 1), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 2), 0.0);
-    Assert.assertEquals(-1.0, (double) m.getRowColumnF(0, 3), 0.0);
+    checkAlmostEquals(0.2, m.rowColumn(0, 0));
+    checkAlmostEquals(0.0, m.rowColumn(0, 1));
+    checkAlmostEquals(0.0, m.rowColumn(0, 2));
+    checkAlmostEquals(-1.0, m.rowColumn(0, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 0), 0.0);
-    Assert.assertEquals(0.2, (double) m.getRowColumnF(1, 1), 0.00000001);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 2), 0.0);
-    Assert.assertEquals(-1.0, (double) m.getRowColumnF(1, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(1, 0));
+    checkAlmostEquals(0.2, m.rowColumn(1, 1));
+    checkAlmostEquals(0.0, m.rowColumn(1, 2));
+    checkAlmostEquals(-1.0, m.rowColumn(1, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 1), 0.0);
-    Assert.assertEquals(
-      -0.22222222,
-      (double) m.getRowColumnF(2, 2),
-      0.00000001);
-    Assert.assertEquals(-1.2222222, (double) m.getRowColumnF(2, 3), 0.00000001);
+    checkAlmostEquals(0.0, m.rowColumn(2, 0));
+    checkAlmostEquals(0.0, m.rowColumn(2, 1));
+    checkAlmostEquals(-0.22222222, m.rowColumn(2, 2));
+    checkAlmostEquals(-1.2222222, m.rowColumn(2, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 1), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 2), 0.0);
-    Assert.assertEquals(1.0, (double) m.getRowColumnF(3, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(3, 0));
+    checkAlmostEquals(0.0, m.rowColumn(3, 1));
+    checkAlmostEquals(0.0, m.rowColumn(3, 2));
+    checkAlmostEquals(1.0, m.rowColumn(3, 3));
   }
 
 
   @Test
   public final void testPerspective()
   {
-    final JCGLProjectionMatricesType pm = this.newProjectionMatrices();
-    final Matrix4x4FType m = MatrixHeapArrayM4x4F.newMatrix();
-    pm.makePerspectiveProjection(
-      m,
-      1.0,
-      1000.0,
-      1.0,
-      Math.toRadians(90.0));
+    final Matrix4x4D m =
+      this.perspectiveProjectionRH(
+        1.0,
+        1000.0,
+        1.0,
+        Math.toRadians(90.0));
 
     System.out.println(m);
 
-    Assert.assertEquals(1.0, (double) m.getRowColumnF(0, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 1), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 2), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 3), 0.0);
+    checkAlmostEquals(1.0, m.rowColumn(0, 0));
+    checkAlmostEquals(0.0, m.rowColumn(0, 1));
+    checkAlmostEquals(0.0, m.rowColumn(0, 2));
+    checkAlmostEquals(0.0, m.rowColumn(0, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 0), 0.0);
-    Assert.assertEquals(1.0, (double) m.getRowColumnF(1, 1), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 2), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(1, 0));
+    checkAlmostEquals(1.0, m.rowColumn(1, 1));
+    checkAlmostEquals(0.0, m.rowColumn(1, 2));
+    checkAlmostEquals(0.0, m.rowColumn(1, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 1), 0.0);
-    Assert.assertEquals(
-      -1.002002000808716,
-      (double) m.getRowColumnF(2, 2),
-      0.00000000001);
-    Assert.assertEquals(
-      -2.002002000808716,
-      (double) m.getRowColumnF(2, 3),
-      0.00000000001);
+    checkAlmostEquals(0.0, m.rowColumn(2, 0));
+    checkAlmostEquals(0.0, m.rowColumn(2, 1));
+    checkAlmostEquals(-1.002002000808716, m.rowColumn(2, 2));
+    checkAlmostEquals(-2.002002000808716, m.rowColumn(2, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 1), 0.0);
-    Assert.assertEquals(-1.0, (double) m.getRowColumnF(3, 2), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(3, 0));
+    checkAlmostEquals(0.0, m.rowColumn(3, 1));
+    checkAlmostEquals(-1.0, m.rowColumn(3, 2));
+    checkAlmostEquals(0.0, m.rowColumn(3, 3));
   }
 
   @Test
   public final void testPerspectiveInfinite()
   {
-    final JCGLProjectionMatricesType pm = this.newProjectionMatrices();
-    final Matrix4x4FType m = MatrixHeapArrayM4x4F.newMatrix();
-    pm.makePerspectiveProjection(
-      m,
-      1.0,
-      Double.POSITIVE_INFINITY,
-      1.3,
-      Math.PI / 4.0);
+    final Matrix4x4D m =
+      this.perspectiveProjectionRH(
+        1.0,
+        Double.POSITIVE_INFINITY,
+        1.3,
+        Math.PI / 4.0);
 
     System.out.println(m);
 
-    Assert.assertEquals(
-      2.414213657379150,
-      (double) m.getRowColumnF(0, 0),
-      0.00000000001);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 1), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 2), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(0, 3), 0.0);
+    checkAlmostEquals(2.414213657379150, m.rowColumn(0, 0));
+    checkAlmostEquals(0.0, m.rowColumn(0, 1));
+    checkAlmostEquals(0.0, m.rowColumn(0, 2));
+    checkAlmostEquals(0.0, m.rowColumn(0, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 0), 0.0);
-    Assert.assertEquals(
-      3.138477563858032,
-      (double) m.getRowColumnF(1, 1),
-      0.00000000001);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 2), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(1, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(1, 0));
+    checkAlmostEquals(3.138477563858032, m.rowColumn(1, 1));
+    checkAlmostEquals(0.0, m.rowColumn(1, 2));
+    checkAlmostEquals(0.0, m.rowColumn(1, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(2, 1), 0.0);
-    Assert.assertEquals(-1.0, (double) m.getRowColumnF(2, 2), 0.0);
-    Assert.assertEquals(-2.0, (double) m.getRowColumnF(2, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(2, 0));
+    checkAlmostEquals(0.0, m.rowColumn(2, 1));
+    checkAlmostEquals(-1.0, m.rowColumn(2, 2));
+    checkAlmostEquals(-2.0, m.rowColumn(2, 3));
 
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 0), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 1), 0.0);
-    Assert.assertEquals(-1.0, (double) m.getRowColumnF(3, 2), 0.0);
-    Assert.assertEquals(0.0, (double) m.getRowColumnF(3, 3), 0.0);
+    checkAlmostEquals(0.0, m.rowColumn(3, 0));
+    checkAlmostEquals(0.0, m.rowColumn(3, 1));
+    checkAlmostEquals(-1.0, m.rowColumn(3, 2));
+    checkAlmostEquals(0.0, m.rowColumn(3, 3));
   }
 
 }

@@ -45,7 +45,7 @@ abstract class FakeObjectShared extends FakeObjectDeletable
   implements JCGLNamedType
 {
   private final FakeContext context;
-  private final int         id;
+  private final int id;
 
   protected FakeObjectShared(
     final FakeContext in_context,
@@ -61,7 +61,8 @@ abstract class FakeObjectShared extends FakeObjectDeletable
     return this.context;
   }
 
-  @Override public final int getGLName()
+  @Override
+  public final int glName()
   {
     return this.id;
   }

@@ -26,7 +26,7 @@ public final class LWJGL3BufferUpdatesTestGL33 extends JCGLBufferUpdatesContract
   protected JCGLArrayBuffersType getArrayBuffers(final String name)
   {
     final JCGLContextType c = LWJGL3TestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getArrayBuffers();
+    return c.contextGetGL33().arrayBuffers();
   }
 
   @Override

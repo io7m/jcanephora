@@ -26,7 +26,7 @@ public final class LWJGL3BlendingTestGL33 extends JCGLBlendingContract
   protected JCGLBlendingType getBlending(final String name)
   {
     final JCGLContextType c = LWJGL3TestContexts.newGL33Context(name, 24, 8);
-    return c.contextGetGL33().getBlending();
+    return c.contextGetGL33().blending();
   }
 
   @Override

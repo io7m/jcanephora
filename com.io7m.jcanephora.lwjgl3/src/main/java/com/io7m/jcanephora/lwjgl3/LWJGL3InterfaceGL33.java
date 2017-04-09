@@ -61,7 +61,7 @@ final class LWJGL3InterfaceGL33 implements JCGLInterfaceGL33Type
     final LWJGL3Context c)
     throws JCGLExceptionNonCompliant
   {
-    NullCheck.notNull(c);
+    NullCheck.notNull(c, "Context");
 
     this.array_buffers = new LWJGL3ArrayBuffers(c);
     this.index_buffers = new LWJGL3IndexBuffers(c);
@@ -84,103 +84,103 @@ final class LWJGL3InterfaceGL33 implements JCGLInterfaceGL33Type
   }
 
   @Override
-  public JCGLArrayBuffersType getArrayBuffers()
+  public JCGLArrayBuffersType arrayBuffers()
   {
     return this.array_buffers;
   }
 
   @Override
-  public JCGLArrayObjectsType getArrayObjects()
+  public JCGLArrayObjectsType arrayObjects()
   {
     return this.array_objects;
   }
 
   @Override
-  public JCGLBlendingType getBlending()
+  public JCGLBlendingType blending()
   {
     return this.blending;
   }
 
   @Override
-  public JCGLDepthBuffersType getDepthBuffers()
+  public JCGLDepthBuffersType depthBuffers()
   {
     return this.depth_buffers;
   }
 
   @Override
-  public JCGLShadersType getShaders()
+  public JCGLShadersType shaders()
   {
     return this.shaders;
   }
 
   @Override
-  public JCGLIndexBuffersType getIndexBuffers()
+  public JCGLIndexBuffersType indexBuffers()
   {
     return this.index_buffers;
   }
 
   @Override
-  public JCGLDrawType getDraw()
+  public JCGLDrawType drawing()
   {
     return this.draw;
   }
 
   @Override
-  public JCGLClearType getClear()
+  public JCGLClearType clearing()
   {
     return this.clear;
   }
 
   @Override
-  public JCGLTexturesType getTextures()
+  public JCGLTexturesType textures()
   {
     return this.textures;
   }
 
   @Override
-  public JCGLFramebuffersType getFramebuffers()
+  public JCGLFramebuffersType framebuffers()
   {
     return this.framebuffers;
   }
 
   @Override
-  public JCGLPolygonModesType getPolygonModes()
+  public JCGLPolygonModesType polygonModes()
   {
     return this.polygon_modes;
   }
 
   @Override
-  public JCGLCullingType getCulling()
+  public JCGLCullingType culling()
   {
     return this.culling;
   }
 
   @Override
-  public JCGLColorBufferMaskingType getColorBufferMasking()
+  public JCGLColorBufferMaskingType colorBufferMasking()
   {
     return this.color_mask;
   }
 
   @Override
-  public JCGLViewportsType getViewports()
+  public JCGLViewportsType viewports()
   {
     return this.viewports;
   }
 
   @Override
-  public JCGLScissorType getScissor()
+  public JCGLScissorType scissor()
   {
     return this.scissor;
   }
 
   @Override
-  public JCGLStencilBuffersType getStencilBuffers()
+  public JCGLStencilBuffersType stencilBuffers()
   {
     return this.stencil_buffers;
   }
 
   @Override
-  public JCGLTimersType getTimers()
+  public JCGLTimersType timers()
   {
     return this.timers;
   }
