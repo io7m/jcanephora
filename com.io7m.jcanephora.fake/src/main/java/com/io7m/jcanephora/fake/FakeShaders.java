@@ -36,6 +36,8 @@ import com.io7m.jcanephora.core.JCGLVertexShaderType;
 import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jtensors.core.parameterized.matrices.PMatrix3x3D;
+import com.io7m.jtensors.core.parameterized.matrices.PMatrix4x4D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix3x3D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector2D;
@@ -520,9 +522,33 @@ final class FakeShaders implements JCGLShadersType
   }
 
   @Override
+  public <S, T> void shaderUniformPutPMatrix3x3f(
+    final JCGLProgramUniformType u,
+    final PMatrix3x3D<S, T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_3);
+  }
+
+  @Override
   public void shaderUniformPutMatrix4x4f(
     final JCGLProgramUniformType u,
     final Matrix4x4D value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_4);
+  }
+
+  @Override
+  public <S, T> void shaderUniformPutPMatrix4x4f(
+    final JCGLProgramUniformType u,
+    final PMatrix4x4D<S, T> value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,

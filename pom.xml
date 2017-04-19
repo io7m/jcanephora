@@ -154,22 +154,22 @@
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>com.io7m.jtensors.core</artifactId>
-        <version>8.0.0-beta0001</version>
+        <version>8.0.0-beta0004</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>com.io7m.jtensors.storage.api</artifactId>
-        <version>8.0.0-beta0001</version>
+        <version>8.0.0-beta0004</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>com.io7m.jtensors.storage.bytebuffered</artifactId>
-        <version>8.0.0-beta0001</version>
+        <version>8.0.0-beta0004</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>com.io7m.jtensors.storage.heap</artifactId>
-        <version>8.0.0-beta0001</version>
+        <version>8.0.0-beta0004</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jpra</groupId>

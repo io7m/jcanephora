@@ -21,6 +21,8 @@ import com.io7m.jcanephora.core.JCGLExceptionProgramNotActive;
 import com.io7m.jcanephora.core.JCGLExceptionProgramTypeError;
 import com.io7m.jcanephora.core.JCGLProgramUniformType;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
+import com.io7m.jtensors.core.parameterized.matrices.PMatrix3x3D;
+import com.io7m.jtensors.core.parameterized.matrices.PMatrix4x4D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix3x3D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector2D;
@@ -417,6 +419,33 @@ public interface JCGLShaderUniformsType
    *
    * @param u     The u variable.
    * @param value The value.
+   * @param <S>   A phantom type parameter
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <S, T> void shaderUniformPutPMatrix3x3f(
+    JCGLProgramUniformType u,
+    PMatrix3x3D<S, T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
    *
    * @throws JCGLException                 Iff an OpenGL error occurs.
    * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
@@ -432,6 +461,33 @@ public interface JCGLShaderUniformsType
   void shaderUniformPutMatrix4x4f(
     JCGLProgramUniformType u,
     Matrix4x4D value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   * @param <S>   A phantom type parameter
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <S, T> void shaderUniformPutPMatrix4x4f(
+    JCGLProgramUniformType u,
+    PMatrix4x4D<S, T> value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,

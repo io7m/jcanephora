@@ -38,6 +38,8 @@ import com.io7m.jcanephora.core.JCGLVertexShaderUsableType;
 import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
+import com.io7m.jtensors.core.parameterized.matrices.PMatrix3x3D;
+import com.io7m.jtensors.core.parameterized.matrices.PMatrix4x4D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix3x3D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector2D;
@@ -46,10 +48,10 @@ import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector3I;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector4D;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector4I;
-import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered3x3Type;
 import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered3x3s32;
-import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered4x4Type;
 import com.io7m.jtensors.storage.bytebuffered.MatrixByteBuffered4x4s32;
+import com.io7m.jtensors.storage.bytebuffered.PMatrixByteBuffered3x3s32;
+import com.io7m.jtensors.storage.bytebuffered.PMatrixByteBuffered4x4s32;
 import com.io7m.junreachable.UnreachableCodeException;
 import com.io7m.mutable.numbers.core.MutableLong;
 import org.lwjgl.BufferUtils;
@@ -83,9 +85,11 @@ final class LWJGL3Shaders implements JCGLShadersType
 
   private final LWJGL3Context context;
   private final FloatBuffer m3x3_buffer_view;
-  private final MatrixByteBuffered3x3Type m3x3;
+  private final PMatrixByteBuffered3x3s32<Object, Object> pm3x3;
+  private final MatrixByteBuffered3x3s32 m3x3;
   private final FloatBuffer m4x4_buffer_view;
-  private final MatrixByteBuffered4x4Type m4x4;
+  private final PMatrixByteBuffered4x4s32<Object, Object> pm4x4;
+  private final MatrixByteBuffered4x4s32 m4x4;
   private @Nullable JCGLProgramShaderUsableType current;
   private boolean check_type;
   private boolean check_active;
@@ -110,6 +114,9 @@ final class LWJGL3Shaders implements JCGLShadersType
     this.m3x3 =
       MatrixByteBuffered3x3s32.createWithBase(
         m3x3_buffer, MutableLong.create(), 0);
+    this.pm3x3 =
+      PMatrixByteBuffered3x3s32.createWithBase(
+        m3x3_buffer, MutableLong.create(), 0);
 
     final ByteBuffer m4x4_buffer =
       ByteBuffer.allocateDirect(4 * 4 * 4).order(ByteOrder.nativeOrder());
@@ -117,6 +124,9 @@ final class LWJGL3Shaders implements JCGLShadersType
       m4x4_buffer.asFloatBuffer();
     this.m4x4 =
       MatrixByteBuffered4x4s32.createWithBase(
+        m4x4_buffer, MutableLong.create(), 0);
+    this.pm4x4 =
+      PMatrixByteBuffered4x4s32.createWithBase(
         m4x4_buffer, MutableLong.create(), 0);
   }
 
@@ -927,6 +937,21 @@ final class LWJGL3Shaders implements JCGLShadersType
   }
 
   @Override
+  @SuppressWarnings("unchecked")
+  public <S, T> void shaderUniformPutPMatrix3x3f(
+    final JCGLProgramUniformType u,
+    final PMatrix3x3D<S, T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_3);
+    this.pm3x3.setPMatrix3x3D((PMatrix3x3D<Object, Object>) value);
+    GL20.glUniformMatrix3fv(u.glName(), false, this.m3x3_buffer_view);
+  }
+
+  @Override
   public void shaderUniformPutMatrix4x4f(
     final JCGLProgramUniformType u,
     final Matrix4x4D value)
@@ -937,6 +962,21 @@ final class LWJGL3Shaders implements JCGLShadersType
   {
     this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_4);
     this.m4x4.setMatrix4x4D(value);
+    GL20.glUniformMatrix4fv(u.glName(), false, this.m4x4_buffer_view);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public <S, T> void shaderUniformPutPMatrix4x4f(
+    final JCGLProgramUniformType u,
+    final PMatrix4x4D<S, T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_MATRIX_4);
+    this.pm4x4.setPMatrix4x4D((PMatrix4x4D<Object, Object>) value);
     GL20.glUniformMatrix4fv(u.glName(), false, this.m4x4_buffer_view);
   }
 
