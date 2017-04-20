@@ -23,6 +23,12 @@ import com.io7m.jcanephora.core.JCGLProgramUniformType;
 import com.io7m.jcanephora.core.JCGLTextureUnitType;
 import com.io7m.jtensors.core.parameterized.matrices.PMatrix3x3D;
 import com.io7m.jtensors.core.parameterized.matrices.PMatrix4x4D;
+import com.io7m.jtensors.core.parameterized.vectors.PVector2D;
+import com.io7m.jtensors.core.parameterized.vectors.PVector2I;
+import com.io7m.jtensors.core.parameterized.vectors.PVector3D;
+import com.io7m.jtensors.core.parameterized.vectors.PVector3I;
+import com.io7m.jtensors.core.parameterized.vectors.PVector4D;
+import com.io7m.jtensors.core.parameterized.vectors.PVector4I;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix3x3D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector2D;
@@ -384,6 +390,240 @@ public interface JCGLShaderUniformsType
   void shaderUniformPutVector4ui(
     JCGLProgramUniformType u,
     Vector4I value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <T> void shaderUniformPutPVector2f(
+    JCGLProgramUniformType u,
+    PVector2D<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <T> void shaderUniformPutPVector3f(
+    JCGLProgramUniformType u,
+    PVector3D<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <T> void shaderUniformPutPVector4f(
+    JCGLProgramUniformType u,
+    PVector4D<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <T> void shaderUniformPutPVector2i(
+    JCGLProgramUniformType u,
+    PVector2I<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <T> void shaderUniformPutPVector3i(
+    JCGLProgramUniformType u,
+    PVector3I<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <T> void shaderUniformPutPVector4i(
+    JCGLProgramUniformType u,
+    PVector4I<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <T> void shaderUniformPutPVector2ui(
+    JCGLProgramUniformType u,
+    PVector2I<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <T> void shaderUniformPutPVector3ui(
+    JCGLProgramUniformType u,
+    PVector3I<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError;
+
+  /**
+   * Upload the value {@code value} to the uniform {@code u}.
+   *
+   * @param u     The u variable.
+   * @param value The value.
+   * @param <T>   A phantom type parameter
+   *
+   * @throws JCGLException                 Iff an OpenGL error occurs.
+   * @throws JCGLExceptionProgramNotActive Iff the program to which the uniform
+   *                                       belongs is not active, and program
+   *                                       activity checking is enabled
+   * @throws JCGLExceptionProgramTypeError Iff the program uniform is of the
+   *                                       wrong type, and type checking is
+   *                                       enabled
+   * @see #shaderUniformSetTypeCheckingEnabled(boolean)
+   * @see #shaderUniformSetActivityCheckingEnabled(boolean)
+   */
+
+  <T> void shaderUniformPutPVector4ui(
+    JCGLProgramUniformType u,
+    PVector4I<T> value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,

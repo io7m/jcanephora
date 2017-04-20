@@ -38,6 +38,12 @@ import com.io7m.jcanephora.core.api.JCGLShadersType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.core.parameterized.matrices.PMatrix3x3D;
 import com.io7m.jtensors.core.parameterized.matrices.PMatrix4x4D;
+import com.io7m.jtensors.core.parameterized.vectors.PVector2D;
+import com.io7m.jtensors.core.parameterized.vectors.PVector2I;
+import com.io7m.jtensors.core.parameterized.vectors.PVector3D;
+import com.io7m.jtensors.core.parameterized.vectors.PVector3I;
+import com.io7m.jtensors.core.parameterized.vectors.PVector4D;
+import com.io7m.jtensors.core.parameterized.vectors.PVector4I;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix3x3D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector2D;
@@ -501,6 +507,114 @@ final class FakeShaders implements JCGLShadersType
   public void shaderUniformPutVector4ui(
     final JCGLProgramUniformType u,
     final Vector4I value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_4);
+  }
+
+  @Override
+  public <T> void shaderUniformPutPVector2f(
+    final JCGLProgramUniformType u,
+    final PVector2D<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_2);
+  }
+
+  @Override
+  public <T> void shaderUniformPutPVector3f(
+    final JCGLProgramUniformType u,
+    final PVector3D<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_3);
+  }
+
+  @Override
+  public <T> void shaderUniformPutPVector4f(
+    final JCGLProgramUniformType u,
+    final PVector4D<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_FLOAT_VECTOR_4);
+  }
+
+  @Override
+  public <T> void shaderUniformPutPVector2i(
+    final JCGLProgramUniformType u,
+    final PVector2I<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_2);
+  }
+
+  @Override
+  public <T> void shaderUniformPutPVector3i(
+    final JCGLProgramUniformType u,
+    final PVector3I<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_3);
+  }
+
+  @Override
+  public <T> void shaderUniformPutPVector4i(
+    final JCGLProgramUniformType u,
+    final PVector4I<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_4);
+  }
+
+  @Override
+  public <T> void shaderUniformPutPVector2ui(
+    final JCGLProgramUniformType u,
+    final PVector2I<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_2);
+  }
+
+  @Override
+  public <T> void shaderUniformPutPVector3ui(
+    final JCGLProgramUniformType u,
+    final PVector3I<T> value)
+    throws
+    JCGLException,
+    JCGLExceptionProgramNotActive,
+    JCGLExceptionProgramTypeError
+  {
+    this.checkActiveAndType(u, JCGLType.TYPE_UNSIGNED_INTEGER_VECTOR_3);
+  }
+
+  @Override
+  public <T> void shaderUniformPutPVector4ui(
+    final JCGLProgramUniformType u,
+    final PVector4I<T> value)
     throws
     JCGLException,
     JCGLExceptionProgramNotActive,
