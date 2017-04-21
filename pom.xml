@@ -47,6 +47,7 @@
     <siteDocumentationDirectory>com/io7m/jcanephora/com.io7m.jcanephora.documentation</siteDocumentationDirectory>
     <com.io7m.jcanephora.jogl.version>2.3.2</com.io7m.jcanephora.jogl.version>
     <com.io7m.jcanephora.lwjgl.version>3.1.0</com.io7m.jcanephora.lwjgl.version>
+    <com.io7m.jcanephora.jtensors.versionRange>8.0.0-beta0005</com.io7m.jcanephora.jtensors.versionRange>
     <io7m.checkstyle.artifact>com.io7m.jcanephora.checkstyle</io7m.checkstyle.artifact>
     <io7m.checkstyle.path>/com/io7m/jcanephora/checkstyle/checkstyle.xml</io7m.checkstyle.path>
     <io7m.api.previousVersion>0.60.0-SNAPSHOT</io7m.api.previousVersion>
@@ -154,22 +155,22 @@
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>com.io7m.jtensors.core</artifactId>
-        <version>8.0.0-beta0004</version>
+        <version>${com.io7m.jcanephora.jtensors.versionRange}</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>com.io7m.jtensors.storage.api</artifactId>
-        <version>8.0.0-beta0004</version>
+        <version>${com.io7m.jcanephora.jtensors.versionRange}</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>com.io7m.jtensors.storage.bytebuffered</artifactId>
-        <version>8.0.0-beta0004</version>
+        <version>${com.io7m.jcanephora.jtensors.versionRange}</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jtensors</groupId>
         <artifactId>com.io7m.jtensors.storage.heap</artifactId>
-        <version>8.0.0-beta0004</version>
+        <version>${com.io7m.jcanephora.jtensors.versionRange}</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jpra</groupId>

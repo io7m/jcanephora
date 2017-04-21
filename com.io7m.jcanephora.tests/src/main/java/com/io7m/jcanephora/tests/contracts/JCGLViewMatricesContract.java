@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
+import com.io7m.jtensors.core.parameterized.matrices.PMatrix4x4D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
 import org.junit.Test;
@@ -31,6 +32,11 @@ import static com.io7m.jcanephora.tests.contracts.JCGLTestUtilities.checkAlmostE
 public abstract class JCGLViewMatricesContract
 {
   protected abstract Matrix4x4D lookAtRH(
+    final Vector3D camera,
+    final Vector3D target,
+    final Vector3D up);
+
+  protected abstract PMatrix4x4D<Object, Object> lookAtRHP(
     final Vector3D camera,
     final Vector3D target,
     final Vector3D up);
@@ -62,5 +68,13 @@ public abstract class JCGLViewMatricesContract
     checkAlmostEquals(0.0, m.rowColumn(3, 1));
     checkAlmostEquals(0.0, m.rowColumn(3, 2));
     checkAlmostEquals(1.0, m.rowColumn(3, 3));
+
+    final PMatrix4x4D<Object, Object> pm = this.lookAtRHP(vc, vt, vu);
+
+    for (int r = 0; r < 4; ++r) {
+      for (int c = 0; c < 4; ++c) {
+        checkAlmostEquals(m.rowColumn(r, c), pm.rowColumn(r, c));
+      }
+    }
   }
 }

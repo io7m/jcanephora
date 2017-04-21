@@ -18,6 +18,7 @@ package com.io7m.jcanephora.tests.core;
 
 import com.io7m.jcanephora.core.JCGLViewMatrices;
 import com.io7m.jcanephora.tests.contracts.JCGLViewMatricesContract;
+import com.io7m.jtensors.core.parameterized.matrices.PMatrix4x4D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import com.io7m.jtensors.core.unparameterized.vectors.Vector3D;
 
@@ -41,5 +42,14 @@ public final class JCGLViewMatricesTest extends JCGLViewMatricesContract
     final Vector3D up)
   {
     return JCGLViewMatrices.lookAtRH(camera, target, up);
+  }
+
+  @Override
+  protected PMatrix4x4D<Object, Object> lookAtRHP(
+    final Vector3D camera,
+    final Vector3D target,
+    final Vector3D up)
+  {
+    return JCGLViewMatrices.lookAtRHP(camera, target, up);
   }
 }

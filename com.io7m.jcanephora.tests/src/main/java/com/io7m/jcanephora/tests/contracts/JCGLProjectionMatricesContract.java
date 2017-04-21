@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.tests.contracts;
 
 import com.io7m.jranges.RangeCheckException;
+import com.io7m.jtensors.core.parameterized.matrices.PMatrix4x4D;
 import com.io7m.jtensors.core.unparameterized.matrices.Matrix4x4D;
 import org.junit.Test;
 
@@ -30,8 +31,6 @@ import static com.io7m.jcanephora.tests.contracts.JCGLTestUtilities.checkAlmostE
 
 public abstract class JCGLProjectionMatricesContract
 {
-
-
   protected abstract Matrix4x4D frustumProjectionRH(
     final double x_min,
     final double x_max,
@@ -49,6 +48,28 @@ public abstract class JCGLProjectionMatricesContract
     final double z_far);
 
   protected abstract Matrix4x4D perspectiveProjectionRH(
+    final double z_near,
+    final double z_far,
+    final double aspect,
+    final double horizontal_fov);
+
+  protected abstract PMatrix4x4D<Object, Object> frustumProjectionRHP(
+    final double x_min,
+    final double x_max,
+    final double y_min,
+    final double y_max,
+    final double z_near,
+    final double z_far);
+
+  protected abstract PMatrix4x4D<Object, Object> orthographicProjectionRHP(
+    final double x_min,
+    final double x_max,
+    final double y_min,
+    final double y_max,
+    final double z_near,
+    final double z_far);
+
+  protected abstract PMatrix4x4D<Object, Object> perspectiveProjectionRHP(
     final double z_near,
     final double z_far,
     final double aspect,
@@ -105,6 +126,23 @@ public abstract class JCGLProjectionMatricesContract
     checkAlmostEquals(0.0, m.rowColumn(3, 1));
     checkAlmostEquals(-1.0, m.rowColumn(3, 2));
     checkAlmostEquals(0.0, m.rowColumn(3, 3));
+
+    {
+      final PMatrix4x4D<Object, Object> pm =
+        this.frustumProjectionRHP(
+          -1.0,
+          1.0,
+          -1.0,
+          1.0,
+          5.0,
+          100.0);
+
+      for (int r = 0; r < 4; ++r) {
+        for (int c = 0; c < 4; ++c) {
+          checkAlmostEquals(m.rowColumn(r, c), pm.rowColumn(r, c));
+        }
+      }
+    }
   }
 
 
@@ -139,6 +177,23 @@ public abstract class JCGLProjectionMatricesContract
     checkAlmostEquals(0.0, m.rowColumn(3, 1));
     checkAlmostEquals(0.0, m.rowColumn(3, 2));
     checkAlmostEquals(1.0, m.rowColumn(3, 3));
+
+    {
+      final PMatrix4x4D<Object, Object> pm =
+        this.orthographicProjectionRHP(
+          0.0,
+          10.0,
+          0.0,
+          10.0,
+          1.0,
+          10.0);
+
+      for (int r = 0; r < 4; ++r) {
+        for (int c = 0; c < 4; ++c) {
+          checkAlmostEquals(m.rowColumn(r, c), pm.rowColumn(r, c));
+        }
+      }
+    }
   }
 
 
@@ -173,6 +228,21 @@ public abstract class JCGLProjectionMatricesContract
     checkAlmostEquals(0.0, m.rowColumn(3, 1));
     checkAlmostEquals(-1.0, m.rowColumn(3, 2));
     checkAlmostEquals(0.0, m.rowColumn(3, 3));
+
+    {
+      final PMatrix4x4D<Object, Object> pm =
+        this.perspectiveProjectionRHP(
+          1.0,
+          1000.0,
+          1.0,
+          Math.toRadians(90.0));
+
+      for (int r = 0; r < 4; ++r) {
+        for (int c = 0; c < 4; ++c) {
+          checkAlmostEquals(m.rowColumn(r, c), pm.rowColumn(r, c));
+        }
+      }
+    }
   }
 
   @Test
@@ -206,6 +276,21 @@ public abstract class JCGLProjectionMatricesContract
     checkAlmostEquals(0.0, m.rowColumn(3, 1));
     checkAlmostEquals(-1.0, m.rowColumn(3, 2));
     checkAlmostEquals(0.0, m.rowColumn(3, 3));
+
+    {
+      final PMatrix4x4D<Object, Object> pm =
+        this.perspectiveProjectionRHP(
+          1.0,
+          Double.POSITIVE_INFINITY,
+          1.3,
+          Math.PI / 4.0);
+
+      for (int r = 0; r < 4; ++r) {
+        for (int c = 0; c < 4; ++c) {
+          checkAlmostEquals(m.rowColumn(r, c), pm.rowColumn(r, c));
+        }
+      }
+    }
   }
 
 }
