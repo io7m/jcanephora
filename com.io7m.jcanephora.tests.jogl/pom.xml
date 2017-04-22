@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.io7m.jcanephora</groupId>
     <artifactId>com.io7m.jcanephora</artifactId>
-    <version>0.60.0-SNAPSHOT</version>
+    <version>0.60.0</version>
   </parent>
   <artifactId>com.io7m.jcanephora.tests.jogl</artifactId>
 
