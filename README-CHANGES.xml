@@ -5,53 +5,45 @@
   <c:release c:ticket-system="com.github.io7m.jcanephora">
     <c:date>2017-04-03</c:date>
     <c:version>0.60.0</c:version>
-
-    <c:item>
-      <c:date>2017-04-03</c:date>
-      <c:type-code-change/>
-      <c:summary>Rename all packages to use a new OSGi naming convention.</c:summary>
-    </c:item>
-
-    <c:item>
-      <c:date>2017-04-03</c:date>
-      <c:type-code-new/>
-      <c:summary>Use a primogenitor POM.</c:summary>
-    </c:item>
-
     <c:item>
       <c:date>2017-02-04</c:date>
       <c:type-code-fix/>
       <c:ticket>48</c:ticket>
       <c:summary>Correct OSGi metadata for the JOGL backend.</c:summary>
     </c:item>
-
     <c:item>
       <c:date>2017-02-22</c:date>
       <c:type-code-fix/>
       <c:ticket>51</c:ticket>
       <c:summary>Use jtensors [7.0.0, 8.0.0).</c:summary>
     </c:item>
-
     <c:item>
       <c:date>2017-02-23</c:date>
       <c:type-code-fix/>
       <c:ticket>52</c:ticket>
       <c:summary>Use fastutil [7.0.0, 8.0.0).</c:summary>
     </c:item>
-
     <c:item>
       <c:date>2017-02-23</c:date>
       <c:type-code-fix/>
       <c:summary>Use junsigned [1.0.0, 2.0.0).</c:summary>
     </c:item>
-
+    <c:item>
+      <c:date>2017-04-03</c:date>
+      <c:type-code-change/>
+      <c:summary>Rename all packages to use a new OSGi naming convention.</c:summary>
+    </c:item>
+    <c:item>
+      <c:date>2017-04-03</c:date>
+      <c:type-code-new/>
+      <c:summary>Use a primogenitor POM.</c:summary>
+    </c:item>
     <c:item>
       <c:date>2017-04-08</c:date>
       <c:type-code-change/>
       <c:ticket>54</c:ticket>
       <c:summary>Use jtensors [8.0.0, 9.0.0).</c:summary>
     </c:item>
-
     <c:item>
       <c:date>2017-04-08</c:date>
       <c:type-code-change/>
