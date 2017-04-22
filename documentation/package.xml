@@ -101,8 +101,8 @@
     <s:formal-item s:kind="listings">
       <s:formal-item-title>POM files</s:formal-item-title>
       <s:list-unordered>
-        <s:list-item><s:link-external s:target="./io7m-jcanephora-core-0.53.1.pom">io7m-jcanephora-core-0.53.1.pom</s:link-external></s:list-item>
-        <s:list-item><s:link-external s:target="./io7m-jcanephora-jogl-0.53.1.pom">io7m-jcanephora-jogl-0.53.1.pom</s:link-external></s:list-item>
+        <s:list-item><s:link-external s:target="./io7m-jcanephora-core-0.60.0.pom">io7m-jcanephora-core-0.60.0.pom</s:link-external></s:list-item>
+        <s:list-item><s:link-external s:target="./io7m-jcanephora-jogl-0.60.0.pom">io7m-jcanephora-jogl-0.60.0.pom</s:link-external></s:list-item>
       </s:list-unordered>
     </s:formal-item>
     <s:paragraph>
@@ -131,10 +131,10 @@
       <s:paragraph>
         Regular releases are made to the
         <s:link-external
-          s:target="http://search.maven.org/#search%7Cga%7C1%7Cio7m-jcanephora">
+          s:target="http://search.maven.org/#search%7Cga%7C1%7Ccom.io7m.jcanephora">
           Central Repository</s:link-external>,
         so it's possible to use the
-        <s:term s:type="package">io7m-jcanephora</s:term>
+        <s:term s:type="package">com.io7m.jcanephora</s:term>
         package in your projects by simply adding some dependencies to
         your Maven project.
       </s:paragraph>
@@ -150,7 +150,7 @@
         <s:verbatim s:type="example"><![CDATA[<dependency>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora-core</artifactId>
-  <version>0.53.1</version>
+  <version>0.60.0</version>
 </dependency>]]></s:verbatim>
       </s:paragraph>
 
@@ -163,7 +163,7 @@
         <s:verbatim s:type="example"><![CDATA[<dependency>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora-jogl</artifactId>
-  <version>0.53.1</version>
+  <version>0.60.0</version>
 </dependency>]]></s:verbatim>
       </s:paragraph>
 
@@ -196,7 +196,7 @@
     <s:section-title>License</s:section-title>
     <s:paragraph>
       All files distributed with the
-      <s:term s:type="package">io7m-jcanephora</s:term>
+      <s:term s:type="package">com.io7m.jcanephora</s:term>
       package are placed under the following license:
       <s:verbatim s:type="license"><![CDATA[Copyright © 2015 <code@io7m.com> http://io7m.com
 
