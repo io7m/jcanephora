@@ -47,7 +47,7 @@
     <siteDocumentationDirectory>com/io7m/jcanephora/com.io7m.jcanephora.documentation</siteDocumentationDirectory>
     <com.io7m.jcanephora.jogl.version>2.3.2</com.io7m.jcanephora.jogl.version>
     <com.io7m.jcanephora.lwjgl.version>3.1.0</com.io7m.jcanephora.lwjgl.version>
-    <com.io7m.jcanephora.jtensors.versionRange>8.0.0</com.io7m.jcanephora.jtensors.versionRange>
+    <com.io7m.jcanephora.jtensors.versionRange>[8.0.0, 9.0.0)</com.io7m.jcanephora.jtensors.versionRange>
     <io7m.checkstyle.artifact>com.io7m.jcanephora.checkstyle</io7m.checkstyle.artifact>
     <io7m.checkstyle.path>/com/io7m/jcanephora/checkstyle/checkstyle.xml</io7m.checkstyle.path>
     <io7m.api.previousVersion>0.60.0</io7m.api.previousVersion>
