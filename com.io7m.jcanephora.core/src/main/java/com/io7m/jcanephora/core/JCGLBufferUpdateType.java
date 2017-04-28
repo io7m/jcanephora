@@ -16,6 +16,11 @@
 
 package com.io7m.jcanephora.core;
 
+import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
+import org.immutables.value.Value;
+
+import java.nio.ByteBuffer;
+
 /**
  * An update that will replace data in a buffer.
  *
@@ -24,6 +29,8 @@ package com.io7m.jcanephora.core;
  * @see JCGLBufferUpdates
  */
 
+@JCGLImmutableStyleType
+@Value.Immutable
 public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
   extends JCGLDataUpdateType<T>
 {
@@ -31,5 +38,14 @@ public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
    * @return The buffer that will be updated
    */
 
+  @Value.Parameter(order = 0)
   T buffer();
+
+  @Override
+  @Value.Parameter(order = 1)
+  ByteBuffer data();
+
+  @Override
+  @Value.Parameter(order = 2)
+  UnsignedRangeInclusiveL dataUpdateRange();
 }
