@@ -70,6 +70,10 @@
       <groupId>com.io7m.mutable.numbers</groupId>
       <artifactId>com.io7m.mutable.numbers.core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.io7m.jcip</groupId>
+      <artifactId>jcip-annotations</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.lwjgl</groupId>
