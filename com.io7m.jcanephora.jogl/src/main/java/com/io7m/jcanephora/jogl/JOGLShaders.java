@@ -1061,7 +1061,7 @@ final class JOGLShaders implements JCGLShadersType
     JCGLExceptionProgramTypeError
   {
     this.checkActiveAndType(u, JCGLType.TYPE_INTEGER_VECTOR_4);
-    this.g3.glUniform4ui(
+    this.g3.glUniform4i(
       u.glName(), value.x(), value.y(), value.z(), value.w());
   }
 
