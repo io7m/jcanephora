@@ -10,6 +10,12 @@
       <c:type-code-fix/>
       <c:summary>Fixed an accidental call to glUniform4ui instead of glUniform4i.</c:summary>
     </c:item>
+    <c:item>
+      <c:date>2017-06-19</c:date>
+      <c:type-code-change/>
+      <c:ticket>26</c:ticket>
+      <c:summary>Prevent index buffers from being re-bound for any array object other than the default.</c:summary>
+    </c:item>
   </c:release>
 
   <c:release c:ticket-system="com.github.io7m.jcanephora">

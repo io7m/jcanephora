@@ -129,7 +129,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
     final GLContext gc = this.context.getContext();
     final int vao_id = gc.getDefaultVAO();
     this.default_buffer = new JOGLArrayObject(
-      gc, vao_id, new JCGLArrayVertexAttributeType[0]);
+      gc, vao_id, true, null, new JCGLArrayVertexAttributeType[0]);
     this.bind = this.default_buffer;
 
     /*
@@ -253,8 +253,13 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 
     final JCGLArrayVertexAttributeType[] write_attribs =
       Arrays.copyOf(bb.attribs, bb.attribs.length);
-    final JOGLArrayObject new_ao = new JOGLArrayObject(
-      this.context.getContext(), array_id.intValue(), write_attribs);
+    final JOGLArrayObject new_ao =
+      new JOGLArrayObject(
+        this.context.getContext(),
+        array_id.intValue(),
+        false,
+        ib,
+        write_attribs);
 
     this.actualBind(new_ao);
 
@@ -484,7 +489,7 @@ final class JOGLArrayObjects implements JCGLArrayObjectsType
 
   JOGLIndexBuffer getCurrentIndexBuffer()
   {
-    return this.bind.getIndexBufferUnsafe();
+    return this.bind.indexBuffer();
   }
 
   private final class Builder extends JOGLObjectPseudoUnshared

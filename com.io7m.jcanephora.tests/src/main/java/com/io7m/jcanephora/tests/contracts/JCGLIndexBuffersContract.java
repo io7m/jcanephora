@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.tests.contracts;
 
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
+import com.io7m.jcanephora.core.JCGLArrayObjectUsableType;
 import com.io7m.jcanephora.core.JCGLBufferUpdateType;
 import com.io7m.jcanephora.core.JCGLBufferUpdates;
 import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
@@ -125,13 +126,8 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
     final JCGLIndexBuffersType gi = i.getIndexBuffers();
     final JCGLArrayObjectsType ga = i.getArrayObjects();
 
-    final JCGLArrayObjectType a0 =
-      ga.arrayObjectAllocate(ga.arrayObjectNewBuilder());
+    final JCGLArrayObjectUsableType a0 = ga.arrayObjectGetDefault();
     final Set<JCGLReferableType> a0_refs = a0.references();
-
-    final JCGLArrayObjectType a1 =
-      ga.arrayObjectAllocate(ga.arrayObjectNewBuilder());
-    final Set<JCGLReferableType> a1_refs = a1.references();
 
     final JCGLIndexBufferType i0 = gi.indexBufferAllocate(
       1000L,
@@ -139,22 +135,20 @@ public abstract class JCGLIndexBuffersContract extends JCGLContract
       JCGLUsageHint.USAGE_STATIC_DRAW);
     final Set<JCGLReferenceContainerType> i0_refs = i0.referringContainers();
 
-    Assert.assertEquals(a1, ga.arrayObjectGetCurrentlyBound());
     Assert.assertEquals(Optional.of(i0), gi.indexBufferGetCurrentlyBound());
-    Assert.assertEquals(Optional.of(i0), a1.indexBufferBound());
-    Assert.assertEquals(0L, (long) a0_refs.size());
-    Assert.assertEquals(1L, (long) a1_refs.size());
-    Assert.assertTrue(a1_refs.contains(i0));
+    Assert.assertEquals(Optional.of(i0), a0.indexBufferBound());
+    Assert.assertEquals(1L, (long) a0_refs.size());
+    Assert.assertTrue(a0_refs.contains(i0));
     Assert.assertEquals(1L, (long) i0_refs.size());
-    Assert.assertTrue(i0_refs.contains(a1));
+    Assert.assertTrue(i0_refs.contains(a0));
 
     gi.indexBufferUnbind();
 
-    Assert.assertEquals(a1, ga.arrayObjectGetCurrentlyBound());
+    Assert.assertEquals(a0, ga.arrayObjectGetCurrentlyBound());
     Assert.assertEquals(Optional.empty(), gi.indexBufferGetCurrentlyBound());
-    Assert.assertEquals(Optional.empty(), a1.indexBufferBound());
+    Assert.assertEquals(Optional.empty(), a0.indexBufferBound());
     Assert.assertEquals(0L, (long) a0_refs.size());
-    Assert.assertEquals(0L, (long) a1_refs.size());
+    Assert.assertEquals(0L, (long) a0_refs.size());
     Assert.assertEquals(0L, (long) i0_refs.size());
   }
 
