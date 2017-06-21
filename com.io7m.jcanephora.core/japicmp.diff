@@ -1,3 +1,31 @@
-Comparing source compatibility of /home/someone/git/com.github/io7m/jcanephora/com.io7m.jcanephora.core/target/com.io7m.jcanephora.core-0.60.0.jar against /home/someone/git/com.github/io7m/jcanephora/com.io7m.jcanephora.core/target/com.io7m.jcanephora.core-0.60.0.jar
+Comparing source compatibility of /home/someone/git/com.github/io7m/jcanephora/com.io7m.jcanephora.core/target/com.io7m.jcanephora.core-0.61.0.jar against /home/someone/.m2/repository/com/io7m/jcanephora/com.io7m.jcanephora.core/0.60.0/com.io7m.jcanephora.core-0.60.0.jar
 WARNING: You are using the option '--ignore-missing-classes', i.e. superclasses and interfaces that could not be found on the classpath are ignored. Hence changes caused by these superclasses and interfaces are not reflected in the output.
-No changes.
++++  NEW CLASS: PUBLIC(+) FINAL(+) com.io7m.jcanephora.core.JCGLBufferUpdate  (not serializable)
+	+++  NEW INTERFACE: com.io7m.jcanephora.core.JCGLBufferUpdateType
+	+++  NEW INTERFACE: com.io7m.jcanephora.core.JCGLDataUpdateType
+	+++  NEW SUPERCLASS: java.lang.Object
+	+++  NEW METHOD: PUBLIC(+) com.io7m.jcanephora.core.JCGLBufferWritableType buffer()
+	+++  NEW METHOD: PUBLIC(+) STATIC(+) com.io7m.jcanephora.core.JCGLBufferUpdate$Builder builder()
+	+++  NEW METHOD: PUBLIC(+) java.nio.ByteBuffer data()
+	+++  NEW METHOD: PUBLIC(+) com.io7m.junsigned.ranges.UnsignedRangeInclusiveL dataUpdateRange()
+	+++  NEW METHOD: PUBLIC(+) boolean equals(java.lang.Object)
+	+++  NEW METHOD: PUBLIC(+) int hashCode()
+	+++  NEW METHOD: PUBLIC(+) STATIC(+) com.io7m.jcanephora.core.JCGLBufferUpdate of(com.io7m.jcanephora.core.JCGLBufferWritableType, java.nio.ByteBuffer, com.io7m.junsigned.ranges.UnsignedRangeInclusiveL)
+	+++  NEW METHOD: PUBLIC(+) java.lang.String toString()
++++  NEW CLASS: PUBLIC(+) STATIC(+) FINAL(+) com.io7m.jcanephora.core.JCGLBufferUpdate$Builder  (not serializable)
+	+++  NEW SUPERCLASS: java.lang.Object
+	+++  NEW METHOD: PUBLIC(+) com.io7m.jcanephora.core.JCGLBufferUpdate build()
+	+++  NEW METHOD: PUBLIC(+) FINAL(+) com.io7m.jcanephora.core.JCGLBufferUpdate$Builder from(com.io7m.jcanephora.core.JCGLBufferUpdateType)
+	+++  NEW METHOD: PUBLIC(+) FINAL(+) com.io7m.jcanephora.core.JCGLBufferUpdate$Builder setBuffer(com.io7m.jcanephora.core.JCGLBufferWritableType)
+	+++  NEW METHOD: PUBLIC(+) FINAL(+) com.io7m.jcanephora.core.JCGLBufferUpdate$Builder setData(java.nio.ByteBuffer)
+	+++  NEW METHOD: PUBLIC(+) FINAL(+) com.io7m.jcanephora.core.JCGLBufferUpdate$Builder setDataUpdateRange(com.io7m.junsigned.ranges.UnsignedRangeInclusiveL)
+***! MODIFIED CLASS: PUBLIC FINAL com.io7m.jcanephora.core.JCGLBufferUpdates  (not serializable)
+	***! MODIFIED METHOD: PUBLIC STATIC com.io7m.jcanephora.core.JCGLBufferUpdate (<-com.io7m.jcanephora.core.JCGLBufferUpdateType) newUpdateReplacingRange(com.io7m.jcanephora.core.JCGLBufferWritableType, com.io7m.junsigned.ranges.UnsignedRangeInclusiveL)
+		===  UNCHANGED EXCEPTION: com.io7m.jranges.RangeCheckException
+***  MODIFIED INTERFACE: PUBLIC ABSTRACT com.io7m.jcanephora.core.JCGLBufferUpdateType  (not serializable)
+	+++  NEW METHOD: PUBLIC(+) ABSTRACT(+) java.nio.ByteBuffer data()
+	+++  NEW METHOD: PUBLIC(+) ABSTRACT(+) com.io7m.junsigned.ranges.UnsignedRangeInclusiveL dataUpdateRange()
++++  NEW CLASS: PUBLIC(+) FINAL(+) com.io7m.jcanephora.core.JCGLExceptionIndexBufferAlreadyConfigured  (compatible)
+	+++  NEW INTERFACE: java.io.Serializable
+	+++  NEW SUPERCLASS: com.io7m.jcanephora.core.JCGLException
+	+++  NEW CONSTRUCTOR: PUBLIC(+) JCGLExceptionIndexBufferAlreadyConfigured(java.lang.String)
