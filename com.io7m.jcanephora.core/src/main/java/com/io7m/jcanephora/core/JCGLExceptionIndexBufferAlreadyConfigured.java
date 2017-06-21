@@ -16,36 +16,24 @@
 
 package com.io7m.jcanephora.core;
 
-import com.io7m.junsigned.ranges.UnsignedRangeInclusiveL;
-import org.immutables.value.Value;
-
-import java.nio.ByteBuffer;
-
 /**
- * An update that will replace data in a buffer.
- *
- * @param <T> The type of buffer
- *
- * @see JCGLBufferUpdates
+ * Exception class representing an error caused by the programmer trying to
+ * re-bind an index buffer on an array object other than the default.
  */
 
-@JCGLImmutableStyleType
-@Value.Immutable
-public interface JCGLBufferUpdateType<T extends JCGLBufferWritableType>
-  extends JCGLDataUpdateType<T>
+public final class JCGLExceptionIndexBufferAlreadyConfigured extends JCGLException
 {
+  private static final long serialVersionUID = 1L;
+
   /**
-   * @return The buffer that will be updated
+   * Construct an exception.
+   *
+   * @param message The message
    */
 
-  @Value.Parameter(order = 0)
-  T buffer();
-
-  @Override
-  @Value.Parameter(order = 1)
-  ByteBuffer data();
-
-  @Override
-  @Value.Parameter(order = 2)
-  UnsignedRangeInclusiveL dataUpdateRange();
+  public JCGLExceptionIndexBufferAlreadyConfigured(
+    final String message)
+  {
+    super(message);
+  }
 }

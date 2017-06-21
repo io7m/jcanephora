@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.io7m.jcanephora</groupId>
     <artifactId>com.io7m.jcanephora</artifactId>
-    <version>0.60.0</version>
+    <version>0.61.0</version>
   </parent>
   <artifactId>com.io7m.jcanephora.fake</artifactId>
 
@@ -61,6 +61,10 @@
     <dependency>
       <groupId>com.io7m.jtensors</groupId>
       <artifactId>com.io7m.jtensors.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jcip</groupId>
+      <artifactId>jcip-annotations</artifactId>
     </dependency>
 
     <dependency>

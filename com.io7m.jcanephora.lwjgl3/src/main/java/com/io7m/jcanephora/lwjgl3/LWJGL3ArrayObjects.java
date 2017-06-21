@@ -121,7 +121,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
 
     final int vao_id = GL30.glGenVertexArrays();
     this.default_buffer = new LWJGL3ArrayObject(
-      this.context, vao_id, new JCGLArrayVertexAttributeType[0]);
+      this.context, vao_id, true, null, new JCGLArrayVertexAttributeType[0]);
     this.bind = this.default_buffer;
 
     /*
@@ -231,7 +231,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
     final JCGLArrayVertexAttributeType[] write_attribs =
       Arrays.copyOf(bb.attribs, bb.attribs.length);
     final LWJGL3ArrayObject new_ao =
-      new LWJGL3ArrayObject(this.context, array_id, write_attribs);
+      new LWJGL3ArrayObject(this.context, array_id, false, ib, write_attribs);
 
     this.actualBind(new_ao);
 
@@ -469,7 +469,7 @@ final class LWJGL3ArrayObjects implements JCGLArrayObjectsType
 
   LWJGL3IndexBuffer getCurrentIndexBuffer()
   {
-    return this.bind.getIndexBufferUnsafe();
+    return this.bind.indexBuffer();
   }
 
   private final class Builder extends LWJGL3ObjectPseudoUnshared

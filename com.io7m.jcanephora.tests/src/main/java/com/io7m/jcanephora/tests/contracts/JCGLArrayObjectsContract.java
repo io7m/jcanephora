@@ -25,6 +25,7 @@ import com.io7m.jcanephora.core.JCGLArrayVertexAttributeIntegralType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLExceptionAttributeAlreadyAssigned;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLExceptionIndexBufferAlreadyConfigured;
 import com.io7m.jcanephora.core.JCGLExceptionObjectNotDeletable;
 import com.io7m.jcanephora.core.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.core.JCGLIndexBufferType;
@@ -628,10 +629,11 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
-    final JCGLIndexBufferType i = gi.indexBufferAllocate(
-      100L,
-      JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
-      JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLIndexBufferType i =
+      gi.indexBufferAllocate(
+        100L,
+        JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+        JCGLUsageHint.USAGE_STATIC_DRAW);
 
     final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
     b.setIndexBuffer(i);
@@ -652,10 +654,11 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
 
     final JCGLArrayBufferType a =
       ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
-    final JCGLIndexBufferType i = gi.indexBufferAllocate(
-      100L,
-      JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
-      JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLIndexBufferType i =
+      gi.indexBufferAllocate(
+        100L,
+        JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+        JCGLUsageHint.USAGE_STATIC_DRAW);
 
     final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
     Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
@@ -724,6 +727,75 @@ public abstract class JCGLArrayObjectsContract extends JCGLContract
     go.arrayObjectUnbind();
     Assert.assertEquals(
       go.arrayObjectGetDefault(), go.arrayObjectGetCurrentlyBound());
+  }
+
+  @Test
+  public final void testArrayBindIndexRebindDisallowed0()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+    final JCGLIndexBuffersType gi = i.getIndexBuffers();
+
+    final JCGLIndexBufferType ib0 =
+      gi.indexBufferAllocate(
+      10L,
+      JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+      JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    final JCGLIndexBufferType ib1 =
+      gi.indexBufferAllocate(
+        10L,
+        JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+        JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    gi.indexBufferUnbind();
+
+    final JCGLArrayBufferType ab =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setIndexBuffer(ib0);
+    b.setAttributeFloatingPoint(
+      0, ab, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+
+    final JCGLArrayObjectType ao0 = go.arrayObjectAllocate(b);
+    Assert.assertEquals(ao0, go.arrayObjectGetCurrentlyBound());
+
+    this.expected.expect(JCGLExceptionIndexBufferAlreadyConfigured.class);
+    gi.indexBufferBind(ib1);
+  }
+
+  @Test
+  public final void testArrayBindIndexRebindDisallowed1()
+  {
+    final Interfaces i = this.getInterfaces("main");
+    final JCGLArrayBuffersType ga = i.getArrayBuffers();
+    final JCGLArrayObjectsType go = i.getArrayObjects();
+    final JCGLIndexBuffersType gi = i.getIndexBuffers();
+
+    final JCGLIndexBufferType ib0 =
+      gi.indexBufferAllocate(
+        10L,
+        JCGLUnsignedType.TYPE_UNSIGNED_BYTE,
+        JCGLUsageHint.USAGE_STATIC_DRAW);
+
+    gi.indexBufferUnbind();
+
+    final JCGLArrayBufferType ab =
+      ga.arrayBufferAllocate(100L, JCGLUsageHint.USAGE_STATIC_DRAW);
+    final JCGLArrayObjectBuilderType b = go.arrayObjectNewBuilder();
+    Assert.assertTrue(b.getMaximumVertexAttributes() >= 16);
+
+    b.setAttributeFloatingPoint(
+      0, ab, 4, JCGLScalarType.TYPE_FLOAT, 16, 0L, false);
+
+    final JCGLArrayObjectType ao0 = go.arrayObjectAllocate(b);
+    Assert.assertEquals(ao0, go.arrayObjectGetCurrentlyBound());
+
+    this.expected.expect(JCGLExceptionIndexBufferAlreadyConfigured.class);
+    gi.indexBufferBind(ib0);
   }
 
   @Test

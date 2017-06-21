@@ -88,7 +88,7 @@ public final class JCGLAsyncInterfaceGL33 implements JCGLAsyncInterfaceGL33Type
         final int id = ID_POOL.getAndIncrement();
         final Thread t = new Thread(r);
         t.setDaemon(false);
-        t.setName("jcgl-async-gl-" + id);
+        t.setName("com.io7m.jcanephora.async.gl:" + id);
         return t;
       };
 

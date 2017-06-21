@@ -21,6 +21,7 @@ import com.io7m.jcanephora.core.JCGLBufferUpdateType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLExceptionIndexBufferAlreadyConfigured;
 import com.io7m.jcanephora.core.JCGLIndexBufferType;
 import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLReferenceContainerType;
@@ -162,27 +163,41 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     return ib;
   }
 
-  private void actualBind(final JOGLIndexBuffer ib)
+  private void actualBind(
+    final JOGLIndexBuffer target_ib)
   {
     final JOGLArrayObject ao =
       (JOGLArrayObject) this.array_objects.arrayObjectGetCurrentlyBound();
 
-    ao.setIndexBuffer(
-      ib_opt -> {
-        if (LOG.isTraceEnabled()) {
-          LOG.trace("bind {}/{} -> {}", ao, ib_opt, ib);
-        }
+    if (Objects.equals(ao, this.array_objects.arrayObjectGetDefault())) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("bind {}/{} -> {}", ao, ao.indexBuffer(), target_ib);
+      }
+      ao.indexBufferIntroduce(target_ib);
+      this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, target_ib.glName());
+      return;
+    }
 
-        if (ib_opt.isPresent()) {
-          final JCGLIndexBufferUsableType current = ib_opt.get();
-          if (Objects.equals(current, ib)) {
-            return ib_opt;
-          }
-        }
+    final JOGLIndexBuffer ao_ib = ao.indexBuffer();
+    if (Objects.equals(target_ib, ao_ib)) {
+      this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, target_ib.glName());
+      return;
+    }
 
-        this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ib.glName());
-        return Optional.of(ib);
-      });
+    throw new JCGLExceptionIndexBufferAlreadyConfigured(
+      new StringBuilder(128)
+        .append("Cannot bind a new index buffer for the current array object.")
+        .append(System.lineSeparator())
+        .append("  Array object: ")
+        .append(ao)
+        .append(System.lineSeparator())
+        .append("  Existing index buffer: ")
+        .append(ao_ib)
+        .append(System.lineSeparator())
+        .append("  New index buffer: ")
+        .append(target_ib)
+        .append(System.lineSeparator())
+        .toString());
   }
 
   private void actualUnbind()
@@ -190,20 +205,34 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     final JOGLArrayObject ao =
       (JOGLArrayObject) this.array_objects.arrayObjectGetCurrentlyBound();
 
-    ao.setIndexBuffer(
-      ib_opt -> {
-        LOG.trace("unbind {}/{}", ao, ib_opt);
-        this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
-        return Optional.empty();
-      });
+    if (Objects.equals(ao, this.array_objects.arrayObjectGetDefault())) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("unbind {}/{}", ao, ao.indexBuffer());
+      }
+
+      ao.indexBufferIntroduce(null);
+      this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+      return;
+    }
+
+    throw new JCGLExceptionIndexBufferAlreadyConfigured(
+      new StringBuilder(128)
+        .append("Cannot unbind an index buffer for the current array object.")
+        .append(System.lineSeparator())
+        .append("  Array object: ")
+        .append(ao)
+        .append(System.lineSeparator())
+        .append("  Existing index buffer: ")
+        .append(ao.indexBuffer())
+        .append(System.lineSeparator())
+        .toString());
   }
 
   @Override
   public Optional<JCGLIndexBufferUsableType> indexBufferGetCurrentlyBound()
     throws JCGLException
   {
-    return this.array_objects.arrayObjectGetCurrentlyBound()
-      .indexBufferBound();
+    return this.array_objects.arrayObjectGetCurrentlyBound().indexBufferBound();
   }
 
   @Override
@@ -214,7 +243,8 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     this.actualBind(this.checkIndexBuffer(i));
   }
 
-  private JOGLIndexBuffer checkIndexBuffer(final JCGLIndexBufferUsableType i)
+  private JOGLIndexBuffer checkIndexBuffer(
+    final JCGLIndexBufferUsableType i)
   {
     NullCheck.notNull(i, "Index buffer");
     JOGLIndexBuffer.checkIndexBuffer(this.gl.getContext(), i);
@@ -244,7 +274,7 @@ final class JOGLIndexBuffers implements JCGLIndexBuffersType
     for (final JCGLReferenceContainerType c : i.referringContainers()) {
       if (c instanceof JOGLArrayObject) {
         final JOGLArrayObject ao = (JOGLArrayObject) c;
-        ao.setIndexBuffer(ib -> Optional.empty());
+        ao.indexBufferDelete();
       }
     }
   }

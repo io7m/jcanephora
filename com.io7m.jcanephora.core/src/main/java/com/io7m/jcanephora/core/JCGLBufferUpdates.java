@@ -66,7 +66,7 @@ public final class JCGLBufferUpdates
    *                             buffer's range
    */
 
-  public static <T extends JCGLBufferWritableType> JCGLBufferUpdateType<T>
+  public static <T extends JCGLBufferWritableType> JCGLBufferUpdate<T>
   newUpdateReplacingRange(
     final T buffer,
     final UnsignedRangeInclusiveL range)
@@ -82,42 +82,6 @@ public final class JCGLBufferUpdates
     final ByteBuffer data =
       ByteBuffer.allocateDirect((int) range.getInterval());
     data.order(ByteOrder.nativeOrder());
-    return new Update<>(buffer, data, range);
-  }
-
-  private static final class Update<T extends JCGLBufferWritableType>
-    implements JCGLBufferUpdateType<T>
-  {
-    private final T buffer;
-    private final ByteBuffer data;
-    private final UnsignedRangeInclusiveL range;
-
-    Update(
-      final T in_buffer,
-      final ByteBuffer in_data,
-      final UnsignedRangeInclusiveL in_range)
-    {
-      this.buffer = NullCheck.notNull(in_buffer, "Buffer");
-      this.data = NullCheck.notNull(in_data, "Data");
-      this.range = NullCheck.notNull(in_range, "Range");
-    }
-
-    @Override
-    public T buffer()
-    {
-      return this.buffer;
-    }
-
-    @Override
-    public ByteBuffer data()
-    {
-      return this.data;
-    }
-
-    @Override
-    public UnsignedRangeInclusiveL dataUpdateRange()
-    {
-      return this.range;
-    }
+    return JCGLBufferUpdate.of(buffer, data, range);
   }
 }

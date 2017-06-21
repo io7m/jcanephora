@@ -96,7 +96,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     this.valid_attribs = new RangeInclusiveI(0, this.max_attribs - 1);
 
     this.default_buffer = new FakeArrayObject(
-      c, c.getFreshID(), new JCGLArrayVertexAttributeType[0]);
+      c, c.getFreshID(), true, null, new JCGLArrayVertexAttributeType[0]);
     this.bind = this.default_buffer;
   }
 
@@ -137,7 +137,7 @@ final class FakeArrayObjects implements JCGLArrayObjectsType
     final JCGLArrayVertexAttributeType[] write_attribs =
       Arrays.copyOf(bb.attribs, bb.attribs.length);
     final FakeArrayObject new_ao = new FakeArrayObject(
-      this.context, array_id.intValue(), write_attribs);
+      this.context, array_id.intValue(), false, ib, write_attribs);
 
     this.actualBind(new_ao);
 

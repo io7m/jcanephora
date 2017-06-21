@@ -16,33 +16,51 @@
 
 package com.io7m.jcanephora.fake;
 
+import com.io7m.jaffirm.core.Preconditions;
 import com.io7m.jcanephora.core.JCGLArrayObjectType;
 import com.io7m.jcanephora.core.JCGLArrayVertexAttributeType;
 import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLReferableType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
+import net.jcip.annotations.GuardedBy;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
 final class FakeArrayObject extends FakeObjectUnshared
   implements JCGLArrayObjectType
 {
   private final JCGLArrayVertexAttributeType[] attribs;
+  private final String image;
   private final FakeReferenceContainer reference_container;
-  private Optional<JCGLIndexBufferUsableType> index_buffer;
+  private final boolean index_buffer_rebind;
+  private final Object index_buffer_lock;
+  private @GuardedBy("index_buffer_lock") @Nullable
+  FakeIndexBuffer index_buffer;
 
   FakeArrayObject(
     final FakeContext in_context,
     final int in_id,
+    final boolean in_index_buffer_allow_rebind,
+    final FakeIndexBuffer in_index_buffer,
     final JCGLArrayVertexAttributeType[] in_attribs)
   {
     super(in_context, in_id);
     this.attribs = NullCheck.notNull(in_attribs, "Attributes");
-    this.index_buffer = Optional.empty();
+
+    this.index_buffer_lock = new Object();
+    this.index_buffer = in_index_buffer;
+    this.index_buffer_rebind = in_index_buffer_allow_rebind;
+
+    this.image = String.format(
+      "[ArrayObject %d]", Integer.valueOf(this.glName()));
 
     this.reference_container = new FakeReferenceContainer(this, 8);
+    if (in_index_buffer != null) {
+      this.reference_container.referenceAdd(in_index_buffer);
+    }
+
     for (int index = 0; index < in_attribs.length; ++index) {
       final JCGLArrayVertexAttributeType a = in_attribs[index];
       if (a != null) {
@@ -50,6 +68,30 @@ final class FakeArrayObject extends FakeObjectUnshared
           (FakeReferable) a.getArrayBuffer());
       }
     }
+  }
+
+  @Nullable
+  FakeIndexBuffer indexBuffer()
+  {
+    synchronized (this.index_buffer_lock) {
+      return this.index_buffer;
+    }
+  }
+
+  JCGLArrayVertexAttributeType[] getAttribs()
+  {
+    return this.attribs;
+  }
+
+  @Override
+  public String toString()
+  {
+    return this.image;
+  }
+
+  FakeReferenceContainer getReferenceContainer()
+  {
+    return this.reference_container;
   }
 
   @Override
@@ -67,22 +109,8 @@ final class FakeArrayObject extends FakeObjectUnshared
   @Override
   public Optional<JCGLIndexBufferUsableType> indexBufferBound()
   {
-    synchronized (this.index_buffer) {
-      return this.index_buffer;
-    }
-  }
-
-  void setIndexBuffer(
-    final Function<Optional<JCGLIndexBufferUsableType>,
-      Optional<JCGLIndexBufferUsableType>> f)
-  {
-    synchronized (this.index_buffer) {
-      final Optional<JCGLIndexBufferUsableType> r = f.apply(this.index_buffer);
-      this.index_buffer.ifPresent(
-        i -> this.reference_container.referenceRemove((FakeReferable) i));
-      r.ifPresent(
-        i -> this.reference_container.referenceAdd((FakeReferable) i));
-      this.index_buffer = r;
+    synchronized (this.index_buffer_lock) {
+      return Optional.ofNullable(this.index_buffer);
     }
   }
 
@@ -92,13 +120,33 @@ final class FakeArrayObject extends FakeObjectUnshared
     return this.reference_container.references();
   }
 
-  public FakeReferenceContainer getReferenceContainer()
+  void indexBufferIntroduce(
+    final FakeIndexBuffer target_ib)
   {
-    return this.reference_container;
+    synchronized (this.index_buffer_lock) {
+      Preconditions.checkPrecondition(
+        this.index_buffer_rebind,
+        "Index buffer rebinding must be allowed");
+
+      final FakeIndexBuffer ib = this.index_buffer;
+      if (ib != null) {
+        this.reference_container.referenceRemove(ib);
+      }
+      if (target_ib != null) {
+        this.reference_container.referenceAdd(target_ib);
+      }
+      this.index_buffer = target_ib;
+    }
   }
 
-  JCGLArrayVertexAttributeType[] getAttribs()
+  void indexBufferDelete()
   {
-    return this.attribs;
+    synchronized (this.index_buffer_lock) {
+      final FakeIndexBuffer ib = this.index_buffer;
+      if (ib != null) {
+        this.reference_container.referenceRemove(ib);
+      }
+      this.index_buffer = null;
+    }
   }
 }

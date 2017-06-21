@@ -21,6 +21,7 @@ import com.io7m.jcanephora.core.JCGLBufferUpdateType;
 import com.io7m.jcanephora.core.JCGLException;
 import com.io7m.jcanephora.core.JCGLExceptionBufferNotBound;
 import com.io7m.jcanephora.core.JCGLExceptionDeleted;
+import com.io7m.jcanephora.core.JCGLExceptionIndexBufferAlreadyConfigured;
 import com.io7m.jcanephora.core.JCGLIndexBufferType;
 import com.io7m.jcanephora.core.JCGLIndexBufferUsableType;
 import com.io7m.jcanephora.core.JCGLReferenceContainerType;
@@ -150,27 +151,41 @@ final class LWJGL3IndexBuffers implements JCGLIndexBuffersType
     return ib;
   }
 
-  private void actualBind(final LWJGL3IndexBuffer ib)
+  private void actualBind(
+    final LWJGL3IndexBuffer target_ib)
   {
     final LWJGL3ArrayObject ao =
       (LWJGL3ArrayObject) this.array_objects.arrayObjectGetCurrentlyBound();
 
-    ao.setIndexBuffer(
-      ib_opt -> {
-        if (LOG.isTraceEnabled()) {
-          LOG.trace("bind {}/{} -> {}", ao, ib_opt, ib);
-        }
+    if (Objects.equals(ao, this.array_objects.arrayObjectGetDefault())) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("bind {}/{} -> {}", ao, ao.indexBuffer(), target_ib);
+      }
+      ao.indexBufferIntroduce(target_ib);
+      GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, target_ib.glName());
+      return;
+    }
 
-        if (ib_opt.isPresent()) {
-          final JCGLIndexBufferUsableType current = ib_opt.get();
-          if (Objects.equals(current, ib)) {
-            return ib_opt;
-          }
-        }
+    final LWJGL3IndexBuffer ao_ib = ao.indexBuffer();
+    if (Objects.equals(target_ib, ao_ib)) {
+      GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, target_ib.glName());
+      return;
+    }
 
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ib.glName());
-        return Optional.of(ib);
-      });
+    throw new JCGLExceptionIndexBufferAlreadyConfigured(
+      new StringBuilder(128)
+        .append("Cannot bind a new index buffer for the current array object.")
+        .append(System.lineSeparator())
+        .append("  Array object: ")
+        .append(ao)
+        .append(System.lineSeparator())
+        .append("  Existing index buffer: ")
+        .append(ao_ib)
+        .append(System.lineSeparator())
+        .append("  New index buffer: ")
+        .append(target_ib)
+        .append(System.lineSeparator())
+        .toString());
   }
 
   private void actualUnbind()
@@ -178,12 +193,27 @@ final class LWJGL3IndexBuffers implements JCGLIndexBuffersType
     final LWJGL3ArrayObject ao =
       (LWJGL3ArrayObject) this.array_objects.arrayObjectGetCurrentlyBound();
 
-    ao.setIndexBuffer(
-      ib_opt -> {
-        LOG.trace("unbind {}/{}", ao, ib_opt);
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-        return Optional.empty();
-      });
+    if (Objects.equals(ao, this.array_objects.arrayObjectGetDefault())) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("unbind {}/{}", ao, ao.indexBuffer());
+      }
+
+      ao.indexBufferIntroduce(null);
+      GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+      return;
+    }
+
+    throw new JCGLExceptionIndexBufferAlreadyConfigured(
+      new StringBuilder(128)
+        .append("Cannot unbind an index buffer for the current array object.")
+        .append(System.lineSeparator())
+        .append("  Array object: ")
+        .append(ao)
+        .append(System.lineSeparator())
+        .append("  Existing index buffer: ")
+        .append(ao.indexBuffer())
+        .append(System.lineSeparator())
+        .toString());
   }
 
   @Override
@@ -230,7 +260,7 @@ final class LWJGL3IndexBuffers implements JCGLIndexBuffersType
     for (final JCGLReferenceContainerType c : i.referringContainers()) {
       if (c instanceof LWJGL3ArrayObject) {
         final LWJGL3ArrayObject ao = (LWJGL3ArrayObject) c;
-        ao.setIndexBuffer(ib -> Optional.empty());
+        ao.indexBufferDelete();
       }
     }
   }
